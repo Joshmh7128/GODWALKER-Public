@@ -35,6 +35,6 @@ public class CameraScript : MonoBehaviour
         transform.LookAt(aimTarget.position);
         // apply it
         headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
-        // bodyTransform.eulerAngles = new Vector3(bodyTransform.rotation.x, xRotate, bodyTransform.rotation.z);
+        bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);
     }
 }
