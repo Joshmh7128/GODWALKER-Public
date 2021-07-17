@@ -26,6 +26,5 @@ public class PlayerController : MonoBehaviour
         Vector3 move = new Vector3(moveH.x, 0f, moveH.z) + new Vector3(moveV.x, 0f, moveV.z);
         // apply to the character controller
         characterController.Move(move * Time.deltaTime * moveSpeed);
-
     }
 }

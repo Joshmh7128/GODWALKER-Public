@@ -15,7 +15,14 @@ public class CameraScript : MonoBehaviour
 
     // player variables
     [SerializeField] Transform aimTarget; // where is the camera looking?
+    [SerializeField] Transform digeticAimTarget; // where is the camera looking?
     [SerializeField] Transform moveTarget; // where is the camera moving to?
+
+    // visuals
+    [SerializeField] LineRenderer rightArmLine;
+    [SerializeField] Transform rightArm;
+    [SerializeField] LineRenderer leftArmLine;
+    [SerializeField] Transform leftArm;
 
     // Start is called before the first frame update
     void Start()
@@ -36,5 +43,43 @@ public class CameraScript : MonoBehaviour
         // apply it
         headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
         bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);
+
+        // zooming in with the camera
+        if (Input.GetMouseButton(1))
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 45, 0.05f);
+        }        
+        
+        if (!Input.GetMouseButton(1))
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 70, 0.05f);
+        }
+
+        // access our line renderers
+        rightArmLine.SetPosition(0, rightArm.position);
+        rightArmLine.SetPosition(1, digeticAimTarget.position);
+
+        leftArmLine.SetPosition(0, leftArm.position);
+        leftArmLine.SetPosition(1, digeticAimTarget.position);
+
+
+    }
+
+    private void FixedUpdate()
+    {
+        // where are we aiming?
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
+        {
+            digeticAimTarget.position = hit.point;
+            Debug.DrawRay(transform.position, transform.forward * hit.distance, Color.green);
+        }
+        else
+        {
+            digeticAimTarget.position = transform.forward * 1000f;
+            Debug.DrawRay(transform.position, transform.forward * 1000f, Color.red);
+        }
+
+
     }
 }
