@@ -17,6 +17,7 @@ public class CameraScript : MonoBehaviour
     [SerializeField] Transform aimTarget; // where is the camera looking?
     [SerializeField] Transform digeticAimTarget; // where is the camera looking?
     [SerializeField] Transform moveTarget; // where is the camera moving to?
+    Transform camTransform;
 
     // visuals
     [SerializeField] LineRenderer rightArmLine;
@@ -24,10 +25,33 @@ public class CameraScript : MonoBehaviour
     [SerializeField] LineRenderer leftArmLine;
     [SerializeField] Transform leftArm;
 
+    // How long the object should shake for.
+    public float shakeDuration = 0f;
+    // Amplitude of the shake. A larger value shakes the camera harder.
+    public float shakeAmount = 0.25f; // can be set in editor
+    public float decreaseFactor = 1.0f;
+
+    Vector3 originalPos;
+
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    // get our camera transform
+    void Awake()
+    {
+        if (camTransform == null)
+        {
+            camTransform = GetComponent(typeof(Transform)) as Transform;
+        }
+    }
+
+    // set our local pos for screenshake
+    void OnEnable()
+    {
+        originalPos = camTransform.localPosition;
     }
 
     void Update()
@@ -61,25 +85,25 @@ public class CameraScript : MonoBehaviour
 
         leftArmLine.SetPosition(0, leftArm.position);
         leftArmLine.SetPosition(1, digeticAimTarget.position);
+        // move our digetic aim target
+        digeticAimTarget.position = transform.forward * 1000f;
 
 
+        // screenshake
+        if (shakeDuration > 0)
+        {
+            camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
+            shakeDuration -= Time.deltaTime * decreaseFactor;
+        }
+        else
+        {
+            shakeDuration = 0f;
+            camTransform.localPosition = originalPos;
+        }
     }
 
     private void FixedUpdate()
     {
-        // where are we aiming?
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
-        {
-            digeticAimTarget.position = hit.point;
-            Debug.DrawRay(transform.position, transform.forward * hit.distance, Color.green);
-        }
-        else
-        {
-            digeticAimTarget.position = transform.forward * 1000f;
-            Debug.DrawRay(transform.position, transform.forward * 1000f, Color.red);
-        }
-
 
     }
 }
