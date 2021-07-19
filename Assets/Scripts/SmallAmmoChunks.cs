@@ -9,6 +9,9 @@ public class SmallAmmoChunks : MonoBehaviour
 
     private void Start()
     {
+        // make this in to it's own object
+        transform.parent = null;
+
         if (playerController == null)
         {
             playerController = GameObject.Find("Player").GetComponent<PlayerController>();

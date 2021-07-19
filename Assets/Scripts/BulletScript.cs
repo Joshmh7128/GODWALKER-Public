@@ -37,9 +37,16 @@ public class BulletScript : MonoBehaviour
         if (collision.CompareTag("Environment"))
         {
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
-
+        // if this hits a breakable
+        if (collision.CompareTag("Breakable"))
+        {
+            // anything with the Breakable tag will be a chunk and have a BreakableBreak function
+            collision.GetComponent<BreakableChunk>().BreakableBreak();
+            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+            Destroy(gameObject);
+        }
     }
 }

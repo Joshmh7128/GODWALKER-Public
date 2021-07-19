@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Rewired;
 
 public class PlayerController : MonoBehaviour
 {
@@ -24,10 +25,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Slider ammoSlider; // our ammo slider
     [SerializeField] Text ammoAmountText; // our ammo amount in text
 
+    // movement and input
+    Player player;
+    Vector3 move;
+    Vector3 moveH;
+    Vector3 moveV;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = ReInput.players.GetPlayer(0);
     }
 
     // Update is called once per frame
@@ -36,9 +43,11 @@ public class PlayerController : MonoBehaviour
         // move the player
         characterController.Move(new Vector3(0f, gravity, 0f) * Time.deltaTime);
         // declare our motion
-        Vector3 moveV = playerHead.forward*Input.GetAxis("Vertical");
-        Vector3 moveH = playerHead.right*Input.GetAxis("Horizontal");
-        Vector3 move = new Vector3(moveH.x, 0f, moveH.z) + new Vector3(moveV.x, 0f, moveV.z);
+        moveV = playerHead.forward * player.GetAxis("Vertical");
+        moveH = playerHead.right * player.GetAxis("Horizontal");
+        move = new Vector3(moveH.x, 0f, moveH.z) + new Vector3(moveV.x, 0f, moveV.z);
+        // apply to the character controller
+        characterController.Move(move * Time.deltaTime * moveSpeed);
         // apply to the character controller
         characterController.Move(move * Time.deltaTime * moveSpeed);
         // rotate our treads
