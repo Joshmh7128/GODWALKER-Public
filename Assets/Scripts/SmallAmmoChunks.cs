@@ -10,7 +10,7 @@ public class SmallAmmoChunks : MonoBehaviour
     private void Start()
     {
         // make this in to it's own object
-        transform.parent = null;
+        transform.parent = GameObject.Find("Ammo Small Chunks").GetComponent<Transform>();
 
         if (playerController == null)
         {
