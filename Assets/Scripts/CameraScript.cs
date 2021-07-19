@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
 public class CameraScript : MonoBehaviour
 {
+    // rewired input
+    Player player;
+
     // controling variables
     [SerializeField] float aimSensitivity; // how sensitive is our camera
     [SerializeField] Transform headTransform; // the transform of our player's head
@@ -29,13 +33,14 @@ public class CameraScript : MonoBehaviour
     public float shakeDuration = 0f;
     // Amplitude of the shake. A larger value shakes the camera harder.
     public float shakeAmount = 0.25f; // can be set in editor
-    public float decreaseFactor = 1.0f;
+    public float decreaseFactor = 2.0f;
 
     Vector3 originalPos;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = ReInput.players.GetPlayer(0);
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -57,11 +62,11 @@ public class CameraScript : MonoBehaviour
     void Update()
     {
         // run math to rotate the head of the player as we move the mouse
-        yRotate += Input.GetAxis("Mouse Y") * -aimSensitivity * Time.deltaTime;
+        yRotate += player.GetAxis("MouseVertical") * -aimSensitivity * Time.deltaTime;
         // clamp the rotation so we don't go around ourselves
         yRotate = Mathf.Clamp(yRotate, minYAngle, maxYAngle);
         // calculate our X rotation
-        xRotate += Input.GetAxis("Mouse X") * aimSensitivity * Time.deltaTime;
+        xRotate += player.GetAxis("MouseHorizontal") * aimSensitivity * Time.deltaTime;
         // aim the camera
         transform.LookAt(aimTarget.position);
         // apply it
@@ -76,7 +81,7 @@ public class CameraScript : MonoBehaviour
         
         if (!Input.GetMouseButton(1))
         {
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 70, 0.05f);
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 90, 0.05f);
         }
 
         // access our line renderers
