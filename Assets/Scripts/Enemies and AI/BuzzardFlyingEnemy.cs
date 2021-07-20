@@ -22,6 +22,10 @@ public class BuzzardFlyingEnemy : EnemyClass
     private void Start()
     {
         StartCoroutine("FlyingBehaviour");
+        if (player == null)
+        {
+            player = GameObject.Find("Player").gameObject.transform;
+        }
     }
 
     // make this bug fly around
