@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletScript : MonoBehaviour
+public class PlayerBulletScript : MonoBehaviour
 {
     // variables
     public Transform bulletTarget; // what is the target of our bullet?

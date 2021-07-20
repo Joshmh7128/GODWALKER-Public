@@ -5,7 +5,7 @@ using UnityEngine;
 public class TransformTranslate : MonoBehaviour
 {
     [SerializeField] Transform targetPos;
-    [SerializeField] float speed; 
+    public float speed; 
 
     // Update is called once per frame
     void Update()

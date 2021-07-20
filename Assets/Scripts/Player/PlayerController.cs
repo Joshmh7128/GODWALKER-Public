@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
                 {
                     // spawn bullet
                     GameObject bullet = Instantiate(playerBullet, rightGunTip.position, Quaternion.identity, null);
-                    bullet.GetComponent<BulletScript>().bulletTarget = diegeticAimTarget;
+                    bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
                     rightArm = false;
                     ammoAmount--;
                     // screenshake
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
                 {
                     // spawn bullet
                     GameObject bullet = Instantiate(playerBullet, leftGunTip.position, Quaternion.identity, null);
-                    bullet.GetComponent<BulletScript>().bulletTarget = diegeticAimTarget;
+                    bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
                     rightArm = true;
                     ammoAmount--;
                     // screenshake

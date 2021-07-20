@@ -8,11 +8,25 @@ public class ProceduralWalkManager : MonoBehaviour
     [SerializeField] ProceduralWalkFoot frontLeftFoot;
     [SerializeField] ProceduralWalkFoot backRightFoot;
     [SerializeField] ProceduralWalkFoot backLeftFoot;
+    [SerializeField] float slowSpeed;
+    [SerializeField] float highSpeed;
+    [SerializeField] TransformTranslate transformTranslate;
 
     // Start is called at the start of the game
     void Start()
     {
         StartCoroutine("LegUpdateCoroutine");
+        StartCoroutine("SpeedSwapping");
+    }
+
+    // speed swapping
+    IEnumerator SpeedSwapping()
+    {
+        yield return new WaitForSeconds(Random.Range(1, 5));
+        transformTranslate.speed = slowSpeed;
+        yield return new WaitForSeconds(Random.Range(1, 5));
+        transformTranslate.speed = highSpeed;
+        StartCoroutine("SpeedSwapping");
     }
 
     // custom update function
