@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuzzardFlyingEnemy : EnemyClass
+public class DropperFlyingEnemy : EnemyClass
 {
     Vector3 newPos;
     [SerializeField] float speed; // the speed we want to move at
@@ -38,7 +38,8 @@ public class BuzzardFlyingEnemy : EnemyClass
         if (tooLow == false)
         {   // if we aren't too low move down
             newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius / 4, -randomRadius / 2), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
-        } else
+        }
+        else
         {   // if we are too low move up 
             newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(randomRadius / 4, randomRadius / 2), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
         }
@@ -46,7 +47,7 @@ public class BuzzardFlyingEnemy : EnemyClass
         // fly to that place
         currentSpeed = speed;
         // animate shot charge up
-        animator.Play("Shoot");
+        animator.Play("DropperShoot");
         // wait for the animation to finish
         yield return new WaitForSeconds(shootAnimTime);
         // shoot
@@ -78,7 +79,7 @@ public class BuzzardFlyingEnemy : EnemyClass
         // move towards our target
         transform.position = Vector3.MoveTowards(transform.position, newPos, currentSpeed * Time.deltaTime);
         // calculate knockback
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + (new Vector3(originForce.x, originForce.y/4, originForce.z)), knockDistance * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + (new Vector3(originForce.x, originForce.y / 4, originForce.z)), knockDistance * Time.deltaTime);
         // look at the player
         transform.LookAt(player);
         // death
@@ -105,6 +106,6 @@ public class BuzzardFlyingEnemy : EnemyClass
         {
             tooLow = true;
         }
-        else { tooLow = false;  }
+        else { tooLow = false; }
     }
 }
