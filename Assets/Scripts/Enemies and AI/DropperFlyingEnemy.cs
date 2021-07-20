@@ -8,7 +8,7 @@ public class DropperFlyingEnemy : EnemyClass
     [SerializeField] float speed; // the speed we want to move at
     [SerializeField] float currentSpeed; // the speed we are moving right now
     [SerializeField] float randomRadius; // determines how far he flies per movement
-    [SerializeField] float shootAnimTime = 0.75f; // out shot animation length
+    [SerializeField] float shootAnimTime = 1f; // out shot animation length
     [SerializeField] float HP; // our HP
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
@@ -46,13 +46,12 @@ public class DropperFlyingEnemy : EnemyClass
 
         // fly to that place
         currentSpeed = speed;
-        // animate shot charge up
+        // animation is designed to shoot first then fall back
+        GameObject bullet = Instantiate(enemyBullet, shotOrigin.position, Quaternion.identity, null);
+        bullet.GetComponent<EnemySphereBomb>().playerController = player.gameObject.GetComponent<PlayerController>();
         animator.Play("DropperShoot");
         // wait for the animation to finish
         yield return new WaitForSeconds(shootAnimTime);
-        // shoot
-        GameObject bullet = Instantiate(enemyBullet, shotOrigin.position, Quaternion.identity, null);
-        bullet.GetComponent<EnemyBulletScript>().bulletTarget = player;
         // wait a random amount after
         yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
         currentSpeed = 0;
