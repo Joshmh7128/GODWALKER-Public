@@ -18,12 +18,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool rightArm = true; // if true, shoot from right arm. if false, shoot from left arm. 
     public int ammoAmount; // how much ammo we currently have
     public int ammoMax; // how much ammo we can carry at one time
+    public int playerHP; // the player's health
+    public int playerMaxHP; // the player's max health
     [SerializeField] Transform treadsParent; // the parent of our treads
 
     // referenced prefabs and objects
     [SerializeField] GameObject playerBullet; // bullet prefab
     [SerializeField] Slider ammoSlider; // our ammo slider
-    [SerializeField] Text ammoAmountText; // our ammo amount in text
+    [SerializeField] Text ammoAmountText; // our ammo amount in text   
+    [SerializeField] Slider hpSlider; // our ammo slider
+    [SerializeField] Text hpAmountText; // our ammo amount in text
 
     // movement and input
     Player player;
@@ -57,6 +61,9 @@ public class PlayerController : MonoBehaviour
         // display our ammo amount
         ammoAmountText.text = ammoAmount.ToString(); // in text
         ammoSlider.value = (float)ammoAmount / (float)ammoMax;
+        // displayer our HP amount
+        hpAmountText.text = playerHP.ToString(); // in text
+        hpSlider.value = (float)playerHP / (float)playerMaxHP;
 
         // shoot bullets
         if (Input.GetMouseButtonDown(0))
@@ -87,5 +94,11 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    // if we gain life, positive number, if we lose life, negative number
+    public void AddHP(int HP)
+    {
+        playerHP += HP;
     }
 }

@@ -48,5 +48,12 @@ public class PlayerBulletScript : MonoBehaviour
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }
+
+        if (collision.CompareTag("Enemy"))
+        {
+            collision.GetComponent<EnemyClass>().TakeDamage(1, transform.position);
+            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+            Destroy(gameObject);
+        }
     }
 }
