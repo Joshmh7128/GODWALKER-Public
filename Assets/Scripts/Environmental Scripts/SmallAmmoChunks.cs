@@ -6,21 +6,39 @@ public class SmallAmmoChunks : MonoBehaviour
 {
     [SerializeField] PlayerController playerController; // our player controller
     [SerializeField] GameObject cubePuff; // death particle effect
+    [SerializeField] Rigidbody rigidbody;
+    [SerializeField] SphereCollider sphereCollider;
+    [SerializeField] enum smallChunkTypes // the types of chunks
+    {
+        ammo, mineral, gem, health
+    }
+    [SerializeField] smallChunkTypes chunkType;
 
     private void Start()
     {
         // make this in to it's own object
-        transform.parent = GameObject.Find("Ammo Small Chunks").GetComponent<Transform>();
+        transform.parent = GameObject.Find("Small Chunks").GetComponent<Transform>();
+
+        if (rigidbody == null)
+        { rigidbody = gameObject.GetComponent<Rigidbody>(); }
 
         if (playerController == null)
+        { playerController = GameObject.Find("Player").GetComponent<PlayerController>(); }
+    }
+
+    private void OnCollisionEnter(Collision col)
+    {
+        // freeze our small chunk if we touch the environment
+        if (col.gameObject.tag == "Environment")
         {
-            playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            // sphereCollider.enabled = false;
         }
     }
 
     private void OnTriggerEnter(Collider col)
     {
-        // Debug.Log("collision");
+
         // when the player collides with us add ammunition to their inventory
         if (col.CompareTag("Player"))
         {

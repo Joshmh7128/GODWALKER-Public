@@ -8,26 +8,34 @@ public class PlayerController : MonoBehaviour
 {
     // controller values
     [SerializeField] CharacterController characterController; // our character controller
-    public CameraScript cameraScript; // our camera script
-    [SerializeField] float moveSpeed; // how fast can we move?
-    [SerializeField] float gravity; // gravity in the environment
-    [SerializeField] Transform playerHead; // for which way we are facing
-    [SerializeField] Transform rightGunTip; // for firing shots
+    public CameraScript cameraScript;           // our camera script
+    [SerializeField] float moveSpeed;           // how fast can we move?
+    [SerializeField] float gravity;             // gravity in the environment
+    [SerializeField] Transform playerHead;      // for which way we are facing
+    [SerializeField] Transform rightGunTip;     // for firing shots
     [SerializeField] Transform leftGunTip;
     [SerializeField] Transform diegeticAimTarget;
-    [SerializeField] bool rightArm = true; // if true, shoot from right arm. if false, shoot from left arm. 
-    public int ammoAmount; // how much ammo we currently have
-    public int ammoMax; // how much ammo we can carry at one time
-    public int playerHP; // the player's health
-    public int playerMaxHP; // the player's max health
-    [SerializeField] Transform treadsParent; // the parent of our treads
+    [SerializeField] bool rightArm = true;      // if true, shoot from right arm. if false, shoot from left arm. 
+    public int ammoAmount;                      // how much ammo we currently have
+    public int mineralAmount;                   // mineral amount
+    public int gemAmount;                       // gem amount
+    public int ammoMax;                         // how much ammo we can carry at one time
+    public int mineralMax;                      // mineral carry space
+    public int gemMax;                          // gem carry space
+    public int playerHP;                        // the player's health
+    public int playerMaxHP;                     // the player's max health
+    [SerializeField] Transform treadsParent;    // the parent of our treads
 
     // referenced prefabs and objects
-    [SerializeField] GameObject playerBullet; // bullet prefab
-    [SerializeField] Slider ammoSlider; // our ammo slider
-    [SerializeField] Text ammoAmountText; // our ammo amount in text   
-    [SerializeField] Slider hpSlider; // our ammo slider
-    [SerializeField] Text hpAmountText; // our ammo amount in text
+    [SerializeField] GameObject playerBullet;   // bullet prefab
+    [SerializeField] Slider ammoSlider;         // our ammo slider
+    [SerializeField] Text ammoAmountText;       // our ammo amount in text   
+    [SerializeField] Slider mineralSlider;      // our mineral slider
+    [SerializeField] Text mineralAmountText;    // our mineral amount in text   
+    [SerializeField] Slider gemSlider;          // our gem slider
+    [SerializeField] Text gemAmountText;        // our gem amount in text   
+    [SerializeField] Slider hpSlider;           // our hp slider
+    [SerializeField] Text hpAmountText;         // our gp amount in text
 
     // movement and input
     Player player;
@@ -60,7 +68,13 @@ public class PlayerController : MonoBehaviour
 
         // display our ammo amount
         ammoAmountText.text = ammoAmount.ToString(); // in text
-        ammoSlider.value = (float)ammoAmount / (float)ammoMax;
+        ammoSlider.value = (float)ammoAmount / (float)ammoMax;        
+        // display our mineral amount
+        mineralAmountText.text = mineralAmount.ToString(); // in text
+        mineralSlider.value = (float)mineralAmount / (float)mineralMax;        
+        // display our gem amount
+        gemAmountText.text = gemAmount.ToString(); // in text
+        gemSlider.value = (float)gemAmount / (float)gemMax;
         // displayer our HP amount
         hpAmountText.text = playerHP.ToString(); // in text
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
