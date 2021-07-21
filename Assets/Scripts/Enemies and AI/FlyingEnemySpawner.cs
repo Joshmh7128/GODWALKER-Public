@@ -11,11 +11,12 @@ public class FlyingEnemySpawner : MonoBehaviour
     void Start()
     {
         StartCoroutine("SpawnEnemy");
+        Instantiate(enemy, spawnPoint.position, Quaternion.identity, null);
     }
 
     IEnumerator SpawnEnemy()
     {
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(30f);
         Instantiate(enemy, spawnPoint.position, Quaternion.identity, null);
         StartCoroutine("SpawnEnemy");
     }
