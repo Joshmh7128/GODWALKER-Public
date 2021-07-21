@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class RandomChildSelector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] bool chunk;
+
+    // when this object is enabled
+    void OnEnable()
     {
-        
+        int choice = Random.Range(0, transform.childCount);
+        transform.GetChild(choice).gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDrawGizmos()
     {
-        
+        if (chunk == true)
+        {
+            Gizmos.DrawWireSphere(transform.position, 3);
+        }
     }
+
 }
