@@ -6,10 +6,15 @@ public class EnemySphereBomb : MonoBehaviour
 {
     // variables
     [SerializeField] GameObject cubePuff; // our particle effect
+    Transform enemyManager;
     public PlayerController playerController; // player
 
     private void Start()
     {
+        // set our parent
+        enemyManager = GameObject.Find("EnemyManager").transform;
+        transform.SetParent(enemyManager);
+
         // start the safety kill
         StartCoroutine("SafetyKill");
     }

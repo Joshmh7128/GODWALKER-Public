@@ -31,7 +31,7 @@ public class MovingPlatform : MonoBehaviour
         Vector3 finalizedMovementDirection;
         finalizedMovementDirection = new Vector3(normalizedMovementDirection.x * platformSpeed, normalizedMovementDirection.y * platformSpeed, normalizedMovementDirection.z * platformSpeed);
 
-        transform.Translate(finalizedMovementDirection * Time.fixedDeltaTime);
-        characterController.Move(finalizedMovementDirection * Time.fixedDeltaTime);
+        transform.Translate(finalizedMovementDirection * Time.deltaTime);
+        characterController.Move(finalizedMovementDirection * Time.deltaTime);
     }
 }

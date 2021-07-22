@@ -16,6 +16,7 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] Vector3 targetPosFin;
     [SerializeField] Vector3 movementDirection;
     [SerializeField] MovingPlatform ourPlatform;
+    [SerializeField] 
 
     private void Update()
     {

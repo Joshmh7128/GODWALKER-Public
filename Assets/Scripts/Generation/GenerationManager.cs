@@ -6,6 +6,8 @@ public class GenerationManager : MonoBehaviour
 {
     // our list of map generation chunks
     [SerializeField] RandomChildSelector[] randomChildSelectors;
+    // bug parent
+    [SerializeField] Transform enemyManager;
 
     public void MapRegen()
     {
@@ -20,6 +22,13 @@ public class GenerationManager : MonoBehaviour
         {
             selector.Regen();
         }
+
+        // kill all the enemies
+        foreach (Transform ourGameObject in enemyManager)
+        {
+            Destroy(ourGameObject.gameObject);
+        }
+
         yield return new WaitForSeconds(1f);
     }
 }

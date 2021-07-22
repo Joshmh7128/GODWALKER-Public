@@ -8,10 +8,14 @@ public class EnemyBulletScript : MonoBehaviour
     public Transform bulletTarget; // what is the target of our bullet?
     [SerializeField] float bulletSpeed; // what is the speed of our bullet?
     [SerializeField] GameObject cubePuff; // our particle effect
+    Transform enemyManager;
 
     // for when our bullet is instantiated
     private void Start()
     {
+        // set our parent
+        enemyManager = GameObject.Find("EnemyManager").transform;
+        transform.SetParent(enemyManager);
         // turn bullet
         transform.LookAt(bulletTarget);
         // start the safety kill

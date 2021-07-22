@@ -16,6 +16,7 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] Transform shotOrigin; // where are out shots coming from?
     [SerializeField] Animator animator;
     [SerializeField] bool tooLow;
+    [SerializeField] Transform enemyManager;
 
     // knockback variables
     Vector3 originForce;
@@ -23,6 +24,11 @@ public class BuzzardFlyingEnemy : EnemyClass
 
     private void Start()
     {
+        // set our parent
+        enemyManager = GameObject.Find("EnemyManager").transform;
+        transform.SetParent(enemyManager);
+
+        // start our flying
         StartCoroutine("FlyingBehaviour");
         if (player == null)
         {

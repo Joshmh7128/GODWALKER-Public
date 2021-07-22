@@ -12,6 +12,7 @@ public class DropperFlyingEnemy : EnemyClass
     [SerializeField] float HP; // our HP
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
+    [SerializeField] Transform enemyManager;
     [SerializeField] Transform player;
     [SerializeField] Transform shotOrigin; // where are out shots coming from?
     [SerializeField] Animator animator;
@@ -23,6 +24,10 @@ public class DropperFlyingEnemy : EnemyClass
 
     private void Start()
     {
+        // set our parent
+        enemyManager = GameObject.Find("EnemyManager").transform;
+        transform.SetParent(enemyManager);
+
         StartCoroutine("FlyingBehaviour");
         if (player == null)
         {
