@@ -11,12 +11,12 @@ public class GenerationManager : MonoBehaviour
 
     // map generation
     int pathDistanceMinimum = 50;
-    int roomSpace /* how large rooms are */, pathDistance, targetX, targetY, targetZ;
+    int roomSpace = 50 /* how large rooms are */, pathDistance, targetX, targetY, targetZ;
     int minTargetY = 3;
     int tilesPlaced; // how many tiles we have placed so far
     static int maxPathDistance = 50; // how long should our generation paths be?
     [SerializeField] TileClass[,,] gridArray = new TileClass[maxPathDistance * 2, maxPathDistance * 2, maxPathDistance * 2]; // our x, y, z array
-    [SerializeField] GameObject tileClassObject;
+    [SerializeField] GameObject tileClassObject, tileClassWallObject, originTile;
     List<Vector3> checkVector3s = new List<Vector3>
     { 
          // new Vector3(0,0,0), dont add ourselves as a neighbor!
@@ -43,6 +43,10 @@ public class GenerationManager : MonoBehaviour
          new Vector3(-1,-1,1),
          new Vector3(-1,-1,-1),        
 
+         // directly in front and behind Z
+         new Vector3(0,0,1),   
+         new Vector3(0,0,-1),   
+
          // top middle
          new Vector3(0,1,0),
 
@@ -52,6 +56,12 @@ public class GenerationManager : MonoBehaviour
 
     private void Start()
     {
+        /*
+        // make sure we always set our origin tile
+        if (originTile == null) { Debug.LogError("Generation Origin Tile Not Set");  }
+        // set origin tile
+        gridArray[maxPathDistance, maxPathDistance, maxPathDistance] = originTile.GetComponent<TileClass>();*/
+        // run map generation
         MapGeneration();
     }
 
@@ -156,8 +166,9 @@ public class GenerationManager : MonoBehaviour
                     }
                 }
 
-                TileClass newTileClass = Instantiate(tileClassObject, new Vector3(targetX, targetY, targetZ), Quaternion.Euler(0, 0, 0),null).GetComponent<TileClass>();
+                TileClass newTileClass = Instantiate(tileClassObject, new Vector3(targetX * roomSpace, targetY * roomSpace, targetZ * roomSpace), Quaternion.Euler(0, 0, 0),null).GetComponent<TileClass>();
                 newTileClass.xArrayPos = targetX + maxPathDistance; newTileClass.yArrayPos = targetY + maxPathDistance; newTileClass.zArrayPos = targetZ + maxPathDistance;
+                newTileClass.xPos = targetX; newTileClass.yPos = targetY; newTileClass.zPos = targetZ;
                 gridArray[targetX + maxPathDistance, targetY + maxPathDistance, targetZ + maxPathDistance] = newTileClass;
                 break;
             }
@@ -180,9 +191,18 @@ public class GenerationManager : MonoBehaviour
             {
                 if (tileClass)
                 {
-                    if (gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z])
+                    if ( (gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]) && (!tileClass.isWall) )
                     {
                         tileClass.neighbors.Add((gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]));
+                    }
+
+                    if ( (gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z] == null) && (!tileClass.isWall))
+                    {
+                        if (vector.y == 0)
+                        {
+                            // make a wall at the position with y+1
+                            Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
+                        }
                     }
                 }
             }
