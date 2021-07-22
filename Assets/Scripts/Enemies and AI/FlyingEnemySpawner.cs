@@ -16,7 +16,7 @@ public class FlyingEnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemy()
     {
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(30f);
         Instantiate(enemy, spawnPoint.position, Quaternion.identity, null);
         StartCoroutine("SpawnEnemy");
     }

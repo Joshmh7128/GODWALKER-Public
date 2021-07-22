@@ -17,7 +17,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void LateUpdate()
     {
-        if ( Mathf.Abs(Vector3.Distance(targetPos, transform.position)) > 1f)
+        if ( Mathf.Abs(Vector3.Distance(targetPos, transform.position)) > 0.05f)
         {
             movementDirection = targetPos - transform.position;
         }

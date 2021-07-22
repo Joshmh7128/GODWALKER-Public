@@ -16,7 +16,6 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] Vector3 targetPosFin;
     [SerializeField] Vector3 movementDirection;
     [SerializeField] MovingPlatform ourPlatform;
-    [SerializeField] 
 
     private void Update()
     {
@@ -47,7 +46,10 @@ public class DroppodManager : MonoBehaviour
 
     IEnumerator LaunchPod()
     {
+        // move the pod
         ourPlatform.targetPos = targetPosFin;
+        // reset the player ammo
+        playerTrans.gameObject.GetComponent<PlayerController>().ammoAmount = playerTrans.gameObject.GetComponent<PlayerController>().ammoMax;
         yield return new WaitForSeconds(10f);
         ourPlatform.targetPos = targetPosStart;
     }

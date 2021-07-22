@@ -91,8 +91,7 @@ public class CameraScript : MonoBehaviour
         leftArmLine.SetPosition(0, leftArm.position);
         leftArmLine.SetPosition(1, digeticAimTarget.position);
         // move our digetic aim target
-        digeticAimTarget.position = transform.forward * 1000f;
-
+        digeticAimTarget.position = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 100f)); 
 
         // screenshake
         if (shakeDuration > 0)
