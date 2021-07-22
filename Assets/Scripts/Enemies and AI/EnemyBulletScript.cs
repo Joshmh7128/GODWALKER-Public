@@ -38,7 +38,7 @@ public class EnemyBulletScript : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         // destroy if it hits the environment
-        if (collision.CompareTag("Environment") || collision.CompareTag("Breakable"))
+        if (collision.CompareTag("Environment"))
         {
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
@@ -49,6 +49,15 @@ public class EnemyBulletScript : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerController>().AddHP(-1);
             Camera.main.GetComponent<CameraScript>().shakeDuration += 0.085f;
+            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+            Destroy(gameObject);
+        }
+
+        // if this hits a breakable
+        if (collision.CompareTag("Breakable"))
+        {
+            // anything with the Breakable tag will be a chunk and have a BreakableBreak function
+            collision.GetComponent<BreakableChunk>().BreakableBreak();
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }

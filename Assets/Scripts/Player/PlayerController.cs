@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Rewired;
 
 public class PlayerController : MonoBehaviour
@@ -105,6 +106,12 @@ public class PlayerController : MonoBehaviour
                     cameraScript.shakeDuration += 0.08f;
                 }
             }
+        }
+
+        // reload scene for dev purposes
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
         }
     }
 
