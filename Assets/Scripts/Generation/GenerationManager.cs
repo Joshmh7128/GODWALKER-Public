@@ -161,17 +161,20 @@ public class GenerationManager : MonoBehaviour
                 gridArray[targetX + maxPathDistance, targetY + maxPathDistance, targetZ + maxPathDistance] = newTileClass;
                 break;
             }
-
-            if (tilesPlaced == localTilesMax-1)
+            
+            if (tilesPlaced == localTilesMax - 1)
             {
                 Debug.Log("Final Tile Placed");
             }
         }
 
+        bool debugged = false;
+
         // for each tile check it's neighbors, then build connections between them
         foreach (TileClass tileClass in gridArray)
         {
-            Debug.Log("Starting Neighbor check");
+            if (!debugged) { Debug.Log("starting foreach loop"); debugged = true; }
+            // Debug.Log("Starting Neighbor check");
             // check all neighbors around the tile to see if it has any neighbors
             foreach (Vector3 vector in checkVector3s)
             {
