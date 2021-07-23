@@ -17,6 +17,14 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] Vector3 movementDirection;
     [SerializeField] MovingPlatform ourPlatform;
 
+    private void Start()
+    {
+        if (generationManager == null)
+        {
+            generationManager = GameObject.Find("Generation Manager").GetComponent<GenerationManager>();
+        }
+    }
+
     private void Update()
     {
         if (canLaunch == true)
@@ -27,7 +35,7 @@ public class DroppodManager : MonoBehaviour
             if (ReInput.players.GetPlayer(0).GetButtonDown("SpacePress"))
             {
                 isFlying = true;
-                generationManager.MapRegen();
+                generationManager.MapGeneration();
                 // launch the drop pod
                 // gameObject.GetComponent<Animator>().Play("Asteroid Hop");
                 StartCoroutine("LaunchPod");

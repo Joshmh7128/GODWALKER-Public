@@ -8,6 +8,26 @@ public class TileClass : MonoBehaviour
     public int xArrayPos, yArrayPos, zArrayPos;
     public int xPos, yPos, zPos;
     public List<TileClass> neighbors;
-    public bool isWall;
-    public bool isOrigin;
+    public bool isWall = false;
+    public bool isOrigin = false;
+    public bool isActive = true;
+    [SerializeField] GameObject generator;
+    [SerializeField] GameObject playerPackage;
+
+    private void Start()
+    {
+        if (!isWall)
+        {
+            if (!isOrigin)
+            {
+                if (generator.activeInHierarchy != true)
+                generator.SetActive(true);
+            }
+
+            if (isOrigin)
+            {
+                playerPackage.SetActive(true);
+            }
+        }
+    }
 }

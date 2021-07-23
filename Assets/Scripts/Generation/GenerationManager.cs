@@ -10,13 +10,14 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] Transform enemyManager;
 
     // map generation
-    int pathDistanceMinimum = 50;
+    int pathDistanceMinimum = 10;
     int roomSpace = 50 /* how large rooms are */, pathDistance, targetX, targetY, targetZ;
     int minTargetY = 3;
     int tilesPlaced; // how many tiles we have placed so far
-    static int maxPathDistance = 50; // how long should our generation paths be?
+    static int maxPathDistance = 15; // how long should our generation paths be?
     [SerializeField] TileClass[,,] gridArray = new TileClass[maxPathDistance * 2, maxPathDistance * 2, maxPathDistance * 2]; // our x, y, z array
-    [SerializeField] GameObject tileClassObject, tileClassWallObject, originTile;
+    [SerializeField] GameObject tileClassObject, tileClassWallObject;
+    [SerializeField] TileClass originTile;
     List<Vector3> checkVector3s = new List<Vector3>
     { 
          // new Vector3(0,0,0), dont add ourselves as a neighbor!
@@ -53,6 +54,7 @@ public class GenerationManager : MonoBehaviour
          // bottom middle
          new Vector3(0,-1,0)
     } ; // our list of all vector3 directions
+    bool firstTileStashed = false;
 
     private void Start()
     {
@@ -65,28 +67,8 @@ public class GenerationManager : MonoBehaviour
         MapGeneration();
     }
 
-    public void MapRegen()
+    private void Update()
     {
-        StartCoroutine("BasicMapRegenCo");
-    }
-
-    // basic map regeneration in which all tile randomizers are reset
-    // trigger regeneration
-    IEnumerator BasicMapRegenCo()
-    {
-        // generate while drop pod is up in the air before it comes down
-        foreach (RandomChildSelector selector in randomChildSelectors)
-        {
-            selector.Regen();
-        }
-
-        // kill all the enemies
-        foreach (Transform ourGameObject in enemyManager)
-        {
-            Destroy(ourGameObject.gameObject);
-        }
-
-        yield return new WaitForSeconds(1f);
     }
 
     // fill our array with NULL entities before we begin adding them
@@ -99,7 +81,7 @@ public class GenerationManager : MonoBehaviour
     }
 
     // full map generation
-    void MapGeneration()
+    public void MapGeneration()
     {
         int localTilesMax = Random.Range(pathDistanceMinimum, maxPathDistance);
 
@@ -193,9 +175,12 @@ public class GenerationManager : MonoBehaviour
                 {
                     if ( (gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]) && (!tileClass.isWall) )
                     {
+
+                        // find our neighbors
                         tileClass.neighbors.Add((gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]));
                     }
 
+                    // check around everything for walls
                     if ( (gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z] == null) && (!tileClass.isWall))
                     {
                         if (vector.y == 0)
