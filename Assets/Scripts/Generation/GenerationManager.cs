@@ -16,6 +16,7 @@ public class GenerationManager : MonoBehaviour
     int tilesPlaced; // how many tiles we have placed so far
     static int maxPathDistance = 15; // how long should our generation paths be?
     [SerializeField] TileClass[,,] gridArray = new TileClass[maxPathDistance * 2, maxPathDistance * 2, maxPathDistance * 2]; // our x, y, z array
+    [SerializeField] List<TileClass> tileClassList; // the one dimensional list of our tiles
     [SerializeField] GameObject tileClassObject, tileClassWallObject;
     [SerializeField] TileClass originTile;
     List<Vector3> checkVector3s = new List<Vector3>
@@ -58,26 +59,13 @@ public class GenerationManager : MonoBehaviour
 
     private void Start()
     {
-        /*
-        // make sure we always set our origin tile
-        if (originTile == null) { Debug.LogError("Generation Origin Tile Not Set");  }
-        // set origin tile
-        gridArray[maxPathDistance, maxPathDistance, maxPathDistance] = originTile.GetComponent<TileClass>();*/
-        // run map generation
+        // actually make the map first
         MapGeneration();
     }
 
     private void Update()
     {
-    }
 
-    // fill our array with NULL entities before we begin adding them
-    void ClearArray()
-    {
-        foreach (TileClass tileClass in gridArray)
-        {
-            
-        }
     }
 
     // full map generation
@@ -166,31 +154,56 @@ public class GenerationManager : MonoBehaviour
         // for each tile check it's neighbors, then build connections between them
         foreach (TileClass tileClass in gridArray)
         {
-            if (!debugged) { Debug.Log("starting foreach loop"); debugged = true; }
-            // Debug.Log("Starting Neighbor check");
-            // check all neighbors around the tile to see if it has any neighbors
-            foreach (Vector3 vector in checkVector3s)
+            if (tileClass)
             {
-                if (tileClass)
+                if (!debugged) { Debug.Log("starting foreach loop"); debugged = true; }
+                // Debug.Log("Starting Neighbor check");
+                // check all neighbors around the tile to see if it has any neighbors
+                foreach (Vector3 vector in checkVector3s)
                 {
-                    if ( (gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]) && (!tileClass.isWall) )
+                    if (tileClass)
                     {
-
-                        // find our neighbors
-                        tileClass.neighbors.Add((gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]));
-                    }
-
-                    // check around everything for walls
-                    if ( (gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z] == null) && (!tileClass.isWall))
-                    {
-                        if (vector.y == 0)
+                        if ((gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]) && (!tileClass.isWall))
                         {
-                            // make a wall at the position with y+1
-                            Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
+
+                            // find our neighbors
+                            tileClass.neighbors.Add((gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]));
+                        }
+
+                        // check around everything for walls
+                        if ((gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z] == null) && (!tileClass.isWall))
+                        {
+                            if (vector.y == 0)
+                            {
+                                // make a wall at the position with y+1
+                                Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
+                            }
                         }
                     }
                 }
+
+                // after we check for neighbors add our tile to the tileClassList
+                tileClassList.Add(tileClass);
+                Debug.Log("Added " + tileClass + "to tileClassList");
             }
+        }
+
+        // once our map is generated, activate the tiles
+        ActivateTiles();
+    }
+
+    void ActivateTiles()
+    {
+        // i is going to determine which tile has the player character on it
+        int i = Random.Range(0, tileClassList.Count);
+
+        // choose one of the tiles in the list and give it the player
+        tileClassList[i].isOrigin = true;
+
+        // now activate all of them with one origin enabled
+        foreach(TileClass tileClass in tileClassList)
+        {
+            tileClass.OnGenerate();
         }
     }
 }

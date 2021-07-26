@@ -19,6 +19,14 @@ public class DroppodManager : MonoBehaviour
 
     private void Start()
     {
+        // start the pod where it needs to start
+        targetPosStart = transform.position;
+        // make sure the pod stays where it starts
+        ourPlatform.targetPos = targetPosStart;
+        // set a new finishing point for the pod
+        targetPosFin = new Vector3(transform.position.x, transform.position.y+100, transform.position.z);
+
+        // make sure we have our generation manager
         if (generationManager == null)
         {
             generationManager = GameObject.Find("Generation Manager").GetComponent<GenerationManager>();

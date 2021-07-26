@@ -12,7 +12,7 @@ public class EnemySphereBomb : MonoBehaviour
     private void Start()
     {
         // set our parent
-        enemyManager = GameObject.Find("EnemyManager").transform;
+        enemyManager = GameObject.Find("Enemy Manager").transform;
         transform.SetParent(enemyManager);
 
         // start the safety kill

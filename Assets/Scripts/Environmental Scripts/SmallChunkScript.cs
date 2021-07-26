@@ -31,6 +31,11 @@ public class SmallChunkScript : MonoBehaviour
         // freeze our small chunk if we touch the environment
         if (col.gameObject.tag == "Environment")
         {
+            if (rigidbody == null)
+            {
+                rigidbody = gameObject.GetComponent<Rigidbody>();
+            }
+
             rigidbody.constraints = RigidbodyConstraints.FreezeAll;
             // sphereCollider.enabled = false;
         }

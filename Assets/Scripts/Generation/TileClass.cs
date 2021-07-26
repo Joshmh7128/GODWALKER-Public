@@ -10,17 +10,15 @@ public class TileClass : MonoBehaviour
     public List<TileClass> neighbors;
     public bool isWall = false;
     public bool isOrigin = false;
-    public bool isActive = true;
     [SerializeField] GameObject generator;
     [SerializeField] GameObject playerPackage;
 
-    private void Start()
+    public void OnGenerate()
     {
         if (!isWall)
         {
             if (!isOrigin)
             {
-                if (generator.activeInHierarchy != true)
                 generator.SetActive(true);
             }
 
