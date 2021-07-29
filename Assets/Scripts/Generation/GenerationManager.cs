@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class GenerationManager : MonoBehaviour
@@ -17,6 +18,7 @@ public class GenerationManager : MonoBehaviour
     static int maxPathDistance = 15; // how long should our generation paths be?
     [SerializeField] TileClass[,,] gridArray = new TileClass[maxPathDistance * 2, maxPathDistance * 2, maxPathDistance * 2]; // our x, y, z array
     [SerializeField] List<TileClass> tileClassList; // the one dimensional list of our tiles
+    [SerializeField] List<TileClass> wallTileClassList; // the one dimensional list of our tiles
     [SerializeField] GameObject tileClassObject, tileClassWallObject;
     [SerializeField] TileClass originTile;
     List<Vector3> checkVector3s = new List<Vector3>
@@ -55,7 +57,8 @@ public class GenerationManager : MonoBehaviour
          // bottom middle
          new Vector3(0,-1,0)
     } ; // our list of all vector3 directions
-    bool firstTileStashed = false;
+    [SerializeField] bool playerPlaced = false; // does our player exist?
+    bool multiGen = false; // are we on another generation ?
 
     private void Start()
     {
@@ -68,19 +71,44 @@ public class GenerationManager : MonoBehaviour
 
     }
 
+    public void ClearGen()
+    {
+        // make sure we clear every tile before making new tiles
+        foreach (TileClass tileClass in tileClassList)
+        {
+            if (tileClass)
+            {
+                Destroy(tileClass.gameObject);
+                gridArray[tileClass.xArrayPos, tileClass.yArrayPos, tileClass.zArrayPos] = null;
+            }
+        }
+        // make sure we clear every tile before making new tiles
+        foreach (TileClass tileClass in wallTileClassList)
+        {
+            if (tileClass)
+            {
+                Destroy(tileClass.gameObject);
+                gridArray[tileClass.xArrayPos, tileClass.yArrayPos, tileClass.zArrayPos] = null;
+            }
+        }
+
+        // run map gen
+        MapGeneration();
+    }
+
     // full map generation
     public void MapGeneration()
-    {
-        int localTilesMax = Random.Range(pathDistanceMinimum, maxPathDistance);
+    { 
+        int localTilesMax = UnityEngine.Random.Range(pathDistanceMinimum, maxPathDistance);
 
         // create a path by moving one at a time on the X or Z axis
         for (tilesPlaced = 0; tilesPlaced < localTilesMax; tilesPlaced++)
         {
             #region // X,Y,Z movement checks
             // should we move on the x or z axis?
-            int u = Random.Range(0, 4);
+            int u = UnityEngine.Random.Range(0, 4);
             // do we move on the y axis?
-            int v = Random.Range(0, 3); 
+            int v = UnityEngine.Random.Range(0, 3); 
             // is u 0 or 1?
 
             // move X
@@ -176,7 +204,9 @@ public class GenerationManager : MonoBehaviour
                             if (vector.y == 0)
                             {
                                 // make a wall at the position with y+1
-                                Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
+                                GameObject newWall = Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
+                                // add it to the list
+                                wallTileClassList.Add(newWall.GetComponent<TileClass>());
                             }
                         }
                     }
@@ -195,10 +225,20 @@ public class GenerationManager : MonoBehaviour
     void ActivateTiles()
     {
         // i is going to determine which tile has the player character on it
-        int i = Random.Range(0, tileClassList.Count);
+        int i = UnityEngine.Random.Range(0, tileClassList.Count);
 
-        // choose one of the tiles in the list and give it the player
-        tileClassList[i].isOrigin = true;
+        // if we don't have a player yet...
+        if (!playerPlaced)
+        {
+            // choose one of the tiles in the list and give it the player
+            tileClassList[i].isOrigin = true;
+            playerPlaced = true;
+        }
+        else
+        {
+            // make one of them empty
+            tileClassList[i].isEmpty = true;
+        }
 
         // now activate all of them with one origin enabled
         foreach(TileClass tileClass in tileClassList)

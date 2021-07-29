@@ -12,19 +12,20 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] Material brightGreen;
     [SerializeField] GenerationManager generationManager;
     [SerializeField] Transform playerTrans;
-    [SerializeField] Vector3 targetPosStart;
-    [SerializeField] Vector3 targetPosFin;
+    [SerializeField] Vector3 targetPosGround;
+    public Vector3 targetPosGroundNew;
+    [SerializeField] Vector3 targetPosFly;
     [SerializeField] Vector3 movementDirection;
     [SerializeField] MovingPlatform ourPlatform;
 
     private void Start()
     {
         // start the pod where it needs to start
-        targetPosStart = transform.position;
+        targetPosGround = transform.position;
         // make sure the pod stays where it starts
-        ourPlatform.targetPos = targetPosStart;
+        ourPlatform.targetPos = targetPosGround;
         // set a new finishing point for the pod
-        targetPosFin = new Vector3(transform.position.x, transform.position.y+100, transform.position.z);
+        targetPosFly = new Vector3(transform.position.x, transform.position.y+100, transform.position.z);
 
         // make sure we have our generation manager
         if (generationManager == null)
@@ -43,7 +44,7 @@ public class DroppodManager : MonoBehaviour
             if (ReInput.players.GetPlayer(0).GetButtonDown("SpacePress"))
             {
                 isFlying = true;
-                generationManager.MapGeneration();
+
                 // launch the drop pod
                 // gameObject.GetComponent<Animator>().Play("Asteroid Hop");
                 StartCoroutine("LaunchPod");
@@ -62,12 +63,20 @@ public class DroppodManager : MonoBehaviour
 
     IEnumerator LaunchPod()
     {
-        // move the pod
-        ourPlatform.targetPos = targetPosFin;
+        // start to move the pod up in to the sky
+        ourPlatform.targetPos = targetPosFly;
         // reset the player ammo
         playerTrans.gameObject.GetComponent<PlayerController>().ammoAmount = playerTrans.gameObject.GetComponent<PlayerController>().ammoMax;
+        // wait until we are high in the air
         yield return new WaitForSeconds(10f);
-        ourPlatform.targetPos = targetPosStart;
+        // when we are hanging in the air, generate the new map
+        generationManager.ClearGen();
+        // change the X and Y positions of the drop pod to the new X and Y of the landing pos
+        ourPlatform.targetPos = new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z);
+        // then move down
+        yield return new WaitForSeconds(10f);
+        // set a new movement position
+        ourPlatform.targetPos = targetPosGroundNew;
     }
 
     // when the player enters the green zone

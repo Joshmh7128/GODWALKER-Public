@@ -10,6 +10,7 @@ public class TileClass : MonoBehaviour
     public List<TileClass> neighbors;
     public bool isWall = false;
     public bool isOrigin = false;
+    public bool isEmpty = false;
     [SerializeField] GameObject generator;
     [SerializeField] GameObject playerPackage;
 
@@ -25,6 +26,11 @@ public class TileClass : MonoBehaviour
             if (isOrigin)
             {
                 playerPackage.SetActive(true);
+            }
+
+            if (isEmpty)
+            {
+                GameObject.Find("Drop Pod").GetComponent<DroppodManager>().targetPosGroundNew = transform.position;
             }
         }
     }

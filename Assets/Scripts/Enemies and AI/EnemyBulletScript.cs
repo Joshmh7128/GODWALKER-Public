@@ -37,9 +37,12 @@ public class EnemyBulletScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
+        Debug.Log("Bullet Collision");
+
         // destroy if it hits the environment
         if (collision.CompareTag("Environment"))
         {
+            
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }

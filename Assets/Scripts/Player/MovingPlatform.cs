@@ -9,10 +9,22 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] Vector3 movementDirection; 
     [SerializeField] CharacterController characterController;
     [SerializeField] float platformSpeed;
+    bool hasPlayer = false;
 
-    private void Start()
+    private void OnTriggerEnter(Collider col)
     {
-
+        if (col.CompareTag("Player"))
+        {
+            hasPlayer = true;
+        }
+    }
+    
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.CompareTag("Player"))
+        {
+            hasPlayer = false;
+        }
     }
 
     private void LateUpdate()
@@ -31,7 +43,11 @@ public class MovingPlatform : MonoBehaviour
         Vector3 finalizedMovementDirection;
         finalizedMovementDirection = new Vector3(normalizedMovementDirection.x * platformSpeed, normalizedMovementDirection.y * platformSpeed, normalizedMovementDirection.z * platformSpeed);
 
+
         transform.Translate(finalizedMovementDirection * Time.deltaTime);
-        characterController.Move(finalizedMovementDirection * Time.deltaTime);
+        if (hasPlayer)
+        {
+            characterController.Move(finalizedMovementDirection * Time.deltaTime);
+        }
     }
 }

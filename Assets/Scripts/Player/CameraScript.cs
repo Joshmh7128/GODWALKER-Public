@@ -73,17 +73,6 @@ public class CameraScript : MonoBehaviour
         headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
         bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);
 
-        // zooming in with the camera
-        if (Input.GetMouseButton(1))
-        {
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 45, 0.05f);
-        }        
-        
-        if (!Input.GetMouseButton(1))
-        {
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 90, 0.05f);
-        }
-
         // access our line renderers
         rightArmLine.SetPosition(0, rightArm.position);
         rightArmLine.SetPosition(1, digeticAimTarget.position);
@@ -108,6 +97,15 @@ public class CameraScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // zooming in with the camera
+        if (Input.GetMouseButton(1))
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 45, 0.1f);
+        }
 
+        if (!Input.GetMouseButton(1))
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 90, 0.1f);
+        }
     }
 }
