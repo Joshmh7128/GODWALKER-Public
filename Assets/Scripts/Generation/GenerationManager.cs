@@ -59,6 +59,7 @@ public class GenerationManager : MonoBehaviour
     } ; // our list of all vector3 directions
     [SerializeField] bool playerPlaced = false; // does our player exist?
     bool multiGen = false; // are we on another generation ?
+    [SerializeField] SmallChunkManager smallChunkManager; // our small chunk manager
 
     private void Start()
     {
@@ -73,6 +74,9 @@ public class GenerationManager : MonoBehaviour
 
     public void ClearGen()
     {
+        // tell the manager that we are now in the multigen stage
+        multiGen = true;
+
         // make sure we clear every tile before making new tiles
         foreach (TileClass tileClass in tileClassList)
         {
@@ -118,6 +122,9 @@ public class GenerationManager : MonoBehaviour
         {
             Destroy(enemyObject);
         }
+
+        // remove all remaining small chunks
+        smallChunkManager.ClearChildren();
 
         // run map gen
         MapGeneration();
@@ -220,7 +227,6 @@ public class GenerationManager : MonoBehaviour
                     {
                         if ((gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]) && (!tileClass.isWall))
                         {
-
                             // find our neighbors
                             tileClass.neighbors.Add((gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]));
                         }
@@ -232,16 +238,30 @@ public class GenerationManager : MonoBehaviour
                             {
                                 // make a wall at the position with y+1
                                 GameObject newWall = Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
+                                TileClass newWallTileClass = newWall.GetComponent<TileClass>();
+                                newWallTileClass.xArrayPos = tileClass.xArrayPos + (int)vector.x; newWallTileClass.yArrayPos = tileClass.yArrayPos + (int)vector.y; newWallTileClass.zArrayPos = tileClass.zArrayPos + (int)vector.z;
+                                newWallTileClass.xPos = (tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace); newWallTileClass.yPos = (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace); newWallTileClass.zPos = (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace); ;
+                                gridArray[newWallTileClass.xArrayPos, newWallTileClass.yArrayPos, newWallTileClass.zArrayPos] = newWallTileClass;
+
                                 // add it to the list
                                 wallTileClassList.Add(newWall.GetComponent<TileClass>());
+                                // have it check for neighbors
+                                foreach (Vector3 wallVector in checkVector3s)
+                                {
+                                    if ((gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z]) && (!tileClass.isWall))
+                                    {
+                                        // find our neighbors
+                                        newWallTileClass.neighbors.Add((gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z]));
+                                    }
+                                }
                             }
                         }
                     }
-                }
 
-                // after we check for neighbors add our tile to the tileClassList
-                tileClassList.Add(tileClass);
-                // Debug.Log("Added " + tileClass + "to tileClassList");
+                    // after we check for neighbors add our tile to the tileClassList
+                    tileClassList.Add(tileClass);
+                    // Debug.Log("Added " + tileClass + "to tileClassList");
+                }
             }
         }
 
@@ -251,20 +271,39 @@ public class GenerationManager : MonoBehaviour
 
     void ActivateTiles()
     {
-        // i is going to determine which tile has the player character on it
-        int i = UnityEngine.Random.Range(0, tileClassList.Count);
+        Debug.Log("activating tiles...");
 
         // if we don't have a player yet...
-        if (!playerPlaced)
+        while (!playerPlaced)
         {
+            // i is going to determine which tile has the player character on it
+            int i = UnityEngine.Random.Range(0, tileClassList.Count);
+
             // choose one of the tiles in the list and give it the player
-            tileClassList[i].isOrigin = true;
-            playerPlaced = true;
+            if (!tileClassList[i].isWall)
+            {
+                tileClassList[i].isOrigin = true;
+                playerPlaced = true;
+                Debug.Log("player placed");
+            }
         }
-        else
+
+        bool emptyChosen = false;
+
+        // if we have already placed the player, create an empty place for them to land 
+        if (playerPlaced && multiGen)
         {
-            // make one of them empty
-            tileClassList[i].isEmpty = true;
+            while (!emptyChosen)
+            {
+                // i is going to determine which tile has the player character on it
+                int i = UnityEngine.Random.Range(0, tileClassList.Count);
+                if (tileClassList[i].isWall == false)
+                {
+                    // make one of them empty
+                    tileClassList[i].isEmpty = true;
+                    emptyChosen = true;
+                }
+            }
         }
 
         // now activate all of them with one origin enabled
@@ -272,5 +311,7 @@ public class GenerationManager : MonoBehaviour
         {
             tileClass.OnGenerate();
         }
+
+        Debug.Log("tiles activated");
     }
 }

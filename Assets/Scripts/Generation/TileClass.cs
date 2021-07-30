@@ -11,6 +11,7 @@ public class TileClass : MonoBehaviour
     public bool isWall = false;
     public bool isOrigin = false;
     public bool isEmpty = false;
+    [SerializeField] bool devDraw = false;
     [SerializeField] GameObject generator;
     [SerializeField] GameObject playerPackage;
 
@@ -31,6 +32,17 @@ public class TileClass : MonoBehaviour
             if (isEmpty)
             {
                 GameObject.Find("Drop Pod").GetComponent<DroppodManager>().targetPosGroundNew = transform.position;
+            }
+        }
+    }
+
+    public void OnDrawGizmos()
+    {
+        if (devDraw)
+        {
+            foreach(TileClass tileClass in neighbors)
+            {
+
             }
         }
     }

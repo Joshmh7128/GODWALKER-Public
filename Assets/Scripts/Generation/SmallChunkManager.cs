@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class SmallChunkManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void ClearChildren()
     {
-        
-    }
+        int previousCount = transform.childCount;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        for (int i = 0; i < previousCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
     }
 }
