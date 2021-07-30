@@ -100,12 +100,12 @@ public class CameraScript : MonoBehaviour
         // zooming in with the camera
         if (Input.GetMouseButton(1))
         {
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 45, 0.1f);
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 45, 0.25f);
         }
 
         if (!Input.GetMouseButton(1))
         {
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 90, 0.1f);
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 90, 0.25f);
         }
     }
 }

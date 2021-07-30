@@ -13,13 +13,23 @@ public class EnemyBulletScript : MonoBehaviour
     // for when our bullet is instantiated
     private void Start()
     {
+        // add to list
+        AddToManager();
+
         // set our parent
         enemyManager = GameObject.Find("Enemy Manager").transform;
         transform.SetParent(enemyManager);
+
         // turn bullet
         transform.LookAt(bulletTarget);
+
         // start the safety kill
         StartCoroutine("SafetyKill");
+    }
+
+    public void AddToManager()
+    {
+        GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
     }
 
     // Update is called once per frame
@@ -37,7 +47,7 @@ public class EnemyBulletScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Bullet Collision");
+        // Debug.Log("Bullet Collision");
 
         // destroy if it hits the environment
         if (collision.CompareTag("Environment"))

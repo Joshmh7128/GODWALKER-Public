@@ -11,12 +11,20 @@ public class EnemySphereBomb : MonoBehaviour
 
     private void Start()
     {
+        // add to list
+        AddToManager();
+
         // set our parent
         enemyManager = GameObject.Find("Enemy Manager").transform;
         transform.SetParent(enemyManager);
 
         // start the safety kill
         StartCoroutine("SafetyKill");
+    }
+
+    public void AddToManager()
+    {
+        GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
     }
 
     IEnumerator SafetyKill()

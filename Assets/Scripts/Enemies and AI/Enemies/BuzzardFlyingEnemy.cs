@@ -10,6 +10,7 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] float randomRadius; // determines how far he flies per movement
     [SerializeField] float shootAnimTime = 0.75f; // out shot animation length
     [SerializeField] float HP; // our HP
+    [SerializeField] float activationDistance;
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
     [SerializeField] Transform player;
@@ -24,6 +25,9 @@ public class BuzzardFlyingEnemy : EnemyClass
 
     private void Start()
     {
+        // add to list
+        AddToManager();
+
         // set our parent
         enemyManager = GameObject.Find("Enemy Manager").transform;
         transform.SetParent(enemyManager);
@@ -51,16 +55,20 @@ public class BuzzardFlyingEnemy : EnemyClass
 
         // fly to that place
         currentSpeed = speed;
-        // animate shot charge up
-        animator.Play("Shoot");
-        // wait for the animation to finish
-        yield return new WaitForSeconds(shootAnimTime);
-        // shoot
-        GameObject bullet = Instantiate(enemyBullet, shotOrigin.position, Quaternion.identity, null);
-        bullet.GetComponent<EnemyBulletScript>().bulletTarget = player;
-        // wait a random amount after
-        yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
-        currentSpeed = 0;
+        // if the player is close to us, shoot them
+        if (Vector3.Distance(transform.position, player.position) < activationDistance)
+        {
+            // animate shot charge up
+            animator.Play("Shoot");
+            // wait for the animation to finish
+            yield return new WaitForSeconds(shootAnimTime);
+            // shoot
+            GameObject bullet = Instantiate(enemyBullet, shotOrigin.position, Quaternion.identity, null);
+            bullet.GetComponent<EnemyBulletScript>().bulletTarget = player;
+            // wait a random amount after
+            yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+            currentSpeed = 0;
+        }
         // repeat
         StartCoroutine("FlyingBehaviour");
     }

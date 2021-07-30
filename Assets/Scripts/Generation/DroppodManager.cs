@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Rewired;
 
@@ -7,6 +8,7 @@ public class DroppodManager : MonoBehaviour
 {
     bool canLaunch = false;
     bool isFlying = false;
+    bool atFlyPos = false;
     [SerializeField] Renderer greenZoneRenderer;
     [SerializeField] Material dimGreen;
     [SerializeField] Material brightGreen;
@@ -61,6 +63,8 @@ public class DroppodManager : MonoBehaviour
         }
     }
 
+    // <Vector3.Distance(transform.position, targetPosFly) < 0.05f>
+
     IEnumerator LaunchPod()
     {
         // start to move the pod up in to the sky
@@ -68,15 +72,22 @@ public class DroppodManager : MonoBehaviour
         // reset the player ammo
         playerTrans.gameObject.GetComponent<PlayerController>().ammoAmount = playerTrans.gameObject.GetComponent<PlayerController>().ammoMax;
         // wait until we are high in the air
-        yield return new WaitForSeconds(10f);
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, targetPosFly) < 0.05f); 
+        // yield return new WaitForSeconds(3f);
         // when we are hanging in the air, generate the new map
         generationManager.ClearGen();
+        // wait so that we don't drop the player by accident
+        yield return new WaitForSeconds(1f);
         // change the X and Y positions of the drop pod to the new X and Y of the landing pos
         ourPlatform.targetPos = new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z);
+        // wait until we get there
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z)) < 0.05f);
         // then move down
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(3f);
         // set a new movement position
         ourPlatform.targetPos = targetPosGroundNew;
+        // set our new flying position
+        targetPosFly = new Vector3(targetPosGroundNew.x, targetPosFly.y, targetPosGroundNew.z);
     }
 
     // when the player enters the green zone

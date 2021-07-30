@@ -7,7 +7,7 @@ public class GenerationManager : MonoBehaviour
 {
     // our list of map generation chunks
     [SerializeField] RandomChildSelector[] randomChildSelectors;
-    // bug parent
+    // enemy parent
     [SerializeField] Transform enemyManager;
 
     // map generation
@@ -82,14 +82,41 @@ public class GenerationManager : MonoBehaviour
                 gridArray[tileClass.xArrayPos, tileClass.yArrayPos, tileClass.zArrayPos] = null;
             }
         }
+        
         // make sure we clear every tile before making new tiles
         foreach (TileClass tileClass in wallTileClassList)
         {
             if (tileClass)
             {
+                // wallTileClassList.Remove(tileClass);
                 Destroy(tileClass.gameObject);
                 gridArray[tileClass.xArrayPos, tileClass.yArrayPos, tileClass.zArrayPos] = null;
             }
+        }
+
+        // clear out the lists manually
+        for (int i = tileClassList.Count - 1; i > -1; i--)
+        {
+            if (tileClassList[i])
+            {
+                tileClassList.RemoveAt(i);
+            }
+        }
+
+        for (int i = wallTileClassList.Count - 1; i > -1; i--)
+        {
+            if (wallTileClassList[i])
+            {
+                wallTileClassList.RemoveAt(i);
+            }
+        }
+
+        Debug.Log("Tile Lists Cleared");
+
+        // kill all enemies
+        foreach (GameObject enemyObject in enemyManager.GetComponent<EnemyManager>().enemies)
+        {
+            Destroy(enemyObject);
         }
 
         // run map gen
@@ -214,7 +241,7 @@ public class GenerationManager : MonoBehaviour
 
                 // after we check for neighbors add our tile to the tileClassList
                 tileClassList.Add(tileClass);
-                Debug.Log("Added " + tileClass + "to tileClassList");
+                // Debug.Log("Added " + tileClass + "to tileClassList");
             }
         }
 

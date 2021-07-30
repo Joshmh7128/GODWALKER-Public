@@ -18,7 +18,7 @@ public class TileClass : MonoBehaviour
     {
         if (!isWall)
         {
-            if (!isOrigin)
+            if (!isOrigin && !isEmpty)
             {
                 generator.SetActive(true);
             }

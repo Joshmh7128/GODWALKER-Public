@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 229456648}
+  - component: {fileID: 229456649}
   m_Layer: 0
   m_Name: Enemy Manager
   m_TagString: Untagged
@@ -153,6 +154,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &229456649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229456647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efab41405912d174093b6ea57fdef04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies: []
 --- !u!1 &696540691
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,9 +199,11 @@ MonoBehaviour:
   randomChildSelectors: []
   enemyManager: {fileID: 229456648}
   tileClassList: []
+  wallTileClassList: []
   tileClassObject: {fileID: 8576331696167516088, guid: a9e0db2ae6f350341bc85744a1c8d6e4, type: 3}
   tileClassWallObject: {fileID: 8576331696167516088, guid: d43a55ce8fcfa554c85c202c972c0b4e, type: 3}
   originTile: {fileID: 0}
+  playerPlaced: 0
 --- !u!4 &696540693
 Transform:
   m_ObjectHideFlags: 0
