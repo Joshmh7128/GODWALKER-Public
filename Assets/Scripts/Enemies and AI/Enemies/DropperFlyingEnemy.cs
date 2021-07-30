@@ -46,7 +46,7 @@ public class DropperFlyingEnemy : EnemyClass
         // pick a point in space
         if (tooLow == false)
         {   // if we aren't too low move down
-            newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius / 4, -randomRadius / 2), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
+            newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius/2, -randomRadius), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
         }
         else
         {   // if we are too low move up 
