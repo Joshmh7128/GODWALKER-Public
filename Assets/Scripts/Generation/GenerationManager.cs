@@ -252,10 +252,13 @@ public class GenerationManager : MonoBehaviour
                                 // have it check for neighbors
                                 foreach (Vector3 wallVector in checkVector3s)
                                 {
-                                    if ((gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z]) && (!tileClass.isWall))
+                                    if ((gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z]) && (gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z].isWall == false))
                                     {
-                                        // find our neighbors
-                                        newWallTileClass.neighbors.Add((gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z]));
+                                        // create a copy of our neighbor
+                                        TileClass neighborCopy = new TileClass();
+                                        neighborCopy = (gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z]);
+                                        // add the copy
+                                        newWallTileClass.neighbors.Add(neighborCopy);
                                     }
                                 }
                             }
