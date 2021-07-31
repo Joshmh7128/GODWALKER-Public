@@ -61,7 +61,11 @@ public class TileClass : MonoBehaviour
     int yLocalPos;
     int zLocalPos;
 
-    void Start()
+    [SerializeField] int serTempX;
+    [SerializeField] int serTempY;
+    [SerializeField] int serTempZ;
+
+    void Awake()
     {
         if (isWall)
         {
@@ -75,17 +79,6 @@ public class TileClass : MonoBehaviour
             wallObjects[-1 + diff, 0 + diff, -1 + diff] = wallObjectList[5];
             wallObjects[0 + diff, 0 + diff, -1 + diff] = wallObjectList[6];
             wallObjects[1 + diff, 0 + diff, -1 + diff] = wallObjectList[7];
-        }
-
-        for (int i = 0; i < wallObjects.Length; i++)
-        {
-            for (int j = 0; j < wallObjects.Length; j++)
-            {
-                for (int v = 0; v < wallObjects.Length; v++)
-                {
-                    Debug.Log(wallObjects[i, j, v]);
-                }
-            }
         }
     }
 
@@ -115,7 +108,7 @@ public class TileClass : MonoBehaviour
             // check which of our neighbors is a non-wall tile 
             foreach(TileClass tileClass in neighbors)
             {   // if none of these are true, add them to the local list...
-                if (!(tileClass.isOrigin || tileClass.isWall || tileClass.isEmpty))
+                if (!tileClass.isWall)
                 {   // if the tileclass is not null...
                     if (tileClass)
                     {   // if we do not have it in the list already...
@@ -128,30 +121,49 @@ public class TileClass : MonoBehaviour
             // use this information to place specific wall variations
             foreach (TileClass tileClass in localNeighbors)
             {
-                if (xPos - tileClass.xPos != 0)
+                if (tileClass.xPos - xPos != 0)
                 {
-                    xLocalPos = (int)Mathf.Sign(xPos - tileClass.xPos);
+                    xLocalPos = tileClass.xPos - xPos < 0 ? -1 : 1;
+                }
+                else
+                {
+                    xLocalPos = 0;
                 }
 
-                if (yPos - tileClass.yPos != 0)
+                if (tileClass.yPos - yPos != 0)
                 {
-                    yLocalPos = (int)Mathf.Sign(yPos - tileClass.yPos);
+                    yLocalPos = tileClass.yPos - yPos < 0 ? -1 : 1;
+                }
+                else
+                {
+                    yLocalPos = 0;
                 }
 
-                if (zPos - tileClass.zPos != 0)
+                if (tileClass.zPos - zPos != 0)
                 {
-                    zLocalPos = (int)Mathf.Sign(zPos - tileClass.zPos);
+                    zLocalPos = tileClass.zPos - zPos < 0 ? -1 : 1;
+                }
+                else
+                {
+                    zLocalPos = 0;
                 }
 
                 int tempX = xLocalPos+1; int tempY = yLocalPos + 1; int tempZ = zLocalPos + 1;
 
-                Debug.Log("temps " + tempX + " " + tempY + " " + tempZ);
-                Debug.Log(wallObjects[0, 1, 2]);
+                // Debug.Log("temps " + tempX + " " + tempY + " " + tempZ);
+                // Debug.Log(wallObjects[0, 1, 2]);
+                WallObjectControl(tempX, tempY, tempZ);
             }
-
-
-            // wallObjects[xLocalPos + 1, yLocalPos + 1, zLocalPos + 1].SetActive(true);
+           
         }
+    }
+
+    void WallObjectControl(int x, int y, int z)
+    {
+        wallObjects[x, y, z].SetActive(true);
+        serTempX = x;
+        serTempY = y;
+        serTempZ = z;
     }
 
     public void OnDrawGizmos()
