@@ -114,8 +114,14 @@ public class TileClass : MonoBehaviour
                     {   // if we do not have it in the list already...
                         if (!localNeighbors.Contains(tileClass))
                         localNeighbors.Add(tileClass);
+                        Debug.Log("Local Neighbors Added");
                     }
                 }
+            }
+
+            if (localNeighbors.Count < 1)
+            {
+                Debug.LogError("Tile Has No Neighbors");
             }
 
             // use this information to place specific wall variations
@@ -148,11 +154,11 @@ public class TileClass : MonoBehaviour
                     zLocalPos = 0;
                 }
 
-                int tempX = xLocalPos+1; int tempY = yLocalPos + 1; int tempZ = zLocalPos + 1;
+                int tempX = xLocalPos + 1; int tempY = yLocalPos + 1; int tempZ = zLocalPos + 1;
 
                 // Debug.Log("temps " + tempX + " " + tempY + " " + tempZ);
                 // Debug.Log(wallObjects[0, 1, 2]);
-                WallObjectControl(tempX, tempY, tempZ);
+                WallObjectControl(tempX, 1, tempZ);
             }
            
         }
@@ -160,10 +166,10 @@ public class TileClass : MonoBehaviour
 
     void WallObjectControl(int x, int y, int z)
     {
-        wallObjects[x, y, z].SetActive(true);
         serTempX = x;
-        serTempY = y;
+        serTempY = 1;
         serTempZ = z;
+        wallObjects[x, serTempY, z].SetActive(true);
     }
 
     public void OnDrawGizmos()

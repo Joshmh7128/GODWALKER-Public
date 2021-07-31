@@ -236,11 +236,15 @@ public class GenerationManager : MonoBehaviour
                         {
                             if (vector.y == 0)
                             {
-                                // make a wall at the position with y+1
+                                //
                                 GameObject newWall = Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
                                 TileClass newWallTileClass = newWall.GetComponent<TileClass>();
-                                newWallTileClass.xArrayPos = tileClass.xArrayPos + (int)vector.x; newWallTileClass.yArrayPos = tileClass.yArrayPos + (int)vector.y; newWallTileClass.zArrayPos = tileClass.zArrayPos + (int)vector.z;
-                                newWallTileClass.xPos = (tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace); newWallTileClass.yPos = (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace); newWallTileClass.zPos = (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace); ;
+                                newWallTileClass.xArrayPos = tileClass.xArrayPos + (int)vector.x; 
+                                newWallTileClass.yArrayPos = tileClass.yArrayPos + (int)vector.y; 
+                                newWallTileClass.zArrayPos = tileClass.zArrayPos + (int)vector.z;
+                                newWallTileClass.xPos = (tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace); 
+                                newWallTileClass.yPos = (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace); 
+                                newWallTileClass.zPos = (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace); ;
                                 gridArray[newWallTileClass.xArrayPos, newWallTileClass.yArrayPos, newWallTileClass.zArrayPos] = newWallTileClass;
 
                                 // add it to the list
