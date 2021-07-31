@@ -16,9 +16,9 @@ public class TileClass : MonoBehaviour
     [SerializeField] bool devDraw = false; // should we be drawing gizmos?
     [SerializeField] GameObject generator; // what is our generator?
     [SerializeField] GameObject playerPackage; // what is our player package?
-    bool[,,] neighborStates = new bool[4, 4, 4]; // all neighbor bool states with 1,1,1 being the unused center
+    bool[,,] neighborStates = new bool[3, 3, 3]; // all neighbor bool states with 1,1,1 being the unused center
 
-    GameObject[,,] wallObjects = new GameObject[4, 4, 4]; // all objects to be spawned in as walls
+    public GameObject[,,] wallObjects = new GameObject[3, 3, 3]; // all objects to be spawned in as walls
     [SerializeField] List<GameObject> wallObjectList; // set in editor to save one million headaches
     List<Vector3> checkVector3s = new List<Vector3>
     { 
@@ -56,7 +56,11 @@ public class TileClass : MonoBehaviour
          // bottom middle
          new Vector3(0,-1,0)
     }; // our list of all vector3 directions
-    
+
+    int xLocalPos;
+    int yLocalPos;
+    int zLocalPos;
+
     void Start()
     {
         if (isWall)
@@ -71,6 +75,17 @@ public class TileClass : MonoBehaviour
             wallObjects[-1 + diff, 0 + diff, -1 + diff] = wallObjectList[5];
             wallObjects[0 + diff, 0 + diff, -1 + diff] = wallObjectList[6];
             wallObjects[1 + diff, 0 + diff, -1 + diff] = wallObjectList[7];
+        }
+
+        for (int i = 0; i < wallObjects.Length; i++)
+        {
+            for (int j = 0; j < wallObjects.Length; j++)
+            {
+                for (int v = 0; v < wallObjects.Length; v++)
+                {
+                    Debug.Log(wallObjects[i, j, v]);
+                }
+            }
         }
     }
 
@@ -113,26 +128,29 @@ public class TileClass : MonoBehaviour
             // use this information to place specific wall variations
             foreach (TileClass tileClass in localNeighbors)
             {
-                // get our XYZ of one of our neighbor tiles in relation to ourselves
-                int xlocalPos = (int)Mathf.Sign(tileClass.xPos - xPos); 
-                int ylocalPos = 0; 
-                int zlocalPos = (int)Mathf.Sign(tileClass.zPos - zPos); // divide by the form factor of our tile size
-                // set our local ints
-                int x = xlocalPos+1; int y = ylocalPos+1; int z = zlocalPos+1; // make sure to add 1 so that 1, 1, 1, goes unused as the center
-                Debug.Log(x + " " + y + " " + z);
-                // set our objects
-                neighborStates[x, y, z] = true;
+                if (xPos - tileClass.xPos != 0)
+                {
+                    xLocalPos = (int)Mathf.Sign(xPos - tileClass.xPos);
+                }
+
+                if (yPos - tileClass.yPos != 0)
+                {
+                    yLocalPos = (int)Mathf.Sign(yPos - tileClass.yPos);
+                }
+
+                if (zPos - tileClass.zPos != 0)
+                {
+                    zLocalPos = (int)Mathf.Sign(zPos - tileClass.zPos);
+                }
+
+                int tempX = xLocalPos+1; int tempY = yLocalPos + 1; int tempZ = zLocalPos + 1;
+
+                Debug.Log("temps " + tempX + " " + tempY + " " + tempZ);
+                Debug.Log(wallObjects[0, 1, 2]);
             }
 
-            // set objects to be active if they are active
-            foreach (Vector3 vector in checkVector3s)
-            {
-                if (neighborStates[(int)vector.x+1, (int)vector.y, (int)vector.z+1])
-                {
-                    if (wallObjects[(int)vector.x + 1, (int)vector.y + 1, (int)vector.z + 1])
-                    wallObjects[(int)vector.x + 1, (int)vector.y + 1, (int)vector.z + 1].SetActive(true);
-                }
-            }
+
+            // wallObjects[xLocalPos + 1, yLocalPos + 1, zLocalPos + 1].SetActive(true);
         }
     }
 
