@@ -177,5 +177,14 @@ public class TileClass : MonoBehaviour
                 Gizmos.DrawCube(new Vector3(tileClass.xPos * 50, tileClass.yPos * 50, tileClass.zPos * 50), new Vector3(5, 60, 5));
             }
         }
+
+        if (devDraw && isWall)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireCube(new Vector3(50, 0, 0), new Vector3(50, 50, 50));
+            Gizmos.DrawWireCube(new Vector3(-50, 0, 0), new Vector3(50, 50, 50));
+            Gizmos.DrawWireCube(new Vector3(0, 0, 50), new Vector3(50, 50, 50));
+            Gizmos.DrawWireCube(new Vector3(0, 0, -50), new Vector3(50, 50, 50));
+        }
     }
 }
