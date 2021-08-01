@@ -14,11 +14,13 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] Material brightGreen;
     [SerializeField] GenerationManager generationManager;
     [SerializeField] Transform playerTrans;
+    [SerializeField] PlayerController playerController;
     [SerializeField] Vector3 targetPosGround;
     public Vector3 targetPosGroundNew;
     [SerializeField] Vector3 targetPosFly;
     [SerializeField] Vector3 movementDirection;
     [SerializeField] MovingPlatform ourPlatform;
+    [SerializeField] GameObject platformWalls;
 
     private void Start()
     {
@@ -45,8 +47,6 @@ public class DroppodManager : MonoBehaviour
             // launch
             if (ReInput.players.GetPlayer(0).GetButtonDown("SpacePress"))
             {
-                isFlying = true;
-
                 // launch the drop pod
                 // gameObject.GetComponent<Animator>().Play("Asteroid Hop");
                 StartCoroutine("LaunchPod");
@@ -56,17 +56,16 @@ public class DroppodManager : MonoBehaviour
         {
             greenZoneRenderer.material = dimGreen;
         }
-
-        if (isFlying == true)
-        {
-            //playerTrans.SetParent(transform);
-        }
     }
 
     // <Vector3.Distance(transform.position, targetPosFly) < 0.05f>
 
     IEnumerator LaunchPod()
     {
+        // disable player movement
+        playerController.canMove = false;
+        // enable the walls
+        platformWalls.SetActive(true);
         // start to move the pod up in to the sky
         ourPlatform.targetPos = targetPosFly;
         // reset the player ammo
@@ -84,6 +83,10 @@ public class DroppodManager : MonoBehaviour
         yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z)) < 0.05f);
         // then move down
         yield return new WaitForSeconds(3f);
+        // open the walls
+        platformWalls.SetActive(false);
+        // enable player movement
+        playerController.canMove = true;
         // set a new movement position
         ourPlatform.targetPos = targetPosGroundNew;
         // set our new flying position

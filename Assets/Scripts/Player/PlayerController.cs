@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public int playerHP;                        // the player's health
     public int playerMaxHP;                     // the player's max health
     [SerializeField] Transform treadsParent;    // the parent of our treads
+    public bool canMove = true;
 
     // referenced prefabs and objects
     [SerializeField] GameObject playerBullet;   // bullet prefab
@@ -53,18 +54,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // move the player
-
-        // declare our motion
-        moveV = playerHead.forward * player.GetAxis("Vertical");
-        moveH = playerHead.right * player.GetAxis("Horizontal");
-        move = new Vector3(moveH.x, 0f, moveH.z) + new Vector3(moveV.x, 0f, moveV.z);
-        // rotate our treads
-        Vector3 treadDirection = Vector3.RotateTowards(treadsParent.forward, move, 10 * Time.deltaTime, 0f);
-        treadsParent.rotation = Quaternion.LookRotation(treadDirection);
-        // apply to the character controller
-        characterController.Move(move * Time.deltaTime * moveSpeed);
-        characterController.Move(new Vector3(0f, gravity, 0f) * Time.deltaTime);
+        if (canMove)
+        {
+            // declare our motion
+            moveV = playerHead.forward * player.GetAxis("Vertical");
+            moveH = playerHead.right * player.GetAxis("Horizontal");
+            move = new Vector3(moveH.x, 0f, moveH.z) + new Vector3(moveV.x, 0f, moveV.z);
+            // rotate our treads
+            Vector3 treadDirection = Vector3.RotateTowards(treadsParent.forward, move, 10 * Time.deltaTime, 0f);
+            treadsParent.rotation = Quaternion.LookRotation(treadDirection);
+            // apply to the character controller
+            characterController.Move(move * Time.deltaTime * moveSpeed);
+            characterController.Move(new Vector3(0f, gravity, 0f) * Time.deltaTime);
+        }
         // display our ammo amount
         ammoAmountText.text = ammoAmount.ToString(); // in text
         ammoSlider.value = (float)ammoAmount / (float)ammoMax;        

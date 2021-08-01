@@ -1547,11 +1547,13 @@ MonoBehaviour:
   brightGreen: {fileID: 2100000, guid: f9ca6e0bb6715fb45855e0f23030aed7, type: 2}
   generationManager: {fileID: 0}
   playerTrans: {fileID: 5878830008188011149}
+  playerController: {fileID: 8825198094249660539}
   targetPosGround: {x: 0, y: 0, z: 0}
   targetPosGroundNew: {x: 0, y: 0, z: 0}
   targetPosFly: {x: 0, y: 0, z: 0}
   movementDirection: {x: 0, y: 0, z: 0}
   ourPlatform: {fileID: 7153298001111918815}
+  platformWalls: {fileID: 4498492064667469462}
 --- !u!65 &5422200918138796784
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1563,7 +1565,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 23.472551, y: 7.62, z: 27.471645}
+  m_Size: {x: 17.3, y: 11.2, z: 18.88}
   m_Center: {x: -0.18546581, y: 0.61000013, z: -0.08750534}
 --- !u!114 &7153298001111918815
 MonoBehaviour:
@@ -6341,6 +6343,7 @@ MonoBehaviour:
   playerHP: 25
   playerMaxHP: 25
   treadsParent: {fileID: 8193415160958799046}
+  canMove: 1
   playerBullet: {fileID: 6225543735345285599, guid: 64fc502ef7b314243b2dd4bf86ce96e9, type: 3}
   ammoSlider: {fileID: 5433547583892571875}
   ammoAmountText: {fileID: 1678253724787796728}
@@ -8609,9 +8612,9 @@ GameObject:
   - component: {fileID: 1560017131610100969}
   - component: {fileID: 190852099866438748}
   - component: {fileID: 7419139300166336585}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
