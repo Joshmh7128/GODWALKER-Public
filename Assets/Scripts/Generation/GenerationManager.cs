@@ -12,7 +12,7 @@ public class GenerationManager : MonoBehaviour
 
     // map generation
     int pathDistanceMinimum = 10;
-    int roomSpace = 50 /* how large rooms are */, targetX, targetY, targetZ;
+    [SerializeField] int roomSpace = 50 /* how large rooms are */, targetX, targetY, targetZ;
     int tilesPlaced; // how many tiles we have placed so far
     static int maxPathDistance = 15; // how long should our generation paths be?
     [SerializeField] TileClass[,,] gridArray = new TileClass[maxPathDistance * 2, maxPathDistance * 2, maxPathDistance * 2]; // our x, y, z array
@@ -76,25 +76,32 @@ public class GenerationManager : MonoBehaviour
         // tell the manager that we are now in the multigen stage
         multiGen = true;
 
+        // set all targets to 0
+        targetX = targetY = targetZ = 0;
+        Debug.Log("targets  = " + targetX + targetY + targetZ);
+
         // make sure we clear every tile before making new tiles
         foreach (TileClass tileClass in tileClassList)
         {
-            if (tileClass)
-            {
-                Destroy(tileClass.gameObject);
-                gridArray[tileClass.xArrayPos, tileClass.yArrayPos, tileClass.zArrayPos] = null;
-            }
+            Destroy(tileClass.gameObject);
         }
         
         // make sure we clear every tile before making new tiles
         foreach (TileClass tileClass in wallTileClassList)
         {
-            if (tileClass)
-            {
-                // wallTileClassList.Remove(tileClass);
-                Destroy(tileClass.gameObject);
-                gridArray[tileClass.xArrayPos, tileClass.yArrayPos, tileClass.zArrayPos] = null;
-            }
+            Destroy(tileClass.gameObject);
+        }        
+        
+        // make sure we clear every tile before making new tiles
+        foreach (TileClass tileClass in tileClassList)
+        {
+            gridArray[tileClass.xArrayPos, tileClass.yArrayPos, tileClass.zArrayPos] = null;
+        }
+        
+        // make sure we clear every tile before making new tiles
+        foreach (TileClass tileClass in wallTileClassList)
+        {
+            gridArray[tileClass.xArrayPos, tileClass.yArrayPos, tileClass.zArrayPos] = null;
         }
 
         // clear out the lists manually
@@ -141,48 +148,31 @@ public class GenerationManager : MonoBehaviour
             // should we move on the x or z axis?
             int u = UnityEngine.Random.Range(0, 4);
             // do we move on the y axis?
-            int v = UnityEngine.Random.Range(0, 3); 
+            int v = UnityEngine.Random.Range(0, 3);
             // is u 0 or 1?
 
             // move X
             if (u == 0)
-            {
-                targetX++;
-            }
+            { targetX++; }
 
             // move Z
             if (u == 1)
-            {
-                targetZ++;
-            }            
+            { targetZ++; }            
             
             // move X-
             if (u == 2)
-            {
-                targetX--;
-            }
+            { targetX--; }
 
             // move Z-
             if (u == 3)
-            {
-                targetZ--;
-            }
-            /*
-            // move Y+
-            if (v == 1)
-            {
-                // targetY++;
-            }
-
-            // move Y-
-            if (v == 2)
-            {
-                targetY--;
-            }*/
+            { targetZ--; }
             #endregion
 
+            #region // y check
+            /*
             while (true)
             {
+                
                 if (gridArray[targetX + maxPathDistance, targetY + maxPathDistance, targetZ + maxPathDistance])
                 {
                     if (targetY > (maxPathDistance-3))
@@ -196,14 +186,19 @@ public class GenerationManager : MonoBehaviour
                         break;
                     }
                 }
+                
+            }*/
 
-                TileClass newTileClass = Instantiate(tileClassObject, new Vector3(targetX * roomSpace, targetY * roomSpace, targetZ * roomSpace), Quaternion.Euler(0, 0, 0),null).GetComponent<TileClass>();
+            #endregion
+
+            if (!gridArray[targetX + maxPathDistance, targetY + maxPathDistance, targetZ + maxPathDistance])
+            { 
+                TileClass newTileClass = Instantiate(tileClassObject, new Vector3(targetX * roomSpace, targetY * roomSpace, targetZ * roomSpace), Quaternion.Euler(0, 0, 0), null).GetComponent<TileClass>();
                 newTileClass.xArrayPos = targetX + maxPathDistance; newTileClass.yArrayPos = targetY + maxPathDistance; newTileClass.zArrayPos = targetZ + maxPathDistance;
                 newTileClass.xPos = targetX; newTileClass.yPos = targetY; newTileClass.zPos = targetZ;
                 gridArray[targetX + maxPathDistance, targetY + maxPathDistance, targetZ + maxPathDistance] = newTileClass;
-                break;
             }
-            
+
             if (tilesPlaced == localTilesMax - 1)
             {
                 Debug.Log("Final Tile Placed");
@@ -230,43 +225,39 @@ public class GenerationManager : MonoBehaviour
                             tileClass.neighbors.Add((gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z]));
                         }
 
-                        // check around everything for walls
+                        // check around everything to place walls
                         if ((gridArray[tileClass.xArrayPos + (int)vector.x, tileClass.yArrayPos + (int)vector.y, tileClass.zArrayPos + (int)vector.z] == null) && (!tileClass.isWall))
                         {
+                            // do if y is 0 so that we do not make a ceiling (do we want one?)
                             if (vector.y == 0)
                             {
                                 //
                                 GameObject newWall = Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
                                 TileClass newWallTileClass = newWall.GetComponent<TileClass>();
-                                newWallTileClass.xArrayPos = tileClass.xArrayPos + (int)vector.x; 
-                                newWallTileClass.yArrayPos = tileClass.yArrayPos + (int)vector.y; 
-                                newWallTileClass.zArrayPos = tileClass.zArrayPos + (int)vector.z;
-                                newWallTileClass.xPos = (tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace); 
-                                newWallTileClass.yPos = (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace); 
-                                newWallTileClass.zPos = (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace); ;
+                                newWallTileClass.xArrayPos = tileClass.xArrayPos + (int)vector.x; newWallTileClass.yArrayPos = tileClass.yArrayPos + (int)vector.y; newWallTileClass.zArrayPos = tileClass.zArrayPos + (int)vector.z;
+                                newWallTileClass.xPos = (tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace); newWallTileClass.yPos = (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace); newWallTileClass.zPos = (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace);
                                 gridArray[newWallTileClass.xArrayPos, newWallTileClass.yArrayPos, newWallTileClass.zArrayPos] = newWallTileClass;
 
                                 // add it to the list
+                                if (!wallTileClassList.Contains(newWall.GetComponent<TileClass>()))
                                 wallTileClassList.Add(newWall.GetComponent<TileClass>());
                                 // have it check for neighbors
                                 foreach (Vector3 wallVector in checkVector3s)
                                 {
                                     if ((gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z]) && (gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z].isWall == false))
                                     {
-                                        // create a copy of our neighbor
-                                        TileClass neighborCopy = new TileClass();
-                                        neighborCopy = (gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z]);
-                                        // add the copy
-                                        newWallTileClass.neighbors.Add(neighborCopy);
+                                        newWallTileClass.neighbors.Add(gridArray[newWallTileClass.xArrayPos + (int)wallVector.x, newWallTileClass.yArrayPos + (int)wallVector.y, newWallTileClass.zArrayPos + (int)wallVector.z]);
                                     }
                                 }
                             }
                         }
                     }
+                }
 
-                    // after we check for neighbors add our tile to the tileClassList
+                // after we check for neighbors add our tile to the tileClassList
+                if (!tileClassList.Contains(tileClass))
+                {
                     tileClassList.Add(tileClass);
-                    // Debug.Log("Added " + tileClass + "to tileClassList");
                 }
             }
         }

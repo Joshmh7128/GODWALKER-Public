@@ -49,7 +49,10 @@ public class DroppodManager : MonoBehaviour
             {
                 // launch the drop pod
                 // gameObject.GetComponent<Animator>().Play("Asteroid Hop");
-                StartCoroutine("LaunchPod");
+                if (!isFlying)
+                {
+                    StartCoroutine("LaunchPod");
+                }
             }
         }
         else
@@ -62,6 +65,7 @@ public class DroppodManager : MonoBehaviour
 
     IEnumerator LaunchPod()
     {
+        isFlying = true;
         // disable player movement
         playerController.canMove = false;
         // enable the walls
@@ -91,6 +95,8 @@ public class DroppodManager : MonoBehaviour
         ourPlatform.targetPos = targetPosGroundNew;
         // set our new flying position
         targetPosFly = new Vector3(targetPosGroundNew.x, targetPosFly.y, targetPosGroundNew.z);
+        // we're done
+        isFlying = false;
     }
 
     // when the player enters the green zone
