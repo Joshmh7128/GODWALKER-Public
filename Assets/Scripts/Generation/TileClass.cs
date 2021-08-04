@@ -15,9 +15,9 @@ public class TileClass : MonoBehaviour
     [SerializeField] bool devDraw = false; // should we be drawing gizmos?
     [SerializeField] GameObject generator; // what is our generator?
     [SerializeField] GameObject playerPackage; // what is our player package?
-    bool[,,] neighborStates = new bool[5, 5, 5]; // all neighbor bool states with 1,1,1 being the unused center
+    bool[,,] neighborStates = new bool[3, 3, 3]; // all neighbor bool states with 1,1,1 being the unused center
 
-    public GameObject[,,] wallObjects = new GameObject[5, 5, 5]; // all objects to be spawned in as walls
+    public GameObject[,,] wallObjects = new GameObject[3, 3, 3]; // all objects to be spawned in as walls
     [SerializeField] List<GameObject> wallObjectList; // set in editor to save one million headaches
     List<Vector3> checkVector3s = new List<Vector3>
     { 
@@ -56,30 +56,37 @@ public class TileClass : MonoBehaviour
          new Vector3(0,-1,0)
     }; // our list of all vector3 directions
 
-    int xLocalPos;
-    int yLocalPos;
-    int zLocalPos;
-    int diff = 2;
-
-    [SerializeField] int serTempX;
-    [SerializeField] int serTempY;
-    [SerializeField] int serTempZ;
+    int diff = 1;
 
     void Awake()
     {
         if (isWall)
-        {  
+        {
             // single directions
-            wallObjects[-1 + diff, 0 + diff, 1 + diff] = wallObjectList[0];
-            wallObjects[0 + diff, 0 + diff, 1 + diff] = wallObjectList[1];
-            wallObjects[1 + diff, 0 + diff, 1 + diff] = wallObjectList[2];
-            wallObjects[-1 + diff, 0 + diff, 0 + diff] = wallObjectList[3];
+
+            // right
             wallObjects[1 + diff, 0 + diff, 0 + diff] = wallObjectList[4];
-            wallObjects[-1 + diff, 0 + diff, -1 + diff] = wallObjectList[5];
+
+            // left
+            wallObjects[-1 + diff, 0 + diff, 0 + diff] = wallObjectList[3];
+
+            // forward
+            wallObjects[0 + diff, 0 + diff, 1 + diff] = wallObjectList[1];
+
+            // backward
             wallObjects[0 + diff, 0 + diff, -1 + diff] = wallObjectList[6];
+
+            // right forward
+            wallObjects[1 + diff, 0 + diff, 1 + diff] = wallObjectList[2];
+
+            // left, forward
+            wallObjects[-1 + diff, 0 + diff, 1 + diff] = wallObjectList[0];
+
+            // right backward
             wallObjects[1 + diff, 0 + diff, -1 + diff] = wallObjectList[7];
-            wallObjects[0 + diff, 0 + diff, 0 + diff] = wallObjectList[8];
-            wallObjects[0, 0, 0] = wallObjectList[8];
+
+            // left backward
+            wallObjects[-1 + diff, 0 + diff, -1 + diff] = wallObjectList[5];
         }
     }
 
@@ -106,65 +113,65 @@ public class TileClass : MonoBehaviour
 
         if (isWall)
         {
-         
-            /// attempted to make walls change based on environment, failed spectacularly. 
-            // StartCoroutine(LocalNeighborsAssignment());
+            foreach (TileClass tileClass in neighbors)
+            {
+                int localXArrayPos = tileClass.xArrayPos - xArrayPos;
+                int localYArrayPos = tileClass.yArrayPos - yArrayPos;
+                int localZArrayPos = tileClass.zArrayPos - zArrayPos;
+
+                if (Mathf.Abs(localXArrayPos) + Mathf.Abs(localYArrayPos) + Mathf.Abs(localZArrayPos) == 1)
+                {
+                    // right
+                    if (localXArrayPos == 1 && localYArrayPos == 0 && localZArrayPos == 0)
+                    { wallObjects[1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
+
+                    // left
+                    if (localXArrayPos == -1 && localYArrayPos == 0 && localZArrayPos == 0)
+                    { wallObjects[-1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
+
+                    // forward
+                    if (localXArrayPos == 0 && localYArrayPos == 0 && localZArrayPos == 1)
+                    { wallObjects[0 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
+
+                    // backward
+                    if (localXArrayPos == 0 && localYArrayPos == 0 && localZArrayPos == -1)
+                    { wallObjects[0 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
+                }
+                else
+                {
+                    // right forward
+                    if (localXArrayPos == 1 && localYArrayPos == 0 && localZArrayPos == 1)
+                    { wallObjects[1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
+
+                    // left forward
+                    if (localXArrayPos == -1 && localYArrayPos == 0 && localZArrayPos == 1)
+                    { wallObjects[-1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
+
+                    // right backward
+                    if (localXArrayPos == 1 && localYArrayPos == 0 && localZArrayPos == -1)
+                    { wallObjects[1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
+
+                    // left backward
+                    if (localXArrayPos == -1 && localYArrayPos == 0 && localZArrayPos == -1)
+                    { wallObjects[-1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
+                }
+
+
+            }
+            #region // automation attempt
+            /*
+            foreach (TileClass tileClass in neighbors)
+            {
+                // compare our position to theirs
+                int localXArrayPos = tileClass.xArrayPos - xArrayPos;
+                int localYArrayPos = tileClass.yArrayPos - yArrayPos;
+                int localZArrayPos = tileClass.zArrayPos - zArrayPos;
+                // activate accordingly
+                wallObjects[localXArrayPos + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true);
+            }
+            */
+            #endregion
         }
-    }
-
-    IEnumerator LocalNeighborsAssignment()
-    {
-        yield return new WaitForEndOfFrame();
-
-        if (neighbors.Count == 0)
-        {
-            Debug.LogError("Tile Has No Neighbors");
-        }
-
-        // use this information to place specific wall variations
-        foreach (TileClass tileClass in neighbors)
-        {
-            if (tileClass.xArrayPos - xArrayPos != 0)
-            {
-                xLocalPos = tileClass.xArrayPos - xArrayPos < 0 ? -1 : 1;
-            }
-            else
-            {
-                xLocalPos = 0;
-            }
-
-            if (tileClass.yArrayPos - yArrayPos != 0)
-            {
-                yLocalPos = tileClass.yArrayPos - yArrayPos < 0 ? -1 : 1;
-            }
-            else
-            {
-                yLocalPos = 0;
-            }
-
-            if (zArrayPos - tileClass.zArrayPos != 0)
-            {
-                zLocalPos = tileClass.zArrayPos - zArrayPos < 0 ? -1 : 1;
-            }
-            else
-            {
-                zLocalPos = 0;
-            }
-
-            int tempX = xLocalPos + diff; int tempY = yLocalPos + diff; int tempZ = zLocalPos + diff;
-
-            Debug.Log("diff is: " + diff + " | locals for hash:" + gameObject.GetHashCode() + xLocalPos + " " + yLocalPos + " " + zLocalPos + " | temps: " + tempX + " " + tempY + " " + tempZ);
-            // Debug.Log(wallObjects[0, 1, 2]);
-            WallObjectControl(tempX, tempY, tempZ);
-        }
-    }
-
-    void WallObjectControl(int x, int y, int z)
-    {
-        serTempX = x;
-        serTempY = y;
-        serTempZ = z;
-        wallObjects[x, y, z].SetActive(true);
     }
 
     public void OnDrawGizmos()
