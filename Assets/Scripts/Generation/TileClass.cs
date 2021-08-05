@@ -58,11 +58,17 @@ public class TileClass : MonoBehaviour
 
     int diff = 1;
 
+    int[,] primeNumberArray = new int[3, 3] { { 13, 17, 23 }, { 11, 0, 2 }, { 7, 5, 3 } };
+    // int[,] primeNumberArray = new int[3, 3] { { 1, 17, 1 }, { 11, 0, 2 }, { 1, 5, 1 } };
+
     void Awake()
     {
         if (isWall)
         {
             // single directions
+
+            // default
+            wallObjects[0 + diff, 0 + diff, 0 + diff] = wallObjectList[8];
 
             // right
             wallObjects[1 + diff, 0 + diff, 0 + diff] = wallObjectList[4];
@@ -86,7 +92,11 @@ public class TileClass : MonoBehaviour
             wallObjects[1 + diff, 0 + diff, -1 + diff] = wallObjectList[7];
 
             // left backward
-            wallObjects[-1 + diff, 0 + diff, -1 + diff] = wallObjectList[5];
+            wallObjects[-1 + diff, 0 + diff, -1 + diff] = wallObjectList[5];                  
+            
+            // left backward
+            wallObjects[-1 + diff, 0 + diff, -1 + diff] = wallObjectList[5];            
+
         }
     }
 
@@ -113,51 +123,97 @@ public class TileClass : MonoBehaviour
 
         if (isWall)
         {
+            int primeResult = 1;
+
+            int localXArrayPos;
+            int localYArrayPos;
+            int localZArrayPos;
+
+
             foreach (TileClass tileClass in neighbors)
             {
-                int localXArrayPos = tileClass.xArrayPos - xArrayPos;
-                int localYArrayPos = tileClass.yArrayPos - yArrayPos;
-                int localZArrayPos = tileClass.zArrayPos - zArrayPos;
-
-                if (Mathf.Abs(localXArrayPos) + Mathf.Abs(localYArrayPos) + Mathf.Abs(localZArrayPos) == 1)
-                {
-                    // right
-                    if (localXArrayPos == 1 && localYArrayPos == 0 && localZArrayPos == 0)
-                    { wallObjects[1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
-
-                    // left
-                    if (localXArrayPos == -1 && localYArrayPos == 0 && localZArrayPos == 0)
-                    { wallObjects[-1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
-
-                    // forward
-                    if (localXArrayPos == 0 && localYArrayPos == 0 && localZArrayPos == 1)
-                    { wallObjects[0 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
-
-                    // backward
-                    if (localXArrayPos == 0 && localYArrayPos == 0 && localZArrayPos == -1)
-                    { wallObjects[0 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
-                }
-                else
-                {
-                    // right forward
-                    if (localXArrayPos == 1 && localYArrayPos == 0 && localZArrayPos == 1)
-                    { wallObjects[1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
-
-                    // left forward
-                    if (localXArrayPos == -1 && localYArrayPos == 0 && localZArrayPos == 1)
-                    { wallObjects[-1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
-
-                    // right backward
-                    if (localXArrayPos == 1 && localYArrayPos == 0 && localZArrayPos == -1)
-                    { wallObjects[1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
-
-                    // left backward
-                    if (localXArrayPos == -1 && localYArrayPos == 0 && localZArrayPos == -1)
-                    { wallObjects[-1 + diff, localYArrayPos + diff, localZArrayPos + diff].SetActive(true); }
-                }
-
-
+                localXArrayPos = tileClass.xArrayPos - xArrayPos;
+                localYArrayPos = tileClass.yArrayPos - yArrayPos;
+                localZArrayPos = tileClass.zArrayPos - zArrayPos;
+                primeResult *= primeNumberArray[localXArrayPos + diff, localZArrayPos + diff];
             }
+
+            Debug.Log(primeResult);
+
+            if (primeResult == 2 || primeResult == 6 || primeResult == 46 ||primeResult == 138)
+            {   // to the forward
+                wallObjects[0 + diff, 0 + diff, 1 + diff].SetActive(true);
+            } 
+            else if (primeResult == 11 || primeResult == 77 || primeResult == 143 || primeResult == 1001)
+            {   // to backward
+                wallObjects[0 + diff, 0 + diff, -1 + diff].SetActive(true);
+            }            
+            else if (primeResult == 5 || primeResult == 15 || primeResult == 35 || primeResult == 105)
+            {   // right
+                wallObjects[1 + diff, 0 + diff, 0 + diff].SetActive(true);
+            }            
+            else if (primeResult == 17 || primeResult == 221 || primeResult == 391 || primeResult == 5083)
+            {   // left
+                wallObjects[-1 + diff, 0 + diff, 0 + diff].SetActive(true);
+            }           
+            else if (primeResult == 3)
+            {   // forward right
+                wallObjects[1 + diff, 0 + diff, 1 + diff].SetActive(true);
+            }           
+            else if (primeResult == 23)
+            {   // forward left
+                wallObjects[-1 + diff, 0 + diff, 1 + diff].SetActive(true);
+            }           
+            else if (primeResult == 7)
+            {   // backward right
+                wallObjects[1 + diff, 0 + diff, -1 + diff].SetActive(true);
+            }
+            else if (primeResult == 13)
+            {   // backward left
+                wallObjects[-1 + diff, 0 + diff, -1 + diff].SetActive(true);
+            }
+            else if (primeResult == 30 || primeResult == 10 || primeResult == 690 || primeResult == 230 || primeResult == 70 || primeResult == 210 || primeResult == 1610 || primeResult == 4830)
+            {   // forward right corner
+                wallObjectList[11].SetActive(true);
+            }
+            else if (primeResult == 34 || primeResult == 782 || primeResult == 10166 || primeResult == 2346 || primeResult == 442 || primeResult == 102 || primeResult == 1326 || primeResult == 30498)
+            {   // forward left corner
+                wallObjectList[12].SetActive(true);
+            }
+            else if (primeResult == 55 || primeResult == 385 || primeResult == 165 || primeResult == 715 || primeResult == 1155 || primeResult == 2145 || primeResult == 5005 || primeResult == 15015)
+            {   // backward right corner
+                wallObjectList[9].SetActive(true);
+            }
+            else if (primeResult == 187 || primeResult == 2431 || primeResult == 1309 || primeResult == 4301 || primeResult == 17017 || primeResult == 30107 || primeResult == 55913 || primeResult == 391391)
+            {   // backward left corner
+                wallObjectList[10].SetActive(true);
+            }            
+            else if (primeResult % 1870 == 0)
+            {   // cardinal open
+                wallObjectList[13].SetActive(true);
+            }           
+            else if (primeResult == 69)
+            {   // forward T
+                wallObjectList[14].SetActive(true);
+            }           
+            else if (primeResult == 21)
+            {   // right T
+                wallObjectList[15].SetActive(true);
+            }          
+            else if (primeResult == 299)
+            {   // left T
+                wallObjectList[16].SetActive(true);
+            }         
+            else if (primeResult == 91)
+            {   // backwards T
+                wallObjectList[17].SetActive(true);
+            }
+            else
+            {
+                wallObjects[0 + diff, 0 + diff, 0 + diff].SetActive(true);
+            }
+
+
             #region // automation attempt
             /*
             foreach (TileClass tileClass in neighbors)
@@ -172,7 +228,7 @@ public class TileClass : MonoBehaviour
             */
             #endregion
         }
-    }
+        }
 
     public void OnDrawGizmos()
     {

@@ -59,7 +59,7 @@ public class CameraScript : MonoBehaviour
         originalPos = camTransform.localPosition;
     }
 
-    void Update()
+    void LateUpdate()
     {
         // run math to rotate the head of the player as we move the mouse
         yRotate += player.GetAxis("MouseVertical") * -aimSensitivity * Time.deltaTime;

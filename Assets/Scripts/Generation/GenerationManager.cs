@@ -11,10 +11,10 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] Transform enemyManager;
 
     // map generation
-    int pathDistanceMinimum = 10;
+    int minPathDistance = 90;
     [SerializeField] int roomSpace = 50 /* how large rooms are */, targetX, targetY, targetZ;
     int tilesPlaced; // how many tiles we have placed so far
-    static int maxPathDistance = 15; // how long should our generation paths be?
+    static int maxPathDistance = 100; // how long should our generation paths be?
     [SerializeField] TileClass[,,] gridArray = new TileClass[maxPathDistance * 2, maxPathDistance * 2, maxPathDistance * 2]; // our x, y, z array
     [SerializeField] List<TileClass> tileClassList; // the one dimensional list of our tiles
     [SerializeField] List<TileClass> wallTileClassList; // the one dimensional list of our tiles
@@ -139,7 +139,7 @@ public class GenerationManager : MonoBehaviour
     // full map generation
     public void MapGeneration()
     { 
-        int localTilesMax = UnityEngine.Random.Range(pathDistanceMinimum, maxPathDistance);
+        int localTilesMax = UnityEngine.Random.Range(minPathDistance, maxPathDistance);
 
         // create a path by moving one at a time on the X or Z axis
         for (tilesPlaced = 0; tilesPlaced < localTilesMax; tilesPlaced++)
@@ -302,8 +302,15 @@ public class GenerationManager : MonoBehaviour
             }
         }
 
-        // now activate all of them with one origin enabled
+        // now activate all of non-walls
         foreach(TileClass tileClass in tileClassList)
+        {
+            if (!tileClass.isWall)
+            tileClass.OnGenerate();
+        }       
+        
+        // now activate all of the walls
+        foreach(TileClass tileClass in wallTileClassList)
         {
             tileClass.OnGenerate();
         }
