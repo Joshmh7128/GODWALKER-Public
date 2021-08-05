@@ -222,7 +222,7 @@ public class TileClass : MonoBehaviour
             {   // right end nub
                 wallObjectList[21].SetActive(true);
             }       
-            else if (primeResult == 1794 || primeResult == 966 || primeResult == 12558 || primeResult == 598 || primeResult == 78 || primeResult == 42 || primeResult == 322 || primeResult == 966 || primeResult == 1326 || primeResult == 26 || primeResult == 14)
+            else if (primeResult == 1794 || primeResult == 966 || primeResult == 12558 || primeResult == 598 || primeResult == 78 || primeResult == 42 || primeResult == 322 || primeResult == 966 || primeResult == 1326 || primeResult == 26 || primeResult == 14 || primeResult == 4186)
             {   // forward lambda
                 wallObjectList[22].SetActive(true);
             }           
@@ -238,13 +238,57 @@ public class TileClass : MonoBehaviour
             {   // left lambda
                 wallObjectList[25].SetActive(true);
             }          
-            else if (primeResult == 533712 || primeResult == 5865 || primeResult == 7735 || primeResult == 13685 || primeResult == 3315 || primeResult == 85 || primeResult == 18216 || primeResult == 10626 || primeResult == 46046 || primeResult == 6006 || primeResult == 1785 || primeResult == 25415)
+            else if (primeResult == 533715 || primeResult == 5865 || primeResult == 7735 || primeResult == 13685 || primeResult == 3315 || primeResult == 85 || primeResult == 18216 || primeResult == 76245  || primeResult == 1785 || primeResult == 25415 || primeResult == 41055 || primeResult == 177905)
             {   // forward / backward wall
                 wallObjectList[26].SetActive(true);
             }          
-            else if (primeResult == 138138 || primeResult == 462 || primeResult == 6578 || primeResult == 3542 || primeResult == 858 || primeResult == 22 || primeResult == 76245 || primeResult == 177905 || primeResult == 23205 || primeResult == 41055 || primeResult == 1518 || primeResult == 2002)
+            else if (primeResult == 138138 || primeResult == 462 || primeResult == 6578 || primeResult == 3542 || primeResult == 858 || primeResult == 22  || primeResult == 23205 || primeResult == 10626  || primeResult == 1518 || primeResult == 2002 || primeResult == 19734 || primeResult == 46046 || primeResult == 6006)
             {   // right/left wall
                 wallObjectList[27].SetActive(true);
+            }          
+            else if (primeResult % 390 == 0)
+            {   // front right interior exterior corner
+                wallObjectList[28].SetActive(true);
+            }          
+            else if (primeResult % 5474 == 0)
+            {   // front left interior exterior corner
+                wallObjectList[29].SetActive(true);
+            }         
+            else if (primeResult % 8855 == 0)
+            {   // back right interior exterior corner
+                wallObjectList[30].SetActive(true);
+            }          
+            else if (primeResult % 7293 == 0)
+            {   // back left interior exterior corner
+                wallObjectList[31].SetActive(true);
+            }
+            else if (primeResult == 39)
+            {   // Top right bottom left cross piece
+                wallObjectList[32].SetActive(true);
+            }
+            else if (primeResult == 161)
+            {   // Top left bottom right cross piece
+                wallObjectList[33].SetActive(true);
+            }
+            else if (primeResult == 6279)
+            {   // Top left bottom right cross piece
+                wallObjectList[34].SetActive(true);
+            }
+            else if (primeResult == 2093)
+            {   // cross !forward right
+                wallObjectList[35].SetActive(true);
+            }
+            else if (primeResult == 273)
+            {   // cross !forward left
+                wallObjectList[36].SetActive(true);
+            }
+            else if (primeResult == 897)
+            {   // cross !back right
+                wallObjectList[37].SetActive(true);
+            }
+            else if (primeResult == 483)
+            {   // cross !back left
+                wallObjectList[38].SetActive(true);
             }
             else
             {
