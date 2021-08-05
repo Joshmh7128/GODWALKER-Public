@@ -282,11 +282,11 @@ public class TileClass : MonoBehaviour
             {   // cross !forward left
                 wallObjectList[36].SetActive(true);
             }
-            else if (primeResult == 897)
+            else if (primeResult == 483)
             {   // cross !back right
                 wallObjectList[37].SetActive(true);
             }
-            else if (primeResult == 483)
+            else if (primeResult == 897)
             {   // cross !back left
                 wallObjectList[38].SetActive(true);
             }
