@@ -207,6 +207,22 @@ public class TileClass : MonoBehaviour
             else if (primeResult == 91)
             {   // backwards T
                 wallObjectList[17].SetActive(true);
+            }        
+            else if (primeResult == 11730 || primeResult == 152490 || primeResult == 82110 || primeResult == 1067430 || primeResult == 3910 || primeResult == 50830 || primeResult == 27370 || primeResult == 255810 || primeResult == 510 || primeResult == 6630 || primeResult == 3570 || primeResult == 46410)
+            {   // forward end nub
+                wallObjectList[18].SetActive(true);
+            }            
+            else if (primeResult == 85085 || primeResult == 1956955 || primeResult == 255255 || primeResult == 5870865 || primeResult == 6545 || primeResult == 150535 || primeResult == 19635 || primeResult == 451605 || primeResult == 12155 || primeResult == 279565 || primeResult == 36465 || primeResult == 838695)
+            {   // backward end nub
+                wallObjectList[19].SetActive(true);
+            }            
+            else if (primeResult == 111826 || primeResult == 335478 || primeResult == 782782 || primeResult == 2348346 || primeResult == 4862 || primeResult == 14586 || primeResult == 34034 || primeResult == 102102 || primeResult == 8602 || primeResult == 25806 || primeResult == 60214 || primeResult == 180642 )
+            {   // left end nub
+                wallObjectList[20].SetActive(true);
+            }            
+            else if (primeResult == 2310 || primeResult == 30030 || primeResult == 53130 || primeResult == 690690 || primeResult == 330 || primeResult == 7590 || primeResult == 4290 || primeResult == 98670 || primeResult == 23100 || primeResult == 300300 || primeResult == 531300 || primeResult == 6906900 )
+            {   // right end nub
+                wallObjectList[21].SetActive(true);
             }
             else
             {
