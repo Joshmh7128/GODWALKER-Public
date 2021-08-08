@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2640704719026929504}
   - component: {fileID: 8946926405779963145}
   - component: {fileID: 4713127830111708344}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Rock Wall (1)
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2659,7 +2659,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 30
+  m_CookingOptions: -1
   m_Mesh: {fileID: 0}
 --- !u!1 &971007650590691991
 GameObject:
@@ -2674,9 +2674,9 @@ GameObject:
   - component: {fileID: 5231530632859636019}
   - component: {fileID: 6285994356657208391}
   - component: {fileID: 657857838096139241}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Rock Wall (1)
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5320,7 +5320,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 30
+  m_CookingOptions: -1
   m_Mesh: {fileID: 0}
 --- !u!1 &1677421088674136764
 GameObject:
@@ -5335,9 +5335,9 @@ GameObject:
   - component: {fileID: 9175209861313494957}
   - component: {fileID: 7994689075392814480}
   - component: {fileID: 7230111605500092930}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Rock Wall
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7981,7 +7981,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 30
+  m_CookingOptions: -1
   m_Mesh: {fileID: 0}
 --- !u!1 &1855464318457372752
 GameObject:
@@ -10671,10 +10671,10 @@ GameObject:
   - component: {fileID: 934802286434409427}
   - component: {fileID: 15018098570266135}
   - component: {fileID: 5362387099581425658}
-  - component: {fileID: 4681643678717048617}
-  m_Layer: 0
+  - component: {fileID: 6275442209903940596}
+  m_Layer: 3
   m_Name: Rock Wall
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13306,7 +13306,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2280167669664947699}
   m_Mesh: {fileID: 0}
---- !u!64 &4681643678717048617
+--- !u!64 &6275442209903940596
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13318,7 +13318,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 30
+  m_CookingOptions: -1
   m_Mesh: {fileID: 0}
 --- !u!1 &3624452816050944899
 GameObject:
@@ -13333,9 +13333,9 @@ GameObject:
   - component: {fileID: 2367119019653168997}
   - component: {fileID: 93991017863936294}
   - component: {fileID: 4827338711315447190}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Rock Wall (1)
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15979,7 +15979,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 30
+  m_CookingOptions: -1
   m_Mesh: {fileID: 0}
 --- !u!1 &4224787246988589622
 GameObject:
@@ -26682,7 +26682,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4224787247355931344}
-  - component: {fileID: 4224787247355931345}
   - component: {fileID: 4224787247355931350}
   m_Layer: 3
   m_Name: TileClass Wall
@@ -26744,19 +26743,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4224787247355931345
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4224787247355931351}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4224787247355931350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72997,6 +72983,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 491669004936913765}
+  - component: {fileID: 5715701872624426663}
   m_Layer: 3
   m_Name: Geometry
   m_TagString: Untagged
@@ -73020,6 +73007,20 @@ Transform:
   m_Father: {fileID: 4224787248472623897}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5715701872624426663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6275063048142893088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4660810b190ab1b409abd5e72a7dc29a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunk: 0
+  devMode: 0
 --- !u!1 &8271906141325443403
 GameObject:
   m_ObjectHideFlags: 0
@@ -73065,9 +73066,9 @@ GameObject:
   - component: {fileID: 5960891586164846409}
   - component: {fileID: 4940329133270021690}
   - component: {fileID: 7965034302696707264}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Rock Wall
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75711,5 +75712,5 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 30
+  m_CookingOptions: -1
   m_Mesh: {fileID: 0}
