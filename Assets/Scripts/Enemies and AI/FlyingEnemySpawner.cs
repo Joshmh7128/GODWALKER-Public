@@ -12,6 +12,8 @@ public class FlyingEnemySpawner : MonoBehaviour
     [SerializeField] bool spawnCRisRunning;
     [SerializeField] Animator animator;
     [SerializeField] AnimationClip spawnAnim;
+    [SerializeField] float animSpeedMin;
+    [SerializeField] float animSpeedMax;
 
     private void Start()
     {
@@ -37,6 +39,7 @@ public class FlyingEnemySpawner : MonoBehaviour
     IEnumerator SpawnEnemy()
     {
         spawnCRisRunning = true;
+        animator.speed = Random.Range(animSpeedMin, animSpeedMax);
         animator.Play("Spawn");
         yield return new WaitForSeconds(spawnAnim.length);
         Instantiate(enemy, spawnPoint.position, Quaternion.identity, null);

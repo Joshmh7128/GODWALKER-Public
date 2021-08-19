@@ -62,11 +62,11 @@ public class CameraScript : MonoBehaviour
     void LateUpdate()
     {
         // run math to rotate the head of the player as we move the mouse
-        yRotate += player.GetAxis("MouseVertical") * -aimSensitivity * Time.deltaTime;
+        yRotate += player.GetAxis("MouseVertical") * -aimSensitivity * Time.fixedDeltaTime;
         // clamp the rotation so we don't go around ourselves
         yRotate = Mathf.Clamp(yRotate, minYAngle, maxYAngle);
         // calculate our X rotation
-        xRotate += player.GetAxis("MouseHorizontal") * aimSensitivity * Time.deltaTime;
+        xRotate += player.GetAxis("MouseHorizontal") * aimSensitivity * Time.fixedDeltaTime;
         // aim the camera
         transform.LookAt(aimTarget.position);
         // apply it
