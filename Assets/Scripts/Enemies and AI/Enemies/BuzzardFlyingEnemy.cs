@@ -13,6 +13,7 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] float activationDistance;
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
+    [SerializeField] GameObject bugPartDrop; // our drop
     [SerializeField] Transform player;
     [SerializeField] Transform shotOrigin; // where are out shots coming from?
     [SerializeField] Animator animator;
@@ -117,6 +118,9 @@ public class BuzzardFlyingEnemy : EnemyClass
         {
             // spawn a death effect
             Instantiate(cubePuffDeath, transform.position, Quaternion.identity, null);
+            // if we're attacking the player drop our item
+            if (runningBehaviour)
+            { Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); }
             // destroy ourselves
             Destroy(gameObject);
         }
@@ -159,6 +163,6 @@ public class BuzzardFlyingEnemy : EnemyClass
     // gizmos
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, player.position);
+        // Gizmos.DrawLine(transform.position, player.position);
     }
 }

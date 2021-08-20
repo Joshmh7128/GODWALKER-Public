@@ -13,6 +13,7 @@ public class DropperFlyingEnemy : EnemyClass
     [SerializeField] float activationDistance; // our activation distance
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
+    [SerializeField] GameObject bugPartDrop; // our drop
     [SerializeField] Transform enemyManager;
     [SerializeField] Transform player;
     [SerializeField] Transform shotOrigin; // where are out shots coming from?
@@ -60,7 +61,7 @@ public class DropperFlyingEnemy : EnemyClass
         // pick a point in space
         if (tooLow == false)
         {   // if we aren't too low move down
-            newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius / 2, -randomRadius), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
+            newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), -randomRadius, Random.Range(-randomRadius, randomRadius)); // where are we flying next?
         }
         else
         {   // if we are too low move up 
@@ -114,6 +115,9 @@ public class DropperFlyingEnemy : EnemyClass
         {
             // spawn a death effect
             Instantiate(cubePuffDeath, transform.position, Quaternion.identity, null);
+            // if we're attacking the player drop our item
+            if (runningBehaviour)
+            { Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); }
             // destroy ourselves
             Destroy(gameObject);
         }
@@ -157,6 +161,6 @@ public class DropperFlyingEnemy : EnemyClass
     // gizmos
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, player.position);
+        // Gizmos.DrawLine(transform.position, player.position);
     }
 }

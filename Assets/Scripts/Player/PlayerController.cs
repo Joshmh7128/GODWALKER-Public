@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public int gemMax;                          // gem carry space
     public int playerHP;                        // the player's health
     public int playerMaxHP;                     // the player's max health
+    public int bugPartAmount;                   // how many bug parts do we have?
     [SerializeField] Transform treadsParent;    // the parent of our treads
     public bool canMove = true;
 
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text gemAmountText;        // our gem amount in text   
     [SerializeField] Slider hpSlider;           // our hp slider
     [SerializeField] Text hpAmountText;         // our gp amount in text
+    [SerializeField] Text bugAmountText;        // bug amount text display
 
     // visual effects
     public bool canDistort; // should we distort the image?
@@ -86,6 +88,8 @@ public class PlayerController : MonoBehaviour
         // displayer our HP amount
         hpAmountText.text = playerHP.ToString(); // in text
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
+        // display our bug part amount
+        bugAmountText.text = bugPartAmount.ToString();
 
         // shoot bullets
         if (Input.GetMouseButtonDown(0))

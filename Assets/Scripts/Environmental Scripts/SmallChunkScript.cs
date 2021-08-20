@@ -10,7 +10,7 @@ public class SmallChunkScript : MonoBehaviour
     [SerializeField] SphereCollider sphereCollider;
     [SerializeField] enum chunkTypes // the types of chunks
     {
-        ammo, mineral, gem, health
+        ammo, mineral, gem, health, bug
     }
     [SerializeField] chunkTypes chunkType;
 
@@ -26,8 +26,16 @@ public class SmallChunkScript : MonoBehaviour
         { playerController = GameObject.Find("Player").GetComponent<PlayerController>(); }
     }
 
-    private void OnCollisionEnter(Collision col)
+    private void OnCollisionStay(Collision col)
     {
+
+        if (rigidbody.velocity == Vector3.zero)
+        {
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        // old freezing method
+        /*
         // freeze our small chunk if we touch the environment
         if (col.gameObject.tag == "Environment")
         {
@@ -38,7 +46,7 @@ public class SmallChunkScript : MonoBehaviour
 
             rigidbody.constraints = RigidbodyConstraints.FreezeAll;
             // sphereCollider.enabled = false;
-        }
+        }*/
     }
 
     private void OnTriggerEnter(Collider col)
@@ -80,6 +88,13 @@ public class SmallChunkScript : MonoBehaviour
                         Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
                         Destroy(gameObject);
                     }
+                    break;
+
+                case chunkTypes.bug:
+                    playerController.bugPartAmount++;
+                    playerController.cameraScript.shakeDuration += 0.06f;
+                    Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                    Destroy(gameObject);
                     break;
             }
         }
