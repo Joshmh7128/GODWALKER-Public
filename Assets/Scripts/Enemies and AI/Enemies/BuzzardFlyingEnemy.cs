@@ -17,7 +17,13 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] Transform shotOrigin; // where are out shots coming from?
     [SerializeField] Animator animator;
     [SerializeField] bool tooLow;
+    [SerializeField] bool runningBehaviour;
     [SerializeField] Transform enemyManager;
+    [SerializeField] Transform raycastOrigin;
+    [SerializeField] Material indicatorYellow;
+    [SerializeField] Material indicatorRed;
+    [SerializeField] List<Renderer> indicatorRenderers; // our list of renderers
+    RaycastHit hit;
 
     // knockback variables
     Vector3 originForce;
@@ -32,8 +38,7 @@ public class BuzzardFlyingEnemy : EnemyClass
         enemyManager = GameObject.Find("Enemy Manager").transform;
         transform.SetParent(enemyManager);
 
-        // start our flying
-        StartCoroutine("FlyingBehaviour");
+        // find player
         if (player == null)
         {
             player = GameObject.Find("Player").gameObject.transform;
@@ -43,12 +48,21 @@ public class BuzzardFlyingEnemy : EnemyClass
     // make this bug fly around
     IEnumerator FlyingBehaviour()
     {
+        runningBehaviour = true;
+
+        // make our indicators red
+        foreach (Renderer renderer in indicatorRenderers)
+        {
+            renderer.material = indicatorRed;
+        }
+
         yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
         // pick a point in space
         if (tooLow == false)
         {   // if we aren't too low move down
             newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius / 4, -randomRadius / 2), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
-        } else
+        }
+        else
         {   // if we are too low move up 
             newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(randomRadius / 4, randomRadius / 2), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
         }
@@ -56,23 +70,26 @@ public class BuzzardFlyingEnemy : EnemyClass
         // fly to that place
         currentSpeed = speed;
         // if the player is close to us, shoot them
-        if (Vector3.Distance(transform.position, player.position) < activationDistance)
+        // animate shot charge up
+        animator.Play("Shoot");
+        // wait for the animation to finish
+        yield return new WaitForSeconds(shootAnimTime);
+        // shoot
+        GameObject bullet = Instantiate(enemyBullet, shotOrigin.position, Quaternion.identity, null);
+        bullet.GetComponent<EnemyBulletScript>().bulletTarget = player;
+        // wait a random amount after
+        yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+        currentSpeed = 0;
+        // end 
+        runningBehaviour = false;
+        // make our indicators yellow
+        foreach (Renderer renderer in indicatorRenderers)
         {
-            // animate shot charge up
-            animator.Play("Shoot");
-            // wait for the animation to finish
-            yield return new WaitForSeconds(shootAnimTime);
-            // shoot
-            GameObject bullet = Instantiate(enemyBullet, shotOrigin.position, Quaternion.identity, null);
-            bullet.GetComponent<EnemyBulletScript>().bulletTarget = player;
-            // wait a random amount after
-            yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
-            currentSpeed = 0;
+            renderer.material = indicatorYellow;
         }
-        // repeat
-        StartCoroutine("FlyingBehaviour");
     }
 
+        
     public override void TakeDamage(int dmg, Vector3 dmgOrigin)
     {
         // lower HP
@@ -108,17 +125,40 @@ public class BuzzardFlyingEnemy : EnemyClass
     // fixed update
     private void FixedUpdate()
     {
+        // is the player nearby us?
+        if (Vector3.Distance(transform.position, player.position) < activationDistance)
+        {
+            // Debug.Log("Player is within range");
+            if (Physics.Linecast(raycastOrigin.position, player.position, out hit))
+            {
+                if (hit.transform.tag == ("Player"))
+                {
+                    if (!runningBehaviour)
+                    StartCoroutine("FlyingBehaviour");
+                }
+                else
+                {
+                    // Debug.Log("No Hit. Tag: " + hit.transform.tag);
+                }
+            }
+        }
+
         // knockback reduction
         if (knockDistance > 0)
         {
             knockDistance -= 2f;
         }
-
         // downwards raycast to keep above the ground
         if (Physics.Raycast(transform.position, Vector3.down, 7f))
         {
             tooLow = true;
         }
         else { tooLow = false;  }
+    }
+
+    // gizmos
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, player.position);
     }
 }

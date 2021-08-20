@@ -136,7 +136,7 @@ public class TileClass : MonoBehaviour
                 primeResult *= primeNumberArray[localXArrayPos + diff, localZArrayPos + diff];
             }
 
-            Debug.Log(primeResult);
+            // Debug.Log(primeResult);
 
             if (primeResult == 2 || primeResult == 6 || primeResult == 46 ||primeResult == 138)
             {   // to the forward

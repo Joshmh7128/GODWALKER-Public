@@ -20,7 +20,10 @@ public class CameraScript : MonoBehaviour
     // player variables
     [SerializeField] Transform aimTarget; // where is the camera looking?
     [SerializeField] Transform digeticAimTarget; // where is the camera looking?
-    [SerializeField] Transform moveTarget; // where is the camera moving to?
+    [SerializeField] Transform moveTargetRight; // where is the camera moving to?    
+    [SerializeField] Transform moveTargetLeft; // where is the camera moving to?
+    [SerializeField] Transform cameraContainer; // container
+    [SerializeField] bool moveTargetIsRight = true; // true = right, false = left, toggle with Z
     Transform camTransform;
 
     // visuals
@@ -80,7 +83,7 @@ public class CameraScript : MonoBehaviour
         leftArmLine.SetPosition(0, leftArm.position);
         leftArmLine.SetPosition(1, digeticAimTarget.position);
         // move our digetic aim target
-        digeticAimTarget.position = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 100f)); 
+        digeticAimTarget.position = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 100f));
 
         // screenshake
         if (shakeDuration > 0)
@@ -92,6 +95,21 @@ public class CameraScript : MonoBehaviour
         {
             shakeDuration = 0f;
             camTransform.localPosition = originalPos;
+        }
+
+        // toggle which side our camera is on
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            moveTargetIsRight = !moveTargetIsRight;
+        }
+
+        // move the container
+        if (moveTargetIsRight)
+        {
+            cameraContainer.position = moveTargetRight.position;
+        } else
+        {
+            cameraContainer.position = moveTargetLeft.position;
         }
     }
 

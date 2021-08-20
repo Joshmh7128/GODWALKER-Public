@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.PostProcessing;
 using Rewired;
 
 public class PlayerController : MonoBehaviour
@@ -38,6 +40,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text gemAmountText;        // our gem amount in text   
     [SerializeField] Slider hpSlider;           // our hp slider
     [SerializeField] Text hpAmountText;         // our gp amount in text
+
+    // visual effects
+    public bool canDistort; // should we distort the image?
+    float distortRate = 4; // what rate should we distort the image?
+    public PostProcessVolume postProcessVolume; // our post process volume
 
     // movement and input
     Player player;
@@ -114,6 +121,27 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F4))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+        }
+    }
+
+    // fixed update is called once per frame
+    private void FixedUpdate()
+    {
+        // distortion effect
+        if (canDistort)
+        {
+            if (postProcessVolume.profile.GetSetting<LensDistortion>().intensity.value < 100)
+            {
+                postProcessVolume.profile.GetSetting<LensDistortion>().intensity.value += distortRate;
+            }
+        }        
+        
+        if (!canDistort)
+        {
+            if (postProcessVolume.profile.GetSetting<LensDistortion>().intensity.value > 0)
+            {
+                postProcessVolume.profile.GetSetting<LensDistortion>().intensity.value -= distortRate;
+            }
         }
     }
 

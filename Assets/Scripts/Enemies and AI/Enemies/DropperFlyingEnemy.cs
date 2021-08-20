@@ -10,14 +10,20 @@ public class DropperFlyingEnemy : EnemyClass
     [SerializeField] float randomRadius; // determines how far he flies per movement
     [SerializeField] float shootAnimTime = 1f; // out shot animation length
     [SerializeField] float HP; // our HP
-    [SerializeField] float activationDistance;
+    [SerializeField] float activationDistance; // our activation distance
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
     [SerializeField] Transform enemyManager;
     [SerializeField] Transform player;
     [SerializeField] Transform shotOrigin; // where are out shots coming from?
+    [SerializeField] Transform raycastOrigin;
     [SerializeField] Animator animator;
+    [SerializeField] bool runningBehaviour;
     [SerializeField] bool tooLow;
+    [SerializeField] Material indicatorYellow;
+    [SerializeField] Material indicatorRed;
+    [SerializeField] List<Renderer> indicatorRenderers; // our list of renderers
+    RaycastHit hit;
 
     // knockback variables
     Vector3 originForce;
@@ -32,7 +38,7 @@ public class DropperFlyingEnemy : EnemyClass
         enemyManager = GameObject.Find("Enemy Manager").transform;
         transform.SetParent(enemyManager);
 
-        StartCoroutine("FlyingBehaviour");
+        // find player
         if (player == null)
         {
             player = GameObject.Find("Player").gameObject.transform;
@@ -42,11 +48,19 @@ public class DropperFlyingEnemy : EnemyClass
     // make this bug fly around
     IEnumerator FlyingBehaviour()
     {
+        runningBehaviour = true;
+
+        // make our indicators red
+        foreach (Renderer renderer in indicatorRenderers)
+        {
+            renderer.material = indicatorRed;
+        }
+
         yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
         // pick a point in space
         if (tooLow == false)
         {   // if we aren't too low move down
-            newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius/2, -randomRadius), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
+            newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius / 2, -randomRadius), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
         }
         else
         {   // if we are too low move up 
@@ -55,21 +69,22 @@ public class DropperFlyingEnemy : EnemyClass
 
         // fly to that place
         currentSpeed = speed;
-        // if the player is close to us, shoot them
-        if (Vector3.Distance(transform.position, player.position) < activationDistance)
+        // animation is designed to shoot first then fall back
+        GameObject bullet = Instantiate(enemyBullet, shotOrigin.position, Quaternion.identity, null);
+        bullet.GetComponent<EnemySphereBomb>().playerController = player.gameObject.GetComponent<PlayerController>();
+        animator.Play("DropperShoot");
+        // wait for the animation to finish
+        yield return new WaitForSeconds(shootAnimTime);
+        // wait a random amount after
+        yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+        currentSpeed = 0;
+        // end
+        runningBehaviour = false;
+        // make our indicators yellow
+        foreach (Renderer renderer in indicatorRenderers)
         {
-            // animation is designed to shoot first then fall back
-            GameObject bullet = Instantiate(enemyBullet, shotOrigin.position, Quaternion.identity, null);
-            bullet.GetComponent<EnemySphereBomb>().playerController = player.gameObject.GetComponent<PlayerController>();
-            animator.Play("DropperShoot");
-            // wait for the animation to finish
-            yield return new WaitForSeconds(shootAnimTime);
-            // wait a random amount after
-            yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
-            currentSpeed = 0;
+            renderer.material = indicatorYellow;
         }
-        // repeat
-        StartCoroutine("FlyingBehaviour");
     }
 
     public override void TakeDamage(int dmg, Vector3 dmgOrigin)
@@ -107,6 +122,24 @@ public class DropperFlyingEnemy : EnemyClass
     // fixed update
     private void FixedUpdate()
     {
+        // is the player nearby us?
+        if (Vector3.Distance(transform.position, player.position) < activationDistance)
+        {
+            // Debug.Log("Player is within range");
+            if (Physics.Linecast(raycastOrigin.position, player.position, out hit))
+            {
+                if (hit.transform.tag == ("Player"))
+                {
+                    if (!runningBehaviour)
+                        StartCoroutine("FlyingBehaviour");
+                }
+                else
+                {
+                    // Debug.Log("No Hit. Tag: " + hit.transform.tag);
+                }
+            }
+        }
+
         // knockback reduction
         if (knockDistance > 0)
         {
@@ -119,5 +152,11 @@ public class DropperFlyingEnemy : EnemyClass
             tooLow = true;
         }
         else { tooLow = false; }
+    }
+
+    // gizmos
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, player.position);
     }
 }
