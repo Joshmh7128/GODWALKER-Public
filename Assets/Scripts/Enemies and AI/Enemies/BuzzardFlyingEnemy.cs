@@ -44,6 +44,9 @@ public class BuzzardFlyingEnemy : EnemyClass
         {
             player = GameObject.Find("Player").gameObject.transform;
         }
+
+        // set our original newpos to our starting pos
+        newPos = transform.position;
     }
 
     // make this bug fly around
@@ -58,14 +61,41 @@ public class BuzzardFlyingEnemy : EnemyClass
         }
 
         yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
-        // pick a point in space
+
+        // check out height
+        // downwards raycast to keep above the ground
+        if (Physics.Raycast(transform.position, Vector3.down, 7f))
+        {
+            tooLow = true;
+        }
+        else { tooLow = false;  }
+
+        // pick an unnoccupied point in space
         if (tooLow == false)
-        {   // if we aren't too low move down
-            newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius / 4, -randomRadius / 2), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
+        {
+            // calculate movement variables
+            float xMove = Random.Range(-randomRadius, randomRadius);
+            float yMove = Random.Range(-randomRadius, randomRadius);
+            float zMove = Random.Range(-randomRadius, randomRadius);
+            // fire a ray to see if there is anything in the path of our movement
+            if (!Physics.Linecast(transform.position, transform.position + new Vector3(xMove, yMove, zMove)))
+            {
+                // if we aren't too low, move up or down all around
+                newPos = transform.position + new Vector3(xMove, yMove, zMove); // where are we flying next?
+            }
         }
         else
-        {   // if we are too low move up 
-            newPos = transform.position + new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(randomRadius / 4, randomRadius / 2), Random.Range(-randomRadius, randomRadius)); // where are we flying next?
+        {
+            // calculate movement variables
+            float xMove = Random.Range(-randomRadius, randomRadius);
+            float yMove = Random.Range(-randomRadius, randomRadius);
+            float zMove = Random.Range(-randomRadius, randomRadius);
+            // fire a ray to see if there is anything in the path of our movement
+            if (!Physics.Linecast(transform.position, transform.position + new Vector3(xMove, yMove, zMove)))
+            {
+                // if we are too low move up 
+                newPos = transform.position + new Vector3(xMove, Mathf.Abs(yMove), zMove); // where are we flying next?
+            }
         }
 
         // fly to that place
@@ -132,12 +162,13 @@ public class BuzzardFlyingEnemy : EnemyClass
         // is the player nearby us?
         if (Vector3.Distance(transform.position, player.position) < activationDistance)
         {
+            if (!runningBehaviour)
             // Debug.Log("Player is within range");
             if (Physics.Linecast(raycastOrigin.position, player.position, out hit))
             {
                 if (hit.transform.tag == ("Player"))
                 {
-                    if (!runningBehaviour)
+                        
                     StartCoroutine("FlyingBehaviour");
                 }
                 else
@@ -152,12 +183,7 @@ public class BuzzardFlyingEnemy : EnemyClass
         {
             knockDistance -= 2f;
         }
-        // downwards raycast to keep above the ground
-        if (Physics.Raycast(transform.position, Vector3.down, 7f))
-        {
-            tooLow = true;
-        }
-        else { tooLow = false;  }
+
     }
 
     // gizmos
