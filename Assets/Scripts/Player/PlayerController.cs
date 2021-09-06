@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
         bugAmountText.text = bugPartAmount.ToString();
 
         // shoot bullets
-        if (Input.GetMouseButtonDown(0))
+        if (player.GetButtonDown("Fire"))
         {
             // check ammo
             if (ammoAmount > 0)

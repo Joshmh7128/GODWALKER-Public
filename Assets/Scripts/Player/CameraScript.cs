@@ -65,11 +65,13 @@ public class CameraScript : MonoBehaviour
     void LateUpdate()
     {
         // run math to rotate the head of the player as we move the mouse
-        yRotate += player.GetAxis("MouseVertical") * -aimSensitivity * Time.fixedDeltaTime;
+        yRotate += player.GetAxis("MouseVertical") * -aimSensitivity * Time.deltaTime;
+        yRotate += player.GetAxis("JoyLookVertical") * -aimSensitivity * 5 * Time.deltaTime;
         // clamp the rotation so we don't go around ourselves
         yRotate = Mathf.Clamp(yRotate, minYAngle, maxYAngle);
         // calculate our X rotation
-        xRotate += player.GetAxis("MouseHorizontal") * aimSensitivity * Time.fixedDeltaTime;
+        xRotate += player.GetAxis("MouseHorizontal") * aimSensitivity * Time.deltaTime;
+        xRotate += player.GetAxis("JoyLookHorizontal") * aimSensitivity * 10 * Time.deltaTime;
         // aim the camera
         transform.LookAt(aimTarget.position);
         // apply it
@@ -116,12 +118,12 @@ public class CameraScript : MonoBehaviour
     private void FixedUpdate()
     {
         // zooming in with the camera
-        if (Input.GetMouseButton(1))
+        if (player.GetButton("Aim"))
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 45, 0.25f);
         }
 
-        if (!Input.GetMouseButton(1))
+        if (!player.GetButton("Aim"))
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 90, 0.25f);
         }
