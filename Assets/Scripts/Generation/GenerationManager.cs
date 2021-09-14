@@ -11,10 +11,10 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] Transform enemyManager;
 
     // map generation
-    int minPathDistance = 90;
     [SerializeField] int roomSpace = 50 /* how large rooms are */, targetX, targetY, targetZ;
     int tilesPlaced; // how many tiles we have placed so far
-    static int maxPathDistance = 100; // how long should our generation paths be?
+    int minPathDistance = 10;
+    static int maxPathDistance = 10; // how long should our generation paths be?
     [SerializeField] TileClass[,,] gridArray = new TileClass[maxPathDistance * 2, maxPathDistance * 2, maxPathDistance * 2]; // our x, y, z array
     [SerializeField] List<TileClass> tileClassList; // the one dimensional list of our tiles
     [SerializeField] List<TileClass> wallTileClassList; // the one dimensional list of our tiles
@@ -59,16 +59,11 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] bool playerPlaced = false; // does our player exist?
     bool multiGen = false; // are we on another generation ?
     [SerializeField] SmallChunkManager smallChunkManager; // our small chunk manager
-
+    [SerializeField] ObjectPooler objectPooler; 
     private void Start()
     {
         // actually make the map first
         MapGeneration();
-    }
-
-    private void Update()
-    {
-
     }
 
     public void ClearGen()
@@ -193,7 +188,8 @@ public class GenerationManager : MonoBehaviour
 
             if (!gridArray[targetX + maxPathDistance, targetY + maxPathDistance, targetZ + maxPathDistance])
             { 
-                TileClass newTileClass = Instantiate(tileClassObject, new Vector3(targetX * roomSpace, targetY * roomSpace, targetZ * roomSpace), Quaternion.Euler(0, 0, 0), null).GetComponent<TileClass>();
+                GameObject ourTile = objectPooler.SpawnFromPool("Tile", new Vector3(targetX * roomSpace, targetY * roomSpace, targetZ * roomSpace), Quaternion.Euler(0, 0, 0));
+                TileClass newTileClass = ourTile.GetComponent<TileClass>();
                 newTileClass.xArrayPos = targetX + maxPathDistance; newTileClass.yArrayPos = targetY + maxPathDistance; newTileClass.zArrayPos = targetZ + maxPathDistance;
                 newTileClass.xPos = targetX; newTileClass.yPos = targetY; newTileClass.zPos = targetZ;
                 gridArray[targetX + maxPathDistance, targetY + maxPathDistance, targetZ + maxPathDistance] = newTileClass;
@@ -231,6 +227,7 @@ public class GenerationManager : MonoBehaviour
                             // do if y is 0 so that we do not make a ceiling (do we want one?)
                             if (vector.y == 0)
                             {
+
                                 GameObject newWall = Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
                                 TileClass newWallTileClass = newWall.GetComponent<TileClass>();
                                 newWallTileClass.xArrayPos = tileClass.xArrayPos + (int)vector.x; newWallTileClass.yArrayPos = tileClass.yArrayPos + (int)vector.y; newWallTileClass.zArrayPos = tileClass.zArrayPos + (int)vector.z;
