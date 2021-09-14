@@ -13,8 +13,8 @@ public class GenerationManager : MonoBehaviour
     // map generation
     [SerializeField] int roomSpace = 50 /* how large rooms are */, targetX, targetY, targetZ;
     int tilesPlaced; // how many tiles we have placed so far
-    int minPathDistance = 10;
-    static int maxPathDistance = 10; // how long should our generation paths be?
+    int minPathDistance = 50;
+    static int maxPathDistance = 50; // how long should our generation paths be?
     [SerializeField] TileClass[,,] gridArray = new TileClass[maxPathDistance * 2, maxPathDistance * 2, maxPathDistance * 2]; // our x, y, z array
     [SerializeField] List<TileClass> tileClassList; // the one dimensional list of our tiles
     [SerializeField] List<TileClass> wallTileClassList; // the one dimensional list of our tiles
