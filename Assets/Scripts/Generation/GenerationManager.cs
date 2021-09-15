@@ -227,8 +227,8 @@ public class GenerationManager : MonoBehaviour
                             // do if y is 0 so that we do not make a ceiling (do we want one?)
                             if (vector.y == 0)
                             {
-
-                                GameObject newWall = Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
+                                GameObject newWall = objectPooler.SpawnFromPool("WallTile", new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace), (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0));
+                                // GameObject newWall = Instantiate(tileClassWallObject, new Vector3((tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace), (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace) /*SET TO HEIGHT UNIT WHEN MAKING ROOMS*/ , (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace)), Quaternion.Euler(0, 0, 0), null);
                                 TileClass newWallTileClass = newWall.GetComponent<TileClass>();
                                 newWallTileClass.xArrayPos = tileClass.xArrayPos + (int)vector.x; newWallTileClass.yArrayPos = tileClass.yArrayPos + (int)vector.y; newWallTileClass.zArrayPos = tileClass.zArrayPos + (int)vector.z;
                                 newWallTileClass.xPos = (tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace); newWallTileClass.yPos = (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace); newWallTileClass.zPos = (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace);
