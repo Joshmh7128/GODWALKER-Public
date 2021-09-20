@@ -87,8 +87,6 @@ public class DroppodManager : MonoBehaviour
         }
     }
 
-    // <Vector3.Distance(transform.position, targetPosFly) < 0.05f>
-
     IEnumerator LaunchPod()
     {
         isFlying = true;
@@ -96,6 +94,8 @@ public class DroppodManager : MonoBehaviour
         playerController.canMove = false;
         // enable the walls
         platformWalls.SetActive(true);
+        // set a new finishing point for the pod
+        targetPosFly = new Vector3(transform.position.x, transform.position.y + 250, transform.position.z);
         // start to move the pod up in to the sky
         ourPlatform.targetPos = targetPosFly;
         // reset the player ammo
