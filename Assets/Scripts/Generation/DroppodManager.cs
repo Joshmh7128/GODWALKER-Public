@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine.Rendering.PostProcessing;
 using Rewired;
 
@@ -42,6 +43,11 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] Slider countdownSlider;           // our hp slider
     [SerializeField] Text countdownSliderAmountText;         // our gp amount in text
 
+    // hub management
+    [SerializeField] bool inHub; // are we in the hub?
+    [SerializeField] int maxTrips; // how many trips total
+    [SerializeField] int remainingTrips; // how many trips do we have left?
+
     private void Start()
     {
         // start the pod where it needs to start
@@ -52,7 +58,7 @@ public class DroppodManager : MonoBehaviour
         targetPosFly = new Vector3(transform.position.x, transform.position.y+100, transform.position.z);
 
         // make sure we have our generation manager
-        if (generationManager == null)
+        if (generationManager == null && inHub == false)
         {
             generationManager = GameObject.Find("Generation Manager").GetComponent<GenerationManager>();
         }
@@ -95,11 +101,70 @@ public class DroppodManager : MonoBehaviour
         // reset the player ammo
         playerTrans.gameObject.GetComponent<PlayerController>().ammoAmount = playerTrans.gameObject.GetComponent<PlayerController>().ammoMax;
         // wait until we are high in the air
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, targetPosFly) < 0.05f);
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, targetPosFly) < 1f);
         // trigger the visual effect
         playerController.canDistort = true;
         // wait for the visual effect to finish
         yield return new WaitUntil(() => playerController.postProcessVolume.profile.GetSetting<LensDistortion>().intensity == 100f);
+        // have we loaded in?
+        bool loaded = false;
+        // check if we are in the hub or not
+        if (SceneManager.GetActiveScene().name == "Advanced Generation")
+        { inHub = false; }
+        // if we are not in the hub, check to make sure we have trips left
+        if (remainingTrips < 1)
+        {
+            // load in to the advanced generation scene
+            SceneManager.LoadScene("HubNoPlayer", LoadSceneMode.Single);
+            // reset remainingTrips
+            remainingTrips = maxTrips;
+            // wait until the hub has been loaded 
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "HubNoPlayer");
+            // disengage the visual effect
+            playerController.canDistort = false;
+            // move our drop pod up to the top of the spire
+            ourPlatform.targetPos = new Vector3(ourPlatform.transform.position.x, 250, ourPlatform.transform.position.z);
+            // wait until we are high in the air
+            yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, ourPlatform.targetPos) < 1f);
+            // move our player to the top of the spire
+            ourPlatform.targetPos = new Vector3(0, 250, 0);
+            // wait until we above the spire
+            yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, ourPlatform.targetPos) < 1f);
+            // move them down to the ground
+            ourPlatform.targetPos = new Vector3(0, 0, 0);
+            // set inHub
+            inHub = true;
+            // open the walls
+            platformWalls.SetActive(false);
+            // enable player movement
+            playerController.canMove = true;
+            // we're done
+            isFlying = false;
+            // exit coroutine
+            yield break;
+        }
+
+        // respond accordingly
+        if (inHub == true)
+        {
+            // load in to the advanced generation scene
+            SceneManager.LoadScene("Advanced Generation", LoadSceneMode.Single);
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Advanced Generation");
+            // get our generation manager
+            if (generationManager == null)
+            {
+                generationManager = GameObject.Find("Generation Manager").GetComponent<GenerationManager>();
+            }
+            yield return new WaitUntil(() => generationManager != null);
+            loaded = true;
+        }
+        else
+        {
+            loaded = true;
+        }
+
+        // wait until we have loaded
+        yield return new WaitUntil(() => loaded == true);
         // when we are hanging in the air, generate the new map
         generationManager.ClearGen();
         // wait so that we don't drop the player by accident
@@ -109,7 +174,7 @@ public class DroppodManager : MonoBehaviour
         // change the X and Y positions of the drop pod to the new X and Y of the landing pos
         ourPlatform.targetPos = new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z);
         // wait until we get there
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z)) < 0.05f);
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z)) < 1f);
         // then move down
         yield return new WaitForSeconds(3f);
         // open the walls
@@ -122,6 +187,8 @@ public class DroppodManager : MonoBehaviour
         targetPosFly = new Vector3(targetPosGroundNew.x, targetPosFly.y, targetPosGroundNew.z);
         // we're done
         isFlying = false;
+        // lower remaining trips by 1
+        remainingTrips--;
     }
 
     private void FixedUpdate()

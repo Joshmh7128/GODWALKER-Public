@@ -14,7 +14,7 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] int roomSpace = 50 /* how large rooms are */, targetX, targetY, targetZ;
     int tilesPlaced; // how many tiles we have placed so far
     int minPathDistance = 20;
-    static int maxPathDistance = 20; // how long should our generation paths be?
+    static int maxPathDistance = 30; // how long should our generation paths be?
     [SerializeField] TileClass[,,] gridArray = new TileClass[maxPathDistance * 2, maxPathDistance * 2, maxPathDistance * 2]; // our x, y, z array
     [SerializeField] List<TileClass> tileClassList; // the one dimensional list of our tiles
     [SerializeField] List<TileClass> wallTileClassList; // the one dimensional list of our tiles
@@ -56,7 +56,7 @@ public class GenerationManager : MonoBehaviour
          // bottom middle
          new Vector3(0,-1,0)
     } ; // our list of all vector3 directions
-    [SerializeField] bool playerPlaced = false; // does our player exist?
+    [SerializeField] bool playerPlaced = true; // does our player exist? set to true if starting from another scene other than generation
     bool multiGen = false; // are we on another generation ?
     [SerializeField] SmallChunkManager smallChunkManager; // our small chunk manager
     [SerializeField] ObjectPooler objectPooler; 

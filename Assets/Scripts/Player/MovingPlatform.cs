@@ -29,7 +29,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void LateUpdate()
     {
-        if ( Mathf.Abs(Vector3.Distance(targetPos, transform.position)) > 0.05f)
+        if ( Mathf.Abs(Vector3.Distance(targetPos, transform.position)) > 1f)
         {
             movementDirection = targetPos - transform.position;
         }
@@ -42,7 +42,6 @@ public class MovingPlatform : MonoBehaviour
         normalizedMovementDirection = movementDirection.normalized;
         Vector3 finalizedMovementDirection;
         finalizedMovementDirection = new Vector3(normalizedMovementDirection.x * platformSpeed, normalizedMovementDirection.y * platformSpeed, normalizedMovementDirection.z * platformSpeed);
-
 
         transform.Translate(finalizedMovementDirection * Time.deltaTime);
         if (hasPlayer)

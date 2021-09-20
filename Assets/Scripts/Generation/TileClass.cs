@@ -110,7 +110,7 @@ public class TileClass : MonoBehaviour
 
             if (isOrigin)
             {
-                playerPackage.SetActive(true);
+                //playerPackage.SetActive(true);
             }
 
             if (isEmpty)
