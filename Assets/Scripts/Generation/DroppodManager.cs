@@ -52,7 +52,10 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] CanvasGroup fadeCanvasGroup; // our fade canvas group
     [SerializeField] float fadeAmount; // how much are we fading?
     [SerializeField] GameObject hubWarp; 
-    [SerializeField] GameObject clusterWarp; 
+    [SerializeField] GameObject clusterWarp;
+
+    // hub
+    [SerializeField] HubManager hubManager;
 
     private void Start()
     {
@@ -72,6 +75,11 @@ public class DroppodManager : MonoBehaviour
 
     private void Update()
     {
+        if (hubManager == null)
+        {
+            hubManager = GameObject.Find("Hub Manager").GetComponent<HubManager>();
+        }
+
         if (canLaunch == true)
         {
             // make our green zone green
@@ -183,13 +191,11 @@ public class DroppodManager : MonoBehaviour
         yield return new WaitUntil(() => loaded == true);
         // when we are hanging in the air, generate the new map
         generationManager.ClearGen();
-        // wait so that we don't drop the player by accident
-        yield return new WaitForSeconds(1f);
         // fade out
         hubWarp.SetActive(false);
         clusterWarp.SetActive(false);
         fadeAmount = -0.1f;
-        yield return new WaitUntil(() => fadeCanvasGroup.alpha >= 1);
+        yield return new WaitUntil(() => fadeCanvasGroup.alpha <= 0);
         // trigger the visual effect
         playerController.canDistort = false;
         // change the X and Y positions of the drop pod to the new X and Y of the landing pos
@@ -219,29 +225,43 @@ public class DroppodManager : MonoBehaviour
         {
             if (playerController.gemAmount > 0)
             {
-                playerController.gemAmount -= 1;
-                gemAmount += 1;
+                playerController.gemAmount--;
+                gemAmount++;
             }
 
             if (playerController.mineralAmount > 0)
             {
-                playerController.mineralAmount -= 1;
-                mineralAmount += 1;
+                playerController.mineralAmount--;
+                mineralAmount++;
             }
 
             if (playerController.ammoAmount < playerController.ammoMax && ammoAmount > 0)
             {
-                playerController.ammoAmount += 1;
-                ammoAmount -= 1;
+                playerController.ammoAmount++;
+                ammoAmount--;
             }
         }
 
         // update fade canvas
         fadeCanvasGroup.alpha += fadeAmount;
+        // clamp
+        Mathf.Clamp(fadeCanvasGroup.alpha, 0, 1);
 
         // drop ship depositing in to hub
-        if ((canDeposit) && (SceneManager.GetActiveScene().name == "Hub")) 
+        if ((canDeposit) && (SceneManager.GetActiveScene().name == "Hub"))
+        {
+            if (gemAmount > 0)
+            {
+                gemAmount--;
+                hubManager.hubGemAmount++;
+            }
 
+            if (mineralAmount > 0)
+            {
+                mineralAmount--;
+                hubManager.hubMineralAmount++;
+            }
+        }
         // display our ammo amount
         ammoAmountText.text = ammoAmount.ToString(); // in text
         ammoSlider.value = (float)ammoAmount / (float)ammoMax;
