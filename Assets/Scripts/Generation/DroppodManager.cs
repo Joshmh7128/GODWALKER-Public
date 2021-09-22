@@ -48,6 +48,12 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] int maxTrips; // how many trips total
     [SerializeField] int remainingTrips; // how many trips do we have left?
 
+    // fade ui
+    [SerializeField] CanvasGroup fadeCanvasGroup; // our fade canvas group
+    [SerializeField] float fadeAmount; // how much are we fading?
+    [SerializeField] GameObject hubWarp; 
+    [SerializeField] GameObject clusterWarp; 
+
     private void Start()
     {
         // start the pod where it needs to start
@@ -114,12 +120,17 @@ public class DroppodManager : MonoBehaviour
         // if we are not in the hub, check to make sure we have trips left
         if (remainingTrips < 1)
         {
+            // fade and enable hub warp
+            hubWarp.SetActive(true);
+            clusterWarp.SetActive(false);
+            fadeAmount = 0.1f;
+            yield return new WaitUntil(() => fadeCanvasGroup.alpha >= 1);
             // load in to the advanced generation scene
-            SceneManager.LoadScene("HubNoPlayer", LoadSceneMode.Single);
+            SceneManager.LoadScene("Hub", LoadSceneMode.Single);
             // reset remainingTrips
             remainingTrips = maxTrips;
             // wait until the hub has been loaded 
-            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "HubNoPlayer");
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Hub");
             // disengage the visual effect
             playerController.canDistort = false;
             // move our drop pod up to the top of the spire
@@ -147,6 +158,11 @@ public class DroppodManager : MonoBehaviour
         // respond accordingly
         if (inHub == true)
         {
+            // fade and enable hub warp
+            hubWarp.SetActive(false);
+            clusterWarp.SetActive(true);
+            fadeAmount = 0.1f;
+            yield return new WaitUntil(() => fadeCanvasGroup.alpha >= 1);
             // load in to the advanced generation scene
             SceneManager.LoadScene("Advanced Generation", LoadSceneMode.Single);
             yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Advanced Generation");
@@ -169,6 +185,11 @@ public class DroppodManager : MonoBehaviour
         generationManager.ClearGen();
         // wait so that we don't drop the player by accident
         yield return new WaitForSeconds(1f);
+        // fade out
+        hubWarp.SetActive(false);
+        clusterWarp.SetActive(false);
+        fadeAmount = -0.1f;
+        yield return new WaitUntil(() => fadeCanvasGroup.alpha >= 1);
         // trigger the visual effect
         playerController.canDistort = false;
         // change the X and Y positions of the drop pod to the new X and Y of the landing pos
@@ -193,6 +214,7 @@ public class DroppodManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // player depositing in to drop ship
         if (canDeposit)
         {
             if (playerController.gemAmount > 0)
@@ -213,6 +235,12 @@ public class DroppodManager : MonoBehaviour
                 ammoAmount -= 1;
             }
         }
+
+        // update fade canvas
+        fadeCanvasGroup.alpha += fadeAmount;
+
+        // drop ship depositing in to hub
+        if ((canDeposit) && (SceneManager.GetActiveScene().name == "Hub")) 
 
         // display our ammo amount
         ammoAmountText.text = ammoAmount.ToString(); // in text
