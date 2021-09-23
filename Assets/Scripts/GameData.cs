@@ -8,8 +8,8 @@ public class GameData : MonoBehaviour
 {
     // GameData reads, checks, and saves all of our game information
     public SaveData saveData;
-    public SaveData saveDataJson;
     [SerializeField] HubManager hubManager;
+    public bool gameStart = false;
 
     // make sure we do not get destroyed
     private void Start()
@@ -24,7 +24,8 @@ public class GameData : MonoBehaviour
         hubMinerals,
         hubGems,
         hubBugParts,
-        hubSpecial,
+        hubSpecials,
+        dropPodAmmoAmount,
 
         // maximum value so we can quickly create an array
         saveDataEnumMax
@@ -37,26 +38,38 @@ public class GameData : MonoBehaviour
 
         if (File.Exists(Application.persistentDataPath + "/gamedata.data"))
         {
-            // File exists. Read it. Update it.
-            string fileContents = File.ReadAllText(Application.persistentDataPath + "/gamedata.data");
-            // get the Json in to a class. This is the data that has been created from our previous saves
-            saveDataJson = JsonUtility.FromJson<SaveData>(fileContents);
-            // from the previous play save, let's go ahead and import the data
-            saveData = saveDataJson;
-            // and there we have it! the Json data has been imported in to Unity to be read
+            if (gameStart == false)
+            {
+                // File exists. Read it. Apply it to our instance of the game
+                string fileContents = File.ReadAllText(Application.persistentDataPath + "/gamedata.data");
+                // get the Json in to a class. This is the data that has been created from our previous saves
+                saveData = JsonUtility.FromJson<SaveData>(fileContents);
+                // and there we have it! the Json data has been imported in to Unity to be read
+                gameStart = true;
+            }
+            else // if we're saving again...
+            {
+                SaveDataUpdate();
+            }
         }
         else
         {
-            // update our save data
-            // access our save data and add the values
-            saveData.SaveDataFloatArray[(int)SaveDataTypes.hubMinerals] = hubManager.hubMineralAmount;
-            saveData.SaveDataFloatArray[(int)SaveDataTypes.hubGems] = hubManager.hubGemAmount;
-            saveData.SaveDataFloatArray[(int)SaveDataTypes.hubBugParts] = hubManager.hubBugPartAmount;
-            saveData.SaveDataFloatArray[(int)SaveDataTypes.hubSpecial] = 0f;
-            // If our save File does not exist, create a new save file from our current values
-            string jsonString = JsonUtility.ToJson(saveData);
-            // write JSON to file
-            File.WriteAllText(Application.persistentDataPath + "/gamedata.data", jsonString);
+            SaveDataUpdate();
         }
+    }
+
+    void SaveDataUpdate()
+    {
+        // update our save data
+        // access our save data and add the values
+        saveData.SaveDataFloatArray[(int)SaveDataTypes.hubMinerals] = hubManager.hubMineralAmount;
+        saveData.SaveDataFloatArray[(int)SaveDataTypes.hubGems] = hubManager.hubGemAmount;
+        saveData.SaveDataFloatArray[(int)SaveDataTypes.hubBugParts] = hubManager.hubBugPartAmount;
+        saveData.SaveDataFloatArray[(int)SaveDataTypes.hubSpecials] = hubManager.hubSpecialAmount;
+        saveData.SaveDataFloatArray[(int)SaveDataTypes.dropPodAmmoAmount] = hubManager.dropPodAmmoAmount;
+        // If our save File does not exist, create a new save file from our current values
+        string jsonString = JsonUtility.ToJson(saveData);
+        // write JSON to file
+        File.WriteAllText(Application.persistentDataPath + "/gamedata.data", jsonString);
     }
 }

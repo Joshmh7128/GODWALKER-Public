@@ -33,13 +33,17 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] float mineralMax;
     [SerializeField] float ammoAmount;
     [SerializeField] float ammoMax;
+    [SerializeField] float bugPartAmount;
+    [SerializeField] float bugPartMax;
 
     [SerializeField] Slider ammoSlider;         // our ammo slider
     [SerializeField] Text ammoAmountText;       // our ammo amount in text   
     [SerializeField] Slider mineralSlider;      // our mineral slider
     [SerializeField] Text mineralAmountText;    // our mineral amount in text   
     [SerializeField] Slider gemSlider;          // our gem slider
-    [SerializeField] Text gemAmountText;        // our gem amount in text   
+    [SerializeField] Text gemAmountText;        // our gem amount in text       
+    [SerializeField] Slider bugSlider;          // our gem slider
+    [SerializeField] Text bugPartAmountText;        // our gem amount in text   
     [SerializeField] Slider countdownSlider;           // our hp slider
     [SerializeField] Text countdownSliderAmountText;         // our gp amount in text
 
@@ -156,6 +160,8 @@ public class DroppodManager : MonoBehaviour
             yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, ourPlatform.targetPos) < 1f);
             // move them down to the ground
             ourPlatform.targetPos = new Vector3(0, 0, 0);
+            // wait until we are on the ground
+            yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, new Vector3(0, 0, 0)) < 1f);
             // set inHub
             inHub = true;
             // open the walls
@@ -164,6 +170,16 @@ public class DroppodManager : MonoBehaviour
             playerController.canMove = true;
             // we're done
             isFlying = false;
+            // update our values
+            hubManager.hubGemAmount += gemAmount;
+            gemAmount = 0;
+            hubManager.hubMineralAmount += mineralAmount;
+            mineralAmount = 0;
+            hubManager.hubBugPartAmount += bugPartAmount;
+            bugPartAmount = 0;
+            hubManager.dropPodAmmoAmount = ammoAmount;
+            // save our progress
+            hubManager.SaveProgress();
             // exit coroutine
             yield break;
         }
@@ -240,6 +256,12 @@ public class DroppodManager : MonoBehaviour
             {
                 playerController.mineralAmount--;
                 mineralAmount++;
+            }            
+            
+            if (playerController.bugPartAmount > 0)
+            {
+                playerController.bugPartAmount--;
+                bugPartAmount++;
             }
 
             if (playerController.ammoAmount < playerController.ammoMax && ammoAmount > 0)
@@ -271,13 +293,16 @@ public class DroppodManager : MonoBehaviour
         }
         // display our ammo amount
         ammoAmountText.text = ammoAmount.ToString(); // in text
-        ammoSlider.value = (float)ammoAmount / (float)ammoMax;
+        ammoSlider.value = ammoAmount / ammoMax;
         // display our mineral amount
         mineralAmountText.text = mineralAmount.ToString(); // in text
-        mineralSlider.value = (float)mineralAmount / (float)mineralMax;
+        mineralSlider.value = mineralAmount / mineralMax;
         // display our gem amount
         gemAmountText.text = gemAmount.ToString(); // in text
-        gemSlider.value = (float)gemAmount / (float)gemMax;
+        gemSlider.value = gemAmount / gemMax;        
+        // display our bug part amount
+        bugPartAmountText.text = bugPartAmount.ToString(); // in text
+        bugSlider.value = bugPartAmount / bugPartMax;
         // displayer our HP amount
         countdownSliderAmountText.text = "0"; // in text
         countdownSlider.value = 0;
