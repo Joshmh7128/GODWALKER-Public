@@ -141,6 +141,11 @@ public class DroppodManager : MonoBehaviour
             yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Hub");
             // disengage the visual effect
             playerController.canDistort = false;
+            // fade out
+            hubWarp.SetActive(false);
+            clusterWarp.SetActive(false);
+            fadeAmount = -0.1f;
+            yield return new WaitUntil(() => fadeCanvasGroup.alpha <= 0);
             // move our drop pod up to the top of the spire
             ourPlatform.targetPos = new Vector3(ourPlatform.transform.position.x, 250, ourPlatform.transform.position.z);
             // wait until we are high in the air
@@ -166,6 +171,8 @@ public class DroppodManager : MonoBehaviour
         // respond accordingly
         if (inHub == true)
         {
+            // enable can deposit
+            canDeposit = true;
             // fade and enable hub warp
             hubWarp.SetActive(false);
             clusterWarp.SetActive(true);
@@ -203,7 +210,7 @@ public class DroppodManager : MonoBehaviour
         // wait until we get there
         yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z)) < 1f);
         // then move down
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         // open the walls
         platformWalls.SetActive(false);
         // enable player movement
