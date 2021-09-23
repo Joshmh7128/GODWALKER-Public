@@ -4960,8 +4960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09a4b33290bae3b4498479693024199e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activePlayer: {fileID: 0}
-  activePlayerPackage: {fileID: 0}
+  gameData: {fileID: 897659571}
   hubMineralAmount: 0
   hubGemAmount: 0
   hubBugPartAmount: 0
@@ -5799,6 +5798,89 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &897659570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 897659572}
+  - component: {fileID: 897659571}
+  - component: {fileID: 897659573}
+  - component: {fileID: 897659574}
+  m_Layer: 0
+  m_Name: GameDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &897659571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897659570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6274b2c6ea519ae42a1757b34ac8b2f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveData: {fileID: 897659573}
+  saveDataJson: {fileID: 897659574}
+--- !u!4 &897659572
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897659570}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.9496899, y: 5.405047, z: -4.5650864}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &897659573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897659570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460d68687dc03544ca0138b6ffcd7688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SaveDataFloatArray:
+  - 0
+  - 0
+  - 0
+  - 0
+  testing: 0
+--- !u!114 &897659574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897659570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460d68687dc03544ca0138b6ffcd7688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SaveDataFloatArray:
+  - 0
+  - 0
+  - 0
+  - 0
+  testing: 0
 --- !u!43 &905173366
 Mesh:
   m_ObjectHideFlags: 0
