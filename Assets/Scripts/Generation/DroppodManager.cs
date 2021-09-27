@@ -27,14 +27,14 @@ public class DroppodManager : MonoBehaviour
 
     bool canDeposit; // can we deposit minerals in to the drop pod's tanks?
     float depositRate = 5;
-    [SerializeField] float gemAmount;
-    [SerializeField] float gemMax;
-    [SerializeField] float mineralAmount;
-    [SerializeField] float mineralMax;
-    [SerializeField] float ammoAmount;
-    [SerializeField] float ammoMax;
-    [SerializeField] float bugPartAmount;
-    [SerializeField] float bugPartMax;
+    [SerializeField] public float gemAmount;
+    [SerializeField] public float gemMax;
+    [SerializeField] public float mineralAmount;
+    [SerializeField] public float mineralMax;
+    [SerializeField] public float ammoAmount;
+    [SerializeField] public float ammoMax;
+    [SerializeField] public float bugPartAmount;
+    [SerializeField] public float bugPartMax;
 
     [SerializeField] Slider ammoSlider;         // our ammo slider
     [SerializeField] Text ammoAmountText;       // our ammo amount in text   
@@ -71,7 +71,7 @@ public class DroppodManager : MonoBehaviour
         targetPosFly = new Vector3(transform.position.x, transform.position.y+100, transform.position.z);
 
         // make sure we have our generation manager
-        if (generationManager == null && inHub == false && (SceneManager.GetActiveScene().name != "Hub"))
+        if (generationManager == null && inHub == false && (SceneManager.GetActiveScene().name != "Primer"))
         {
             generationManager = GameObject.Find("Generation Manager").GetComponent<GenerationManager>();
         }
@@ -129,6 +129,8 @@ public class DroppodManager : MonoBehaviour
         // check if we are in the hub or not
         if (SceneManager.GetActiveScene().name == "Advanced Generation")
         { inHub = false; }
+        if (SceneManager.GetActiveScene().name == "Hub")
+        { inHub = true; }
         // if we are not in the hub, check to make sure we have trips left
         if (remainingTrips < 1)
         {
@@ -246,19 +248,19 @@ public class DroppodManager : MonoBehaviour
         // player depositing in to drop ship
         if (canDeposit)
         {
-            if (playerController.gemAmount > 0)
+            if ((playerController.gemAmount > 0) && (gemAmount < gemMax))
             {
                 playerController.gemAmount--;
                 gemAmount++;
             }
 
-            if (playerController.mineralAmount > 0)
+            if ((playerController.mineralAmount > 0) && (mineralAmount < mineralMax))
             {
                 playerController.mineralAmount--;
                 mineralAmount++;
             }            
             
-            if (playerController.bugPartAmount > 0)
+            if ((playerController.bugPartAmount > 0) && (bugPartAmount < bugPartMax))
             {
                 playerController.bugPartAmount--;
                 bugPartAmount++;
@@ -292,16 +294,16 @@ public class DroppodManager : MonoBehaviour
             }
         }
         // display our ammo amount
-        ammoAmountText.text = ammoAmount.ToString(); // in text
+        ammoAmountText.text = ammoAmount.ToString() + " / " + ammoMax; // in text
         ammoSlider.value = ammoAmount / ammoMax;
         // display our mineral amount
-        mineralAmountText.text = mineralAmount.ToString(); // in text
+        mineralAmountText.text = mineralAmount.ToString() + " / " + mineralMax; // in text
         mineralSlider.value = mineralAmount / mineralMax;
         // display our gem amount
-        gemAmountText.text = gemAmount.ToString(); // in text
+        gemAmountText.text = gemAmount.ToString() + " / " + gemMax; // in text
         gemSlider.value = gemAmount / gemMax;        
         // display our bug part amount
-        bugPartAmountText.text = bugPartAmount.ToString(); // in text
+        bugPartAmountText.text = bugPartAmount.ToString() + " / " + bugPartMax; // in text
         bugSlider.value = bugPartAmount / bugPartMax;
         // displayer our HP amount
         countdownSliderAmountText.text = "0"; // in text
@@ -327,6 +329,15 @@ public class DroppodManager : MonoBehaviour
             // playerTrans.SetParent(null);
             canLaunch = false;
             canDeposit = false;
+        }
+    }
+
+    // restock call
+    public void Restock()
+    {
+        if (ammoAmount < ammoMax)
+        {
+            ammoAmount = ammoMax;
         }
     }
 }

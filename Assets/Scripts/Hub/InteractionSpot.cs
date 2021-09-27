@@ -6,6 +6,7 @@ public class InteractionSpot : MonoBehaviour
 {
     public GameObject interactionMouse;
     public Transform cameraPos;
+    [SerializeField] List<InteractionButton> ourButtons;
 
     // if we come in to contact with the player
     private void OnTriggerEnter(Collider other)
@@ -17,6 +18,9 @@ public class InteractionSpot : MonoBehaviour
             other.gameObject.GetComponent<PlayerController>().cameraScript.canLook = false;
             other.gameObject.GetComponent<PlayerController>().canFire = false;
             interactionMouse.GetComponent<InteractionMouse>().canMove = true;
+            // activate buttons
+            foreach(InteractionButton button in ourButtons)
+            { button.canInteract = true; };
         }
     }    
     
@@ -30,6 +34,9 @@ public class InteractionSpot : MonoBehaviour
             other.gameObject.GetComponent<PlayerController>().cameraScript.canLook = true;
             other.gameObject.GetComponent<PlayerController>().canFire = true;
             interactionMouse.GetComponent<InteractionMouse>().canMove = false;
+            // activate buttons
+            foreach (InteractionButton button in ourButtons)
+            { button.canInteract = false; };
         }
     }
 }

@@ -26,6 +26,10 @@ public class GameData : MonoBehaviour
         hubBugParts,
         hubSpecials,
         dropPodAmmoAmount,
+        dropPodAmmoMax,
+        dropPodMineralMax,
+        dropPodGemMax,
+        dropPodBugPartMax,
 
         // maximum value so we can quickly create an array
         saveDataEnumMax
@@ -67,6 +71,10 @@ public class GameData : MonoBehaviour
         saveData.SaveDataFloatArray[(int)SaveDataTypes.hubBugParts] = hubManager.hubBugPartAmount;
         saveData.SaveDataFloatArray[(int)SaveDataTypes.hubSpecials] = hubManager.hubSpecialAmount;
         saveData.SaveDataFloatArray[(int)SaveDataTypes.dropPodAmmoAmount] = hubManager.dropPodAmmoAmount;
+        saveData.SaveDataFloatArray[(int)SaveDataTypes.dropPodAmmoMax] = hubManager.droppodManager.ammoMax;
+        saveData.SaveDataFloatArray[(int)SaveDataTypes.dropPodGemMax] = hubManager.droppodManager.gemMax;
+        saveData.SaveDataFloatArray[(int)SaveDataTypes.dropPodMineralMax] = hubManager.droppodManager.mineralMax;
+        saveData.SaveDataFloatArray[(int)SaveDataTypes.dropPodBugPartMax] = hubManager.droppodManager.bugPartMax;
         // If our save File does not exist, create a new save file from our current values
         string jsonString = JsonUtility.ToJson(saveData);
         // write JSON to file

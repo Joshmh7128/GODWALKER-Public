@@ -6,20 +6,41 @@ using Rewired;
 
 public class InteractionButton : MonoBehaviour
 {
-    bool mouseIn;
+    bool mouseIn = false;
     Player player;
+    public bool canInteract = false;
     [SerializeField] Button ourButton;
+    public Color idleColor;
+    public Color hoverColor;
+    public Color clickColor;
+    [SerializeField] Image ourImage;
+    [SerializeField] Text panelTitle;
+    [SerializeField] Text panelDesc;
+    [SerializeField] string customTitle;
+    [SerializeField] string customDesc;
 
     private void Start()
     {
         player = ReInput.players.GetPlayer(0);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        if (mouseIn)
+        {
+            ourImage.color = hoverColor;
+        } else
+        {
+            ourImage.color = idleColor;
+        }
+        
         if (player.GetButtonDown("Fire"))
         {
-            ourButton.onClick.Invoke();
+            if (mouseIn == true && canInteract == true)
+            {
+                ourImage.color = clickColor;
+                ourButton.onClick.Invoke();
+            }
         }
     }
 
@@ -28,6 +49,8 @@ public class InteractionButton : MonoBehaviour
         if (collision.CompareTag("Mouse"))
         {
             mouseIn = true;
+            panelTitle.text = customTitle;
+            panelDesc.text = customDesc;
         }
     }
 
@@ -36,6 +59,8 @@ public class InteractionButton : MonoBehaviour
         if (collision.CompareTag("Mouse"))
         {
             mouseIn = false;
+            panelTitle.text = " ";
+            panelDesc.text = " ";
         }
     }
 

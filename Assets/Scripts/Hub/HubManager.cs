@@ -13,12 +13,32 @@ public class HubManager : MonoBehaviour
     public float hubBugPartAmount;
     public float hubSpecialAmount;
     public float dropPodAmmoAmount;
+    // droppod manager
+    public DroppodManager droppodManager;
+    // player
+    public PlayerController playerController;
 
-    // Start is called before the first frame update
+    // awake is called before the first frame update
     void Awake()
     {
         // make sure we don't destroy on load
         DontDestroyOnLoad(this);
+    }
+
+    private void Start()
+    {
+        // find our droppodmanager
+        if (droppodManager == null)
+        {
+            droppodManager = GameObject.Find("Drop Pod").GetComponent<DroppodManager>();
+        }
+
+        // find our player
+        if (playerController == null)
+        {
+            playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        }
+
         // save progress
         SaveProgress();
     }
@@ -43,5 +63,9 @@ public class HubManager : MonoBehaviour
         hubBugPartAmount = gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.hubBugParts];
         hubSpecialAmount = gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.hubSpecials];
         dropPodAmmoAmount = gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.dropPodAmmoAmount];
+        droppodManager.ammoMax = gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.dropPodAmmoMax];
+        droppodManager.gemMax = gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.dropPodGemMax];
+        droppodManager.mineralMax = gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.dropPodMineralMax];
+        droppodManager.bugPartMax = gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.dropPodBugPartMax];
     }
 }
