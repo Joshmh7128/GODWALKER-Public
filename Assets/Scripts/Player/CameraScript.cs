@@ -16,6 +16,7 @@ public class CameraScript : MonoBehaviour
     [SerializeField] float xRotate; // X rotation float
     [SerializeField] float minYAngle; // min our Y can be (usually negative)
     [SerializeField] float maxYAngle; // max our Y can be (usually positive)
+    [SerializeField] public bool canLook = true; // can we look around?
 
     // player variables
     [SerializeField] Transform aimTarget; // where is the camera looking?
@@ -64,29 +65,31 @@ public class CameraScript : MonoBehaviour
 
     void LateUpdate()
     {
-        // run math to rotate the head of the player as we move the mouse
-        yRotate += player.GetAxis("MouseVertical") * -aimSensitivity * Time.fixedDeltaTime;
-        yRotate += player.GetAxis("JoyLookVertical") * -aimSensitivity * 5 * Time.fixedDeltaTime;
-        // clamp the rotation so we don't go around ourselves
-        yRotate = Mathf.Clamp(yRotate, minYAngle, maxYAngle);
-        // calculate our X rotation
-        xRotate += player.GetAxis("MouseHorizontal") * aimSensitivity * Time.fixedDeltaTime;
-        xRotate += player.GetAxis("JoyLookHorizontal") * aimSensitivity * 10 * Time.fixedDeltaTime;
-        // aim the camera
-        transform.LookAt(aimTarget.position);
-        // apply it
-        headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
-        bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);
+        if (canLook)
+        {
+            // run math to rotate the head of the player as we move the mouse
+            yRotate += player.GetAxis("MouseVertical") * -aimSensitivity * Time.fixedDeltaTime;
+            yRotate += player.GetAxis("JoyLookVertical") * -aimSensitivity * 5 * Time.fixedDeltaTime;
+            // clamp the rotation so we don't go around ourselves
+            yRotate = Mathf.Clamp(yRotate, minYAngle, maxYAngle);
+            // calculate our X rotation
+            xRotate += player.GetAxis("MouseHorizontal") * aimSensitivity * Time.fixedDeltaTime;
+            xRotate += player.GetAxis("JoyLookHorizontal") * aimSensitivity * 10 * Time.fixedDeltaTime;
+            // aim the camera
+            transform.LookAt(aimTarget.position);
+            // apply it
+            headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
+            bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);
+        }
+            // access our line renderers
+            rightArmLine.SetPosition(0, rightArm.position);
+            rightArmLine.SetPosition(1, digeticAimTarget.position);
 
-        // access our line renderers
-        rightArmLine.SetPosition(0, rightArm.position);
-        rightArmLine.SetPosition(1, digeticAimTarget.position);
-
-        leftArmLine.SetPosition(0, leftArm.position);
-        leftArmLine.SetPosition(1, digeticAimTarget.position);
-        // move our digetic aim target
-        digeticAimTarget.position = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 100f));
-
+            leftArmLine.SetPosition(0, leftArm.position);
+            leftArmLine.SetPosition(1, digeticAimTarget.position);
+            // move our digetic aim target
+            digeticAimTarget.position = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 100f));
+        
         // screenshake
         if (shakeDuration > 0)
         {
@@ -95,6 +98,7 @@ public class CameraScript : MonoBehaviour
         }
         else
         {
+            if (canLook)
             shakeDuration = 0f;
             camTransform.localPosition = originalPos;
         }
@@ -117,15 +121,18 @@ public class CameraScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // zooming in with the camera
-        if (player.GetButton("Aim"))
+        if (canLook)
         {
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 45, 0.25f);
-        }
+            // zooming in with the camera
+            if (player.GetButton("Aim"))
+            {
+                Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 45, 0.25f);
+            }
 
-        if (!player.GetButton("Aim"))
-        {
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 90, 0.25f);
+            if (!player.GetButton("Aim"))
+            {
+                Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 90, 0.25f);
+            }
         }
     }
 }

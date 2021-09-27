@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public int bugPartAmount;                   // how many bug parts do we have?
     [SerializeField] Transform treadsParent;    // the parent of our treads
     public bool canMove = true;
+    public bool canFire = true;
 
     // referenced prefabs and objects
     [SerializeField] GameObject playerBullet;   // bullet prefab
@@ -53,6 +54,11 @@ public class PlayerController : MonoBehaviour
     Vector3 move;
     Vector3 moveH;
     Vector3 moveV;
+
+    // interaction spot
+    public Transform interactionCameraPos;
+    public GameObject interactionMouse;
+    public bool canInteract;
 
     // Start is called before the first frame update
     void Start()
@@ -91,41 +97,54 @@ public class PlayerController : MonoBehaviour
         // display our bug part amount
         bugAmountText.text = bugPartAmount.ToString();
 
+
         // shoot bullets
-        if (player.GetButtonDown("Fire"))
+        if (canFire)
         {
-            // check ammo
-            if (ammoAmount > 0)
+            if (player.GetButtonDown("Fire"))
             {
-                // check arm
-                if (rightArm == true)
+                // check ammo
+                if (ammoAmount > 0)
                 {
-                    // spawn bullet
-                    GameObject bullet = Instantiate(playerBullet, rightGunTip.position, Quaternion.identity, null);
-                    bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
-                    rightArm = false;
-                    ammoAmount--;
-                    // screenshake
-                    cameraScript.shakeDuration += 0.08f;
-                }
-                else if (rightArm == false)
-                {
-                    // spawn bullet
-                    GameObject bullet = Instantiate(playerBullet, leftGunTip.position, Quaternion.identity, null);
-                    bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
-                    rightArm = true;
-                    ammoAmount--;
-                    // screenshake
-                    cameraScript.shakeDuration += 0.08f;
+                    // check arm
+                    if (rightArm == true)
+                    {
+                        // spawn bullet
+                        GameObject bullet = Instantiate(playerBullet, rightGunTip.position, Quaternion.identity, null);
+                        bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
+                        rightArm = false;
+                        ammoAmount--;
+                        // screenshake
+                        cameraScript.shakeDuration += 0.08f;
+                    }
+                    else if (rightArm == false)
+                    {
+                        // spawn bullet
+                        GameObject bullet = Instantiate(playerBullet, leftGunTip.position, Quaternion.identity, null);
+                        bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
+                        rightArm = true;
+                        ammoAmount--;
+                        // screenshake
+                        cameraScript.shakeDuration += 0.08f;
+                    }
                 }
             }
         }
-
         // reload scene for dev purposes
         if (Input.GetKeyDown(KeyCode.F4))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
         }
+
+        // can we interact?
+        if (canInteract)
+        {
+            if (player.GetButtonDown("SpacePress"))
+            {
+                cameraScript.transform.position = interactionCameraPos.position;
+                cameraScript.transform.rotation = interactionCameraPos.rotation;
+            }
+        } 
     }
 
     // fixed update is called once per frame
