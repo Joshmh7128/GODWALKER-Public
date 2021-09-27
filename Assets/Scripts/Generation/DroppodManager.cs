@@ -71,7 +71,7 @@ public class DroppodManager : MonoBehaviour
         targetPosFly = new Vector3(transform.position.x, transform.position.y+100, transform.position.z);
 
         // make sure we have our generation manager
-        if (generationManager == null && inHub == false)
+        if (generationManager == null && inHub == false && (SceneManager.GetActiveScene().name != "Hub"))
         {
             generationManager = GameObject.Find("Generation Manager").GetComponent<GenerationManager>();
         }
