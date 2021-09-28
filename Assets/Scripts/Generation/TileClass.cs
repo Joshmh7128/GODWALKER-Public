@@ -61,6 +61,8 @@ public class TileClass : MonoBehaviour
     int[,] primeNumberArray = new int[3, 3] { { 13, 17, 23 }, { 11, 0, 2 }, { 7, 5, 3 } };
     // int[,] primeNumberArray = new int[3, 3] { { 1, 17, 1 }, { 11, 0, 2 }, { 1, 5, 1 } };
 
+    [SerializeField] GameObject EmptySet; // the empty gameobject set
+
     void Awake()
     {
         if (isWall)
@@ -116,6 +118,7 @@ public class TileClass : MonoBehaviour
             if (isEmpty)
             {
                 GameObject.Find("Drop Pod").GetComponent<DroppodManager>().targetPosGroundNew = transform.position;
+                EmptySet.SetActive(true);
             }
         }
 
