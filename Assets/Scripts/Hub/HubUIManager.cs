@@ -16,6 +16,7 @@ public class HubUIManager : MonoBehaviour
     [SerializeField] List<Text> diegeticMineralStoredAmount;
     [SerializeField] List<Text> diegeticBugPartStoredAmount;
     [SerializeField] List<Text> diegeticSpecialStoredAmount;
+    [SerializeField] List<InteractionSpot> interactionSpots; // all the interaction spots in the scene
     // our diegetic UI elements
     private void Start()
     {
@@ -30,7 +31,7 @@ public class HubUIManager : MonoBehaviour
 
     public void FixedUpdate()
     {
-        RefreshValues();
+        //RefreshValues();
     }
 
     // put all values we want to refresh in here
@@ -64,6 +65,7 @@ public class HubUIManager : MonoBehaviour
         resupplyDropshipAmmoCost = Mathf.Round((localAmmoMax -= localAmmoAmount) *0.1f);
         resupplyDropshipAmmoCostTextGems.text = resupplyDropshipAmmoCost.ToString();
         resupplyDropshipAmmoCostTextMinerals.text = resupplyDropshipAmmoCost.ToString();
+
     }
 
     // Update runs every frame

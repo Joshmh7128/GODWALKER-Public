@@ -6,7 +6,7 @@ public class InteractionSpot : MonoBehaviour
 {
     public GameObject interactionMouse;
     public Transform cameraPos;
-    [SerializeField] List<InteractionButton> ourButtons;
+    public List<InteractionButton> ourButtons;
 
     // if we come in to contact with the player
     private void OnTriggerEnter(Collider other)

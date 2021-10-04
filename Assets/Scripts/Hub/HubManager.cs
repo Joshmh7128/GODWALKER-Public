@@ -13,6 +13,7 @@ public class HubManager : MonoBehaviour
     public float hubBugPartAmount;
     public float hubSpecialAmount;
     public float dropPodAmmoAmount;
+    public float storageUpgradeFactor; // starts at 2x
     // droppod manager
     public DroppodManager droppodManager;
     // player

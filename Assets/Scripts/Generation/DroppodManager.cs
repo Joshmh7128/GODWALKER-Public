@@ -11,7 +11,6 @@ public class DroppodManager : MonoBehaviour
 {
     bool canLaunch = false;
     bool isFlying = false;
-    bool atFlyPos = false;
     [SerializeField] Renderer greenZoneRenderer;
     [SerializeField] Material dimGreen;
     [SerializeField] Material brightGreen;
@@ -29,12 +28,16 @@ public class DroppodManager : MonoBehaviour
     float depositRate = 5;
     [SerializeField] public float gemAmount;
     [SerializeField] public float gemMax;
+    [SerializeField] public int gemUpgradeCost;
     [SerializeField] public float mineralAmount;
     [SerializeField] public float mineralMax;
+    [SerializeField] public int mineralUpgradeCost;
     [SerializeField] public float ammoAmount;
     [SerializeField] public float ammoMax;
+    [SerializeField] public int ammoUpgradeCost;
     [SerializeField] public float bugPartAmount;
     [SerializeField] public float bugPartMax;
+    [SerializeField] public int bugPartUpgradeCost;
 
     [SerializeField] Slider ammoSlider;         // our ammo slider
     [SerializeField] Text ammoAmountText;       // our ammo amount in text   
@@ -308,6 +311,12 @@ public class DroppodManager : MonoBehaviour
         // displayer our HP amount
         countdownSliderAmountText.text = "0"; // in text
         countdownSlider.value = 0;
+
+        // calculate our costs for upgrading storage
+        gemUpgradeCost = (int)(gemMax / 3) * 2;
+        mineralUpgradeCost = (int)(mineralMax / 3) * 2;
+        ammoUpgradeCost = (int)(ammoMax / 3) * 2;
+        bugPartUpgradeCost = (int)(bugPartMax / 2) * 2;
     }
 
     // when the player enters the green zone
@@ -338,6 +347,25 @@ public class DroppodManager : MonoBehaviour
         if (ammoAmount < ammoMax)
         {
             ammoAmount = ammoMax;
+        }
+    }
+
+    // upgrade storage
+    public void UpgradeStorage(string upgradeType)
+    {
+        if (upgradeType == "dropshipMinerals")
+        {
+
+        }
+
+        if (upgradeType == "dropshipGems")
+        {
+
+        }
+
+        if (upgradeType == "dropshipAmmo")
+        {
+
         }
     }
 }
