@@ -44,7 +44,7 @@ public class InteractionButton : MonoBehaviour
         player = ReInput.players.GetPlayer(0);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (hubLink == null)
         {
