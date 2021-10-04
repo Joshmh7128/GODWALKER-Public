@@ -49,6 +49,10 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] Text bugPartAmountText;        // our gem amount in text   
     [SerializeField] Slider countdownSlider;           // our hp slider
     [SerializeField] Text countdownSliderAmountText;         // our gp amount in text
+    [SerializeField] Text remainingRunsOne;         // remaining runs
+    [SerializeField] Text remainingRunsTwo;         // remaining runs
+    [SerializeField] Text currentActionOne;         // current action
+    [SerializeField] Text currentActionTwo;         // current action
 
     // hub management
     [SerializeField] bool inHub; // are we in the hub?
@@ -110,6 +114,9 @@ public class DroppodManager : MonoBehaviour
 
     IEnumerator LaunchPod()
     {
+        // current action text
+        currentActionOne.text = "Launching Ship...";
+        currentActionTwo.text = "Launching Ship...";
         isFlying = true;
         // disable player movement
         playerController.canMove = false;
@@ -125,6 +132,9 @@ public class DroppodManager : MonoBehaviour
         yield return new WaitUntil(() => Vector3.Distance(transform.position, targetPosFly) < 1f);
         // trigger the visual effect
         playerController.canDistort = true;
+        // current action text
+        currentActionOne.text = "Warping...";
+        currentActionTwo.text = "Warping...";
         // wait for the visual effect to finish
         yield return new WaitUntil(() => playerController.postProcessVolume.profile.GetSetting<LensDistortion>().intensity == 100f);
         // have we loaded in?
@@ -192,6 +202,7 @@ public class DroppodManager : MonoBehaviour
         // respond accordingly
         if (inHub == true)
         {
+
             // enable can deposit
             canDeposit = true;
             // fade and enable hub warp
@@ -226,10 +237,16 @@ public class DroppodManager : MonoBehaviour
         yield return new WaitUntil(() => fadeCanvasGroup.alpha <= 0);
         // trigger the visual effect
         playerController.canDistort = false;
+        // current action text
+        currentActionOne.text = "Moving to Landing Zone...";
+        currentActionTwo.text = "Moving to Landing Zone...";
         // change the X and Y positions of the drop pod to the new X and Y of the landing pos
         ourPlatform.targetPos = new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z);
         // wait until we get there
         yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z)) < 1f);
+        // current action text
+        currentActionOne.text = "Landing...";
+        currentActionTwo.text = "Landing...";
         // then move down
         yield return new WaitForSeconds(1f);
         // open the walls
@@ -244,6 +261,9 @@ public class DroppodManager : MonoBehaviour
         isFlying = false;
         // lower remaining trips by 1
         remainingTrips--;
+        // current action text
+        currentActionOne.text = "Waiting for Launch Command...";
+        currentActionTwo.text = "Waiting for Launch Command...";
     }
 
     private void FixedUpdate()
@@ -311,6 +331,10 @@ public class DroppodManager : MonoBehaviour
         // displayer our HP amount
         countdownSliderAmountText.text = "0"; // in text
         countdownSlider.value = 0;
+        // display our remaining runs
+        remainingRunsOne.text = "Remaining Asteroids\nin Run: " + remainingTrips;
+        remainingRunsTwo.text = "Remaining Asteroids\nin Run: " + remainingTrips;
+
 
         // calculate our costs for upgrading storage
         gemUpgradeCost = (int)(gemMax / 3) * 2;
@@ -347,25 +371,6 @@ public class DroppodManager : MonoBehaviour
         if (ammoAmount < ammoMax)
         {
             ammoAmount = ammoMax;
-        }
-    }
-
-    // upgrade storage
-    public void UpgradeStorage(string upgradeType, float cost)
-    {
-        if (upgradeType == "dropshipMinerals")
-        {
-
-        }
-
-        if (upgradeType == "dropshipGems")
-        {
-
-        }
-
-        if (upgradeType == "dropshipAmmo")
-        {
-
         }
     }
 }

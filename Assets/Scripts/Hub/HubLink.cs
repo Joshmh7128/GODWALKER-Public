@@ -38,9 +38,18 @@ public class HubLink : MonoBehaviour
     // restocks the player
     public void RestockPlayer()
     {
-        hubManager.playerController.ammoAmount = hubManager.playerController.ammoMax;
-        // save
-        hubManager.SaveProgress();
+        if ((hubManager.hubGemAmount >= hubManager.playerResupplyCost) && (hubManager.hubGemAmount >= hubManager.playerResupplyCost))
+        {
+            // spend currency
+            hubManager.hubGemAmount -= hubManager.playerResupplyCost;
+            hubManager.hubMineralAmount -= hubManager.playerResupplyCost;
+            // restock ammo
+            hubManager.playerController.ammoAmount = hubManager.playerController.ammoMax;
+            // restock HP
+            hubManager.playerController.playerHP = hubManager.playerController.playerMaxHP;
+            // save
+            hubManager.SaveProgress();
+        }
     }
 
     // upgrades the dropship
@@ -101,4 +110,5 @@ public class HubLink : MonoBehaviour
         // save
         hubManager.SaveProgress();
     }
+
 }

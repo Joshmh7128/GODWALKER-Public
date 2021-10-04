@@ -14,6 +14,7 @@ public class HubManager : MonoBehaviour
     public float hubSpecialAmount;
     public float dropPodAmmoAmount;
     public float storageUpgradeFactor; // starts at 2x
+    public float playerResupplyCost; // updates whenever we need to restock the player
     // droppod manager
     public DroppodManager droppodManager;
     // player

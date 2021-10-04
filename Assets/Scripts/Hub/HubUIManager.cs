@@ -7,11 +7,14 @@ public class HubUIManager : MonoBehaviour
 {
     // our hub manager
     HubManager hubManager;
-    // our values to calculate
+    // resupply variables 
     public float resupplyDropshipAmmoCost;
     public Text resupplyDropshipAmmoCostTextGems;
     public Text resupplyDropshipAmmoCostTextMinerals;
-    public float resupplyPlayerAmmoCost;
+    public Text resupplyDropshipPlayerCostTextGems;
+    public Text resupplyDropshipPlayerCostTextMinerals;
+    public float resupplyPlayerCost; // cost to resupply HP and Ammo
+    // stored resources
     [SerializeField] List<Text> diegeticGemStoredAmount;
     [SerializeField] List<Text> diegeticMineralStoredAmount;
     [SerializeField] List<Text> diegeticBugPartStoredAmount;
@@ -65,7 +68,11 @@ public class HubUIManager : MonoBehaviour
         resupplyDropshipAmmoCost = Mathf.Round((localAmmoMax -= localAmmoAmount) *0.1f);
         resupplyDropshipAmmoCostTextGems.text = resupplyDropshipAmmoCost.ToString();
         resupplyDropshipAmmoCostTextMinerals.text = resupplyDropshipAmmoCost.ToString();
-
+        // calculate the cost of resupplying the player's ammo and HP
+        resupplyPlayerCost = (Mathf.Round(hubManager.playerController.playerMaxHP -= hubManager.playerController.playerHP) * 0.5f) + (Mathf.Round(hubManager.playerController.ammoMax -= hubManager.playerController.ammoAmount));
+        resupplyDropshipPlayerCostTextGems.text = resupplyPlayerCost.ToString();
+        resupplyDropshipPlayerCostTextMinerals.text = resupplyPlayerCost.ToString();
+        hubManager.playerResupplyCost = resupplyPlayerCost;
     }
 
     // Update runs every frame
