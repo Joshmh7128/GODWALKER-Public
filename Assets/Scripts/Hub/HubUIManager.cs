@@ -31,7 +31,7 @@ public class HubUIManager : MonoBehaviour
 
     public void FixedUpdate()
     {
-        //RefreshValues();
+        RefreshValues();
     }
 
     // put all values we want to refresh in here

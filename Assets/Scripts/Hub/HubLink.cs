@@ -30,6 +30,8 @@ public class HubLink : MonoBehaviour
             hubManager.droppodManager.ammoAmount = hubManager.droppodManager.ammoMax;
             // refresh values
             hubUIManager.RefreshValues();
+            // save
+            hubManager.SaveProgress();
         }
     }    
     
@@ -37,5 +39,66 @@ public class HubLink : MonoBehaviour
     public void RestockPlayer()
     {
         hubManager.playerController.ammoAmount = hubManager.playerController.ammoMax;
+        // save
+        hubManager.SaveProgress();
+    }
+
+    // upgrades the dropship
+    public void UpgradeDropShipStorage(string upgradeType)
+    {
+        // get the value we want to increase
+        if (upgradeType == "ammo")
+        {
+            // check currency
+            if (hubManager.hubBugPartAmount >= hubManager.droppodManager.ammoUpgradeCost)
+            {
+                // spend currency
+                hubManager.hubBugPartAmount -= hubManager.droppodManager.ammoUpgradeCost;
+                // increase it and decrease our bug parts from storage
+                hubManager.droppodManager.ammoMax = hubManager.droppodManager.ammoMax * 2;
+            }
+        }             
+        
+        // get the value we want to increase
+        if (upgradeType == "minerals")
+        {
+            // check currency
+            if (hubManager.hubBugPartAmount >= hubManager.droppodManager.mineralUpgradeCost)
+            {
+                // spend currency
+                hubManager.hubBugPartAmount -= hubManager.droppodManager.mineralUpgradeCost;
+                // increase it and decrease our bug parts from storage
+                hubManager.droppodManager.mineralMax = hubManager.droppodManager.mineralMax * 2;
+            }
+        }        
+        
+        // get the value we want to increase
+        if (upgradeType == "gems")
+        {
+            // check currency
+            if (hubManager.hubBugPartAmount >= hubManager.droppodManager.gemUpgradeCost)
+            {
+                // spend currency
+                hubManager.hubBugPartAmount -= hubManager.droppodManager.gemUpgradeCost;
+                // increase it and decrease our bug parts from storage
+                hubManager.droppodManager.gemMax = hubManager.droppodManager.gemMax * 2;
+            }
+        }     
+        
+        // get the value we want to increase
+        if (upgradeType == "bugparts")
+        {
+            // check currency
+            if (hubManager.hubBugPartAmount >= hubManager.droppodManager.bugPartUpgradeCost)
+            {
+                // spend currency
+                hubManager.hubBugPartAmount -= hubManager.droppodManager.gemUpgradeCost;
+                // increase it and decrease our bug parts from storage
+                hubManager.droppodManager.bugPartMax = hubManager.droppodManager.bugPartMax * 2;
+            }
+        }
+
+        // save
+        hubManager.SaveProgress();
     }
 }

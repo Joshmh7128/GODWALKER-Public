@@ -351,7 +351,7 @@ public class DroppodManager : MonoBehaviour
     }
 
     // upgrade storage
-    public void UpgradeStorage(string upgradeType)
+    public void UpgradeStorage(string upgradeType, float cost)
     {
         if (upgradeType == "dropshipMinerals")
         {

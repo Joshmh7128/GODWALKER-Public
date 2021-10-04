@@ -9,6 +9,7 @@ public class InteractionMouse : MonoBehaviour
     Player player;
     float moveV;
     float moveH;
+    [SerializeField] float sensitivity;
     RectTransform rectTransform;
     public bool canMove = false;
     [SerializeField] float xMax;
@@ -29,7 +30,7 @@ public class InteractionMouse : MonoBehaviour
             // get our movement
             moveV = player.GetAxis("MouseVertical");
             moveH = player.GetAxis("MouseHorizontal");
-            rectTransform.localPosition = Vector2.Lerp(rectTransform.localPosition, new Vector2(Mathf.Clamp(rectTransform.localPosition.x+moveH, -xMax, xMax), Mathf.Clamp(rectTransform.localPosition.y+moveV, -yMax, yMax)), 1f);
+            rectTransform.localPosition = Vector2.Lerp(rectTransform.localPosition, new Vector2(Mathf.Clamp(rectTransform.localPosition.x+(moveH * sensitivity), -xMax, xMax), Mathf.Clamp(rectTransform.localPosition.y+(moveV * sensitivity), -yMax, yMax)), 1f);
         }
     }
 }
