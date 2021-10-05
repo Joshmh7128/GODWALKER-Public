@@ -93,6 +93,21 @@ public class InteractionButton : MonoBehaviour
                     bugPartCost = hubLink.hubManager.droppodManager.bugPartUpgradeCost;
                 }
 
+                if (buttonType == buttonTypes.playerAmmoStorageButton)
+                {
+                    bugPartCost = hubLink.hubManager.playerController.ammoUpgradeCost;
+                }
+
+                if (buttonType == buttonTypes.playerMineralStorageButton)
+                {
+                    bugPartCost = hubLink.hubManager.playerController.mineralUpgradeCost;
+                }
+
+                if (buttonType == buttonTypes.playerGemStorageButton)
+                {
+                    bugPartCost = hubLink.hubManager.playerController.gemUpgradeCost;
+                }
+
                 if (bugPartText != null)
                 {
                     bugPartText.text = bugPartCost.ToString();

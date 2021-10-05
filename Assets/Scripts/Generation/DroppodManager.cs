@@ -168,15 +168,15 @@ public class DroppodManager : MonoBehaviour
             // move our drop pod up to the top of the spire
             ourPlatform.targetPos = new Vector3(ourPlatform.transform.position.x, 250, ourPlatform.transform.position.z);
             // wait until we are high in the air
-            yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, ourPlatform.targetPos) < 1f);
+            yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, ourPlatform.targetPos) < 5f);
             // move our player to the top of the spire
             ourPlatform.targetPos = new Vector3(0, 250, 0);
             // wait until we above the spire
-            yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, ourPlatform.targetPos) < 1f);
+            yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, ourPlatform.targetPos) < 5f);
             // move them down to the ground
             ourPlatform.targetPos = new Vector3(0, 0, 0);
             // wait until we are on the ground
-            yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, new Vector3(0, 0, 0)) < 1f);
+            yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, new Vector3(0, 0, 0)) < 5f);
             // set inHub
             inHub = true;
             // open the walls
@@ -243,7 +243,7 @@ public class DroppodManager : MonoBehaviour
         // change the X and Y positions of the drop pod to the new X and Y of the landing pos
         ourPlatform.targetPos = new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z);
         // wait until we get there
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z)) < 1f);
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z)) < 5f);
         // current action text
         currentActionOne.text = "Landing...";
         currentActionTwo.text = "Landing...";

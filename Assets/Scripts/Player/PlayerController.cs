@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviour
     public int playerHP;                        // the player's health
     public int playerMaxHP;                     // the player's max health
     public int bugPartAmount;                   // how many bug parts do we have?
+    public int gemUpgradeCost;
+    public int mineralUpgradeCost;
+    public int ammoUpgradeCost;
     [SerializeField] Transform treadsParent;    // the parent of our treads
     public bool canMove = true;
     public bool canFire = true;
@@ -83,20 +86,19 @@ public class PlayerController : MonoBehaviour
             characterController.Move(new Vector3(0f, gravity, 0f) * Time.deltaTime);
         }
         // display our ammo amount
-        ammoAmountText.text = ammoAmount.ToString(); // in text
+        ammoAmountText.text = ammoAmount.ToString() + "/" + ammoMax.ToString(); // in text
         ammoSlider.value = (float)ammoAmount / (float)ammoMax;        
         // display our mineral amount
-        mineralAmountText.text = mineralAmount.ToString(); // in text
+        mineralAmountText.text = mineralAmount.ToString() + "/" + mineralMax.ToString(); // in text
         mineralSlider.value = (float)mineralAmount / (float)mineralMax;        
         // display our gem amount
-        gemAmountText.text = gemAmount.ToString(); // in text
+        gemAmountText.text = gemAmount.ToString() + "/" + gemMax.ToString(); // in text
         gemSlider.value = (float)gemAmount / (float)gemMax;
         // displayer our HP amount
-        hpAmountText.text = playerHP.ToString(); // in text
+        hpAmountText.text = playerHP.ToString() + "/" + playerMaxHP.ToString(); // in text
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
         // display our bug part amount
         bugAmountText.text = bugPartAmount.ToString();
-
 
         // shoot bullets
         if (canFire)
@@ -166,6 +168,11 @@ public class PlayerController : MonoBehaviour
                 postProcessVolume.profile.GetSetting<LensDistortion>().intensity.value -= distortRate;
             }
         }
+
+        // calculate our costs for upgrading storage
+        gemUpgradeCost = (int)Mathf.Round((gemMax / 3) * 1.8f);
+        mineralUpgradeCost = (int)Mathf.Round((mineralMax / 3) * 1.8f);
+        ammoUpgradeCost = (int)Mathf.Round((ammoMax / 3) * 1.8f);
     }
 
     // if we gain life, positive number, if we lose life, negative number

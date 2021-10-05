@@ -27,7 +27,7 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if ( Mathf.Abs(Vector3.Distance(targetPos, transform.position)) > 1f)
         {
@@ -43,10 +43,10 @@ public class MovingPlatform : MonoBehaviour
         Vector3 finalizedMovementDirection;
         finalizedMovementDirection = new Vector3(normalizedMovementDirection.x * platformSpeed, normalizedMovementDirection.y * platformSpeed, normalizedMovementDirection.z * platformSpeed);
 
-        transform.Translate(finalizedMovementDirection * Time.deltaTime);
+        transform.Translate(finalizedMovementDirection * Time.fixedDeltaTime);
         if (hasPlayer)
         {
-            characterController.Move(finalizedMovementDirection * Time.deltaTime);
+            characterController.Move(finalizedMovementDirection * Time.fixedDeltaTime);
         }
     }
 }

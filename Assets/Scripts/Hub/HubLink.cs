@@ -111,4 +111,43 @@ public class HubLink : MonoBehaviour
         hubManager.SaveProgress();
     }
 
+    // upgrades the player
+    public void UpgradePlayerStorage(string upgradeType)
+    {
+        if (upgradeType == "ammo")
+        {
+            // check currency
+            if (hubManager.hubBugPartAmount >= hubManager.playerController.ammoUpgradeCost)
+            {
+                // spend currency
+                hubManager.hubBugPartAmount -= hubManager.playerController.ammoUpgradeCost;
+                // increase it and decrease our bug parts from storage
+                hubManager.playerController.ammoMax = hubManager.playerController.ammoMax * 2;
+            }
+        }
+
+        if (upgradeType == "minerals")
+        {
+            // check currency
+            if (hubManager.hubBugPartAmount >= hubManager.playerController.mineralUpgradeCost)
+            {
+                // spend currency
+                hubManager.hubBugPartAmount -= hubManager.playerController.mineralUpgradeCost;
+                // increase it and decrease our bug parts from storage
+                hubManager.playerController.mineralMax = hubManager.playerController.mineralMax * 2;
+            }
+        }
+
+        if (upgradeType == "gems")
+        {
+            // check currency
+            if (hubManager.hubBugPartAmount >= hubManager.playerController.gemUpgradeCost)
+            {
+                // spend currency
+                hubManager.hubBugPartAmount -= hubManager.playerController.gemUpgradeCost;
+                // increase it and decrease our bug parts from storage
+                hubManager.playerController.gemMax = hubManager.playerController.gemMax * 2;
+            }
+        }
+    }
 }
