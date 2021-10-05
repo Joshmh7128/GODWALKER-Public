@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Rewired;
 
 public class CameraScript : MonoBehaviour
@@ -32,6 +34,9 @@ public class CameraScript : MonoBehaviour
     [SerializeField] Transform rightArm;
     [SerializeField] LineRenderer leftArmLine;
     [SerializeField] Transform leftArm;
+
+    // ui fade canvas
+    [SerializeField] CanvasGroup fadeCanvas;
 
     // How long the object should shake for.
     public float shakeDuration = 0f;
@@ -121,6 +126,14 @@ public class CameraScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // check if we are in the hub
+        if (SceneManager.GetActiveScene().name == "Hub")
+        {
+            // turn down that alpha
+            if (fadeCanvas.alpha > 0)
+            fadeCanvas.alpha -= 0.1f;
+        }
+
         if (canLook)
         {
             // zooming in with the camera
