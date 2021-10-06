@@ -54,6 +54,9 @@ public class PlayerController : MonoBehaviour
     bool objectiveShowing; // is our objective showing?
     [SerializeField] GameObject tabIndicator; // our tab text indicating you can show the objective
 
+    // non-diegetic UI elements we're modifying
+    [SerializeField] CanvasGroup hurtCanvas; // our hurt canvas
+
     // visual effects
     public bool canDistort; // should we distort the image?
     float distortRate = 4; // what rate should we distort the image?
@@ -191,11 +194,21 @@ public class PlayerController : MonoBehaviour
 
         // can we decrease our objective alpha?
         objectiveCanvas.alpha += objectiveAlphaChange;
+
+        // decrease hurt alpha
+        hurtCanvas.alpha += -0.1f;
     }
 
     // if we gain life, positive number, if we lose life, negative number
     public void AddHP(int HP)
     {
+        // is this number positive or negative?
+        if (HP < 0)
+        {
+            // we took damage, set hurt canvas to 1
+
+        }
+
         playerHP += HP;
     }
 
