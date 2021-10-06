@@ -196,6 +196,7 @@ public class PlayerController : MonoBehaviour
         objectiveCanvas.alpha += objectiveAlphaChange;
 
         // decrease hurt alpha
+        Mathf.Clamp(hurtCanvas.alpha, 0, 1);
         hurtCanvas.alpha += -0.1f;
     }
 
@@ -206,7 +207,7 @@ public class PlayerController : MonoBehaviour
         if (HP < 0)
         {
             // we took damage, set hurt canvas to 1
-
+            hurtCanvas.alpha = 1;
         }
 
         playerHP += HP;
