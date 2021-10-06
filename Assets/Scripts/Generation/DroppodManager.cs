@@ -211,7 +211,7 @@ public class DroppodManager : MonoBehaviour
             fadeAmount = 0.1f;
             yield return new WaitUntil(() => fadeCanvasGroup.alpha >= 1);
             // load in to the advanced generation scene
-            SceneManager.LoadScene("Advanced Generation", LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync("Advanced Generation", LoadSceneMode.Single);
             yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Advanced Generation");
             // get our generation manager
             if (generationManager == null)
