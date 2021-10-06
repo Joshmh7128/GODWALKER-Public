@@ -47,6 +47,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text hpAmountText;         // our gp amount in text
     [SerializeField] Text bugAmountText;        // bug amount text display
 
+    // diegetic UI we're modifying in this script
+    [SerializeField] CanvasGroup objectiveCanvas; // our objective canvase
+    [SerializeField] Text currentObjective; // our currently objective
+    float objectiveAlphaChange; // how much should our alpha be changing?
+    bool objectiveShowing; // is our objective showing?
+    [SerializeField] GameObject tabIndicator; // our tab text indicating you can show the objective
+
     // visual effects
     public bool canDistort; // should we distort the image?
     float distortRate = 4; // what rate should we distort the image?
@@ -138,6 +145,14 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
         }
 
+        // tab press to show and update objective panel
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (!objectiveShowing)
+            // run our panel coroutine
+            StartCoroutine(ObjectivePanelHandler());
+        }
+
         // can we interact?
         if (canInteract)
         {
@@ -173,11 +188,42 @@ public class PlayerController : MonoBehaviour
         gemUpgradeCost = (int)Mathf.Round((gemMax / 3) * 1.8f);
         mineralUpgradeCost = (int)Mathf.Round((mineralMax / 3) * 1.8f);
         ammoUpgradeCost = (int)Mathf.Round((ammoMax / 3) * 1.8f);
+
+        // can we decrease our objective alpha?
+        objectiveCanvas.alpha += objectiveAlphaChange;
     }
 
     // if we gain life, positive number, if we lose life, negative number
     public void AddHP(int HP)
     {
         playerHP += HP;
+    }
+
+    public IEnumerator ObjectivePanelHandler()
+    {
+        tabIndicator.SetActive(false);
+        objectiveShowing = true;
+        objectiveAlphaChange = 0;
+        objectiveCanvas.alpha = 1;
+        yield return new WaitForSeconds(5f);
+        objectiveAlphaChange = -0.1f;
+        objectiveShowing = false;
+        tabIndicator.SetActive(true);
+    }
+
+    // update our objective UI
+    public void UpdateObjectiveUI()
+    {
+        // what scene are we in?
+        if (SceneManager.GetActiveScene().name == "Hub")
+        {
+            currentObjective.text = "Dropship ready. Board and press Space to launch.";
+        }
+
+        // what scene are we in?
+        if (SceneManager.GetActiveScene().name == "Advanced Generation")
+        {
+            currentObjective.text = "Collect Resources. When ready to continue, launch Dropship.";
+        }
     }
 }
