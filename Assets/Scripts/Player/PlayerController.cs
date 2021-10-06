@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public IEnumerator ObjectivePanelHandler()
-    {
+    {   // manage our objective related UI
         tabIndicator.SetActive(false);
         objectiveShowing = true;
         objectiveAlphaChange = 0;
@@ -208,7 +208,11 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(5f);
         objectiveAlphaChange = -0.1f;
         objectiveShowing = false;
-        tabIndicator.SetActive(true);
+        // only show our tab indicator if we are back in the hub
+        if (SceneManager.GetActiveScene().name == "Hub")
+        {
+            tabIndicator.SetActive(true);
+        }
     }
 
     // update our objective UI
