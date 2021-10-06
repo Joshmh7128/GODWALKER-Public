@@ -24,6 +24,7 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] Material indicatorYellow;
     [SerializeField] Material indicatorRed;
     [SerializeField] List<Renderer> indicatorRenderers; // our list of renderers
+
     RaycastHit hit;
 
     // knockback variables
@@ -123,10 +124,13 @@ public class BuzzardFlyingEnemy : EnemyClass
         
     public override void TakeDamage(int dmg, Vector3 dmgOrigin)
     {
-        // lower HP
-        HP -= dmg;
-        // trigger knockback
-        KnockBack(dmgOrigin, 30f);
+        if (invincible == false)
+        {
+            // lower HP
+            HP -= dmg;
+            // trigger knockback
+            KnockBack(dmgOrigin, 30f);
+        }
     }
 
     public void KnockBack(Vector3 originForceLocal, float knockDistanceLocal)

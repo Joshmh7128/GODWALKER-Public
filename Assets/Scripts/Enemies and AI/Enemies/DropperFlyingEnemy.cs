@@ -120,10 +120,13 @@ public class DropperFlyingEnemy : EnemyClass
 
     public override void TakeDamage(int dmg, Vector3 dmgOrigin)
     {
-        // lower HP
-        HP -= dmg;
-        // trigger knockback
-        KnockBack(dmgOrigin, 30f);
+        if (invincible == false)
+        {
+            // lower HP
+            HP -= dmg;
+            // trigger knockback
+            KnockBack(dmgOrigin, 30f);
+        }
     }
 
     public void KnockBack(Vector3 originForceLocal, float knockDistanceLocal)

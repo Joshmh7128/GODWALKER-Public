@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class EnemyClass : MonoBehaviour
 {
     public abstract void TakeDamage(int dmg, Vector3 dmgOrigin);
+    public bool invincible = false; // are we invincible?
 
     public void AddToManager()
     {
