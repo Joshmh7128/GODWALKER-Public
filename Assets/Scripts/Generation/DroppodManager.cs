@@ -111,10 +111,18 @@ public class DroppodManager : MonoBehaviour
         {
             greenZoneRenderer.material = dimGreen;
         }
+
+        // if we are in the hub and hit escape save progress
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            hubManager.SaveProgress();
+        }
     }
 
     IEnumerator LaunchPod()
     {
+        // save our progress
+        hubManager.SaveProgress();
         // current action text
         currentActionOne.text = "Launching Ship...";
         currentActionTwo.text = "Launching Ship...";

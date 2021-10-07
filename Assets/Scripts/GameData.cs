@@ -54,19 +54,21 @@ public class GameData : MonoBehaviour
                 saveData = JsonUtility.FromJson<SaveData>(fileContents);
                 // and there we have it! the Json data has been imported in to Unity to be read
                 gameStart = true;
+                // update hub progress after we load it
+                hubManager.UpdateProgress();
             }
             else // if we're saving again...
             {
-                SaveDataUpdate();
+                StartCoroutine(SaveDataUpdate());
             }
         }
         else
         {
-            SaveDataUpdate();
+            StartCoroutine(SaveDataUpdate());
         }
     }
 
-    void SaveDataUpdate()
+    IEnumerator SaveDataUpdate()
     {
         // update our save data
         // access our save data and add the values
@@ -87,5 +89,11 @@ public class GameData : MonoBehaviour
         string jsonString = JsonUtility.ToJson(saveData);
         // write JSON to file
         File.WriteAllText(Application.persistentDataPath + "/gamedata.data", jsonString);
+
+        // wait...
+        yield return new WaitForSeconds(2f);
+        
+        // update hub progress after we save it
+        hubManager.UpdateProgress();
     }
 }

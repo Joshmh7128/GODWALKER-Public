@@ -51,13 +51,13 @@ public class HubManager : MonoBehaviour
         // save on load
         gameData.SaveAll();
         // update our progress
-        UpdateProgress();
+        //UpdateProgress();
         // debug
         Debug.Log("Progress Saved.");
     }
 
     // call this internally to update our progress
-    void UpdateProgress()
+    public void UpdateProgress()
     {
         // update our data to match the save file
         hubMineralAmount = gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.hubMinerals];
