@@ -25,6 +25,7 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] GameObject platformWalls;
 
     bool canDeposit; // can we deposit minerals in to the drop pod's tanks?
+    bool shipCanDeposit; // can we deposit in to the hub?
     float depositRate = 5;
     [SerializeField] public float gemAmount;
     [SerializeField] public float gemMax;
@@ -62,7 +63,7 @@ public class DroppodManager : MonoBehaviour
     // fade ui
     [SerializeField] CanvasGroup fadeCanvasGroup; // our fade canvas group
     [SerializeField] float fadeAmount; // how much are we fading?
-    [SerializeField] GameObject hubWarp; 
+    [SerializeField] GameObject hubWarp;
     [SerializeField] GameObject clusterWarp;
 
     // hub
@@ -75,7 +76,7 @@ public class DroppodManager : MonoBehaviour
         // make sure the pod stays where it starts
         ourPlatform.targetPos = targetPosGround;
         // set a new finishing point for the pod
-        targetPosFly = new Vector3(transform.position.x, transform.position.y+100, transform.position.z);
+        targetPosFly = new Vector3(transform.position.x, transform.position.y + 100, transform.position.z);
 
         // make sure we have our generation manager
         if (generationManager == null && inHub == false && (SceneManager.GetActiveScene().name != "Primer"))
@@ -154,6 +155,10 @@ public class DroppodManager : MonoBehaviour
             yield return new WaitUntil(() => fadeCanvasGroup.alpha >= 1);
             // load in to the advanced generation scene
             SceneManager.LoadScene("Hub", LoadSceneMode.Single);
+            // unload the player
+            playerController.gemAmount = 0;
+            playerController.mineralAmount = 0;
+            playerController.bugPartAmount = 0;
             // reset remainingTrips
             remainingTrips = maxTrips;
             // wait until the hub has been loaded 
@@ -179,20 +184,16 @@ public class DroppodManager : MonoBehaviour
             yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, new Vector3(0, 0, 0)) < 5f);
             // set inHub
             inHub = true;
+            // enable can deposit
+            shipCanDeposit = true;
             // open the walls
             platformWalls.SetActive(false);
             // enable player movement
             playerController.canMove = true;
             // we're done
             isFlying = false;
-            // update our values
-            hubManager.hubGemAmount += gemAmount;
-            gemAmount = 0;
-            hubManager.hubMineralAmount += mineralAmount;
-            mineralAmount = 0;
-            hubManager.hubBugPartAmount += bugPartAmount;
-            bugPartAmount = 0;
-            hubManager.dropPodAmmoAmount = ammoAmount;
+            // wait until we have unloaded everything
+            yield return new WaitUntil(() => (mineralAmount == 0) && (gemAmount == 0) && (bugPartAmount == 0));
             // save our progress
             hubManager.SaveProgress();
             // exit coroutine
@@ -202,9 +203,6 @@ public class DroppodManager : MonoBehaviour
         // respond accordingly
         if (inHub == true)
         {
-
-            // enable can deposit
-            canDeposit = true;
             // fade and enable hub warp
             hubWarp.SetActive(false);
             clusterWarp.SetActive(true);
@@ -281,8 +279,8 @@ public class DroppodManager : MonoBehaviour
             {
                 playerController.mineralAmount--;
                 mineralAmount++;
-            }            
-            
+            }
+
             if ((playerController.bugPartAmount > 0) && (bugPartAmount < bugPartMax))
             {
                 playerController.bugPartAmount--;
@@ -302,7 +300,7 @@ public class DroppodManager : MonoBehaviour
         Mathf.Clamp(fadeCanvasGroup.alpha, 0, 1);
 
         // drop ship depositing in to hub
-        if ((canDeposit) && (SceneManager.GetActiveScene().name == "Hub"))
+        if ((shipCanDeposit) && (SceneManager.GetActiveScene().name == "Hub"))
         {
             if (gemAmount > 0)
             {
@@ -315,6 +313,12 @@ public class DroppodManager : MonoBehaviour
                 mineralAmount--;
                 hubManager.hubMineralAmount++;
             }
+
+            if (bugPartAmount > 0)
+            {
+                bugPartAmount--;
+                hubManager.hubBugPartAmount++;
+            }
         }
         // display our ammo amount
         ammoAmountText.text = ammoAmount.ToString() + " / " + ammoMax; // in text
@@ -324,7 +328,7 @@ public class DroppodManager : MonoBehaviour
         mineralSlider.value = mineralAmount / mineralMax;
         // display our gem amount
         gemAmountText.text = gemAmount.ToString() + " / " + gemMax; // in text
-        gemSlider.value = gemAmount / gemMax;        
+        gemSlider.value = gemAmount / gemMax;
         // display our bug part amount
         bugPartAmountText.text = bugPartAmount.ToString() + " / " + bugPartMax; // in text
         bugSlider.value = bugPartAmount / bugPartMax;
@@ -352,7 +356,7 @@ public class DroppodManager : MonoBehaviour
             canLaunch = true;
             canDeposit = true;
         }
-    }    
+    }
 
     // when the player enters the green zone
     private void OnTriggerExit(Collider other)
