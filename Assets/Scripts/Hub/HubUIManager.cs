@@ -69,7 +69,7 @@ public class HubUIManager : MonoBehaviour
         resupplyDropshipAmmoCostTextGems.text = resupplyDropshipAmmoCost.ToString();
         resupplyDropshipAmmoCostTextMinerals.text = resupplyDropshipAmmoCost.ToString();
         // calculate the cost of resupplying the player's ammo and HP
-        resupplyPlayerCost = (Mathf.Round(hubManager.playerController.playerMaxHP - hubManager.playerController.playerHP) * 0.5f) + (Mathf.Round(hubManager.playerController.ammoMax - hubManager.playerController.ammoAmount));
+        resupplyPlayerCost = (Mathf.Round(hubManager.playerController.playerMaxHP - hubManager.playerController.playerHP)) + (Mathf.Round(hubManager.playerController.ammoMax - hubManager.playerController.ammoAmount) * 0.5f);
         resupplyDropshipPlayerCostTextGems.text = resupplyPlayerCost.ToString();
         resupplyDropshipPlayerCostTextMinerals.text = resupplyPlayerCost.ToString();
         hubManager.playerResupplyCost = resupplyPlayerCost;
