@@ -56,6 +56,8 @@ public class PlayerController : MonoBehaviour
 
     // non-diegetic UI elements we're modifying
     [SerializeField] CanvasGroup hurtCanvas; // our hurt canvas
+    [SerializeField] CanvasGroup deathCanvas; // our death canvas
+    [SerializeField] CanvasGroup fadeCanvas; // our death canvas
 
     // visual effects
     public bool canDistort; // should we distort the image?
@@ -72,6 +74,10 @@ public class PlayerController : MonoBehaviour
     public Transform interactionCameraPos;
     public GameObject interactionMouse;
     public bool canInteract;
+
+    // our drop pod
+    [SerializeField] Transform dropPodTransform;
+    [SerializeField] DroppodManager dropPodManager;
 
     // Start is called before the first frame update
     void Start()
@@ -164,7 +170,48 @@ public class PlayerController : MonoBehaviour
                 cameraScript.transform.position = interactionCameraPos.position;
                 cameraScript.transform.rotation = interactionCameraPos.rotation;
             }
-        } 
+        }
+
+        // lose condition
+        if (playerHP <= 0)
+        {
+            // stop movement 
+            canMove = false;
+            cameraScript.canLook = false;
+            // display death canvas
+            deathCanvas.alpha = 1;
+            // if we press space, emergency teleport back to base (load primer)
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                // display death canvas
+                deathCanvas.alpha = 0;
+                // drop all resources
+                mineralAmount = 0;
+                gemAmount = 0;
+                bugPartAmount = 0;
+                ammoAmount = 0;
+                dropPodManager.mineralAmount = 0;
+                dropPodManager.gemAmount = 0;
+                dropPodManager.ammoAmount = 0;
+                dropPodManager.bugPartAmount = 0;
+                // fade out
+                fadeCanvas.alpha = 1;
+                // reset position
+                transform.position = new Vector3(0, 3.5f, 0);
+                // reset drop pod position. everything else should be handled by the drop pod once it realized we are in the hub.
+                dropPodTransform.position = new Vector3(0, 0, 0);
+                // set droppod target position to 0 out
+                dropPodManager.ourPlatform.targetPos = new Vector3(0, 0, 0);
+                // let the player move
+                canMove = true;
+                cameraScript.canLook = true;
+                // load primer
+                SceneManager.LoadScene("RePrimer", LoadSceneMode.Single);
+                // set player HP to 1
+                playerHP = 1;
+            }
+
+        }
     }
 
     // fixed update is called once per frame
@@ -198,6 +245,10 @@ public class PlayerController : MonoBehaviour
         // decrease hurt alpha
         Mathf.Clamp(hurtCanvas.alpha, 0, 1);
         hurtCanvas.alpha += -0.1f;
+
+        // make sure we aren't out of bounds
+        Mathf.Clamp(playerHP, 0, playerMaxHP);
+
     }
 
     // if we gain life, positive number, if we lose life, negative number
@@ -210,7 +261,10 @@ public class PlayerController : MonoBehaviour
             hurtCanvas.alpha = 1;
         }
 
+        // mod it
         playerHP += HP;
+
+
     }
 
     public IEnumerator ObjectivePanelHandler()

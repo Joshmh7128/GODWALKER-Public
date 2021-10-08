@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameData : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class GameData : MonoBehaviour
     public SaveData saveData;
     [SerializeField] HubManager hubManager;
     public bool gameStart = false;
+    [SerializeField] CanvasGroup autosaveIcon;
+    float alphaChange;
 
     // make sure we do not get destroyed
     private void Start()
@@ -56,6 +59,8 @@ public class GameData : MonoBehaviour
                 gameStart = true;
                 // update hub progress after we load it
                 hubManager.UpdateProgress();
+                // display save data icon
+                StartCoroutine(SaveIconShow());
             }
             else // if we're saving again...
             {
@@ -66,6 +71,7 @@ public class GameData : MonoBehaviour
         {
             StartCoroutine(SaveDataUpdate());
         }
+
     }
 
     IEnumerator SaveDataUpdate()
@@ -95,5 +101,21 @@ public class GameData : MonoBehaviour
         
         // update hub progress after we save it
         hubManager.UpdateProgress();
+
+        // display that we have saved data
+        StartCoroutine(SaveIconShow());
+    }
+
+    IEnumerator SaveIconShow()
+    {
+        alphaChange = 0.05f;
+        yield return new WaitForSeconds(4);
+        alphaChange = -0.05f;
+    }
+
+    private void FixedUpdate()
+    {
+        autosaveIcon.alpha += alphaChange;
+        Mathf.Clamp(autosaveIcon.alpha, 0, 1);
     }
 }

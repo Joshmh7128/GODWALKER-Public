@@ -50,8 +50,6 @@ public class HubManager : MonoBehaviour
     {
         // save on load
         gameData.SaveAll();
-        // update our progress
-        //UpdateProgress();
         // debug
         Debug.Log("Progress Saved.");
     }
@@ -74,4 +72,6 @@ public class HubManager : MonoBehaviour
         playerController.mineralMax = (int)gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.playerMineralMax];
 
     }
+
+
 }

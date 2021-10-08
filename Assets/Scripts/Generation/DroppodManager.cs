@@ -21,7 +21,7 @@ public class DroppodManager : MonoBehaviour
     public Vector3 targetPosGroundNew;
     [SerializeField] Vector3 targetPosFly;
     [SerializeField] Vector3 movementDirection;
-    [SerializeField] MovingPlatform ourPlatform;
+    public MovingPlatform ourPlatform;
     [SerializeField] GameObject platformWalls;
 
     bool canDeposit; // can we deposit minerals in to the drop pod's tanks?
@@ -211,6 +211,8 @@ public class DroppodManager : MonoBehaviour
         // respond accordingly
         if (inHub == true)
         {
+            // reset our run counter in case of death
+            remainingTrips = maxTrips;
             // fade and enable hub warp
             hubWarp.SetActive(false);
             clusterWarp.SetActive(true);
