@@ -57,8 +57,8 @@ public class DroppodManager : MonoBehaviour
 
     // hub management
     [SerializeField] bool inHub; // are we in the hub?
-    [SerializeField] int maxTrips; // how many trips total
-    [SerializeField] int remainingTrips; // how many trips do we have left?
+    public int maxTrips; // how many trips total
+    public int remainingTrips; // how many trips do we have left?
 
     // fade ui
     [SerializeField] CanvasGroup fadeCanvasGroup; // our fade canvas group

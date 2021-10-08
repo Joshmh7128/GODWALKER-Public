@@ -116,9 +116,13 @@ public class TileClass : MonoBehaviour
             }
 
             if (isEmpty)
-            {
+            {   
+                // make sure we only show the blocking chunks if we are the first run
                 GameObject.Find("Drop Pod").GetComponent<DroppodManager>().targetPosGroundNew = transform.position;
-                EmptySet.SetActive(true);
+                if (GameObject.Find("Drop Pod").GetComponent<DroppodManager>().remainingTrips != GameObject.Find("Drop Pod").GetComponent<DroppodManager>().maxTrips-1)
+                {
+                    EmptySet.SetActive(true);
+                }
             }
         }
 
