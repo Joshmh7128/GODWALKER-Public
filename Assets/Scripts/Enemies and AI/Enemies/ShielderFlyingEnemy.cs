@@ -8,7 +8,6 @@ public class ShielderFlyingEnemy : EnemyClass
     [SerializeField] float speed; // the speed we want to move at
     [SerializeField] float currentSpeed; // the speed we are moving right now
     [SerializeField] float randomRadius; // determines how far he flies per movement
-    [SerializeField] float shootAnimTime = 1f; // out shot animation length
     [SerializeField] float HP; // our HP
     [SerializeField] float activationDistance; // our activation distance
     [SerializeField] GameObject enemyBullet; // the thing we are firing

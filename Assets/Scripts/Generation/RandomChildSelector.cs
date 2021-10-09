@@ -11,8 +11,11 @@ public class RandomChildSelector : MonoBehaviour
     // when this object is enabled
     void OnEnable()
     {
-        choice = Random.Range(0, transform.childCount);
-        transform.GetChild(choice).gameObject.SetActive(true);
+        if (transform.childCount > 0)
+        {
+            choice = Random.Range(0, transform.childCount);
+            transform.GetChild(choice).gameObject.SetActive(true);
+        }
     }
 
     private void OnDrawGizmos()

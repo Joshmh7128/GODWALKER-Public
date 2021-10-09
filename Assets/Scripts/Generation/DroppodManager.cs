@@ -26,7 +26,6 @@ public class DroppodManager : MonoBehaviour
 
     bool canDeposit; // can we deposit minerals in to the drop pod's tanks?
     bool shipCanDeposit; // can we deposit in to the hub?
-    float depositRate = 5;
     [SerializeField] public float gemAmount;
     [SerializeField] public float gemMax;
     [SerializeField] public int gemUpgradeCost;
