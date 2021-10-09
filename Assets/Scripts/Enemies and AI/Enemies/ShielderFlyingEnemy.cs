@@ -131,12 +131,10 @@ public class ShielderFlyingEnemy : EnemyClass
         }
     }
 
-    public override void TakeDamage(int dmg, Vector3 dmgOrigin)
+    public override void TakeDamage(int dmg)
     {
         // lower HP
         HP -= dmg;
-        // trigger knockback
-        KnockBack(dmgOrigin, 30f);
     }
 
     public void KnockBack(Vector3 originForceLocal, float knockDistanceLocal)

@@ -51,7 +51,7 @@ public class PlayerBulletScript : MonoBehaviour
 
         if (collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<EnemyClass>().TakeDamage(1, transform.position);
+            collision.GetComponent<EnemyClass>().TakeDamage(1);
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }

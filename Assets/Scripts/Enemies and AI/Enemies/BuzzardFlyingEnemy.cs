@@ -125,16 +125,13 @@ public class BuzzardFlyingEnemy : EnemyClass
             renderer.material = indicatorYellow;
         }
     }
-
         
-    public override void TakeDamage(int dmg, Vector3 dmgOrigin)
+    public override void TakeDamage(int dmg)
     {
         if (invincible == false)
         {
             // lower HP
             HP -= dmg;
-            // trigger knockback
-            KnockBack(dmgOrigin, 30f);
         }
     }
 

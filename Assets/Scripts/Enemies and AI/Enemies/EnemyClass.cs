@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class EnemyClass : MonoBehaviour
 {
-    public abstract void TakeDamage(int dmg, Vector3 dmgOrigin);
+    public abstract void TakeDamage(int dmg);
     public bool invincible = false; // are we invincible?
     public Slider HPslider; // our hp slider
     public Text HPTextAmount; // our hp slider

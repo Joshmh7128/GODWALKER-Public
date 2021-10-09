@@ -8,6 +8,7 @@ public class BreakableChunk : MonoBehaviour
     [SerializeField] float hp, hpMax; // the HP and Max HP of our breakable chunk
     [SerializeField] Renderer ourRenderer; // the renderer of our chunk
     [SerializeField] float H, S, V; // color vars
+    [SerializeField] float dropAmount; // color vars
     [SerializeField] GameObject smallChunk; // the same chunk but smaller that the player can pick up. large chunk breaks = small chunks fly out
 
     private void Start()
@@ -24,7 +25,7 @@ public class BreakableChunk : MonoBehaviour
         if (hp <= 0)
         {
             // choose a random amount of small chunks then spawn them in
-            for (float i = 0; i < 10; i++)
+            for (float i = 0; i < dropAmount; i++)
             {
                 Instantiate(smallChunk, transform.position + new Vector3(Random.Range(-3,3), transform.position.y+1, Random.Range(-3, 3)), Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360)));
             }
