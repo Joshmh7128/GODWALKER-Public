@@ -149,35 +149,35 @@ public class TileClass : MonoBehaviour
             if (primeResult == 2 || primeResult == 6 || primeResult == 46 ||primeResult == 138)
             {   // to the forward
                 // wallObjects[0 + diff, 0 + diff, 1 + diff].SetActive(true);
-                Instantiate(wallObjects[0 + diff, 0 + diff, 1 + diff], transform);
+                Instantiate(wallObjectList[0], transform);
             } 
             else if (primeResult == 11 || primeResult == 77 || primeResult == 143 || primeResult == 1001)
             {   // to backward
-                Instantiate(wallObjects[0 + diff, 0 + diff, -1 + diff], transform);
+                Instantiate(wallObjectList[1], transform);
             }            
             else if (primeResult == 5 || primeResult == 15 || primeResult == 35 || primeResult == 105)
             {   // right
-                Instantiate(wallObjects[1 + diff, 0 + diff, 0 + diff], transform);
+                Instantiate(wallObjectList[2], transform);
             }            
             else if (primeResult == 17 || primeResult == 221 || primeResult == 391 || primeResult == 5083)
             {   // left
-                Instantiate(wallObjects[-1 + diff, 0 + diff, 0 + diff], transform);
+                Instantiate(wallObjectList[3], transform);
             }           
             else if (primeResult == 3)
             {   // forward right
-                Instantiate(wallObjects[1 + diff, 0 + diff, 1 + diff], transform);
+                Instantiate(wallObjectList[4], transform);
             }           
             else if (primeResult == 23)
             {   // forward left
-                Instantiate(wallObjects[-1 + diff, 0 + diff, 1 + diff], transform);
+                Instantiate(wallObjectList[5], transform);
             }           
             else if (primeResult == 7)
             {   // backward right
-                Instantiate(wallObjects[1 + diff, 0 + diff, -1 + diff], transform);
+                Instantiate(wallObjectList[6], transform);
             }
             else if (primeResult == 13)
             {   // backward left
-                Instantiate(wallObjects[-1 + diff, 0 + diff, -1 + diff], transform);
+                Instantiate(wallObjectList[7], transform);
             }
             else if (primeResult == 30 || primeResult == 10 || primeResult == 690 || primeResult == 230 || primeResult == 70 || primeResult == 210 || primeResult == 1610 || primeResult == 4830)
             {   // forward right corner
