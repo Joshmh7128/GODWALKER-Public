@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShielderFlyingEnemy : EnemyClass
 {
@@ -9,6 +10,7 @@ public class ShielderFlyingEnemy : EnemyClass
     [SerializeField] float currentSpeed; // the speed we are moving right now
     [SerializeField] float randomRadius; // determines how far he flies per movement
     [SerializeField] float HP; // our HP
+    [SerializeField] float maxHP; // our max HP
     [SerializeField] float activationDistance; // our activation distance
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
@@ -34,6 +36,10 @@ public class ShielderFlyingEnemy : EnemyClass
 
     private void Start()
     {
+        // make sure our HP is at max
+        HP = maxHP;
+        HPslider.maxValue = maxHP;
+
         // add to list
         AddToManager();
 
@@ -141,6 +147,10 @@ public class ShielderFlyingEnemy : EnemyClass
     // update
     private void Update()
     {
+        // setup our HP and values
+        HPslider.maxValue = maxHP;
+        HPslider.value = HP;
+        HPTextAmount.text = HP.ToString();
         // move towards our target
         transform.position = Vector3.MoveTowards(transform.position, newPos, currentSpeed * Time.deltaTime);
         // calculate knockback
@@ -172,6 +182,22 @@ public class ShielderFlyingEnemy : EnemyClass
     // fixed update
     private void FixedUpdate()
     {
+        // if we are at full health don't show the bar or text
+        if (HP == maxHP)
+        {
+            HPcanvasGroup.alpha = 0;
+        }
+        else
+        {
+            HPcanvasGroup.alpha = 1;
+        }
+
+
+        // update our text and bar
+        HPTextAmount.text = HP.ToString();
+        HPslider.value = HP;
+
+
         // is the player nearby us?
         if (Vector3.Distance(transform.position, player.position) < activationDistance)
         {

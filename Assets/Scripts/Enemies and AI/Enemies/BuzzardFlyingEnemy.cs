@@ -10,6 +10,7 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] float randomRadius; // determines how far he flies per movement
     [SerializeField] float shootAnimTime = 0.75f; // out shot animation length
     [SerializeField] float HP; // our HP
+    [SerializeField] float maxHP; // our max HP
     [SerializeField] float activationDistance;
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
@@ -33,6 +34,10 @@ public class BuzzardFlyingEnemy : EnemyClass
 
     private void Start()
     {
+        // make sure our HP is at max
+        HP = maxHP;
+        HPslider.maxValue = maxHP;
+
         // add to list
         AddToManager();
 
@@ -163,6 +168,21 @@ public class BuzzardFlyingEnemy : EnemyClass
     // fixed update
     private void FixedUpdate()
     {
+        // if we are at full health don't show the bar or text
+        if (HP == maxHP)
+        {
+            HPcanvasGroup.alpha = 0;
+        }
+        else
+        {
+            HPcanvasGroup.alpha = 1;
+        }
+
+
+        // update our text and bar
+        HPTextAmount.text = HP.ToString();
+        HPslider.value = HP;
+
         // is the player nearby us?
         if (Vector3.Distance(transform.position, player.position) < activationDistance)
         {
