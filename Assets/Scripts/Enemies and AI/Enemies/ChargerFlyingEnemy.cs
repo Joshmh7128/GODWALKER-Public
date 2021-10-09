@@ -13,6 +13,7 @@ public class ChargerFlyingEnemy : EnemyClass
     [SerializeField] float maxHP; // our max HP
     [SerializeField] float activationDistance;
     bool canLookAtPlayer; // can we look at the player?
+    bool canLinePlayer; // can we look at the player?
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
     [SerializeField] GameObject bugPartDrop; // our drop
@@ -28,7 +29,7 @@ public class ChargerFlyingEnemy : EnemyClass
     [SerializeField] List<Renderer> indicatorRenderers; // our list of renderers
     [SerializeField] LineRenderer ourLine;
     [SerializeField] Transform lineStart;
-
+    bool lineLocked;
     RaycastHit hit;
 
     // knockback variables
@@ -37,6 +38,10 @@ public class ChargerFlyingEnemy : EnemyClass
 
     private void Start()
     {
+        /*
+        ourLine.positionCount = 2;
+        ourLine.SetPosition(0, lineStart.position);
+        ourLine.SetPosition(1, lineStart.position);*/
         // make sure our HP is at max
         HP = maxHP;
         HPslider.maxValue = maxHP;
@@ -67,18 +72,35 @@ public class ChargerFlyingEnemy : EnemyClass
             renderer.material = indicatorRed;
         }
         runningBehaviour = true;
+        if (canLinePlayer == false) 
+        { 
+            runningBehaviour = false;
+            yield break;
+        }
         currentSpeed = 0;
         // show our line, indicating we will charge at the player, while also facing them
         ourLine.positionCount = 2;
+        /*
         ourLine.SetPosition(0, lineStart.position);
-
-        ourLine.material = indicatorRed;
+        ourLine.SetPosition(1, player.transform.position);*/
+        ourLine.material = indicatorYellow;
+        if (canLinePlayer == false)
+        {
+            runningBehaviour = false;
+            yield break;
+        }
+        lineLocked = false;
         canLookAtPlayer = true;
         animator.Play("Charge Up");
         yield return new WaitForSeconds(hangTime);
-        ourLine.startColor = new Color(255, 0, 0);
-        ourLine.endColor = new Color(255, 0, 0);
+        ourLine.material = indicatorRed;
         canLookAtPlayer = false;
+        lineLocked = true;
+        if (canLinePlayer == false)
+        {
+            runningBehaviour = false;
+            yield break;
+        }
         // charge at the single position of where we saw the player
         currentSpeed = speed;
         animator.Play("Idle"); 
@@ -116,7 +138,7 @@ public class ChargerFlyingEnemy : EnemyClass
     // update
     private void Update()
     {
-        ourLine.SetPosition(0, lineStart.position);
+        // ourLine.SetPosition(0, lineStart.position);
         // move towards our target
         transform.position = Vector3.MoveTowards(transform.position, newPos, currentSpeed * Time.deltaTime);
         // calculate knockback
@@ -126,7 +148,6 @@ public class ChargerFlyingEnemy : EnemyClass
         {
             // look at the player
             transform.LookAt(player, Vector3.up);
-            
         }
         // death
         if (HP <= 0)
@@ -138,13 +159,24 @@ public class ChargerFlyingEnemy : EnemyClass
             { Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); }
             // destroy ourselves
             Destroy(gameObject);
+
+        }
+
+        if (canLinePlayer && (lineLocked == false))
+        {
+            // ourLine.SetPosition(1, player.transform.position);
+        }
+        
+        if (!canLinePlayer)
+        {
+            // ourLine.SetPosition(1, lineStart.position);
         }
     }
 
     // fixed update
     private void FixedUpdate()
     {
-        ourLine.SetPosition(0, lineStart.position);
+
         // if we are at full health don't show the bar or text
         if (HP == maxHP)
         {
@@ -163,27 +195,21 @@ public class ChargerFlyingEnemy : EnemyClass
         // is the player nearby us?
         if (Vector3.Distance(transform.position, player.position) < activationDistance)
         {
-            if (!runningBehaviour)
             // Debug.Log("Player is within range");
             if (Physics.Linecast(raycastOrigin.position, player.position, out hit))
             {
                 if (hit.transform.tag == ("Player"))
                 {
-                    if (canLookAtPlayer)
-                    {
-                        ourLine.SetPosition(1, player.transform.position);
-                    }
-                    StartCoroutine("FlyingBehaviour");
+                    canLinePlayer = true;
+
+                    if (!runningBehaviour)
+                        StartCoroutine("FlyingBehaviour");
                 }
                 else
                 {
-                    // Debug.Log("No Hit. Tag: " + hit.transform.tag);
+                    canLinePlayer = false;
                 }
             }
-        }
-        else if (Vector3.Distance(transform.position, player.position) > activationDistance)
-        {
-            ourLine.SetPosition(1, transform.position);
         }
 
         // knockback reduction

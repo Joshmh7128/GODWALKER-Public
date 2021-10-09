@@ -9,6 +9,8 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] float bulletSpeed; // what is the speed of our bullet?
     [SerializeField] GameObject cubePuff; // our particle effect
     Transform enemyManager;
+    Transform playerTransform;
+    [SerializeField] LineRenderer lineRenderer;
 
     // for when our bullet is instantiated
     private void Start()
@@ -19,6 +21,9 @@ public class EnemyBulletScript : MonoBehaviour
         // set our parent
         enemyManager = GameObject.Find("Enemy Manager").transform;
         transform.SetParent(enemyManager);
+
+        // find player
+        playerTransform = GameObject.Find("Player").transform;
 
         // turn bullet
         transform.LookAt(bulletTarget);
