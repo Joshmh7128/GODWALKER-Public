@@ -38,11 +38,9 @@ public class ChargerFlyingEnemy : EnemyClass
 
     private void Start()
     {
-        /*
-        ourLine.positionCount = 2;
-        ourLine.SetPosition(0, lineStart.position);
-        ourLine.SetPosition(1, lineStart.position);*/
-        // make sure our HP is at max
+        ourLine.startColor = new Color(255, 0, 0, 0);
+        ourLine.endColor = new Color(255, 0, 0, 0);
+
         HP = maxHP;
         HPslider.maxValue = maxHP;
 
@@ -80,10 +78,7 @@ public class ChargerFlyingEnemy : EnemyClass
         currentSpeed = 0;
         // show our line, indicating we will charge at the player, while also facing them
         ourLine.positionCount = 2;
-        /*
-        ourLine.SetPosition(0, lineStart.position);
-        ourLine.SetPosition(1, player.transform.position);*/
-        ourLine.material = indicatorYellow;
+        // can we shoot a line to the player?
         if (canLinePlayer == false)
         {
             runningBehaviour = false;
@@ -96,17 +91,27 @@ public class ChargerFlyingEnemy : EnemyClass
         ourLine.material = indicatorRed;
         canLookAtPlayer = false;
         lineLocked = true;
+
+        // can we see the player?
         if (canLinePlayer == false)
         {
             runningBehaviour = false;
+            // if we can't see the player, break
             yield break;
         }
+        // set our line positions to show we area about to charge the player
+        ourLine.SetPosition(1, player.transform.position);
+        // display our line
+        ourLine.startColor = new Color(255, 0, 0, 255);
+        ourLine.endColor = new Color(255, 0, 0, 255);
         // charge at the single position of where we saw the player
         currentSpeed = speed;
         animator.Play("Idle"); 
         newPos = new Vector3(player.transform.position.x + Random.Range(-3,3), player.transform.position.y+1.25f, player.transform.position.z+Random.Range(-3, 3));
         // hang in space for a few moments
         yield return new WaitForSeconds(hangTime);
+        ourLine.startColor = new Color(255, 0, 0, 0);
+        ourLine.endColor = new Color(255, 0, 0, 0);
         currentSpeed = 0;
         canLookAtPlayer = true;
         yield return new WaitForSeconds(hangTime);
@@ -138,7 +143,8 @@ public class ChargerFlyingEnemy : EnemyClass
     // update
     private void Update()
     {
-        // ourLine.SetPosition(0, lineStart.position);
+        // make sure we update our line position so that we are always properly showing it from our body to the player
+        ourLine.SetPosition(0, lineStart.position);
         // move towards our target
         transform.position = Vector3.MoveTowards(transform.position, newPos, currentSpeed * Time.deltaTime);
         // calculate knockback
@@ -160,16 +166,6 @@ public class ChargerFlyingEnemy : EnemyClass
             // destroy ourselves
             Destroy(gameObject);
 
-        }
-
-        if (canLinePlayer && (lineLocked == false))
-        {
-            // ourLine.SetPosition(1, player.transform.position);
-        }
-        
-        if (!canLinePlayer)
-        {
-            // ourLine.SetPosition(1, lineStart.position);
         }
     }
 
