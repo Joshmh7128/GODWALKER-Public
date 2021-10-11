@@ -70,6 +70,9 @@ public class CameraScript : MonoBehaviour
 
     void LateUpdate()
     {
+        // clamp our shake
+        Mathf.Clamp(shakeAmount, 0, 0.08f);
+
         if (canLook)
         {
             // run math to rotate the head of the player as we move the mouse
