@@ -107,7 +107,7 @@ public class ChargerFlyingEnemy : EnemyClass
         // charge at the single position of where we saw the player
         currentSpeed = speed;
         animator.Play("Idle"); 
-        newPos = new Vector3(player.transform.position.x + Random.Range(-3,3), player.transform.position.y+1.25f, player.transform.position.z+Random.Range(-3, 3));
+        newPos = new Vector3(player.transform.position.x, player.transform.position.y+1.25f, player.transform.position.z);
         // hang in space for a few moments
         yield return new WaitForSeconds(hangTime);
         ourLine.startColor = new Color(255, 0, 0, 0);
@@ -198,15 +198,36 @@ public class ChargerFlyingEnemy : EnemyClass
                 {
                     canLinePlayer = true;
 
+                    ourLine.startColor = new Color(255, 0, 0, 255);
+                    ourLine.endColor = new Color(255, 0, 0, 255);
+
                     if (!runningBehaviour)
                         StartCoroutine("FlyingBehaviour");
                 }
-                else
+
+                if (hit.transform.tag != ("Player"))
                 {
+                    ourLine.startColor = new Color(255, 0, 0, 0);
+                    ourLine.endColor = new Color(255, 0, 0, 0);
                     canLinePlayer = false;
                 }
             }
         }
+
+        if (Vector3.Distance(transform.position, player.position) > activationDistance)
+        {
+            ourLine.SetPosition(0, lineStart.position);
+            ourLine.SetPosition(1, lineStart.position);
+            ourLine.startColor = new Color(0, 0, 0, 0);
+            ourLine.endColor = new Color(0, 0, 0, 0);
+        }
+
+        if (canLookAtPlayer)
+        {
+            ourLine.SetPosition(0, lineStart.position);
+            ourLine.SetPosition(1, lineStart.position);
+        }
+        
 
         // knockback reduction
         if (knockDistance > 0)
@@ -220,5 +241,28 @@ public class ChargerFlyingEnemy : EnemyClass
     private void OnDrawGizmos()
     {
         // Gizmos.DrawLine(transform.position, player.position);
+    }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        Debug.Log("Charger Collision");
+
+        // if this hits the player
+        if (col.CompareTag("Player"))
+        {
+            player.gameObject.GetComponent<PlayerController>().AddHP(-1);
+            Camera.main.GetComponent<CameraScript>().shakeDuration += 0.085f;
+            Instantiate(cubePuffDeath, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+            Destroy(gameObject);
+        }
+
+        // if this hits a breakable
+        if (col.CompareTag("Breakable"))
+        {
+            // anything with the Breakable tag will be a chunk and have a BreakableBreak function
+            col.gameObject.GetComponent<BreakableChunk>().BreakableBreak();
+            Instantiate(cubePuffDeath, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+            Destroy(gameObject);
+        }
     }
 }
