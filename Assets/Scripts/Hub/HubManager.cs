@@ -24,7 +24,7 @@ public class HubManager : MonoBehaviour
     void Awake()
     {
         // make sure we don't destroy on load
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -73,5 +73,12 @@ public class HubManager : MonoBehaviour
 
     }
 
-
+    // find our gamedata if we lose it
+    private void Update()
+    {
+        if (gameData == null)
+        {
+            gameData = GameObject.Find("GameDataManager").GetComponent<GameData>();
+        }
+    }
 }

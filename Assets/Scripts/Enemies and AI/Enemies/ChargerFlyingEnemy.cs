@@ -38,6 +38,8 @@ public class ChargerFlyingEnemy : EnemyClass
 
     private void Start()
     {
+        canLookAtPlayer = true;
+
         ourLine.startColor = new Color(255, 0, 0, 0);
         ourLine.endColor = new Color(255, 0, 0, 0);
 

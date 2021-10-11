@@ -9,6 +9,7 @@ using Rewired;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Controller Values")]
     // controller values
     [SerializeField] CharacterController characterController; // our character controller
     public CameraScript cameraScript;           // our camera script
@@ -39,12 +40,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject playerBullet;   // bullet prefab
     [SerializeField] Slider ammoSlider;         // our ammo slider
     [SerializeField] Text ammoAmountText;       // our ammo amount in text   
+    [SerializeField] Text ammoMaxText;          // our ammo amount in text   
     [SerializeField] Slider mineralSlider;      // our mineral slider
     [SerializeField] Text mineralAmountText;    // our mineral amount in text   
     [SerializeField] Slider gemSlider;          // our gem slider
     [SerializeField] Text gemAmountText;        // our gem amount in text   
     [SerializeField] Slider hpSlider;           // our hp slider
-    [SerializeField] Text hpAmountText;         // our gp amount in text
+    [SerializeField] Slider hpSliderDiegetic;   // our diegetic hp slider
+    [SerializeField] Text hpAmountText;         // our hp amount in text
+    [SerializeField] Text hpMaxText;            // our hp max in text
     [SerializeField] Text bugAmountText;        // bug amount text display
 
     // diegetic UI we're modifying in this script
@@ -85,6 +89,7 @@ public class PlayerController : MonoBehaviour
     bool autoShieldCoroutineRunning;
     float autoShieldTime; // the amount of time our autoshield engages and the amount of time it takes to cool down
     [SerializeField] GameObject autoShield; // our shield
+    [SerializeField] GameObject autoShieldCosmetic; // cosmetic item
 
     // Start is called before the first frame update
     void Start()
@@ -109,17 +114,20 @@ public class PlayerController : MonoBehaviour
             characterController.Move(new Vector3(0f, gravity, 0f) * Time.deltaTime);
         }
         // display our ammo amount
-        ammoAmountText.text = ammoAmount.ToString() + "/" + ammoMax.ToString(); // in text
+        ammoAmountText.text = ammoAmount.ToString(); // in text
+        ammoMaxText.text = ammoMax.ToString(); // in text
         ammoSlider.value = (float)ammoAmount / (float)ammoMax;        
         // display our mineral amount
-        mineralAmountText.text = mineralAmount.ToString() + "/" + mineralMax.ToString(); // in text
+        // mineralAmountText.text = mineralAmount.ToString() + "/" + mineralMax.ToString(); // in text
         mineralSlider.value = (float)mineralAmount / (float)mineralMax;        
         // display our gem amount
         gemAmountText.text = gemAmount.ToString() + "/" + gemMax.ToString(); // in text
         gemSlider.value = (float)gemAmount / (float)gemMax;
         // displayer our HP amount
-        hpAmountText.text = playerHP.ToString() + "/" + playerMaxHP.ToString(); // in text
+        hpAmountText.text = playerHP.ToString(); // in text
+        hpMaxText.text = playerHP.ToString(); // in text
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
+        hpSliderDiegetic.value = (float)playerHP / (float)playerMaxHP;
         // display our bug part amount
         bugAmountText.text = bugPartAmount.ToString();
 
@@ -219,9 +227,12 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-        
-        // artifact upgrades
 
+        // artifact upgrades
+        if (UpgradeSingleton.Instance.autoShieldDuration > 0 && autoShieldCosmetic.activeInHierarchy == false)
+        {
+            autoShieldCosmetic.SetActive(true);
+        }
     }
 
     // fixed update is called once per frame

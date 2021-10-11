@@ -27,7 +27,7 @@ public class UpgradeSingleton : ScriptableObject
     // basic trackers
     public bool playerPlaced; // should always be true. here as an initial get
     // upgrade related values that can be accessed everywhere
-    public float autoShieldDuration = 5;
+    public float autoShieldDuration;
 
     
 

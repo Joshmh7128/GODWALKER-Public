@@ -12,6 +12,7 @@ public class TileClass : MonoBehaviour
     public bool isWall = false; // are we a wall?
     public bool isOrigin = false; // are we an origin?
     public bool isEmpty = false; // are we empty?
+    public bool isArtifact = false; // are we the artifact tile?
     [SerializeField] bool devDraw = false; // should we be drawing gizmos?
     [SerializeField] ProceduralGenerationSetScript generator; // what is our generator?
     [SerializeField] GameObject playerPackage; // what is our player package?
@@ -62,6 +63,7 @@ public class TileClass : MonoBehaviour
     // int[,] primeNumberArray = new int[3, 3] { { 1, 17, 1 }, { 11, 0, 2 }, { 1, 5, 1 } };
 
     [SerializeField] GameObject EmptySet; // the empty gameobject set
+    [SerializeField] GameObject ArtifactSet; // the artifact gameobject set
 
     void Awake()
     {
@@ -105,7 +107,7 @@ public class TileClass : MonoBehaviour
     {
         if (!isWall)
         {
-            if (!isOrigin && !isEmpty)
+            if (!isOrigin && !isEmpty && !isArtifact)
             {
                 // run the on generate
                 generator.OnGenerate();
@@ -124,6 +126,11 @@ public class TileClass : MonoBehaviour
                 {
                     EmptySet.SetActive(true);
                 }
+            }
+
+            if (isArtifact)
+            {
+                ArtifactSet.SetActive(true);
             }
         }
 

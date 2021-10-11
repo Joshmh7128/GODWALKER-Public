@@ -53,6 +53,7 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] Text remainingRunsTwo;         // remaining runs
     [SerializeField] Text currentActionOne;         // current action
     [SerializeField] Text currentActionTwo;         // current action
+    [SerializeField] LineRenderer lineRenderer; // our line renderer
 
     // hub management
     [SerializeField] bool inHub; // are we in the hub?
@@ -275,6 +276,10 @@ public class DroppodManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // visibility
+        lineRenderer.SetPosition(0, new Vector3(transform.position.x, transform.position.y + 60, transform.position.z));
+        lineRenderer.SetPosition(1, new Vector3(transform.position.x, transform.position.y + 2000, transform.position.z));
+
         // player depositing in to drop ship
         if (canDeposit)
         {

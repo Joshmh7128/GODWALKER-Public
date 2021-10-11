@@ -17,7 +17,8 @@ public class GameData : MonoBehaviour
     // make sure we do not get destroyed
     private void Start()
     {
-        DontDestroyOnLoad(this);
+        // make sure we don't destroy on load
+        DontDestroyOnLoad(gameObject);
     }
 
     // create an enum in which all of our saved values are stored
