@@ -79,6 +79,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform dropPodTransform;
     [SerializeField] DroppodManager dropPodManager;
 
+    [Header("Artifact Upgrades")]
+    // artifact upgradess
+    bool isInvincible;
+    bool autoShieldCoroutineRunning;
+    float autoShieldTime; // the amount of time our autoshield engages and the amount of time it takes to cool down
+    [SerializeField] GameObject autoShield; // our shield
+
     // Start is called before the first frame update
     void Start()
     {
@@ -212,6 +219,9 @@ public class PlayerController : MonoBehaviour
             }
 
         }
+        
+        // artifact upgrades
+
     }
 
     // fixed update is called once per frame
@@ -255,16 +265,32 @@ public class PlayerController : MonoBehaviour
     public void AddHP(int HP)
     {
         // is this number positive or negative?
-        if (HP < 0)
+        if ((HP < 0) && (isInvincible == false))
         {
             // we took damage, set hurt canvas to 1
             hurtCanvas.alpha = 1;
+
+            // check for autoshield
+
+            if (UpgradeSingleton.Instance.autoShieldDuration > 0)
+            {
+                StartCoroutine(AutoShieldTimer(UpgradeSingleton.Instance.autoShieldDuration));
+            }
         }
 
         // mod it
         playerHP += HP;
+    }
 
-
+    IEnumerator AutoShieldTimer(float shieldTime)
+    {
+        autoShieldCoroutineRunning = true;
+        autoShield.SetActive(true);
+        isInvincible = true;
+        yield return new WaitForSeconds(shieldTime);
+        autoShield.SetActive(false);
+        isInvincible = false;
+        autoShieldCoroutineRunning = false;
     }
 
     public IEnumerator ObjectivePanelHandler()

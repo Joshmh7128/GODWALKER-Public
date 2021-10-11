@@ -64,6 +64,8 @@ public class GenerationManager : MonoBehaviour
     {
         // actually make the map first
         MapGeneration();
+        // get our upgradesingleton instance
+        UpgradeSingleton.Instance.playerPlaced = playerPlaced;
     }
 
     public void ClearGen()
