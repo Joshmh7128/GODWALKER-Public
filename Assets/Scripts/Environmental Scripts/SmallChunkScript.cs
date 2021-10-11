@@ -8,6 +8,8 @@ public class SmallChunkScript : MonoBehaviour
     [SerializeField] GameObject cubePuff; // death particle effect
     [SerializeField] Rigidbody rigidbody;
     [SerializeField] SphereCollider sphereCollider;
+    [SerializeField] bool isBugPart;
+    [SerializeField] float decreaseRate;
     [SerializeField] enum chunkTypes // the types of chunks
     {
         ammo, mineral, gem, health, bug
@@ -24,6 +26,18 @@ public class SmallChunkScript : MonoBehaviour
 
         if (playerController == null)
         { playerController = GameObject.Find("Player").GetComponent<PlayerController>(); }
+    }
+
+    private void FixedUpdate()
+    {
+        // if this is a bug part, slowly make the bug part smaller, until it disappears
+        if (isBugPart)
+        {
+            transform.localScale -= new Vector3(decreaseRate,decreaseRate,decreaseRate);
+
+            if (transform.localScale.x <= 0)
+            { Destroy(gameObject); }
+        }
     }
 
     private void OnCollisionStay(Collision col)
