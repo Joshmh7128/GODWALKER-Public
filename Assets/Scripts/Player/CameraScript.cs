@@ -12,6 +12,8 @@ public class CameraScript : MonoBehaviour
 
     // controling variables
     [SerializeField] float aimSensitivity; // how sensitive is our camera
+    float sensitivityChange;
+    float currentSensitivity;
     [SerializeField] Transform headTransform; // the transform of our player's head
     [SerializeField] Transform bodyTransform; // the transform of our player's body
     [SerializeField] float yRotate; // Y rotation float
@@ -82,14 +84,16 @@ public class CameraScript : MonoBehaviour
 
         if (canLook)
         {
+            currentSensitivity = aimSensitivity + sensitivityChange;
+
             // run math to rotate the head of the player as we move the mouse
-            yRotate += player.GetAxis("MouseVertical") * -aimSensitivity * Time.fixedDeltaTime;
-            yRotate += player.GetAxis("JoyLookVertical") * -aimSensitivity * 5 * Time.fixedDeltaTime;
+            yRotate += player.GetAxis("MouseVertical") * -currentSensitivity * Time.fixedDeltaTime;
+            yRotate += player.GetAxis("JoyLookVertical") * -currentSensitivity * 5 * Time.fixedDeltaTime;
             // clamp the rotation so we don't go around ourselves
             yRotate = Mathf.Clamp(yRotate, minYAngle, maxYAngle);
             // calculate our X rotation
-            xRotate += player.GetAxis("MouseHorizontal") * aimSensitivity * Time.fixedDeltaTime;
-            xRotate += player.GetAxis("JoyLookHorizontal") * aimSensitivity * 10 * Time.fixedDeltaTime;
+            xRotate += player.GetAxis("MouseHorizontal") * currentSensitivity * Time.fixedDeltaTime;
+            xRotate += player.GetAxis("JoyLookHorizontal") * currentSensitivity * 10 * Time.fixedDeltaTime;
             // aim the camera
             transform.LookAt(aimTarget.position);
             // apply it
@@ -150,11 +154,14 @@ public class CameraScript : MonoBehaviour
             if (player.GetButton("Aim"))
             {
                 Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 45, 0.25f);
+                sensitivityChange = -aimSensitivity / 2;
+
             }
 
             if (!player.GetButton("Aim"))
             {
                 Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 90, 0.25f);
+                sensitivityChange = 0;
             }
         }
     }

@@ -19,12 +19,9 @@ public class PlayerBulletScript : MonoBehaviour
     // for when our bullet is instantiated
     private void Start()
     {
-        if (bulletType == bulletTypes.Projectile)
-        {
-            // turn bullet
-            transform.LookAt(bulletTarget);
-        }
-
+        // turn bullet
+        transform.LookAt(bulletTarget);
+   
         // start the safety kill
         StartCoroutine("SafetyKill");
     }

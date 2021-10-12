@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform rifleTip; // where our shots originate
     [SerializeField] GameObject cubePuff; // our bullet cube particle effect
     [SerializeField] GameObject rifleMuzzleFlash; // the rifle muzzle flash
+    public float shotCoolDown; // the amount of time until we can fire again
 
     // artifact upgradess
     bool isInvincible;
@@ -112,6 +113,22 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         player = ReInput.players.GetPlayer(0);
+
+        if (currentWeapon == weaponTypes.Pistols)
+        {
+            // make sure we set the model properly
+            pistolCosmeticModel.SetActive(true);
+            rifleCosmeticModel.SetActive(false);
+            rifleReticle.SetActive(false);
+        }        
+        
+        if (currentWeapon == weaponTypes.Rifle)
+        {
+            // make sure we set the model properly
+            pistolCosmeticModel.SetActive(false);
+            rifleCosmeticModel.SetActive(true);
+            rifleReticle.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -154,7 +171,7 @@ public class PlayerController : MonoBehaviour
         // shoot bullets
         if (canFire)
         {
-            if (player.GetButtonDown("Fire"))
+            if (player.GetButton("Fire"))
             {
                 // which weapon are we using?
 
@@ -166,7 +183,7 @@ public class PlayerController : MonoBehaviour
                     rifleCosmeticModel.SetActive(false);
                     rifleReticle.SetActive(false);
                     // check ammo
-                    if (ammoAmount > 0)
+                    if (ammoAmount > 0 && shotCoolDown <= 0)
                     {
                         // check arm
                         if (rightArm == true)
@@ -179,6 +196,8 @@ public class PlayerController : MonoBehaviour
                             ammoAmount--;
                             // screenshake
                             cameraScript.shakeDuration += 0.08f;
+                            // shot cooldown
+                            shotCoolDown = 10f;
                         }
                         else if (rightArm == false)
                         {
@@ -190,6 +209,8 @@ public class PlayerController : MonoBehaviour
                             ammoAmount--;
                             // screenshake
                             cameraScript.shakeDuration += 0.08f;
+                            // shot cooldown
+                            shotCoolDown = 10f;
                         }
                     }
                 }
@@ -202,8 +223,10 @@ public class PlayerController : MonoBehaviour
                     rifleCosmeticModel.SetActive(true);
                     rifleReticle.SetActive(true);
                     // check ammo
-                    if (ammoAmount > 0)
-                    {                          
+                    if (ammoAmount > 0 && shotCoolDown <= 0)
+                    {
+                        // shot cooldown
+                        shotCoolDown = 15f;
                         // spawn bullet
                         RaycastHit hit = cameraScript.rifleTargetHit;
                         if (hit.transform.CompareTag("Breakable"))
@@ -213,6 +236,9 @@ public class PlayerController : MonoBehaviour
                             Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
                             // screenshake
                             cameraScript.shakeDuration += 0.08f;
+                            // muzzle flash effect
+                            rifleMuzzleFlash.SetActive(true);
+                            rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
                         }                        
                         
                         if (hit.transform.CompareTag("Environment"))
@@ -220,6 +246,9 @@ public class PlayerController : MonoBehaviour
                             Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
                             // screenshake
                             cameraScript.shakeDuration += 0.08f;
+                            // muzzle flash effect
+                            rifleMuzzleFlash.SetActive(true);
+                            rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
                         }
 
                         if (hit.transform.CompareTag("Enemy"))
@@ -347,6 +376,11 @@ public class PlayerController : MonoBehaviour
         if (rifleMuzzleFlash.activeInHierarchy)
         { rifleMuzzleFlash.SetActive(false); }
 
+        // shot cooldown
+        if (shotCoolDown > 0)
+        {
+            shotCoolDown -= 1;
+        }
 
     }
 
