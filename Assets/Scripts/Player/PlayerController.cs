@@ -498,7 +498,7 @@ public class PlayerController : MonoBehaviour
         }   // if we have a mitozygote shield deal damage to it (deactivate it)
         
         
-        if ((HP < 0) && ((isInvincible == false) && (isMitoInvincible == true)))
+        if ((HP < 0) && (isInvincible == false) && (isMitoInvincible == true))
         {
             isMitoInvincible = false;
             mitoZygoteShield.SetActive(false);
