@@ -26,6 +26,8 @@ public class UpgradeSingleton : ScriptableObject
 
     // basic trackers
     public bool playerPlaced; // should always be true. here as an initial get
+    public PlayerController player; // our player, set by our player controller
+    public List<string> artifactInfoList = new List<string>(); // the list of our artifact info per artifact
     // upgrade related values that can be accessed everywhere
     public float autoShieldDuration;
 

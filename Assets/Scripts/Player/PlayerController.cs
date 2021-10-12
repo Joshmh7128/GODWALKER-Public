@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     // diegetic UI we're modifying in this script
     [SerializeField] CanvasGroup objectiveCanvas; // our objective canvase
-    [SerializeField] Text currentObjective; // our currently objective
+    [SerializeField] Text currentObjective; // our current objective
     float objectiveAlphaChange; // how much should our alpha be changing?
     bool objectiveShowing; // is our objective showing?
     [SerializeField] GameObject tabIndicator; // our tab text indicating you can show the objective
@@ -96,6 +96,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject pistolCosmeticModel; // pistol cosmetic
     [SerializeField] GameObject rifleCosmeticModel; // rifle cosmetic
     [SerializeField] GameObject rifleReticle; // reticle associated with the rifle
+    [SerializeField] GameObject rifleReticleRing; // reticle ring associated with the rifle
     [SerializeField] Transform rifleTip; // where our shots originate
     [SerializeField] GameObject cubePuff; // our bullet cube particle effect
     [SerializeField] GameObject rifleMuzzleFlash; // the rifle muzzle flash
@@ -106,6 +107,7 @@ public class PlayerController : MonoBehaviour
     bool autoShieldCoroutineRunning;
     float autoShieldTime; // the amount of time our autoshield engages and the amount of time it takes to cool down
     [Header("Artifact Upgrades")]
+    [SerializeField] Text artifactInfoText; // our artifact info text
     [SerializeField] GameObject autoShield; // our shield
     [SerializeField] GameObject autoShieldCosmetic; // cosmetic item
 
@@ -167,6 +169,9 @@ public class PlayerController : MonoBehaviour
         // display our bug part amount
         bugAmountText.text = bugPartAmount.ToString();
         bugMaxText.text = "900";
+        // modify our reticle ring
+        if (currentWeapon == weaponTypes.Rifle)
+        { rifleReticleRing.transform.localScale = new Vector3(shotCoolDown, shotCoolDown, shotCoolDown); }
 
         // shoot bullets
         if (canFire)
@@ -229,38 +234,59 @@ public class PlayerController : MonoBehaviour
                         shotCoolDown = 15f;
                         // spawn bullet
                         RaycastHit hit = cameraScript.rifleTargetHit;
-                        if (hit.transform.CompareTag("Breakable"))
+                        if (hit.transform != null)
                         {
-                            // anything with the Breakable tag will be a chunk and have a BreakableBreak function
-                            hit.transform.gameObject.GetComponent<BreakableChunk>().BreakableBreak();
-                            Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                            // screenshake
-                            cameraScript.shakeDuration += 0.08f;
-                            // muzzle flash effect
-                            rifleMuzzleFlash.SetActive(true);
-                            rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-                        }                        
-                        
-                        if (hit.transform.CompareTag("Environment"))
-                        {
-                            Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                            // screenshake
-                            cameraScript.shakeDuration += 0.08f;
-                            // muzzle flash effect
-                            rifleMuzzleFlash.SetActive(true);
-                            rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-                        }
+                            // use ammo
+                            ammoAmount--;
+                            if (hit.transform.CompareTag("Breakable"))
+                            {
+                                // anything with the Breakable tag will be a chunk and have a BreakableBreak function
+                                hit.transform.gameObject.GetComponent<BreakableChunk>().BreakableBreak();
+                                Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                                // screenshake
+                                cameraScript.shakeDuration += 0.08f;
+                                // muzzle flash effect
+                                rifleMuzzleFlash.SetActive(true);
+                                rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+                            }
 
-                        if (hit.transform.CompareTag("Enemy"))
+                            if (hit.transform.CompareTag("Environment"))
+                            {
+                                Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                                // screenshake
+                                cameraScript.shakeDuration += 0.08f;
+                                // muzzle flash effect
+                                rifleMuzzleFlash.SetActive(true);
+                                rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+                            }
+
+                            if (hit.transform.CompareTag("Enemy"))
+                            {
+                                hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage(1);
+                                Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                                // screenshake
+                                cameraScript.shakeDuration += 0.08f;
+                                // muzzle flash effect
+                                rifleMuzzleFlash.SetActive(true);
+                                rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+                            }
+                        }
+                        // if we do not hit anything
+                        if (hit.transform != null)
                         {
-                            hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage(1);
-                            Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                            // use ammo
+                            ammoAmount--;
                             // screenshake
                             cameraScript.shakeDuration += 0.08f;
                             // muzzle flash effect
                             rifleMuzzleFlash.SetActive(true);
-                            rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0,0,Random.Range(0,360));
+                            rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
                         }
+                    }
+                
+                    if (ammoAmount <= 0)
+                    {
+                        StartCoroutine(ObjectivePanelHandler("OUT OF AMMO! COLLECT OR RETRIEVE MORE"));
                     }
                 }
             }
@@ -275,8 +301,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (!objectiveShowing)
-            // run our panel coroutine
-            StartCoroutine(ObjectivePanelHandler());
+            {
+                // run our panel coroutine
+                StartCoroutine(ObjectivePanelHandler("Collect Resources. Launch Ship when able."));
+            }
+
+            if (artifactInfoText.color.a == 1)
+            { artifactInfoText.color = new Color(255, 255, 255, 0); }
+            else if (artifactInfoText.color.a == 0)
+            { artifactInfoText.color = new Color(255, 255, 255, 1); }
         }
 
         // can we interact?
@@ -340,6 +373,13 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
+        // make sure we set our playercontroller properlly
+        if (UpgradeSingleton.Instance.player == null)
+        {  
+            UpgradeSingleton.Instance.player = this;
+            UpdateArtifactInfoUI();
+        }
+
         // distortion effect
         if (canDistort)
         {
@@ -397,12 +437,15 @@ public class PlayerController : MonoBehaviour
 
             if (UpgradeSingleton.Instance.autoShieldDuration > 0)
             {
+                if (!autoShieldCoroutineRunning)
                 StartCoroutine(AutoShieldTimer(UpgradeSingleton.Instance.autoShieldDuration));
             }
+
+            // mod it
+            playerHP += HP;
         }
 
-        // mod it
-        playerHP += HP;
+
     }
 
     IEnumerator AutoShieldTimer(float shieldTime)
@@ -416,8 +459,9 @@ public class PlayerController : MonoBehaviour
         autoShieldCoroutineRunning = false;
     }
 
-    public IEnumerator ObjectivePanelHandler()
+    public IEnumerator ObjectivePanelHandler(string customText)
     {   // manage our objective related UI
+        currentObjective.text = customText;
         tabIndicator.SetActive(false);
         objectiveShowing = true;
         objectiveAlphaChange = 0;
@@ -445,6 +489,27 @@ public class PlayerController : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Advanced Generation")
         {
             currentObjective.text = "Collect Resources. When ready to continue, launch Dropship.";
+        }
+    }
+
+    // set our artifact info text
+    public void UpdateArtifactInfoUI()
+    {
+        // if there are upgrades
+        if (UpgradeSingleton.Instance != null)
+        {
+            if (UpgradeSingleton.Instance.artifactInfoList.Count > 0)
+            {
+                // our local string
+                string totalInfo = "";
+                // for each artifact info we have, add it to the final and a line ending
+                foreach (string info in UpgradeSingleton.Instance.artifactInfoList)
+                {
+                    totalInfo = totalInfo + info + "\n";
+                }
+                // set info
+                artifactInfoText.text = totalInfo;
+            }
         }
     }
 }
