@@ -43,13 +43,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text ammoMaxText;          // our ammo amount in text   
     [SerializeField] Slider mineralSlider;      // our mineral slider
     [SerializeField] Text mineralAmountText;    // our mineral amount in text   
+    [SerializeField] Text mineralMaxText;    // our mineral amount in text   
     [SerializeField] Slider gemSlider;          // our gem slider
     [SerializeField] Text gemAmountText;        // our gem amount in text   
+    [SerializeField] Text gemMaxText;        // our gem amount in text   
     [SerializeField] Slider hpSlider;           // our hp slider
     [SerializeField] Slider hpSliderDiegetic;   // our diegetic hp slider
     [SerializeField] Text hpAmountText;         // our hp amount in text
     [SerializeField] Text hpMaxText;            // our hp max in text
     [SerializeField] Text bugAmountText;        // bug amount text display
+    [SerializeField] Text bugMaxText;        // bug amount text display
 
     // diegetic UI we're modifying in this script
     [SerializeField] CanvasGroup objectiveCanvas; // our objective canvase
@@ -118,10 +121,12 @@ public class PlayerController : MonoBehaviour
         ammoMaxText.text = ammoMax.ToString(); // in text
         ammoSlider.value = (float)ammoAmount / (float)ammoMax;        
         // display our mineral amount
-        // mineralAmountText.text = mineralAmount.ToString() + "/" + mineralMax.ToString(); // in text
+        mineralAmountText.text = mineralAmount.ToString(); // in text
+        mineralMaxText.text = mineralMax.ToString(); // in text
         mineralSlider.value = (float)mineralAmount / (float)mineralMax;        
         // display our gem amount
-        gemAmountText.text = gemAmount.ToString() + "/" + gemMax.ToString(); // in text
+        gemAmountText.text = gemAmount.ToString(); // in text
+        gemMaxText.text = gemMax.ToString(); // in text
         gemSlider.value = (float)gemAmount / (float)gemMax;
         // displayer our HP amount
         hpAmountText.text = playerHP.ToString(); // in text
@@ -130,6 +135,7 @@ public class PlayerController : MonoBehaviour
         hpSliderDiegetic.value = (float)playerHP / (float)playerMaxHP;
         // display our bug part amount
         bugAmountText.text = bugPartAmount.ToString();
+        bugMaxText.text = "900";
 
         // shoot bullets
         if (canFire)
@@ -223,7 +229,7 @@ public class PlayerController : MonoBehaviour
                 // load primer
                 SceneManager.LoadScene("RePrimer", LoadSceneMode.Single);
                 // set player HP to 1
-                playerHP = 1;
+                playerHP = playerMaxHP;
             }
 
         }
