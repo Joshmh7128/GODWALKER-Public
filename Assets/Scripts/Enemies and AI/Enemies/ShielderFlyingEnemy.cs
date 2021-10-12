@@ -55,6 +55,16 @@ public class ShielderFlyingEnemy : EnemyClass
 
         // set our original newpos to our starting pos
         newPos = transform.position;
+
+        // protect our friends
+        foreach (Transform friendTransform in protectedEnemies)
+        {
+            if (friendTransform != null)
+            {
+                friendTransform.Find("Shield").gameObject.SetActive(true);
+                friendTransform.gameObject.GetComponent<EnemyClass>().invincible = true;
+            }
+        }
     }
 
     // make this bug fly around
@@ -172,6 +182,8 @@ public class ShielderFlyingEnemy : EnemyClass
             // if we're attacking the player drop our item
             if (runningBehaviour)
             { Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); }
+            // make sure to communicate that we have died
+            UpgradeSingleton.OnEnemyKill();
             // destroy ourselves
             Destroy(gameObject);
         }

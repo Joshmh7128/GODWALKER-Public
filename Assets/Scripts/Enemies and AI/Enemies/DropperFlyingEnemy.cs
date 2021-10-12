@@ -154,6 +154,8 @@ public class DropperFlyingEnemy : EnemyClass
             // if we're attacking the player drop our item
             if (runningBehaviour)
             { Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); }
+            // make sure to communicate that we have died
+            UpgradeSingleton.OnEnemyKill();
             // destroy ourselves
             Destroy(gameObject);
         }

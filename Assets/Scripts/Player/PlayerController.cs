@@ -58,7 +58,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CanvasGroup objectiveCanvas; // our objective canvase
     [SerializeField] Text currentObjective; // our current objective
     float objectiveAlphaChange; // how much should our alpha be changing?
-    bool objectiveShowing; // is our objective showing?
+    public bool objectiveShowing; // is our objective showing?
+    public string objectiveCurrentMessage; // is our objective showing?
     [SerializeField] GameObject tabIndicator; // our tab text indicating you can show the objective
 
     // non-diegetic UI elements we're modifying
@@ -92,7 +93,7 @@ public class PlayerController : MonoBehaviour
         Rifle
     }
     [Header("Weapons")]
-    [SerializeField] weaponTypes currentWeapon; // what is our current weapon?
+    public weaponTypes currentWeapon; // what is our current weapon?
     [SerializeField] GameObject pistolCosmeticModel; // pistol cosmetic
     [SerializeField] GameObject rifleCosmeticModel; // rifle cosmetic
     [SerializeField] GameObject rifleReticle; // reticle associated with the rifle
@@ -110,6 +111,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text artifactInfoText; // our artifact info text
     [SerializeField] GameObject autoShield; // our shield
     [SerializeField] GameObject autoShieldCosmetic; // cosmetic item
+    [SerializeField] GameObject enemyCam; // our see through camera
 
     // Start is called before the first frame update
     void Start()
@@ -373,6 +375,27 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
+
+        // update objective panel
+        currentObjective.text = objectiveCurrentMessage;
+
+        // set current weapon
+        if (currentWeapon == weaponTypes.Pistols)
+        {
+            // make sure we set the model properly
+            pistolCosmeticModel.SetActive(true);
+            rifleCosmeticModel.SetActive(false);
+            rifleReticle.SetActive(false);
+        }
+
+        if (currentWeapon == weaponTypes.Rifle)
+        {
+            // make sure we set the model properly
+            pistolCosmeticModel.SetActive(false);
+            rifleCosmeticModel.SetActive(true);
+            rifleReticle.SetActive(true);
+        }
+
         // make sure we set our playercontroller properlly
         if (UpgradeSingleton.Instance.player == null)
         {  
@@ -421,6 +444,19 @@ public class PlayerController : MonoBehaviour
         {
             shotCoolDown -= 1;
         }
+
+        // see through camera artifact
+        if (UpgradeSingleton.Instance.tetralightVisionDuration > 0)
+        {
+            UpgradeSingleton.Instance.tetralightVisionDuration--;
+            enemyCam.SetActive(true);
+        }
+
+        if (UpgradeSingleton.Instance.tetralightVisionDuration <= 0)
+        {
+            enemyCam.SetActive(false);
+        }
+
     }
 
     // if we gain life, positive number, if we lose life, negative number
@@ -458,7 +494,9 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator ObjectivePanelHandler(string customText)
     {   // manage our objective related UI
-        currentObjective.text = customText;
+        objectiveCurrentMessage = customText;
+        // make in to its own local string so we can modify it in between messages if needed
+        currentObjective.text = objectiveCurrentMessage;
         tabIndicator.SetActive(false);
         objectiveShowing = true;
         objectiveAlphaChange = 0;

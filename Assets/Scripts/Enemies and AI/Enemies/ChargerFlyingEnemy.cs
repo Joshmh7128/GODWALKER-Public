@@ -61,6 +61,9 @@ public class ChargerFlyingEnemy : EnemyClass
 
         // set our original newpos to our starting pos
         newPos = transform.position;
+
+        // make sure we can look at the player from the start to find them
+        canLookAtPlayer = true;
     }
 
     // make this bug fly around
@@ -165,6 +168,8 @@ public class ChargerFlyingEnemy : EnemyClass
             // if we're attacking the player drop our item
             if (runningBehaviour)
             { Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); }
+            // make sure to communicate that we have died
+            UpgradeSingleton.OnEnemyKill();
             // destroy ourselves
             Destroy(gameObject);
 

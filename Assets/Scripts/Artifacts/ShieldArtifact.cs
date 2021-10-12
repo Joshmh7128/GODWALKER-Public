@@ -20,7 +20,7 @@ public class ShieldArtifact : ArtifactClass
                 if (ourRarity == artifactRarities.Uncommon) { UpgradeSingleton.Instance.autoShieldDuration = UpgradeSingleton.Instance.autoShieldDuration + (x = Random.Range(2, 3)); }
                 if (ourRarity == artifactRarities.Rare) { UpgradeSingleton.Instance.autoShieldDuration = UpgradeSingleton.Instance.autoShieldDuration + (x = Random.Range(2, 5)); }
                 artifactName = ourRarity.ToString() + " AutoShield";
-                artifactInfo = "If damage is taken shield appears for " + x + " seconds with an " + x * 2 + " cooldown. Stacks. Total: " + UpgradeSingleton.Instance.autoShieldDuration;
+                artifactInfo = "If damage is taken shield appears for " + x + " seconds with an " + x * 2 + " cooldown. Stacks.";
                 // destroy ourselves
                 Pickup();
             }

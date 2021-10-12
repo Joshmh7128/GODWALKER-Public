@@ -24,13 +24,22 @@ public class UpgradeSingleton : ScriptableObject
         Destroy(_instance);
     }
 
+
+
     // basic trackers
     public bool playerPlaced; // should always be true. here as an initial get
     public PlayerController player; // our player, set by our player controller
     public List<string> artifactInfoList = new List<string>(); // the list of our artifact info per artifact
     // upgrade related values that can be accessed everywhere
-    public float autoShieldDuration;
+    public float autoShieldDuration; // shield that blocks damage
+    public float tetralightVisionAddition; // googles that let us see through walls
+    public float tetralightVisionDuration; // googles that let us see through walls
 
-    
+    // is called whenever an enemy is killed
+    public static void OnEnemyKill()
+    {
+        // see through goggles
+        _instance.tetralightVisionDuration += _instance.tetralightVisionAddition;
+    }
 
 }
