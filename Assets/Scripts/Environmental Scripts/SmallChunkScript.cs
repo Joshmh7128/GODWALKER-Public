@@ -63,6 +63,7 @@ public class SmallChunkScript : MonoBehaviour
                     playerController.ammoAmount++;
                     playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                    UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
                     Destroy(gameObject);
                 }
                     break;
@@ -74,6 +75,7 @@ public class SmallChunkScript : MonoBehaviour
                     playerController.mineralAmount++;
                     playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                    UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
                     Destroy(gameObject);
                 }
                     break;
@@ -86,6 +88,7 @@ public class SmallChunkScript : MonoBehaviour
                         playerController.gemAmount++;
                         playerController.cameraScript.shakeDuration += 0.06f;
                         Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                        UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
                         Destroy(gameObject);
                     }
                     break;
@@ -94,6 +97,7 @@ public class SmallChunkScript : MonoBehaviour
                     playerController.bugPartAmount++;
                     playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                    UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
                     Destroy(gameObject);
                     break;
             }

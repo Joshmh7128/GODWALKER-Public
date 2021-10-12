@@ -105,13 +105,16 @@ public class PlayerController : MonoBehaviour
 
     // artifact upgradess
     bool isInvincible;
+    bool isMitoInvincible;
     bool autoShieldCoroutineRunning;
+    bool mitoShieldCoroutineRunning;
     float autoShieldTime; // the amount of time our autoshield engages and the amount of time it takes to cool down
     [Header("Artifact Upgrades")]
     [SerializeField] Text artifactInfoText; // our artifact info text
     [SerializeField] GameObject autoShield; // our shield
     [SerializeField] GameObject autoShieldCosmetic; // cosmetic item
     [SerializeField] GameObject enemyCam; // our see through camera
+    [SerializeField] GameObject mitoZygoteShield; // our 1 hp shield
 
     // Start is called before the first frame update
     void Start()
@@ -375,7 +378,6 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
-
         // update objective panel
         currentObjective.text = objectiveCurrentMessage;
 
@@ -457,13 +459,28 @@ public class PlayerController : MonoBehaviour
             enemyCam.SetActive(false);
         }
 
+        // 1 hp shield from bug part drops
+        if (UpgradeSingleton.Instance.mitoZygoteDuration > 0)
+        {
+            if (!mitoShieldCoroutineRunning)
+            {
+                StartCoroutine(MitoZygoteShieldTimer());
+            }
+            mitoZygoteShield.SetActive(true);
+            isMitoInvincible = true;
+        } else if (UpgradeSingleton.Instance.mitoZygoteDuration <= 0)
+        {
+            mitoZygoteShield.SetActive(false);
+            isMitoInvincible = false;
+        }
+
     }
 
     // if we gain life, positive number, if we lose life, negative number
     public void AddHP(int HP)
     {
         // is this number positive or negative?
-        if ((HP < 0) && (isInvincible == false))
+        if ((HP < 0) && !((isInvincible == true) || (isMitoInvincible == true)))
         {
             // we took damage, set hurt canvas to 1
             hurtCanvas.alpha = 1;
@@ -478,7 +495,17 @@ public class PlayerController : MonoBehaviour
 
             // mod it
             playerHP += HP;
+        }   // if we have a mitozygote shield deal damage to it (deactivate it)
+        
+        
+        if ((HP < 0) && ((isInvincible == false) && (isMitoInvincible == true)))
+        {
+            isMitoInvincible = false;
+            mitoZygoteShield.SetActive(false);
+            UpgradeSingleton.Instance.mitoZygoteDuration = 0;
         }
+
+
     }
 
     IEnumerator AutoShieldTimer(float shieldTime)
@@ -490,6 +517,15 @@ public class PlayerController : MonoBehaviour
         autoShield.SetActive(false);
         isInvincible = false;
         autoShieldCoroutineRunning = false;
+    }
+
+    IEnumerator MitoZygoteShieldTimer()
+    {
+        mitoShieldCoroutineRunning = true;
+        yield return new WaitForSeconds(UpgradeSingleton.Instance.mitoZygoteDuration);
+        if (UpgradeSingleton.Instance.mitoZygoteDuration > 0)
+        { UpgradeSingleton.Instance.mitoZygoteDuration--;  }
+        mitoShieldCoroutineRunning = false;
     }
 
     public IEnumerator ObjectivePanelHandler(string customText)

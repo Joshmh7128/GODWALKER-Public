@@ -4723,8 +4723,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3753110307025278574}
   - component: {fileID: 3753110307025278575}
-  - component: {fileID: 7514123436246797655}
   - component: {fileID: 4926586982296786576}
+  - component: {fileID: 7427741852151722091}
   m_Layer: 0
   m_Name: TetraLightGogglesUpgradePrefab
   m_TagString: Untagged
@@ -4740,7 +4740,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3753110307025278545}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.72, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3753110306218835550}
@@ -4763,27 +4763,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2.28
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7514123436246797655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3753110307025278545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e40538bde421b34ea445f912acb6c14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  artifactName: AutoShield
-  artifactInfo: 
-  ourRarity: 0
-  commonMaterial: {fileID: 2100000, guid: ffc43740a382de64e912ab1b7f41a3b6, type: 2}
-  uncommonMaterial: {fileID: 2100000, guid: 8d0895de6f0e4344f8cb0ea9ce9154b4, type: 2}
-  rareMaterial: {fileID: 2100000, guid: 81bc74ad3d57d8c4296da57497434c5a, type: 2}
-  rarityMaterialRenderer: {fileID: 3753110305890321685}
-  ourLine: {fileID: 3753110305016917940}
-  hasCollided: 0
 --- !u!54 &4926586982296786576
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4800,6 +4779,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7427741852151722091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753110307025278545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7624201abbf4f024e9583b40c7de7217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  artifactName: 
+  artifactInfo: 
+  ourRarity: 0
+  commonMaterial: {fileID: 2100000, guid: ffc43740a382de64e912ab1b7f41a3b6, type: 2}
+  uncommonMaterial: {fileID: 2100000, guid: 8d0895de6f0e4344f8cb0ea9ce9154b4, type: 2}
+  rareMaterial: {fileID: 2100000, guid: 81bc74ad3d57d8c4296da57497434c5a, type: 2}
+  rarityMaterialRenderer: {fileID: 3753110305890321685}
+  ourLine: {fileID: 3753110305016917940}
+  hasCollided: 0
 --- !u!1 &7927755824115503494
 GameObject:
   m_ObjectHideFlags: 0

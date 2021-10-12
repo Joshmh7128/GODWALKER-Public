@@ -16,11 +16,11 @@ public class TetraLightGogglesArtifact : ArtifactClass
                 // our randomized int
                 int x = 0;
                 // determine our modifications based on our rarities
-                if (ourRarity == artifactRarities.Common) { UpgradeSingleton.Instance.tetralightVisionAddition = UpgradeSingleton.Instance.tetralightVisionAddition + (x = Random.Range(1, 4)); }
-                if (ourRarity == artifactRarities.Uncommon) { UpgradeSingleton.Instance.tetralightVisionAddition = UpgradeSingleton.Instance.tetralightVisionAddition + (x = Random.Range(3, 8)); }
-                if (ourRarity == artifactRarities.Rare) { UpgradeSingleton.Instance.tetralightVisionAddition = UpgradeSingleton.Instance.tetralightVisionAddition + (x = Random.Range(7, 10)); }
+                if (ourRarity == artifactRarities.Common) { UpgradeSingleton.Instance.tetralightVisionAddition = UpgradeSingleton.Instance.tetralightVisionAddition + (x = Random.Range(1, 4)*60); }
+                if (ourRarity == artifactRarities.Uncommon) { UpgradeSingleton.Instance.tetralightVisionAddition = UpgradeSingleton.Instance.tetralightVisionAddition + (x = Random.Range(3, 8)*60); }
+                if (ourRarity == artifactRarities.Rare) { UpgradeSingleton.Instance.tetralightVisionAddition = UpgradeSingleton.Instance.tetralightVisionAddition + (x = Random.Range(7, 10)*60); }
                 artifactName = ourRarity.ToString() + " TetraLight Goggles";
-                artifactInfo = "On Kill gain enemy highlights through all walls for " + x + " seconds. Stacks.";
+                artifactInfo = "On Kill gain enemy highlights through all walls for " + Mathf.Round(x/60) + " seconds. Stacks.";
                 // destroy ourselves
                 Pickup();
             }

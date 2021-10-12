@@ -28,21 +28,18 @@ public class ArtifactSetShellScript : MonoBehaviour
             shell.SetActive(false);
             yield return new WaitForSeconds(1);
             countDownTimeLocal--;
+            // restart
+            StartCoroutine(CountdownTimer(countDownTimeLocal));
         }
 
-        if (countDownTimeLocal < 0)
+        if (countDownTimeLocal <= 1)
         {
             // display our remaining time
-            displayText1.text = "Closed: " + Mathf.Abs(countDownTimeLocal) + " seconds ago";
-            displayText2.text = "Closed: " + Mathf.Abs(countDownTimeLocal) + " seconds ago";
+            displayText1.text = "Closed: " + Mathf.Abs(countDownTime) + " seconds after you landed";
+            displayText2.text = "Closed: " + Mathf.Abs(countDownTime) + " seconds after you landed";
             // make sure our shell is activated
             shell.SetActive(true);
             yield return new WaitForSeconds(1);
-            countDownTimeLocal--;
-
         }
-
-        // restart
-        StartCoroutine(CountdownTimer(Mathf.Clamp(countDownTimeLocal, -999, 999)));
     }
 }

@@ -24,8 +24,6 @@ public class UpgradeSingleton : ScriptableObject
         Destroy(_instance);
     }
 
-
-
     // basic trackers
     public bool playerPlaced; // should always be true. here as an initial get
     public PlayerController player; // our player, set by our player controller
@@ -34,12 +32,23 @@ public class UpgradeSingleton : ScriptableObject
     public float autoShieldDuration; // shield that blocks damage
     public float tetralightVisionAddition; // googles that let us see through walls
     public float tetralightVisionDuration; // googles that let us see through walls
+    public float mitoZygoteAddition; // how much we are adding
+    public float mitoZygoteDuration; // 1HP shield duration
 
     // is called whenever an enemy is killed
     public static void OnEnemyKill()
     {
         // see through goggles
         _instance.tetralightVisionDuration += _instance.tetralightVisionAddition;
+    }
+
+    // is called whenever a small chunks is picked up
+    public static void OnSmallChunkPickup(string type)
+    {
+        if (type == "bug")
+        {
+            _instance.mitoZygoteDuration += _instance.mitoZygoteAddition;
+        }
     }
 
 }
