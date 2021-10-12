@@ -163,6 +163,9 @@ public class DroppodManager : MonoBehaviour
             yield return new WaitUntil(() => fadeCanvasGroup.alpha >= 1);
             // load in to the advanced generation scene
             SceneManager.LoadScene("Hub", LoadSceneMode.Single);
+            // unload the instance
+            UpgradeSingleton.DestroySingleton();
+            playerController.UpdateArtifactInfoUI();
             // unload the player
             playerController.gemAmount = 0;
             playerController.mineralAmount = 0;

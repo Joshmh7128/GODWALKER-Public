@@ -421,7 +421,6 @@ public class PlayerController : MonoBehaviour
         {
             shotCoolDown -= 1;
         }
-
     }
 
     // if we gain life, positive number, if we lose life, negative number
@@ -444,8 +443,6 @@ public class PlayerController : MonoBehaviour
             // mod it
             playerHP += HP;
         }
-
-
     }
 
     IEnumerator AutoShieldTimer(float shieldTime)
@@ -507,6 +504,12 @@ public class PlayerController : MonoBehaviour
                 {
                     totalInfo = totalInfo + info + "\n";
                 }
+                // set info
+                artifactInfoText.text = totalInfo;
+            } else if (UpgradeSingleton.Instance.artifactInfoList.Count <= 0)
+            {
+                // our local string
+                string totalInfo = "";
                 // set info
                 artifactInfoText.text = totalInfo;
             }
