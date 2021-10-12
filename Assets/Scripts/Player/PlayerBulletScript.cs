@@ -8,12 +8,23 @@ public class PlayerBulletScript : MonoBehaviour
     public Transform bulletTarget; // what is the target of our bullet?
     [SerializeField] float bulletSpeed; // what is the speed of our bullet?
     [SerializeField] GameObject cubePuff; // our particle effect
+    public enum bulletTypes
+    {
+        Projectile,
+        Hitscan
+    }
+
+    public bulletTypes bulletType;
 
     // for when our bullet is instantiated
     private void Start()
     {
-        // turn bullet
-        transform.LookAt(bulletTarget);
+        if (bulletType == bulletTypes.Projectile)
+        {
+            // turn bullet
+            transform.LookAt(bulletTarget);
+        }
+
         // start the safety kill
         StartCoroutine("SafetyKill");
     }
@@ -28,7 +39,7 @@ public class PlayerBulletScript : MonoBehaviour
     IEnumerator SafetyKill()
     {
         yield return new WaitForSeconds(15f);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider collision)

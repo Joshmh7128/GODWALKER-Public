@@ -43,16 +43,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text ammoMaxText;          // our ammo amount in text   
     [SerializeField] Slider mineralSlider;      // our mineral slider
     [SerializeField] Text mineralAmountText;    // our mineral amount in text   
-    [SerializeField] Text mineralMaxText;    // our mineral amount in text   
+    [SerializeField] Text mineralMaxText;       // our mineral amount in text   
     [SerializeField] Slider gemSlider;          // our gem slider
     [SerializeField] Text gemAmountText;        // our gem amount in text   
-    [SerializeField] Text gemMaxText;        // our gem amount in text   
+    [SerializeField] Text gemMaxText;           // our gem amount in text   
     [SerializeField] Slider hpSlider;           // our hp slider
     [SerializeField] Slider hpSliderDiegetic;   // our diegetic hp slider
     [SerializeField] Text hpAmountText;         // our hp amount in text
     [SerializeField] Text hpMaxText;            // our hp max in text
     [SerializeField] Text bugAmountText;        // bug amount text display
-    [SerializeField] Text bugMaxText;        // bug amount text display
+    [SerializeField] Text bugMaxText;           // bug amount text display
 
     // diegetic UI we're modifying in this script
     [SerializeField] CanvasGroup objectiveCanvas; // our objective canvase
@@ -86,11 +86,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform dropPodTransform;
     [SerializeField] DroppodManager dropPodManager;
 
-    [Header("Artifact Upgrades")]
+    public enum weaponTypes
+    {
+        Pistols,
+        Rifle
+    }
+    [Header("Weapons")]
+    [SerializeField] weaponTypes currentWeapon; // what is our current weapon?
+    [SerializeField] GameObject pistolCosmeticModel; // pistol cosmetic
+    [SerializeField] GameObject rifleCosmeticModel; // rifle cosmetic
+    [SerializeField] GameObject rifleReticle; // reticle associated with the rifle
+    [SerializeField] Transform rifleTip; // where our shots originate
+    [SerializeField] GameObject cubePuff; // our bullet cube particle effect
+    [SerializeField] GameObject rifleMuzzleFlash; // the rifle muzzle flash
+
     // artifact upgradess
     bool isInvincible;
     bool autoShieldCoroutineRunning;
     float autoShieldTime; // the amount of time our autoshield engages and the amount of time it takes to cool down
+    [Header("Artifact Upgrades")]
     [SerializeField] GameObject autoShield; // our shield
     [SerializeField] GameObject autoShieldCosmetic; // cosmetic item
 
@@ -142,29 +156,82 @@ public class PlayerController : MonoBehaviour
         {
             if (player.GetButtonDown("Fire"))
             {
-                // check ammo
-                if (ammoAmount > 0)
+                // which weapon are we using?
+
+                // pistols
+                if (currentWeapon == weaponTypes.Pistols)
                 {
-                    // check arm
-                    if (rightArm == true)
+                    // make sure we set the model properly
+                    pistolCosmeticModel.SetActive(true);
+                    rifleCosmeticModel.SetActive(false);
+                    rifleReticle.SetActive(false);
+                    // check ammo
+                    if (ammoAmount > 0)
                     {
-                        // spawn bullet
-                        GameObject bullet = Instantiate(playerBullet, rightGunTip.position, Quaternion.identity, null);
-                        bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
-                        rightArm = false;
-                        ammoAmount--;
-                        // screenshake
-                        cameraScript.shakeDuration += 0.08f;
+                        // check arm
+                        if (rightArm == true)
+                        {
+                            // spawn bullet
+                            GameObject bullet = Instantiate(playerBullet, rightGunTip.position, Quaternion.identity, null);
+                            bullet.GetComponent<PlayerBulletScript>().bulletType = PlayerBulletScript.bulletTypes.Projectile;
+                            bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
+                            rightArm = false;
+                            ammoAmount--;
+                            // screenshake
+                            cameraScript.shakeDuration += 0.08f;
+                        }
+                        else if (rightArm == false)
+                        {
+                            // spawn bullet
+                            GameObject bullet = Instantiate(playerBullet, leftGunTip.position, Quaternion.identity, null);
+                            bullet.GetComponent<PlayerBulletScript>().bulletType = PlayerBulletScript.bulletTypes.Hitscan;
+                            bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
+                            rightArm = true;
+                            ammoAmount--;
+                            // screenshake
+                            cameraScript.shakeDuration += 0.08f;
+                        }
                     }
-                    else if (rightArm == false)
-                    {
+                }
+
+                // rifle
+                if (currentWeapon == weaponTypes.Rifle)
+                {
+                    // rifle is a hitscan weapon with a slower fire rate
+                    pistolCosmeticModel.SetActive(false);
+                    rifleCosmeticModel.SetActive(true);
+                    rifleReticle.SetActive(true);
+                    // check ammo
+                    if (ammoAmount > 0)
+                    {                          
                         // spawn bullet
-                        GameObject bullet = Instantiate(playerBullet, leftGunTip.position, Quaternion.identity, null);
-                        bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
-                        rightArm = true;
-                        ammoAmount--;
-                        // screenshake
-                        cameraScript.shakeDuration += 0.08f;
+                        RaycastHit hit = cameraScript.rifleTargetHit;
+                        if (hit.transform.CompareTag("Breakable"))
+                        {
+                            // anything with the Breakable tag will be a chunk and have a BreakableBreak function
+                            hit.transform.gameObject.GetComponent<BreakableChunk>().BreakableBreak();
+                            Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                            // screenshake
+                            cameraScript.shakeDuration += 0.08f;
+                        }                        
+                        
+                        if (hit.transform.CompareTag("Environment"))
+                        {
+                            Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                            // screenshake
+                            cameraScript.shakeDuration += 0.08f;
+                        }
+
+                        if (hit.transform.CompareTag("Enemy"))
+                        {
+                            hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage(1);
+                            Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                            // screenshake
+                            cameraScript.shakeDuration += 0.08f;
+                            // muzzle flash effect
+                            rifleMuzzleFlash.SetActive(true);
+                            rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0,0,Random.Range(0,360));
+                        }
                     }
                 }
             }
@@ -275,6 +342,11 @@ public class PlayerController : MonoBehaviour
 
         // make sure we aren't out of bounds
         Mathf.Clamp(playerHP, 0, playerMaxHP);
+
+        // muzzle flash effect
+        if (rifleMuzzleFlash.activeInHierarchy)
+        { rifleMuzzleFlash.SetActive(false); }
+
 
     }
 

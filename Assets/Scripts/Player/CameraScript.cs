@@ -46,6 +46,9 @@ public class CameraScript : MonoBehaviour
 
     Vector3 originalPos;
 
+    // rifle aiming
+    public RaycastHit rifleTargetHit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +73,10 @@ public class CameraScript : MonoBehaviour
 
     void LateUpdate()
     {
+
+        // perform a raycast from the center of the camera to the screen to world point of it's center
+        Physics.Raycast(transform.position, transform.forward, out rifleTargetHit, Mathf.Infinity);
+
         // clamp our shake
         Mathf.Clamp(shakeAmount, 0, 0.08f);
 
