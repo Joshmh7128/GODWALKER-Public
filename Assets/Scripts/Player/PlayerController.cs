@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour
         gemSlider.value = (float)gemAmount / (float)gemMax;
         // displayer our HP amount
         hpAmountText.text = playerHP.ToString(); // in text
-        hpMaxText.text = playerHP.ToString(); // in text
+        hpMaxText.text = playerMaxHP.ToString(); // in text
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
         hpSliderDiegetic.value = (float)playerHP / (float)playerMaxHP;
         // display our bug part amount

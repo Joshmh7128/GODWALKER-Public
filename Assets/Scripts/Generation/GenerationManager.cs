@@ -307,8 +307,8 @@ public class GenerationManager : MonoBehaviour
                 // i is going to determine which tile has the artifact temple on it
                 int i = UnityEngine.Random.Range(0, tileClassList.Count);
 
-                // choose one of the tiles in the list and give it the player
-                if (!tileClassList[i].isWall)
+                // make sure this is not a wall and is not the origin tile
+                if (!tileClassList[i].isWall && !tileClassList[i].isOrigin && !tileClassList[i].isEmpty)
                 {
                     tileClassList[i].isArtifact = true;
                     artifactPlaced = true;
