@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour
                             }
                         }
                         // if we do not hit anything
-                        if (hit.transform != null)
+                        if (hit.transform == null)
                         {
                             // use ammo
                             ammoAmount--;
@@ -372,6 +372,11 @@ public class PlayerController : MonoBehaviour
         if (UpgradeSingleton.Instance.autoShieldDuration > 0 && autoShieldCosmetic.activeInHierarchy == false)
         {
             autoShieldCosmetic.SetActive(true);
+        }
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            // SceneManager.LoadScene("Main Menu");
         }
     }
 
@@ -504,8 +509,6 @@ public class PlayerController : MonoBehaviour
             mitoZygoteShield.SetActive(false);
             UpgradeSingleton.Instance.mitoZygoteDuration = 0;
         }
-
-
     }
 
     IEnumerator AutoShieldTimer(float shieldTime)
@@ -522,7 +525,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator MitoZygoteShieldTimer()
     {
         mitoShieldCoroutineRunning = true;
-        yield return new WaitForSeconds(UpgradeSingleton.Instance.mitoZygoteDuration);
+        yield return new WaitForSeconds(1);
         if (UpgradeSingleton.Instance.mitoZygoteDuration > 0)
         { UpgradeSingleton.Instance.mitoZygoteDuration--;  }
         mitoShieldCoroutineRunning = false;
