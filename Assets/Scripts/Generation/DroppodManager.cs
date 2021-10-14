@@ -249,8 +249,8 @@ public class DroppodManager : MonoBehaviour
         // trigger the visual effect
         playerController.canDistort = false;
         // current action text
-        currentActionOne.text = "Moving to Landing Zone...";
-        currentActionTwo.text = "Moving to Landing Zone...";
+        currentActionOne.text = "Moving above Landing Zone...";
+        currentActionTwo.text = "Moving above Landing Zone...";
         // change the X and Y positions of the drop pod to the new X and Y of the landing pos
         ourPlatform.targetPos = new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z);
         // wait until we get there
@@ -259,15 +259,16 @@ public class DroppodManager : MonoBehaviour
         currentActionOne.text = "Landing...";
         currentActionTwo.text = "Landing...";
         // then move down
-        yield return new WaitForSeconds(1f);
+        ourPlatform.targetPos = targetPosGroundNew;
+        // set our new flying position
+        targetPosFly = new Vector3(targetPosGroundNew.x, targetPosGroundNew.y, targetPosGroundNew.z);
+        // wait until we get there
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, targetPosFly.y, targetPosGroundNew.z)) < 3f);
         // open the walls
         platformWalls.SetActive(false);
         // enable player movement
         playerController.canMove = true;
         // set a new movement position
-        ourPlatform.targetPos = targetPosGroundNew;
-        // set our new flying position
-        targetPosFly = new Vector3(targetPosGroundNew.x, targetPosFly.y, targetPosGroundNew.z);
         // we're done
         isFlying = false;
         // lower remaining trips by 1
