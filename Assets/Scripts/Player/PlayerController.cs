@@ -308,7 +308,7 @@ public class PlayerController : MonoBehaviour
             if (!objectiveShowing)
             {
                 // run our panel coroutine
-                StartCoroutine(ObjectivePanelHandler("Collect Resources. Launch Ship when able."));
+                StartCoroutine(ObjectivePanelHandler("Collect Resources. Board Ship and Launch with Space when ready."));
             }
 
             if (artifactInfoText.color.a == 1)
