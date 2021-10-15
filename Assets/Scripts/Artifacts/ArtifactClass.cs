@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class ArtifactClass : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public abstract class ArtifactClass : MonoBehaviour
     [SerializeField] Material rareMaterial;
     [SerializeField] Renderer rarityMaterialRenderer;
     [SerializeField] LineRenderer ourLine;
+    [SerializeField] Sprite ourImage;
     public bool hasCollided = false; // have we collided already?
 
     private void Awake()
@@ -33,8 +35,9 @@ public abstract class ArtifactClass : MonoBehaviour
     {
         // build and add our info to the list
         UpgradeSingleton.Instance.artifactInfoList.Add(artifactName + " - " + artifactInfo);
-        // call the UI update on the player
+        // call the UI updates on the player
         UpgradeSingleton.Instance.player.UpdateArtifactInfoUI();
+        UpgradeSingleton.Instance.player.UpdateInfoPopupWrapper(artifactName, artifactInfo, rarityMaterialRenderer.material.color, ourImage);
         // destroy
         Destroy(gameObject);
     }

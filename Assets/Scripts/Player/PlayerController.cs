@@ -66,6 +66,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CanvasGroup hurtCanvas; // our hurt canvas
     [SerializeField] CanvasGroup deathCanvas; // our death canvas
     [SerializeField] CanvasGroup fadeCanvas; // our death canvas
+    [SerializeField] CanvasGroup popupCanvas; // our popup canvas
+    [SerializeField] Text popupTitle; // our popup title
+    [SerializeField] Text popupDesc; // our popup description
+    [SerializeField] Image popupImage; // our popup image
+    float popupAlphaChange; // our popup alphachange
 
     // visual effects
     public bool canDistort; // should we distort the image?
@@ -479,6 +484,10 @@ public class PlayerController : MonoBehaviour
             isMitoInvincible = false;
         }
 
+        // our popup alpha change
+        if (popupCanvas.alpha <= 1 && popupCanvas.alpha >= 0)
+        { popupCanvas.alpha += popupAlphaChange; }
+
     }
 
     // if we gain life, positive number, if we lose life, negative number
@@ -592,4 +601,26 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public void UpdateInfoPopupWrapper(string titleText, string descText, Color textColor, Sprite upgradeImage)
+    {
+        StartCoroutine(UpdateUpgradeInfoPopup(titleText, descText, textColor, upgradeImage));
+    }
+
+    // update our Upgrade Info Popup on pickup
+    public IEnumerator UpdateUpgradeInfoPopup(string titleText, string descText, Color textColor, Sprite upgradeImage)
+    {
+        // update our values
+        popupTitle.text = titleText;
+        popupTitle.color = textColor;
+        popupDesc.text = descText;
+        popupImage.sprite = upgradeImage;
+        // fade in our upgrade info popup alpha
+        popupAlphaChange = 0.1f;
+        // show for 5 seconds
+        yield return new WaitForSeconds(5f);
+        // make it go away
+        popupAlphaChange = -0.1f;
+    }
+
 }
