@@ -14,8 +14,8 @@ public class CameraScript : MonoBehaviour
     [SerializeField] float aimSensitivity; // how sensitive is our camera
     float sensitivityChange;
     float currentSensitivity;
-    [SerializeField] Transform headTransform; // the transform of our player's head
-    [SerializeField] Transform bodyTransform; // the transform of our player's body
+    public Transform headTransform; // the transform of our player's head
+    public Transform bodyTransform; // the transform of our player's body
     [SerializeField] float yRotate; // Y rotation float
     [SerializeField] float xRotate; // X rotation float
     [SerializeField] float minYAngle; // min our Y can be (usually negative)
@@ -94,30 +94,45 @@ public class CameraScript : MonoBehaviour
             // calculate our X rotation
             xRotate += player.GetAxis("MouseHorizontal") * currentSensitivity * Time.fixedDeltaTime;
             xRotate += player.GetAxis("JoyLookHorizontal") * currentSensitivity * 10 * Time.fixedDeltaTime;
-            // aim the camera
+            // aim the camera at the child object of the head. head is moved by the above code
             transform.LookAt(aimTarget.position);
             // apply it
             headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
             bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);
-        }
             // access our line renderers
             rightArmLine.SetPosition(0, rightArm.position);
             rightArmLine.SetPosition(1, digeticAimTarget.position);
 
             leftArmLine.SetPosition(0, leftArm.position);
             leftArmLine.SetPosition(1, digeticAimTarget.position);
-            // move our digetic aim target
+        }
+
+        if (!canLook)
+        {
+            // make our lines invisible
+            rightArmLine.enabled = false;
+            leftArmLine.enabled = false;
+        } else if (canLook)
+        {
+            // make our lines visible
+            rightArmLine.enabled = true;
+            leftArmLine.enabled = true;
+        }
+
+        // move our digetic aim target
+        if (canLook)
+        {
             digeticAimTarget.position = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 100f));
+        }   
         
         // screenshake
-        if (shakeDuration > 0)
+        if (shakeDuration > 0 && canLook)
         {
             camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
             shakeDuration -= Time.deltaTime * decreaseFactor;
         }
         else
         {
-            if (canLook)
             shakeDuration = 0f;
             camTransform.localPosition = originalPos;
         }
@@ -125,16 +140,21 @@ public class CameraScript : MonoBehaviour
         // toggle which side our camera is on
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            if (canLook)
             moveTargetIsRight = !moveTargetIsRight;
         }
 
         // move the container
-        if (moveTargetIsRight)
+        if (canLook)
         {
-            cameraContainer.position = moveTargetRight.position;
-        } else
-        {
-            cameraContainer.position = moveTargetLeft.position;
+            if (moveTargetIsRight)
+            {
+                cameraContainer.position = moveTargetRight.position;
+            }
+            else
+            {
+                cameraContainer.position = moveTargetLeft.position;
+            }
         }
     }
 

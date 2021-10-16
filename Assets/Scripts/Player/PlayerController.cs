@@ -9,6 +9,7 @@ using Rewired;
 
 public class PlayerController : MonoBehaviour
 {
+    #region // Main Gameplay Values
     [Header("Controller Values")]
     // controller values
     [SerializeField] CharacterController characterController; // our character controller
@@ -35,7 +36,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform treadsParent;    // the parent of our treads
     public bool canMove = true;
     public bool canFire = true;
+    #endregion
 
+    #region // Referenced Prefabs
     // referenced prefabs and objects
     [SerializeField] GameObject playerBullet;   // bullet prefab
     [SerializeField] Slider ammoSlider;         // our ammo slider
@@ -53,7 +56,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text hpMaxText;            // our hp max in text
     [SerializeField] Text bugAmountText;        // bug amount text display
     [SerializeField] Text bugMaxText;           // bug amount text display
-
+    #endregion
+    
+    #region // Diegetic UI
     // diegetic UI we're modifying in this script
     [SerializeField] CanvasGroup objectiveCanvas; // our objective canvase
     [SerializeField] Text currentObjective; // our current objective
@@ -61,37 +66,57 @@ public class PlayerController : MonoBehaviour
     public bool objectiveShowing; // is our objective showing?
     public string objectiveCurrentMessage; // is our objective showing?
     [SerializeField] GameObject tabIndicator; // our tab text indicating you can show the objective
+    #endregion
 
+    #region // Non-diegetic UI
+    [Header("- Non Diegetic UI -")]
     // non-diegetic UI elements we're modifying
     [SerializeField] CanvasGroup hurtCanvas; // our hurt canvas
     [SerializeField] CanvasGroup deathCanvas; // our death canvas
     [SerializeField] CanvasGroup fadeCanvas; // our death canvas
+    // artifact pickup UI elements
     [SerializeField] CanvasGroup popupCanvas; // our popup canvas
     [SerializeField] Text popupTitle; // our popup title
     [SerializeField] Text popupDesc; // our popup description
     [SerializeField] Image popupImage; // our popup image
     float popupAlphaChange; // our popup alphachange
+    // inventory related
+    [SerializeField] Transform inventoryCameraPos; // position of cam when we access inventory
+    [SerializeField] Transform mainCameraContainer; // position of cam when we access inventory
+    bool inventoryOpen = false; // is our inventory open?
+    [SerializeField] CanvasGroup inventoryCanvas; // the canvas of our inventory
+    [SerializeField] CanvasGroup gameplayUICanvas; // the canvas of our inventory
+    [SerializeField] AudioSource inventoryAudioSource; // the inventory audio source
+    [SerializeField] AudioClip inventoryOpenAudio;
+    [SerializeField] AudioClip inventoryCloseAudio;
+    Vector3 previousBodyRotation; // used to make opening and closing the inventory panel more comfortable
 
     // visual effects
     public bool canDistort; // should we distort the image?
     float distortRate = 4; // what rate should we distort the image?
     public PostProcessVolume postProcessVolume; // our post process volume
+    #endregion
 
+    #region // Player Movement Variables
     // movement and input
     Player player;
     Vector3 move;
     Vector3 moveH;
     Vector3 moveV;
+    #endregion
 
     // interaction spot
     public Transform interactionCameraPos;
     public GameObject interactionMouse;
     public bool canInteract;
 
+    #region // Droppod variables
     // our drop pod
     [SerializeField] Transform dropPodTransform;
     [SerializeField] DroppodManager dropPodManager;
+    #endregion
 
+    #region // Weapon Management
     public enum weaponTypes
     {
         Pistols,
@@ -107,7 +132,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject cubePuff; // our bullet cube particle effect
     [SerializeField] GameObject rifleMuzzleFlash; // the rifle muzzle flash
     public float shotCoolDown; // the amount of time until we can fire again
+    #endregion
 
+    #region // Artifact Management
     // artifact upgradess
     bool isInvincible;
     bool isMitoInvincible;
@@ -120,6 +147,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject autoShieldCosmetic; // cosmetic item
     [SerializeField] GameObject enemyCam; // our see through camera
     [SerializeField] GameObject mitoZygoteShield; // our 1 hp shield
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -159,6 +187,8 @@ public class PlayerController : MonoBehaviour
             characterController.Move(move * Time.deltaTime * moveSpeed);
             characterController.Move(new Vector3(0f, gravity, 0f) * Time.deltaTime);
         }
+
+        #region // UI display
         // display our ammo amount
         ammoAmountText.text = ammoAmount.ToString(); // in text
         ammoMaxText.text = ammoMax.ToString(); // in text
@@ -182,6 +212,7 @@ public class PlayerController : MonoBehaviour
         // modify our reticle ring
         if (currentWeapon == weaponTypes.Rifle)
         { rifleReticleRing.transform.localScale = new Vector3(shotCoolDown, shotCoolDown, shotCoolDown); }
+        #endregion
 
         // shoot bullets
         if (canFire)
@@ -301,15 +332,67 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        // reload scene for dev purposes
+        // COMMENTED OUT reload scene for dev purposes
         if (Input.GetKeyDown(KeyCode.F4))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+           // SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
         }
+
+
 
         // tab press to show and update objective panel
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            // save our previous body rotation
+            previousBodyRotation = cameraScript.bodyTransform.rotation.eulerAngles;
+
+            // show / hide our inventory
+            if (!inventoryOpen)
+            {
+                // play the noise
+                inventoryAudioSource.clip = inventoryOpenAudio;
+                inventoryAudioSource.Play();
+
+                // make sure the inventory is seen and not blocked
+                gameplayUICanvas.alpha = 0;
+                inventoryCanvas.alpha = 1;
+
+                inventoryOpen = true;
+                canMove = false;
+                cameraScript.canLook = false;
+
+                // zero out the head so that it is not disorienting
+                
+                cameraScript.bodyTransform.rotation = Quaternion.Euler(new Vector3(0, cameraScript.bodyTransform.rotation.y, 0));
+                cameraScript.headTransform.rotation = Quaternion.Euler(new Vector3(cameraScript.headTransform.rotation.x, 0, cameraScript.headTransform.rotation.z));
+
+                // lerping camera now handled in the fixed update
+                // mainCameraContainer.position = inventoryCameraPos.position;
+                // mainCameraContainer.rotation = inventoryCameraPos.rotation;
+
+            } else
+            {
+                // play the noise
+                inventoryAudioSource.clip = inventoryCloseAudio;
+                inventoryAudioSource.Play();
+
+                // turn off the canvas
+                gameplayUICanvas.alpha = 1;
+                inventoryCanvas.alpha = 0;
+
+                // move camera
+                mainCameraContainer.position = Vector3.zero;
+                mainCameraContainer.rotation = Quaternion.Euler(Vector3.zero);
+                cameraScript.bodyTransform.rotation = Quaternion.Euler(previousBodyRotation);
+
+                inventoryOpen = false;
+                canMove = true;
+                cameraScript.canLook = true;
+            }
+
+
+            #region // Old Development UI
+            /*
             if (!objectiveShowing)
             {
                 // run our panel coroutine
@@ -319,7 +402,8 @@ public class PlayerController : MonoBehaviour
             if (artifactInfoText.color.a == 1)
             { artifactInfoText.color = new Color(255, 255, 255, 0); }
             else if (artifactInfoText.color.a == 0)
-            { artifactInfoText.color = new Color(255, 255, 255, 1); }
+            { artifactInfoText.color = new Color(255, 255, 255, 1); }*/
+            #endregion
         }
 
         // can we interact?
@@ -388,6 +472,15 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
+        // lerp our camera to the inventory space
+        if (inventoryOpen)
+        {
+            mainCameraContainer.position = Vector3.Lerp(mainCameraContainer.position, inventoryCameraPos.position, 0.75f);
+            mainCameraContainer.rotation = Quaternion.Euler(Vector3.Lerp(mainCameraContainer.rotation.eulerAngles, inventoryCameraPos.rotation.eulerAngles, 0.75f));
+            // mainCameraContainer.position = inventoryCameraPos.position;
+            // mainCameraContainer.rotation = inventoryCameraPos.rotation;
+        }
+
         // update objective panel
         currentObjective.text = objectiveCurrentMessage;
 

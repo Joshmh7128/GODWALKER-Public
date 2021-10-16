@@ -6,15 +6,10 @@ public class GunRotateScript : MonoBehaviour
 {
     [SerializeField] Transform aimTarget;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
+        if (Camera.main.gameObject.GetComponent<CameraScript>().canLook)
         // aim the gun
         transform.LookAt(aimTarget.position);
     }
