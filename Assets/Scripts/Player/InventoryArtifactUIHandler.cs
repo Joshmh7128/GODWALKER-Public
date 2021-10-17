@@ -22,6 +22,7 @@ public class InventoryArtifactUIHandler : MonoBehaviour
         ArtifactUIGridElementClass newElement;
         newElement = Instantiate(artifactUIGridElementPrefab, gridParent).GetComponent<ArtifactUIGridElementClass>();
         // make sure the information on our newElement is correct
+        newElement.gameObject.transform.SetAsFirstSibling();
         newElement.artifactIcon.sprite = icon;
         newElement.artifactInfoText = infoText;
         newElement.artifactTitleText.text = titleText;
@@ -33,6 +34,11 @@ public class InventoryArtifactUIHandler : MonoBehaviour
 
     public void ClearInventoryGrid()
     {
+        foreach (ArtifactUIGridElementClass element in artifactUIGridElementClasses)
+        {
+            Destroy(element.gameObject);
+        }
+
         artifactUIGridElementClasses.Clear();
     }
 }

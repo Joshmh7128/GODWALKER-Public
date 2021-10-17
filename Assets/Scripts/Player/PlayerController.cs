@@ -432,6 +432,8 @@ public class PlayerController : MonoBehaviour
             cameraScript.canLook = false;
             // display death canvas
             deathCanvas.alpha = 1;
+            // empty our artifacts
+            UpgradeSingleton.DestroySingleton();
             // if we press space, emergency teleport back to base (load primer)
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -462,7 +464,6 @@ public class PlayerController : MonoBehaviour
                 // set player HP to 1
                 playerHP = playerMaxHP;
             }
-
         }
 
         // artifact upgrades
