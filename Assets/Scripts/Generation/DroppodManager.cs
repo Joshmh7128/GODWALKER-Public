@@ -165,7 +165,7 @@ public class DroppodManager : MonoBehaviour
             SceneManager.LoadScene("Hub", LoadSceneMode.Single);
             // unload the instance
             UpgradeSingleton.DestroySingleton();
-            playerController.UpdateArtifactInfoUI();
+            playerController.ClearArtifactInfoUI();
             // unload the player
             playerController.gemAmount = 0;
             playerController.mineralAmount = 0;

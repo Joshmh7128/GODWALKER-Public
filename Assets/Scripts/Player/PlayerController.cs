@@ -90,6 +90,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip inventoryOpenAudio;
     [SerializeField] AudioClip inventoryCloseAudio;
     Vector3 previousBodyRotation; // used to make opening and closing the inventory panel more comfortable
+    [SerializeField] InventoryArtifactUIHandler inventoryArtifactUIHandler;
 
     // visual effects
     public bool canDistort; // should we distort the image?
@@ -477,8 +478,6 @@ public class PlayerController : MonoBehaviour
         {
             mainCameraContainer.position = Vector3.Lerp(mainCameraContainer.position, inventoryCameraPos.position, 0.75f);
             mainCameraContainer.rotation = Quaternion.Euler(Vector3.Lerp(mainCameraContainer.rotation.eulerAngles, inventoryCameraPos.rotation.eulerAngles, 0.75f));
-            // mainCameraContainer.position = inventoryCameraPos.position;
-            // mainCameraContainer.rotation = inventoryCameraPos.rotation;
         }
 
         // update objective panel
@@ -505,7 +504,7 @@ public class PlayerController : MonoBehaviour
         if (UpgradeSingleton.Instance.player == null)
         {  
             UpgradeSingleton.Instance.player = this;
-            UpdateArtifactInfoUI();
+            // UpdateArtifactInfoUI();
         }
 
         // distortion effect
@@ -669,30 +668,15 @@ public class PlayerController : MonoBehaviour
     }
 
     // set our artifact info text
-    public void UpdateArtifactInfoUI()
+    public void UpdateArtifactInfoUI(string titleText, string infoText, Sprite icon)
     {
-        // if there are upgrades
-        if (UpgradeSingleton.Instance != null)
-        {
-            if (UpgradeSingleton.Instance.artifactInfoList.Count > 0)
-            {
-                // our local string
-                string totalInfo = "";
-                // for each artifact info we have, add it to the final and a line ending
-                foreach (string info in UpgradeSingleton.Instance.artifactInfoList)
-                {
-                    totalInfo = totalInfo + info + "\n";
-                }
-                // set info
-                artifactInfoText.text = totalInfo;
-            } else if (UpgradeSingleton.Instance.artifactInfoList.Count <= 0)
-            {
-                // our local string
-                string totalInfo = "";
-                // set info
-                artifactInfoText.text = totalInfo;
-            }
-        }
+        // create a new ui grid object in our inventory
+        inventoryArtifactUIHandler.UpdateInventoryGrid(titleText, infoText, icon);
+    }
+
+    public void ClearArtifactInfoUI()
+    {
+        inventoryArtifactUIHandler.ClearInventoryGrid();
     }
 
     public void UpdateInfoPopupWrapper(string titleText, string descText, Color textColor, Sprite upgradeImage)
