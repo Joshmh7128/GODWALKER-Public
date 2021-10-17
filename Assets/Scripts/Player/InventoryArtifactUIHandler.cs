@@ -11,6 +11,9 @@ public class InventoryArtifactUIHandler : MonoBehaviour
     [SerializeField] Transform gridParent;
     // all the objects in that grid object
     public List<ArtifactUIGridElementClass> artifactUIGridElementClasses;
+    // our UI elements
+    public Text selectedTitleText;
+    public Text selectedInfoText;
 
     // are we adding something new to the grid?
     public void UpdateInventoryGrid(string titleText, string infoText, Sprite icon)
@@ -22,6 +25,8 @@ public class InventoryArtifactUIHandler : MonoBehaviour
         newElement.artifactIcon.sprite = icon;
         newElement.artifactInfoText = infoText;
         newElement.artifactTitleText.text = titleText;
+        newElement.selectionTitleText = selectedTitleText;
+        newElement.selectionInfoText = selectedInfoText;
         // add it to our list
         artifactUIGridElementClasses.Add(newElement);
     }

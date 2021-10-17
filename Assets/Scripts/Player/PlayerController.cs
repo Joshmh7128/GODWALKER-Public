@@ -350,6 +350,10 @@ public class PlayerController : MonoBehaviour
             // show / hide our inventory
             if (!inventoryOpen)
             {
+                canFire = false;
+                // unlock cursor
+                Cursor.lockState = CursorLockMode.None;
+
                 // play the noise
                 inventoryAudioSource.clip = inventoryOpenAudio;
                 inventoryAudioSource.Play();
@@ -373,6 +377,9 @@ public class PlayerController : MonoBehaviour
 
             } else
             {
+                canFire = true;
+                // lock cursor
+                Cursor.lockState = CursorLockMode.Locked;
                 // play the noise
                 inventoryAudioSource.clip = inventoryCloseAudio;
                 inventoryAudioSource.Play();
@@ -478,6 +485,7 @@ public class PlayerController : MonoBehaviour
         {
             mainCameraContainer.position = Vector3.Lerp(mainCameraContainer.position, inventoryCameraPos.position, 0.75f);
             mainCameraContainer.rotation = Quaternion.Euler(Vector3.Lerp(mainCameraContainer.rotation.eulerAngles, inventoryCameraPos.rotation.eulerAngles, 0.75f));
+
         }
 
         // update objective panel

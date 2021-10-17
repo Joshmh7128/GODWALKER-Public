@@ -9,4 +9,12 @@ public class ArtifactUIGridElementClass : MonoBehaviour
     public Text artifactTitleText;
     public string artifactInfoText;
     public Image artifactIcon;
+    public Text selectionTitleText;
+    public Text selectionInfoText;
+
+    public void LocalOnClick()
+    {
+        selectionTitleText.text = artifactTitleText.text;
+        selectionInfoText.text = artifactInfoText;
+    }
 }
