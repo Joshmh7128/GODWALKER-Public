@@ -7,6 +7,9 @@ public class SmallChunkScript : MonoBehaviour
     [SerializeField] PlayerController playerController; // our player controller
     [SerializeField] GameObject cubePuff; // death particle effect
     [SerializeField] Rigidbody rigidbody;
+    [SerializeField] AudioSource ourSource;
+    [SerializeField] AudioClip chunkClip;
+    [SerializeField] AudioClip scrapClip;
     [SerializeField] SphereCollider sphereCollider;
     [SerializeField] bool isBugPart;
     [SerializeField] float decreaseRate;
@@ -54,6 +57,9 @@ public class SmallChunkScript : MonoBehaviour
         // when the player collides with us add ammunition to their inventory
         if (col.CompareTag("Player"))
         {
+            // play our sound
+
+
             switch (chunkType)
             {
                 case chunkTypes.ammo:
