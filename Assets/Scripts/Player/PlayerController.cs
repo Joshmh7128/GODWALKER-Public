@@ -150,6 +150,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject mitoZygoteShield; // our 1 hp shield
     #endregion
 
+    #region // General Audio Related
+    [Header("General Audio")]
+    [SerializeField] AudioSource fireAudioSource;
+    [SerializeField] AudioClip pistolsFireAudioClip;
+    [SerializeField] AudioClip rifleFireAudioClip;
+
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
@@ -235,6 +243,9 @@ public class PlayerController : MonoBehaviour
                         // check arm
                         if (rightArm == true)
                         {
+                            // set the sound of our source
+                            fireAudioSource.clip = pistolsFireAudioClip;
+                            fireAudioSource.Play();
                             // spawn bullet
                             GameObject bullet = Instantiate(playerBullet, rightGunTip.position, Quaternion.identity, null);
                             bullet.GetComponent<PlayerBulletScript>().bulletType = PlayerBulletScript.bulletTypes.Projectile;
@@ -248,6 +259,9 @@ public class PlayerController : MonoBehaviour
                         }
                         else if (rightArm == false)
                         {
+                            // set the sound of our source
+                            fireAudioSource.clip = pistolsFireAudioClip;
+                            fireAudioSource.Play();
                             // spawn bullet
                             GameObject bullet = Instantiate(playerBullet, leftGunTip.position, Quaternion.identity, null);
                             bullet.GetComponent<PlayerBulletScript>().bulletType = PlayerBulletScript.bulletTypes.Hitscan;
@@ -272,12 +286,16 @@ public class PlayerController : MonoBehaviour
                     // check ammo
                     if (ammoAmount > 0 && shotCoolDown <= 0)
                     {
+                        // set the sound of our source
+                        fireAudioSource.clip = rifleFireAudioClip;
+                        fireAudioSource.Play();
                         // shot cooldown
                         shotCoolDown = 15f;
                         // spawn bullet
                         RaycastHit hit = cameraScript.rifleTargetHit;
                         if (hit.transform != null)
                         {
+
                             // use ammo
                             ammoAmount--;
                             if (hit.transform.CompareTag("Breakable"))
@@ -313,8 +331,7 @@ public class PlayerController : MonoBehaviour
                                 rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
                             }
                         }
-                        // if we do not hit anything
-                        if (hit.transform == null)
+                        else // if we do not hit anything
                         {
                             // use ammo
                             ammoAmount--;
