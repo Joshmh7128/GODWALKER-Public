@@ -63,27 +63,35 @@ public class SmallChunkScript : MonoBehaviour
             switch (chunkType)
             {
                 case chunkTypes.ammo:
-                // Debug.Log("player collision");
-                if (playerController.ammoAmount < playerController.ammoMax)
-                {
-                    playerController.ammoAmount++;
-                    playerController.cameraScript.shakeDuration += 0.06f;
-                    Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                    UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
-                    Destroy(gameObject);
-                }
+                    // Debug.Log("player collision");
+                    if (playerController.ammoAmount < playerController.ammoMax)
+                    {
+                        // play a sound
+                        ourSource.clip = chunkClip;
+                        ourSource.Play();
+                        // do the rest
+                        playerController.ammoAmount++;
+                        playerController.cameraScript.shakeDuration += 0.06f;
+                        Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                        UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
+                        Destroy(gameObject);
+                    }
                     break;
 
                 case chunkTypes.mineral:
-                // Debug.Log("player collision");
-                if (playerController.mineralAmount < playerController.mineralMax)
-                {
-                    playerController.mineralAmount++;
-                    playerController.cameraScript.shakeDuration += 0.06f;
-                    Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                    UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
-                    Destroy(gameObject);
-                }
+                    // Debug.Log("player collision");
+                    if (playerController.mineralAmount < playerController.mineralMax)
+                    {
+                        // play a sound
+                        ourSource.clip = chunkClip;
+                        ourSource.Play();
+                        // do the rest
+                        playerController.mineralAmount++;
+                        playerController.cameraScript.shakeDuration += 0.06f;
+                        Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                        UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
+                        Destroy(gameObject);
+                    }
                     break;
 
 
@@ -91,6 +99,10 @@ public class SmallChunkScript : MonoBehaviour
                     // Debug.Log("player collision");
                     if (playerController.gemAmount < playerController.gemMax)
                     {
+                        // play a sound
+                        ourSource.clip = chunkClip;
+                        ourSource.Play();
+                        // do the rest
                         playerController.gemAmount++;
                         playerController.cameraScript.shakeDuration += 0.06f;
                         Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
@@ -100,6 +112,10 @@ public class SmallChunkScript : MonoBehaviour
                     break;
 
                 case chunkTypes.bug:
+                    // play a sound
+                    ourSource.clip = scrapClip;
+                    ourSource.Play();
+                    // do the rest
                     playerController.bugPartAmount++;
                     playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);

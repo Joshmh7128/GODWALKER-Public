@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform treadsParent;    // the parent of our treads
     public bool canMove = true;
     public bool canFire = true;
+    public bool canJump = true;
+    [SerializeField] float jumpVelocity; // how fast can we jump
+    [SerializeField] float jumpHeightMax;  // how high can we jump
+    [SerializeField] float jumpHeight;  // how high can we jump
+    [SerializeField] float fallGravity;  // how quicky we fall in addition to normal gravity
     #endregion
 
     #region // Referenced Prefabs
@@ -188,13 +193,32 @@ public class PlayerController : MonoBehaviour
             // declare our motion
             moveV = playerHead.forward * player.GetAxis("Vertical");
             moveH = playerHead.right * player.GetAxis("Horizontal");
-            move = new Vector3(moveH.x, 0f, moveH.z) + new Vector3(moveV.x, 0f, moveV.z);
+            move = new Vector3(moveH.x, 0, moveH.z) + new Vector3(moveV.x, 0, moveV.z);
             // rotate our treads
             Vector3 treadDirection = Vector3.RotateTowards(treadsParent.forward, move, 10 * Time.deltaTime, 0f);
             treadsParent.rotation = Quaternion.LookRotation(treadDirection);
             // apply to the character controller
             characterController.Move(move * Time.deltaTime * moveSpeed);
-            characterController.Move(new Vector3(0f, gravity, 0f) * Time.deltaTime);
+            characterController.Move(new Vector3(0f, gravity + fallGravity, 0f) * Time.deltaTime);
+
+            // jumping
+            if (canJump)
+            {
+                // the space bar jump press
+                if (player.GetButton("SpacePress") && jumpHeight > 0)
+                {
+                    // do the jumping
+                    characterController.Move(new Vector3(0f, jumpVelocity, 0f) * Time.deltaTime);
+                    // for a limited time
+                    jumpHeight -= Time.deltaTime * 60;
+                }
+
+                // reset jump height
+                if (player.GetButtonUp("SpacePress") && jumpHeight > 0)
+                {
+                    jumpHeight = 0;
+                }
+            }
         }
 
         #region // UI display
@@ -353,10 +377,8 @@ public class PlayerController : MonoBehaviour
         // COMMENTED OUT reload scene for dev purposes
         if (Input.GetKeyDown(KeyCode.F4))
         {
-           // SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+            // SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
         }
-
-
 
         // tab press to show and update objective panel
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -498,12 +520,18 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
+        // check beneath us if we can jump  
+        if (Physics.Linecast(new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z), new Vector3(transform.position.x, transform.position.y - 2f, transform.position.z)))
+        {
+            // reset jump
+            jumpHeight = jumpHeightMax;
+        }
+    
         // lerp our camera to the inventory space
         if (inventoryOpen)
         {
             mainCameraContainer.position = Vector3.Lerp(mainCameraContainer.position, inventoryCameraPos.position, 0.75f);
             mainCameraContainer.rotation = Quaternion.Euler(Vector3.Lerp(mainCameraContainer.rotation.eulerAngles, inventoryCameraPos.rotation.eulerAngles, 0.75f));
-
         }
 
         // update objective panel

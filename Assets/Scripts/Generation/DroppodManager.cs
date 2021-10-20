@@ -94,6 +94,9 @@ public class DroppodManager : MonoBehaviour
 
         if (canLaunch == true)
         {
+            // make sure they canont jump
+            playerController.canJump = false;
+
             // make our green zone green
             greenZoneRenderer.material = brightGreen;
             // launch
@@ -109,6 +112,8 @@ public class DroppodManager : MonoBehaviour
         }
         else
         {
+            // make sure they canont jump
+            playerController.canJump = true;
             greenZoneRenderer.material = dimGreen;
         }
 
