@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform rightGunTip;     // for firing shots
     [SerializeField] Transform leftGunTip;
     [SerializeField] Transform diegeticAimTarget;
+    [SerializeField] Transform treadYRotationParent; // used to make our treads slightly rock back and forth
     [SerializeField] bool rightArm = true;      // if true, shoot from right arm. if false, shoot from left arm. 
     public int ammoAmount;                      // how much ammo we currently have
     public int mineralAmount;                   // mineral amount
@@ -211,26 +212,35 @@ public class PlayerController : MonoBehaviour
             {
                 // jump falling
                 gravityValue = gravity * 100;
+                // move treads
+                treadYRotationParent.localRotation = Quaternion.Euler(new Vector3(0, 0, 0f));
             }
-            else if (characterController.isGrounded && player.GetButton("SpacePress"))
+            else if (characterController.isGrounded && player.GetButton("SpacePress") && canJump)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
             }
-            else if (characterController.velocity.y <= 0 && !characterController.isGrounded)
+            else if (characterController.velocity.y <= 0 && !characterController.isGrounded && canJump)
             {
                 // normal falling
                 gravityValue = gravity * fallMultiplier;
+                // move treads
+                float forwardLean = -14;
+                treadYRotationParent.localRotation = Quaternion.Euler(new Vector3(forwardLean, 0, 0f));
             } 
-            else if (characterController.velocity.y > 0)
+            else if (characterController.velocity.y > 0 && canJump)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
+                // move treads                
+                float forwardLean = 14;
+                treadYRotationParent.localRotation = Quaternion.Euler(new Vector3(forwardLean, 0,0f));
             }
 
             if (characterController.isGrounded && playerJumpVelocity < 0)
             {
                 playerJumpVelocity = 0f;
+
             }
 
             // jumping
