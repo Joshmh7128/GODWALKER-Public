@@ -36,11 +36,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform treadsParent;    // the parent of our treads
     public bool canMove = true;
     public bool canFire = true;
-    public bool canJump = true;
-    [SerializeField] float jumpVelocity; // how fast can we jump
-    [SerializeField] float jumpHeightMax;  // how high can we jump
-    [SerializeField] float jumpHeight;  // how high can we jump
-    [SerializeField] float fallGravity;  // how quicky we fall in addition to normal gravity
+
     #endregion
 
     #region // Referenced Prefabs
@@ -109,6 +105,13 @@ public class PlayerController : MonoBehaviour
     Vector3 move;
     Vector3 moveH;
     Vector3 moveV;
+    public bool canJump = true;
+    [SerializeField] float jumpVelocity; // how fast can we jump
+    [SerializeField] float fallMultiplier;  // how quicky we fall in addition to normal gravity
+    [SerializeField] float lowJumpMultiplier;  // how quicky we fall in addition to normal gravity
+    [SerializeField] float playerJumpVelocity;  // how quicky we fall in addition to normal gravity
+    float gravityValue;                        // real time simulated gravity
+
     #endregion
 
     // interaction spot
@@ -193,32 +196,46 @@ public class PlayerController : MonoBehaviour
             // declare our motion
             moveV = playerHead.forward * player.GetAxis("Vertical");
             moveH = playerHead.right * player.GetAxis("Horizontal");
-            move = new Vector3(moveH.x, 0, moveH.z) + new Vector3(moveV.x, 0, moveV.z);
+
+            // vertical velocity variable
+            float verticalVelocity;
+
             // rotate our treads
-            Vector3 treadDirection = Vector3.RotateTowards(treadsParent.forward, move, 10 * Time.deltaTime, 0f);
+            Vector3 treadDirection = Vector3.RotateTowards(treadsParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
             treadsParent.rotation = Quaternion.LookRotation(treadDirection);
-            // apply to the character controller
-            characterController.Move(move * Time.deltaTime * moveSpeed);
-            characterController.Move(new Vector3(0f, gravity + fallGravity, 0f) * Time.deltaTime);
+
+            // gravity modifications
+            if (characterController.velocity.y <= 0 && !characterController.isGrounded)
+            {
+                // normal falling
+                gravityValue = gravity * fallMultiplier;
+            } 
+            else if (characterController.velocity.y > 0 && !player.GetButton("SpacePress"))
+            {
+                // jump falling
+                gravityValue = gravity * lowJumpMultiplier;
+            }
+
+            if (characterController.isGrounded && playerJumpVelocity < 0)
+            {
+                playerJumpVelocity = 0f;
+            }
 
             // jumping
             if (canJump)
             {
-                // the space bar jump press
-                if (player.GetButton("SpacePress") && jumpHeight > 0)
+                if (player.GetButtonDown("SpacePress") && characterController.isGrounded)
                 {
-                    // do the jumping
-                    characterController.Move(new Vector3(0f, jumpVelocity, 0f) * Time.deltaTime);
-                    // for a limited time
-                    jumpHeight -= Time.deltaTime * 60;
-                }
-
-                // reset jump height
-                if (player.GetButtonUp("SpacePress") && jumpHeight > 0)
-                {
-                    jumpHeight = 0;
+                    playerJumpVelocity += Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
                 }
             }
+
+            // total move 
+            verticalVelocity = playerJumpVelocity += gravityValue * Time.deltaTime;
+            move = new Vector3(moveH.x + moveV.x, verticalVelocity / moveSpeed, moveH.z + moveV.z);
+
+            // apply to the character controller
+            characterController.Move(move * Time.deltaTime * moveSpeed);
         }
 
         #region // UI display
@@ -523,8 +540,7 @@ public class PlayerController : MonoBehaviour
         // check beneath us if we can jump  
         if (Physics.Linecast(new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z), new Vector3(transform.position.x, transform.position.y - 2f, transform.position.z)))
         {
-            // reset jump
-            jumpHeight = jumpHeightMax;
+
         }
     
         // lerp our camera to the inventory space
