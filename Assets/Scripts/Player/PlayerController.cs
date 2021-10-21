@@ -205,12 +205,22 @@ public class PlayerController : MonoBehaviour
             treadsParent.rotation = Quaternion.LookRotation(treadDirection);
 
             // gravity modifications
-            if (characterController.velocity.y <= 0 && !characterController.isGrounded)
+            if (characterController.isGrounded && !player.GetButton("SpacePress"))
+            {
+                // jump falling
+                gravityValue = gravity * 100;
+            }
+            else if (characterController.isGrounded && player.GetButton("SpacePress"))
+            {
+                // jump falling
+                gravityValue = gravity * lowJumpMultiplier;
+            }
+            else if (characterController.velocity.y <= 0 && !characterController.isGrounded)
             {
                 // normal falling
                 gravityValue = gravity * fallMultiplier;
             } 
-            else if (characterController.velocity.y > 0 && !player.GetButton("SpacePress"))
+            else if (characterController.velocity.y > 0)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
