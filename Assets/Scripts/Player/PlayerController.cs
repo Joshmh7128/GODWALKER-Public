@@ -141,6 +141,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject cubePuff; // our bullet cube particle effect
     [SerializeField] GameObject rifleMuzzleFlash; // the rifle muzzle flash
     public float shotCoolDown; // the amount of time until we can fire again
+    public float rifleDamage; // rifle damage
+    public float pistolDamage; // pistol damage
     #endregion
 
     #region // Artifact Management
@@ -301,6 +303,7 @@ public class PlayerController : MonoBehaviour
                             GameObject bullet = Instantiate(playerBullet, rightGunTip.position, Quaternion.identity, null);
                             bullet.GetComponent<PlayerBulletScript>().bulletType = PlayerBulletScript.bulletTypes.Projectile;
                             bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
+                            bullet.GetComponent<PlayerBulletScript>().bulletDamage = pistolDamage;
                             rightArm = false;
                             ammoAmount--;
                             // screenshake
@@ -317,6 +320,7 @@ public class PlayerController : MonoBehaviour
                             GameObject bullet = Instantiate(playerBullet, leftGunTip.position, Quaternion.identity, null);
                             bullet.GetComponent<PlayerBulletScript>().bulletType = PlayerBulletScript.bulletTypes.Hitscan;
                             bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
+                            bullet.GetComponent<PlayerBulletScript>().bulletDamage = pistolDamage;
                             rightArm = true;
                             ammoAmount--;
                             // screenshake
@@ -373,7 +377,7 @@ public class PlayerController : MonoBehaviour
 
                             if (hit.transform.CompareTag("Enemy"))
                             {
-                                hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage(1);
+                                hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage((int)rifleDamage);
                                 Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
                                 // screenshake
                                 cameraScript.shakeDuration += 0.08f;

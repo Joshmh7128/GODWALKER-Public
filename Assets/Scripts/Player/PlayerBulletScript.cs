@@ -6,6 +6,7 @@ public class PlayerBulletScript : MonoBehaviour
 {
     // variables
     public Transform bulletTarget; // what is the target of our bullet?
+    public float bulletDamage; // what is the damage of our bullet
     [SerializeField] float bulletSpeed; // what is the speed of our bullet?
     [SerializeField] GameObject cubePuff; // our particle effect
     public enum bulletTypes
@@ -59,7 +60,7 @@ public class PlayerBulletScript : MonoBehaviour
 
         if (collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<EnemyClass>().TakeDamage(1);
+            collision.GetComponent<EnemyClass>().TakeDamage((int)bulletDamage);
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }
