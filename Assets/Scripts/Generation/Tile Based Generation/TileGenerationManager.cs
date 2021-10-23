@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class GenerationManager : MonoBehaviour
+public class TileGenerationManager : GenerationManager
 {
     // our list of map generation chunks
     [SerializeField] RandomChildSelector[] randomChildSelectors;
@@ -71,7 +71,7 @@ public class GenerationManager : MonoBehaviour
         UpgradeSingleton.Instance.playerPlaced = playerPlaced;
     }
 
-    public void ClearGen()
+    public override void ClearGen()
     {
         // tell the manager that we are now in the multigen stage
         multiGen = true;
@@ -140,7 +140,7 @@ public class GenerationManager : MonoBehaviour
     }
 
     // full map generation
-    public void MapGeneration()
+    public override void MapGeneration()
     { 
         int localTilesMax = UnityEngine.Random.Range(minPathDistance, maxPathDistance);
 

@@ -154,7 +154,9 @@ public class DroppodManager : MonoBehaviour
         // have we loaded in?
         bool loaded = false;
         // check if we are in the hub or not
-        if (SceneManager.GetActiveScene().name == "Advanced Generation")
+        if (SceneManager.GetActiveScene().name == "Tile Generation")
+        { inHub = false; }        
+        if (SceneManager.GetActiveScene().name == "Roolm Generation")
         { inHub = false; }
         if (SceneManager.GetActiveScene().name == "Hub")
         { inHub = true; }
@@ -226,9 +228,9 @@ public class DroppodManager : MonoBehaviour
             clusterWarp.SetActive(true);
             fadeAmount = 0.1f;
             yield return new WaitUntil(() => fadeCanvasGroup.alpha >= 1);
-            // load in to the advanced generation scene
-            SceneManager.LoadSceneAsync("Advanced Generation", LoadSceneMode.Single);
-            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Advanced Generation");
+            // load in to the advanced generation scene manually here
+            SceneManager.LoadSceneAsync("Room Generation", LoadSceneMode.Single);
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Room Generation");
             // get our generation manager
             if (generationManager == null)
             {
@@ -242,45 +244,55 @@ public class DroppodManager : MonoBehaviour
             loaded = true;
         }
 
-        // wait until we have loaded
-        yield return new WaitUntil(() => loaded == true);
-        // when we are hanging in the air, generate the new map
-        generationManager.ClearGen();
-        // fade out
-        hubWarp.SetActive(false);
-        clusterWarp.SetActive(false);
-        fadeAmount = -0.1f;
-        yield return new WaitUntil(() => fadeCanvasGroup.alpha <= 0);
-        // trigger the visual effect
-        playerController.canDistort = false;
-        // current action text
-        currentActionOne.text = "Moving above Landing Zone...";
-        currentActionTwo.text = "Moving above Landing Zone...";
-        // change the X and Y positions of the drop pod to the new X and Y of the landing pos
-        ourPlatform.targetPos = new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z);
-        // wait until we get there
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z)) < 5f);
-        // current action text
-        currentActionOne.text = "Landing...";
-        currentActionTwo.text = "Landing...";
-        // then move down
-        ourPlatform.targetPos = targetPosGroundNew;
-        // set our new flying position
-        targetPosFly = new Vector3(targetPosGroundNew.x, targetPosGroundNew.y, targetPosGroundNew.z);
-        // wait until we get there
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, targetPosFly.y, targetPosGroundNew.z)) < 3f);
-        // open the walls
-        platformWalls.SetActive(false);
-        // enable player movement
-        playerController.canMove = true;
-        // set a new movement position
-        // we're done
-        isFlying = false;
-        // lower remaining trips by 1
-        remainingTrips--;
-        // current action text
-        currentActionOne.text = "Waiting for Launch Command...";
-        currentActionTwo.text = "Waiting for Launch Command...";
+        // if we are in a tile based generation...
+        if (SceneManager.GetActiveScene().name == "Tile Generation")
+        {
+            // wait until we have loaded
+            yield return new WaitUntil(() => loaded == true);
+            // when we are hanging in the air, generate the new map
+            generationManager.ClearGen();
+            // fade out
+            hubWarp.SetActive(false);
+            clusterWarp.SetActive(false);
+            fadeAmount = -0.1f;
+            yield return new WaitUntil(() => fadeCanvasGroup.alpha <= 0);
+            // trigger the visual effect
+            playerController.canDistort = false;
+            // current action text
+            currentActionOne.text = "Moving above Landing Zone...";
+            currentActionTwo.text = "Moving above Landing Zone...";
+            // change the X and Y positions of the drop pod to the new X and Y of the landing pos
+            ourPlatform.targetPos = new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z);
+            // wait until we get there
+            yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, ourPlatform.transform.position.y, targetPosGroundNew.z)) < 5f);
+            // current action text
+            currentActionOne.text = "Landing...";
+            currentActionTwo.text = "Landing...";
+            // then move down
+            ourPlatform.targetPos = targetPosGroundNew;
+            // set our new flying position
+            targetPosFly = new Vector3(targetPosGroundNew.x, targetPosGroundNew.y, targetPosGroundNew.z);
+            // wait until we get there
+            yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, targetPosFly.y, targetPosGroundNew.z)) < 3f);
+            // open the walls
+            platformWalls.SetActive(false);
+            // enable player movement
+            playerController.canMove = true;
+            // set a new movement position
+            // we're done
+            isFlying = false;
+            // lower remaining trips by 1
+            remainingTrips--;
+            // current action text
+            currentActionOne.text = "Waiting for Launch Command...";
+            currentActionTwo.text = "Waiting for Launch Command...";
+        }
+    
+        // if we are in a room based generation...
+        if (SceneManager.GetActiveScene().name == "Room Generation")
+        {
+
+        }
     }
 
     private void FixedUpdate()
