@@ -8,7 +8,6 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] float speed; // the speed we want to move at
     [SerializeField] float currentSpeed; // the speed we are moving right now
     [SerializeField] float randomRadius; // determines how far he flies per movement
-    [SerializeField] float shootAnimTime = 0.75f; // out shot animation length
     [SerializeField] float HP; // our HP
     [SerializeField] float maxHP; // our max HP
     [SerializeField] float activationDistance;
@@ -18,6 +17,7 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] Transform player;
     [SerializeField] Transform shotOrigin; // where are out shots coming from?
     [SerializeField] Animator animator;
+    [SerializeField] AnimationClip shootAnim;
     [SerializeField] bool tooLow;
     [SerializeField] bool runningBehaviour;
     [SerializeField] Transform enemyManager;
@@ -70,11 +70,8 @@ public class BuzzardFlyingEnemy : EnemyClass
 
         // check out height
         // downwards raycast to keep above the ground
-        if (Physics.Raycast(transform.position, Vector3.down, 7f))
-        {
-            tooLow = true;
-        }
-        else { tooLow = false;  }
+        if (Physics.Raycast(transform.position, Vector3.down, 7f))  { tooLow = true; }
+        if (!Physics.Raycast(transform.position, Vector3.down, 7f)) { tooLow = false; }
 
         // pick an unnoccupied point in space
         if (tooLow == false)
@@ -110,7 +107,7 @@ public class BuzzardFlyingEnemy : EnemyClass
         // animate shot charge up
         animator.Play("Shoot");
         // wait for the animation to finish
-        yield return new WaitForSeconds(shootAnimTime);
+        yield return new WaitForSeconds(shootAnim.length);
         // shoot
         GameObject bullet = Instantiate(enemyBullet, shotOrigin.position, Quaternion.identity, null);
         bullet.GetComponent<EnemyBulletScript>().bulletTarget = player;

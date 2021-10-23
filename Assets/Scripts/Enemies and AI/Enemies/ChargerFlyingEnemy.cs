@@ -7,8 +7,8 @@ public class ChargerFlyingEnemy : EnemyClass
     Vector3 newPos;
     [SerializeField] float speed; // the speed we want to move at
     [SerializeField] float currentSpeed; // the speed we are moving right now
-    [SerializeField] float randomRadius; // determines how far he flies per movement
-    [SerializeField] float hangTime; // our chargers hang time
+    [SerializeField] float randomRadius; // determines how far he flies per movement 
+    [SerializeField] AnimationClip chargeUp; // our charge up time
     [SerializeField] float HP; // our HP
     [SerializeField] float maxHP; // our max HP
     [SerializeField] float activationDistance;
@@ -92,7 +92,7 @@ public class ChargerFlyingEnemy : EnemyClass
         lineLocked = false;
         canLookAtPlayer = true;
         animator.Play("Charge Up");
-        yield return new WaitForSeconds(hangTime);
+        yield return new WaitForSeconds(chargeUp.length);
         ourLine.material = indicatorRed;
         canLookAtPlayer = false;
         lineLocked = true;
