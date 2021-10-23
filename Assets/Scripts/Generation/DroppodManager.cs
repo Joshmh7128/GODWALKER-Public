@@ -313,11 +313,12 @@ public class DroppodManager : MonoBehaviour
             currentActionOne.text = "Landing...";
             currentActionTwo.text = "Landing...";
             // then move down
+            targetPosGroundNew = new Vector3(targetPosGroundNew.x, targetPosGroundNew.y+2, targetPosGroundNew.z);
             ourPlatform.targetPos = targetPosGroundNew;
             // set our new flying position
             targetPosFly = new Vector3(targetPosGroundNew.x, targetPosGroundNew.y, targetPosGroundNew.z);
             // wait until we get there
-            yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, targetPosFly.y, targetPosGroundNew.z)) < 3f);
+            yield return new WaitUntil(() => Vector3.Distance(transform.position, new Vector3(targetPosGroundNew.x, targetPosGroundNew.y, targetPosGroundNew.z)) < 3f);
             // open the walls
             platformWalls.SetActive(false);
             // enable player movement
