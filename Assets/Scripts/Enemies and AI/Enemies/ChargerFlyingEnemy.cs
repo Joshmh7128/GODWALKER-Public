@@ -75,25 +75,21 @@ public class ChargerFlyingEnemy : EnemyClass
             renderer.material = indicatorRed;
         }
         runningBehaviour = true;
-        if (canLinePlayer == false) 
-        { 
-            runningBehaviour = false;
-            yield break;
-        }
+        
         currentSpeed = 0;
         // show our line, indicating we will charge at the player, while also facing them
         ourLine.positionCount = 2;
-        // can we shoot a line to the player?
-        if (canLinePlayer == false)
-        {
-            runningBehaviour = false;
-            yield break;
-        }
+
         lineLocked = false;
         canLookAtPlayer = true;
+        // set our line positions to show we area about to charge the player
+        ourLine.SetPosition(1, player.transform.position);
+        // display our line
+        ourLine.material = indicatorRed;
+        ourLine.startColor = new Color(255, 0, 0, 255);
+        ourLine.endColor = new Color(255, 0, 0, 255);
         animator.Play("Charge Up");
         yield return new WaitForSeconds(chargeUp.length);
-        ourLine.material = indicatorRed;
         canLookAtPlayer = false;
         lineLocked = true;
 
@@ -104,22 +100,16 @@ public class ChargerFlyingEnemy : EnemyClass
             // if we can't see the player, break
             yield break;
         }
-        // set our line positions to show we area about to charge the player
-        ourLine.SetPosition(1, player.transform.position);
-        // display our line
-        ourLine.startColor = new Color(255, 0, 0, 255);
-        ourLine.endColor = new Color(255, 0, 0, 255);
         // charge at the single position of where we saw the player
         currentSpeed = speed;
         animator.Play("Idle"); 
         newPos = new Vector3(player.transform.position.x, player.transform.position.y+1.25f, player.transform.position.z);
         // hang in space for a few moments
-        yield return new WaitForSeconds(hangTime);
+        yield return new WaitForSeconds(chargeUp.length);
         ourLine.startColor = new Color(255, 0, 0, 0);
         ourLine.endColor = new Color(255, 0, 0, 0);
         currentSpeed = 0;
         canLookAtPlayer = true;
-        yield return new WaitForSeconds(hangTime);
 
         // restart
         // end 

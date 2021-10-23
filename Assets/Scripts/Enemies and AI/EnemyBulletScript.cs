@@ -64,7 +64,7 @@ public class EnemyBulletScript : MonoBehaviour
         // if this hits the player
         if (collision.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerController>().AddHP(-1);
+            playerTransform.gameObject.GetComponent<PlayerController>().AddHP(-1);
             Camera.main.GetComponent<CameraScript>().shakeDuration += 0.085f;
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
