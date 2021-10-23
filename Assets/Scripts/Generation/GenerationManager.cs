@@ -15,6 +15,8 @@ public class GenerationManager : MonoBehaviour
     int tilesPlaced; // how many tiles we have placed so far
     int minPathDistance = 30;
     static int maxPathDistance = 40; // how long should our generation paths be?
+    public int doorAmount; // how many doors do we currently have
+    public int doorAmountMax; // how many doors do we currently have
     [SerializeField] TileClass[,,] gridArray = new TileClass[maxPathDistance * 2, maxPathDistance * 2, maxPathDistance * 2]; // our x, y, z array
     [SerializeField] List<TileClass> tileClassList; // the one dimensional list of our tiles
     [SerializeField] List<TileClass> wallTileClassList; // the one dimensional list of our tiles
@@ -73,6 +75,9 @@ public class GenerationManager : MonoBehaviour
     {
         // tell the manager that we are now in the multigen stage
         multiGen = true;
+
+        // make sure we can place doors again
+        doorAmount = doorAmountMax;
 
         // set all targets to 0
         targetX = targetY = targetZ = 0;
@@ -196,6 +201,7 @@ public class GenerationManager : MonoBehaviour
                 newTileClass.xArrayPos = targetX + maxPathDistance; newTileClass.yArrayPos = targetY + maxPathDistance; newTileClass.zArrayPos = targetZ + maxPathDistance;
                 newTileClass.xPos = targetX; newTileClass.yPos = targetY; newTileClass.zPos = targetZ;
                 gridArray[targetX + maxPathDistance, targetY + maxPathDistance, targetZ + maxPathDistance] = newTileClass;
+                newTileClass.generationManager = this;
             }
 
             if (tilesPlaced == localTilesMax - 1)
@@ -235,6 +241,7 @@ public class GenerationManager : MonoBehaviour
                                 newWallTileClass.xArrayPos = tileClass.xArrayPos + (int)vector.x; newWallTileClass.yArrayPos = tileClass.yArrayPos + (int)vector.y; newWallTileClass.zArrayPos = tileClass.zArrayPos + (int)vector.z;
                                 newWallTileClass.xPos = (tileClass.xPos * roomSpace) + ((int)vector.x * roomSpace); newWallTileClass.yPos = (tileClass.yPos * roomSpace) + ((int)vector.y * roomSpace); newWallTileClass.zPos = (tileClass.zPos * roomSpace) + ((int)vector.z * roomSpace);
                                 gridArray[newWallTileClass.xArrayPos, newWallTileClass.yArrayPos, newWallTileClass.zArrayPos] = newWallTileClass;
+                                newWallTileClass.generationManager = this;
 
                                 // add it to the list
                                 if (!wallTileClassList.Contains(newWall.GetComponent<TileClass>()))
@@ -315,19 +322,39 @@ public class GenerationManager : MonoBehaviour
                     Debug.Log("Artifact placed");
                 }
             }
+
+
         }
 
         // now activate all of non-walls
-        foreach(TileClass tileClass in tileClassList)
+        foreach (TileClass tileClass in tileClassList)
         {
             if (!tileClass.isWall)
             tileClass.OnGenerate();
         }       
         
         // now activate all of the walls
-        foreach(TileClass tileClass in wallTileClassList)
+        foreach (TileClass tileClass in wallTileClassList)
         {
+
+
+            Debug.Log("generating walls");
+            // generate walls
             tileClass.OnGenerate();
+        }
+
+        // if we can still place doors, place them until we are good to do
+        while (doorAmount > 0)
+        {
+            // i is going to find a random wall and then turn it in to a door
+            int i = UnityEngine.Random.Range(0, wallTileClassList.Count);
+            // find the index of i in the wall list and make it in to a door
+            if (wallTileClassList[i].isCardinalWall && !wallTileClassList[i].isDoor)
+            {
+                wallTileClassList[i].DoorReplace();
+            } else { break; }
+            doorAmount--;
+            Debug.Log("Door picked");
         }
 
         Debug.Log("tiles activated");

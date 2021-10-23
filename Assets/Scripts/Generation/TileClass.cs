@@ -13,9 +13,13 @@ public class TileClass : MonoBehaviour
     public bool isOrigin = false; // are we an origin?
     public bool isEmpty = false; // are we empty?
     public bool isArtifact = false; // are we the artifact tile?
+    public bool isDoor; // are we a door?
+    public bool isCardinalWall = false; // are we wall facing north, south, east, or west?
+    int primeResult = 1; // what is our prime result?
     [SerializeField] bool devDraw = false; // should we be drawing gizmos?
     [SerializeField] ProceduralGenerationSetScript generator; // what is our generator?
     [SerializeField] GameObject playerPackage; // what is our player package?
+    public GenerationManager generationManager;
     bool[,,] neighborStates = new bool[3, 3, 3]; // all neighbor bool states with 1,1,1 being the unused center
 
     public GameObject[,,] wallObjects = new GameObject[3, 3, 3]; // all objects to be spawned in as walls
@@ -65,43 +69,6 @@ public class TileClass : MonoBehaviour
     [SerializeField] GameObject EmptySet; // the empty gameobject set
     [SerializeField] GameObject ArtifactSet; // the artifact gameobject set
 
-    void Awake()
-    {
-        if (isWall)
-        {
-            // default
-            wallObjects[0 + diff, 0 + diff, 0 + diff] = wallObjectList[8];
-
-            // right
-            wallObjects[1 + diff, 0 + diff, 0 + diff] = wallObjectList[4];
-
-            // left
-            wallObjects[-1 + diff, 0 + diff, 0 + diff] = wallObjectList[3];
-
-            // forward
-            wallObjects[0 + diff, 0 + diff, 1 + diff] = wallObjectList[1];
-
-            // backward
-            wallObjects[0 + diff, 0 + diff, -1 + diff] = wallObjectList[6];
-
-            // right forward
-            wallObjects[1 + diff, 0 + diff, 1 + diff] = wallObjectList[2];
-
-            // left, forward
-            wallObjects[-1 + diff, 0 + diff, 1 + diff] = wallObjectList[0];
-
-            // right backward
-            wallObjects[1 + diff, 0 + diff, -1 + diff] = wallObjectList[7];
-
-            // left backward
-            wallObjects[-1 + diff, 0 + diff, -1 + diff] = wallObjectList[5];                  
-            
-            // left backward
-            wallObjects[-1 + diff, 0 + diff, -1 + diff] = wallObjectList[5];            
-
-        }
-    }
-
     // when we generate the map
     public void OnGenerate()
     {
@@ -136,7 +103,6 @@ public class TileClass : MonoBehaviour
 
         if (isWall)
         {
-            int primeResult = 1;
 
             int localXArrayPos;
             int localYArrayPos;
@@ -151,24 +117,44 @@ public class TileClass : MonoBehaviour
                 primeResult *= primeNumberArray[localXArrayPos + diff, localZArrayPos + diff];
             }
 
-            // Debug.Log(primeResult);
+
+            // is this a cardinal wall?
+            if (primeResult == 2 || primeResult == 6 || primeResult == 46 || primeResult == 138 || primeResult == 11 || primeResult == 77 || primeResult == 143 || primeResult == 1001 || primeResult == 5 || primeResult == 15 || primeResult == 35 || primeResult == 105 || primeResult == 17 || primeResult == 221 || primeResult == 391 || primeResult == 5083)
+            {
+                isCardinalWall = true;
+            }
 
             if (primeResult == 2 || primeResult == 6 || primeResult == 46 ||primeResult == 138)
-            {   // to the forward
-                // wallObjects[0 + diff, 0 + diff, 1 + diff].SetActive(true);
-                Instantiate(wallObjectList[0], transform);
+            {   // flat to forward
+                if (!isDoor)
+                { Instantiate(wallObjectList[0], transform); }
+
+                if (isDoor)
+                { Instantiate(wallObjectList[41], transform); }
             } 
             else if (primeResult == 11 || primeResult == 77 || primeResult == 143 || primeResult == 1001)
-            {   // to backward
-                Instantiate(wallObjectList[1], transform);
+            {   // flat to backward
+                if (!isDoor)
+                { Instantiate(wallObjectList[1], transform); }
+
+                if (isDoor)
+                { Instantiate(wallObjectList[40], transform); }
             }            
             else if (primeResult == 5 || primeResult == 15 || primeResult == 35 || primeResult == 105)
-            {   // right
-                Instantiate(wallObjectList[2], transform);
+            {   // flat right
+                if (!isDoor)
+                { Instantiate(wallObjectList[2], transform); }
+                
+                if (isDoor)
+                { Instantiate(wallObjectList[42], transform); }
             }            
             else if (primeResult == 17 || primeResult == 221 || primeResult == 391 || primeResult == 5083)
-            {   // left
-                Instantiate(wallObjectList[3], transform);
+            {   // flat left
+                if (!isDoor)
+                { Instantiate(wallObjectList[3], transform); }
+
+                if (isDoor)
+                { Instantiate(wallObjectList[39], transform); }
             }           
             else if (primeResult == 3)
             {   // forward right
@@ -311,7 +297,47 @@ public class TileClass : MonoBehaviour
                 Instantiate(wallObjects[0 + diff, 0 + diff, 0 + diff], transform);
             }
         }
+    }
+
+    public void DoorReplace()
+    {
+        if (primeResult == 2 || primeResult == 6 || primeResult == 46 || primeResult == 138)
+        {
+            // destroy child
+            Destroy(transform.GetChild(0));
+            
+            // flat to forward
+            if (isDoor)
+            { Instantiate(wallObjectList[41], transform); }
         }
+        else if (primeResult == 11 || primeResult == 77 || primeResult == 143 || primeResult == 1001)
+        {   
+            // destroy child
+            Destroy(transform.GetChild(0));
+
+            // flat to backward
+            if (isDoor)
+            { Instantiate(wallObjectList[40], transform); }
+        }
+        else if (primeResult == 5 || primeResult == 15 || primeResult == 35 || primeResult == 105)
+        {  
+            // destroy child
+            Destroy(transform.GetChild(0));
+
+            // flat right
+            if (isDoor)
+            { Instantiate(wallObjectList[42], transform); }
+        }
+        else if (primeResult == 17 || primeResult == 221 || primeResult == 391 || primeResult == 5083)
+        {  
+            // destroy child
+            Destroy(transform.GetChild(0));
+
+            // flat left
+            if (isDoor)
+            { Instantiate(wallObjectList[39], transform); }
+        }
+    }
 
     public void OnDrawGizmos()
     {
