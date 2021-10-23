@@ -10,6 +10,7 @@ public class RoomClass : MonoBehaviour
 
     private void Start()
     {
-        
+        if (isStartRoom)
+        { GameObject.Find("Drop Pod").GetComponent<DroppodManager>().targetPosGroundNew = transform.position; }
     }
 }
