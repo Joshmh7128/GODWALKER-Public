@@ -360,4 +360,5 @@ public class GenerationManager : MonoBehaviour
 
         Debug.Log("tiles activated");
     }
+
 }
