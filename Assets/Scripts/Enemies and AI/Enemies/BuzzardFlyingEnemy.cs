@@ -70,15 +70,15 @@ public class BuzzardFlyingEnemy : EnemyClass
 
         // check out height
         // downwards raycast to keep above the ground
-        if (Physics.Raycast(transform.position, Vector3.down, 7f))  { tooLow = true; }
-        if (!Physics.Raycast(transform.position, Vector3.down, 7f)) { tooLow = false; }
+        if (Physics.Raycast(transform.position, Vector3.down, 3f))  { tooLow = true; }
+        if (!Physics.Raycast(transform.position, Vector3.down, 3f)) { tooLow = false; }
 
         // pick an unnoccupied point in space
         if (tooLow == false)
         {
             // calculate movement variables
             float xMove = Random.Range(-randomRadius, randomRadius);
-            float yMove = Random.Range(-randomRadius, randomRadius);
+            float yMove = Random.Range(-randomRadius, -randomRadius/2);
             float zMove = Random.Range(-randomRadius, randomRadius);
             // fire a ray to see if there is anything in the path of our movement
             if (!Physics.Linecast(transform.position, transform.position + new Vector3(xMove, yMove, zMove)))
@@ -87,11 +87,12 @@ public class BuzzardFlyingEnemy : EnemyClass
                 newPos = transform.position + new Vector3(xMove, yMove, zMove); // where are we flying next?
             }
         }
-        else
+        
+        if (tooLow)
         {
             // calculate movement variables
             float xMove = Random.Range(-randomRadius, randomRadius);
-            float yMove = Random.Range(-randomRadius, randomRadius);
+            float yMove = Random.Range(0, randomRadius);
             float zMove = Random.Range(-randomRadius, randomRadius);
             // fire a ray to see if there is anything in the path of our movement
             if (!Physics.Linecast(transform.position, transform.position + new Vector3(xMove, yMove, zMove)))
@@ -144,8 +145,7 @@ public class BuzzardFlyingEnemy : EnemyClass
         transform.position = Vector3.MoveTowards(transform.position, newPos, currentSpeed * Time.deltaTime);
         // calculate knockback
         transform.position = Vector3.MoveTowards(transform.position, transform.position + (new Vector3(originForce.x, originForce.y/4, originForce.z)), knockDistance * Time.deltaTime);
-        // look at the player
-        transform.LookAt(player);
+
         // death
         if (HP <= 0)
         {
@@ -188,7 +188,6 @@ public class BuzzardFlyingEnemy : EnemyClass
             {
                 if (hit.transform.tag == ("Player"))
                 {
-                        
                     StartCoroutine("FlyingBehaviour");
                 }
                 else

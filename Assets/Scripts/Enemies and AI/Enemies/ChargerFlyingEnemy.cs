@@ -84,26 +84,20 @@ public class ChargerFlyingEnemy : EnemyClass
         canLookAtPlayer = true;
         // set our line positions to show we area about to charge the player
         ourLine.SetPosition(1, player.transform.position);
+        Vector3 targetpos;
         // display our line
         ourLine.material = indicatorRed;
         ourLine.startColor = new Color(255, 0, 0, 255);
         ourLine.endColor = new Color(255, 0, 0, 255);
         animator.Play("Charge Up");
         yield return new WaitForSeconds(chargeUp.length);
-        canLookAtPlayer = false;
         lineLocked = true;
-
-        // can we see the player?
-        if (canLinePlayer == false)
-        {
-            runningBehaviour = false;
-            // if we can't see the player, break
-            yield break;
-        }
+        canLookAtPlayer = false;
+        targetpos = new Vector3(player.transform.position.x, player.transform.position.y + 1.25f, player.transform.position.z);
         // charge at the single position of where we saw the player
         currentSpeed = speed;
         animator.Play("Idle"); 
-        newPos = new Vector3(player.transform.position.x, player.transform.position.y+1.25f, player.transform.position.z);
+        newPos = targetpos;
         // hang in space for a few moments
         yield return new WaitForSeconds(chargeUp.length);
         ourLine.startColor = new Color(255, 0, 0, 0);
@@ -214,7 +208,7 @@ public class ChargerFlyingEnemy : EnemyClass
         if (Vector3.Distance(transform.position, player.position) > activationDistance)
         {
             ourLine.SetPosition(0, lineStart.position);
-            ourLine.SetPosition(1, lineStart.position);
+            // ourLine.SetPosition(1, lineStart.position);
             ourLine.startColor = new Color(0, 0, 0, 0);
             ourLine.endColor = new Color(0, 0, 0, 0);
         }
@@ -222,7 +216,7 @@ public class ChargerFlyingEnemy : EnemyClass
         if (canLookAtPlayer)
         {
             ourLine.SetPosition(0, lineStart.position);
-            ourLine.SetPosition(1, lineStart.position);
+            ourLine.SetPosition(1, player.transform.position);
         }
         
 
