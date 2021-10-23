@@ -301,10 +301,12 @@ public class TileClass : MonoBehaviour
 
     public void DoorReplace()
     {
+        Debug.Log("Replacing doors...");
+
         if (primeResult == 2 || primeResult == 6 || primeResult == 46 || primeResult == 138)
         {
             // destroy child
-            Destroy(transform.GetChild(0));
+            Destroy(transform.GetChild(1).gameObject);
             
             // flat to forward
             if (isDoor)
@@ -313,7 +315,7 @@ public class TileClass : MonoBehaviour
         else if (primeResult == 11 || primeResult == 77 || primeResult == 143 || primeResult == 1001)
         {   
             // destroy child
-            Destroy(transform.GetChild(0));
+            Destroy(transform.GetChild(1).gameObject);
 
             // flat to backward
             if (isDoor)
@@ -322,7 +324,7 @@ public class TileClass : MonoBehaviour
         else if (primeResult == 5 || primeResult == 15 || primeResult == 35 || primeResult == 105)
         {  
             // destroy child
-            Destroy(transform.GetChild(0));
+            Destroy(transform.GetChild(1).gameObject);
 
             // flat right
             if (isDoor)
@@ -331,7 +333,7 @@ public class TileClass : MonoBehaviour
         else if (primeResult == 17 || primeResult == 221 || primeResult == 391 || primeResult == 5083)
         {  
             // destroy child
-            Destroy(transform.GetChild(0));
+            Destroy(transform.GetChild(1).gameObject);
 
             // flat left
             if (isDoor)

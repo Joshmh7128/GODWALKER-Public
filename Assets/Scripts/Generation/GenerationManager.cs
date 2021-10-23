@@ -351,9 +351,10 @@ public class GenerationManager : MonoBehaviour
             // find the index of i in the wall list and make it in to a door
             if (wallTileClassList[i].isCardinalWall && !wallTileClassList[i].isDoor)
             {
+                wallTileClassList[i].isDoor = true;
                 wallTileClassList[i].DoorReplace();
-            } else { break; }
-            doorAmount--;
+                doorAmount--;
+            }
             Debug.Log("Door picked");
         }
 
