@@ -5,6 +5,7 @@ using UnityEngine;
 public class RandomChildSelector : MonoBehaviour
 {
     [SerializeField] bool chunk;
+    [SerializeField] bool obstacle;
     [SerializeField] bool devMode;
     int choice;
 
@@ -23,6 +24,11 @@ public class RandomChildSelector : MonoBehaviour
         if (chunk == true)
         {
             Gizmos.DrawWireSphere(transform.position, 3);
+        }        
+        
+        if (obstacle == true)
+        {
+            Gizmos.DrawWireSphere(transform.position, 30);
         }
     }
 

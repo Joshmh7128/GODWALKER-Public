@@ -27,10 +27,13 @@ public class DoorClass : MonoBehaviour
         if (roomGenerationManager.roomCount > 0)
         {
             // randomly choose a room from our prefabs to spawn
-            ourRoom = Instantiate(roomGenerationManager.roomPrefabs[Random.Range(0, roomGenerationManager.roomPrefabs.Count)], roomPlaceTransform);
-            ourRoom.SetActive(false);
-            // lower the room count
-            roomGenerationManager.roomCount--;
+            if (ourRoom == null)
+            {
+                ourRoom = Instantiate(roomGenerationManager.roomPrefabs[Random.Range(0, roomGenerationManager.roomPrefabs.Count)], roomPlaceTransform);
+                ourRoom.SetActive(false);
+                // lower the room count
+                roomGenerationManager.roomCount--;
+            }
         }
     }
 
