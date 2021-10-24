@@ -12,8 +12,9 @@ public class LovebackCrabEnemy : MonoBehaviour
     Vector3 newPos; // the new position we are moving to
     Vector3 startPos; // our starting position
     Vector3 targetPos; // our target pos that we are lerping to every frame
-    float interpolationCount = 200; // the amount of frames to lerp within
+    float interpolationCount = 400; // the amount of frames to lerp within
     float elapsedFrames = 0; // the amount of frames we have elapsed
+    float interpolationRatio;
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class LovebackCrabEnemy : MonoBehaviour
 
     IEnumerator WalkingCycle()
     {
+        elapsedFrames = 0; // reset our lerp frame variable
         currentSpeed = 0;
         newPos = startPos + new Vector3(Random.Range(-randomRadius, randomRadius), 0, Random.Range(-randomRadius, randomRadius)); // find a new target position
         yield return new WaitForSeconds(waitTime);
@@ -33,10 +35,10 @@ public class LovebackCrabEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float interpolationRatio = elapsedFrames / interpolationCount;
-
+        interpolationRatio = elapsedFrames / interpolationCount;
         targetPos = Vector3.Lerp(targetPos, newPos, interpolationRatio);
-        elapsedFrames++;
+        if (elapsedFrames < interpolationCount)
+        { elapsedFrames++; }
 
         if (elapsedFrames > interpolationCount)
         { elapsedFrames = 0; }
@@ -49,6 +51,6 @@ public class LovebackCrabEnemy : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, randomRadius);
+        Gizmos.DrawWireSphere(startPos, randomRadius);
     }
 }
