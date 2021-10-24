@@ -300,6 +300,52 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &419184031305635561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4801317507646319084}
+  - component: {fileID: 4444848791276541295}
+  m_Layer: 0
+  m_Name: Upper Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4801317507646319084
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419184031305635561}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 679462330012068792}
+  m_Father: {fileID: 679462330786272066}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4444848791276541295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419184031305635561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed502873520ade4bb11176747863d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPos: {fileID: 0}
+  targetPlayer: 1
 --- !u!1 &679462330012068793
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +355,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 679462330012068792}
-  - component: {fileID: 804149765770821557}
+  - component: {fileID: 4507736479243207565}
   m_Layer: 0
   m_Name: Containter
   m_TagString: Untagged
@@ -324,7 +370,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679462330012068793}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -332,23 +378,28 @@ Transform:
   - {fileID: 5654817627881266632}
   - {fileID: 4270741831892777131}
   - {fileID: 1627394963366075886}
-  m_Father: {fileID: 679462330786272066}
+  m_Father: {fileID: 4801317507646319084}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &804149765770821557
-MonoBehaviour:
+--- !u!95 &4507736479243207565
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679462330012068793}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eed502873520ade4bb11176747863d2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPos: {fileID: 0}
-  targetPlayer: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1b03333ebddbe9f46b7e62bbd2856af1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &679462330786272064
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,7 +431,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
-  - {fileID: 679462330012068792}
+  - {fileID: 4801317507646319084}
   - {fileID: 1204655856176786533}
   - {fileID: 4813669946122565550}
   m_Father: {fileID: 0}
@@ -415,6 +466,7 @@ MonoBehaviour:
   shotOrigin: {fileID: 5654817627881266632}
   animator: {fileID: 679462330786272069}
   shootAnim: {fileID: 7400000, guid: 53e78805087625844b4e370be9694d3b, type: 2}
+  hurtAnimator: {fileID: 4507736479243207565}
   tooLow: 0
   runningBehaviour: 0
   enemyManager: {fileID: 0}
@@ -462,7 +514,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.69
+  m_Radius: 2.48
   m_Center: {x: 0, y: 0, z: -0.17}
 --- !u!54 &679462330786272071
 Rigidbody:

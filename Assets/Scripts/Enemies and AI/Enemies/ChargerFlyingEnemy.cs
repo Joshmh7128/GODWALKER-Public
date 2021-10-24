@@ -85,12 +85,28 @@ public class ChargerFlyingEnemy : EnemyClass
         // set our line positions to show we area about to charge the player
         ourLine.SetPosition(1, player.transform.position);
         Vector3 targetpos;
+        if (!canLookAtPlayer)
+        {
+            yield break;
+        }
         // display our line
         ourLine.material = indicatorRed;
         ourLine.startColor = new Color(255, 0, 0, 255);
         ourLine.endColor = new Color(255, 0, 0, 255);
+        if (!canLookAtPlayer)
+        {
+            ourLine.startColor = new Color(255, 0, 0, 0);
+            ourLine.endColor = new Color(255, 0, 0, 0);
+            yield break;
+        }
         animator.Play("Charge Up");
         yield return new WaitForSeconds(chargeUp.length);
+        if (!canLookAtPlayer)
+        {
+            ourLine.startColor = new Color(255, 0, 0, 0);
+            ourLine.endColor = new Color(255, 0, 0, 0);
+            yield break;
+        }
         lineLocked = true;
         canLookAtPlayer = false;
         targetpos = new Vector3(player.transform.position.x, player.transform.position.y + 1.25f, player.transform.position.z);
