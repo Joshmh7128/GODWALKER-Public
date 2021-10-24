@@ -135,6 +135,8 @@ public class ChargerFlyingEnemy : EnemyClass
     {
         if (invincible == false)
         {
+            // play the hurt animation
+            hurtAnimator.Play("Hurt");
             // lower HP
             HP -= dmg;
         }
