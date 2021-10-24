@@ -13,6 +13,10 @@ public class SmallChunkScript : MonoBehaviour
     [SerializeField] SphereCollider sphereCollider;
     [SerializeField] bool isBugPart;
     [SerializeField] float decreaseRate;
+    float interpolationCount = 300; // the amount of frames to lerp within
+    float elapsedFrames = 0; // the amount of frames we have elapsed
+    float interpolationRatio;
+
     [SerializeField] enum chunkTypes // the types of chunks
     {
         ammo, mineral, gem, health, bug
@@ -33,14 +37,11 @@ public class SmallChunkScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // if this is a bug part, slowly make the bug part smaller, until it disappears
-        if (isBugPart)
-        {
-            transform.localScale -= new Vector3(decreaseRate,decreaseRate,decreaseRate);
-
-            if (transform.localScale.x <= 0)
-            { Destroy(gameObject); }
-        }
+        // lerp towards the player
+        interpolationRatio = elapsedFrames / interpolationCount;
+        transform.position = Vector3.Lerp(transform.position, playerController.gameObject.transform.position, interpolationRatio);
+        if (elapsedFrames < interpolationCount)
+        { elapsedFrames++; }
     }
 
     private void OnCollisionStay(Collision col)
@@ -58,24 +59,24 @@ public class SmallChunkScript : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             // play our sound
-
-
             switch (chunkType)
             {
                 case chunkTypes.ammo:
                     // Debug.Log("player collision");
+
+                    // play a sound
+                    ourSource.clip = chunkClip;
+                    ourSource.Play();
+                    // do the rest
                     if (playerController.ammoAmount < playerController.ammoMax)
                     {
-                        // play a sound
-                        ourSource.clip = chunkClip;
-                        ourSource.Play();
-                        // do the rest
                         playerController.ammoAmount++;
-                        playerController.cameraScript.shakeDuration += 0.06f;
-                        Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                        UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
-                        Destroy(gameObject);
                     }
+                    playerController.cameraScript.shakeDuration += 0.06f;
+                    Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                    UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
+                    Destroy(gameObject);
+
                     break;
 
                 case chunkTypes.mineral:

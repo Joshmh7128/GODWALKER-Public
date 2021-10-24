@@ -187,7 +187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7704913904344241589
 Transform:
   m_ObjectHideFlags: 0
@@ -326,7 +326,6 @@ GameObject:
   - component: {fileID: 4204377566388622198}
   - component: {fileID: 6415826073854145533}
   - component: {fileID: 1325498036155728742}
-  - component: {fileID: 890524726277125147}
   - component: {fileID: 773945443478374991}
   m_Layer: 0
   m_Name: Bug Part
@@ -989,19 +988,6 @@ MonoBehaviour:
   isBugPart: 1
   decreaseRate: 0.002
   chunkType: 4
---- !u!135 &890524726277125147
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8803726091731494548}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.41
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &773945443478374991
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1010,11 +996,11 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8803726091731494548}
   serializedVersion: 2
-  m_Mass: 3
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
