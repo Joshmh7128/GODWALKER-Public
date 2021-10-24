@@ -20,6 +20,7 @@ public class ChargerFlyingEnemy : EnemyClass
     [SerializeField] Transform player;
     [SerializeField] Transform shotOrigin; // where are out shots coming from?
     [SerializeField] Animator animator;
+    [SerializeField] Animator hurtAnimator;
     [SerializeField] bool tooLow;
     [SerializeField] bool runningBehaviour;
     [SerializeField] Transform enemyManager;

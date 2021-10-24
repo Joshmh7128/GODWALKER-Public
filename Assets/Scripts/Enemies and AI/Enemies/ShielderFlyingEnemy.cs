@@ -20,6 +20,7 @@ public class ShielderFlyingEnemy : EnemyClass
     [SerializeField] Transform shotOrigin; // where are out shots coming from?
     [SerializeField] Transform raycastOrigin;
     [SerializeField] Animator animator;
+    [SerializeField] Animator hurtAnimator;
     [SerializeField] bool runningBehaviour;
     [SerializeField] bool tooLow;
     [SerializeField] Material indicatorYellow;
@@ -143,6 +144,8 @@ public class ShielderFlyingEnemy : EnemyClass
 
     public override void TakeDamage(int dmg)
     {
+        // play the hurt animation
+        hurtAnimator.Play("Hurt");
         // lower HP
         HP -= dmg;
     }
