@@ -129,10 +129,8 @@ public class BuzzardFlyingEnemy : EnemyClass
     {
         if (invincible == false)
         {
-            // make them play a hurt animation
-            int i = Random.Range(0, (int)1f);
-            if (i == 0) { hurtAnimator.Play("Hurt"); }
-            if (i == 1) { hurtAnimator.Play("Hurt2"); }
+            // play the hurt animation
+            hurtAnimator.Play("Hurt");
             // lower HP
             HP -= dmg;
         }
