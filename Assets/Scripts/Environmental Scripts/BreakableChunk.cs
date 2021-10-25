@@ -27,7 +27,7 @@ public class BreakableChunk : MonoBehaviour
             // choose a random amount of small chunks then spawn them in
             for (float i = 0; i < dropAmount; i++)
             {
-                Vector3 spawnpos = transform.position + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+                Vector3 spawnpos = transform.position + new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), Random.Range(-3, 3));
                 Instantiate(smallChunk, spawnpos, Quaternion.Euler(new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), Random.Range(-3, 3))));
             }
 
