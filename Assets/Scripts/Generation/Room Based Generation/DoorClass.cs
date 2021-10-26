@@ -5,6 +5,7 @@ using UnityEngine;
 public class DoorClass : MonoBehaviour
 {
     public RoomGenerationManager roomGenerationManager; // our room generation manager
+    [SerializeField] bool isSpecialRoom; // is this the door to a special room
     [SerializeField] Transform roomPlaceTransform; // were will the open door of the next room be?
     [SerializeField] GameObject openableDoor; // part of the door we can actually open
     GameObject ourRoom;
@@ -29,10 +30,19 @@ public class DoorClass : MonoBehaviour
             // randomly choose a room from our prefabs to spawn
             if (ourRoom == null)
             {
-                ourRoom = Instantiate(roomGenerationManager.roomPrefabs[Random.Range(0, roomGenerationManager.roomPrefabs.Count)], roomPlaceTransform);
-                ourRoom.SetActive(false);
-                // lower the room count
-                roomGenerationManager.roomCount--;
+                if (!isSpecialRoom)
+                {
+                    ourRoom = Instantiate(roomGenerationManager.roomPrefabs[Random.Range(0, roomGenerationManager.roomPrefabs.Count)], roomPlaceTransform);
+                    ourRoom.SetActive(false);
+                    // lower the room count
+                    roomGenerationManager.roomCount--;
+                }
+
+                if (isSpecialRoom)
+                {
+                    ourRoom = Instantiate(roomGenerationManager.specialRoomPrefabs[Random.Range(0, roomGenerationManager.specialRoomPrefabs.Count)], roomPlaceTransform);
+                    ourRoom.SetActive(false);
+                }
             }
         }
     }

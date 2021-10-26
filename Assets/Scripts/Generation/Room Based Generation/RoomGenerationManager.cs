@@ -8,6 +8,7 @@ public class RoomGenerationManager : GenerationManager
     public int roomCount; // how many rooms do we want in the map?
     public List<RoomClass> roomClassList; // all the gameObjects of our rooms to be accessed
     public List<GameObject> roomPrefabs; // all the room prefabs we want to work with in this generation
+    public List<GameObject> specialRoomPrefabs; // all the room prefabs we want to work with in this generation
 
     private void Start()
     {
