@@ -8,6 +8,7 @@ public class DoorClass : MonoBehaviour
     [SerializeField] bool isSpecialRoom; // is this the door to a special room
     [SerializeField] Transform roomPlaceTransform; // were will the open door of the next room be?
     [SerializeField] GameObject openableDoor; // part of the door we can actually open
+    [SerializeField] bool enemiesClear; // have we killed all of the enemies?
     GameObject ourRoom;
 
     private void Start()
@@ -50,6 +51,7 @@ public class DoorClass : MonoBehaviour
     // open the door
     public void OpenDoor()
     {
+        if (enemiesClear)
         // activate all objects
         ourRoom.SetActive(true);
         // open our door

@@ -10,9 +10,11 @@ public abstract class EnemyClass : MonoBehaviour
     public Slider HPslider; // our hp slider
     public Text HPTextAmount; // our hp slider
     public CanvasGroup HPcanvasGroup; // our canvas group
+    public RoomClass roomClass; // our roomclass
 
     public void AddToManager()
     {
+        roomClass.enemyClasses.Add(this);
         GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
     }
 }

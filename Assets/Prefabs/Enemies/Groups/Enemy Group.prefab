@@ -9,8 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4173120291639980572}
-  - component: {fileID: 3713374821854819163}
-  - component: {fileID: 3453151096797470598}
+  - component: {fileID: 7367027938976547788}
   m_Layer: 0
   m_Name: Enemy Group
   m_TagString: Untagged
@@ -32,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3713374821854819163
+--- !u!114 &7367027938976547788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,25 +40,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1820749513028195434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55c60c3ac964acb4b9bbd398cc2bcc1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 75243e8d93b89b5469f10cd1f3eba48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefabList:
-  - {fileID: 5716180652310292068, guid: 4c190c9300a4a11448ddf05dde42c891, type: 3}
-  - {fileID: 6106794519300083948, guid: be7dc45d4da6e4343ae85525d3720586, type: 3}
-  - {fileID: 3706631329928587838, guid: 40cb1dea71948284082fe172410b7a22, type: 3}
-  - {fileID: 8516848832899135912, guid: fa1f7a0682df13843a9201f199448e5a, type: 3}
+  - {fileID: 679462330786272064, guid: 9b30a103436acf940be8bd56e5d4f35c, type: 3}
+  - {fileID: 679462330786272064, guid: e383b27c5ccc3ac4e83387a08e438f6a, type: 3}
+  - {fileID: 654642754395459062, guid: 0b506a54bd1749440bc420928d28da00, type: 3}
+  - {fileID: 8408990466946715793, guid: 6d34e6225ea17f74c94923a9484325fa, type: 3}
   randomizeRotation: 0
---- !u!114 &3453151096797470598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1820749513028195434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf25c8d190c69ef479ecfef97de4a4cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 20
+  ourRoom: {fileID: 0}
+  randomRadius: 15
