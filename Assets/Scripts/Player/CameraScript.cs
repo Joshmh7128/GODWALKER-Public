@@ -80,7 +80,7 @@ public class CameraScript : MonoBehaviour
         Physics.Raycast(transform.position, transform.forward, out rifleTargetHit, Mathf.Infinity);
 
         // clamp our shake
-        Mathf.Clamp(shakeDuration, 0, 2);
+        Mathf.Clamp(shakeDuration, 0, 1);
 
         if (canLook)
         {
