@@ -41,10 +41,10 @@ public class CameraScript : MonoBehaviour
     [SerializeField] CanvasGroup fadeCanvas;
 
     // How long the object should shake for.
-    public float shakeDuration = 0f;
+    public float shakeDuration;
     // Amplitude of the shake. A larger value shakes the camera harder.
-    public float shakeAmount = 0.25f; // can be set in editor
-    public float decreaseFactor = 2.0f;
+    public float shakeAmount; // can be set in editor
+    public float decreaseFactor; 
 
     Vector3 originalPos;
 
@@ -80,7 +80,7 @@ public class CameraScript : MonoBehaviour
         Physics.Raycast(transform.position, transform.forward, out rifleTargetHit, Mathf.Infinity);
 
         // clamp our shake
-        Mathf.Clamp(shakeAmount, 0, 0.08f);
+        Mathf.Clamp(shakeDuration, 0, 2);
 
         if (canLook)
         {
