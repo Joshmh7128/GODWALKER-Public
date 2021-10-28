@@ -7,7 +7,8 @@ public class EnemyBulletScript : MonoBehaviour
     // variables
     public Transform bulletTarget; // what is the target of our bullet?
     [SerializeField] float bulletSpeed; // what is the speed of our bullet?
-    [SerializeField] GameObject cubePuff; // our particle effect
+    [SerializeField] GameObject cubePuff; // our break particle effect
+    [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
     Transform playerTransform;
     [SerializeField] LineRenderer lineRenderer;
