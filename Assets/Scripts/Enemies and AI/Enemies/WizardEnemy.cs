@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WizardEnemy : MonoBehaviour
+public class WizardEnemy : EnemyClass
 {
     // the wizard flies to a point nearby the player and fires a fireball that picks up speed
     [SerializeField] Transform playerTransform; // our player's transform
@@ -14,13 +14,20 @@ public class WizardEnemy : MonoBehaviour
     [SerializeField] float hangtime; // the amount of time to wait before deciding on a new movement direction
     [SerializeField] float randomRadius; // the amount of time to wait before deciding on a new movement direction
     [SerializeField] float spherecastRadius; // the spherecast radius
-    [SerializeField] Animator animator; // our animator
+    [SerializeField] Animator animator, hurtAnimator; // our animators
     bool runningBehaviour; // are we running our enemy ai?
     [SerializeField] GameObject projectile; // our projectile prefab
     [SerializeField] WizardAnimAssistant wizardAnimAssistant;
 
     private void Start()
     {
+        // make sure our HP is at max
+        HP = maxHP;
+        HPslider.maxValue = maxHP;
+
+
+        GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
+
         // set our transform if we don't have one
         if (playerTransform == null)
         {
@@ -76,15 +83,16 @@ public class WizardEnemy : MonoBehaviour
         // wait for the first frame them fire a projectile
         yield return new WaitUntil(() => wizardAnimAssistant.leftFire);
         // instantiate left projectile
-        Instantiate(projectile, leftShotTransform.position, Quaternion.identity, null);
+        GameObject leftProjectile = Instantiate(projectile, leftShotTransform.position, Quaternion.identity, null);
+        leftProjectile.GetComponent<EnemyBulletScript>().bulletTarget = playerTransform;
         // wait the rest of the time
         yield return new WaitUntil(() => wizardAnimAssistant.rightFire);
         // instantiate right projectile
-        Instantiate(projectile, rightShotTransform.position, Quaternion.identity, null);
+        GameObject rightProjectile = Instantiate(projectile, rightShotTransform.position, Quaternion.identity, null);
+        rightProjectile.GetComponent<EnemyBulletScript>().bulletTarget = playerTransform;
         // finish running the behaviour
         runningBehaviour = false;
     }
-
 
     public IEnumerator WaitForFrames(int frameCount)
     {
@@ -98,5 +106,13 @@ public class WizardEnemy : MonoBehaviour
             frameCount--;
             yield return null;
         }
+    }
+
+    public override void TakeDamage(int dmg)
+    {
+        // play the hurt animation
+        hurtAnimator.Play("Hurt");
+        // lower HP
+        HP -= dmg;
     }
 }
