@@ -314,7 +314,7 @@ public class PlayerController : MonoBehaviour
                             rightArm = false;
                             ammoAmount--;
                             // screenshake
-                            cameraScript.shakeDuration += 0.08f;
+                            cameraScript.shakeDuration += 4f;
                             // shot cooldown
                             shotCoolDown = 10f;
                         }
@@ -331,7 +331,7 @@ public class PlayerController : MonoBehaviour
                             rightArm = true;
                             ammoAmount--;
                             // screenshake
-                            cameraScript.shakeDuration += 0.08f;
+                            cameraScript.shakeDuration += 4f;
                             // shot cooldown
                             shotCoolDown = 10f;
                         }

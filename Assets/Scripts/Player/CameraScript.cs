@@ -80,7 +80,7 @@ public class CameraScript : MonoBehaviour
         Physics.Raycast(transform.position, transform.forward, out rifleTargetHit, Mathf.Infinity);
 
         // clamp our shake
-        Mathf.Clamp(shakeDuration, 0, 1);
+        // Mathf.Clamp(shakeDuration, 0, 5f);
 
         if (canLook)
         {
@@ -129,7 +129,7 @@ public class CameraScript : MonoBehaviour
         if (shakeDuration > 0 && canLook)
         {
             camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
-            shakeDuration -= Time.deltaTime * decreaseFactor;
+            shakeDuration -=  decreaseFactor;
         }
         else
         {
