@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GizmoSphere : MonoBehaviour
 {
-    [SerializeField]float size;
+    [SerializeField] float size;
 
     private void OnDrawGizmos()
     {
