@@ -7293,6 +7293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 375894109}
   - component: {fileID: 375894110}
+  - component: {fileID: 375894111}
   m_Layer: 0
   m_Name: Upper Container
   m_TagString: Untagged
@@ -7334,6 +7335,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &375894111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375894108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef9619e3845d7d4c967e9d772abb1d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftFire: 0
+  rightFire: 0
 --- !u!1 &389635681
 GameObject:
   m_ObjectHideFlags: 0
@@ -12053,6 +12068,7 @@ MonoBehaviour:
   spherecastRadius: 1
   animator: {fileID: 375894110}
   projectile: {fileID: 1877941779878537961, guid: 5361a63318badb14a9a55cc51be2965c, type: 3}
+  wizardAnimAssistant: {fileID: 375894111}
 --- !u!43 &775149838
 Mesh:
   m_ObjectHideFlags: 0

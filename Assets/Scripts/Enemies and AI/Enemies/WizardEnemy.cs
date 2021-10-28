@@ -17,8 +17,7 @@ public class WizardEnemy : MonoBehaviour
     [SerializeField] Animator animator; // our animator
     bool runningBehaviour; // are we running our enemy ai?
     [SerializeField] GameObject projectile; // our projectile prefab
-    public bool leftFire; // can we fire left?
-    public bool rightFire; // can we fire right?
+    [SerializeField] WizardAnimAssistant wizardAnimAssistant;
 
     private void Start()
     {
@@ -75,15 +74,13 @@ public class WizardEnemy : MonoBehaviour
         // play our attack animation 
         animator.Play("Attack");
         // wait for the first frame them fire a projectile
-        yield return new WaitUntil(() => leftFire);
+        yield return new WaitUntil(() => wizardAnimAssistant.leftFire);
         // instantiate left projectile
         Instantiate(projectile, leftShotTransform.position, Quaternion.identity, null);
-        leftFire = false;
         // wait the rest of the time
-        yield return new WaitUntil(() => rightFire);
+        yield return new WaitUntil(() => wizardAnimAssistant.rightFire);
         // instantiate right projectile
         Instantiate(projectile, rightShotTransform.position, Quaternion.identity, null);
-        rightFire = false;
         // finish running the behaviour
         runningBehaviour = false;
     }
