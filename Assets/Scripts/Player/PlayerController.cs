@@ -267,17 +267,14 @@ public class PlayerController : MonoBehaviour
         ammoSlider.value = (float)ammoAmount / (float)ammoMax;        
         // display our mineral amount
         mineralAmountText.text = mineralAmount.ToString(); // in text
-        mineralMaxText.text = mineralMax.ToString(); // in text
-        mineralSlider.value = (float)mineralAmount / (float)mineralMax;        
+        mineralMaxText.text = mineralMax.ToString(); // in text    
         // display our gem amount
         gemAmountText.text = gemAmount.ToString(); // in text
         gemMaxText.text = gemMax.ToString(); // in text
-        gemSlider.value = (float)gemAmount / (float)gemMax;
         // displayer our HP amount
         hpAmountText.text = playerHP.ToString(); // in text
         hpMaxText.text = playerMaxHP.ToString(); // in text
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
-        hpSliderDiegetic.value = (float)playerHP / (float)playerMaxHP;
         // display our bug part amount
         bugAmountText.text = bugPartAmount.ToString();
         bugMaxText.text = "900";
