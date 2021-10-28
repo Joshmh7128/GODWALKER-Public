@@ -98,11 +98,9 @@ public class WizardEnemy : EnemyClass
         Vector3 direction = transform.position - playerTransform.position;
         // from our player's position, move around them on the X and Z
         Vector3 checkPos = new Vector3(playerTransform.position.x + Random.Range(-randomRadius, randomRadius), playerTransform.position.y+2f, playerTransform.position.z + Random.Range(-randomRadius, randomRadius));
-        // spherecast to that position to see if we can move there
-        RaycastHit hit;
-        if (!Physics.SphereCast(transform.position, spherecastRadius, direction, out hit, Mathf.Infinity))
+        // linecast to see if we can move there
+        if (!Physics.Linecast(transform.position, checkPos, 3))
         {
-            // set the free position to our new movement target
             newPos = checkPos;
         }
         // play our attack animation 
