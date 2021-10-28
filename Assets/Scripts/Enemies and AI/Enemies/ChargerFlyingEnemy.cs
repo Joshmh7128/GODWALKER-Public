@@ -12,8 +12,8 @@ public class ChargerFlyingEnemy : EnemyClass
     [SerializeField] float HP; // our HP
     [SerializeField] float maxHP; // our max HP
     [SerializeField] float activationDistance;
+    bool canSeePlayer; // can we look at the player?
     bool canLookAtPlayer; // can we look at the player?
-    bool canLinePlayer; // can we look at the player?
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
     [SerializeField] GameObject bugPartDrop; // our drop
@@ -39,7 +39,7 @@ public class ChargerFlyingEnemy : EnemyClass
 
     private void Start()
     {
-        canLookAtPlayer = true;
+        canSeePlayer = true;
 
         ourLine.startColor = new Color(255, 0, 0, 0);
         ourLine.endColor = new Color(255, 0, 0, 0);
@@ -64,6 +64,7 @@ public class ChargerFlyingEnemy : EnemyClass
         newPos = transform.position;
 
         // make sure we can look at the player from the start to find them
+        canSeePlayer = true;
         canLookAtPlayer = true;
     }
 
@@ -82,33 +83,27 @@ public class ChargerFlyingEnemy : EnemyClass
         ourLine.positionCount = 2;
 
         lineLocked = false;
-        canLookAtPlayer = true;
+        canSeePlayer = true;
         // set our line positions to show we area about to charge the player
         ourLine.SetPosition(1, player.transform.position);
         Vector3 targetpos;
-        if (!canLookAtPlayer)
+        if (!canSeePlayer)
         {
-            ourLine.startColor = new Color(255, 0, 0, 0);
-            ourLine.endColor = new Color(255, 0, 0, 0);
-            yield break;
+            canLookAtPlayer = false;
         }
         // display our line
         ourLine.material = indicatorRed;
         ourLine.startColor = new Color(255, 0, 0, 255);
         ourLine.endColor = new Color(255, 0, 0, 255);
-        if (!canLookAtPlayer)
+        if (!canSeePlayer)
         {
-            ourLine.startColor = new Color(255, 0, 0, 0);
-            ourLine.endColor = new Color(255, 0, 0, 0);
-            yield break;
+            canLookAtPlayer = false;
         }
         animator.Play("Charge Up");
         yield return new WaitForSeconds(chargeUp.length);
-        if (!canLookAtPlayer)
+        if (!canSeePlayer)
         {
-            ourLine.startColor = new Color(255, 0, 0, 0);
-            ourLine.endColor = new Color(255, 0, 0, 0);
-            yield break;
+            canLookAtPlayer = false;
         }
         lineLocked = true;
         canLookAtPlayer = false;
@@ -123,6 +118,7 @@ public class ChargerFlyingEnemy : EnemyClass
         ourLine.endColor = new Color(255, 0, 0, 0);
         currentSpeed = 0;
         canLookAtPlayer = true;
+        lineLocked = false;
 
         // restart
         // end 
@@ -157,10 +153,11 @@ public class ChargerFlyingEnemy : EnemyClass
         ourLine.SetPosition(0, lineStart.position);
         // move towards our target
         transform.position = Vector3.MoveTowards(transform.position, newPos, currentSpeed * Time.deltaTime);
-        // calculate knockback
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + (new Vector3(originForce.x, originForce.y/4, originForce.z)), knockDistance * Time.deltaTime);
         // look at the player
-        transform.LookAt(player, Vector3.up);   
+        if (canLookAtPlayer)
+        {
+            transform.LookAt(player, Vector3.up);
+        }
         // death
         if (HP <= 0)
         {
@@ -201,11 +198,7 @@ public class ChargerFlyingEnemy : EnemyClass
         {
             if (hit.transform.tag == ("Player"))
             {
-                canLookAtPlayer = true;
-
-                ourLine.startColor = new Color(255, 0, 0, 255);
-                ourLine.endColor = new Color(255, 0, 0, 255);
-
+                canSeePlayer = true;
                 if (!runningBehaviour)
                     StartCoroutine("FlyingBehaviour");
             }
@@ -214,7 +207,7 @@ public class ChargerFlyingEnemy : EnemyClass
             {
                 ourLine.startColor = new Color(255, 0, 0, 0);
                 ourLine.endColor = new Color(255, 0, 0, 0);
-                canLookAtPlayer = false;
+                canSeePlayer = false;
             }
     
         }
@@ -227,10 +220,16 @@ public class ChargerFlyingEnemy : EnemyClass
             ourLine.endColor = new Color(0, 0, 0, 0);
         }
 
-        if (canLookAtPlayer)
+        if (canSeePlayer && !lineLocked)
         {
             ourLine.SetPosition(0, lineStart.position);
             ourLine.SetPosition(1, player.transform.position);
+        }       
+        
+        if (canSeePlayer && lineLocked)
+        {
+            ourLine.SetPosition(0, lineStart.position);
+            ourLine.SetPosition(1, newPos);
         }
         
 
