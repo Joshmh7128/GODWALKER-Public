@@ -88,6 +88,8 @@ public class ChargerFlyingEnemy : EnemyClass
         Vector3 targetpos;
         if (!canLookAtPlayer)
         {
+            ourLine.startColor = new Color(255, 0, 0, 0);
+            ourLine.endColor = new Color(255, 0, 0, 0);
             yield break;
         }
         // display our line
@@ -116,7 +118,7 @@ public class ChargerFlyingEnemy : EnemyClass
         animator.Play("Idle"); 
         newPos = targetpos;
         // hang in space for a few moments
-        yield return new WaitForSeconds(chargeUp.length);
+        yield return new WaitForSeconds(chargeUp.length/2);
         ourLine.startColor = new Color(255, 0, 0, 0);
         ourLine.endColor = new Color(255, 0, 0, 0);
         currentSpeed = 0;
@@ -157,12 +159,8 @@ public class ChargerFlyingEnemy : EnemyClass
         transform.position = Vector3.MoveTowards(transform.position, newPos, currentSpeed * Time.deltaTime);
         // calculate knockback
         transform.position = Vector3.MoveTowards(transform.position, transform.position + (new Vector3(originForce.x, originForce.y/4, originForce.z)), knockDistance * Time.deltaTime);
-
-        if (canLookAtPlayer)
-        {
-            // look at the player
-            transform.LookAt(player, Vector3.up);
-        }
+        // look at the player
+        transform.LookAt(player, Vector3.up);   
         // death
         if (HP <= 0)
         {
@@ -198,33 +196,30 @@ public class ChargerFlyingEnemy : EnemyClass
         HPTextAmount.text = HP.ToString();
         HPslider.value = HP;
 
-        // is the player nearby us?
-        if (Vector3.Distance(transform.position, player.position) < activationDistance)
+        // Debug.Log("Player is within range");
+        if (Physics.Linecast(raycastOrigin.position, player.position, out hit))
         {
-            // Debug.Log("Player is within range");
-            if (Physics.Linecast(raycastOrigin.position, player.position, out hit))
+            if (hit.transform.tag == ("Player"))
             {
-                if (hit.transform.tag == ("Player"))
-                {
-                    canLinePlayer = true;
+                canLookAtPlayer = true;
 
-                    ourLine.startColor = new Color(255, 0, 0, 255);
-                    ourLine.endColor = new Color(255, 0, 0, 255);
+                ourLine.startColor = new Color(255, 0, 0, 255);
+                ourLine.endColor = new Color(255, 0, 0, 255);
 
-                    if (!runningBehaviour)
-                        StartCoroutine("FlyingBehaviour");
-                }
-
-                if (hit.transform.tag != ("Player"))
-                {
-                    ourLine.startColor = new Color(255, 0, 0, 0);
-                    ourLine.endColor = new Color(255, 0, 0, 0);
-                    canLinePlayer = false;
-                }
+                if (!runningBehaviour)
+                    StartCoroutine("FlyingBehaviour");
             }
+
+            if (hit.transform.tag != ("Player"))
+            {
+                ourLine.startColor = new Color(255, 0, 0, 0);
+                ourLine.endColor = new Color(255, 0, 0, 0);
+                canLookAtPlayer = false;
+            }
+    
         }
 
-        if (Vector3.Distance(transform.position, player.position) > activationDistance)
+        if (Vector3.Distance(raycastOrigin.position, player.position) > activationDistance)
         {
             ourLine.SetPosition(0, lineStart.position);
             // ourLine.SetPosition(1, lineStart.position);
