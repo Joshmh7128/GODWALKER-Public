@@ -100,7 +100,7 @@ public class DroppodManager : MonoBehaviour
             // make our green zone green
             greenZoneRenderer.material = brightGreen;
             // launch
-            if (ReInput.players.GetPlayer(0).GetButtonDown("SpacePress"))
+            if (ReInput.players.GetPlayer(0).GetButtonDown("ActionE"))
             {
                 // launch the drop pod
                 // gameObject.GetComponent<Animator>().Play("Asteroid Hop");
@@ -345,6 +345,7 @@ public class DroppodManager : MonoBehaviour
         // player depositing in to drop ship
         if (canDeposit)
         {
+            /*
             if ((playerController.gemAmount > 0) && (gemAmount < gemMax))
             {
                 playerController.gemAmount--;
@@ -361,7 +362,7 @@ public class DroppodManager : MonoBehaviour
             {
                 playerController.bugPartAmount--;
                 bugPartAmount++;
-            }
+            }*/
 
             if (playerController.ammoAmount < playerController.ammoMax && ammoAmount > 0)
             {
@@ -396,6 +397,7 @@ public class DroppodManager : MonoBehaviour
                 hubManager.hubBugPartAmount++;
             }
         }
+        /*
         // display our ammo amount
         ammoAmountText.text = ammoAmount.ToString() + " / " + ammoMax; // in text
         ammoSlider.value = ammoAmount / ammoMax;
@@ -414,13 +416,7 @@ public class DroppodManager : MonoBehaviour
         // display our remaining runs
         remainingRunsOne.text = "Remaining Asteroids\nin Run: " + remainingTrips;
         remainingRunsTwo.text = "Remaining Asteroids\nin Run: " + remainingTrips;
-
-
-        // calculate our costs for upgrading storage
-        gemUpgradeCost = (int)(gemMax / 3) * 2;
-        mineralUpgradeCost = (int)(mineralMax / 3) * 2;
-        ammoUpgradeCost = (int)(ammoMax / 3) * 2;
-        bugPartUpgradeCost = (int)(bugPartMax / 2) * 2;
+        */
     }
 
     // when the player enters the green zone
