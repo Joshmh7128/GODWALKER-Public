@@ -28,7 +28,7 @@ public class WizardEnemy : MonoBehaviour
         // have our head look at the player
         headTransform.LookAt(playerTransform, Vector3.up);
         // have our body rotate on the x to look at the player
-        transform.LookAt(new Vector3(playerTransform.position.x, 0, playerTransform.position.y), Vector3.up);
+        transform.LookAt(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z), Vector3.up);
 
         // move towards our target
         transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
@@ -55,20 +55,15 @@ public class WizardEnemy : MonoBehaviour
         yield return new WaitForSeconds(hangtime);
         bool spotFree = false;
         // decide on a new position based off of the player's position, but not if that position is occupied
-        while (!spotFree)
+        // from our player's position, move around them on the X and Z
+        Vector3 checkPos = new Vector3(playerTransform.position.x + Random.Range(-randomRadius, randomRadius), playerTransform.position.y+2f, playerTransform.position.z + Random.Range(-randomRadius, randomRadius));
+        // spherecast to that position to see if we can move there
+        if (!Physics.Linecast(transform.position, checkPos))
         {
-            // from our player's position, move around them on the X and Z
-            Vector3 checkPos = new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z);
-            // spherecast to that position to see if we can move there
-            Vector3 direction = (transform.position - newPos).normalized;
-            RaycastHit hitInfo;
-            if (!Physics.SphereCast(transform.position, spherecastRadius, direction, out hitInfo))
-            {
-                // set the free position to our new movement target
-                newPos = checkPos;
-                spotFree = true;
-            }
-        }
+            // set the free position to our new movement target
+            newPos = checkPos;
+            spotFree = true;
+        }       
 
         // finish running the behaviour
         runningBehaviour = false;
