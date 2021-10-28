@@ -6,9 +6,9 @@ public class DoorClass : MonoBehaviour
 {
     public RoomGenerationManager roomGenerationManager; // our room generation manager
     [SerializeField] bool isSpecialRoom; // is this the door to a special room
-    [SerializeField] bool hasOpened; // is this the door to a special room
     [SerializeField] Transform roomPlaceTransform; // were will the open door of the next room be?
     [SerializeField] GameObject openableDoor; // part of the door we can actually open
+    [SerializeField] GameObject finalRoomWarning; // the warning that the final room is up ahead
     [SerializeField] bool enemiesClear; // have we killed all of the enemies?
     GameObject ourRoom;
 
@@ -58,6 +58,8 @@ public class DoorClass : MonoBehaviour
                 {
                     ourRoom = Instantiate(roomGenerationManager.finalRoom, roomPlaceTransform);
                 }
+
+                finalRoomWarning.SetActive(true);
             }
         }
     }
