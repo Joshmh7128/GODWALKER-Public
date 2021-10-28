@@ -53,6 +53,9 @@ public class InventoryArtifactUIHandler : MonoBehaviour
             Destroy(element.gameObject);
         }
 
+        selectedInfoText.text = "No Artifact Selected";
+        selectedTitleText.text = "No Artifact Selected";
+
         artifactUIGridElementClasses.Clear();
     }
 }

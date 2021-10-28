@@ -221,6 +221,8 @@ public class DroppodManager : MonoBehaviour
         // respond accordingly
         if (inHub == true)
         {
+            // reset our artifacts
+            playerController.ClearArtifactInfoUI();
             // reset our run counter in case of death
             remainingTrips = maxTrips;
             // fade and enable hub warp

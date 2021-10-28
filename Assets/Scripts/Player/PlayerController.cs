@@ -541,6 +541,9 @@ public class PlayerController : MonoBehaviour
                 // set player HP to 1
                 playerHP = playerMaxHP;
             }
+
+            // clear artifacts
+            ClearArtifactInfoUI();
         }
 
         // artifact upgrades
