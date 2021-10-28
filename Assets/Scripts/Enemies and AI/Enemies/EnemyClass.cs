@@ -14,7 +14,15 @@ public abstract class EnemyClass : MonoBehaviour
 
     public void AddToManager()
     {
-        roomClass.enemyClasses.Add(this);
+        if (roomClass == null)
+        { 
+            roomClass = GetComponentInParent<EnemyClass>().roomClass; 
+        }
+
+        if (roomClass != null)
+        {
+            roomClass.enemyClasses.Add(this);
+        }
         GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
     }
 }

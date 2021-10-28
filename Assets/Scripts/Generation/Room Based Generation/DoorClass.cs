@@ -26,23 +26,36 @@ public class DoorClass : MonoBehaviour
     // put a new room in the map
     public void PlaceRoom()
     {
-        if (roomGenerationManager.roomCount > 0)
+        if (isSpecialRoom)
         {
-            // randomly choose a room from our prefabs to spawn
-            if (ourRoom == null)
-            {
-                if (!isSpecialRoom)
-                {
-                    ourRoom = Instantiate(roomGenerationManager.roomPrefabs[Random.Range(0, roomGenerationManager.roomPrefabs.Count)], roomPlaceTransform);
-                    ourRoom.SetActive(false);
-                    // lower the room count
-                    roomGenerationManager.roomCount--;
-                }
+            ourRoom = Instantiate(roomGenerationManager.specialRoomPrefabs[Random.Range(0, roomGenerationManager.specialRoomPrefabs.Count)], roomPlaceTransform);
+            ourRoom.SetActive(false);
+        }
 
-                if (isSpecialRoom)
+        if (!isSpecialRoom)
+        {
+            if (roomGenerationManager.roomCount > 0)
+            {
+                // randomly choose a room from our prefabs to spawn
+                if (ourRoom == null)
                 {
-                    ourRoom = Instantiate(roomGenerationManager.specialRoomPrefabs[Random.Range(0, roomGenerationManager.specialRoomPrefabs.Count)], roomPlaceTransform);
-                    ourRoom.SetActive(false);
+                    if (!isSpecialRoom)
+                    {
+                        ourRoom = Instantiate(roomGenerationManager.roomPrefabs[Random.Range(0, roomGenerationManager.roomPrefabs.Count)], roomPlaceTransform);
+                        ourRoom.SetActive(false);
+                        // lower the room count
+                        roomGenerationManager.roomCount--;
+                    }
+                }
+            }
+
+            // place the final room
+            if (roomGenerationManager.roomCount < 0)
+            {
+                // choose the final room to spawn
+                if (ourRoom == null)
+                {
+                    ourRoom = Instantiate(roomGenerationManager.finalRoom, roomPlaceTransform);
                 }
             }
         }
@@ -51,7 +64,6 @@ public class DoorClass : MonoBehaviour
     // open the door
     public void OpenDoor()
     {
-        if (enemiesClear)
         // activate all objects
         ourRoom.SetActive(true);
         // open our door

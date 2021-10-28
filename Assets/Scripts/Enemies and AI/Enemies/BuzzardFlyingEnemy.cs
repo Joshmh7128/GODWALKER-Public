@@ -85,7 +85,7 @@ public class BuzzardFlyingEnemy : EnemyClass
             if (!Physics.Linecast(transform.position, transform.position + new Vector3(xMove, yMove, zMove)))
             {
                 // if we aren't too low, move up or down all around
-                newPos = transform.position + new Vector3(xMove, yMove, zMove); // where are we flying next?
+                newPos = player.position + new Vector3(xMove, yMove, zMove); // where are we flying next?
             }
         }
         
@@ -99,7 +99,7 @@ public class BuzzardFlyingEnemy : EnemyClass
             if (!Physics.Linecast(transform.position, transform.position + new Vector3(xMove, yMove, zMove)))
             {
                 // if we are too low move up 
-                newPos = transform.position + new Vector3(xMove, Mathf.Abs(yMove), zMove); // where are we flying next?
+                newPos = player.position + new Vector3(xMove, Mathf.Abs(yMove), zMove); // where are we flying next?
             }
         }
 
@@ -159,6 +159,8 @@ public class BuzzardFlyingEnemy : EnemyClass
             { Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); }
             // make sure to communicate that we have died
             UpgradeSingleton.OnEnemyKill();
+            // remove ourselves from the roomclass list
+            // roomClass.enemyClasses.Remove(this);
             // destroy ourselves
             Destroy(gameObject);
         }

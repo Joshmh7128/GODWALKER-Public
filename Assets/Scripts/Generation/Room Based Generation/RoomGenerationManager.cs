@@ -9,6 +9,7 @@ public class RoomGenerationManager : GenerationManager
     public List<RoomClass> roomClassList; // all the gameObjects of our rooms to be accessed
     public List<GameObject> roomPrefabs; // all the room prefabs we want to work with in this generation
     public List<GameObject> specialRoomPrefabs; // all the room prefabs we want to work with in this generation
+    public GameObject finalRoom; // the final room in the generation set
 
     private void Start()
     {

@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGroupSpawner : MonoBehaviour
+public class EnemyGroupSpawner : EnemyClass
 {
     [SerializeField] List<GameObject> prefabList;
     bool hasInit = false; // have we initiatlized?
     [SerializeField] bool randomizeRotation; // should we randomize rotation?
-    [SerializeField] RoomClass ourRoom; // what room is this being spawned in?
     [SerializeField] float randomRadius;
     private void OnEnable()
     {
@@ -24,12 +23,17 @@ public class EnemyGroupSpawner : MonoBehaviour
             else
             { ourObject = Instantiate(prefabList[(int)i], transform.position + randomAddition, Quaternion.identity, null); }
             hasInit = true;
-            ourObject.GetComponent<EnemyClass>().roomClass = ourRoom;
+            ourObject.GetComponent<EnemyClass>().roomClass = roomClass;
         }
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(transform.position, randomRadius);
+    }
+
+    public override void TakeDamage(int dmg)
+    {
+        throw new System.NotImplementedException();
     }
 }

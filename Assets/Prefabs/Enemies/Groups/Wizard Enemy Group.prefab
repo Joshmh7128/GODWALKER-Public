@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8299984788234241402}
-  - component: {fileID: 769022789701460681}
+  - component: {fileID: 1530189590865647865}
   m_Layer: 0
   m_Name: Wizard Enemy Group
   m_TagString: Untagged
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &769022789701460681
+--- !u!114 &1530189590865647865
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,9 +43,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8516848832899135912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 799ceccaf12fc7a49ba348332a92fca9, type: 3}
+  m_Script: {fileID: 11500000, guid: 5191d9e40aa6b6c4a9e191c8484ca33d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 0
+  HPslider: {fileID: 0}
+  HPTextAmount: {fileID: 0}
+  HPcanvasGroup: {fileID: 0}
   roomClass: {fileID: 0}
 --- !u!1001 &2539834244742564182
 PrefabInstance:
@@ -208,7 +212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8408990466946715790, guid: 6d34e6225ea17f74c94923a9484325fa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.4000006
+      value: 3.3399992
       objectReference: {fileID: 0}
     - target: {fileID: 8408990466946715790, guid: 6d34e6225ea17f74c94923a9484325fa, type: 3}
       propertyPath: m_LocalPosition.z
@@ -426,7 +430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8408990466946715790, guid: 6d34e6225ea17f74c94923a9484325fa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.4000006
+      value: 3.3399992
       objectReference: {fileID: 0}
     - target: {fileID: 8408990466946715790, guid: 6d34e6225ea17f74c94923a9484325fa, type: 3}
       propertyPath: m_LocalPosition.z
@@ -644,7 +648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8408990466946715790, guid: 6d34e6225ea17f74c94923a9484325fa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.12
+      value: 3.62
       objectReference: {fileID: 0}
     - target: {fileID: 8408990466946715790, guid: 6d34e6225ea17f74c94923a9484325fa, type: 3}
       propertyPath: m_LocalPosition.z

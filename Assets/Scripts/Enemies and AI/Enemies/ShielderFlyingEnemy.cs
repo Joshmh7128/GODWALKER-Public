@@ -187,6 +187,8 @@ public class ShielderFlyingEnemy : EnemyClass
             { Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); }
             // make sure to communicate that we have died
             UpgradeSingleton.OnEnemyKill();
+            // remove ourselves from the roomclass list
+            // roomClass.enemyClasses.Remove(this);
             // destroy ourselves
             Destroy(gameObject);
         }
