@@ -6,6 +6,7 @@ public class DoorInteractionPad : MonoBehaviour
 {
     // this pad links to a door and triggers it's opening
     bool canOpen; // can we open the door?
+    [SerializeField] bool specialDoor; // can we open the door?
     [SerializeField] DoorClass doorClass; // our door class
 
     private void OnTriggerEnter(Collider other)
@@ -26,15 +27,23 @@ public class DoorInteractionPad : MonoBehaviour
 
     private void Update()
     {
-        if (canOpen)
+        if (canOpen && specialDoor)
         {
-            if (GameObject.Find("Player").GetComponent<PlayerController>().gemAmount > 500)
+            if (GameObject.Find("Player").GetComponent<PlayerController>().gemAmount > 300)
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     doorClass.OpenDoor();
-                    GameObject.Find("Player").GetComponent<PlayerController>().gemAmount -= 500;
+                    GameObject.Find("Player").GetComponent<PlayerController>().gemAmount -= 300;
                 }
+            }
+        }        
+        
+        if (canOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                doorClass.OpenDoor();
             }
         }
     }
