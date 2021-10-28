@@ -17,6 +17,7 @@ public class WizardEnemy : EnemyClass
     [SerializeField] Animator animator, hurtAnimator; // our animators
     bool runningBehaviour; // are we running our enemy ai?
     [SerializeField] GameObject projectile; // our projectile prefab
+    [SerializeField] GameObject cubePuffParticle, bugPartDrop; // our projectile prefab
     [SerializeField] WizardAnimAssistant wizardAnimAssistant;
 
     private void Start()
@@ -25,8 +26,8 @@ public class WizardEnemy : EnemyClass
         HP = maxHP;
         HPslider.maxValue = maxHP;
 
-
-        GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
+        // add to list
+        AddToManager();
 
         // set our transform if we don't have one
         if (playerTransform == null)
@@ -46,6 +47,21 @@ public class WizardEnemy : EnemyClass
 
         // move towards our target
         transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
+
+        // death
+        if (HP <= 0)
+        {
+            // spawn a death effect
+            Instantiate(cubePuffParticle, transform.position, Quaternion.identity, null);
+            // if we're attacking the player drop our item
+            if (runningBehaviour)
+            { Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); }
+            // make sure to communicate that we have died
+            UpgradeSingleton.OnEnemyKill();
+            // destroy ourselves
+            Destroy(gameObject);
+
+        }
     }
 
     private void FixedUpdate()
@@ -60,6 +76,17 @@ public class WizardEnemy : EnemyClass
                     StartCoroutine(WizardBehaviour());
             }
         }
+
+        // ui updates
+
+        // if we are at full health don't show the bar or text
+        if (HP == maxHP)
+        { HPcanvasGroup.alpha = 0; }
+        else
+        { HPcanvasGroup.alpha = 1; }
+
+        HPTextAmount.text = HP.ToString();
+        HPslider.value = HP;
     }
 
     IEnumerator WizardBehaviour()
