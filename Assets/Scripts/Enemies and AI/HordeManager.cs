@@ -13,5 +13,12 @@ public class HordeManager : MonoBehaviour
         {
             GameObject.Find("Player").GetComponent<PlayerController>().currentObjective.text = "Objective Complete. Return to Dropship.";
         }
+
+        for(int i = 0; i < HordeEnemies.Count; i++)
+        { if (HordeEnemies[i] == null)
+            {
+                HordeEnemies.RemoveAt(i);
+            }
+        }
     }
 }

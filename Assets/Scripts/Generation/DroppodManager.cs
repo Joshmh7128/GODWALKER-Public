@@ -165,7 +165,10 @@ public class DroppodManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Room Generation")
         { inHub = false; }
         if (SceneManager.GetActiveScene().name == "Hub")
-        { inHub = true; }
+        { inHub = true;
+            // objective text handling
+            playerController.currentObjective.text = "Objective: Board Dropship. Launch with 'E' when ready.";
+        }
         // if we are not in the hub, check to make sure we have trips left
         if (remainingTrips < 1)
         {
