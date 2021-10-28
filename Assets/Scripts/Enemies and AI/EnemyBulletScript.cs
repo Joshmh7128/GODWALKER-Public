@@ -41,13 +41,18 @@ public class EnemyBulletScript : MonoBehaviour
         GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         if (speedsUp)
         {
             bulletSpeed++;
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
 
         // move bullet
         transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);

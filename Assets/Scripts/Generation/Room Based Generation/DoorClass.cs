@@ -6,6 +6,7 @@ public class DoorClass : MonoBehaviour
 {
     public RoomGenerationManager roomGenerationManager; // our room generation manager
     [SerializeField] bool isSpecialRoom; // is this the door to a special room
+    [SerializeField] bool hasOpened; // is this the door to a special room
     [SerializeField] Transform roomPlaceTransform; // were will the open door of the next room be?
     [SerializeField] GameObject openableDoor; // part of the door we can actually open
     [SerializeField] bool enemiesClear; // have we killed all of the enemies?
@@ -50,7 +51,7 @@ public class DoorClass : MonoBehaviour
             }
 
             // place the final room
-            if (roomGenerationManager.roomCount < 0)
+            if (roomGenerationManager.roomCount <= 0)
             {
                 // choose the final room to spawn
                 if (ourRoom == null)
