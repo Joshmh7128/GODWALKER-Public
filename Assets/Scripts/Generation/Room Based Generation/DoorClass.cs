@@ -57,6 +57,7 @@ public class DoorClass : MonoBehaviour
                 if (ourRoom == null)
                 {
                     ourRoom = Instantiate(roomGenerationManager.finalRoom, roomPlaceTransform);
+                    roomGenerationManager.roomCount--;
                 }
 
                 if (roomGenerationManager.roomCount < 0)
