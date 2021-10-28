@@ -11,7 +11,7 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
     Transform playerTransform;
-    [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] bool speedsUp; // does our bullet linearly speed up?
 
     // for when our bullet is instantiated
     private void Start()
@@ -24,7 +24,10 @@ public class EnemyBulletScript : MonoBehaviour
         transform.SetParent(enemyManager);
 
         // find player
-        playerTransform = GameObject.Find("Player").transform;
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.Find("Player").transform;
+        }
 
         // turn bullet
         transform.LookAt(bulletTarget);
@@ -41,6 +44,11 @@ public class EnemyBulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (speedsUp)
+        {
+            bulletSpeed++;
+        }
+
         // move bullet
         transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
     }
