@@ -59,7 +59,10 @@ public class DoorClass : MonoBehaviour
                     ourRoom = Instantiate(roomGenerationManager.finalRoom, roomPlaceTransform);
                 }
 
-                finalRoomWarning.SetActive(true);
+                if (roomGenerationManager.roomCount < 0)
+                {
+                    finalRoomWarning.SetActive(true);
+                }
             }
         }
     }

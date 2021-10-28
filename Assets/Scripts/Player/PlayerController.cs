@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     #region // Diegetic UI
     // diegetic UI we're modifying in this script
     [SerializeField] CanvasGroup objectiveCanvas; // our objective canvase
-    [SerializeField] Text currentObjective; // our current objective
+    public Text currentObjective; // our current objective
     float objectiveAlphaChange; // how much should our alpha be changing?
     public bool objectiveShowing; // is our objective showing?
     public string objectiveCurrentMessage; // is our objective showing?
@@ -575,7 +575,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // update objective panel
-        currentObjective.text = objectiveCurrentMessage;
+        // currentObjective.text = objectiveCurrentMessage;
 
         // set current weapon
         if (currentWeapon == weaponTypes.Pistols)
@@ -748,17 +748,6 @@ public class PlayerController : MonoBehaviour
     // update our objective UI
     public void UpdateObjectiveUI()
     {
-        // what scene are we in?
-        if (SceneManager.GetActiveScene().name == "Hub")
-        {
-            currentObjective.text = "Dropship ready. Board and press Space to launch.";
-        }
-
-        // what scene are we in?
-        if (SceneManager.GetActiveScene().name == "Advanced Generation")
-        {
-            currentObjective.text = "Collect Resources. When ready to continue, launch Dropship.";
-        }
     }
 
     // set our artifact info text

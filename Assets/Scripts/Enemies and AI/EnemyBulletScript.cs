@@ -46,6 +46,7 @@ public class EnemyBulletScript : MonoBehaviour
         if (speedsUp)
         {
             bulletSpeed++;
+            bulletSpeed++;
         }
     }
 
