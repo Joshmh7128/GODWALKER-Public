@@ -10,18 +10,22 @@ public class MeshModification : MonoBehaviour
     Vector3[] outVertices;
     int[] outTriangles;
     [SerializeField] float randomRange;
+    [SerializeField] bool canChange;
 
     private void Start()
     {
         mesh = GetComponent<MeshFilter>().mesh;
         vertices = mesh.vertices;
 
-        for (int i = 0; i < vertices.Length; i++)
+        for (int i = 0; i < mesh.vertices.Length; i++)
         {
+            if (vertices[i] == mesh.vertices[i])
             vertices[i] +=  new Vector3(Random.Range(-randomRange, randomRange), Random.Range(-randomRange, randomRange), Random.Range(-randomRange, randomRange));
+           
         }
 
-        mesh.vertices = vertices;
+        //mesh.vertices = vertices;
+        mesh.SetVertices(vertices);
 
         RemakeMeshToDiscrete(mesh.vertices, mesh.triangles);
 
@@ -32,10 +36,7 @@ public class MeshModification : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateTangents();
 
-        RemakeMeshToDiscrete(mesh.vertices, mesh.triangles);
-
     }
-
 
     void RemakeMeshToDiscrete(Vector3[] vert, int[] trig)
     {
