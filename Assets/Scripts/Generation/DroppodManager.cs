@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.Rendering.PostProcessing;
+// using UnityEngine.Rendering.PostProcessing;
 using Rewired;
 
 public class DroppodManager : MonoBehaviour
@@ -156,7 +156,7 @@ public class DroppodManager : MonoBehaviour
         currentActionOne.text = "Warping...";
         currentActionTwo.text = "Warping...";
         // wait for the visual effect to finish
-        yield return new WaitUntil(() => playerController.postProcessVolume.profile.GetSetting<LensDistortion>().intensity == 100f);
+        // yield return new WaitUntil(() => playerController.postProcessVolume.profile.GetSetting<LensDistortion>().intensity == 100f);
         // have we loaded in?
         bool loaded = false;
         // check if we are in the hub or not

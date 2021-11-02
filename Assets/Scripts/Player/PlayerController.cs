@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.PostProcessing;
+// using UnityEngine.Rendering.PostProcessing;
 using Rewired;
 
 public class PlayerController : MonoBehaviour
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
     // visual effects
     public bool canDistort; // should we distort the image?
     float distortRate = 4; // what rate should we distort the image?
-    public PostProcessVolume postProcessVolume; // our post process volume
+    // public PostProcessVolume postProcessVolume; // our post process volume
     #endregion
 
     #region // Player Movement Variables
@@ -601,6 +601,7 @@ public class PlayerController : MonoBehaviour
             // UpdateArtifactInfoUI();
         }
 
+        /*
         // distortion effect
         if (canDistort)
         {
@@ -617,7 +618,7 @@ public class PlayerController : MonoBehaviour
                 postProcessVolume.profile.GetSetting<LensDistortion>().intensity.value -= distortRate;
             }
         }
-
+        */
         // calculate our costs for upgrading storage
         gemUpgradeCost = (int)Mathf.Round((gemMax / 3) * 1.8f);
         mineralUpgradeCost = (int)Mathf.Round((mineralMax / 3) * 1.8f);
