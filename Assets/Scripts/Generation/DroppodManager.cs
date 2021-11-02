@@ -211,6 +211,8 @@ public class DroppodManager : MonoBehaviour
             yield return new WaitUntil(() => Vector3.Distance(ourPlatform.transform.position, new Vector3(0, 0, 0)) < 5f);
             // set inHub
             inHub = true;
+            // clear our icon list post run
+            playerController.ClearArtifactInfoUI();
             // enable can deposit
             shipCanDeposit = true;
             // open the walls

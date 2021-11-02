@@ -39,6 +39,8 @@ public class InventoryArtifactUIHandler : MonoBehaviour
         GameObject artifactMiniIcon;
         artifactMiniIcon = Instantiate(artifactIconUIGridPrefab, iconGridParent);
         artifactMiniIcon.GetComponent<Image>().sprite = icon;
+        // add it to our list
+        artifactMiniIcons.Add(artifactMiniIcon);
     }
 
     public void ClearInventoryGrid()

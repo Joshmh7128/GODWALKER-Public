@@ -759,6 +759,7 @@ public class PlayerController : MonoBehaviour
 
     public void ClearArtifactInfoUI()
     {
+        Debug.Log("Clearing Artifact InfoUI PostRun");
         inventoryArtifactUIHandler.ClearInventoryGrid();
     }
 
