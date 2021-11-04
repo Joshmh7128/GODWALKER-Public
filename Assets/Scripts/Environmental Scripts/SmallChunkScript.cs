@@ -123,12 +123,16 @@ public class SmallChunkScript : MonoBehaviour
                     UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
                     Destroy(gameObject);
                     break;      
+
                 case chunkTypes.health:
                     // play a sound
                     ourSource.clip = scrapClip;
                     ourSource.Play();
-                    // do the rest
-                    playerController.playerHP++;
+                    // do the hp additional
+                    if (playerController.playerHP < playerController.playerMaxHP)
+                    {
+                        playerController.playerHP++;
+                    }
                     playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
                     UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
