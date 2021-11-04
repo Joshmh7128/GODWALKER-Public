@@ -533,6 +533,8 @@ public class PlayerController : MonoBehaviour
                 dropPodTransform.position = new Vector3(0, 0, 0);
                 // set droppod target position to 0 out
                 dropPodManager.ourPlatform.targetPos = new Vector3(0, 0, 0);
+                // make sure our droppod trips are reset
+                dropPodManager.remainingTrips = dropPodManager.maxTrips;
                 // let the player move
                 canMove = true;
                 cameraScript.canLook = true;
