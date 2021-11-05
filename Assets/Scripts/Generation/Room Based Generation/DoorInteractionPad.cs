@@ -52,13 +52,13 @@ public class DoorInteractionPad : MonoBehaviour
             }
         }        
         
-        /*
-        if (canOpen)
+        
+        if (canOpen && !specialDoorGem && !specialDoorScrap)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
                 doorClass.OpenDoor();
             }
-        }*/
+        }
     }
 }
