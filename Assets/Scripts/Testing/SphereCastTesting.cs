@@ -19,6 +19,16 @@ public class SphereCastTesting : MonoBehaviour
         if (Physics.SphereCast(transform.position, 0.5f, (targetTransform.position - transform.position).normalized, out hit, Vector3.Distance(transform.position, targetTransform.position)))
         {
             Debug.Log("Spherecast Hit");
-        }   
+        }
+
+        if (Physics.Linecast(transform.position, targetTransform.position))
+        {
+            Debug.Log("Linecast hit");
+        }
+
+        if (Physics.CheckSphere(targetTransform.position, 0.5f))
+        {
+            Debug.Log("Checksphere Hit");
+        }
     }
 }

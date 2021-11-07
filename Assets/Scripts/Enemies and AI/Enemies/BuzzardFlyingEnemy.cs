@@ -27,7 +27,8 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] Material indicatorRed;
     [SerializeField] List<Renderer> indicatorRenderers; // our list of renderers
     float xMove, yMove, zMove;
-    [SerializeField] Transform moveCast1, moveCast2, moveCast3, moveCast4, moveCast5;
+    Vector3 targetPos;
+    Vector3 hitPos;
 
     RaycastHit hit;
 
@@ -75,13 +76,27 @@ public class BuzzardFlyingEnemy : EnemyClass
         xMove = Random.Range(-randomRadius, randomRadius);
         yMove = Random.Range(-randomRadius, randomRadius);
         zMove = Random.Range(-randomRadius, randomRadius);
+        targetPos = new Vector3(xMove, yMove, zMove) + player.position;
         // fire a ray to see if there is anything in the path of our movement !Physics.Linecast(transform.position, player.position + new Vector3(xMove, yMove, zMove))
-        if (!Physics.SphereCast(transform.position, 0.5f, 
-            ((player.position + new Vector3(xMove, yMove, zMove)) - transform.position).normalized, 
-            out hit, Vector3.Distance(transform.position, (player.position + new Vector3(xMove, yMove, zMove)))))
+        if (!Physics.SphereCast(transform.position, 5.5f, (targetPos - transform.position).normalized, out hit, Vector3.Distance(transform.position, targetPos)))
         {
-            // if we aren't too low, move up or down all around
-            newPos = player.position + new Vector3(xMove, yMove, zMove); // where are we flying next?
+            // run an overlap sphere at the target position to see if it is a bad position
+            if (!Physics.CheckSphere(targetPos, 5.5f))
+            {
+                // check to make sure the spherecast did not start inside a collider
+                if (!Physics.Linecast(transform.position, targetPos, Physics.AllLayers))
+                {
+                    // adjust our target
+                    newPos = targetPos; // set our new position
+                }
+            }    
+        } // if there is something in the way, move halfway towards out target so that we still move
+        
+        if (Physics.SphereCast(transform.position, 5.5f, (targetPos - transform.position).normalized, out hit, Vector3.Distance(transform.position, targetPos)))
+        {
+            // move in the direction at half the length of contact
+            newPos = Vector3.Lerp(transform.position, hit.point, 0.5f);
+            hitPos = hit.point;
         }
 
         // fly to that place
@@ -127,8 +142,6 @@ public class BuzzardFlyingEnemy : EnemyClass
     {
         // move towards our target
         transform.position = Vector3.MoveTowards(transform.position, newPos, currentSpeed * Time.deltaTime);
-        // calculate knockback
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + (new Vector3(originForce.x, originForce.y/4, originForce.z)), knockDistance * Time.deltaTime);
 
         // death
         if (HP <= 0)
@@ -169,16 +182,18 @@ public class BuzzardFlyingEnemy : EnemyClass
         if (Vector3.Distance(transform.position, player.position) < activationDistance)
         {
             if (!runningBehaviour)
-            // Debug.Log("Player is within range");
-            if (Physics.Linecast(raycastOrigin.position, player.position, out hit))
             {
-                if (hit.transform.tag == ("Player"))
+                // Debug.Log("Player is within range");
+                if (Physics.Linecast(raycastOrigin.position, player.position, out hit))
                 {
-                    StartCoroutine("FlyingBehaviour");
-                }
-                else
-                {
-                    // Debug.Log("No Hit. Tag: " + hit.transform.tag);
+                    if (hit.transform.tag == ("Player"))
+                    {
+                        StartCoroutine("FlyingBehaviour");
+                    }
+                    else
+                    {
+                        // Debug.Log("No Hit. Tag: " + hit.transform.tag);
+                    }
                 }
             }
         }
@@ -194,6 +209,10 @@ public class BuzzardFlyingEnemy : EnemyClass
     // gizmos
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, (player.position + new Vector3(xMove, yMove, zMove)));
+        // Gizmos.DrawLine(transform.position, targetPos);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(targetPos, 5);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(hitPos, 5);
     }
 }
