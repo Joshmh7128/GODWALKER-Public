@@ -212,7 +212,6 @@ public class DroppodManager : MonoBehaviour
             // set inHub
             inHub = true;
             // clear our icon list post run
-            playerController.ClearArtifactInfoUI();
             // enable can deposit
             shipCanDeposit = true;
             // open the walls
@@ -232,8 +231,6 @@ public class DroppodManager : MonoBehaviour
         // respond accordingly
         if (inHub == true)
         {
-            // reset our artifacts
-            playerController.ClearArtifactInfoUI();
             // reset our run counter in case of death
             remainingTrips = maxTrips;
             // fade and enable hub warp

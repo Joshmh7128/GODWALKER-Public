@@ -73,10 +73,12 @@ public class BuzzardFlyingEnemy : EnemyClass
         // pick an unnoccupied point in space
         // calculate movement variables
         xMove = Random.Range(-randomRadius, randomRadius);
-        yMove = Random.Range(-randomRadius, -randomRadius/2);
+        yMove = Random.Range(-randomRadius, randomRadius);
         zMove = Random.Range(-randomRadius, randomRadius);
         // fire a ray to see if there is anything in the path of our movement !Physics.Linecast(transform.position, player.position + new Vector3(xMove, yMove, zMove))
-        if (Physics.SphereCast(transform.position, 0.5f, ((player.position + new Vector3(player.position.x + xMove, player.position.y + yMove, player.position.z + zMove)) - transform.position).normalized, out hit, Vector3.Distance(transform.position, player.position)))
+        if (!Physics.SphereCast(transform.position, 0.5f, 
+            ((player.position + new Vector3(xMove, yMove, zMove)) - transform.position).normalized, 
+            out hit, Vector3.Distance(transform.position, (player.position + new Vector3(xMove, yMove, zMove)))))
         {
             // if we aren't too low, move up or down all around
             newPos = player.position + new Vector3(xMove, yMove, zMove); // where are we flying next?
