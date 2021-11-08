@@ -97,19 +97,15 @@ public class SmallChunkScript : MonoBehaviour
 
 
                 case chunkTypes.gem:
-                    // Debug.Log("player collision");
-                    if (playerController.gemAmount < playerController.gemMax)
-                    {
-                        // play a sound
-                        ourSource.clip = chunkClip;
-                        ourSource.Play();
-                        // do the rest
-                        playerController.gemAmount++;
-                        playerController.cameraScript.shakeDuration += 0.06f;
-                        Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                        UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
-                        Destroy(gameObject);
-                    }
+                    // play a sound
+                    ourSource.clip = chunkClip;
+                    ourSource.Play();
+                    // do the rest
+                    playerController.gemAmount++;
+                    playerController.cameraScript.shakeDuration += 0.06f;
+                    Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                    UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
+                    Destroy(gameObject);
                     break;
 
                 case chunkTypes.bug:
