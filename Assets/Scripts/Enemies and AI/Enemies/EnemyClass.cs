@@ -23,7 +23,12 @@ public abstract class EnemyClass : MonoBehaviour
         {
             roomClass.enemyClasses.Add(this);
         }
-        GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
+
+        // so we can test externally
+        if (GameObject.Find("Enemy Manager"))
+        {
+            GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
+        }
 
         // once we are added remove our parent
         transform.parent = null;

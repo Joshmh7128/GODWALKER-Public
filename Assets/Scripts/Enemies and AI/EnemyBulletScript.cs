@@ -38,6 +38,7 @@ public class EnemyBulletScript : MonoBehaviour
 
     public void AddToManager()
     {
+        if (GameObject.Find("Enemy Manager"))
         GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
     }
 

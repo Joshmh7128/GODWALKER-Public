@@ -30,5 +30,15 @@ public class SphereCastTesting : MonoBehaviour
         {
             Debug.Log("Checksphere Hit");
         }
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(hit.point, 0.5f);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(Vector3.Lerp(transform.position, hit.point, 0.5f), 0.5f);
+        Gizmos.DrawSphere(Vector3.Lerp(transform.position, hit.point, 0.75f), 0.5f);
     }
 }

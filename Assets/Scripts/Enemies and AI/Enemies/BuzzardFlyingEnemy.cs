@@ -8,8 +8,7 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] float speed; // the speed we want to move at
     [SerializeField] float currentSpeed; // the speed we are moving right now
     [SerializeField] float randomRadius; // determines how far he flies per movement
-    [SerializeField] float HP; // our HP
-    [SerializeField] float maxHP; // our max HP
+    [SerializeField] float HP, maxHP; // our HP
     [SerializeField] float activationDistance;
     [SerializeField] GameObject enemyBullet; // the thing we are firing
     [SerializeField] GameObject cubePuffDeath; // our death puff
@@ -26,11 +25,12 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] Material indicatorYellow;
     [SerializeField] Material indicatorRed;
     [SerializeField] List<Renderer> indicatorRenderers; // our list of renderers
-    float xMove, yMove, zMove;
+    [SerializeField] float xMove, yMove, zMove, bodySizeRadius;
     Vector3 targetPos;
     Vector3 hitPos;
 
     RaycastHit hit;
+    RaycastHit lineHit;
 
     // knockback variables
     Vector3 originForce;
@@ -38,6 +38,9 @@ public class BuzzardFlyingEnemy : EnemyClass
 
     private void Start()
     {
+        // set our original newpos to our starting pos
+        newPos = transform.position;
+
         // make sure our HP is at max
         HP = maxHP;
         HPslider.maxValue = maxHP;
@@ -46,17 +49,18 @@ public class BuzzardFlyingEnemy : EnemyClass
         AddToManager();
 
         // set our parent
-        enemyManager = GameObject.Find("Enemy Manager").transform;
-        transform.SetParent(enemyManager);
-
+        if (enemyManager)
+        {
+            enemyManager = GameObject.Find("Enemy Manager").transform;
+            transform.SetParent(enemyManager);
+        }
         // find player
         if (player == null)
         {
             player = GameObject.Find("Player").gameObject.transform;
         }
 
-        // set our original newpos to our starting pos
-        newPos = transform.position;
+
     }
 
     // make this bug fly around
@@ -78,25 +82,27 @@ public class BuzzardFlyingEnemy : EnemyClass
         zMove = Random.Range(-randomRadius, randomRadius);
         targetPos = new Vector3(xMove, yMove, zMove) + player.position;
         // fire a ray to see if there is anything in the path of our movement !Physics.Linecast(transform.position, player.position + new Vector3(xMove, yMove, zMove))
-        if (!Physics.SphereCast(transform.position, 5.5f, (targetPos - transform.position).normalized, out hit, Vector3.Distance(transform.position, targetPos)))
+
+        // if our spherecast fires and hits nothing...
+        if (!Physics.SphereCast(transform.position, bodySizeRadius, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
         {
-            // run an overlap sphere at the target position to see if it is a bad position
-            if (!Physics.CheckSphere(targetPos, 5.5f))
+            // run a linecast check to make sure we are not clipping through a wall
+            if (!Physics.Raycast(transform.position, (targetPos - transform.position).normalized, Mathf.Infinity))
             {
-                // check to make sure the spherecast did not start inside a collider
-                if (!Physics.Linecast(transform.position, targetPos, Physics.AllLayers))
-                {
-                    // adjust our target
-                    newPos = targetPos; // set our new position
-                }
-            }    
+                // move in the direction
+                newPos = targetPos;
+            }
         } // if there is something in the way, move halfway towards out target so that we still move
         
-        if (Physics.SphereCast(transform.position, 5.5f, (targetPos - transform.position).normalized, out hit, Vector3.Distance(transform.position, targetPos)))
+        if (Physics.SphereCast(transform.position, bodySizeRadius, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
         {
-            // move in the direction at half the length of contact
-            newPos = Vector3.Lerp(transform.position, hit.point, 0.5f);
-            hitPos = hit.point;
+            // check to make sure the distance we want to move is longer than our body length so we do not clip into a wall
+            if (Vector3.Distance(transform.position, hit.point) > bodySizeRadius*2)
+            {
+                // move in the direction at half the length of contact
+                newPos = Vector3.Lerp(transform.position, hit.point, 0.5f);
+                hitPos = hit.point;
+            }
         }
 
         // fly to that place
