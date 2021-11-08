@@ -96,12 +96,16 @@ public class BuzzardFlyingEnemy : EnemyClass
         
         if (Physics.SphereCast(transform.position, bodySizeRadius, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
         {
-            // check to make sure the distance we want to move is longer than our body length so we do not clip into a wall
-            if (Vector3.Distance(transform.position, hit.point) > bodySizeRadius*2)
+            // run a linecast check to make sure we are not clipping through a wall
+            if (Physics.Raycast(transform.position, (targetPos - transform.position).normalized, out lineHit, Mathf.Infinity, Physics.AllLayers))
             {
-                // move in the direction at half the length of contact
-                newPos = Vector3.Lerp(transform.position, hit.point, 0.5f);
-                hitPos = hit.point;
+                // check to make sure the distance we want to move is longer than our body length so we do not clip into a wall
+                if (Vector3.Distance(transform.position, lineHit.point) > bodySizeRadius * 2f)
+                {
+                    // move in the direction at half the length of contact
+                    newPos = Vector3.Lerp(transform.position, lineHit.point, 0.5f);
+                    hitPos = hit.point;
+                }
             }
         }
 
@@ -169,6 +173,18 @@ public class BuzzardFlyingEnemy : EnemyClass
     // fixed update
     private void FixedUpdate()
     {
+        // raycast downwards to see if we are too close to the ground
+        RaycastHit speedCheck;
+        // if our destination is below us
+        if (targetPos.y < transform.position.y)
+        {  // run the raycast to detect another collider
+            if (Physics.Raycast(transform.position, Vector3.down, out speedCheck, bodySizeRadius, Physics.AllLayers))
+            {
+                // stop moving
+                currentSpeed = 0;
+            }
+        }
+
         // if we are at full health don't show the bar or text
         if (HP == maxHP)
         {
