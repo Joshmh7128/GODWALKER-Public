@@ -25,8 +25,8 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] Material indicatorYellow;
     [SerializeField] Material indicatorRed;
     [SerializeField] List<Renderer> indicatorRenderers; // our list of renderers
-    [SerializeField] float xMove, yMove, zMove, bodySizeRadius;
-    Vector3 targetPos;
+    [SerializeField] float xMove, yMove, zMove, bodySizeDiameter;
+    Vector3 targetPos, targetPosAlt;
     Vector3 hitPos;
 
     RaycastHit hit;
@@ -81,10 +81,11 @@ public class BuzzardFlyingEnemy : EnemyClass
         yMove = Random.Range(-randomRadius, randomRadius);
         zMove = Random.Range(-randomRadius, randomRadius);
         targetPos = new Vector3(xMove, yMove, zMove) + player.position;
+        targetPosAlt = new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius, randomRadius)) + player.position;
         // fire a ray to see if there is anything in the path of our movement !Physics.Linecast(transform.position, player.position + new Vector3(xMove, yMove, zMove))
 
         // if our spherecast fires and hits nothing...
-        if (!Physics.SphereCast(transform.position, bodySizeRadius, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
+        if (!Physics.SphereCast(transform.position, bodySizeDiameter/2, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
         {
             // run a linecast check to make sure we are not clipping through a wall
             if (!Physics.Raycast(transform.position, (targetPos - transform.position).normalized, Mathf.Infinity))
@@ -92,19 +93,39 @@ public class BuzzardFlyingEnemy : EnemyClass
                 // move in the direction
                 newPos = targetPos;
             }
-        } // if there is something in the way, move halfway towards out target so that we still move
-        
-        if (Physics.SphereCast(transform.position, bodySizeRadius, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
+        } 
+        // if there is something in the way, move halfway towards out target so that we still move
+        if (Physics.SphereCast(transform.position, bodySizeDiameter/2, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
         {
-            // run a linecast check to make sure we are not clipping through a wall
+            // run a raycast check
             if (Physics.Raycast(transform.position, (targetPos - transform.position).normalized, out lineHit, Mathf.Infinity, Physics.AllLayers))
             {
                 // check to make sure the distance we want to move is longer than our body length so we do not clip into a wall
-                if (Vector3.Distance(transform.position, lineHit.point) > bodySizeRadius * 2f)
+                if (Vector3.Distance(transform.position, lineHit.point) > bodySizeDiameter/2)
                 {
                     // move in the direction at half the length of contact
                     newPos = Vector3.Lerp(transform.position, lineHit.point, 0.5f);
                     hitPos = hit.point;
+                }
+
+                // if we can't move there do this with targetPosAlt
+                if (Vector3.Distance(transform.position, lineHit.point) < bodySizeDiameter / 2)
+                {
+                    // if there is something in the way, move halfway towards out target so that we still move
+                    if (Physics.SphereCast(transform.position, bodySizeDiameter / 2, (targetPosAlt - transform.position).normalized, out hit, Mathf.Infinity))
+                    {
+                        // run a raycast check
+                        if (Physics.Raycast(transform.position, (targetPosAlt - transform.position).normalized, out lineHit, Mathf.Infinity, Physics.AllLayers))
+                        {
+                            // check to make sure the distance we want to move is longer than our body length so we do not clip into a wall
+                            if (Vector3.Distance(transform.position, lineHit.point) > bodySizeDiameter / 2)
+                            {
+                                // move in the direction at half the length of contact
+                                newPos = Vector3.Lerp(transform.position, lineHit.point, 0.5f);
+                                hitPos = hit.point;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -178,7 +199,7 @@ public class BuzzardFlyingEnemy : EnemyClass
         // if our destination is below us
         if (targetPos.y < transform.position.y)
         {  // run the raycast to detect another collider
-            if (Physics.Raycast(transform.position, Vector3.down, out speedCheck, bodySizeRadius, Physics.AllLayers))
+            if (Physics.Raycast(transform.position, Vector3.down, out speedCheck, bodySizeDiameter/2, Physics.AllLayers))
             {
                 // stop moving
                 currentSpeed = 0;
@@ -233,8 +254,6 @@ public class BuzzardFlyingEnemy : EnemyClass
     {
         // Gizmos.DrawLine(transform.position, targetPos);
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(targetPos, 5);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(hitPos, 5);
+        Gizmos.DrawRay(transform.position, Vector3.down*(bodySizeDiameter/2));
     }
 }
