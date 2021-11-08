@@ -54,8 +54,6 @@ public class EnemyBulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
         // move bullet
         transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
     }

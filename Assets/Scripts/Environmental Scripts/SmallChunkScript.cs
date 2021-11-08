@@ -39,7 +39,7 @@ public class SmallChunkScript : MonoBehaviour
     private void FixedUpdate()
     {
         // move faster and faster to the player
-        transform.position = Vector3.MoveTowards(transform.position, playerController.gameObject.transform.position, speed);
+        transform.position = Vector3.MoveTowards(transform.position, playerController.gameObject.transform.position, speed*Time.deltaTime);
         speed++;
     }
 
