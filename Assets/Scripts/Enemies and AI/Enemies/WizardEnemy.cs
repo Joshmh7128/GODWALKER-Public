@@ -20,6 +20,13 @@ public class WizardEnemy : EnemyClass
     [SerializeField] GameObject cubePuffParticle, bugPartDrop; // our projectile prefab
     [SerializeField] WizardAnimAssistant wizardAnimAssistant;
 
+    // new movement collision detection variables
+    [SerializeField] float xMove, yMove, zMove, bodySizeDiameter;
+    Vector3 targetPos, targetPosAlt;
+    Vector3 hitPos;
+    RaycastHit hit;
+    RaycastHit lineHit;
+
     private void Start()
     {
         // make sure our HP is at max
@@ -99,15 +106,62 @@ public class WizardEnemy : EnemyClass
         runningBehaviour = true;
         // wait for our hangtime before deciding on a new direction
         yield return new WaitForSeconds(hangtime);
-        // decide on a new position based off of the player's position, but not if that position is occupied
-        Vector3 direction = transform.position - playerTransform.position;
-        // from our player's position, move around them on the X and Z
-        Vector3 checkPos = new Vector3(playerTransform.position.x + Random.Range(-randomRadius, randomRadius), playerTransform.position.y+2f, playerTransform.position.z + Random.Range(-randomRadius, randomRadius));
-        // linecast to see if we can move there
-        if (!Physics.Linecast(transform.position, checkPos, 3))
+        // pick an unnoccupied point in space
+        // calculate movement variables
+        xMove = Random.Range(-randomRadius, randomRadius);
+        yMove = Random.Range(-randomRadius, randomRadius);
+        zMove = Random.Range(-randomRadius, randomRadius);
+        targetPos = new Vector3(xMove, yMove, zMove) + player.position;
+        targetPosAlt = new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius, randomRadius)) + player.position;
+        // fire a ray to see if there is anything in the path of our movement !Physics.Linecast(transform.position, player.position + new Vector3(xMove, yMove, zMove))
+
+        // if our spherecast fires and hits nothing...
+        if (!Physics.SphereCast(transform.position, bodySizeDiameter / 2, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
         {
-            newPos = checkPos;
+            // run a linecast check to make sure we are not clipping through a wall
+            if (!Physics.Raycast(transform.position, (targetPos - transform.position).normalized, Mathf.Infinity))
+            {
+                // move in the direction
+                newPos = targetPos;
+            }
         }
+        // if there is something in the way, move halfway towards out target so that we still move
+        if (Physics.SphereCast(transform.position, bodySizeDiameter / 2, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
+        {
+            // run a raycast check
+            if (Physics.Raycast(transform.position, (targetPos - transform.position).normalized, out lineHit, Mathf.Infinity, Physics.AllLayers))
+            {
+                // check to make sure the distance we want to move is longer than our body length so we do not clip into a wall
+                if (Vector3.Distance(transform.position, lineHit.point) > bodySizeDiameter / 2)
+                {
+                    // move in the direction at half the length of contact
+                    newPos = Vector3.Lerp(transform.position, lineHit.point, 0.5f);
+                    hitPos = hit.point;
+                }
+
+                // if we can't move there do this with targetPosAlt
+                if (Vector3.Distance(transform.position, lineHit.point) < bodySizeDiameter / 2)
+                {
+                    // if there is something in the way, move halfway towards out target so that we still move
+                    if (Physics.SphereCast(transform.position, bodySizeDiameter / 2, (targetPosAlt - transform.position).normalized, out hit, Mathf.Infinity))
+                    {
+                        // run a raycast check
+                        if (Physics.Raycast(transform.position, (targetPosAlt - transform.position).normalized, out lineHit, Mathf.Infinity, Physics.AllLayers))
+                        {
+                            // check to make sure the distance we want to move is longer than our body length so we do not clip into a wall
+                            if (Vector3.Distance(transform.position, lineHit.point) > bodySizeDiameter / 2)
+                            {
+                                // move in the direction at half the length of contact
+                                newPos = Vector3.Lerp(transform.position, lineHit.point, 0.5f);
+                                hitPos = hit.point;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         // play our attack animation 
         animator.Play("Attack");
         // wait for the first frame them fire a projectile

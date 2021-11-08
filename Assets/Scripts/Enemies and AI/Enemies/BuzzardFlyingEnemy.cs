@@ -28,7 +28,6 @@ public class BuzzardFlyingEnemy : EnemyClass
     [SerializeField] float xMove, yMove, zMove, bodySizeDiameter;
     Vector3 targetPos, targetPosAlt;
     Vector3 hitPos;
-
     RaycastHit hit;
     RaycastHit lineHit;
 

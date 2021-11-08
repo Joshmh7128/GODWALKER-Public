@@ -26,10 +26,16 @@ public class ShielderFlyingEnemy : EnemyClass
     [SerializeField] Material indicatorYellow;
     [SerializeField] Material indicatorRed;
     [SerializeField] List<Renderer> indicatorRenderers; // our list of renderers
-    RaycastHit hit;
     [SerializeField] List<Transform> protectedEnemies; // a list of our protected enemies
     [SerializeField] LineRenderer lineRenderer; // our line renderer
     [SerializeField] Transform lineStart; // the start of our line rendering
+
+    // new movement collision detection variables
+    [SerializeField] float xMove, yMove, zMove, bodySizeDiameter;
+    Vector3 targetPos, targetPosAlt;
+    Vector3 hitPos;
+    RaycastHit hit;
+    RaycastHit lineHit;
 
     // knockback variables
     Vector3 originForce;
@@ -99,32 +105,57 @@ public class ShielderFlyingEnemy : EnemyClass
         else { tooLow = false; }
 
         // pick an unnoccupied point in space
-        if (tooLow == false)
+        // calculate movement variables
+        xMove = Random.Range(-randomRadius, randomRadius);
+        yMove = Random.Range(-randomRadius, randomRadius);
+        zMove = Random.Range(-randomRadius, randomRadius);
+        targetPos = new Vector3(xMove, yMove, zMove) + player.position;
+        targetPosAlt = new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius, randomRadius)) + player.position;
+        // fire a ray to see if there is anything in the path of our movement !Physics.Linecast(transform.position, player.position + new Vector3(xMove, yMove, zMove))
+
+        // if our spherecast fires and hits nothing...
+        if (!Physics.SphereCast(transform.position, bodySizeDiameter / 2, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
         {
-            // calculate movement variables
-            float xMove = Random.Range(-randomRadius, randomRadius);
-            float yMove = Random.Range(-randomRadius, randomRadius);
-            float zMove = Random.Range(-randomRadius, randomRadius);
-            // fire a ray to see if there is anything in the path of our movement
-            if (!Physics.Linecast(transform.position, transform.position + new Vector3(xMove, yMove, zMove)))
+            // run a linecast check to make sure we are not clipping through a wall
+            if (!Physics.Raycast(transform.position, (targetPos - transform.position).normalized, Mathf.Infinity))
             {
-                // Debug.Log("Nothing in Linecast from: " + transform.position + " to " + (transform.position + new Vector3(xMove, yMove, zMove)));
-                // if we aren't too low, move up or down all around
-                newPos = transform.position + new Vector3(xMove, yMove, zMove); // where are we flying next?
+                // move in the direction
+                newPos = targetPos;
             }
         }
-
-        if (tooLow == true)
-        {  
-            // calculate movement variables
-            float xMove = Random.Range(-randomRadius, randomRadius);
-            float yMove = Random.Range(-randomRadius, randomRadius);
-            float zMove = Random.Range(-randomRadius, randomRadius);
-            // fire a ray to see if there is anything in the path of our movement
-            if (!Physics.Linecast(transform.position, transform.position + new Vector3(xMove, Mathf.Abs(yMove), zMove)))
+        // if there is something in the way, move halfway towards out target so that we still move
+        if (Physics.SphereCast(transform.position, bodySizeDiameter / 2, (targetPos - transform.position).normalized, out hit, Mathf.Infinity))
+        {
+            // run a raycast check
+            if (Physics.Raycast(transform.position, (targetPos - transform.position).normalized, out lineHit, Mathf.Infinity, Physics.AllLayers))
             {
-                // if we are too low move up 
-                newPos = transform.position + new Vector3(xMove, Mathf.Abs(yMove), zMove); // where are we flying next?
+                // check to make sure the distance we want to move is longer than our body length so we do not clip into a wall
+                if (Vector3.Distance(transform.position, lineHit.point) > bodySizeDiameter / 2)
+                {
+                    // move in the direction at half the length of contact
+                    newPos = Vector3.Lerp(transform.position, lineHit.point, 0.5f);
+                    hitPos = hit.point;
+                }
+
+                // if we can't move there do this with targetPosAlt
+                if (Vector3.Distance(transform.position, lineHit.point) < bodySizeDiameter / 2)
+                {
+                    // if there is something in the way, move halfway towards out target so that we still move
+                    if (Physics.SphereCast(transform.position, bodySizeDiameter / 2, (targetPosAlt - transform.position).normalized, out hit, Mathf.Infinity))
+                    {
+                        // run a raycast check
+                        if (Physics.Raycast(transform.position, (targetPosAlt - transform.position).normalized, out lineHit, Mathf.Infinity, Physics.AllLayers))
+                        {
+                            // check to make sure the distance we want to move is longer than our body length so we do not clip into a wall
+                            if (Vector3.Distance(transform.position, lineHit.point) > bodySizeDiameter / 2)
+                            {
+                                // move in the direction at half the length of contact
+                                newPos = Vector3.Lerp(transform.position, lineHit.point, 0.5f);
+                                hitPos = hit.point;
+                            }
+                        }
+                    }
+                }
             }
         }
 
