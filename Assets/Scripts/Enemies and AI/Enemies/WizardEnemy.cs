@@ -109,10 +109,10 @@ public class WizardEnemy : EnemyClass
         // pick an unnoccupied point in space
         // calculate movement variables
         xMove = Random.Range(-randomRadius, randomRadius);
-        yMove = Random.Range(-randomRadius, randomRadius);
+        yMove = 3; // we want to be around the same height as the player
         zMove = Random.Range(-randomRadius, randomRadius);
-        targetPos = new Vector3(xMove, yMove, zMove) + player.position;
-        targetPosAlt = new Vector3(Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius, randomRadius), Random.Range(-randomRadius, randomRadius)) + player.position;
+        targetPos = new Vector3(xMove, yMove, zMove) + playerTransform.position;
+        targetPosAlt = new Vector3(Random.Range(-randomRadius, randomRadius), 3f, Random.Range(-randomRadius, randomRadius)) + playerTransform.position;
         // fire a ray to see if there is anything in the path of our movement !Physics.Linecast(transform.position, player.position + new Vector3(xMove, yMove, zMove))
 
         // if our spherecast fires and hits nothing...
