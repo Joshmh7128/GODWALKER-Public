@@ -13,6 +13,7 @@ public class SmallChunkScript : MonoBehaviour
     [SerializeField] SphereCollider sphereCollider;
     [SerializeField] bool isBugPart;
     [SerializeField] float decreaseRate;
+    [SerializeField] float speed;
     float interpolationCount = 300; // the amount of frames to lerp within
     float elapsedFrames = 0; // the amount of frames we have elapsed
     float interpolationRatio;
@@ -37,11 +38,9 @@ public class SmallChunkScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // lerp towards the player
-        interpolationRatio = elapsedFrames / interpolationCount;
-        transform.position = Vector3.Lerp(transform.position, playerController.gameObject.transform.position, interpolationRatio);
-        if (elapsedFrames < interpolationCount)
-        { elapsedFrames++; }
+        // move faster and faster to the player
+        transform.position = Vector3.MoveTowards(transform.position, playerController.gameObject.transform.position, speed);
+        speed++;
     }
 
     private void OnCollisionStay(Collision col)
