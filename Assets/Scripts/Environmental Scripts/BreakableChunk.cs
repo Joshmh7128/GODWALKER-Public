@@ -10,18 +10,25 @@ public class BreakableChunk : MonoBehaviour
     [SerializeField] float H, S, V; // color vars
     [SerializeField] float dropAmount; // color vars
     [SerializeField] GameObject smallChunk; // the same chunk but smaller that the player can pick up. large chunk breaks = small chunks fly out
+    Color ourColor;
 
     private void Start()
     {
         // get our color
-        Color.RGBToHSV(ourRenderer.material.color, out H, out S, out V);
+        ourColor = ourRenderer.material.GetColor("_EmissionColor"); ;
     }
 
     // breakable break function
     public void BreakableBreak()
     {
+        // subtract our HP
         hp--;
-        ourRenderer.material.color = Color.HSVToRGB(H, S, hp/hpMax);
+        // change our color
+        ourColor = Color.HSVToRGB(H, S, (hp/hpMax)*0.25f);
+
+        // set our HP based on the amount we have out of our maximum
+        ourRenderer.material.SetColor("_EmissionColor", ourColor);
+
         if (hp <= 0)
         {
             // choose a random amount of small chunks then spawn them in
