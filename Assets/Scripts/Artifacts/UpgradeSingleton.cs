@@ -50,5 +50,4 @@ public class UpgradeSingleton : ScriptableObject
             _instance.mitoZygoteDuration += _instance.mitoZygoteAddition;
         }
     }
-
 }
