@@ -89,8 +89,6 @@ public class WizardEnemy : EnemyClass
             }
         }
 
-        // ui updates
-
         // if we are at full health don't show the bar or text
         if (HP == maxHP)
         { HPcanvasGroup.alpha = 0; }
@@ -160,7 +158,6 @@ public class WizardEnemy : EnemyClass
                 }
             }
         }
-
 
         // play our attack animation 
         animator.Play("Attack");
