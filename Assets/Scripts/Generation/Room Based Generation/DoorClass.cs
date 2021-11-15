@@ -35,7 +35,24 @@ public class DoorClass : MonoBehaviour
 
         if (!isSpecialRoom)
         {
-            if (roomGenerationManager.roomCount > 0)
+            // if we are in the first 3 rooms spawn an easy room
+            if (roomGenerationManager.roomCount >= 3)
+            {
+                // randomly choose a room from our prefabs to spawn
+                if (ourRoom == null)
+                {
+                    if (!isSpecialRoom)
+                    {
+                        ourRoom = Instantiate(roomGenerationManager.roomPrefabs[Random.Range(0, roomGenerationManager.roomPrefabs.Count)], roomPlaceTransform);
+                        ourRoom.SetActive(false);
+                        // lower the room count
+                        roomGenerationManager.roomCount--;
+                    }
+                }
+            }
+
+            // if we are in the last 3 rooms spawn a hard room
+            if (roomGenerationManager.roomCount <= 3)
             {
                 // randomly choose a room from our prefabs to spawn
                 if (ourRoom == null)
