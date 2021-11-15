@@ -43,7 +43,7 @@ public class DoorClass : MonoBehaviour
                 {
                     if (!isSpecialRoom)
                     {
-                        ourRoom = Instantiate(roomGenerationManager.roomPrefabs[Random.Range(0, roomGenerationManager.roomPrefabs.Count)], roomPlaceTransform);
+                        ourRoom = Instantiate(roomGenerationManager.roomPrefabsEasy[Random.Range(0, roomGenerationManager.roomPrefabsEasy.Count)], roomPlaceTransform);
                         ourRoom.SetActive(false);
                         // lower the room count
                         roomGenerationManager.roomCount--;
@@ -59,7 +59,7 @@ public class DoorClass : MonoBehaviour
                 {
                     if (!isSpecialRoom)
                     {
-                        ourRoom = Instantiate(roomGenerationManager.roomPrefabs[Random.Range(0, roomGenerationManager.roomPrefabs.Count)], roomPlaceTransform);
+                        ourRoom = Instantiate(roomGenerationManager.roomPrefabsHard[Random.Range(0, roomGenerationManager.roomPrefabsHard.Count)], roomPlaceTransform);
                         ourRoom.SetActive(false);
                         // lower the room count
                         roomGenerationManager.roomCount--;
