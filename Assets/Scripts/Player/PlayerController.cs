@@ -416,11 +416,7 @@ public class PlayerController : MonoBehaviour
                             rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
                         }
                     }
-                
-                    if (ammoAmount <= 0)
-                    {
-                        StartCoroutine(ObjectivePanelHandler("OUT OF AMMO! COLLECT OR RETRIEVE MORE"));
-                    }
+               
                 }
             }
         }
@@ -724,7 +720,7 @@ public class PlayerController : MonoBehaviour
     {   // manage our objective related UI
         objectiveCurrentMessage = customText;
         // make in to its own local string so we can modify it in between messages if needed
-        currentObjective.text = objectiveCurrentMessage;
+        // currentObjective.text = objectiveCurrentMessage;
         tabIndicator.SetActive(false);
         objectiveShowing = true;
         objectiveAlphaChange = 0;
