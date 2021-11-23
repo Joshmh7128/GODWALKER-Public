@@ -12,6 +12,12 @@ public class RoomClass : MonoBehaviour
     private void Start()
     {
         if (isStartRoom)
-        { GameObject.Find("Drop Pod").GetComponent<DroppodManager>().targetPosGroundNew = transform.position; }
+        {
+            // make sure the dropship exists before we try to set it's new position
+            if (GameObject.Find("Drop Pod"))
+            {   // then set it
+                GameObject.Find("Drop Pod").GetComponent<DroppodManager>().targetPosGroundNew = transform.position;
+            }
+        }
     }
 }

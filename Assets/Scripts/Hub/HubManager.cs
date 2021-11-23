@@ -32,7 +32,10 @@ public class HubManager : MonoBehaviour
         // find our droppodmanager
         if (droppodManager == null)
         {
-            droppodManager = GameObject.Find("Drop Pod").GetComponent<DroppodManager>();
+            if (GameObject.Find("Drop Pod"))
+            {
+                droppodManager = GameObject.Find("Drop Pod").GetComponent<DroppodManager>();
+            }
         }
 
         // find our player

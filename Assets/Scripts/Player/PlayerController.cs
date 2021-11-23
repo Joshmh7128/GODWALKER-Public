@@ -563,6 +563,13 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
+        // check if we are in the room generation scene, then stop showing the loading screen
+        if (SceneManager.GetActiveScene().name == "Room Generation")
+        {
+            // fade out
+            fadeCanvas.alpha = 0;
+        }
+
         // check beneath us if we can jump  
         if (Physics.Linecast(new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z), new Vector3(transform.position.x, transform.position.y - 2f, transform.position.z)))
         {
