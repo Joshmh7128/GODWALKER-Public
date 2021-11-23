@@ -35,17 +35,6 @@ public class RandomChildSelector : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            if (devMode == true)
-            {
-                Regen();
-            }
-        }
-    }
-
     public void Regen()
     {
         transform.GetChild(choice).gameObject.SetActive(false);

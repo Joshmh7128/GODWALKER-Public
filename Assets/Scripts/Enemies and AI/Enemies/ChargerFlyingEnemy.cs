@@ -149,15 +149,7 @@ public class ChargerFlyingEnemy : EnemyClass
     // update
     private void Update()
     {
-        // make sure we update our line position so that we are always properly showing it from our body to the player
-        ourLine.SetPosition(0, lineStart.position);
-        // move towards our target
-        transform.position = Vector3.MoveTowards(transform.position, newPos, currentSpeed * Time.deltaTime);
-        // look at the player
-        if (canLookAtPlayer)
-        {
-            transform.LookAt(player, Vector3.up);
-        }
+
         // death
         if (HP <= 0)
         {
@@ -178,7 +170,16 @@ public class ChargerFlyingEnemy : EnemyClass
 
     // fixed update
     private void FixedUpdate()
-    {
+    {        
+        // make sure we update our line position so that we are always properly showing it from our body to the player
+        ourLine.SetPosition(0, lineStart.position);
+        // move towards our target
+        transform.position = Vector3.MoveTowards(transform.position, newPos, currentSpeed * Time.deltaTime);
+        // look at the player
+        if (canLookAtPlayer)
+        {
+            transform.LookAt(player, Vector3.up);
+        }
 
         // if we are at full health don't show the bar or text
         if (HP == maxHP)
