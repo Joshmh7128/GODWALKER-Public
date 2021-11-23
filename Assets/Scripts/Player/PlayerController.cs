@@ -543,7 +543,9 @@ public class PlayerController : MonoBehaviour
                 // set player HP to max
                 playerHP = playerMaxHP;
                 // make sure to reload the upgrade singleton and UI
-
+                // unload the instance
+                UpgradeSingleton.DestroySingleton();
+                ClearArtifactInfoUI();
             }
 
             // clear artifacts
