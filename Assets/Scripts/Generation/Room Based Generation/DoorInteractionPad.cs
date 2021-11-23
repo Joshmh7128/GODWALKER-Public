@@ -40,7 +40,7 @@ public class DoorInteractionPad : MonoBehaviour
         {
             if (GameObject.Find("Player").GetComponent<PlayerController>().gemAmount > 100)
             {
-                if (player.GetButtonDown("Interaction"))
+                if (player.GetButtonDown("ActionE"))
                 {
                     doorClass.OpenDoor();
                     GameObject.Find("Player").GetComponent<PlayerController>().gemAmount -= 100;
@@ -52,7 +52,7 @@ public class DoorInteractionPad : MonoBehaviour
         {
             if (GameObject.Find("Player").GetComponent<PlayerController>().gemAmount > 10)
             {
-                if (player.GetButtonDown("Interaction"))
+                if (player.GetButtonDown("ActionE"))
                 {
                     doorClass.OpenDoor();
                     GameObject.Find("Player").GetComponent<PlayerController>().gemAmount -= 10;
@@ -63,7 +63,7 @@ public class DoorInteractionPad : MonoBehaviour
         
         if (canOpen && !specialDoorGem && !specialDoorScrap)
         {
-            if (player.GetButtonDown("Interaction"))
+            if (player.GetButtonDown("ActionE"))
             {
                 doorClass.OpenDoor();
             }
