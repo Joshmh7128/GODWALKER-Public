@@ -610,24 +610,6 @@ public class PlayerController : MonoBehaviour
             // UpdateArtifactInfoUI();
         }
 
-        /*
-        // distortion effect
-        if (canDistort)
-        {
-            if (postProcessVolume.profile.GetSetting<LensDistortion>().intensity.value < 100)
-            {
-                postProcessVolume.profile.GetSetting<LensDistortion>().intensity.value += distortRate;
-            }
-        }        
-        
-        if (!canDistort)
-        {
-            if (postProcessVolume.profile.GetSetting<LensDistortion>().intensity.value > 0)
-            {
-                postProcessVolume.profile.GetSetting<LensDistortion>().intensity.value -= distortRate;
-            }
-        }
-        */
         // calculate our costs for upgrading storage
         gemUpgradeCost = (int)Mathf.Round((gemMax / 3) * 1.8f);
         mineralUpgradeCost = (int)Mathf.Round((mineralMax / 3) * 1.8f);
