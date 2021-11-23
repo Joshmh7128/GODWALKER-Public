@@ -52,7 +52,7 @@ public class DoorClass : MonoBehaviour
             }
 
             // if we are in the last 3 rooms spawn a hard room
-            if (roomGenerationManager.roomCount <= 3)
+            if (roomGenerationManager.roomCount <= 3 && roomGenerationManager.roomCount != 0)
             {
                 // randomly choose a room from our prefabs to spawn
                 if (ourRoom == null)

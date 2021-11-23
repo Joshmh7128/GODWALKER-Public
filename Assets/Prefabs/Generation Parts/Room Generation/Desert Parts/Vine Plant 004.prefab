@@ -384,7 +384,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426158730140852915}
   m_LocalRotation: {x: 0.79480994, y: -0.33981028, z: -0.29930118, w: -0.40401107}
-  m_LocalPosition: {x: -16.30734, y: -5.9497037, z: -16.452652}
+  m_LocalPosition: {x: -14.7, y: -8.04, z: -14.8}
   m_LocalScale: {x: 2.7699108, y: 5.996943, z: 1.6847421}
   m_Children: []
   m_Father: {fileID: 4444174249907967272}
@@ -1098,7 +1098,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2345114786583546912}
   m_LocalRotation: {x: 0.82696444, y: -0.5071345, z: 0.19347793, w: -0.1466656}
-  m_LocalPosition: {x: -21.727953, y: -10.952099, z: -5.9586515}
+  m_LocalPosition: {x: -20.1, y: -13.04, z: -4.3}
   m_LocalScale: {x: 2.7692053, y: 10.46467, z: 5.3784924}
   m_Children: []
   m_Father: {fileID: 4444174249907967272}
@@ -1455,7 +1455,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2512617386680104231}
   m_LocalRotation: {x: -0.83342063, y: 0.4020654, z: 0.16344436, w: 0.34211022}
-  m_LocalPosition: {x: -16.638826, y: 7.0504966, z: -9.733214}
+  m_LocalPosition: {x: -15.1, y: 4.22, z: -6.3}
   m_LocalScale: {x: 3.5370104, y: 9.49304, z: 3.1220162}
   m_Children: []
   m_Father: {fileID: 4444174249907967272}
@@ -1812,7 +1812,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4875075623962162657}
   m_LocalRotation: {x: -0.14885932, y: -0.17364642, z: 0.836149, w: 0.49854067}
-  m_LocalPosition: {x: -11.315239, y: 18.729828, z: 10.705364}
+  m_LocalPosition: {x: -9.78, y: 17.33, z: 10.86}
   m_LocalScale: {x: 1.2806401, y: 4.7944646, z: 2.4204834}
   m_Children: []
   m_Father: {fileID: 4444174249907967272}
@@ -2169,7 +2169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7514685356411565496}
   m_LocalRotation: {x: 0.82696444, y: -0.5071345, z: 0.19347793, w: -0.1466656}
-  m_LocalPosition: {x: -18.083443, y: -3.068622, z: -6.054711}
+  m_LocalPosition: {x: -16.5, y: -5.16, z: -4.4}
   m_LocalScale: {x: 1.5869373, y: 5.9969454, z: 3.0822306}
   m_Children: []
   m_Father: {fileID: 4444174249907967272}
@@ -2526,7 +2526,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8274232049351005668}
   m_LocalRotation: {x: -0.8330502, y: 0.4012934, z: 0.16532215, w: 0.3430155}
-  m_LocalPosition: {x: -11.723982, y: 13.864857, z: -0.25982547}
+  m_LocalPosition: {x: -11.77, y: 11.87, z: 4.27}
   m_LocalScale: {x: 2.6276596, y: 7.0310836, z: 2.306183}
   m_Children: []
   m_Father: {fileID: 4444174249907967272}
@@ -2869,6 +2869,7 @@ GameObject:
   - component: {fileID: 6152534914111924624}
   - component: {fileID: 14354135445871368}
   - component: {fileID: 8907461994738489886}
+  - component: {fileID: 1346239706609970623}
   m_Layer: 0
   m_Name: Vine Plant 004
   m_TagString: Untagged
@@ -5627,3 +5628,30 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!205 &1346239706609970623
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8705622565906701789}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -5.5403404, y: 0, z: 0.000011444092}
+  m_Size: 46.575012
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.0050646877
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6152534914111924624}
+    - renderer: {fileID: 2269197603167883268}
+    - renderer: {fileID: 2329419704998755864}
+    - renderer: {fileID: 2288581382004453238}
+    - renderer: {fileID: 2603321206875175156}
+    - renderer: {fileID: 5828676092758930078}
+    - renderer: {fileID: 8047955373879319267}
+    - renderer: {fileID: 6540527674669115859}
+    - renderer: {fileID: 1255746845621721490}
+  m_Enabled: 1
