@@ -540,8 +540,10 @@ public class PlayerController : MonoBehaviour
                 cameraScript.canLook = true;
                 // load primer
                 SceneManager.LoadScene("RePrimer", LoadSceneMode.Single);
-                // set player HP to 1
+                // set player HP to max
                 playerHP = playerMaxHP;
+                // make sure to reload the upgrade singleton and UI
+
             }
 
             // clear artifacts
@@ -633,18 +635,6 @@ public class PlayerController : MonoBehaviour
         if (shotCoolDown > 0)
         {
             shotCoolDown -= 1;
-        }
-
-        // see through camera artifact
-        if (UpgradeSingleton.Instance.tetralightVisionDuration > 0)
-        {
-            UpgradeSingleton.Instance.tetralightVisionDuration--;
-            enemyCam.SetActive(true);
-        }
-
-        if (UpgradeSingleton.Instance.tetralightVisionDuration <= 0)
-        {
-            enemyCam.SetActive(false);
         }
 
         // 1 hp shield from bug part drops
