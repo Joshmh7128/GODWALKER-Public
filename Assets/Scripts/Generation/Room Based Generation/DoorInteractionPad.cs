@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
 public class DoorInteractionPad : MonoBehaviour
 {
@@ -9,6 +10,13 @@ public class DoorInteractionPad : MonoBehaviour
     [SerializeField] bool specialDoorGem; // can we open the door?
     [SerializeField] bool specialDoorScrap; // can we open the door?
     [SerializeField] DoorClass doorClass; // our door class
+    Player player; // our player
+
+    private void Start()
+    {
+        // get our player
+        player = ReInput.players.GetPlayer(0);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -32,7 +40,7 @@ public class DoorInteractionPad : MonoBehaviour
         {
             if (GameObject.Find("Player").GetComponent<PlayerController>().gemAmount > 100)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (player.GetButtonDown("Interaction"))
                 {
                     doorClass.OpenDoor();
                     GameObject.Find("Player").GetComponent<PlayerController>().gemAmount -= 100;
@@ -44,7 +52,7 @@ public class DoorInteractionPad : MonoBehaviour
         {
             if (GameObject.Find("Player").GetComponent<PlayerController>().gemAmount > 10)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (player.GetButtonDown("Interaction"))
                 {
                     doorClass.OpenDoor();
                     GameObject.Find("Player").GetComponent<PlayerController>().gemAmount -= 10;
@@ -55,7 +63,7 @@ public class DoorInteractionPad : MonoBehaviour
         
         if (canOpen && !specialDoorGem && !specialDoorScrap)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (player.GetButtonDown("Interaction"))
             {
                 doorClass.OpenDoor();
             }

@@ -44,7 +44,7 @@ public class DoorClass : MonoBehaviour
                     if (!isSpecialRoom)
                     {
                         ourRoom = Instantiate(roomGenerationManager.roomPrefabsEasy[Random.Range(0, roomGenerationManager.roomPrefabsEasy.Count)], roomPlaceTransform);
-                        // ourRoom.SetActive(false);
+                        ourRoom.SetActive(false);
                         // lower the room count
                         roomGenerationManager.roomCount--;
                     }
@@ -89,7 +89,7 @@ public class DoorClass : MonoBehaviour
     public void OpenDoor()
     {
         // activate all objects
-        // ourRoom.SetActive(true);
+        ourRoom.SetActive(true);
         // open our door
         openableDoor.SetActive(false);
     }
