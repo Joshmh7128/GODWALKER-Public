@@ -64,7 +64,6 @@ public class ChargerFlyingEnemy : EnemyClass
         newPos = transform.position;
 
         // make sure we can look at the player from the start to find them
-        canSeePlayer = true;
         canLookAtPlayer = true;
     }
 
@@ -83,7 +82,6 @@ public class ChargerFlyingEnemy : EnemyClass
         ourLine.positionCount = 2;
 
         lineLocked = false;
-        canSeePlayer = true;
         // set our line positions to show we area about to charge the player
         ourLine.SetPosition(1, player.transform.position);
         Vector3 targetpos;
@@ -109,7 +107,8 @@ public class ChargerFlyingEnemy : EnemyClass
         canLookAtPlayer = false;
         targetpos = new Vector3(player.transform.position.x, player.transform.position.y + 1.25f, player.transform.position.z);
         // charge at the single position of where we saw the player
-        currentSpeed = speed;
+        if (canSeePlayer)
+        { currentSpeed = speed; }
         animator.Play("Idle"); 
         newPos = targetpos;
         // hang in space for a few moments
