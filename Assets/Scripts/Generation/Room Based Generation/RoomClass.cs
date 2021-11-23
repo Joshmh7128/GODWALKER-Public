@@ -19,5 +19,6 @@ public class RoomClass : MonoBehaviour
                 GameObject.Find("Drop Pod").GetComponent<DroppodManager>().targetPosGroundNew = transform.position;
             }
         }
+
     }
 }
