@@ -286,6 +286,18 @@ public class PlayerController : MonoBehaviour
         // shoot bullets
         if (canFire)
         {
+            // check how much ammo we have, then determine how much damage we will deal based on it
+            // ammo amount is out of 150. We want to split this into thirds. 
+            // 100 to 150 = 3 dmg
+            if (ammoAmount > 100)
+            { pistolDamage = 3; }
+            // 50 to 100 = 2 dmg
+            if (ammoAmount > 50 && ammoAmount < 100)
+            { pistolDamage = 2; }
+            // 0 to 50 = 1 dmg
+            if (ammoAmount > 0 && ammoAmount < 50)
+            { pistolDamage = 1; }
+
             if (player.GetButton("Fire"))
             {
                 // which weapon are we using?
@@ -297,8 +309,8 @@ public class PlayerController : MonoBehaviour
                     pistolCosmeticModel.SetActive(true);
                     rifleCosmeticModel.SetActive(false);
                     rifleReticle.SetActive(false);
-                    // check ammo
-                    if (ammoAmount > 0 && shotCoolDown <= 0)
+                    // check cooldown
+                    if (shotCoolDown <= 0)
                     {
                         // check arm
                         if (rightArm == true)
