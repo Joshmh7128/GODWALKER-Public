@@ -210,6 +210,7 @@ public class ChargerFlyingEnemy : EnemyClass
                 ourLine.startColor = new Color(255, 0, 0, 0);
                 ourLine.endColor = new Color(255, 0, 0, 0);
                 canSeePlayer = false;
+                currentSpeed = 0;
             }
     
         }
