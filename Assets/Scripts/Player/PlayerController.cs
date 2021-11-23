@@ -512,7 +512,7 @@ public class PlayerController : MonoBehaviour
             // empty our artifacts
             UpgradeSingleton.DestroySingleton();
             // if we press space, emergency teleport back to base (load primer)
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 // display death canvas
                 deathCanvas.alpha = 0;
