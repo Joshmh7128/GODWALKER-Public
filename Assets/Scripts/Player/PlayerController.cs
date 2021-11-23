@@ -516,25 +516,21 @@ public class PlayerController : MonoBehaviour
             {
                 // display death canvas
                 deathCanvas.alpha = 0;
-                // drop all resources
-                mineralAmount = 0;
+                // reset all resources
                 gemAmount = 0;
-                bugPartAmount = 0;
                 ammoAmount = 0;
-                dropPodManager.mineralAmount = 0;
-                dropPodManager.gemAmount = 0;
-                dropPodManager.ammoAmount = 0;
-                dropPodManager.bugPartAmount = 0;
+                bugPartAmount = 0;
                 // fade out
                 fadeCanvas.alpha = 1;
                 // reset position
                 transform.position = new Vector3(0, 3.5f, 0);
+                /*
                 // reset drop pod position. everything else should be handled by the drop pod once it realized we are in the hub.
                 dropPodTransform.position = new Vector3(0, 0, 0);
                 // set droppod target position to 0 out
                 dropPodManager.ourPlatform.targetPos = new Vector3(0, 0, 0);
                 // make sure our droppod trips are reset
-                dropPodManager.remainingTrips = dropPodManager.maxTrips;
+                dropPodManager.remainingTrips = dropPodManager.maxTrips;*/
                 // let the player move
                 canMove = true;
                 cameraScript.canLook = true;
