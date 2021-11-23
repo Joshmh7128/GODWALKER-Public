@@ -554,6 +554,8 @@ public class PlayerController : MonoBehaviour
                 // unload the instance
                 UpgradeSingleton.DestroySingleton();
                 ClearArtifactInfoUI();
+                // make sure the player's position is reset on death
+                transform.position = new Vector3(0, 5, 0);
             }
 
             // clear artifacts
