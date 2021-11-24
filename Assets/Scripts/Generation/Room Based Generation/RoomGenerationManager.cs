@@ -11,6 +11,8 @@ public class RoomGenerationManager : GenerationManager
     public List<GameObject> roomPrefabsHard; // all the hard room prefabs we want to work with in this generation
     public List<GameObject> specialRoomPrefabs; // all the room prefabs we want to work with in this generation
     public GameObject hordeRoom; // the final room in the generation set
+    public GameObject minibossRoom; // the final room in the generation set
+    public GameObject bossRoom; // the final room in the generation set
     bool primeDeactivation; // have our rooms been deactivated at the start of the run?
 
     private void Start()

@@ -50,8 +50,10 @@ public class DoorClass : MonoBehaviour
             // set our doorID
             doorID = roomGenerationManager.doorClassList.FindIndex((DoorClass dc) => { return dc == this; });
 
-            // if we are in the first 3 rooms spawn an easy room
-            if (roomGenerationManager.roomCount >= 3)
+            // check our doorID to see what kind of room we should place
+
+            // if we are in the first 2 rooms spawn an easy room
+            if (doorID == 1 || doorID == 2)
             {
                 // randomly choose a room from our prefabs to spawn
                 if (ourRoom == null)
@@ -66,8 +68,25 @@ public class DoorClass : MonoBehaviour
                 }
             }
 
-            // if we are in the last 3 rooms spawn a hard room
-            if (roomGenerationManager.roomCount <= 3 && roomGenerationManager.roomCount != 0)
+            // if we are in room 3 spawn the miniboss
+            if (doorID == 3)
+            {
+                // randomly choose a room from our prefabs to spawn
+                if (ourRoom == null)
+                {
+                    if (!isSpecialRoom)
+                    {
+                        ourRoom = Instantiate(roomGenerationManager.minibossRoom);
+                        // ourRoom.SetActive(false);
+                        // lower the room count
+                        roomGenerationManager.roomCount--;
+                    }
+                }
+            }
+
+
+            // if we are in rooms 4 or 5 spawn a hard room
+            if (doorID == 4 || doorID == 5)
             {
                 // randomly choose a room from our prefabs to spawn
                 if (ourRoom == null)
@@ -82,8 +101,24 @@ public class DoorClass : MonoBehaviour
                 }
             }
 
-            // place the final room
-            if (roomGenerationManager.roomCount <= 0)
+            // place the horde room
+            if (doorID == 6)
+            {
+                // choose the final room to spawn
+                if (ourRoom == null)
+                {
+                    ourRoom = Instantiate(roomGenerationManager.hordeRoom, roomPlaceTransform);
+                    roomGenerationManager.roomCount--;
+                }
+
+                if (roomGenerationManager.roomCount < 0)
+                {
+                    finalRoomWarning.SetActive(true);
+                }
+            }           
+            
+            // place the boss room
+            if (doorID == 7)
             {
                 // choose the final room to spawn
                 if (ourRoom == null)
