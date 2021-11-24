@@ -11,6 +11,7 @@ public class DoorClass : MonoBehaviour
     [SerializeField] GameObject finalRoomWarning; // the warning that the final room is up ahead
     [SerializeField] bool enemiesClear; // have we killed all of the enemies?
     GameObject ourRoom;
+    [SerializeField] int doorID; // the id number of our odor
 
     private void Start()
     {
@@ -30,11 +31,17 @@ public class DoorClass : MonoBehaviour
         if (isSpecialRoom)
         {
             ourRoom = Instantiate(roomGenerationManager.specialRoomPrefabs[Random.Range(0, roomGenerationManager.specialRoomPrefabs.Count)], roomPlaceTransform);
-            ourRoom.SetActive(false);
+            // ourRoom.SetActive(false);
         }
 
         if (!isSpecialRoom)
         {
+            // set our doorID
+            doorID = roomGenerationManager.roomCount;
+
+            // add ourselves to the roomclass list
+            roomGenerationManager.doorClassList.Add(this);
+
             // if we are in the first 3 rooms spawn an easy room
             if (roomGenerationManager.roomCount >= 3)
             {
@@ -44,7 +51,7 @@ public class DoorClass : MonoBehaviour
                     if (!isSpecialRoom)
                     {
                         ourRoom = Instantiate(roomGenerationManager.roomPrefabsEasy[Random.Range(0, roomGenerationManager.roomPrefabsEasy.Count)], roomPlaceTransform);
-                        ourRoom.SetActive(false);
+                        // ourRoom.SetActive(false);
                         // lower the room count
                         roomGenerationManager.roomCount--;
                     }
@@ -73,7 +80,7 @@ public class DoorClass : MonoBehaviour
                 // choose the final room to spawn
                 if (ourRoom == null)
                 {
-                    ourRoom = Instantiate(roomGenerationManager.finalRoom, roomPlaceTransform);
+                    ourRoom = Instantiate(roomGenerationManager.hordeRoom, roomPlaceTransform);
                     roomGenerationManager.roomCount--;
                 }
 
@@ -83,6 +90,8 @@ public class DoorClass : MonoBehaviour
                 }
             }
         }
+
+        roomGenerationManager.DeactivateAllRooms();
     }
 
     // open the door
@@ -90,6 +99,8 @@ public class DoorClass : MonoBehaviour
     {
         // activate all objects
         ourRoom.SetActive(true);
+        // activate the next room
+        roomGenerationManager.doorClassList[doorID + 1].gameObject.SetActive(true);
         // open our door
         openableDoor.SetActive(false);
     }

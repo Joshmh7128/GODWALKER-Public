@@ -6,15 +6,29 @@ public class RoomGenerationManager : GenerationManager
 {
     //we will be using a system of rooms and doors to create our map
     public int roomCount; // how many rooms do we want in the map?
-    public List<RoomClass> roomClassList; // all the gameObjects of our rooms to be accessed
+    public List<DoorClass> doorClassList; // all the gameObjects of our doors to be accessed
     public List<GameObject> roomPrefabsEasy; // all the easy room prefabs we want to work with in this generation
     public List<GameObject> roomPrefabsHard; // all the hard room prefabs we want to work with in this generation
     public List<GameObject> specialRoomPrefabs; // all the room prefabs we want to work with in this generation
-    public GameObject finalRoom; // the final room in the generation set
+    public GameObject hordeRoom; // the final room in the generation set
 
     private void Start()
     {
         
+    }
+
+    public void DeactivateAllRooms()
+    {
+        // deactivate all the doorclass gameobjects
+        if (roomCount <= 0)
+        {
+            foreach (DoorClass doorClass in doorClassList)
+            {
+                doorClass.gameObject.SetActive(false);
+            }
+        }
+        // then activate the first one
+        doorClassList[0].gameObject.SetActive(true);
     }
 
     public override void MapGeneration()
