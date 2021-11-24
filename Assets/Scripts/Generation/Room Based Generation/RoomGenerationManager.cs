@@ -11,6 +11,7 @@ public class RoomGenerationManager : GenerationManager
     public List<GameObject> roomPrefabsHard; // all the hard room prefabs we want to work with in this generation
     public List<GameObject> specialRoomPrefabs; // all the room prefabs we want to work with in this generation
     public GameObject hordeRoom; // the final room in the generation set
+    bool primeDeactivation; // have our rooms been deactivated at the start of the run?
 
     private void Start()
     {
@@ -18,9 +19,9 @@ public class RoomGenerationManager : GenerationManager
     }
 
     public void DeactivateAllRooms()
-    {
+    { 
         // deactivate all the doorclass gameobjects
-        if (roomCount <= 0)
+        if (roomCount <= 0 && !primeDeactivation)
         {
             foreach (DoorClass doorClass in doorClassList)
             {
@@ -29,6 +30,8 @@ public class RoomGenerationManager : GenerationManager
         }
         // then activate the first one
         doorClassList[0].gameObject.SetActive(true);
+        // set prime deactivation to true
+        primeDeactivation = true;
     }
 
     public override void MapGeneration()

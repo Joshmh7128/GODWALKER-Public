@@ -31,16 +31,24 @@ public class DoorClass : MonoBehaviour
         if (isSpecialRoom)
         {
             ourRoom = Instantiate(roomGenerationManager.specialRoomPrefabs[Random.Range(0, roomGenerationManager.specialRoomPrefabs.Count)], roomPlaceTransform);
-            // ourRoom.SetActive(false);
+            ourRoom.SetActive(false);
         }
 
         if (!isSpecialRoom)
         {
-            // set our doorID
-            doorID = roomGenerationManager.roomCount;
+            if (roomGenerationManager)
+            {
+                // add ourselves to the roomclass list
+                roomGenerationManager.doorClassList.Add(this);
+            }
 
-            // add ourselves to the roomclass list
-            roomGenerationManager.doorClassList.Add(this);
+            if (!roomGenerationManager)
+            {
+                Debug.LogError("Room Generation Manager Not Found");
+            }
+
+            // set our doorID
+            doorID = roomGenerationManager.doorClassList.FindIndex((DoorClass dc) => { return dc == this; });
 
             // if we are in the first 3 rooms spawn an easy room
             if (roomGenerationManager.roomCount >= 3)
@@ -99,7 +107,7 @@ public class DoorClass : MonoBehaviour
     {
         // activate all objects
         ourRoom.SetActive(true);
-        // activate the next room
+        // activate the next door
         roomGenerationManager.doorClassList[doorID + 1].gameObject.SetActive(true);
         // open our door
         openableDoor.SetActive(false);
