@@ -86,6 +86,8 @@ public class DoorClass : MonoBehaviour
                         roomGenerationManager.roomCount--;
                     }
                 }
+
+                miniBossRoomWarning.SetActive(true);
             }
 
             // if we are in rooms 4 or 5 spawn a hard room
@@ -114,10 +116,7 @@ public class DoorClass : MonoBehaviour
                     roomGenerationManager.roomCount--;
                 }
 
-                if (roomGenerationManager.roomCount < 0)
-                {
-                    hordeRoomWarning.SetActive(true);
-                }
+                hordeRoomWarning.SetActive(true);
             }           
             
             // place the horde room
