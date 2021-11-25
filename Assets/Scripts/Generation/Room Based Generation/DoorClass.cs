@@ -8,10 +8,11 @@ public class DoorClass : MonoBehaviour
     [SerializeField] bool isSpecialRoom; // is this the door to a special room
     [SerializeField] Transform roomPlaceTransform; // were will the open door of the next room be?
     [SerializeField] GameObject openableDoor; // part of the door we can actually open
-    [SerializeField] GameObject finalRoomWarning; // the warning that the final room is up ahead
-    [SerializeField] bool enemiesClear; // have we killed all of the enemies?
+    [SerializeField] GameObject hordeRoomWarning, miniBossRoomWarning; // the warning that the final room is up ahead
+    [SerializeField] bool enemiesClear, fakeDoor; // have we killed all of the enemies?
     GameObject ourRoom;
     [SerializeField] int doorID; // the id number of our odor
+
 
     private void Start()
     {
@@ -21,8 +22,11 @@ public class DoorClass : MonoBehaviour
             roomGenerationManager = GameObject.Find("Generation Manager").GetComponent<RoomGenerationManager>();
         }
 
-        // place a room
-        PlaceRoom();
+        if (!fakeDoor)
+        {
+            // place a room
+            PlaceRoom();
+        }
     }
 
     // put a new room in the map
@@ -84,7 +88,6 @@ public class DoorClass : MonoBehaviour
                 }
             }
 
-
             // if we are in rooms 4 or 5 spawn a hard room
             if (doorID == 3 || doorID == 4)
             {
@@ -113,11 +116,11 @@ public class DoorClass : MonoBehaviour
 
                 if (roomGenerationManager.roomCount < 0)
                 {
-                    finalRoomWarning.SetActive(true);
+                    hordeRoomWarning.SetActive(true);
                 }
             }           
             
-            // place the boss room
+            // place the horde room
             if (doorID == 6)
             {
                 // choose the final room to spawn
@@ -129,7 +132,7 @@ public class DoorClass : MonoBehaviour
 
                 if (roomGenerationManager.roomCount < 0)
                 {
-                    finalRoomWarning.SetActive(true);
+                    hordeRoomWarning.SetActive(true);
                 }
             }
         }
@@ -141,7 +144,10 @@ public class DoorClass : MonoBehaviour
     public void OpenDoor()
     {
         // activate all objects
-        ourRoom.SetActive(true);
+        if (ourRoom != null)
+        {
+            ourRoom.SetActive(true);
+        }
         // activate the next door
         roomGenerationManager.doorClassList[doorID + 1].gameObject.SetActive(true);
         // open our door
