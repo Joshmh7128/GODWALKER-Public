@@ -81,6 +81,7 @@ public class DoorClass : MonoBehaviour
                     if (!isSpecialRoom)
                     {
                         ourRoom = Instantiate(roomGenerationManager.minibossRoom, roomPlaceTransform);
+
                         // ourRoom.SetActive(false);
                         // lower the room count
                         roomGenerationManager.roomCount--;
