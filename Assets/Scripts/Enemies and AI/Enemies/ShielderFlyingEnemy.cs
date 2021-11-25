@@ -271,15 +271,22 @@ public class ShielderFlyingEnemy : EnemyClass
         // make sure there are no empty things in our enemies
 
         // calculate our line renderer to make a path through all of our enemies
-        lineRenderer.positionCount = protectedEnemies.Count+1;
+        lineRenderer.positionCount = protectedEnemies.Count*2;
         // set our zeroth position
         lineRenderer.SetPosition(0, lineStart.position);
         // get the positions of our friends
+        int mod = 0; // how many positions forward do we have to go?
         foreach (Transform friendTransform in protectedEnemies)
         {
+            // make sure the position exists
             if (protectedEnemies[protectedEnemies.IndexOf(friendTransform)] != null)
             {
-                lineRenderer.SetPosition(protectedEnemies.IndexOf(friendTransform) + 1, friendTransform.position);
+                // take the enemy position and draw a line to it
+                lineRenderer.SetPosition(protectedEnemies.IndexOf(friendTransform) + 1 + mod, friendTransform.position);
+                // then draw a line back from it
+                lineRenderer.SetPosition(protectedEnemies.IndexOf(friendTransform) + 2 + mod, transform.position);
+                // make sure we adjust our mod so that we move forward a correct amount of spaces in the protected enemy array
+                mod++;
             }
             else
             {
