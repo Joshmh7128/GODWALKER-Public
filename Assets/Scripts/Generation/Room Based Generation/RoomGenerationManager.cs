@@ -15,11 +15,6 @@ public class RoomGenerationManager : GenerationManager
     public GameObject bossRoom; // the final room in the generation set
     bool primeDeactivation; // have our rooms been deactivated at the start of the run?
 
-    private void Start()
-    {
-        
-    }
-
     public void DeactivateAllRooms()
     { 
         // deactivate all the doorclass gameobjects

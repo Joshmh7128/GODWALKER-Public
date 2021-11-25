@@ -53,7 +53,7 @@ public class DoorClass : MonoBehaviour
             // check our doorID to see what kind of room we should place
 
             // if we are in the first 2 rooms spawn an easy room
-            if (doorID == 1 || doorID == 2)
+            if (doorID == 0 || doorID == 1)
             {
                 // randomly choose a room from our prefabs to spawn
                 if (ourRoom == null)
@@ -69,14 +69,14 @@ public class DoorClass : MonoBehaviour
             }
 
             // if we are in room 3 spawn the miniboss
-            if (doorID == 3)
+            if (doorID == 2)
             {
                 // randomly choose a room from our prefabs to spawn
                 if (ourRoom == null)
                 {
                     if (!isSpecialRoom)
                     {
-                        ourRoom = Instantiate(roomGenerationManager.minibossRoom);
+                        ourRoom = Instantiate(roomGenerationManager.minibossRoom, roomPlaceTransform);
                         // ourRoom.SetActive(false);
                         // lower the room count
                         roomGenerationManager.roomCount--;
@@ -86,7 +86,7 @@ public class DoorClass : MonoBehaviour
 
 
             // if we are in rooms 4 or 5 spawn a hard room
-            if (doorID == 4 || doorID == 5)
+            if (doorID == 3 || doorID == 4)
             {
                 // randomly choose a room from our prefabs to spawn
                 if (ourRoom == null)
@@ -102,7 +102,7 @@ public class DoorClass : MonoBehaviour
             }
 
             // place the horde room
-            if (doorID == 6)
+            if (doorID == 5)
             {
                 // choose the final room to spawn
                 if (ourRoom == null)
@@ -118,7 +118,7 @@ public class DoorClass : MonoBehaviour
             }           
             
             // place the boss room
-            if (doorID == 7)
+            if (doorID == 6)
             {
                 // choose the final room to spawn
                 if (ourRoom == null)
