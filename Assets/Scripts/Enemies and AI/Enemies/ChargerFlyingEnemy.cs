@@ -207,8 +207,8 @@ public class ChargerFlyingEnemy : EnemyClass
 
             if (hit.transform.tag != ("Player"))
             {
-                ourLine.startColor = new Color(255, 0, 0, 0);
-                ourLine.endColor = new Color(255, 0, 0, 0);
+                ourLine.startColor = new Color(0, 0, 0, 0);
+                ourLine.endColor = new Color(0, 0, 0, 0);
                 canSeePlayer = false;
             }
     
@@ -233,14 +233,6 @@ public class ChargerFlyingEnemy : EnemyClass
             ourLine.SetPosition(0, lineStart.position);
             ourLine.SetPosition(1, newPos);
         }
-        
-
-        // knockback reduction
-        if (knockDistance > 0)
-        {
-            knockDistance -= 2f;
-        }
-
     }
 
     // gizmos

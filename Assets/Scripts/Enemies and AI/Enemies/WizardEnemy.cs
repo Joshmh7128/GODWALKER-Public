@@ -19,6 +19,7 @@ public class WizardEnemy : EnemyClass
     [SerializeField] GameObject projectile; // our projectile prefab
     [SerializeField] GameObject cubePuffParticle, bugPartDrop; // our projectile prefab
     [SerializeField] WizardAnimAssistant wizardAnimAssistant;
+    int counter; // our off-frame counter
 
     // new movement collision detection variables
     [SerializeField] float xMove, yMove, zMove, bodySizeDiameter;
@@ -78,15 +79,23 @@ public class WizardEnemy : EnemyClass
 
     private void FixedUpdate()
     {
+        // count up our counter
+        counter++;
+
         // if we can see the player run our behaviour
         RaycastHit hit;
-        if (Physics.Linecast(transform.position, playerTransform.position, out hit))
+        if (counter >= 2)
         {
-            if (hit.transform.tag == ("Player"))
+            if (Physics.Linecast(transform.position, playerTransform.position, out hit))
             {
-                if (!runningBehaviour)
-                    StartCoroutine(WizardBehaviour());
+                if (hit.transform.tag == ("Player"))
+                {
+                    if (!runningBehaviour)
+                        StartCoroutine(WizardBehaviour());
+                }
             }
+
+            counter = 0;
         }
 
         // if we are at full health don't show the bar or text

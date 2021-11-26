@@ -29,6 +29,7 @@ public class ShielderFlyingEnemy : EnemyClass
     [SerializeField] List<Transform> protectedEnemies; // a list of our protected enemies
     [SerializeField] LineRenderer lineRenderer; // our line renderer
     [SerializeField] Transform lineStart; // the start of our line rendering
+    int counter; // our frame counter
 
     // new movement collision detection variables
     [SerializeField] float xMove, yMove, zMove, bodySizeDiameter;
@@ -243,56 +244,57 @@ public class ShielderFlyingEnemy : EnemyClass
         HPTextAmount.text = HP.ToString();
         HPslider.value = HP;
 
+        // count up our counter
+        counter++;
 
-        // is the player nearby us?
-        if (Vector3.Distance(transform.position, player.position) < activationDistance)
+        if (counter >= 2)
         {
-            if (!runningBehaviour)
-            // Debug.Log("Player is within range");
-            if (Physics.Linecast(raycastOrigin.position, player.position, out hit))
+            // is the player nearby us?
+            if (Vector3.Distance(transform.position, player.position) < activationDistance)
             {
-                if (hit.transform.tag == ("Player"))
+                if (!runningBehaviour)
+                    // Debug.Log("Player is within range");
+                    if (Physics.Linecast(raycastOrigin.position, player.position, out hit))
+                    {
+                        if (hit.transform.tag == ("Player"))
+                        {
+                            StartCoroutine("FlyingBehaviour");
+                        }
+                        else
+                        {
+                            // Debug.Log("No Hit. Tag: " + hit.transform.tag);
+                        }
+                    }
+            }
+
+            // calculate our line renderer to make a path through all of our enemies
+            lineRenderer.positionCount = (protectedEnemies.Count * 2) + 1; // add one for our singular overflow
+            // set our zeroth position
+            lineRenderer.SetPosition(0, lineStart.position);
+            // get the positions of our friends
+            int mod = 0; // how many positions forward do we have to go?
+            foreach (Transform friendTransform in protectedEnemies)
+            {
+                // make sure the position exists
+                if (protectedEnemies[protectedEnemies.IndexOf(friendTransform)] != null)
                 {
-                    StartCoroutine("FlyingBehaviour");
+                    // take the enemy position and draw a line to it
+                    lineRenderer.SetPosition(protectedEnemies.IndexOf(friendTransform) + 1 + mod, friendTransform.position);
+                    // then draw a line back from 
+                    lineRenderer.SetPosition(protectedEnemies.IndexOf(friendTransform) + 2 + mod, transform.position);
+                    // make sure we adjust our mod so that we move forward a correct amount of spaces in the protected enemy array
+                    mod++;
                 }
                 else
                 {
-                    // Debug.Log("No Hit. Tag: " + hit.transform.tag);
+                    lineRenderer.SetPosition(protectedEnemies.IndexOf(friendTransform) + 1, lineStart.position);
                 }
             }
+
+            counter = 0;
         }
 
-        // knockback reduction
-        if (knockDistance > 0)
-        {
-            knockDistance -= 2f;
-        }
-
-        // make sure there are no empty things in our enemies
-
-        // calculate our line renderer to make a path through all of our enemies
-        lineRenderer.positionCount = protectedEnemies.Count*2;
-        // set our zeroth position
-        lineRenderer.SetPosition(0, lineStart.position);
-        // get the positions of our friends
-        int mod = 0; // how many positions forward do we have to go?
-        foreach (Transform friendTransform in protectedEnemies)
-        {
-            // make sure the position exists
-            if (protectedEnemies[protectedEnemies.IndexOf(friendTransform)] != null)
-            {
-                // take the enemy position and draw a line to it
-                lineRenderer.SetPosition(protectedEnemies.IndexOf(friendTransform) + 1 + mod, friendTransform.position);
-                // then draw a line back from it
-                lineRenderer.SetPosition(protectedEnemies.IndexOf(friendTransform) + 2 + mod, transform.position);
-                // make sure we adjust our mod so that we move forward a correct amount of spaces in the protected enemy array
-                mod++;
-            }
-            else
-            {
-                lineRenderer.SetPosition(protectedEnemies.IndexOf(friendTransform) + 1, lineStart.position);
-            }
-        }
+        
 
     }
 

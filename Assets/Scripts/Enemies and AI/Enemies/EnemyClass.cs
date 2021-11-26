@@ -31,6 +31,6 @@ public abstract class EnemyClass : MonoBehaviour
         }
 
         // once we are added remove our parent
-        transform.parent = null;
+        // transform.parent = null;
     }
 }
