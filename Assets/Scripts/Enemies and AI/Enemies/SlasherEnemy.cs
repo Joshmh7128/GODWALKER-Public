@@ -42,8 +42,6 @@ public class SlasherEnemy : EnemyClass
 
     private void Update()
     {
-        // dampen our player position
-        dampenedPlayerPosition = Vector3.SmoothDamp(dampenedPlayerPosition, player.transform.position, ref velocity, 0.3f);
 
         // update our tracking of the player
         if (trackPlayer)
@@ -53,6 +51,8 @@ public class SlasherEnemy : EnemyClass
             targetLineRenderer.SetPosition(1, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
             // look at the player
             transform.LookAt(dampenedPlayerPosition);
+            // dampen our player position
+            dampenedPlayerPosition = Vector3.SmoothDamp(dampenedPlayerPosition, player.transform.position, ref velocity, 0.3f);
         }
 
         // move to our target position
