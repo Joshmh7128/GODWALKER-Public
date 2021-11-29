@@ -47,7 +47,7 @@ public class SlasherEnemy : EnemyClass
             // if we are tracking the player, update our player position and the end of our line
             targetLineRenderer.SetPosition(0, lineStartPosition.position);
             targetLineRenderer.SetPosition(1, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
-            // if we are tracking the player look at them
+            // look at the player
             transform.LookAt(player.transform);
         }
 
@@ -77,5 +77,23 @@ public class SlasherEnemy : EnemyClass
         hurtAnimator.Play("Hurt");
         // lower HP
         HP -= dmg;
+    }
+
+    // triggers dealing damage
+    private void OnTriggerEnter(Collider col)
+    {
+        // if this hits the player
+        if (col.CompareTag("Player"))
+        {
+            player.gameObject.GetComponent<PlayerController>().AddHP(-1);
+            Camera.main.GetComponent<CameraScript>().shakeDuration += 0.085f;
+        }
+
+        // if this hits a breakable
+        if (col.CompareTag("Breakable"))
+        {
+            // anything with the Breakable tag will be a chunk and have a BreakableBreak function
+            col.gameObject.GetComponent<BreakableChunk>().BreakableBreak();
+        }
     }
 }

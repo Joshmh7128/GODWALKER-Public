@@ -163,7 +163,6 @@ public class ChargerFlyingEnemy : EnemyClass
             // roomClass.enemyClasses.Remove(this);
             // destroy ourselves
             Destroy(gameObject);
-
         }
     }
 
