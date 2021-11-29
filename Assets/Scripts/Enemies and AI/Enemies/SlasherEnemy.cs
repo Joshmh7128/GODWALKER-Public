@@ -14,9 +14,10 @@ public class SlasherEnemy : EnemyClass
     [SerializeField] bool isActive, trackPlayer; // are we active yet?
     [SerializeField] enum targetStatePositions { none, center, player};
     [SerializeField] targetStatePositions targetStatePosition; // what is our taget position?
-    [SerializeField] Vector3 targetPosition, targetStatePositionCenter; // our target position of the player
+    [SerializeField] Vector3 targetPosition, targetStatePositionCenter, dampenedPlayerPosition; // our target position of the player
     [SerializeField] Transform lineStartPosition; // our line start position
     [SerializeField] GameObject player;
+    Vector3 velocity = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,9 @@ public class SlasherEnemy : EnemyClass
 
     private void Update()
     {
+        // dampen our player position
+        dampenedPlayerPosition = Vector3.SmoothDamp(dampenedPlayerPosition, player.transform.position, ref velocity, 0.3f);
+
         // update our tracking of the player
         if (trackPlayer)
         {
@@ -48,7 +52,7 @@ public class SlasherEnemy : EnemyClass
             targetLineRenderer.SetPosition(0, lineStartPosition.position);
             targetLineRenderer.SetPosition(1, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
             // look at the player
-            transform.LookAt(player.transform);
+            transform.LookAt(dampenedPlayerPosition);
         }
 
         // move to our target position
