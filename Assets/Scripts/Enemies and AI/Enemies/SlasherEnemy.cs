@@ -5,17 +5,25 @@ using UnityEngine;
 public class SlasherEnemy : EnemyClass
 {
     [SerializeField] float HP, maxHP; // our current and maximum hp
+    [SerializeField] float speed, currentSpeed; // our max and current speeds
     [SerializeField] Animator mainAnimator, hurtAnimator; // our animators
     [SerializeField] List<int> attackPattern; // our attack pattern
     [SerializeField] List<AnimationClip> animationClips; // our animation clips
     [SerializeField] List<string> animationClipStrings; // our animation clips
     [SerializeField] LineRenderer targetLineRenderer; // our target line renderers
-    bool isActive; // are we active yet?
-
+    [SerializeField] bool isActive, trackPlayer; // are we active yet?
+    [SerializeField] enum targetStatePositions { none, center, player};
+    [SerializeField] targetStatePositions targetStatePosition; // what is our taget position?
+    [SerializeField] Vector3 targetPosition, targetStatePositionCenter; // our target position of the player
+    [SerializeField] Transform lineStartPosition; // our line start position
+    [SerializeField] GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
+        // get our player if we can 
+        player = GameObject.Find("Player");
+        // start our attacks, only in testing do we start this in the start. We will trigger this in the bossfight via the boss chunk
         StartCoroutine(AttackCoroutine(attackPattern));
     }
 
@@ -24,9 +32,41 @@ public class SlasherEnemy : EnemyClass
         // do our attacks
         foreach (int i in attackPatterns)
         {
+            // play the attack
             mainAnimator.Play(animationClipStrings[i]);
+            // wait for the attack to finish
             yield return new WaitForSeconds(animationClips[i].length);
         }
+    }
+
+    private void Update()
+    {
+        // update our tracking of the player
+        if (trackPlayer)
+        {
+            // if we are tracking the player, update our player position and the end of our line
+            targetPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+            targetLineRenderer.SetPosition(0, lineStartPosition.position);
+            targetLineRenderer.SetPosition(1, targetPosition);
+        }
+
+        // move to our target position
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
+
+        // make sure we look at the player
+        transform.LookAt(player.transform);
+
+        // adjust our target position
+        if (targetStatePosition == targetStatePositions.center)
+        {
+            targetPosition = targetStatePositionCenter;
+        }
+
+        if (targetStatePosition == targetStatePositions.player)
+        {
+            targetPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+        }
+
     }
 
     // how we take damage
