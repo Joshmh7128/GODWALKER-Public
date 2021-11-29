@@ -5,7 +5,7 @@ using UnityEngine;
 public class SlasherEnemy : EnemyClass
 {
     [SerializeField] float HP, maxHP; // our current and maximum hp
-    [SerializeField] float speed, currentSpeed; // our max and current speeds
+    [SerializeField] float speed; // our max and current speeds
     [SerializeField] Animator mainAnimator, hurtAnimator; // our animators
     [SerializeField] List<int> attackPattern; // our attack pattern
     [SerializeField] List<AnimationClip> animationClips; // our animation clips
@@ -45,16 +45,17 @@ public class SlasherEnemy : EnemyClass
         if (trackPlayer)
         {
             // if we are tracking the player, update our player position and the end of our line
-            targetPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
             targetLineRenderer.SetPosition(0, lineStartPosition.position);
-            targetLineRenderer.SetPosition(1, targetPosition);
+            targetLineRenderer.SetPosition(1, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
+            // if we are tracking the player look at them
+            transform.LookAt(player.transform);
         }
 
         // move to our target position
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
         // make sure we look at the player
-        transform.LookAt(player.transform);
+        // transform.LookAt(player.transform);
 
         // adjust our target position
         if (targetStatePosition == targetStatePositions.center)
