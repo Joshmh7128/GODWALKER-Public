@@ -5,7 +5,7 @@ using UnityEngine;
 public class SlasherEnemy : EnemyClass
 {
     [SerializeField] float HP, maxHP; // our current and maximum hp
-    [SerializeField] float speed; // our max and current speeds
+    [SerializeField] float speed, shielderSpawnRadius; // our max and current speeds
     [SerializeField] Animator mainAnimator, hurtAnimator; // our animators
     [SerializeField] List<int> attackPattern; // our attack pattern
     [SerializeField] List<AnimationClip> animationClips; // our animation clips
@@ -16,8 +16,9 @@ public class SlasherEnemy : EnemyClass
     [SerializeField] enum targetStatePositions { none, center, player};
     [SerializeField] targetStatePositions targetStatePosition; // what is our taget position?
     [SerializeField] Vector3 targetPosition, targetStatePositionCenter, dampenedPlayerPosition; // our target position of the player
-    [SerializeField] Transform lineStartPosition; // our line start position
+    [SerializeField] Transform lineStartPosition, projectileLaunchPosition; // our line start position
     [SerializeField] GameObject player;
+    [SerializeField] GameObject projectile, shielder; // our projectile that we fire, the shielder enemy to support us
     Vector3 velocity = Vector3.zero;
 
     // Start is called before the first frame update
@@ -27,6 +28,8 @@ public class SlasherEnemy : EnemyClass
         player = GameObject.Find("Player");
         // start our attacks, only in testing do we start this in the start. We will trigger this in the bossfight via the boss chunk
         StartCoroutine(AttackCoroutine(attackPattern));
+        // set our target center position
+        targetStatePositionCenter = transform.position;
     }
 
     IEnumerator AttackCoroutine(List<int> attackPatterns)
@@ -81,6 +84,20 @@ public class SlasherEnemy : EnemyClass
         {
             canHurtCounter--;
         }
+    }
+
+    public void FireProjectile()
+    {
+        GameObject ourShot = Instantiate(projectile, projectileLaunchPosition.position, Quaternion.identity, null);
+        ourShot.GetComponent<EnemyBulletScript>().bulletTarget = player.transform;
+    }
+
+    public void CreateShielder()
+    {
+        GameObject ourShielderA = Instantiate(shielder, new Vector3(transform.position.x + 15, transform.position.y, transform.position.z), Quaternion.identity, null);
+        // ourShielderA.GetComponent<ShielderFlyingEnemy>().protectedEnemies
+        GameObject ourShielderB = Instantiate(shielder, new Vector3(transform.position.x - 15, transform.position.y, transform.position.z), Quaternion.identity, null);
+        GameObject ourShielderC = Instantiate(shielder, new Vector3(transform.position.x, transform.position.y, transform.position.z + 15), Quaternion.identity, null);
     }
 
     // how we take damage

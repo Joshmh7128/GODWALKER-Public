@@ -26,7 +26,7 @@ public class ShielderFlyingEnemy : EnemyClass
     [SerializeField] Material indicatorYellow;
     [SerializeField] Material indicatorRed;
     [SerializeField] List<Renderer> indicatorRenderers; // our list of renderers
-    [SerializeField] List<Transform> protectedEnemies; // a list of our protected enemies
+    public List<Transform> protectedEnemies; // a list of our protected enemies
     [SerializeField] LineRenderer lineRenderer; // our line renderer
     [SerializeField] Transform lineStart; // the start of our line rendering
     int counter; // our frame counter
@@ -269,8 +269,9 @@ public class ShielderFlyingEnemy : EnemyClass
 
             // calculate our line renderer to make a path through all of our enemies
             lineRenderer.positionCount = (protectedEnemies.Count * 2) + 1; // add one for our singular overflow
-            // set our zeroth position
+            // set our zeroth position and final position
             lineRenderer.SetPosition(0, lineStart.position);
+            lineRenderer.SetPosition((protectedEnemies.Count * 2) + 1, lineStart.position);
             // get the positions of our friends
             int mod = 0; // how many positions forward do we have to go?
             foreach (Transform friendTransform in protectedEnemies)
