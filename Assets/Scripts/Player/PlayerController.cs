@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text hpMaxText;            // our hp max in text
     [SerializeField] Text bugAmountText;        // bug amount text display
     [SerializeField] Text bugMaxText;           // bug amount text display
+    // hurt particle
+    [SerializeField] GameObject hurtParticle;   // the hurt particle prefab
     #endregion
     
     #region // Diegetic UI
@@ -114,11 +116,6 @@ public class PlayerController : MonoBehaviour
     float gravityValue;                        // real time simulated gravity
 
     #endregion
-
-    // interaction spot
-    public Transform interactionCameraPos;
-    public GameObject interactionMouse;
-    public bool canInteract;
 
     #region // Droppod variables
     // our drop pod
@@ -499,16 +496,6 @@ public class PlayerController : MonoBehaviour
             #endregion
         }
 
-        // can we interact?
-        if (canInteract)
-        {
-            if (player.GetButtonDown("SpacePress"))
-            {
-                cameraScript.transform.position = interactionCameraPos.position;
-                cameraScript.transform.rotation = interactionCameraPos.rotation;
-            }
-        }
-
         // lose condition
         if (playerHP <= 0)
         {
@@ -674,6 +661,9 @@ public class PlayerController : MonoBehaviour
         {
             // we took damage, set hurt canvas to 1
             hurtCanvas.alpha = 1;
+
+            // spawn in a particle effect on the player to show that they got hurt
+            Instantiate(hurtParticle, transform, true);
 
             // check for autoshield
 

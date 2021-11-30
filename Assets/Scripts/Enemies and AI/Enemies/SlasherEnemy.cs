@@ -12,6 +12,7 @@ public class SlasherEnemy : EnemyClass
     [SerializeField] List<string> animationClipStrings; // our animation clips
     [SerializeField] LineRenderer targetLineRenderer; // our target line renderers
     [SerializeField] bool isActive, trackPlayer; // are we active yet?
+    int canHurtCounter;
     [SerializeField] enum targetStatePositions { none, center, player};
     [SerializeField] targetStatePositions targetStatePosition; // what is our taget position?
     [SerializeField] Vector3 targetPosition, targetStatePositionCenter, dampenedPlayerPosition; // our target position of the player
@@ -74,6 +75,14 @@ public class SlasherEnemy : EnemyClass
 
     }
 
+    private void FixedUpdate()
+    {
+        if (canHurtCounter > 0)
+        {
+            canHurtCounter--;
+        }
+    }
+
     // how we take damage
     public override void TakeDamage(int dmg)
     {
@@ -89,14 +98,21 @@ public class SlasherEnemy : EnemyClass
         // if this hits the player
         if (col.CompareTag("Player"))
         {
-            player.gameObject.GetComponent<PlayerController>().AddHP(-1);
-            Camera.main.GetComponent<CameraScript>().shakeDuration += 0.085f;
+            if (canHurtCounter <= 0)
+            {
+                player.gameObject.GetComponent<PlayerController>().AddHP(-3);
+                Camera.main.GetComponent<CameraScript>().shakeDuration += 0.085f;
+                canHurtCounter += 10;
+            }
+            
         }
 
         // if this hits a breakable
         if (col.CompareTag("Breakable"))
         {
             // anything with the Breakable tag will be a chunk and have a BreakableBreak function
+            col.gameObject.GetComponent<BreakableChunk>().BreakableBreak();
+            col.gameObject.GetComponent<BreakableChunk>().BreakableBreak();
             col.gameObject.GetComponent<BreakableChunk>().BreakableBreak();
         }
     }
