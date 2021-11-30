@@ -32,6 +32,7 @@ public class SlasherEnemy : EnemyClass
         targetStatePositionCenter = transform.position;
     }
 
+    int coroutineCount;
     IEnumerator AttackCoroutine(List<int> attackPatterns)
     {
         // do our attacks
@@ -41,6 +42,15 @@ public class SlasherEnemy : EnemyClass
             mainAnimator.Play(animationClipStrings[i]);
             // wait for the attack to finish
             yield return new WaitForSeconds(animationClips[i].length);
+            // count
+            coroutineCount++;
+        }
+
+        // reset the count and start over
+        if (coroutineCount >= attackPatterns.Count)
+        {
+            coroutineCount = 0;
+            StartCoroutine(AttackCoroutine(attackPattern));
         }
     }
 
@@ -94,10 +104,12 @@ public class SlasherEnemy : EnemyClass
 
     public void CreateShielder()
     {
-        GameObject ourShielderA = Instantiate(shielder, new Vector3(transform.position.x + 15, transform.position.y, transform.position.z), Quaternion.identity, null);
-        // ourShielderA.GetComponent<ShielderFlyingEnemy>().protectedEnemies
-        GameObject ourShielderB = Instantiate(shielder, new Vector3(transform.position.x - 15, transform.position.y, transform.position.z), Quaternion.identity, null);
-        GameObject ourShielderC = Instantiate(shielder, new Vector3(transform.position.x, transform.position.y, transform.position.z + 15), Quaternion.identity, null);
+        GameObject ourShielderA = Instantiate(shielder, new Vector3(transform.position.x + 15, transform.position.y + 30, transform.position.z), Quaternion.identity, null);
+        ourShielderA.GetComponent<ShielderFlyingEnemy>().protectedEnemies.Add(gameObject.transform);
+        GameObject ourShielderB = Instantiate(shielder, new Vector3(transform.position.x - 15, transform.position.y + 30, transform.position.z), Quaternion.identity, null);
+        ourShielderB.GetComponent<ShielderFlyingEnemy>().protectedEnemies.Add(gameObject.transform);
+        GameObject ourShielderC = Instantiate(shielder, new Vector3(transform.position.x, transform.position.y + 30, transform.position.z + 15), Quaternion.identity, null);
+        ourShielderC.GetComponent<ShielderFlyingEnemy>().protectedEnemies.Add(gameObject.transform);
     }
 
     // how we take damage

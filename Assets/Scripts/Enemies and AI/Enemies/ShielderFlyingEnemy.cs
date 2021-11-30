@@ -239,7 +239,6 @@ public class ShielderFlyingEnemy : EnemyClass
             HPcanvasGroup.alpha = 1;
         }
 
-
         // update our text and bar
         HPTextAmount.text = HP.ToString();
         HPslider.value = HP;
@@ -271,7 +270,7 @@ public class ShielderFlyingEnemy : EnemyClass
             lineRenderer.positionCount = (protectedEnemies.Count * 2) + 1; // add one for our singular overflow
             // set our zeroth position and final position
             lineRenderer.SetPosition(0, lineStart.position);
-            lineRenderer.SetPosition((protectedEnemies.Count * 2) + 1, lineStart.position);
+            lineRenderer.SetPosition((protectedEnemies.Count * 2), lineStart.position);
             // get the positions of our friends
             int mod = 0; // how many positions forward do we have to go?
             foreach (Transform friendTransform in protectedEnemies)
@@ -294,9 +293,6 @@ public class ShielderFlyingEnemy : EnemyClass
 
             counter = 0;
         }
-
-        
-
     }
 
     // gizmos
