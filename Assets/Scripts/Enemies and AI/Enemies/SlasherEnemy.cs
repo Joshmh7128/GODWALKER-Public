@@ -104,7 +104,6 @@ public class SlasherEnemy : EnemyClass
                 Camera.main.GetComponent<CameraScript>().shakeDuration += 0.085f;
                 canHurtCounter += 10;
             }
-            
         }
 
         // if this hits a breakable
