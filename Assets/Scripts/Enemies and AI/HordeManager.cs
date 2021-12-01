@@ -11,7 +11,7 @@ public class HordeManager : MonoBehaviour
     {
         if (HordeEnemies.Count < 1)
         {
-            GameObject.Find("Player").GetComponent<PlayerController>().currentObjective.text = "Objective Complete. Return to Dropship.";
+            GameObject.Find("Player").GetComponent<PlayerController>().currentObjective.text = "Horde Vanquished. Prepare and continue to Boss.";
         }
 
         for(int i = 0; i < HordeEnemies.Count; i++)
