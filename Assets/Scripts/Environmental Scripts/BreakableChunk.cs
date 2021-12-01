@@ -29,7 +29,7 @@ public class BreakableChunk : MonoBehaviour
         // set our HP based on the amount we have out of our maximum
         ourRenderer.material.SetColor("_EmissionColor", ourColor);
 
-        if (hp <= 0)
+        if (hp < 0)
         {
             // choose a random amount of small chunks then spawn them in
             for (float i = 0; i < dropAmount; i++)
