@@ -126,13 +126,8 @@ public class DoorClass : MonoBehaviour
                 // choose the final room to spawn
                 if (ourRoom == null)
                 {
-                    ourRoom = Instantiate(roomGenerationManager.hordeRoom, roomPlaceTransform);
+                    ourRoom = Instantiate(roomGenerationManager.bossRoom, roomPlaceTransform);
                     roomGenerationManager.roomCount--;
-                }
-
-                if (roomGenerationManager.roomCount < 0)
-                {
-                    hordeRoomWarning.SetActive(true);
                 }
             }
         }

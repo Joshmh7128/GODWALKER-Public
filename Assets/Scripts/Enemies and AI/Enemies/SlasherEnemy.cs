@@ -7,7 +7,7 @@ public class SlasherEnemy : EnemyClass
     [SerializeField] float HP, maxHP; // our current and maximum hp
     [SerializeField] float speed, shielderSpawnRadius; // our max and current speeds
     [SerializeField] Animator mainAnimator, hurtAnimator; // our animators
-    [SerializeField] List<int> attackPattern; // our attack pattern
+    public List<int> attackPattern; // our attack pattern
     [SerializeField] List<AnimationClip> animationClips; // our animation clips
     [SerializeField] List<string> animationClipStrings; // our animation clips
     [SerializeField] LineRenderer targetLineRenderer; // our target line renderers
@@ -33,7 +33,7 @@ public class SlasherEnemy : EnemyClass
     }
 
     int coroutineCount;
-    IEnumerator AttackCoroutine(List<int> attackPatterns)
+    public IEnumerator AttackCoroutine(List<int> attackPatterns)
     {
         // do our attacks
         foreach (int i in attackPatterns)
@@ -56,7 +56,6 @@ public class SlasherEnemy : EnemyClass
 
     private void Update()
     {
-
         // update our tracking of the player
         if (trackPlayer)
         {

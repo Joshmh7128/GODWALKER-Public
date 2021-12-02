@@ -11,6 +11,9 @@ public class BreakableChunk : MonoBehaviour
     [SerializeField] float dropAmount; // color vars
     [SerializeField] GameObject smallChunk; // the same chunk but smaller that the player can pick up. large chunk breaks = small chunks fly out
     Color ourColor;
+    [SerializeField] bool isBossChunk; // is this is a boss chunk?
+    [SerializeField] SlasherEnemy slasherEnemy; // our boss
+
 
     private void Start()
     {
@@ -35,10 +38,19 @@ public class BreakableChunk : MonoBehaviour
             for (float i = 0; i < dropAmount; i++)
             {
                 Vector3 spawnpos = transform.position + new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), Random.Range(-3, 3));
-                Instantiate(smallChunk, spawnpos, Quaternion.Euler(new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), Random.Range(-3, 3))));
+                if (smallChunk)
+                {
+                    Instantiate(smallChunk, spawnpos, Quaternion.Euler(new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), Random.Range(-3, 3))));
+                }
             }
 
             Instantiate(breakEffect, transform.position, Quaternion.identity, null);
+            // start our boss
+            if (isBossChunk)
+            {
+                slasherEnemy.StartCoroutine(slasherEnemy.AttackCoroutine(slasherEnemy.attackPattern));
+            }
+
             Destroy(gameObject);
         }
     }
