@@ -138,17 +138,21 @@ public class DoorClass : MonoBehaviour
     // open the door
     public void OpenDoor()
     {
-        // activate all objects
-        if (ourRoom != null)
+
+        if (!fakeDoor)
         {
-            ourRoom.SetActive(true);
-        }
-        // activate the next door
-        if (doorID + 1 <= roomGenerationManager.doorClassList.Count)
-        {
-            if (roomGenerationManager.doorClassList[doorID + 1].gameObject)
+            // activate all objects
+            if (ourRoom != null)
             {
-                roomGenerationManager.doorClassList[doorID + 1].gameObject.SetActive(true);
+                ourRoom.SetActive(true);
+            }
+            // activate the next door
+            if (doorID + 1 <= roomGenerationManager.doorClassList.Count)
+            {
+                if (roomGenerationManager.doorClassList[doorID + 1].gameObject)
+                {
+                    roomGenerationManager.doorClassList[doorID + 1].gameObject.SetActive(true);
+                }
             }
         }
         // open our door
