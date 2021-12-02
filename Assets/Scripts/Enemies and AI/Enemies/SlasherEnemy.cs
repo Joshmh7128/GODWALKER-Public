@@ -86,6 +86,18 @@ public class SlasherEnemy : EnemyClass
             targetPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         }
 
+
+        // death
+        if (HP <= 0)
+        {
+            // make sure to communicate that we have died
+            UpgradeSingleton.OnEnemyKill();
+            // remove ourselves from the roomclass list
+            // roomClass.enemyClasses.Remove(this);
+            // destroy ourselves
+            Destroy(gameObject);
+        }
+
     }
 
     private void FixedUpdate()
@@ -94,6 +106,25 @@ public class SlasherEnemy : EnemyClass
         {
             canHurtCounter--;
         }
+
+        // setup our HP and values
+        HPslider.maxValue = maxHP;
+        HPslider.value = HP;
+        HPTextAmount.text = HP.ToString();
+        // if we are at full health don't show the bar or text
+        if (HP == maxHP)
+        {
+            HPcanvasGroup.alpha = 0;
+        }
+        else
+        {
+            HPcanvasGroup.alpha = 1;
+        }
+
+        // update our text and bar
+        HPTextAmount.text = HP.ToString();
+        HPslider.value = HP;
+
     }
 
     public void FireProjectile()
