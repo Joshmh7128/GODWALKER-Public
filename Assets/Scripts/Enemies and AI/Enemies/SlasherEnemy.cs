@@ -86,7 +86,6 @@ public class SlasherEnemy : EnemyClass
             targetPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         }
 
-
         // death
         if (HP <= 0)
         {
@@ -97,7 +96,6 @@ public class SlasherEnemy : EnemyClass
             // destroy ourselves
             Destroy(gameObject);
         }
-
     }
 
     private void FixedUpdate()
@@ -149,10 +147,11 @@ public class SlasherEnemy : EnemyClass
     // how we take damage
     public override void TakeDamage(int dmg)
     {
+        // lower HP
+        if (!invincible)
+        HP -= dmg;
         // play the hurt animation
         hurtAnimator.Play("Hurt");
-        // lower HP
-        HP -= dmg;
     }
 
     // triggers dealing damage
