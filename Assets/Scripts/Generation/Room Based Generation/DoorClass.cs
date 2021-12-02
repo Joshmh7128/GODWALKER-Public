@@ -138,7 +138,6 @@ public class DoorClass : MonoBehaviour
     // open the door
     public void OpenDoor()
     {
-
         if (!fakeDoor)
         {
             // activate all objects
@@ -147,9 +146,10 @@ public class DoorClass : MonoBehaviour
                 ourRoom.SetActive(true);
             }
             // activate the next door
-            if (doorID + 1 <= roomGenerationManager.doorClassList.Count)
+
+            if (doorID+1 < roomGenerationManager.doorClassList.Count)
             {
-                if (roomGenerationManager.doorClassList[doorID + 1].gameObject)
+                if (roomGenerationManager.doorClassList[doorID + 1].gameObject != null)
                 {
                     roomGenerationManager.doorClassList[doorID + 1].gameObject.SetActive(true);
                 }
