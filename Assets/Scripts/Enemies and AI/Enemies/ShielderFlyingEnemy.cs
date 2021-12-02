@@ -273,6 +273,7 @@ public class ShielderFlyingEnemy : EnemyClass
             lineRenderer.SetPosition((protectedEnemies.Count * 2), lineStart.position);
             // get the positions of our friends
             int mod = 0; // how many positions forward do we have to go?
+            // set positions and ensure that the shield is on if we are connected
             foreach (Transform friendTransform in protectedEnemies)
             {
                 // make sure the position exists

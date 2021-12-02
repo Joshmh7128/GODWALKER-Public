@@ -18,7 +18,7 @@ public class SlasherEnemy : EnemyClass
     [SerializeField] Vector3 targetPosition, targetStatePositionCenter, dampenedPlayerPosition; // our target position of the player
     [SerializeField] Transform lineStartPosition, projectileLaunchPosition; // our line start position
     [SerializeField] GameObject player;
-    [SerializeField] GameObject projectile, shielder; // our projectile that we fire, the shielder enemy to support us
+    [SerializeField] GameObject projectile, shielder, shield; // our projectile that we fire, the shielder enemy to support us
     Vector3 velocity = Vector3.zero;
 
     // Start is called before the first frame update
@@ -104,12 +104,15 @@ public class SlasherEnemy : EnemyClass
 
     public void CreateShielder()
     {
-        GameObject ourShielderA = Instantiate(shielder, new Vector3(transform.position.x + 15, transform.position.y + 30, transform.position.z), Quaternion.identity, null);
-        ourShielderA.GetComponent<ShielderFlyingEnemy>().protectedEnemies.Add(gameObject.transform);
-        GameObject ourShielderB = Instantiate(shielder, new Vector3(transform.position.x - 15, transform.position.y + 30, transform.position.z), Quaternion.identity, null);
-        ourShielderB.GetComponent<ShielderFlyingEnemy>().protectedEnemies.Add(gameObject.transform);
-        GameObject ourShielderC = Instantiate(shielder, new Vector3(transform.position.x, transform.position.y + 30, transform.position.z + 15), Quaternion.identity, null);
-        ourShielderC.GetComponent<ShielderFlyingEnemy>().protectedEnemies.Add(gameObject.transform);
+        if (!shield.activeInHierarchy)
+        {
+            GameObject ourShielderA = Instantiate(shielder, new Vector3(transform.position.x + 15, transform.position.y + 30, transform.position.z), Quaternion.identity, null);
+            ourShielderA.GetComponent<ShielderFlyingEnemy>().protectedEnemies.Add(gameObject.transform);
+            GameObject ourShielderB = Instantiate(shielder, new Vector3(transform.position.x - 15, transform.position.y + 30, transform.position.z), Quaternion.identity, null);
+            ourShielderB.GetComponent<ShielderFlyingEnemy>().protectedEnemies.Add(gameObject.transform);
+            GameObject ourShielderC = Instantiate(shielder, new Vector3(transform.position.x, transform.position.y + 30, transform.position.z + 15), Quaternion.identity, null);
+            ourShielderC.GetComponent<ShielderFlyingEnemy>().protectedEnemies.Add(gameObject.transform);
+        }
     }
 
     // how we take damage
