@@ -144,7 +144,13 @@ public class DoorClass : MonoBehaviour
             ourRoom.SetActive(true);
         }
         // activate the next door
-        roomGenerationManager.doorClassList[doorID + 1].gameObject.SetActive(true);
+        if (doorID + 1 <= roomGenerationManager.doorClassList.Count)
+        {
+            if (roomGenerationManager.doorClassList[doorID + 1].gameObject)
+            {
+                roomGenerationManager.doorClassList[doorID + 1].gameObject.SetActive(true);
+            }
+        }
         // open our door
         openableDoor.SetActive(false);
     }
