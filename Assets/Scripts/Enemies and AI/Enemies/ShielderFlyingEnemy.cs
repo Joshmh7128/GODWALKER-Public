@@ -285,6 +285,9 @@ public class ShielderFlyingEnemy : EnemyClass
                     lineRenderer.SetPosition(protectedEnemies.IndexOf(friendTransform) + 2 + mod, transform.position);
                     // make sure we adjust our mod so that we move forward a correct amount of spaces in the protected enemy array
                     mod++;
+                    // make sure to enable the shield
+                    friendTransform.Find("Shield").gameObject.SetActive(true);
+                    friendTransform.gameObject.GetComponent<EnemyClass>().invincible = true;
                 }
                 else
                 {
