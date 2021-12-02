@@ -27,7 +27,7 @@ public class SlasherEnemy : EnemyClass
         // get our player if we can 
         player = GameObject.Find("Player");
         // start our attacks, only in testing do we start this in the start. We will trigger this in the bossfight via the boss chunk
-        StartCoroutine(AttackCoroutine(attackPattern));
+        // StartCoroutine(AttackCoroutine(attackPattern));
         // set our target center position
         targetStatePositionCenter = transform.position;
     }
