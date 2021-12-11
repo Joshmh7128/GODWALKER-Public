@@ -90,6 +90,8 @@ public class SlasherEnemy : EnemyClass
         {
             // make sure to communicate that we have died
             UpgradeSingleton.OnEnemyKill();
+            // make sure we say we are victorious
+            UpgradeSingleton.Instance.player.victoryAchieved = true;
             // remove ourselves from the roomclass list
             // roomClass.enemyClasses.Remove(this);
             // destroy ourselves

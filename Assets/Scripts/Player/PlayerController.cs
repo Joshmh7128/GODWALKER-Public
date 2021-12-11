@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform treadsParent;    // the parent of our treads
     public bool canMove = true;
     public bool canFire = true;
+    public bool victoryAchieved = false;
 
     #endregion
 
@@ -77,7 +78,8 @@ public class PlayerController : MonoBehaviour
     // non-diegetic UI elements we're modifying
     [SerializeField] CanvasGroup hurtCanvas; // our hurt canvas
     [SerializeField] CanvasGroup deathCanvas; // our death canvas
-    [SerializeField] CanvasGroup fadeCanvas; // our death canvas
+    [SerializeField] CanvasGroup victoryCanvas; // our victory canvas
+    [SerializeField] CanvasGroup fadeCanvas; // our fade, loading canvas
     // artifact pickup UI elements
     [SerializeField] CanvasGroup popupCanvas; // our popup canvas
     [SerializeField] Text popupTitle; // our popup title
@@ -555,6 +557,32 @@ public class PlayerController : MonoBehaviour
         {
             // SceneManager.LoadScene("Main Menu");
         }
+
+        // check if we achieve victory
+        if (victoryAchieved)
+        {
+            canMove = false;
+            victoryCanvas.alpha = 1;
+            isInvincible = true;
+            if (SceneManager.GetActiveScene().name != "Hub" && Input.GetKeyDown(KeyCode.F))
+            {
+                transform.position = new Vector3(0, 5f, 0);
+                SceneManager.LoadScene("Hub");
+                canMove = true;
+                victoryCanvas.alpha = 0;
+            }
+
+            // if we have won and victory is true
+            /*
+            if (SceneManager.GetActiveScene().name == "Hub" && Input.GetKeyDown(KeyCode.F))
+            {
+                transform.position = new Vector3(0, 5f, 0);
+                SceneManager.LoadScene("RePrimer");
+                canMove = true;
+                victoryCanvas.alpha = 0;
+                victoryAchieved = false;
+            }*/
+        }
     }
 
     // fixed update is called once per frame
@@ -650,6 +678,8 @@ public class PlayerController : MonoBehaviour
         // our popup alpha change
         if (popupCanvas.alpha <= 1 && popupCanvas.alpha >= 0)
         { popupCanvas.alpha += popupAlphaChange; }
+
+
 
     }
 
