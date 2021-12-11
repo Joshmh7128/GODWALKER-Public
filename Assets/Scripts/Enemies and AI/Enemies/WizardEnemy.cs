@@ -65,13 +65,6 @@ public class WizardEnemy : EnemyClass
             if (runningBehaviour)
             { 
                 Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
-                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
-                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
-                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
-                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
-                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
-                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
-                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
             }
             // make sure to communicate that we have died
             UpgradeSingleton.OnEnemyKill();

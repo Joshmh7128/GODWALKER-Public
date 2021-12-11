@@ -575,9 +575,9 @@ public class PlayerController : MonoBehaviour
             if (SceneManager.GetActiveScene().name != "Hub" && Input.GetKeyDown(KeyCode.F))
             {
                 transform.position = new Vector3(0, 5f, 0);
-                SceneManager.LoadScene("Hub");
                 canMove = true;
                 victoryCanvas.alpha = 0;
+                SceneManager.LoadScene("Hub");
             }
 
             // if we have won and victory is true
