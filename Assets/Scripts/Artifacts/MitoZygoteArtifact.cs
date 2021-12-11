@@ -16,11 +16,11 @@ public class MitoZygoteArtifact : ArtifactClass
                 // our randomized int
                 int x = 0;
                 // determine our modifications based on our rarities
-                if (ourRarity == artifactRarities.Common) { UpgradeSingleton.Instance.mitoZygoteAddition = UpgradeSingleton.Instance.mitoZygoteAddition + (x = 2); }
-                if (ourRarity == artifactRarities.Uncommon) { UpgradeSingleton.Instance.mitoZygoteAddition = UpgradeSingleton.Instance.mitoZygoteAddition + (x = Random.Range(3, 5)); }
-                if (ourRarity == artifactRarities.Rare) { UpgradeSingleton.Instance.mitoZygoteAddition = UpgradeSingleton.Instance.mitoZygoteAddition + (x = Random.Range(5, 7)); }
+                if (ourRarity == artifactRarities.Common) { UpgradeSingleton.Instance.mitoZygoteAddition = UpgradeSingleton.Instance.mitoZygoteAddition + (x = 1); }
+                if (ourRarity == artifactRarities.Uncommon) { UpgradeSingleton.Instance.mitoZygoteAddition = UpgradeSingleton.Instance.mitoZygoteAddition + (x = Random.Range(2, 3)); }
+                if (ourRarity == artifactRarities.Rare) { UpgradeSingleton.Instance.mitoZygoteAddition = UpgradeSingleton.Instance.mitoZygoteAddition + (x = 4); }
                 artifactName = ourRarity.ToString() + " MitoZygote";
-                artifactInfo = "When you pick up Scrap gain a 1 HP shield for " + x + " seconds. Does not stack.";
+                artifactInfo = "When you pick up Scrap gain a 1 HP shield for " + x + " seconds. All values stack.";
                 // destroy ourselves
                 Pickup();
             }
