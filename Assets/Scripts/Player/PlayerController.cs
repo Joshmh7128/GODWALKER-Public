@@ -422,7 +422,9 @@ public class PlayerController : MonoBehaviour
         // COMMENTED OUT reload scene for dev purposes
         if (Input.GetKeyDown(KeyCode.F4))
         {
-            // SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+            // empty our artifacts
+            UpgradeSingleton.DestroySingleton();
+            SceneManager.LoadScene("Main Menu");
         }
 
         // tab press to show and update objective panel
