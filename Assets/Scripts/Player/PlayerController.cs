@@ -323,7 +323,10 @@ public class PlayerController : MonoBehaviour
                             bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
                             bullet.GetComponent<PlayerBulletScript>().bulletDamage = pistolDamage;
                             rightArm = false;
-                            ammoAmount--;
+                            if (ammoAmount > 0)
+                            {
+                                ammoAmount--;
+                            }
                             // screenshake
                             cameraScript.shakeDuration += 4f;
                             // shot cooldown
@@ -340,7 +343,10 @@ public class PlayerController : MonoBehaviour
                             bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
                             bullet.GetComponent<PlayerBulletScript>().bulletDamage = pistolDamage;
                             rightArm = true;
-                            ammoAmount--;
+                            if (ammoAmount > 0)
+                            {
+                                ammoAmount--;
+                            }
                             // screenshake
                             cameraScript.shakeDuration += 4f;
                             // shot cooldown

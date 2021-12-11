@@ -11,6 +11,7 @@ public class RoomClass : MonoBehaviour
     Transform playerTransform; // our player's transform
     int counter;
     [SerializeField] List<Renderer> renderers;
+    public bool isActiveRoom; // is this the active room?
          
     private void Start()
     {
@@ -35,23 +36,35 @@ public class RoomClass : MonoBehaviour
         // check distance every other frame
         if (counter >= 2f)
         {
-            if (Vector3.Distance(transform.position, playerTransform.position) > 1000f)
+            if (Vector3.Distance(transform.position, playerTransform.position) > 1400f)
             {
-                foreach (Renderer renderer in renderers)
-                {
-                    renderer.enabled = false;
-                }
+                gameObject.SetActive(false);
             }
 
-            if (Vector3.Distance(transform.position, playerTransform.position) > 1000f)
+            if (Vector3.Distance(transform.position, playerTransform.position) < 1400f)
             {
-                foreach (Renderer renderer in renderers)
-                {
-                    renderer.enabled = true;
-                }
+                gameObject.SetActive(true);
             }
 
             counter = 0;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // if the player enters
+        if (other.gameObject.tag == "Player")
+        {
+            isActiveRoom = true;
+        }
+    }    
+    
+    private void OnTriggerExit(Collider other)
+    {
+        // if the player enters
+        if (other.gameObject.tag == "Player")
+        {
+            isActiveRoom = false;
         }
     }
 }

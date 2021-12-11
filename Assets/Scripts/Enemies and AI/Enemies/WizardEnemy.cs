@@ -63,7 +63,16 @@ public class WizardEnemy : EnemyClass
             Instantiate(cubePuffParticle, transform.position, Quaternion.identity, null);
             // if we're attacking the player drop our item
             if (runningBehaviour)
-            { Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); }
+            { 
+                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
+                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
+                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
+                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
+                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
+                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
+                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
+                Instantiate(bugPartDrop, transform.position, Quaternion.identity, null); 
+            }
             // make sure to communicate that we have died
             UpgradeSingleton.OnEnemyKill();
             // remove ourselves from the roomclass list

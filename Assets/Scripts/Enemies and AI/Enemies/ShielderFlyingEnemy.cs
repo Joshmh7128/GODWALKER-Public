@@ -176,6 +176,7 @@ public class ShielderFlyingEnemy : EnemyClass
 
     public override void TakeDamage(int dmg)
     {
+        if (!invincible)
         // play the hurt animation
         hurtAnimator.Play("Hurt");
         // lower HP
