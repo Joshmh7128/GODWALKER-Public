@@ -50,12 +50,12 @@ public class DoorInteractionPad : MonoBehaviour
 
         if (canOpen && specialDoorScrap)
         {
-            if (GameObject.Find("Player").GetComponent<PlayerController>().bugPartAmount >= 10)
+            if (GameObject.Find("Player").GetComponent<PlayerController>().bugPartAmount >= 20)
             {
                 if (player.GetButtonDown("ActionE"))
                 {
                     doorClass.OpenDoor();
-                    GameObject.Find("Player").GetComponent<PlayerController>().bugPartAmount -= 10;
+                    GameObject.Find("Player").GetComponent<PlayerController>().bugPartAmount -= 20;
                 }
             }
         }        
