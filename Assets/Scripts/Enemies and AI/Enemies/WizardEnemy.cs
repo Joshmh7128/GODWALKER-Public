@@ -202,7 +202,10 @@ public class WizardEnemy : EnemyClass
     {
         // play the hurt animation
         hurtAnimator.Play("Hurt");
-        // lower HP
-        HP -= dmg;
+        // lower HP if not invincible
+        if (!invincible)
+        {
+            HP -= dmg;
+        }
     }
 }
