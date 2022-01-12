@@ -119,9 +119,10 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+
+
     #region // Droppod variables
     // our drop pod
-    [SerializeField] Transform dropPodTransform;
     [SerializeField] DroppodManager dropPodManager;
     #endregion
 
