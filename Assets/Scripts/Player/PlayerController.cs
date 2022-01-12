@@ -120,12 +120,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
-
-    #region // Droppod variables
-    // our drop pod
-    [SerializeField] DroppodManager dropPodManager;
-    #endregion
-
     #region // Weapon Management
     public enum weaponTypes
     {
@@ -203,7 +197,7 @@ public class PlayerController : MonoBehaviour
             // vertical velocity variable
             float verticalVelocity;
 
-            // rotate our treads
+            // rotate our treads (will be removed once humanoid animations are complete)
             Vector3 treadDirection = Vector3.RotateTowards(treadsParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
             treadsParent.rotation = Quaternion.LookRotation(treadDirection);
 
