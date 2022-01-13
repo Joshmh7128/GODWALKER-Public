@@ -119,6 +119,10 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region // Player animation
+    [SerializeField] Animator humanoidPlayerAnimator; // the animator that controls our human animations
+    #endregion
+
 
     #region // Weapon Management
     public enum weaponTypes
@@ -191,8 +195,10 @@ public class PlayerController : MonoBehaviour
         if (canMove)
         {
             // declare our motion
-            moveV = playerHead.forward * player.GetAxis("Vertical");
-            moveH = playerHead.right * player.GetAxis("Horizontal");
+            float pAxisV = player.GetAxis("Vertical");
+            float pAxisH = player.GetAxis("Horizontal");
+            moveV = playerHead.forward * pAxisV;
+            moveH = playerHead.right * pAxisH;
 
             // vertical velocity variable
             float verticalVelocity;
@@ -200,6 +206,32 @@ public class PlayerController : MonoBehaviour
             // rotate our treads (will be removed once humanoid animations are complete)
             Vector3 treadDirection = Vector3.RotateTowards(treadsParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
             treadsParent.rotation = Quaternion.LookRotation(treadDirection);
+
+            /// player animations
+
+            // if we are moving forward or backward
+            if (Mathf.Abs(pAxisV) > 0.1f)
+            { 
+                humanoidPlayerAnimator.SetLayerWeight(2, pAxisV * 0.8f);
+                humanoidPlayerAnimator.SetLayerWeight(3, -pAxisV * 0.8f);
+            }
+            else
+            {
+                humanoidPlayerAnimator.SetLayerWeight(2, 0);
+                humanoidPlayerAnimator.SetLayerWeight(3, 0);
+            }
+
+            // if we are moving right
+            if (Mathf.Abs(pAxisH) > 0.1f)
+            {
+                humanoidPlayerAnimator.SetLayerWeight(4, pAxisH * 0.8f);
+                humanoidPlayerAnimator.SetLayerWeight(5, -pAxisH * 0.8f);
+            }
+            else
+            {
+                humanoidPlayerAnimator.SetLayerWeight(4, 0);
+                humanoidPlayerAnimator.SetLayerWeight(5, 0);
+            }
 
             // gravity modifications
             if (characterController.isGrounded && !player.GetButton("SpacePress"))
