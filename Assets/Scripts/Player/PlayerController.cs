@@ -207,13 +207,23 @@ public class PlayerController : MonoBehaviour
             Vector3 treadDirection = Vector3.RotateTowards(treadsParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
             treadsParent.rotation = Quaternion.LookRotation(treadDirection);
 
-            /// player animations
+            // if we are moving
+            if ((Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f))
+            {
+                humanoidPlayerAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) * 1);
+            }
+            else
+            {
+                humanoidPlayerAnimator.SetLayerWeight(2, 0);
+            }
 
+            /// player animations
+            /*
             // if we are moving forward or backward
-            if (Mathf.Abs(pAxisV) > 0.1f)
+            if ((Mathf.Abs(pAxisV) > 0.1f) && (Mathf.Abs(pAxisH) < 0.1f))
             { 
-                humanoidPlayerAnimator.SetLayerWeight(2, pAxisV * 0.8f);
-                humanoidPlayerAnimator.SetLayerWeight(3, -pAxisV * 0.8f);
+                humanoidPlayerAnimator.SetLayerWeight(2, pAxisV * 1);
+                humanoidPlayerAnimator.SetLayerWeight(3, -pAxisV * 1);
             }
             else
             {
@@ -221,17 +231,17 @@ public class PlayerController : MonoBehaviour
                 humanoidPlayerAnimator.SetLayerWeight(3, 0);
             }
 
-            // if we are moving right
-            if (Mathf.Abs(pAxisH) > 0.1f)
+            // if we are moving right or left
+            if ((Mathf.Abs(pAxisH) > 0.1f) && (Mathf.Abs(pAxisV) > 0.1f))
             {
-                humanoidPlayerAnimator.SetLayerWeight(4, pAxisH * 0.8f);
-                humanoidPlayerAnimator.SetLayerWeight(5, -pAxisH * 0.8f);
+                humanoidPlayerAnimator.SetLayerWeight(4, pAxisH * 1);
+                humanoidPlayerAnimator.SetLayerWeight(5, -pAxisH * 1);
             }
             else
             {
                 humanoidPlayerAnimator.SetLayerWeight(4, 0);
                 humanoidPlayerAnimator.SetLayerWeight(5, 0);
-            }
+            }*/
 
             // gravity modifications
             if (characterController.isGrounded && !player.GetButton("SpacePress"))
