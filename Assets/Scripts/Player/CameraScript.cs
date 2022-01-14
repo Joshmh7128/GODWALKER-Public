@@ -100,11 +100,11 @@ public class CameraScript : MonoBehaviour
             headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
             bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);
             // access our line renderers
-            rightArmLine.SetPosition(0, rightArm.position);
-            rightArmLine.SetPosition(1, digeticAimTarget.position);
+            // rightArmLine.SetPosition(0, rightArm.position);
+            // rightArmLine.SetPosition(1, digeticAimTarget.position); // commented out due to removal of line renderers
 
-            leftArmLine.SetPosition(0, leftArm.position);
-            leftArmLine.SetPosition(1, digeticAimTarget.position);
+            // leftArmLine.SetPosition(0, leftArm.position);
+            // leftArmLine.SetPosition(1, digeticAimTarget.position); 
         }
 
         if (!canLook)

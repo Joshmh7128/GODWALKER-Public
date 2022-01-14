@@ -211,9 +211,11 @@ public class PlayerController : MonoBehaviour
             if ((Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f))
             {
                 humanoidPlayerAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) * 1);
+                humanoidPlayerAnimator.SetLayerWeight(1, 0);
             }
             else
             {
+                humanoidPlayerAnimator.SetLayerWeight(1, 1);
                 humanoidPlayerAnimator.SetLayerWeight(2, 0);
             }
 
