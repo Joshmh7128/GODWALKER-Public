@@ -121,6 +121,7 @@ public class PlayerController : MonoBehaviour
 
     #region // Player animation
     [SerializeField] Animator humanoidPlayerAnimator; // the animator that controls our human animations
+    [SerializeField] Animator humanoidIKTargetAnimator; // the animator that controls our hands
     #endregion
 
 
@@ -210,13 +211,35 @@ public class PlayerController : MonoBehaviour
             // if we are moving
             if ((Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f))
             {
-                humanoidPlayerAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) * 1);
-                humanoidPlayerAnimator.SetLayerWeight(1, 0);
+                if (humanoidPlayerAnimator != null)
+                {
+                    // leg animation weights
+                    humanoidPlayerAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) * 1); // running layer
+                    humanoidPlayerAnimator.SetLayerWeight(1, 0); // idle layer
+                }
+
+                if (humanoidIKTargetAnimator != null)
+                {
+                    // arm animation weights
+                    humanoidIKTargetAnimator.SetLayerWeight(1, 0); // idle layer
+                    humanoidIKTargetAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) * 1); // running layer
+                }
             }
             else
             {
-                humanoidPlayerAnimator.SetLayerWeight(1, 1);
-                humanoidPlayerAnimator.SetLayerWeight(2, 0);
+                if (humanoidPlayerAnimator != null)
+                {
+                    // leg animation weights
+                    humanoidPlayerAnimator.SetLayerWeight(1, 1); // idle layer
+                    humanoidPlayerAnimator.SetLayerWeight(2, 0); // running layer
+                }
+
+                if (humanoidIKTargetAnimator != null)
+                {
+                    // arm animation weights
+                    humanoidIKTargetAnimator.SetLayerWeight(1, 1); // idle layer
+                    humanoidIKTargetAnimator.SetLayerWeight(2, 0); // running layer
+                }
             }
 
             /// player animations
