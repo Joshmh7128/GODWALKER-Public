@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform playerHead;      // for which way we are facing
     [SerializeField] Transform rightGunTip;     // for firing shots
     [SerializeField] Transform leftGunTip;
-    [SerializeField] Transform diegeticAimTarget;
+    [SerializeField] Transform diegeticAimTarget; // moves to our aiming position
     [SerializeField] Transform treadYRotationParent; // used to make our treads slightly rock back and forth
     [SerializeField] bool rightArm = true;      // if true, shoot from right arm. if false, shoot from left arm. 
     public int ammoAmount;                      // how much ammo we currently have

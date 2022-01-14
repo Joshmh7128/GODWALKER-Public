@@ -30,6 +30,8 @@ public class CameraScript : MonoBehaviour
     [SerializeField] Transform cameraContainer; // container
     [SerializeField] bool moveTargetIsRight = true; // true = right, false = left, toggle with Z
     Transform camTransform;
+    RaycastHit hit; // our aiming raycast hit
+    Ray ray; // our aiming ray
 
     // visuals
     [SerializeField] LineRenderer rightArmLine;
@@ -116,12 +118,6 @@ public class CameraScript : MonoBehaviour
             rightArmLine.enabled = true;
             leftArmLine.enabled = true;
         }
-
-        // move our digetic aim target
-        if (canLook)
-        {
-            digeticAimTarget.position = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 100f));
-        }   
         
         // screenshake
         if (shakeDuration > 0 && canLook)
@@ -158,6 +154,25 @@ public class CameraScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        // move our digetic aim target
+        if (canLook)
+        {
+            ray.origin = transform.position;
+            ray.direction = transform.forward;
+            if (Physics.Raycast(ray, out hit))
+            {            
+                // do a raycast and then position the target
+                digeticAimTarget.position = hit.point;
+            }
+            else
+            {
+                // do a raycast and then position the target
+                digeticAimTarget.position = transform.forward*1000f;
+            }
+
+        }
+
         // check if we are in the hub
         if (SceneManager.GetActiveScene().name == "Hub")
         {

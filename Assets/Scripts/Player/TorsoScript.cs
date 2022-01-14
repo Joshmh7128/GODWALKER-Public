@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class TorsoScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] Transform targetTransform; // our target transform
 
     // Update is called once per frame
     void Update()
     {
-        
+        // make sure we are properly moved to our body
+        transform.position = targetTransform.position;
     }
 }
