@@ -68,8 +68,6 @@ public class IKControl : MonoBehaviour
                 leftFootGoalPos = leftFootObjGoal.position;
             }
         }
-
-
     }
 
     private void Update()
