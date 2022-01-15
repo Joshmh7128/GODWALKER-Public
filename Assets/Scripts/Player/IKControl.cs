@@ -22,8 +22,8 @@ public class IKControl : MonoBehaviour
     public Transform rightFootObjGoal = null; // the right foot goal 
     public Transform leftFootObjGoal = null; // the left foot goal
     [HeaderAttribute("Procedural Foot Placement Results")]
-    public Transform rightFootPointPos = null;
-    public Transform leftFootPointPos = null; // the positions which we get from firing rays down from to place our feet
+    public Transform rightFootResultPos = null;
+    public Transform leftFootResultPos = null; // the positions which we get from firing rays down from to place our feet
     Vector3 rightFootGoalPos, leftFootGoalPos; // additionals for lerp
 
     void Start()
@@ -39,12 +39,12 @@ public class IKControl : MonoBehaviour
             // our raycast's hit information
             RaycastHit hit;
             // fire a ray down from just above our foot, to see if we can place out walk posiiton
-            if (Physics.Raycast(rightFootObjGoal.position + new Vector3(0,1,0), Vector3.down, out hit))
+            if (Physics.Raycast(rightFootObjGoal.position + new Vector3(0,1,0), Vector3.down, out hit, 1f))
             {
                 // set our foot placement to where the raycast hits
                 rightFootGoalPos = hit.point;
             }
-            else if (!Physics.Raycast(rightFootObjGoal.position + new Vector3(0, 1, 0), Vector3.down))
+            else if (!Physics.Raycast(rightFootObjGoal.position + new Vector3(0, 1, 0), Vector3.down, 1f))
             {
                 // set our foot placement to where the raycast hits
                 rightFootGoalPos = rightFootObjGoal.position;
@@ -57,24 +57,29 @@ public class IKControl : MonoBehaviour
             // our raycast's hit information
             RaycastHit hit;
             // fire a ray down from just above our foot, to see if we can place out walk posiiton
-            if (Physics.Raycast(leftFootObjGoal.position + new Vector3(0,1,0), Vector3.down, out hit))
+            if (Physics.Raycast(leftFootObjGoal.position + new Vector3(0,1,0), Vector3.down, out hit, 1f))
             {
                 // set our foot placement to where the raycast hits
                 leftFootGoalPos = hit.point;
             }
-            else if (!Physics.Raycast(leftFootObjGoal.position + new Vector3(0, 1, 0), Vector3.down))
+            else if (!Physics.Raycast(leftFootObjGoal.position + new Vector3(0, 1, 0), Vector3.down, 1f))
             {
                 // set our foot placement to where the raycast hits
                 leftFootGoalPos = leftFootObjGoal.position;
             }
         }
 
+
+    }
+
+    private void Update()
+    {
         // lerp our feet to their goal positions
         if (rightFootObjGoal != null)
-        { rightFootPointPos.position = Vector3.Lerp(rightFootPointPos.position, rightFootGoalPos, Time.deltaTime * 20f); }
+        { rightFootResultPos.position = Vector3.Lerp(rightFootResultPos.position, rightFootGoalPos, Time.deltaTime * 20f); }
 
         if (leftFootObjGoal != null)
-        { leftFootPointPos.position = Vector3.Lerp(leftFootPointPos.position, leftFootGoalPos, Time.deltaTime * 20f); }
+        { leftFootResultPos.position = Vector3.Lerp(leftFootResultPos.position, leftFootGoalPos, Time.deltaTime * 20f); }
     }
 
     //a callback for calculating IK
@@ -129,18 +134,6 @@ public class IKControl : MonoBehaviour
                     animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftFootObj.rotation);
                 }              
             }
-        }
-    }
-
-    // debug gizmos drawing for testing
-    private void OnDrawGizmos()
-    {
-        if (rightFootPointPos != null)
-        {
-            Gizmos.DrawSphere(rightFootPointPos.position, 0.25f);
-            Gizmos.DrawSphere(leftFootPointPos.position, 0.25f);
-            Gizmos.DrawSphere(rightFootObjGoal.position + new Vector3(0, 1, 0), 0.25f);
-            Gizmos.DrawSphere(leftFootObjGoal.position + new Vector3(0, 1, 0), 0.25f);
         }
     }
 }

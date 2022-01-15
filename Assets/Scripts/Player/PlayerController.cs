@@ -120,8 +120,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region // Player animation
-    [SerializeField] Animator humanoidPlayerAnimator; // the animator that controls our human animations
-    [SerializeField] Animator humanoidIKTargetAnimator; // the animator that controls our hands
+    [SerializeField] Animator humanoidPlayerAnimator; // the animator that controls our human animations, mainly for the legs
+    [SerializeField] Animator humanoidHandTargetAnimator; // the animator that controls our hands
     [SerializeField] float kickIKReduction; // how quickly to reduce our IK kick
     float rightIKArmKickback, leftIKArmKickback; // the amount of kick time on each arm
     #endregion
@@ -220,11 +220,11 @@ public class PlayerController : MonoBehaviour
                     humanoidPlayerAnimator.SetLayerWeight(1, 0); // idle layer
                 }
 
-                if (humanoidIKTargetAnimator != null)
+                if (humanoidHandTargetAnimator != null)
                 {
                     // arm animation weights
-                    humanoidIKTargetAnimator.SetLayerWeight(1, 0); // idle layer
-                    humanoidIKTargetAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) * 1); // running layer
+                    humanoidHandTargetAnimator.SetLayerWeight(1, 0); // idle layer
+                    humanoidHandTargetAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) * 1); // running layer
                 }
             }
             else
@@ -236,47 +236,21 @@ public class PlayerController : MonoBehaviour
                     humanoidPlayerAnimator.SetLayerWeight(2, 0); // running layer
                 }
 
-                if (humanoidIKTargetAnimator != null)
+                if (humanoidHandTargetAnimator != null)
                 {
                     // arm animation weights
-                    humanoidIKTargetAnimator.SetLayerWeight(1, 1); // idle layer
-                    humanoidIKTargetAnimator.SetLayerWeight(2, 0); // running layer
+                    humanoidHandTargetAnimator.SetLayerWeight(1, 1); // idle layer
+                    humanoidHandTargetAnimator.SetLayerWeight(2, 0); // running layer
                 }
             }
-
-            /// player animations
-            /*
-            // if we are moving forward or backward
-            if ((Mathf.Abs(pAxisV) > 0.1f) && (Mathf.Abs(pAxisH) < 0.1f))
-            { 
-                humanoidPlayerAnimator.SetLayerWeight(2, pAxisV * 1);
-                humanoidPlayerAnimator.SetLayerWeight(3, -pAxisV * 1);
-            }
-            else
-            {
-                humanoidPlayerAnimator.SetLayerWeight(2, 0);
-                humanoidPlayerAnimator.SetLayerWeight(3, 0);
-            }
-
-            // if we are moving right or left
-            if ((Mathf.Abs(pAxisH) > 0.1f) && (Mathf.Abs(pAxisV) > 0.1f))
-            {
-                humanoidPlayerAnimator.SetLayerWeight(4, pAxisH * 1);
-                humanoidPlayerAnimator.SetLayerWeight(5, -pAxisH * 1);
-            }
-            else
-            {
-                humanoidPlayerAnimator.SetLayerWeight(4, 0);
-                humanoidPlayerAnimator.SetLayerWeight(5, 0);
-            }*/
 
             // gravity modifications
             if (characterController.isGrounded && !player.GetButton("SpacePress"))
             {
                 // jump falling
                 gravityValue = gravity * 100;
-                // move treads
-                treadYRotationParent.localRotation = Quaternion.Euler(new Vector3(0, 0, 0f));
+                // jump animation weight
+                humanoidPlayerAnimator.SetLayerWeight(6, 0);
             }
             else if (characterController.isGrounded && player.GetButton("SpacePress") && canJump)
             {
@@ -287,17 +261,15 @@ public class PlayerController : MonoBehaviour
             {
                 // normal falling
                 gravityValue = gravity * fallMultiplier;
-                // move treads
-                float forwardLean = -14;
-                treadYRotationParent.localRotation = Quaternion.Euler(new Vector3(forwardLean, 0, 0f));
+                // jump animation weight
+                humanoidPlayerAnimator.SetLayerWeight(6,1);
             } 
             else if (characterController.velocity.y > 0 && canJump)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
-                // move treads                
-                float forwardLean = 14;
-                treadYRotationParent.localRotation = Quaternion.Euler(new Vector3(forwardLean, 0,0f));
+                // jump animation weight
+                humanoidPlayerAnimator.SetLayerWeight(6, 1);
             }
 
             if (characterController.isGrounded && playerJumpVelocity < 0)
@@ -668,8 +640,8 @@ public class PlayerController : MonoBehaviour
     {
         // make sure our kick animations weights are counting down properly, so that when we fire the arms go back down
         rightIKArmKickback -= kickIKReduction; leftIKArmKickback -= kickIKReduction;
-        humanoidIKTargetAnimator.SetLayerWeight(3, rightIKArmKickback);
-        humanoidIKTargetAnimator.SetLayerWeight(4, leftIKArmKickback);
+        humanoidHandTargetAnimator.SetLayerWeight(3, rightIKArmKickback);
+        humanoidHandTargetAnimator.SetLayerWeight(4, leftIKArmKickback);
 
         // check if we are in the room generation scene, then stop showing the loading screen
         if (SceneManager.GetActiveScene().name == "Room Generation")
