@@ -122,6 +122,8 @@ public class PlayerController : MonoBehaviour
     #region // Player animation
     [SerializeField] Animator humanoidPlayerAnimator; // the animator that controls our human animations
     [SerializeField] Animator humanoidIKTargetAnimator; // the animator that controls our hands
+    [SerializeField] float kickIKReduction; // how quickly to reduce our IK kick
+    float rightIKArmKickback, leftIKArmKickback; // the amount of kick time on each arm
     #endregion
 
 
@@ -385,6 +387,9 @@ public class PlayerController : MonoBehaviour
                             bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
                             bullet.GetComponent<PlayerBulletScript>().bulletDamage = pistolDamage;
                             rightArm = false;
+                            // fire animation weight amount
+                            rightIKArmKickback = 1;
+                            // reduce ammo
                             if (ammoAmount > 0)
                             {
                                 ammoAmount--;
@@ -405,6 +410,9 @@ public class PlayerController : MonoBehaviour
                             bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
                             bullet.GetComponent<PlayerBulletScript>().bulletDamage = pistolDamage;
                             rightArm = true;
+                            // fire animation weight amount
+                            leftIKArmKickback = 1;
+                            // reduce ammo
                             if (ammoAmount > 0)
                             {
                                 ammoAmount--;
@@ -658,6 +666,11 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
+        // make sure our kick animations weights are counting down properly, so that when we fire the arms go back down
+        rightIKArmKickback -= kickIKReduction; leftIKArmKickback -= kickIKReduction;
+        humanoidIKTargetAnimator.SetLayerWeight(3, rightIKArmKickback);
+        humanoidIKTargetAnimator.SetLayerWeight(4, leftIKArmKickback);
+
         // check if we are in the room generation scene, then stop showing the loading screen
         if (SceneManager.GetActiveScene().name == "Room Generation")
         {
