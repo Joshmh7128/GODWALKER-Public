@@ -126,7 +126,6 @@ public class PlayerController : MonoBehaviour
     float rightIKArmKickback, leftIKArmKickback; // the amount of kick time on each arm
     #endregion
 
-
     #region // Weapon Management
     public enum weaponTypes
     {
@@ -262,14 +261,14 @@ public class PlayerController : MonoBehaviour
                 // normal falling
                 gravityValue = gravity * fallMultiplier;
                 // jump animation weight
-                humanoidPlayerAnimator.SetLayerWeight(6,1);
+                humanoidPlayerAnimator.SetLayerWeight(6, humanoidPlayerAnimator.GetLayerWeight(6) + 0.1f);
             } 
             else if (characterController.velocity.y > 0 && canJump)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
                 // jump animation weight
-                humanoidPlayerAnimator.SetLayerWeight(6, 1);
+                humanoidPlayerAnimator.SetLayerWeight(6, humanoidPlayerAnimator.GetLayerWeight(6) + 0.1f);
             }
 
             if (characterController.isGrounded && playerJumpVelocity < 0)
@@ -621,17 +620,6 @@ public class PlayerController : MonoBehaviour
                 victoryCanvas.alpha = 0;
                 SceneManager.LoadScene("Hub");
             }
-
-            // if we have won and victory is true
-            /*
-            if (SceneManager.GetActiveScene().name == "Hub" && Input.GetKeyDown(KeyCode.F))
-            {
-                transform.position = new Vector3(0, 5f, 0);
-                SceneManager.LoadScene("RePrimer");
-                canMove = true;
-                victoryCanvas.alpha = 0;
-                victoryAchieved = false;
-            }*/
         }
     }
 
@@ -695,9 +683,6 @@ public class PlayerController : MonoBehaviour
         mineralUpgradeCost = (int)Mathf.Round((mineralMax / 3) * 1.8f);
         ammoUpgradeCost = (int)Mathf.Round((ammoMax / 3) * 1.8f);
 
-        // can we decrease our objective alpha?
-        objectiveCanvas.alpha += objectiveAlphaChange;
-
         // decrease hurt alpha
         Mathf.Clamp(hurtCanvas.alpha, 0, 1);
         hurtCanvas.alpha += -0.1f;
@@ -733,9 +718,6 @@ public class PlayerController : MonoBehaviour
         // our popup alpha change
         if (popupCanvas.alpha <= 1 && popupCanvas.alpha >= 0)
         { popupCanvas.alpha += popupAlphaChange; }
-
-
-
     }
 
     // if we gain life, positive number, if we lose life, negative number
@@ -789,30 +771,6 @@ public class PlayerController : MonoBehaviour
         if (UpgradeSingleton.Instance.mitoZygoteDuration > 0)
         { UpgradeSingleton.Instance.mitoZygoteDuration--;  }
         mitoShieldCoroutineRunning = false;
-    }
-
-    public IEnumerator ObjectivePanelHandler(string customText)
-    {   // manage our objective related UI
-        objectiveCurrentMessage = customText;
-        // make in to its own local string so we can modify it in between messages if needed
-        // currentObjective.text = objectiveCurrentMessage;
-        tabIndicator.SetActive(false);
-        objectiveShowing = true;
-        objectiveAlphaChange = 0;
-        objectiveCanvas.alpha = 1;
-        yield return new WaitForSeconds(5f);
-        objectiveAlphaChange = -0.1f;
-        objectiveShowing = false;
-        // only show our tab indicator if we are back in the hub
-        if (SceneManager.GetActiveScene().name == "Hub")
-        {
-            tabIndicator.SetActive(true);
-        }
-    }
-
-    // update our objective UI
-    public void UpdateObjectiveUI()
-    {
     }
 
     // set our artifact info text
