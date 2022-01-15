@@ -6,17 +6,75 @@ using System.Collections;
 
 public class IKControl : MonoBehaviour
 {
+    // this script manages the IK functionality of humanoid models and can be used for multiple purposes
+    // these systems are designed to work with two different overlaping humanoids to create procedural animations
 
-    protected Animator animator;
+    protected Animator animator; // our humanoid animator
 
-    public bool ikActive = false;
-    public Transform rightHandObj = null;
-    public Transform leftHandObj = null;
-    public Transform lookObj = null;
+    public bool ikActive = false; // turn this on or off when needed
+    [HeaderAttribute("Use to directly affect Avatar/Controller on this object")]
+    public Transform rightHandObj = null; // the right hand target
+    public Transform leftHandObj = null; // the left hand target
+    public Transform rightFootObj = null; // the right foot target 
+    public Transform leftFootObj = null; // the left foot target
+    public Transform lookObj = null; // what we want our head to look at
+    [HeaderAttribute("Use on Kinematic Definer to Determine results")]
+    public Transform rightFootObjGoal = null; // the right foot goal 
+    public Transform leftFootObjGoal = null; // the left foot goal
+    [HeaderAttribute("Procedural Foot Placement Results")]
+    public Transform rightFootPointPos = null;
+    public Transform leftFootPointPos = null; // the positions which we get from firing rays down from to place our feet
+    Vector3 rightFootGoalPos, leftFootGoalPos; // additionals for lerp
 
     void Start()
     {
         animator = GetComponent<Animator>();
+    }
+
+    private void FixedUpdate()
+    {
+        // if our right foot is not null
+        if (rightFootObjGoal != null)
+        {
+            // our raycast's hit information
+            RaycastHit hit;
+            // fire a ray down from just above our foot, to see if we can place out walk posiiton
+            if (Physics.Raycast(rightFootObjGoal.position + new Vector3(0,1,0), Vector3.down, out hit))
+            {
+                // set our foot placement to where the raycast hits
+                rightFootGoalPos = hit.point;
+            }
+            else if (!Physics.Raycast(rightFootObjGoal.position + new Vector3(0, 1, 0), Vector3.down))
+            {
+                // set our foot placement to where the raycast hits
+                rightFootGoalPos = rightFootObjGoal.position;
+            }
+        }        
+        
+        // if our left foot is not null
+        if (leftFootObjGoal != null)
+        {
+            // our raycast's hit information
+            RaycastHit hit;
+            // fire a ray down from just above our foot, to see if we can place out walk posiiton
+            if (Physics.Raycast(leftFootObjGoal.position + new Vector3(0,1,0), Vector3.down, out hit))
+            {
+                // set our foot placement to where the raycast hits
+                leftFootGoalPos = hit.point;
+            }
+            else if (!Physics.Raycast(leftFootObjGoal.position + new Vector3(0, 1, 0), Vector3.down))
+            {
+                // set our foot placement to where the raycast hits
+                leftFootGoalPos = leftFootObjGoal.position;
+            }
+        }
+
+        // lerp our feet to their goal positions
+        if (rightFootObjGoal != null)
+        { rightFootPointPos.position = Vector3.Lerp(rightFootPointPos.position, rightFootGoalPos, Time.deltaTime * 20f); }
+
+        if (leftFootObjGoal != null)
+        { leftFootPointPos.position = Vector3.Lerp(leftFootPointPos.position, leftFootGoalPos, Time.deltaTime * 20f); }
     }
 
     //a callback for calculating IK
@@ -52,16 +110,37 @@ public class IKControl : MonoBehaviour
                     animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
                     animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandObj.position);
                     animator.SetIKRotation(AvatarIKGoal.LeftHand, leftHandObj.rotation);
+                }        
+                
+                // Set the right foot target position and rotation, if one has been assigned
+                if (rightFootObj != null)
+                {
+                    animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
+                    animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
+                    animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootObj.position);
+                    animator.SetIKRotation(AvatarIKGoal.RightFoot, rightFootObj.rotation);
+                }         
+                // Set the left foot target position and rotation, if one has been assigned
+                if (leftFootObj != null)
+                {
+                    animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
+                    animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
+                    animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootObj.position);
+                    animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftFootObj.rotation);
                 }              
             }
+        }
+    }
 
-            //if the IK is not active, set the position and rotation of the hand and head back to the original position
-            else
-            {
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
-                animator.SetLookAtWeight(0);
-            }
+    // debug gizmos drawing for testing
+    private void OnDrawGizmos()
+    {
+        if (rightFootPointPos != null)
+        {
+            Gizmos.DrawSphere(rightFootPointPos.position, 0.25f);
+            Gizmos.DrawSphere(leftFootPointPos.position, 0.25f);
+            Gizmos.DrawSphere(rightFootObjGoal.position + new Vector3(0, 1, 0), 0.25f);
+            Gizmos.DrawSphere(leftFootObjGoal.position + new Vector3(0, 1, 0), 0.25f);
         }
     }
 }
