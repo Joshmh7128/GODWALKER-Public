@@ -79,19 +79,7 @@ public class SmallChunkScript : MonoBehaviour
                     break;
 
                 case chunkTypes.mineral:
-                    // Debug.Log("player collision");
-                    if (playerController.mineralAmount < playerController.mineralMax)
-                    {
-                        // play a sound
-                        ourSource.clip = chunkClip;
-                        ourSource.Play();
-                        // do the rest
-                        playerController.mineralAmount++;
-                        playerController.cameraScript.shakeDuration += 0.06f;
-                        Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                        UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
-                        Destroy(gameObject);
-                    }
+                    // minerals were removed
                     break;
 
 
@@ -112,7 +100,7 @@ public class SmallChunkScript : MonoBehaviour
                     ourSource.clip = scrapClip;
                     ourSource.Play();
                     // do the rest
-                    playerController.bugPartAmount++;
+                    playerController.scrapAmount++;
                     playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
                     UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());

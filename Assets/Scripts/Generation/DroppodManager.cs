@@ -185,8 +185,7 @@ public class DroppodManager : MonoBehaviour
             playerController.ClearArtifactInfoUI();*/
             // unload the player
             playerController.gemAmount = 0;
-            playerController.mineralAmount = 0;
-            playerController.bugPartAmount = 0;
+            playerController.scrapAmount = 0;
             // reset remainingTrips
             remainingTrips = maxTrips;
             // wait until the hub has been loaded 

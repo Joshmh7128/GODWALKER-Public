@@ -134,7 +134,6 @@ public class HubLink : MonoBehaviour
                 // spend currency
                 hubManager.hubBugPartAmount -= hubManager.playerController.mineralUpgradeCost;
                 // increase it and decrease our bug parts from storage
-                hubManager.playerController.mineralMax = hubManager.playerController.mineralMax * 2;
             }
         }
 

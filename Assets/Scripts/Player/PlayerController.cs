@@ -23,14 +23,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform treadYRotationParent; // used to make our treads slightly rock back and forth
     [SerializeField] bool rightArm = true;      // if true, shoot from right arm. if false, shoot from left arm. 
     public int ammoAmount;                      // how much ammo we currently have
-    public int mineralAmount;                   // mineral amount
     public int gemAmount;                       // gem amount
     public int ammoMax;                         // how much ammo we can carry at one time
-    public int mineralMax;                      // mineral carry space
     public int gemMax;                          // gem carry space
     public int playerHP;                        // the player's health
     public int playerMaxHP;                     // the player's max health
-    public int bugPartAmount;                   // how many bug parts do we have?
+    public int scrapAmount;                   // how many bug parts do we have?
     public int gemUpgradeCost;
     public int mineralUpgradeCost;
     public int ammoUpgradeCost;
@@ -113,6 +111,7 @@ public class PlayerController : MonoBehaviour
     public bool canJump = true;
     [SerializeField] float jumpVelocity; // how fast can we jump
     [SerializeField] float fallMultiplier;  // how quicky we fall in addition to normal gravity
+    [SerializeField] float normalFallMultiplier;  // how quicky we fall in addition to normal gravity
     [SerializeField] float lowJumpMultiplier;  // how quicky we fall in addition to normal gravity
     [SerializeField] float playerJumpVelocity;  // how quicky we fall in addition to normal gravity
     float gravityValue;                        // real time simulated gravity
@@ -215,7 +214,7 @@ public class PlayerController : MonoBehaviour
                 if (humanoidPlayerAnimator != null)
                 {
                     // leg animation weights
-                    humanoidPlayerAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) * 1); // running layer
+                    humanoidPlayerAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH)); // running layer
                     humanoidPlayerAnimator.SetLayerWeight(1, 0); // idle layer
                 }
 
@@ -223,7 +222,7 @@ public class PlayerController : MonoBehaviour
                 {
                     // arm animation weights
                     humanoidHandTargetAnimator.SetLayerWeight(1, 0); // idle layer
-                    humanoidHandTargetAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) * 1); // running layer
+                    humanoidHandTargetAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) ); // running layer
                 }
             }
             else
@@ -244,12 +243,13 @@ public class PlayerController : MonoBehaviour
             }
 
             // gravity modifications
-            if (characterController.isGrounded && !player.GetButton("SpacePress"))
+            if (characterController.isGrounded && !player.GetButtonDown("SpacePress"))
             {
                 // jump falling
-                gravityValue = gravity * 100;
+                gravityValue = gravity*100;
                 // jump animation weight
                 humanoidPlayerAnimator.SetLayerWeight(6, 0);
+                humanoidHandTargetAnimator.SetLayerWeight(5, 0);
             }
             else if (characterController.isGrounded && player.GetButton("SpacePress") && canJump)
             {
@@ -262,6 +262,8 @@ public class PlayerController : MonoBehaviour
                 gravityValue = gravity * fallMultiplier;
                 // jump animation weight
                 humanoidPlayerAnimator.SetLayerWeight(6, humanoidPlayerAnimator.GetLayerWeight(6) + 0.1f);
+                // arm animation weights
+                humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
             } 
             else if (characterController.velocity.y > 0 && canJump)
             {
@@ -269,6 +271,8 @@ public class PlayerController : MonoBehaviour
                 gravityValue = gravity * lowJumpMultiplier;
                 // jump animation weight
                 humanoidPlayerAnimator.SetLayerWeight(6, humanoidPlayerAnimator.GetLayerWeight(6) + 0.1f);
+                // arm animation weights
+                humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f);
             }
 
             if (characterController.isGrounded && playerJumpVelocity < 0)
@@ -299,9 +303,6 @@ public class PlayerController : MonoBehaviour
         ammoAmountText.text = ammoAmount.ToString(); // in text
         ammoMaxText.text = ammoMax.ToString(); // in text
         ammoSlider.value = (float)ammoAmount / (float)ammoMax;        
-        // display our mineral amount
-        mineralAmountText.text = mineralAmount.ToString(); // in text
-        mineralMaxText.text = mineralMax.ToString(); // in text    
         // display our gem amount
         gemAmountText.text = gemAmount.ToString(); // in text
         gemMaxText.text = gemMax.ToString(); // in text
@@ -310,7 +311,7 @@ public class PlayerController : MonoBehaviour
         hpMaxText.text = playerMaxHP.ToString(); // in text
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
         // display our bug part amount
-        bugAmountText.text = bugPartAmount.ToString();
+        bugAmountText.text = scrapAmount.ToString();
         bugMaxText.text = "900";
         // modify our reticle ring
         if (currentWeapon == weaponTypes.Rifle)
@@ -565,7 +566,7 @@ public class PlayerController : MonoBehaviour
                 // reset all resources
                 gemAmount = 0;
                 ammoAmount = 0;
-                bugPartAmount = 0;
+                scrapAmount = 0;
                 // fade out
                 fadeCanvas.alpha = 1;
                 // reset position
@@ -680,7 +681,6 @@ public class PlayerController : MonoBehaviour
 
         // calculate our costs for upgrading storage
         gemUpgradeCost = (int)Mathf.Round((gemMax / 3) * 1.8f);
-        mineralUpgradeCost = (int)Mathf.Round((mineralMax / 3) * 1.8f);
         ammoUpgradeCost = (int)Mathf.Round((ammoMax / 3) * 1.8f);
 
         // decrease hurt alpha
