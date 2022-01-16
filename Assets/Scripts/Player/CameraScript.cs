@@ -33,12 +33,6 @@ public class CameraScript : MonoBehaviour
     RaycastHit hit; // our aiming raycast hit
     Ray ray; // our aiming ray
 
-    // visuals
-    [SerializeField] LineRenderer rightArmLine;
-    [SerializeField] Transform rightArm;
-    [SerializeField] LineRenderer leftArmLine;
-    [SerializeField] Transform leftArm;
-
     // ui fade canvas
     [SerializeField] CanvasGroup fadeCanvas;
 
@@ -100,23 +94,9 @@ public class CameraScript : MonoBehaviour
             headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
             bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);
             // access our line renderers
-            // rightArmLine.SetPosition(0, rightArm.position);
-            // rightArmLine.SetPosition(1, digeticAimTarget.position); // commented out due to removal of line renderers
 
             // leftArmLine.SetPosition(0, leftArm.position);
             // leftArmLine.SetPosition(1, digeticAimTarget.position); 
-        }
-
-        if (!canLook)
-        {
-            // make our lines invisible
-            rightArmLine.enabled = false;
-            leftArmLine.enabled = false;
-        } else if (canLook)
-        {
-            // make our lines visible
-            rightArmLine.enabled = true;
-            leftArmLine.enabled = true;
         }
         
         // screenshake

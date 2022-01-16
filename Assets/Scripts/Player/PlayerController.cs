@@ -176,7 +176,6 @@ public class PlayerController : MonoBehaviour
         if (currentWeapon == weaponTypes.Pistols)
         {
             // make sure we set the model properly
-            pistolCosmeticModel.SetActive(true);
             rifleCosmeticModel.SetActive(false);
             rifleReticle.SetActive(false);
         }        
@@ -341,7 +340,6 @@ public class PlayerController : MonoBehaviour
                 if (currentWeapon == weaponTypes.Pistols)
                 {
                     // make sure we set the model properly
-                    pistolCosmeticModel.SetActive(true);
                     rifleCosmeticModel.SetActive(false);
                     rifleReticle.SetActive(false);
                     // check cooldown
@@ -658,8 +656,6 @@ public class PlayerController : MonoBehaviour
         // set current weapon
         if (currentWeapon == weaponTypes.Pistols)
         {
-            // make sure we set the model properly
-            pistolCosmeticModel.SetActive(true);
             rifleCosmeticModel.SetActive(false);
             rifleReticle.SetActive(false);
         }
