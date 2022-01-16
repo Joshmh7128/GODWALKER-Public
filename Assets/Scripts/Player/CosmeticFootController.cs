@@ -15,8 +15,8 @@ public class CosmeticFootController : MonoBehaviour
         // if we are on the ground, use the ground for our X rotation and our hips for our Y rotation
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.5f))
         {
-            transform.LookAt(hit.normal);
-            lookTarget.position = hipTransform.forward * 2;
+            transform.LookAt(transform.position + hit.normal);
+            // lookTarget.position = hipTransform.forward * 2;
         }
     }
 

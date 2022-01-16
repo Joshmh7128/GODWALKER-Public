@@ -21,6 +21,7 @@ public class IKControl : MonoBehaviour
     [HeaderAttribute("Use on Kinematic Definer to Determine results")]
     public Transform rightFootObjGoal = null; // the right foot goal 
     public Transform leftFootObjGoal = null; // the left foot goal
+    public float groundCheckDistance; // the distance to check how far the ground is beneath us
     [HeaderAttribute("Procedural Foot Placement Results")]
     public Transform rightFootResultPos = null;
     public Transform leftFootResultPos = null; // the positions which we get from firing rays down from to place our feet
@@ -39,12 +40,12 @@ public class IKControl : MonoBehaviour
             // our raycast's hit information
             RaycastHit hit;
             // fire a ray down from just above our foot, to see if we can place out walk posiiton
-            if (Physics.Raycast(rightFootObjGoal.position + new Vector3(0,1,0), Vector3.down, out hit, 1f))
+            if (Physics.Raycast(rightFootObjGoal.position + new Vector3(0,1,0), Vector3.down, out hit, groundCheckDistance))
             {
                 // set our foot placement to where the raycast hits
                 rightFootGoalPos = hit.point;
             }
-            else if (!Physics.Raycast(rightFootObjGoal.position + new Vector3(0, 1, 0), Vector3.down, 1f))
+            else if (!Physics.Raycast(rightFootObjGoal.position + new Vector3(0, 1, 0), Vector3.down, groundCheckDistance))
             {
                 // set our foot placement to where the raycast hits
                 rightFootGoalPos = rightFootObjGoal.position;
@@ -57,12 +58,12 @@ public class IKControl : MonoBehaviour
             // our raycast's hit information
             RaycastHit hit;
             // fire a ray down from just above our foot, to see if we can place out walk posiiton
-            if (Physics.Raycast(leftFootObjGoal.position + new Vector3(0,1,0), Vector3.down, out hit, 1f))
+            if (Physics.Raycast(leftFootObjGoal.position + new Vector3(0,1,0), Vector3.down, out hit, groundCheckDistance))
             {
                 // set our foot placement to where the raycast hits
                 leftFootGoalPos = hit.point;
             }
-            else if (!Physics.Raycast(leftFootObjGoal.position + new Vector3(0, 1, 0), Vector3.down, 1f))
+            else if (!Physics.Raycast(leftFootObjGoal.position + new Vector3(0, 1, 0), Vector3.down, groundCheckDistance))
             {
                 // set our foot placement to where the raycast hits
                 leftFootGoalPos = leftFootObjGoal.position;
