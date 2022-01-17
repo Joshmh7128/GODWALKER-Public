@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text bugMaxText;           // bug amount text display
     // hurt particle
     [SerializeField] GameObject hurtParticle;   // the hurt particle prefab
+    [SerializeField] GameObject shootParticle;  // the shoot particle prefab
     #endregion
     
     #region // Diegetic UI
@@ -213,7 +214,7 @@ public class PlayerController : MonoBehaviour
                 if (humanoidPlayerAnimator != null)
                 {
                     // leg animation weights
-                    humanoidPlayerAnimator.SetLayerWeight(2, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))/2); // running layer
+                    humanoidPlayerAnimator.SetLayerWeight(2, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))); // running layer
                     humanoidPlayerAnimator.SetLayerWeight(1, 0); // idle layer
                 }
 
@@ -221,7 +222,7 @@ public class PlayerController : MonoBehaviour
                 {
                     // arm animation weights
                     // humanoidHandTargetAnimator.SetLayerWeight(1, 0); // idle layer
-                    humanoidHandTargetAnimator.SetLayerWeight(2, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH)) / 2); // running layer
+                    humanoidHandTargetAnimator.SetLayerWeight(2, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))); // running layer
                 }
             }
             else
@@ -352,13 +353,15 @@ public class PlayerController : MonoBehaviour
                             fireAudioSource.clip = pistolsFireAudioClip;
                             fireAudioSource.Play();
                             // spawn bullet
-                            GameObject bullet = Instantiate(playerBullet, rightGunTip.position, Quaternion.identity, null);
+                            GameObject bullet = Instantiate(playerBullet, rightGunTip.position, rightGunTip.rotation, null);
                             bullet.GetComponent<PlayerBulletScript>().bulletType = PlayerBulletScript.bulletTypes.Projectile;
                             bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
                             bullet.GetComponent<PlayerBulletScript>().bulletDamage = pistolDamage;
                             rightArm = false;
                             // fire animation weight amount
                             rightIKArmKickback = 1;
+                            // particle effect
+                            Instantiate(shootParticle, rightGunTip.position, rightGunTip.rotation, null);
                             // reduce ammo
                             if (ammoAmount > 0)
                             {
@@ -382,6 +385,8 @@ public class PlayerController : MonoBehaviour
                             rightArm = true;
                             // fire animation weight amount
                             leftIKArmKickback = 1;
+                            // particle effect
+                            Instantiate(shootParticle, leftGunTip.position, leftGunTip.rotation, null);
                             // reduce ammo
                             if (ammoAmount > 0)
                             {
