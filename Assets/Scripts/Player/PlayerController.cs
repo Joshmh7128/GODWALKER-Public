@@ -213,15 +213,15 @@ public class PlayerController : MonoBehaviour
                 if (humanoidPlayerAnimator != null)
                 {
                     // leg animation weights
-                    humanoidPlayerAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH)); // running layer
+                    humanoidPlayerAnimator.SetLayerWeight(2, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))/2); // running layer
                     humanoidPlayerAnimator.SetLayerWeight(1, 0); // idle layer
                 }
 
                 if (humanoidHandTargetAnimator != null)
                 {
                     // arm animation weights
-                    humanoidHandTargetAnimator.SetLayerWeight(1, 0); // idle layer
-                    humanoidHandTargetAnimator.SetLayerWeight(2, Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH) ); // running layer
+                    // humanoidHandTargetAnimator.SetLayerWeight(1, 0); // idle layer
+                    humanoidHandTargetAnimator.SetLayerWeight(2, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH)) / 2); // running layer
                 }
             }
             else
