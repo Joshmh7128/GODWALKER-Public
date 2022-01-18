@@ -29,6 +29,9 @@ Dynamic Bone component description:
 - Root
   The root of the transform hierarchy to apply physics.
 
+- Roots
+  Multiple roots are allowed. They all share the same parameters.
+
 - Update Rate
   Internal physics simulation rate, measures in frames per seconds.
 
@@ -73,6 +76,9 @@ Dynamic Bone component description:
 - Force
   The force apply to bones, in world space.
 
+- Blend Weight
+  Control how physics blends with existing animation.
+
 - Colliders
   Collider objects interact with the bones.
 
@@ -86,7 +92,6 @@ Dynamic Bone component description:
   Disable physics simulation automatically if character is far from camera or player.
   If there is no reference object, default main camera is used.
 
-
 Dynamic Bone Collider component description:
 
 - Center
@@ -97,6 +102,9 @@ Dynamic Bone Collider component description:
 
 - Height
   The height of the capsule, including two half-spheres, will be scaled by the transform's scale.
+
+- Radius 2
+  The other radius of the capsule. 0 means same as Radius.
 
 - Direction
   The axis of the capsule's height.
@@ -113,6 +121,8 @@ Dynamic Bone script reference:
 - public void UpdateParameters();
   Update parameters at runtime, call this funtion after modifing parameters.
 
+- public bool m_Multithread
+  Enable/disable multithread to improve physics simulation performace. Default is true.
 -------------------------------------------------------------------------
 Version History
 
@@ -141,3 +151,10 @@ Version History
 1.2.1 Add friction parameter.
       Update UNITY_5 to compatible with newer version.
 1.2.2 Add "Default" update mode, fix some jitter issue.
+1.3.0 Add "Roots" parameter to setup multiple root transforms.
+      Add "Blend Weight" parameter to control how physics blends with existing animation.
+      Collider add enable/disable check box.
+      Collider add "Radius 2" to setup capsules of two radii.      
+      Use multithread to improve physics simulation performance.
+      Parameters can be animated with Unity animation system.
+1.3.1 Fix "Gravity" bug in version 1.3.0

@@ -28,6 +28,16 @@ public class DynamicBoneColliderBase : MonoBehaviour
 #endif
     public Bound m_Bound = Bound.Outside;
 
+    public int PrepareFrame { set; get; }
+
+    public virtual void Start()
+    {        
+    }
+
+    public virtual void Prepare()
+    {
+    }
+
     public virtual bool Collide(ref Vector3 particlePosition, float particleRadius)
     {
         return false;
