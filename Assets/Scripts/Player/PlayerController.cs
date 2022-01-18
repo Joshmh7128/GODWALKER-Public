@@ -261,7 +261,7 @@ public class PlayerController : MonoBehaviour
                 // normal falling
                 gravityValue = gravity * fallMultiplier;
                 // jump animation weight
-                humanoidPlayerAnimator.SetLayerWeight(6, humanoidPlayerAnimator.GetLayerWeight(6) + 0.1f);
+                humanoidPlayerAnimator.SetLayerWeight(6, 1);
                 // arm animation weights
                 humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
             } 
@@ -270,7 +270,7 @@ public class PlayerController : MonoBehaviour
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
                 // jump animation weight
-                humanoidPlayerAnimator.SetLayerWeight(6, humanoidPlayerAnimator.GetLayerWeight(6) + 0.1f);
+                humanoidPlayerAnimator.SetLayerWeight(6, 1);
                 // arm animation weights
                 humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f);
             }
