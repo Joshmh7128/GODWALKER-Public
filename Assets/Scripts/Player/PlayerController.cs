@@ -229,6 +229,7 @@ public class PlayerController : MonoBehaviour
                 // neck animation weights
                 if (neckTargetAnimator != null)
                 {
+                    if (characterController.isGrounded)
                     neckTargetAnimator.SetLayerWeight(1, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))); // run layer
                 }
             }
@@ -277,6 +278,8 @@ public class PlayerController : MonoBehaviour
                 humanoidPlayerAnimator.SetLayerWeight(6, 1);
                 // arm animation weights
                 humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
+                // neck bob animation weight
+                neckTargetAnimator.SetLayerWeight(1,0); // run layer
             } 
             else if (characterController.velocity.y > 0 && canJump)
             {
@@ -286,12 +289,13 @@ public class PlayerController : MonoBehaviour
                 humanoidPlayerAnimator.SetLayerWeight(6, 1);
                 // arm animation weights
                 humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f);
+                // neck bob animation weight
+                neckTargetAnimator.SetLayerWeight(1, 0); // run layer
             }
 
             if (characterController.isGrounded && playerJumpVelocity < 0)
             {
                 playerJumpVelocity = 0f;
-
             }
 
             // jumping
