@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour
     #region // Player animation
     [SerializeField] Animator humanoidPlayerAnimator; // the animator that controls our human animations, mainly for the legs
     [SerializeField] Animator humanoidHandTargetAnimator; // the animator that controls our hands
+    [SerializeField] Animator neckTargetAnimator; // the animator that controls the height of our neck
     [SerializeField] float kickIKReduction; // how quickly to reduce our IK kick
     float rightIKArmKickback, leftIKArmKickback; // the amount of kick time on each arm
     #endregion
@@ -211,34 +212,46 @@ public class PlayerController : MonoBehaviour
             // if we are moving
             if ((Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f))
             {
+                // leg animation weights
                 if (humanoidPlayerAnimator != null)
                 {
-                    // leg animation weights
                     humanoidPlayerAnimator.SetLayerWeight(2, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))); // running layer
                     humanoidPlayerAnimator.SetLayerWeight(1, 0); // idle layer
                 }
 
+                // arm animation weights
                 if (humanoidHandTargetAnimator != null)
                 {
-                    // arm animation weights
                     // humanoidHandTargetAnimator.SetLayerWeight(1, 0); // idle layer
                     humanoidHandTargetAnimator.SetLayerWeight(2, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))); // running layer
+                }
+
+                // neck animation weights
+                if (neckTargetAnimator != null)
+                {
+                    neckTargetAnimator.SetLayerWeight(1, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))); // run layer
                 }
             }
             else
             {
+                // leg animation weights
                 if (humanoidPlayerAnimator != null)
                 {
-                    // leg animation weights
                     humanoidPlayerAnimator.SetLayerWeight(1, 1); // idle layer
                     humanoidPlayerAnimator.SetLayerWeight(2, 0); // running layer
                 }
 
+                // arm animation weights
                 if (humanoidHandTargetAnimator != null)
                 {
-                    // arm animation weights
                     humanoidHandTargetAnimator.SetLayerWeight(1, 1); // idle layer
                     humanoidHandTargetAnimator.SetLayerWeight(2, 0); // running layer
+                }
+
+                // neck animation weights
+                if (neckTargetAnimator != null)
+                {
+                    neckTargetAnimator.SetLayerWeight(1, 0); // run layer
                 }
             }
 
