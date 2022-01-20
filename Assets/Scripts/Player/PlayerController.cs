@@ -136,10 +136,7 @@ public class PlayerController : MonoBehaviour
     [Header("Weapons")]
     public weaponTypes currentWeapon; // what is our current weapon?
     [SerializeField] GameObject pistolCosmeticModel; // pistol cosmetic
-    [SerializeField] GameObject rifleCosmeticModel; // rifle cosmetic
-    [SerializeField] GameObject rifleReticle; // reticle associated with the rifle
-    [SerializeField] GameObject rifleReticleRing; // reticle ring associated with the rifle
-    [SerializeField] Transform rifleTip; // where our shots originate
+    [SerializeField] GameObject reticleRing; // reticle ring associated with the rifle
     [SerializeField] GameObject cubePuff; // our bullet cube particle effect
     [SerializeField] GameObject rifleMuzzleFlash; // the rifle muzzle flash
     public float shotCoolDown; // the amount of time until we can fire again
@@ -180,21 +177,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         player = ReInput.players.GetPlayer(0);
-
-        if (currentWeapon == weaponTypes.Pistols)
-        {
-            // make sure we set the model properly
-            rifleCosmeticModel.SetActive(false);
-            rifleReticle.SetActive(false);
-        }        
-        
-        if (currentWeapon == weaponTypes.Rifle)
-        {
-            // make sure we set the model properly
-            pistolCosmeticModel.SetActive(false);
-            rifleCosmeticModel.SetActive(true);
-            rifleReticle.SetActive(true);
-        }
     }
 
     // Update is called once per frame
@@ -338,12 +320,10 @@ public class PlayerController : MonoBehaviour
         // display our bug part amount
         scrapAmountText.text = scrapAmount.ToString();
         // modify our reticle ring
-        rifleReticleRing.transform.localScale = new Vector3(shotCoolDown, shotCoolDown, shotCoolDown);
+        reticleRing.transform.localScale = new Vector3(Mathf.Lerp(0,1f,shotCoolDown / 10f), Mathf.Lerp(0, 1f, shotCoolDown / 10f), Mathf.Lerp(0, 1f, shotCoolDown / 10f));
 
-        /// 
         /// lets calculate our reload ammunition display for our pistols
         /// for this we are going to want to place the total mag size to the left of our reticle
-        /// 
 
 
         #endregion
@@ -371,9 +351,6 @@ public class PlayerController : MonoBehaviour
                 // pistols
                 if (currentWeapon == weaponTypes.Pistols)
                 {
-                    // make sure we set the model properly
-                    rifleCosmeticModel.SetActive(false);
-                    rifleReticle.SetActive(false);
                     // check cooldown, and make sure we have a bullet in our magazine
                     if (shotCoolDown <= 0 && pistolMagFill > 0)
                     {
@@ -455,74 +432,6 @@ public class PlayerController : MonoBehaviour
                     { pistolMagFill = pistolMagSize; }
                 }
 
-                // rifle
-                if (currentWeapon == weaponTypes.Rifle)
-                {
-                    // rifle is a hitscan weapon with a slower fire rate
-                    pistolCosmeticModel.SetActive(false);
-                    rifleCosmeticModel.SetActive(true);
-                    rifleReticle.SetActive(true);
-                    // check ammo
-                    if (ammoAmount > 0 && shotCoolDown <= 0)
-                    {
-                        // set the sound of our source
-                        fireAudioSource.clip = rifleFireAudioClip;
-                        fireAudioSource.Play();
-                        // shot cooldown
-                        shotCoolDown = 15f;
-                        // spawn bullet
-                        RaycastHit hit = cameraScript.rifleTargetHit;
-                        if (hit.transform != null)
-                        {
-
-                            // use ammo
-                            ammoAmount--;
-                            if (hit.transform.CompareTag("Breakable"))
-                            {
-                                // anything with the Breakable tag will be a chunk and have a BreakableBreak function
-                                hit.transform.gameObject.GetComponent<BreakableChunk>().BreakableBreak();
-                                Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                                // screenshake
-                                cameraScript.shakeDuration += 0.08f;
-                                // muzzle flash effect
-                                rifleMuzzleFlash.SetActive(true);
-                                rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-                            }
-
-                            if (hit.transform.CompareTag("Environment"))
-                            {
-                                Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                                // screenshake
-                                cameraScript.shakeDuration += 0.08f;
-                                // muzzle flash effect
-                                rifleMuzzleFlash.SetActive(true);
-                                rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-                            }
-
-                            if (hit.transform.CompareTag("Enemy"))
-                            {
-                                hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage((int)rifleDamage);
-                                Instantiate(cubePuff, hit.point, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                                // screenshake
-                                cameraScript.shakeDuration += 0.08f;
-                                // muzzle flash effect
-                                rifleMuzzleFlash.SetActive(true);
-                                rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-                            }
-                        }
-                        else // if we do not hit anything
-                        {
-                            // use ammo
-                            ammoAmount--;
-                            // screenshake
-                            cameraScript.shakeDuration += 0.08f;
-                            // muzzle flash effect
-                            rifleMuzzleFlash.SetActive(true);
-                            rifleMuzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-                        }
-                    }
-               
-                }
             }
         }
         #endregion
