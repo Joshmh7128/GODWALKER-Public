@@ -11,6 +11,7 @@ public class GunRotateScript : MonoBehaviour
     {
         if (Camera.main.gameObject.GetComponent<CameraScript>().canLook)
         // aim the gun
+        if (aimTarget != null)
         transform.LookAt(aimTarget.position);
     }
 }

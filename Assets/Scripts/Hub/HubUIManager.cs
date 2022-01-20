@@ -78,11 +78,6 @@ public class HubUIManager : MonoBehaviour
     // Update runs every frame
     private void Update()
     {
-        // what is our hub manager
-        if (hubManager == null)
-        {
-            hubManager = GameObject.Find("Hub Manager").GetComponent<HubManager>();
-        }
 
         
     }
