@@ -39,7 +39,7 @@ public class CameraScript : MonoBehaviour
     // How long the object should shake for.
     public float shakeDuration;
     // Amplitude of the shake. A larger value shakes the camera harder.
-    public float shakeAmount; // can be set in editor
+    public float shakeAmount, shakeDelta; // can be set in editor
     public float decreaseFactor; 
 
     Vector3 originalPos;
@@ -75,9 +75,6 @@ public class CameraScript : MonoBehaviour
         // perform a raycast from the center of the camera to the screen to world point of it's center
         Physics.Raycast(transform.position, transform.forward, out rifleTargetHit, Mathf.Infinity);
 
-        // clamp our shake
-        // Mathf.Clamp(shakeDuration, 0, 5f);
-
         if (canLook)
         {
             currentSensitivity = aimSensitivity + sensitivityChange;
@@ -99,17 +96,7 @@ public class CameraScript : MonoBehaviour
             // leftArmLine.SetPosition(1, digeticAimTarget.position); 
         }
         
-        // screenshake
-        if (shakeDuration > 0 && canLook)
-        {
-            camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
-            shakeDuration -=  decreaseFactor;
-        }
-        else
-        {
-            shakeDuration = 0f;
-            camTransform.localPosition = originalPos;
-        }
+       
 
         // toggle which side our camera is on
         if (Input.GetKeyDown(KeyCode.Z))
@@ -134,25 +121,6 @@ public class CameraScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-        // move our digetic aim target
-        if (canLook)
-        {
-            ray.origin = transform.position;
-            ray.direction = transform.forward;
-            if (Physics.Raycast(ray, out hit))
-            {            
-                // do a raycast and then position the target
-                digeticAimTarget.position = hit.point;
-            }
-            else
-            {
-                // do a raycast and then position the target
-                digeticAimTarget.position = transform.forward*1000f;
-            }
-
-        }
-
         // check if we are in the hub
         if (SceneManager.GetActiveScene().name == "Hub")
         {
@@ -163,6 +131,32 @@ public class CameraScript : MonoBehaviour
 
         if (canLook)
         {
+            // screenshake
+            if (shakeDuration > 0 && canLook)
+            {
+                camTransform.localPosition = Vector3.Lerp(camTransform.localPosition, originalPos + Random.insideUnitSphere * shakeAmount, Time.deltaTime * shakeDelta);
+                shakeDuration -= decreaseFactor;
+            }
+            else
+            {
+                shakeDuration = 0f;
+                camTransform.localPosition = originalPos;
+            }
+
+            ray.origin = transform.position;
+            ray.direction = transform.forward;
+            if (Physics.Raycast(ray, out hit))
+            {
+                // do a raycast and then position the target
+                digeticAimTarget.position = hit.point;
+            }
+            else
+            {
+                // do a raycast and then position the target
+                digeticAimTarget.position = transform.forward * 1000f;
+            }
+
+
             // zooming in with the camera
             if (player.GetButton("Aim"))
             {

@@ -376,8 +376,7 @@ public class PlayerController : MonoBehaviour
                             // particle effect
                             Instantiate(shootParticle, rightGunTip.position, rightGunTip.rotation, null);
  
-                            // screenshake
-                            cameraScript.shakeDuration += 4f;
+
                             // shot cooldown
                             shotCoolDown = 10f;
                         }
@@ -406,11 +405,13 @@ public class PlayerController : MonoBehaviour
                             {
                                 ammoAmount--;
                             }
-                            // screenshake
-                            cameraScript.shakeDuration += 4f;
+
                             // shot cooldown
                             shotCoolDown = 10f;
                         }
+
+                        // screenshake
+                        cameraScript.shakeDuration += 5f;
 
                         // reduce ammo amount
                         if (ammoAmount > 0)
