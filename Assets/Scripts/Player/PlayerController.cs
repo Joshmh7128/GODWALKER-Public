@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Slider hpSliderDiegetic;   // our diegetic hp slider
     [SerializeField] Text hpAmountText;         // our hp amount in text
     [SerializeField] Text hpMaxText;            // our hp max in text
-    [SerializeField] Text bugAmountText;        // bug amount text display
+    [SerializeField] Text scrapAmountText;        // bug amount text display
     [SerializeField] Text bugMaxText;           // bug amount text display
     // hurt particle
     [SerializeField] GameObject hurtParticle;   // the hurt particle prefab
@@ -144,7 +144,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject rifleMuzzleFlash; // the rifle muzzle flash
     public float shotCoolDown; // the amount of time until we can fire again
     public float rifleDamage; // rifle damage
+
+    // pistol stuff
     public float pistolDamage; // pistol damage
+    public float pistolMagSize; // how many shots per magazine for pistols
+    public float pistolMagFill; // how many shots are in our current magazine?
+    public float pistolSoundPitch, pistolSoundPitchMin, pistolSoundPitchMax; // our pitch, min, and max
+
     #endregion
 
     #region // Artifact Management
@@ -194,6 +200,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        #region // movement code
         if (canMove)
         {
             // declare our motion
@@ -314,7 +321,8 @@ public class PlayerController : MonoBehaviour
             // apply to the character controller
             characterController.Move(move * Time.deltaTime * moveSpeed);
         }
-
+        #endregion  
+        
         #region // UI display
         // display our ammo amount
         ammoAmountText.text = ammoAmount.ToString(); // in text
@@ -328,13 +336,19 @@ public class PlayerController : MonoBehaviour
         hpMaxText.text = playerMaxHP.ToString(); // in text
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
         // display our bug part amount
-        bugAmountText.text = scrapAmount.ToString();
-        bugMaxText.text = "900";
+        scrapAmountText.text = scrapAmount.ToString();
         // modify our reticle ring
-        if (currentWeapon == weaponTypes.Rifle)
-        { rifleReticleRing.transform.localScale = new Vector3(shotCoolDown, shotCoolDown, shotCoolDown); }
+        rifleReticleRing.transform.localScale = new Vector3(shotCoolDown, shotCoolDown, shotCoolDown);
+
+        /// 
+        /// lets calculate our reload ammunition display for our pistols
+        /// for this we are going to want to place the total mag size to the left of our reticle
+        /// 
+
+
         #endregion
 
+        #region // shot firing
         // shoot bullets
         if (canFire)
         {
@@ -360,14 +374,19 @@ public class PlayerController : MonoBehaviour
                     // make sure we set the model properly
                     rifleCosmeticModel.SetActive(false);
                     rifleReticle.SetActive(false);
-                    // check cooldown
-                    if (shotCoolDown <= 0)
+                    // check cooldown, and make sure we have a bullet in our magazine
+                    if (shotCoolDown <= 0 && pistolMagFill > 0)
                     {
                         // check arm
                         if (rightArm == true)
                         {
                             // set the sound of our source
                             fireAudioSource.clip = pistolsFireAudioClip;
+                            // change the pitch - lerp from min pitch to max pitch using shots fired / magsize so we can adjust the amount of shots fired and mag size overtime
+                            pistolSoundPitch = Mathf.Lerp(pistolSoundPitchMin, pistolSoundPitchMax, (pistolMagSize - pistolMagFill) / pistolMagSize);
+                            fireAudioSource.pitch = (float)pistolSoundPitch;
+
+                            // once we have the pitch, play the sound
                             fireAudioSource.Play();
                             // spawn bullet
                             GameObject bullet = Instantiate(playerBullet, rightGunTip.position, rightGunTip.rotation, null);
@@ -379,11 +398,7 @@ public class PlayerController : MonoBehaviour
                             rightIKArmKickback = 1;
                             // particle effect
                             Instantiate(shootParticle, rightGunTip.position, rightGunTip.rotation, null);
-                            // reduce ammo
-                            if (ammoAmount > 0)
-                            {
-                                ammoAmount--;
-                            }
+ 
                             // screenshake
                             cameraScript.shakeDuration += 4f;
                             // shot cooldown
@@ -393,6 +408,11 @@ public class PlayerController : MonoBehaviour
                         {
                             // set the sound of our source
                             fireAudioSource.clip = pistolsFireAudioClip;
+                            // change the pitch - lerp from min pitch to max pitch using shots fired / magsize so we can adjust the amount of shots fired and mag size overtime
+                            pistolSoundPitch = Mathf.Lerp(pistolSoundPitchMin, pistolSoundPitchMax, (pistolMagSize - pistolMagFill) / pistolMagSize);
+                            fireAudioSource.pitch = (float)pistolSoundPitch;
+
+                            // once we have the pitch, play the sound
                             fireAudioSource.Play();
                             // spawn bullet
                             GameObject bullet = Instantiate(playerBullet, leftGunTip.position, Quaternion.identity, null);
@@ -414,7 +434,25 @@ public class PlayerController : MonoBehaviour
                             // shot cooldown
                             shotCoolDown = 10f;
                         }
+
+                        // reduce ammo amount
+                        if (ammoAmount > 0)
+                        {
+                            ammoAmount--;
+                        }
+
+                        // reduce our mag amount
+                        if (pistolMagFill > 0)
+                        {
+                            pistolMagFill--;
+                        }
+
+
                     }
+
+                    // if our mag is 0, set it to the magsize
+                    if (pistolMagFill <= 0)
+                    { pistolMagFill = pistolMagSize; }
                 }
 
                 // rifle
@@ -487,7 +525,9 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        // COMMENTED OUT reload scene for dev purposes
+        #endregion
+
+        // reload scene for dev purposes
         if (Input.GetKeyDown(KeyCode.F4))
         {
             // empty our artifacts
@@ -678,16 +718,12 @@ public class PlayerController : MonoBehaviour
         // set current weapon
         if (currentWeapon == weaponTypes.Pistols)
         {
-            rifleCosmeticModel.SetActive(false);
-            rifleReticle.SetActive(false);
+
         }
 
         if (currentWeapon == weaponTypes.Rifle)
         {
-            // make sure we set the model properly
-            pistolCosmeticModel.SetActive(false);
-            rifleCosmeticModel.SetActive(true);
-            rifleReticle.SetActive(true);
+
         }
 
         // make sure we set our playercontroller properlly
@@ -707,10 +743,6 @@ public class PlayerController : MonoBehaviour
 
         // make sure we aren't out of bounds
         Mathf.Clamp(playerHP, 0, playerMaxHP);
-
-        // muzzle flash effect
-        if (rifleMuzzleFlash.activeInHierarchy)
-        { rifleMuzzleFlash.SetActive(false); }
 
         // shot cooldown
         if (shotCoolDown > 0)
