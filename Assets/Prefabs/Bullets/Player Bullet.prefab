@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6225543735345285154}
   - component: {fileID: 6225543735345285155}
   - component: {fileID: 6225543735345285152}
-  - component: {fileID: 6225543735345285153}
   - component: {fileID: 6225543735345285598}
+  - component: {fileID: 6225543735345285153}
   - component: {fileID: 998914159518612747}
   - component: {fileID: 7205243946028643390}
   m_Layer: 0
@@ -86,19 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6225543735345285153
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6225543735345285599}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6225543735345285598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,9 +100,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletTarget: {fileID: 0}
   bulletDamage: 0
-  bulletSpeed: 200
+  bulletSpeed: 400
   cubePuff: {fileID: 389507898186102839, guid: e94a7b5395085964ab6f74af2c94316b, type: 3}
   bulletType: 0
+--- !u!65 &6225543735345285153
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6225543735345285599}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 8}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &998914159518612747
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5106,7 +5106,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c18cf577ed7b33f45827609e8ee5c2b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
