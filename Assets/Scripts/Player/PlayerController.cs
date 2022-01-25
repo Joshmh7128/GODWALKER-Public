@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
     #region // General Audio Related
     [Header("General Audio")]
     [SerializeField] AudioSource fireAudioSource;
-    [SerializeField] AudioClip pistolsFireAudioClip;
+    [SerializeField] AudioClip[] pistolsFireAudioClips;
     [SerializeField] AudioClip rifleFireAudioClip;
 
     #endregion
@@ -364,7 +364,7 @@ public class PlayerController : MonoBehaviour
                         if (rightArm == true)
                         {
                             // set the sound of our source
-                            fireAudioSource.clip = pistolsFireAudioClip;
+                            fireAudioSource.clip = pistolsFireAudioClips[Random.Range(0, pistolsFireAudioClips.Length)];
                             // change the pitch - lerp from min pitch to max pitch using shots fired / magsize so we can adjust the amount of shots fired and mag size overtime
                             pistolSoundPitch = Random.Range(pistolSoundPitchMin,pistolSoundPitchMax);
                             fireAudioSource.pitch = (float)pistolSoundPitch;
@@ -387,7 +387,7 @@ public class PlayerController : MonoBehaviour
                         else if (rightArm == false)
                         {
                             // set the sound of our source
-                            fireAudioSource.clip = pistolsFireAudioClip;
+                            fireAudioSource.clip = pistolsFireAudioClips[Random.Range(0,pistolsFireAudioClips.Length)];
                             // change the pitch - lerp from min pitch to max pitch using shots fired / magsize so we can adjust the amount of shots fired and mag size overtime
                             pistolSoundPitch = Mathf.Lerp(pistolSoundPitchMin, pistolSoundPitchMax, (pistolMagSize - pistolMagFill) / pistolMagSize);
                             fireAudioSource.pitch = (float)pistolSoundPitch;
