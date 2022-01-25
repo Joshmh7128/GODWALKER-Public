@@ -366,7 +366,7 @@ public class PlayerController : MonoBehaviour
                             // set the sound of our source
                             fireAudioSource.clip = pistolsFireAudioClip;
                             // change the pitch - lerp from min pitch to max pitch using shots fired / magsize so we can adjust the amount of shots fired and mag size overtime
-                            pistolSoundPitch = Mathf.Lerp(pistolSoundPitchMin, pistolSoundPitchMax, (pistolMagSize - pistolMagFill) / pistolMagSize);
+                            pistolSoundPitch = Random.Range(pistolSoundPitchMin,pistolSoundPitchMax);
                             fireAudioSource.pitch = (float)pistolSoundPitch;
 
                             // once we have the pitch, play the sound
