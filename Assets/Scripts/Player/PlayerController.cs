@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject reticleRing; // reticle ring associated with the rifle
     [SerializeField] GameObject cubePuff; // our bullet cube particle effect
     [SerializeField] GameObject rifleMuzzleFlash; // the rifle muzzle flash
-    public float shotCoolDown; // the amount of time until we can fire again
+    public float shotCoolDownRemain, shotCoolDown; // the amount of time until we can fire again
     public float rifleDamage; // rifle damage
 
     // pistol stuff
@@ -253,11 +253,14 @@ public class PlayerController : MonoBehaviour
                 // jump animation weight
                 humanoidPlayerAnimator.SetLayerWeight(6, 0);
                 humanoidHandTargetAnimator.SetLayerWeight(5, 0);
+
             }
             else if (characterController.isGrounded && player.GetButton("SpacePress") && canJump)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
+
+                humanoidPlayerAnimator.SetLayerWeight(2, 0);
             }
             else if (characterController.velocity.y <= 0 && !characterController.isGrounded && canJump)
             {
@@ -265,6 +268,7 @@ public class PlayerController : MonoBehaviour
                 gravityValue = gravity * fallMultiplier;
                 // jump animation weight
                 humanoidPlayerAnimator.SetLayerWeight(6, 1);
+                humanoidPlayerAnimator.SetLayerWeight(2, 0);
                 // arm animation weights
                 humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
                 // neck bob animation weight
@@ -276,6 +280,8 @@ public class PlayerController : MonoBehaviour
                 gravityValue = gravity * lowJumpMultiplier;
                 // jump animation weight
                 humanoidPlayerAnimator.SetLayerWeight(6, 1);
+                // run weight
+                humanoidPlayerAnimator.SetLayerWeight(2, 0);
                 // arm animation weights
                 humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f);
                 // neck bob animation weight
@@ -320,7 +326,7 @@ public class PlayerController : MonoBehaviour
         // display our bug part amount
         scrapAmountText.text = scrapAmount.ToString();
         // modify our reticle ring
-        reticleRing.transform.localScale = new Vector3(Mathf.Lerp(0,1f,shotCoolDown / 10f), Mathf.Lerp(0, 1f, shotCoolDown / 10f), Mathf.Lerp(0, 1f, shotCoolDown / 10f));
+        reticleRing.transform.localScale = new Vector3(Mathf.Lerp(0,1f,shotCoolDownRemain / shotCoolDown), Mathf.Lerp(0, 1f, shotCoolDownRemain / shotCoolDown), Mathf.Lerp(0, 1f, shotCoolDownRemain / shotCoolDown));
 
         /// lets calculate our reload ammunition display for our pistols
         /// for this we are going to want to place the total mag size to the left of our reticle
@@ -352,7 +358,7 @@ public class PlayerController : MonoBehaviour
                 if (currentWeapon == weaponTypes.Pistols)
                 {
                     // check cooldown, and make sure we have a bullet in our magazine
-                    if (shotCoolDown <= 0 && pistolMagFill > 0)
+                    if (shotCoolDownRemain <= 0 && pistolMagFill > 0)
                     {
                         // check arm
                         if (rightArm == true)
@@ -375,10 +381,8 @@ public class PlayerController : MonoBehaviour
                             rightIKArmKickback = 1;
                             // particle effect
                             Instantiate(shootParticle, rightGunTip.position, rightGunTip.rotation, null);
- 
-
                             // shot cooldown
-                            shotCoolDown = 10f;
+                            shotCoolDownRemain = shotCoolDown;
                         }
                         else if (rightArm == false)
                         {
@@ -407,7 +411,7 @@ public class PlayerController : MonoBehaviour
                             }
 
                             // shot cooldown
-                            shotCoolDown = 10f;
+                            shotCoolDownRemain = shotCoolDown;
                         }
 
                         // screenshake
@@ -655,9 +659,9 @@ public class PlayerController : MonoBehaviour
         Mathf.Clamp(playerHP, 0, playerMaxHP);
 
         // shot cooldown
-        if (shotCoolDown > 0)
+        if (shotCoolDownRemain > 0)
         {
-            shotCoolDown -= 1;
+            shotCoolDownRemain -= 1;
         }
 
         // 1 hp shield from bug part drops
