@@ -7,7 +7,7 @@ public class RoomClass : MonoBehaviour
     // this class will hold all the doors of our room, and give us the ability to access them
     public List<DoorClass> doorClasses; // our doors
     [SerializeField] bool isStartRoom; // are we the starting room?
-    public List<EnemyClass> enemyClasses; // the list of enemies in this room
+    public List<EnemyClassOld> enemyClasses; // the list of enemies in this room
     Transform playerTransform; // our player's transform
     int counter;
     [SerializeField] List<Renderer> renderers;

@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGroupClass : EnemyClass
+public class EnemyGroupClass : EnemyClassOld
 {
     private void Start()
     {
         if (roomClass == null)
         {
             if (roomClass == null)
-            { roomClass = GetComponentInParent<EnemyClass>().roomClass; }
+            { roomClass = GetComponentInParent<EnemyClassOld>().roomClass; }
         }
     }
 

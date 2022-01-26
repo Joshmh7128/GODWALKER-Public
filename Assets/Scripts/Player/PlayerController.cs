@@ -116,8 +116,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float lowJumpMultiplier;  // how quicky we fall in addition to normal gravity
     [SerializeField] float playerJumpVelocity;  // how quicky we fall in addition to normal gravity
     float gravityValue;                        // real time simulated gravity
+    // everything to do with our dash
     [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
-    [SerializeField] Vector3 dashDir; 
+    [SerializeField] Vector3 dashDir;
+    [SerializeField] AudioSource dashAudioSource;
+    [SerializeField] ParticleSystem dashParticleSystem; // the particles that appear when we dash
+
     #endregion
 
     #region // Player animation
@@ -203,11 +207,13 @@ public class PlayerController : MonoBehaviour
             if (player.GetButtonDown("DashButton"))
             {
                 // make sure we can actually dash
-                if (dashCoolDown <= 0)
+                if (dashCoolDown <= 0 && (Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f))
                 {
                     dashCoolDown = dashCoolDownMax;
                     dashTime = dashTimeMax;
                     dashDir = new Vector3((moveV.x + moveH.x) * dashIntensity, 0f, (moveV.z + moveH.z) * dashIntensity);
+                    dashAudioSource.Play();
+                    dashParticleSystem.Play();
                 }
             }
 
@@ -682,7 +688,6 @@ public class PlayerController : MonoBehaviour
         {
             dashCoolDown -= 1;
         }
-
         if (dashTime > 0)
         { dashTime--; }
 
@@ -690,6 +695,9 @@ public class PlayerController : MonoBehaviour
         {
             dashDir = Vector3.zero;
         }
+
+        // dash screen fov lerp
+        Mathf.Lerp(dashTime, dashTimeMax, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + dashTime);
 
         // 1 hp shield from bug part drops
         if (UpgradeSingleton.Instance.mitoZygoteDuration > 0)
