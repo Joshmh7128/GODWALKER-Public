@@ -116,7 +116,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float lowJumpMultiplier;  // how quicky we fall in addition to normal gravity
     [SerializeField] float playerJumpVelocity;  // how quicky we fall in addition to normal gravity
     float gravityValue;                        // real time simulated gravity
-
+    [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
+    [SerializeField] Vector3 dashDir; 
     #endregion
 
     #region // Player animation
@@ -197,6 +198,18 @@ public class PlayerController : MonoBehaviour
             // rotate our treads (will be removed once humanoid animations are complete)
             Vector3 treadDirection = Vector3.RotateTowards(treadsParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
             treadsParent.rotation = Quaternion.LookRotation(treadDirection);
+
+            // horizontal dash
+            if (player.GetButtonDown("DashButton"))
+            {
+                // make sure we can actually dash
+                if (dashCoolDown <= 0)
+                {
+                    dashCoolDown = dashCoolDownMax;
+                    dashTime = dashTimeMax;
+                    dashDir = new Vector3((moveV.x + moveH.x) * dashIntensity, 0f, (moveV.z + moveH.z) * dashIntensity);
+                }
+            }
 
             // if we are moving
             if ((Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f))
@@ -304,8 +317,8 @@ public class PlayerController : MonoBehaviour
 
             // total move 
             verticalVelocity = playerJumpVelocity += gravityValue * Time.deltaTime;
-            move = new Vector3(moveH.x + moveV.x, verticalVelocity / moveSpeed, moveH.z + moveV.z);
-
+            move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
+            move += dashDir;
             // apply to the character controller
             characterController.Move(move * Time.deltaTime * moveSpeed);
         }
@@ -662,6 +675,20 @@ public class PlayerController : MonoBehaviour
         if (shotCoolDownRemain > 0)
         {
             shotCoolDownRemain -= 1;
+        }
+
+        // dash cooldown
+        if (dashCoolDown > 0)
+        {
+            dashCoolDown -= 1;
+        }
+
+        if (dashTime > 0)
+        { dashTime--; }
+
+        if (dashTime <= 0)
+        {
+            dashDir = Vector3.zero;
         }
 
         // 1 hp shield from bug part drops
