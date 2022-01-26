@@ -102,6 +102,7 @@ MonoBehaviour:
   bulletDamage: 0
   bulletSpeed: 400
   cubePuff: {fileID: 389507898186102839, guid: e94a7b5395085964ab6f74af2c94316b, type: 3}
+  currentParticleEffect: {fileID: 8544028302663184404}
   bulletType: 0
 --- !u!65 &6225543735345285153
 BoxCollider:
@@ -359,6 +360,7 @@ GameObject:
   - component: {fileID: 660472123942965562}
   - component: {fileID: 6791361729403062145}
   - component: {fileID: 7210081530445477257}
+  - component: {fileID: 7658210969603346090}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -394,7 +396,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -5152,3 +5154,15 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &7658210969603346090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8544028302663184404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8c7420d8023814da285a796ef2a45f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

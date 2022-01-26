@@ -8,7 +8,8 @@ public class PlayerBulletScript : MonoBehaviour
     public Transform bulletTarget; // what is the target of our bullet?
     public float bulletDamage; // what is the damage of our bullet
     [SerializeField] float bulletSpeed; // what is the speed of our bullet?
-    [SerializeField] GameObject cubePuff; // our particle effect
+    [SerializeField] GameObject cubePuff; // our particle effect on death
+    [SerializeField] GameObject currentParticleEffect; // the particle effect that emits during flight
     public enum bulletTypes
     {
         Projectile,
@@ -46,7 +47,7 @@ public class PlayerBulletScript : MonoBehaviour
         if (collision.CompareTag("Environment"))
         {
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-            Destroy(gameObject);
+            KillBullet();
         }
 
         // if this hits a breakable
@@ -55,14 +56,21 @@ public class PlayerBulletScript : MonoBehaviour
             // anything with the Breakable tag will be a chunk and have a BreakableBreak function
             collision.GetComponent<BreakableChunk>().BreakableBreak();
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-            Destroy(gameObject);
+            KillBullet();
         }
 
         if (collision.CompareTag("Enemy"))
         {
             collision.GetComponent<EnemyClass>().TakeDamage((int)bulletDamage);
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-            Destroy(gameObject);
+            KillBullet();
         }
     }
+
+    private void KillBullet()
+    {
+        currentParticleEffect.transform.parent = null;
+        currentParticleEffect.GetComponent<ParticleSystem>().enableEmission = false;
+        Destroy(gameObject); // destroy ourselves
+    }    
 }

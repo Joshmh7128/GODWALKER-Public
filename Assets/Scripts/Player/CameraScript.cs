@@ -96,8 +96,6 @@ public class CameraScript : MonoBehaviour
             // leftArmLine.SetPosition(1, digeticAimTarget.position); 
         }
         
-       
-
         // toggle which side our camera is on
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -143,17 +141,19 @@ public class CameraScript : MonoBehaviour
                 camTransform.localPosition = originalPos;
             }
 
-            ray.origin = transform.position;
-            ray.direction = transform.forward;
-            if (Physics.Raycast(ray, out hit))
+            ray.origin = Camera.main.transform.position; // adjust this distance if the camera is adjusted
+            ray.direction = Camera.main.transform.forward;
+
+            if (Physics.Raycast(ray, out hit) && (Vector3.Distance(hit.point, transform.position) > 10f))
             {
+                // if (hit.transform.tag == "Environment")
                 // do a raycast and then position the target
                 digeticAimTarget.position = hit.point;
             }
             else
             {
                 // do a raycast and then position the target
-                digeticAimTarget.position = transform.forward * 1000f;
+                digeticAimTarget.position = transform.position+transform.forward*1000f;
             }
 
 
@@ -171,5 +171,10 @@ public class CameraScript : MonoBehaviour
                 sensitivityChange = 0;
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(hit.point, 0.5f);
     }
 }
