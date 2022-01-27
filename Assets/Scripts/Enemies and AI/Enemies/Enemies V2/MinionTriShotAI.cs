@@ -10,15 +10,23 @@ public class MinionTriShotAI : EnemyClass
     /// when they are below 50% HP they will move away from the player, and attempt to run from them
     /// when they shoot they fire three shots at the player, one direct, one slightly left and one slightly right
 
+    [SerializeField] float maxHP; // our health point variables. HP is defined in the parent abstract class
     [SerializeField] private Transform playerTransform; // our player's transform
     [SerializeField] private float closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
     [SerializeField] private float x, y, z, rx, rz, headHeight; // our movement variables
-    [SerializeField] float HP, maxHP; // our health point variables
     [SerializeField] private NavMeshAgent navMeshAgent;
 
     // start runs at the start of the gameplay
     private void Start()
     {
+        // get our player transform
+        if (playerTransform == null)
+        { playerTransform = UpgradeSingleton.Instance.player.transform; }
+
+        // get our nav mesh agent
+        if (navMeshAgent == null)
+        { navMeshAgent = GetComponent<NavMeshAgent>(); }
+
         // start our coroutine
         StartCoroutine(NavMeshPositionTarget());
     }
