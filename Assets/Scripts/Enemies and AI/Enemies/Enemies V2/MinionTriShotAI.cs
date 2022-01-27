@@ -35,9 +35,8 @@ public class MinionTriShotAI : EnemyClass
     private IEnumerator NavMeshPositionTarget()
     {
         // wait 1 to 3 seconds
-        yield return new WaitForSeconds(Random.Range(1f, 3f));
+        yield return new WaitForSeconds(Random.Range(1f, 8f));
         // if our HP is > 50% choose a position in our close radius, if < 50% choose in our far radius
-
         // top 50%
         if (HP > maxHP / 2f) { x = Random.Range(closeRadiusMin, closeRadiusMax); z = Random.Range(closeRadiusMin, closeRadiusMax); }        
         // bottom 50%
@@ -46,7 +45,7 @@ public class MinionTriShotAI : EnemyClass
         // shuffle those to be positive or negative within the radii
         rx = Random.Range(0, 2); rz = Random.Range(0, 2); if (rx > 0) { x *= -1; } if (rz > 0) { z *= -1; }
         // get the X and Z of that position and use the Y of our head so that we can walk up slopes (may need refining?)
-        y = transform.position.y + headHeight;
+        y = headHeight;
         navMeshAgent.destination = playerTransform.position + new Vector3(x, y, z);
         // repeat this cycle
         StartCoroutine(NavMeshPositionTarget());

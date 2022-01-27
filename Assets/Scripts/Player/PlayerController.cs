@@ -343,7 +343,7 @@ public class PlayerController : MonoBehaviour
         hpMaxText.text = playerMaxHP.ToString(); // in text
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
         // display our bug part amount
-        scrapAmountText.text = scrapAmount.ToString();
+        // scrapAmountText.text = scrapAmount.ToString();
         // modify our reticle ring
         reticleRing.transform.localScale = new Vector3(Mathf.Lerp(0,1f,shotCoolDownRemain / shotCoolDown), Mathf.Lerp(0, 1f, shotCoolDownRemain / shotCoolDown), Mathf.Lerp(0, 1f, shotCoolDownRemain / shotCoolDown));
 
