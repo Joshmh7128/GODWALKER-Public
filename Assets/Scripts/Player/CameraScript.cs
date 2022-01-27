@@ -133,8 +133,8 @@ public class CameraScript : MonoBehaviour
         }
 
         // make sure our enemy canvas is displaying correctly
-        if (enemyCanvasTargetAlpha < enemyCanvas.alpha)
-        { enemyCanvas.alpha += 0.1f; } else if (enemyCanvasTargetAlpha > enemyCanvas.alpha) { enemyCanvas.alpha -= 0.1f; }
+        if (enemyCanvas.alpha < enemyCanvasTargetAlpha)
+        { enemyCanvas.alpha += 0.1f; } else if (enemyCanvas.alpha > enemyCanvasTargetAlpha) { enemyCanvas.alpha -= 0.025f; }
 
         if (canLook)
         {
