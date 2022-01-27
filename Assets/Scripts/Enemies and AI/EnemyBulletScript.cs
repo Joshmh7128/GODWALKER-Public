@@ -38,7 +38,6 @@ public class EnemyBulletScript : MonoBehaviour
         {
             bulletSpeed++;
             bulletSpeed++;
-            bulletSpeed++;
         }
     }
 
