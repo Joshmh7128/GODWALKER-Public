@@ -16,30 +16,20 @@ public class EnemyBulletScript : MonoBehaviour
     // for when our bullet is instantiated
     private void Start()
     {
-        // add to list
-        AddToManager();
-
-        // set our parent
-        enemyManager = GameObject.Find("Enemy Manager").transform;
-        transform.SetParent(enemyManager);
-
         // find player
         if (playerTransform == null)
         {
             playerTransform = GameObject.Find("Player").transform;
         }
 
+        transform.parent = null;
+
         // turn bullet
-        transform.LookAt(bulletTarget);
+        if (bulletTarget != null)
+        { transform.LookAt(bulletTarget); }
 
         // start the safety kill
         StartCoroutine("SafetyKill");
-    }
-
-    public void AddToManager()
-    {
-        if (GameObject.Find("Enemy Manager"))
-        GameObject.Find("Enemy Manager").GetComponent<EnemyManager>().enemies.Add(gameObject);
     }
 
     private void FixedUpdate()

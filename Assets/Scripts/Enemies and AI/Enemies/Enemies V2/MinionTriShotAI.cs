@@ -15,6 +15,8 @@ public class MinionTriShotAI : EnemyClass
     [SerializeField] private float closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
     [SerializeField] private float x, y, z, rx, rz, headHeight; // our movement variables
     [SerializeField] private NavMeshAgent navMeshAgent;
+    [SerializeField] Transform headJoint, rightCone, centerCone, leftCone; // our head joint
+    [SerializeField] GameObject bulletPrefab;
 
     // start runs at the start of the gameplay
     private void Start()
@@ -51,6 +53,24 @@ public class MinionTriShotAI : EnemyClass
         StartCoroutine(NavMeshPositionTarget());
     }
 
+    // update runs once per calculated frame
+    private void Update()
+    {
+        // death condition
+        if (HP <= 0)
+        { Destroy(gameObject); }
+
+        // rotate our headjoint to look at the player
+        headJoint.transform.LookAt(playerTransform);
+    }
+
+    // bullet instantation for animation triggers
+    public void FireBullet(int i)
+    {
+        if (i == 0) { Instantiate(bulletPrefab, rightCone); }
+        if (i == 1) { Instantiate(bulletPrefab, centerCone); }
+        if (i == 2) { Instantiate(bulletPrefab, leftCone); }
+    }
 
     // when we take damage
     public override void TakeDamage(int dmg)

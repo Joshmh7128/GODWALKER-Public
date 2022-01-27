@@ -163,7 +163,7 @@ public class CameraScript : MonoBehaviour
                 {   // if it is an enemy, get its information and set & activate our UI
                     EnemyClass enemyClass = hit.transform.gameObject.GetComponent<EnemyClass>();
                     // set our UI fields
-                    enemyNameField.text = enemyClass.name; enemyHPField.text = enemyClass.HP + " / " + enemyClass.maxHP;
+                    enemyNameField.text = enemyClass.NameText; enemyHPField.text = enemyClass.HP + " / " + enemyClass.maxHP;
                     // set our UI slider
                     enemyHPSlider.value = enemyClass.HP; enemyHPSlider.maxValue = enemyClass.maxHP;
                     // make sure we set our canvas to show 
