@@ -19,6 +19,14 @@ public class RoundGunnerAI : EnemyClass
         { Debug.LogError("A Round Gunner AI is attempting to access the UpgradeSingleton - has it been created yet?");  }
     }
 
+    // fixed update is called 60 times per second
+    private void FixedUpdate()
+    {
+        // rotate at our rotation speed to face the player
+        Quaternion lookRot = Quaternion.LookRotation(playerController.gameObject.transform.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * rotationSpeed);
+    }
+
     // Update is called once per frame
     void Update()
     {

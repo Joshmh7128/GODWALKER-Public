@@ -14,6 +14,8 @@ public class UpgradeSingleton : ScriptableObject
             {
                 _instance = UpgradeSingleton.CreateInstance<UpgradeSingleton>();
                 Debug.Log("UpgradeSingleton Instance created");
+                _instance.player = GameObject.Find("Player").GetComponent<PlayerController>();
+                Debug.Log("UpgradeSingleton Instance has PlayerController");
             }
             return _instance;
         }
