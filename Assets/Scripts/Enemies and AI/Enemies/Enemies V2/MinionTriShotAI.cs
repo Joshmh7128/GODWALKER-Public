@@ -56,7 +56,7 @@ public class MinionTriShotAI : EnemyClass
     public override void TakeDamage(int dmg)
     {
         // apply damage
-
+        HP -= dmg;
         // flicker 
 
         // perform hurt animation
