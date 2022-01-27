@@ -36,6 +36,11 @@ public class CameraScript : MonoBehaviour
     // ui fade canvas
     [SerializeField] CanvasGroup fadeCanvas;
 
+    // ui for enemy info
+    [SerializeField] CanvasGroup enemyCanvas; float enemyCanvasTargetAlpha; 
+    [SerializeField] Text enemyNameField, enemyHPField;
+    [SerializeField] Slider enemyHPSlider;
+
     // How long the object should shake for.
     public float shakeDuration;
     // Amplitude of the shake. A larger value shakes the camera harder.
@@ -127,6 +132,10 @@ public class CameraScript : MonoBehaviour
             fadeCanvas.alpha -= 0.1f;
         }
 
+        // make sure our enemy canvas is displaying correctly
+        if (enemyCanvasTargetAlpha < enemyCanvas.alpha)
+        { enemyCanvas.alpha += 0.1f; } else if (enemyCanvasTargetAlpha > enemyCanvas.alpha) { enemyCanvas.alpha -= 0.1f; }
+
         if (canLook)
         {
             // screenshake
@@ -146,14 +155,32 @@ public class CameraScript : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit) && (Vector3.Distance(hit.point, transform.position) > 10f))
             {
-                // if (hit.transform.tag == "Environment")
                 // do a raycast and then position the target
                 digeticAimTarget.position = hit.point;
+
+                // check to see if this hits an enemy
+                if (hit.transform.tag == "Enemy")
+                {   // if it is an enemy, get its information and set & activate our UI
+                    EnemyClass enemyClass = hit.transform.gameObject.GetComponent<EnemyClass>();
+                    // set our UI fields
+                    enemyNameField.text = enemyClass.name; enemyHPField.text = enemyClass.HP + " / " + enemyClass.maxHP;
+                    // set our UI slider
+                    enemyHPSlider.value = enemyClass.HP; enemyHPSlider.maxValue = enemyClass.maxHP;
+                    // make sure we set our canvas to show 
+                    enemyCanvasTargetAlpha = 1;
+                }
+                else
+                {
+                    // make sure we set our canvas to hide
+                    enemyCanvasTargetAlpha = 0;
+                }
             }
             else
             {
                 // do a raycast and then position the target
                 digeticAimTarget.position = transform.position+transform.forward*1000f;
+                // make sure we set our canvas to hide
+                enemyCanvasTargetAlpha = 0;
             }
 
 

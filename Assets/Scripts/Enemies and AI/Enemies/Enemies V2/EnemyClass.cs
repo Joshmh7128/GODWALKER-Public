@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class EnemyClass : MonoBehaviour
 {
-    public float HP; // our health points
+    public float HP, maxHP; // our health points
+    public string Name;
     bool invinicble; // are we invincible right now?
     public abstract void TakeDamage(int dmg); // how much damage are we taking?
 }

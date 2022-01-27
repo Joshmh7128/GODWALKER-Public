@@ -61,7 +61,8 @@ public class PlayerBulletScript : MonoBehaviour
 
         if (collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<EnemyClassOld>().TakeDamage((int)bulletDamage);
+            // collision.GetComponent<EnemyClassOld>().TakeDamage((int)bulletDamage);
+            collision.GetComponent<EnemyClass>().TakeDamage((int)bulletDamage);
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             KillBullet();
         }

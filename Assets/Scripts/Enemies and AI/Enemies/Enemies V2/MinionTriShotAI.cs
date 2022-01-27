@@ -10,7 +10,7 @@ public class MinionTriShotAI : EnemyClass
     /// when they are below 50% HP they will move away from the player, and attempt to run from them
     /// when they shoot they fire three shots at the player, one direct, one slightly left and one slightly right
 
-    [SerializeField] float maxHP; // our health point variables. HP is defined in the parent abstract class
+    // our health point variables are defined in the EnemyClass; HP and MaxHP are defined in the parent abstract class
     [SerializeField] private Transform playerTransform; // our player's transform
     [SerializeField] private float closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
     [SerializeField] private float x, y, z, rx, rz, headHeight; // our movement variables
