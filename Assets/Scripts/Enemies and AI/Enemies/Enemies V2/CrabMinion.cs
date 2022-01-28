@@ -17,6 +17,9 @@ public class CrabMinion : EnemyClass
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] Transform headJoint, shotPos; // our head joint
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] Transform frontRightFootGoal, frontLeftFootGoal, backRightFootGoal, backLeftFootGoal; // our ideal foot positions
+    [SerializeField] Transform frontRightFootTarget, frontLeftFootTarget, backRightFootTarget, backLeftFootTarget; // our IK animation targets
+    [SerializeField] float maxFootDistanceDelta, footSpeed, stepDistance, stepHeight; // how far away can our foot be before we move our feet to it?
 
     // start runs at the start of the gameplay
     private void Start()
@@ -28,6 +31,12 @@ public class CrabMinion : EnemyClass
         // get our nav mesh agent
         if (navMeshAgent == null)
         { navMeshAgent = GetComponent<NavMeshAgent>(); }
+
+        // unparent our feet targets
+        frontRightFootTarget.parent = null;
+        frontLeftFootTarget.parent = null;
+        backLeftFootTarget.parent = null;
+        backRightFootTarget.parent = null;
 
         // start our coroutine
         StartCoroutine(NavMeshPositionTarget());
@@ -64,6 +73,17 @@ public class CrabMinion : EnemyClass
         headJoint.transform.LookAt(playerTransform);
     }
 
+    // the fixed update runs 60 times per second
+    private void FixedUpdate()
+    {
+        // move our feet
+        FootControl(frontRightFootGoal, frontRightFootTarget);
+        FootControl(frontLeftFootGoal, frontLeftFootTarget);        
+        FootControl(backRightFootGoal, backRightFootTarget);
+        FootControl(backLeftFootGoal, backLeftFootTarget);
+    }
+
+
     // bullet instantation for animation triggers
     public void FireBullet()
     {
@@ -79,5 +99,19 @@ public class CrabMinion : EnemyClass
 
         // perform hurt animation
 
+    }
+
+
+    // control our feet for procedural animation
+    void FootControl(Transform footGoal, Transform footTarget)
+    {
+        // if our foot is too far away, move it towards our target foot position at our footspeed
+        if (Vector3.Distance(footGoal.position, footTarget.position) > maxFootDistanceDelta)
+        {
+            Vector3 forwardFootPos, forwardFootDirection; // get a position that is further forward in the direction of where the foot is moving
+            forwardFootDirection = footGoal.position - footTarget.position;
+            forwardFootPos = footGoal.position + (forwardFootDirection.normalized * stepDistance);
+            footTarget.position = Vector3.Lerp(footTarget.position, forwardFootPos, footSpeed * Time.deltaTime); 
+        }
     }
 }
