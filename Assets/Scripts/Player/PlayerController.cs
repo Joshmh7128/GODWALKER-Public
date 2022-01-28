@@ -402,6 +402,9 @@ public class PlayerController : MonoBehaviour
                             Instantiate(shootParticle, rightGunTip.position, rightGunTip.rotation, null);
                             // shot cooldown
                             shotCoolDownRemain = shotCoolDown;
+                            // camera fov change
+                            // dash screen fov lerp
+                            Mathf.Lerp(shotCoolDownRemain, shotCoolDown, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + (shotCoolDown/8));
                         }
                         else if (rightArm == false)
                         {
@@ -423,14 +426,10 @@ public class PlayerController : MonoBehaviour
                             leftIKArmKickback = 1;
                             // particle effect
                             Instantiate(shootParticle, leftGunTip.position, leftGunTip.rotation, null);
-                            // reduce ammo
-                            if (ammoAmount > 0)
-                            {
-                                ammoAmount--;
-                            }
-
                             // shot cooldown
                             shotCoolDownRemain = shotCoolDown;
+                            // screen fov
+                            Mathf.Lerp(shotCoolDownRemain, shotCoolDown, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + (shotCoolDown/8));
                         }
 
                         // screenshake

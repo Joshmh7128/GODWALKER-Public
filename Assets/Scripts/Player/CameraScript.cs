@@ -153,7 +153,7 @@ public class CameraScript : MonoBehaviour
             ray.origin = Camera.main.transform.position; // adjust this distance if the camera is adjusted
             ray.direction = Camera.main.transform.forward;
 
-            if (Physics.Raycast(ray, out hit) && (Vector3.Distance(hit.point, transform.position) > 10f))
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore) && (Vector3.Distance(hit.point, transform.position) > 10f))
             {
                 // do a raycast and then position the target
                 digeticAimTarget.position = hit.point;

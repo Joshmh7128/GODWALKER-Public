@@ -11,7 +11,7 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
     Transform playerTransform;
-    [SerializeField] bool speedsUp; // does our bullet linearly speed up?
+    [SerializeField] bool speedsUp, targetPlayer; // does our bullet linearly speed up?
 
     // for when our bullet is instantiated
     private void Start()
@@ -19,14 +19,17 @@ public class EnemyBulletScript : MonoBehaviour
         // find player
         if (playerTransform == null)
         {
-            playerTransform = GameObject.Find("Player").transform;
+            playerTransform = UpgradeSingleton.Instance.player.transform;
         }
 
         transform.parent = null;
 
         // turn bullet
-        if (bulletTarget != null)
-        { transform.LookAt(bulletTarget); }
+        if (bulletTarget == null && targetPlayer == true)
+        {
+            bulletTarget = playerTransform;
+            transform.LookAt(bulletTarget); 
+        }
 
         // start the safety kill
         StartCoroutine("SafetyKill");
@@ -50,7 +53,7 @@ public class EnemyBulletScript : MonoBehaviour
 
     IEnumerator SafetyKill()
     {
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(5f);
         Destroy(this.gameObject);
     }
 
