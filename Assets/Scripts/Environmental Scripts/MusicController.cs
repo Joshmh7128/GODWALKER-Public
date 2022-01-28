@@ -40,6 +40,9 @@ public class MusicController : MonoBehaviour
         if (mood == musicMoods.battle)
         { musicSource.clip = track001Pieces[3]; }
 
-        musicSource.Play();
+        if (!musicSource.isPlaying)
+        {
+            musicSource.Play();
+        }
     }
 }
