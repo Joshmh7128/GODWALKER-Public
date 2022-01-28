@@ -9,7 +9,7 @@ public class DoorInteractionPad : MonoBehaviour
     bool canOpen; // can we open the door?
     [SerializeField] bool specialDoorGem; // can we open the door?
     [SerializeField] bool specialDoorScrap; // can we open the door?
-    [SerializeField] DoorClass doorClass; // our door class
+    [SerializeField] DoorClassOld doorClass; // our door class
     Player player; // our player
 
     private void Start()

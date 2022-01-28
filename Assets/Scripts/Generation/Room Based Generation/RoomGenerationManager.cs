@@ -6,7 +6,7 @@ public class RoomGenerationManager : GenerationManager
 {
     //we will be using a system of rooms and doors to create our map
     public int roomCount; // how many rooms do we want in the map?
-    public List<DoorClass> doorClassList; // all the gameObjects of our doors to be accessed
+    public List<DoorClassOld> doorClassList; // all the gameObjects of our doors to be accessed
     public List<GameObject> roomPrefabsEasy; // all the easy room prefabs we want to work with in this generation
     public List<GameObject> roomPrefabsHard; // all the hard room prefabs we want to work with in this generation
     public List<GameObject> specialRoomPrefabs; // all the room prefabs we want to work with in this generation
@@ -20,7 +20,7 @@ public class RoomGenerationManager : GenerationManager
         // deactivate all the doorclass gameobjects
         if (roomCount <= 0 && !primeDeactivation)
         {
-            foreach (DoorClass doorClass in doorClassList)
+            foreach (DoorClassOld doorClass in doorClassList)
             {
                 doorClass.gameObject.SetActive(false);
             }
