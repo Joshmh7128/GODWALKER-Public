@@ -19,8 +19,7 @@ public class CrabMinion : EnemyClass
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform frontRightFootGoal, frontLeftFootGoal, backRightFootGoal, backLeftFootGoal; // our ideal foot positions
     [SerializeField] Transform frontRightFootTarget, frontLeftFootTarget, backRightFootTarget, backLeftFootTarget; // our IK animation targets
-    [SerializeField] float maxFootDistanceDelta, footSpeed, stepDistance, stepHeight; // how far away can our foot be before we move our feet to it?
-
+    [SerializeField] float maxFootDistanceDelta, footSpeed, currentFootSpeed, stepDistance, stepHeight; // how far away can our foot be before we move our feet to it?
     // start runs at the start of the gameplay
     private void Start()
     {
@@ -77,10 +76,9 @@ public class CrabMinion : EnemyClass
     private void FixedUpdate()
     {
         // move our feet
-        FootControl(frontRightFootGoal, frontRightFootTarget);
-        FootControl(frontLeftFootGoal, frontLeftFootTarget);        
-        FootControl(backRightFootGoal, backRightFootTarget);
-        FootControl(backLeftFootGoal, backLeftFootTarget);
+        FootControl(frontRightFootGoal, frontRightFootTarget); FootControl(frontLeftFootGoal, frontLeftFootTarget);  FootControl(backRightFootGoal, backRightFootTarget); FootControl(backLeftFootGoal, backLeftFootTarget);
+        // move our goals
+        FootGoalControl(frontRightFootGoal); FootGoalControl(frontLeftFootGoal); FootGoalControl(backRightFootGoal); FootGoalControl(backLeftFootGoal); 
     }
 
 
@@ -105,13 +103,29 @@ public class CrabMinion : EnemyClass
     // control our feet for procedural animation
     void FootControl(Transform footGoal, Transform footTarget)
     {
+
+        // make a var for our final target pos
+        Vector3 finalTargetPos; Vector3 forwardFootPos, forwardFootDirection; // get a position that is further forward in the direction of where the foot is 
         // if our foot is too far away, move it towards our target foot position at our footspeed
         if (Vector3.Distance(footGoal.position, footTarget.position) > maxFootDistanceDelta)
         {
-            Vector3 forwardFootPos, forwardFootDirection; // get a position that is further forward in the direction of where the foot is moving
+            currentFootSpeed = footSpeed;
             forwardFootDirection = footGoal.position - footTarget.position;
             forwardFootPos = footGoal.position + (forwardFootDirection.normalized * stepDistance);
-            footTarget.position = Vector3.Lerp(footTarget.position, forwardFootPos, footSpeed * Time.deltaTime); 
+            // now lerp our foot
+            footTarget.position = new Vector3(forwardFootPos.x, footGoal.position.y, forwardFootPos.z);
+        }
+    }
+
+    void FootGoalControl(Transform footGoal)
+    {
+        // fire a ray downwards from about our knee height to make sure we can walk up a slope
+        RaycastHit hit;
+        // if we hit the ground
+        if (Physics.Raycast(footGoal.position + new Vector3(0, 2, 0), Vector3.down, out hit, 3f, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        {
+            // move our footGoal
+            footGoal.position = hit.point;
         }
     }
 }
