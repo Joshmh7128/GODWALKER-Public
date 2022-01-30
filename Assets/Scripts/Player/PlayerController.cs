@@ -178,6 +178,10 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region // Visual effect Prefabs
+    [SerializeField] GameObject pistolMuzzleFlashFX, pistolHitFX;
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
@@ -391,9 +395,24 @@ public class PlayerController : MonoBehaviour
 
                             // once we have the pitch, play the sound
                             fireAudioSource.Play();
+
+                            // fire muzzle flash when we fire
+                            Instantiate(pistolMuzzleFlashFX, rightGunTip);
                             // hitscan and deal damage
                             RaycastHit hit;
-                            Physics.Raycast(rightGunTip.position,  )
+                            if (Physics.Raycast(rightGunTip.position, diegeticAimTarget.position - rightGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                            {
+                                // create a visual effect of our shot hitting
+                                Instantiate(pistolHitFX, hit.point, Quaternion.Euler(hit.normal));
+                                // create a line render to show the path of our bullet in the air
+
+                                // deal damage F
+                                if (hit.transform.tag == "Enemy")
+                                { 
+                                    if (hit.transform.gameObject.GetComponent<EnemyClass>() != null)
+                                    hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage((int)pistolDamage); 
+                                }
+                            }
 
                             rightArm = false;
                             // fire animation weight amount
@@ -416,11 +435,20 @@ public class PlayerController : MonoBehaviour
 
                             // once we have the pitch, play the sound
                             fireAudioSource.Play();
-                            // spawn bullet
-                            GameObject bullet = Instantiate(playerBullet, leftGunTip.position, Quaternion.identity, null);
-                            bullet.GetComponent<PlayerBulletScript>().bulletType = PlayerBulletScript.bulletTypes.Hitscan;
-                            bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
-                            bullet.GetComponent<PlayerBulletScript>().bulletDamage = pistolDamage;
+                            // fire muzzle flash when we fire
+                            Instantiate(pistolMuzzleFlashFX, leftGunTip.position, Quaternion.identity, null);
+                            // hitscan and deal damage
+                            RaycastHit hit;
+                            if (Physics.Raycast(rightGunTip.position, diegeticAimTarget.position - rightGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                            {
+                                // create a visual effect of our shot hitting
+                                Instantiate(pistolHitFX, hit.point, Quaternion.identity, null);
+                                // create a line render to show the path of our bullet in the air
+
+                                // deal damage
+                                if (hit.transform.tag == "Enemy")
+                                { hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage((int)pistolDamage); }
+                            }
                             rightArm = true;
                             // fire animation weight amount
                             leftIKArmKickback = 1;
