@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
     #region // Referenced Prefabs
     // referenced prefabs and objects
-    [SerializeField] GameObject playerBullet;   // bullet prefab
+    [SerializeField] GameObject playerBulletEffect;   // bullet prefab
     [SerializeField] Slider ammoSlider;         // our ammo slider
     [SerializeField] Text ammoAmountText;       // our ammo amount in text   
     [SerializeField] Text ammoMaxText;          // our ammo amount in text   
@@ -397,7 +397,9 @@ public class PlayerController : MonoBehaviour
                             fireAudioSource.Play();
 
                             // fire muzzle flash when we fire
-                            Instantiate(pistolMuzzleFlashFX, rightGunTip);
+                            Instantiate(pistolMuzzleFlashFX, rightGunTip.position, rightGunTip.rotation, null);
+                            PlayerBulletScriptFX ourBullet = Instantiate(playerBulletEffect, rightGunTip.position, rightGunTip.rotation, null).GetComponent<PlayerBulletScriptFX>();
+                            ourBullet.bulletTarget = diegeticAimTarget;
                             // hitscan and deal damage
                             RaycastHit hit;
                             if (Physics.Raycast(rightGunTip.position, diegeticAimTarget.position - rightGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
@@ -406,7 +408,7 @@ public class PlayerController : MonoBehaviour
                                 Instantiate(pistolHitFX, hit.point, Quaternion.Euler(hit.normal));
                                 // create a line render to show the path of our bullet in the air
 
-                                // deal damage F
+                                // deal damage
                                 if (hit.transform.tag == "Enemy")
                                 { 
                                     if (hit.transform.gameObject.GetComponent<EnemyClass>() != null)
@@ -417,8 +419,6 @@ public class PlayerController : MonoBehaviour
                             rightArm = false;
                             // fire animation weight amount
                             rightIKArmKickback = 1;
-                            // particle effect
-                            Instantiate(shootParticle, rightGunTip.position, rightGunTip.rotation, null);
                             // shot cooldown
                             shotCoolDownRemain = shotCoolDown;
                             // camera fov change
@@ -436,10 +436,12 @@ public class PlayerController : MonoBehaviour
                             // once we have the pitch, play the sound
                             fireAudioSource.Play();
                             // fire muzzle flash when we fire
-                            Instantiate(pistolMuzzleFlashFX, leftGunTip.position, Quaternion.identity, null);
+                            Instantiate(pistolMuzzleFlashFX, leftGunTip.position, leftGunTip.rotation, null);
+                            PlayerBulletScriptFX ourBullet = Instantiate(playerBulletEffect, leftGunTip.position, leftGunTip.rotation, null).GetComponent<PlayerBulletScriptFX>();
+                            ourBullet.bulletTarget = diegeticAimTarget;
                             // hitscan and deal damage
                             RaycastHit hit;
-                            if (Physics.Raycast(rightGunTip.position, diegeticAimTarget.position - rightGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                            if (Physics.Raycast(leftGunTip.position, diegeticAimTarget.position - leftGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
                             {
                                 // create a visual effect of our shot hitting
                                 Instantiate(pistolHitFX, hit.point, Quaternion.identity, null);
