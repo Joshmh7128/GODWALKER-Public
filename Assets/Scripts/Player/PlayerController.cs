@@ -391,11 +391,10 @@ public class PlayerController : MonoBehaviour
 
                             // once we have the pitch, play the sound
                             fireAudioSource.Play();
-                            // spawn bullet
-                            GameObject bullet = Instantiate(playerBullet, rightGunTip.position, rightGunTip.rotation, null);
-                            bullet.GetComponent<PlayerBulletScript>().bulletType = PlayerBulletScript.bulletTypes.Projectile;
-                            bullet.GetComponent<PlayerBulletScript>().bulletTarget = diegeticAimTarget;
-                            bullet.GetComponent<PlayerBulletScript>().bulletDamage = pistolDamage;
+                            // hitscan and deal damage
+                            RaycastHit hit;
+                            Physics.Raycast(rightGunTip.position,  )
+
                             rightArm = false;
                             // fire animation weight amount
                             rightIKArmKickback = 1;

@@ -41,7 +41,7 @@ public class PlayerBulletScript : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider collision)
+   /* private void OnTriggerEnter(Collider collision)
     {
         // destroy if it hits the environment
         if (collision.CompareTag("Environment"))
@@ -66,7 +66,7 @@ public class PlayerBulletScript : MonoBehaviour
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             KillBullet();
         }
-    }
+    }*/
 
     private void KillBullet()
     {
