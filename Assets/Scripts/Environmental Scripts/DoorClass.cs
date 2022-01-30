@@ -31,11 +31,12 @@ public class DoorClass : MonoBehaviour
 
         if (!isOpen)
         {
-            if (Vector3.Distance(playerTransform.position, transform.position) < interactDistance)
+           /* if (Vector3.Distance(playerTransform.position, transform.position) < interactDistance)
             {
                 GameObject.Find("MusicManager").GetComponent<MusicController>().MusicMood(MusicController.musicMoods.tension);
-            }
-            else if (Vector3.Distance(playerTransform.position, transform.position) > interactDistance)
+            }*/
+            
+            if (Vector3.Distance(playerTransform.position, transform.position) > interactDistance)
             {
                 GameObject.Find("MusicManager").GetComponent<MusicController>().MusicMood(MusicController.musicMoods.explore);
             }
