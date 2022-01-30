@@ -214,11 +214,12 @@ public class PlayerController : MonoBehaviour
                     dashDir = new Vector3((moveV.x + moveH.x) * dashIntensity, 0f, (moveV.z + moveH.z) * dashIntensity);
                     dashAudioSource.Play();
                     dashParticleSystem.Play();
+                    humanoidPlayerAnimator.SetLayerWeight(6, 1);
                 }
             }
 
-            // if we are moving
-            if ((Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f))
+            // if we are moving and not 
+            if ((Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f) && (dashCoolDown == 0))
             {
                 // leg animation weights
                 if (humanoidPlayerAnimator != null)
@@ -241,7 +242,7 @@ public class PlayerController : MonoBehaviour
                     neckTargetAnimator.SetLayerWeight(1, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))); // run layer
                 }
             }
-            else
+            else 
             {
                 // leg animation weights
                 if (humanoidPlayerAnimator != null)
@@ -269,7 +270,7 @@ public class PlayerController : MonoBehaviour
             {
                 // jump falling
                 gravityValue = gravity*100;
-                // jump animation weight
+                // jump animation weights
                 humanoidPlayerAnimator.SetLayerWeight(6, 0);
                 humanoidHandTargetAnimator.SetLayerWeight(5, 0);
 

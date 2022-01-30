@@ -29,26 +29,4 @@ public class ProceduralWalkManager : MonoBehaviour
         StartCoroutine("SpeedSwapping");
     }
 
-    // custom update function
-    IEnumerator LegUpdateCoroutine()
-    {
-        while (true)
-        {
-            do
-            {
-                frontLeftFoot.MoveFoot();
-                backRightFoot.MoveFoot();
-                // wait a frame
-                yield return null;
-            } while (backRightFoot.onSit == false || frontLeftFoot.onSit == false);
-
-            do
-            {
-                frontRightFoot.MoveFoot();
-                backLeftFoot.MoveFoot();
-                // wait a frame
-                yield return null;
-            } while (frontRightFoot.onSit == false || backLeftFoot.onSit == false);
-        }
-    }
 }

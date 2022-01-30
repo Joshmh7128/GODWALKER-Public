@@ -4,55 +4,57 @@ using UnityEngine;
 
 public class ProceduralWalkFoot : MonoBehaviour
 {
-    // vars
-    [SerializeField] Transform targetFoot;
-    [SerializeField] Vector3 currentPos; // where we are now
-    [SerializeField] Vector3 sitPos; // where feet can be
-    [SerializeField] float maxDelta; // the maximum distance we can be from a foot
-    [SerializeField] float maxSpread; // randomization maximum
-    [SerializeField] float legSpeed; // how fast do legs move
-    public bool onSit; // are we standing on the foot position?
+    [SerializeField] Transform footGoal, footTarget, footLerp;
+    [SerializeField] Vector3 prevTargetPos; // our previous target position
+    [SerializeField] float maxFootDistanceDelta, footSpeed, currentFootSpeed, stepDistance, stepHeight; // how far away can our foot be before we move our feet to it?
 
-    // Start
     private void Start()
     {
-        // so we have a current position at the beginning
-        currentPos = targetFoot.position;
+        footTarget.parent = null;
     }
 
-    bool newPos = false;
-
-    // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        
+        FootTargetControl();
+        FootGoalControl();
+        FootLerpControl();
     }
 
-    public void MoveFoot()
+    // control our feet for procedural animation
+    void FootTargetControl()
     {
-        float maxDeltaTemp = Random.Range(maxDelta, maxDelta * 1.5f);
-
-        if (Vector3.Distance(currentPos, targetFoot.position) > maxDeltaTemp)
+        // make a var for our final target pos
+        Vector3 finalTargetPos; Vector3 forwardFootPos, forwardFootDirection; // get a position that is further forward in the direction of where the foot is 
+        // if our foot is too far away, move it towards our target foot position at our footspeed
+        if (Vector3.Distance(footGoal.position, footTarget.position) > Random.Range(maxFootDistanceDelta, maxFootDistanceDelta*1.5f))
         {
-            // declare a new sitPos
-            sitPos = currentPos + (targetFoot.position - currentPos) * 1.8f;
-
-            if (newPos == false)
-            {
-                newPos = true;
-            }
-            onSit = false;
+            // set our old target
+            prevTargetPos = footGoal.position;
+            forwardFootDirection = footGoal.position - footTarget.position;
+            forwardFootPos = footGoal.position + (forwardFootDirection.normalized * stepDistance);
+            // now lerp our foot
+            footTarget.position = new Vector3(forwardFootPos.x, footGoal.position.y, forwardFootPos.z);
         }
+    }
 
-        if (onSit == false)
+    // make sure we are at the correct height
+    void FootGoalControl()
+    {
+        // fire a ray downwards from about our knee height to make sure we can walk up a slope
+        RaycastHit hit;
+        // if we hit the ground
+        if (Physics.Raycast(footGoal.position + new Vector3(0, 3, 0), Vector3.down, out hit, 4f, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         {
-            currentPos = Vector3.MoveTowards(currentPos, sitPos, legSpeed * Time.deltaTime);
-            transform.position = currentPos;
-
-            if (transform.position == sitPos)
-            {
-                onSit = true;
-            }
+            if (hit.transform.tag != "Enemy")
+            // move our footGoal
+            footGoal.position = hit.point;
         }
+    }
+
+    // control the final lerp of each of our feet from the lerp position to the target
+    void FootLerpControl()
+    {
+        // then lerp to the foot target
+        footLerp.position = Vector3.Lerp(footLerp.position, footTarget.position, footSpeed * Time.deltaTime);
     }
 }
