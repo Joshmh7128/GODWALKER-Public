@@ -16,7 +16,8 @@ public class TreadTurretMinion : EnemyClass
     [SerializeField] private float x, y, z, rx, rz, headHeight; // our movement variables
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] Transform headJoint, shotPos, treadTransform, treadRaycastStart; // our head joint
-    [SerializeField] GameObject bulletPrefab;  // start runs at the start of the gameplay
+    [SerializeField] GameObject bulletPrefab;  // what we are firing
+    [SerializeField] GameObject deathParticle;  // our death particle
     bool isActive; // are we active? have we seen the player?
 
     private void Start()
@@ -58,7 +59,10 @@ public class TreadTurretMinion : EnemyClass
     {
         // death condition
         if (HP <= 0)
-        { Destroy(gameObject); }
+        {
+            // Instantiate(deathParticle, transform.position, Quaternion.identity, null); // spawn our death particle 
+            Destroy(gameObject); // destroy this enemy
+        }
 
         // rotate our headjoint to look at the player
         headJoint.transform.LookAt(playerTransform);

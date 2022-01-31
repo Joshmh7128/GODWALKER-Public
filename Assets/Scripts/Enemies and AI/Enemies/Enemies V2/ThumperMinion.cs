@@ -16,7 +16,8 @@ public class ThumperMinion : EnemyClass
     [SerializeField] private float x, y, z, rx, rz, headHeight; // our movement variables
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] Transform treadTransform, treadRaycastStart; // our head joint
-    [SerializeField] GameObject bulletPrefab;  // start runs at the start of the gameplay
+    [SerializeField] GameObject bulletPrefab;  // our bullet
+    [SerializeField] GameObject deathParticle; // our death particle  
     bool isActive; // are we active? have we seen the player?
 
     private void Start()
@@ -59,7 +60,10 @@ public class ThumperMinion : EnemyClass
     {
         // death condition
         if (HP <= 0)
-        { Destroy(gameObject); }
+        {
+            // Instantiate(deathParticle, transform.position, Quaternion.identity, null); // spawn our death particle 
+            Destroy(gameObject); // destroy this object
+        }
     }
 
     // the fixed update runs 60 times per second
