@@ -46,7 +46,8 @@ public class ThumperMinion : EnemyClass
         if (HP < maxHP / 2f)
         { x = Random.Range(farRadiusMin, farRadiusMax); z = Random.Range(farRadiusMin, farRadiusMax); }
         // shuffle those to be positive or negative within the radii
-        rx = Random.Range(0, 2); rz = Random.Range(0, 2); if (rx > 0) { x *= -1; }
+        rx = Random.Range(0, 2); rz = Random.Range(0, 2); 
+        if (rx > 0) { x *= -1; }
         if (rz > 0) { z *= -1; }
         // get the X and Z of that position and use the Y of our head so that we can walk up slopes (may need refining?)
         y = headHeight;
@@ -69,6 +70,11 @@ public class ThumperMinion : EnemyClass
     // the fixed update runs 60 times per second
     private void FixedUpdate()
     {
+
+        // get our player transform
+        if (playerTransform == null)
+        { playerTransform = GameObject.Find("Player").transform; }
+
         // if we can see the player, activate our enemy
         if (isActive == false)
         { if (!Physics.Linecast(transform.position, playerTransform.position)) { Activate(); } }
