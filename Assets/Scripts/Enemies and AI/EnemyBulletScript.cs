@@ -12,6 +12,7 @@ public class EnemyBulletScript : MonoBehaviour
     Transform enemyManager;
     Transform playerTransform;
     [SerializeField] bool speedsUp, targetPlayer; // does our bullet linearly speed up?
+    public Vector3 customDirection; // leave blank if no direction
 
     // for when our bullet is instantiated
     private void Start()
@@ -48,7 +49,15 @@ public class EnemyBulletScript : MonoBehaviour
     void Update()
     {
         // move bullet
-        transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
+        if (customDirection != new Vector3(0, 0, 0))
+        {
+            transform.Translate(customDirection * bulletSpeed * Time.deltaTime);
+        }
+        else
+        {
+
+            transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
+        }
     }
 
     IEnumerator SafetyKill()

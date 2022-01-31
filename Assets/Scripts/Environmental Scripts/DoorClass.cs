@@ -18,12 +18,17 @@ public class DoorClass : MonoBehaviour
     {
         player = ReInput.players.GetPlayer(0);
         playerTransform = UpgradeSingleton.Instance.player.transform;
+
+        if (Vector3.Distance(playerTransform.position, transform.position) > interactDistance)
+        {
+            GameObject.Find("MusicManager").GetComponent<MusicController>().MusicMood(MusicController.musicMoods.explore);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player.GetButtonDown("ActionE") && (isOpen == false))
+        if (player.GetButtonDown("ActionE") && (isOpen == false) && Vector3.Distance(playerTransform.position, transform.position) < interactDistance)
         {
             isOpen = true;
             doorAnimator.Play("QueueDoor");
@@ -36,10 +41,7 @@ public class DoorClass : MonoBehaviour
                 GameObject.Find("MusicManager").GetComponent<MusicController>().MusicMood(MusicController.musicMoods.tension);
             }*/
             
-            if (Vector3.Distance(playerTransform.position, transform.position) > interactDistance)
-            {
-                GameObject.Find("MusicManager").GetComponent<MusicController>().MusicMood(MusicController.musicMoods.explore);
-            }
+
         }
     }
 }

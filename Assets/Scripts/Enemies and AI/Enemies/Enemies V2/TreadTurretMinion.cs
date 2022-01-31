@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class TreadTurretMinion : EnemyClass
 {
-    /// the tri shot minion is a small enemy who fires 3 shots at the player
+    /// the tread turret minion is a small enemy who fires shots at the player
     /// they move to random close points within a thick radius around the player when they are above 50% HP
     /// when they are below 50% HP they will move away from the player, and attempt to run from them
     /// when they shoot they fire three shots at the player, one direct, one slightly left and one slightly right
