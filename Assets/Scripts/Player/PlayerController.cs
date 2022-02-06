@@ -765,7 +765,7 @@ public class PlayerController : MonoBehaviour
         {
             case (EnemyClass.dropTypes.power):
                 if (powerAmount < powerMax)
-                powerAmount += 3;
+                powerAmount += 4;
                 break;
 
             case (EnemyClass.dropTypes.nanites):
