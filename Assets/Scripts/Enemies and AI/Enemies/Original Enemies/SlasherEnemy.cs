@@ -164,7 +164,6 @@ public class SlasherEnemy : EnemyClassOld
             if (canHurtCounter <= 0)
             {
                 player.gameObject.GetComponent<PlayerController>().AddHP(-3);
-                Camera.main.GetComponent<CameraScript>().shakeDuration += 0.085f;
                 canHurtCounter += 10;
             }
         }

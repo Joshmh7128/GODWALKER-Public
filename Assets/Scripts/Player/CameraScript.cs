@@ -12,24 +12,13 @@ public class CameraScript : MonoBehaviour
 
     // controling variables
     [SerializeField] float aimSensitivity; // how sensitive is our camera
-    float sensitivityChange;
-    float currentSensitivity;
-    public Transform headTransform; // the transform of our player's head
-    public Transform bodyTransform; // the transform of our player's body
-    [SerializeField] float yRotate; // Y rotation float
-    [SerializeField] float xRotate; // X rotation float
-    [SerializeField] float minYAngle; // min our Y can be (usually negative)
-    [SerializeField] float maxYAngle; // max our Y can be (usually positive)
-    [SerializeField] public bool canLook = true; // can we look around?
+    float sensitivityChange, currentSensitivity; // changes we want to apply to it for the sake of making the X and Y easier to control // the result after we combine our aimSensitivity and the change
+    [SerializeField] float xRotate, yRotate, xRotateMod, yRotateMod; // x, y rotation float
+    [SerializeField] float minYAngle, maxYAngle; // min our Y can be is usually negative, max Y is usually positive
+    public bool canLook = true; // can we look around?
 
     // player variables
-    [SerializeField] Transform aimTarget; // where is the camera looking?
-    [SerializeField] Transform digeticAimTarget; // where is the camera looking?
-    [SerializeField] Transform moveTargetRight; // where is the camera moving to?    
-    [SerializeField] Transform moveTargetLeft; // where is the camera moving to?
-    [SerializeField] Transform cameraContainer; // container
-    [SerializeField] bool moveTargetIsRight = true; // true = right, false = left, toggle with Z
-    Transform camTransform;
+    [SerializeField] Transform cameraContainer; // parent container
     RaycastHit hit; // our aiming raycast hit
     Ray ray; // our aiming ray
 
@@ -40,32 +29,21 @@ public class CameraScript : MonoBehaviour
     [SerializeField] CanvasGroup enemyCanvas; float enemyCanvasTargetAlpha; 
     [SerializeField] Text enemyNameField, enemyHPField;
     [SerializeField] Slider enemyHPSlider;
-
-    // How long the object should shake for.
-    public float shakeDuration;
-    // Amplitude of the shake. A larger value shakes the camera harder.
-    public float shakeAmount, shakeDelta; // can be set in editor
-    public float decreaseFactor; 
-
-    Vector3 originalPos;
+    
+    // screenshake related
+    Vector3 originalPos; float snapShakeReturnLerpSpeed; // our original position (use when testing other pos than vector3.zero), how quickly we lerp back
 
     // rifle aiming
     public RaycastHit rifleTargetHit;
+
+    // cosmetics to make our character look like they are moving
+    public Transform headTransform, bodyTransform;
 
     // Start is called before the first frame update
     void Start()
     {
         player = ReInput.players.GetPlayer(0);
         Cursor.lockState = CursorLockMode.Locked;
-    }
-
-    // get our camera transform
-    void Awake()
-    {
-        if (camTransform == null)
-        {
-            camTransform = GetComponent(typeof(Transform)) as Transform;
-        }
     }
 
     // set our local pos for screenshake
@@ -101,25 +79,11 @@ public class CameraScript : MonoBehaviour
             // leftArmLine.SetPosition(1, digeticAimTarget.position); 
         }
         
-        // toggle which side our camera is on
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            if (canLook)
-            moveTargetIsRight = !moveTargetIsRight;
-        }
+        // we're going to move our camera container to the proper position
 
-        // move the container
-        if (canLook)
-        {
-            if (moveTargetIsRight)
-            {
-                cameraContainer.position = moveTargetRight.position;
-            }
-            else
-            {
-                cameraContainer.position = moveTargetLeft.position;
-            }
-        }
+        // lerp our camera back to it's proper position if it moves away from it
+
+
     }
 
     private void FixedUpdate()
@@ -138,26 +102,11 @@ public class CameraScript : MonoBehaviour
 
         if (canLook)
         {
-            // screenshake
-            if (shakeDuration > 0 && canLook)
-            {
-                camTransform.localPosition = Vector3.Lerp(camTransform.localPosition, originalPos + Random.insideUnitSphere * shakeAmount, Time.deltaTime * shakeDelta);
-                shakeDuration -= decreaseFactor;
-            }
-            else
-            {
-                shakeDuration = 0f;
-                camTransform.localPosition = originalPos;
-            }
-
             ray.origin = Camera.main.transform.position; // adjust this distance if the camera is adjusted
             ray.direction = Camera.main.transform.forward;
 
             if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore) && (Vector3.Distance(hit.point, transform.position) > 10f))
             {
-                // do a raycast and then position the target
-                digeticAimTarget.position = hit.point;
-
                 // check to see if this hits an enemy
                 if (hit.transform.tag == "Enemy")
                 {   // if it is an enemy, get its information and set & activate our UI
@@ -178,7 +127,7 @@ public class CameraScript : MonoBehaviour
             else
             {
                 // do a raycast and then position the target
-                digeticAimTarget.position = transform.position+transform.forward*1000f;
+                // digeticAimTarget.position = transform.position+transform.forward*1000f;
                 // make sure we set our canvas to hide
                 enemyCanvasTargetAlpha = 0;
             }
@@ -198,10 +147,19 @@ public class CameraScript : MonoBehaviour
                 sensitivityChange = 0;
             }
         }
+
+        // if our camera has been shaken from a shot, move it back to the original position
+        transform.position = Vector3.Lerp(transform.position, Vector3.zero, snapShakeReturnLerpSpeed * Time.deltaTime);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(hit.point, 0.5f);
+    }
+
+    // call this whenever we want our camera to snap shake
+    public void SnapScreenShake(float snapShakeDelta)
+    {
+        transform.position = transform.position + new Vector3(Random.Range(-snapShakeDelta, snapShakeDelta), Random.Range(-snapShakeDelta, snapShakeDelta), 0f );
     }
 }

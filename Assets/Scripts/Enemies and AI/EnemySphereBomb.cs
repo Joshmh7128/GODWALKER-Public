@@ -40,7 +40,6 @@ public class EnemySphereBomb : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             playerController.AddHP(-1);
-            Camera.main.GetComponent<CameraScript>().shakeDuration += 0.085f;
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }
@@ -48,7 +47,6 @@ public class EnemySphereBomb : MonoBehaviour
         // if a bullet hits this
         if (collision.CompareTag("Projectile"))
         {
-            Camera.main.GetComponent<CameraScript>().shakeDuration += 0.085f;
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }

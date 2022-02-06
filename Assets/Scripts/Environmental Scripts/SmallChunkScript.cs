@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class SmallChunkScript : MonoBehaviour
 {
+    /// <summary>
+    /// more than likely requires a rewrite.
+    /// </summary>
+
     [SerializeField] PlayerController playerController; // our player controller
     [SerializeField] GameObject cubePuff; // death particle effect
-    [SerializeField] Rigidbody rigidbody;
     [SerializeField] AudioSource ourSource;
     [SerializeField] AudioClip chunkClip;
     [SerializeField] AudioClip scrapClip;
@@ -29,9 +32,6 @@ public class SmallChunkScript : MonoBehaviour
         // make this in to it's own object
         transform.parent = GameObject.Find("Small Chunks").GetComponent<Transform>();
 
-        if (rigidbody == null)
-        { rigidbody = gameObject.GetComponent<Rigidbody>(); }
-
         if (playerController == null)
         { playerController = GameObject.Find("Player").GetComponent<PlayerController>(); }
     }
@@ -45,9 +45,9 @@ public class SmallChunkScript : MonoBehaviour
 
     private void OnCollisionStay(Collision col)
     {
-        if (rigidbody.velocity == Vector3.zero)
+        if (GetComponent<Rigidbody>().velocity == Vector3.zero)
         {
-            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             gameObject.GetComponent<Collider>().enabled = false;
         }
     }
@@ -71,7 +71,6 @@ public class SmallChunkScript : MonoBehaviour
                     {
                         playerController.powerAmount++;
                     }
-                    playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
                     UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
                     Destroy(gameObject);
@@ -89,7 +88,6 @@ public class SmallChunkScript : MonoBehaviour
                     ourSource.Play();
                     // do the rest
                     playerController.gemAmount++;
-                    playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
                     UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
                     Destroy(gameObject);
@@ -100,8 +98,6 @@ public class SmallChunkScript : MonoBehaviour
                     ourSource.clip = scrapClip;
                     ourSource.Play();
                     // do the rest
-                    playerController.scrapAmount++;
-                    playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
                     UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
                     Destroy(gameObject);
@@ -116,7 +112,6 @@ public class SmallChunkScript : MonoBehaviour
                     {
                         playerController.playerHP++;
                     }
-                    playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
                     UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
                     Destroy(gameObject);

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
-// using UnityEngine.Rendering.PostProcessing;
 using Rewired;
 
 public class PlayerController : MonoBehaviour
@@ -14,13 +13,12 @@ public class PlayerController : MonoBehaviour
     // controller values
     [SerializeField] CharacterController characterController; // our character controller
     public CameraScript cameraScript;           // our camera script
-    [SerializeField] float moveSpeed;           // how fast can we move?
-    [SerializeField] float gravity;             // gravity in the environment
+    [Header("Body Variables")]
     [SerializeField] Transform playerHead;      // for which way we are facing
     [SerializeField] Transform rightGunTip;     // for firing shots
     [SerializeField] Transform leftGunTip;
     [SerializeField] Transform diegeticAimTarget; // moves to our aiming position
-    [SerializeField] Transform treadYRotationParent; // used to make our treads slightly rock back and forth
+    [SerializeField] Transform playerYRotationParent; // used to make our treads slightly rock back and forth
     [SerializeField] bool rightArm = true;      // if true, shoot from right arm. if false, shoot from left arm. 
     public int powerAmount;                      // how much ammo we currently have
     public int gemAmount;                       // gem amount
@@ -28,8 +26,7 @@ public class PlayerController : MonoBehaviour
     public int gemMax;                          // gem carry space
     public int playerHP;                        // the player's health
     public int playerMaxHP;                     // the player's max health
-    public int scrapAmount;                   // how many bug parts do we have?
-    [SerializeField] Transform treadsParent;    // the parent of our treads
+    [SerializeField] Transform playerLegParent;    // the parent of our treads
     public bool canMove = true;
     public bool canFire = true;
     public bool victoryAchieved = false;
@@ -97,16 +94,19 @@ public class PlayerController : MonoBehaviour
     // visual effects
     public bool canDistort; // should we distort the image?
     float distortRate = 4; // what rate should we distort the image?
-    // public PostProcessVolume postProcessVolume; // our post process volume
+                           // public PostProcessVolume postProcessVolume; // our post process volume
     #endregion
 
     #region // Player Movement Variables
+    [Header("Movement Values")]
     // movement and input
     Player player;
     Vector3 move;
     Vector3 moveH;
     Vector3 moveV;
     public bool canJump = true;
+    [SerializeField] float moveSpeed;           // how fast can we move?
+    [SerializeField] float gravity;             // gravity in the environment
     [SerializeField] float jumpVelocity; // how fast can we jump
     [SerializeField] float fallMultiplier;  // how quicky we fall in addition to normal gravity
     [SerializeField] float normalFallMultiplier;  // how quicky we fall in addition to normal gravity
@@ -154,10 +154,7 @@ public class PlayerController : MonoBehaviour
 
     #region // Artifact Management
     // artifact upgradess
-    bool isInvincible;
-    bool isMitoInvincible;
-    bool autoShieldCoroutineRunning;
-    bool mitoShieldCoroutineRunning;
+    bool isInvincible, isMitoInvincible, autoShieldCoroutineRunning, mitoShieldCoroutineRunning;
     float autoShieldTime; // the amount of time our autoshield engages and the amount of time it takes to cool down
     [Header("Artifact Upgrades")]
     [SerializeField] Text artifactInfoText; // our artifact info text
@@ -176,7 +173,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region // Visual effect Prefabs
+    [Header("FX and Feel")]
     [SerializeField] GameObject pistolMuzzleFlashFX, pistolHitFX;
+    [SerializeField] float snapShakeDelta;
     #endregion
 
     // Start is called before the first frame update
@@ -201,8 +200,8 @@ public class PlayerController : MonoBehaviour
             float verticalVelocity;
 
             // rotate our treads (will be removed once humanoid animations are complete)
-            Vector3 treadDirection = Vector3.RotateTowards(treadsParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
-            treadsParent.rotation = Quaternion.LookRotation(treadDirection);
+            Vector3 treadDirection = Vector3.RotateTowards(playerLegParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
+            playerLegParent.rotation = Quaternion.LookRotation(treadDirection);
 
             // horizontal dash
             if (player.GetButtonDown("DashButton"))
@@ -460,7 +459,7 @@ public class PlayerController : MonoBehaviour
                         }
 
                         // screenshake
-                        cameraScript.shakeDuration += 5f;
+                        cameraScript.SnapScreenShake(snapShakeDelta);
 
                         // reduce ammo amount
                         if (powerAmount > 0)
@@ -585,18 +584,10 @@ public class PlayerController : MonoBehaviour
                 // reset all resources
                 gemAmount = 0;
                 powerAmount = 0;
-                scrapAmount = 0;
                 // fade out
                 fadeCanvas.alpha = 1;
                 // reset position
                 transform.position = new Vector3(0, 3.5f, 0);
-                /*
-                // reset drop pod position. everything else should be handled by the drop pod once it realized we are in the hub.
-                dropPodTransform.position = new Vector3(0, 0, 0);
-                // set droppod target position to 0 out
-                dropPodManager.ourPlatform.targetPos = new Vector3(0, 0, 0);
-                // make sure our droppod trips are reset
-                dropPodManager.remainingTrips = dropPodManager.maxTrips;*/
                 // let the player move
                 canMove = true;
                 cameraScript.canLook = true;
@@ -669,20 +660,6 @@ public class PlayerController : MonoBehaviour
         {
             mainCameraContainer.position = Vector3.Lerp(mainCameraContainer.position, inventoryCameraPos.position, 0.75f);
             mainCameraContainer.rotation = Quaternion.Euler(Vector3.Lerp(mainCameraContainer.rotation.eulerAngles, inventoryCameraPos.rotation.eulerAngles, 0.75f));
-        }
-
-        // update objective panel
-        // currentObjective.text = objectiveCurrentMessage;
-
-        // set current weapon
-        if (currentWeapon == weaponTypes.Pistols)
-        {
-
-        }
-
-        if (currentWeapon == weaponTypes.Rifle)
-        {
-
         }
 
         // make sure we set our playercontroller properlly
