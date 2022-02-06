@@ -46,19 +46,7 @@ public class DoorInteractionPad : MonoBehaviour
                     GameObject.Find("Player").GetComponent<PlayerController>().gemAmount -= 100;
                 }
             }
-        }
-
-        if (canOpen && specialDoorScrap)
-        {
-            if (GameObject.Find("Player").GetComponent<PlayerController>().scrapAmount >= 20)
-            {
-                if (player.GetButtonDown("ActionE"))
-                {
-                    doorClass.OpenDoor();
-                    GameObject.Find("Player").GetComponent<PlayerController>().scrapAmount -= 20;
-                }
-            }
-        }        
+        }     
         
         
         if (canOpen && !specialDoorGem && !specialDoorScrap)

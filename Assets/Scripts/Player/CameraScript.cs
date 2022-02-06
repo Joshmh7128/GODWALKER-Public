@@ -18,7 +18,7 @@ public class CameraScript : MonoBehaviour
     public bool canLook = true; // can we look around?
 
     // player variables
-    [SerializeField] Transform cameraContainer; // parent container
+    [SerializeField] Transform cameraContainer, cameraContainerGoal; // parent container and it's movement goal
     RaycastHit hit; // our aiming raycast hit
     Ray ray; // our aiming ray
 
@@ -29,12 +29,12 @@ public class CameraScript : MonoBehaviour
     [SerializeField] CanvasGroup enemyCanvas; float enemyCanvasTargetAlpha; 
     [SerializeField] Text enemyNameField, enemyHPField;
     [SerializeField] Slider enemyHPSlider;
-    
+
     // screenshake related
-    Vector3 originalPos; float snapShakeReturnLerpSpeed; // our original position (use when testing other pos than vector3.zero), how quickly we lerp back
+    Vector3 originalPos; [SerializeField] float snapShakeReturnLerpSpeed; // our original position (use when testing other pos than vector3.zero), how quickly we lerp back
 
     // rifle aiming
-    public RaycastHit rifleTargetHit;
+    public RaycastHit cameraCenterHit;
 
     // cosmetics to make our character look like they are moving
     public Transform headTransform, bodyTransform;
@@ -49,14 +49,14 @@ public class CameraScript : MonoBehaviour
     // set our local pos for screenshake
     void OnEnable()
     {
-        originalPos = camTransform.localPosition;
+        originalPos = transform.position;
     }
 
     void LateUpdate()
     {
 
         // perform a raycast from the center of the camera to the screen to world point of it's center
-        Physics.Raycast(transform.position, transform.forward, out rifleTargetHit, Mathf.Infinity);
+        Physics.Raycast(transform.position, transform.forward, out cameraCenterHit, Mathf.Infinity);
 
         if (canLook)
         {
@@ -70,13 +70,11 @@ public class CameraScript : MonoBehaviour
             xRotate += (player.GetAxis("JoyLookHorizontal") * 12f + player.GetAxis("MouseHorizontal")) * currentSensitivity * Time.fixedDeltaTime;
             // aim the camera at the child object of the head. head is moved by the above code
             // transform.LookAt(aimTarget.position);
-            // apply it
+            // apply it to our torso
             headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
             bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);
-            // access our line renderers
-
-            // leftArmLine.SetPosition(0, leftArm.position);
-            // leftArmLine.SetPosition(1, digeticAimTarget.position); 
+            // apply it to our camera
+            cameraContainer.eulerAngles = new Vector3(yRotate, xRotate, 0f);
         }
         
         // we're going to move our camera container to the proper position
@@ -149,7 +147,7 @@ public class CameraScript : MonoBehaviour
         }
 
         // if our camera has been shaken from a shot, move it back to the original position
-        transform.position = Vector3.Lerp(transform.position, Vector3.zero, snapShakeReturnLerpSpeed * Time.deltaTime);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, snapShakeReturnLerpSpeed * Time.deltaTime);
     }
 
     private void OnDrawGizmos()
@@ -160,6 +158,6 @@ public class CameraScript : MonoBehaviour
     // call this whenever we want our camera to snap shake
     public void SnapScreenShake(float snapShakeDelta)
     {
-        transform.position = transform.position + new Vector3(Random.Range(-snapShakeDelta, snapShakeDelta), Random.Range(-snapShakeDelta, snapShakeDelta), 0f );
+        transform.localPosition = transform.localPosition + new Vector3(Random.Range(-snapShakeDelta, snapShakeDelta), Random.Range(-snapShakeDelta, snapShakeDelta), 0f);
     }
 }

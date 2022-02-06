@@ -398,7 +398,7 @@ public class PlayerController : MonoBehaviour
                             ourBullet.bulletTarget = diegeticAimTarget;
                             // hitscan and deal damage
                             RaycastHit hit;
-                            if (Physics.Raycast(rightGunTip.position, diegeticAimTarget.position - rightGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                            if (Physics.Raycast(rightGunTip.position, cameraScript.cameraCenterHit.point - rightGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
                             {
                                 // create a visual effect of our shot hitting
                                 Instantiate(pistolHitFX, hit.point, Quaternion.Euler(hit.normal));
@@ -437,7 +437,7 @@ public class PlayerController : MonoBehaviour
                             ourBullet.bulletTarget = diegeticAimTarget;
                             // hitscan and deal damage
                             RaycastHit hit;
-                            if (Physics.Raycast(leftGunTip.position, diegeticAimTarget.position - leftGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                            if (Physics.Raycast(leftGunTip.position, cameraScript.cameraCenterHit.point - leftGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
                             {
                                 // create a visual effect of our shot hitting
                                 Instantiate(pistolHitFX, hit.point, Quaternion.identity, null);
@@ -586,8 +586,6 @@ public class PlayerController : MonoBehaviour
                 powerAmount = 0;
                 // fade out
                 fadeCanvas.alpha = 1;
-                // reset position
-                transform.position = new Vector3(0, 3.5f, 0);
                 // let the player move
                 canMove = true;
                 cameraScript.canLook = true;
