@@ -13,14 +13,15 @@ public class CameraScript : MonoBehaviour
     // controling variables
     [SerializeField] float aimSensitivity; // how sensitive is our camera
     float sensitivityChange, currentSensitivity; // changes we want to apply to it for the sake of making the X and Y easier to control // the result after we combine our aimSensitivity and the change
-    [SerializeField] float xRotate, yRotate, xRotateMod, yRotateMod; // x, y rotation float
+    public float xRotate, yRotate, xRotateMod, yRotateMod; // x, y rotation float
     [SerializeField] float minYAngle, maxYAngle; // min our Y can be is usually negative, max Y is usually positive
     public bool canLook = true; // can we look around?
 
     // player variables
     [SerializeField] Transform cameraContainer, cameraContainerGoal; // parent container and it's movement goal
-    RaycastHit hit; // our aiming raycast hit
-    Ray ray; // our aiming ray
+    RaycastHit enemyInfoHit; // our aiming raycast hit
+    Ray enemyInfoRay; // our aiming ray
+    [SerializeField] PlayerController playerController;
 
     // ui fade canvas
     [SerializeField] CanvasGroup fadeCanvas;
@@ -61,20 +62,24 @@ public class CameraScript : MonoBehaviour
         if (canLook)
         {
             currentSensitivity = aimSensitivity + sensitivityChange;
-
             // run math to rotate the head of the player as we move the mouse
             yRotate += (player.GetAxis("JoyLookVertical") * 6f + player.GetAxis("MouseVertical")) * -currentSensitivity * Time.fixedDeltaTime;
             // clamp the rotation so we don't go around ourselves
             yRotate = Mathf.Clamp(yRotate, minYAngle, maxYAngle);
             // calculate our X rotation
             xRotate += (player.GetAxis("JoyLookHorizontal") * 12f + player.GetAxis("MouseHorizontal")) * currentSensitivity * Time.fixedDeltaTime;
-            // aim the camera at the child object of the head. head is moved by the above code
-            // transform.LookAt(aimTarget.position);
+            // add in our rotate mods
+            float finalxRotate = xRotate + xRotateMod;
+            float finalyRotate = yRotate + yRotateMod;
+
+            Mathf.SmoothStep(xRotate, finalxRotate, 5 * Time.deltaTime);
+            Mathf.SmoothStep(yRotate, finalyRotate, 5 * Time.deltaTime);
+
             // apply it to our torso
-            headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
-            bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);
+            headTransform.eulerAngles = new Vector3(finalyRotate, finalxRotate, 0f);
+            bodyTransform.eulerAngles = new Vector3(0f, finalxRotate, 0f);
             // apply it to our camera
-            cameraContainer.eulerAngles = new Vector3(yRotate, xRotate, 0f);
+            cameraContainer.eulerAngles = new Vector3(finalyRotate, finalxRotate, 0f);
         }
         
         // we're going to move our camera container to the proper position
@@ -100,15 +105,15 @@ public class CameraScript : MonoBehaviour
 
         if (canLook)
         {
-            ray.origin = Camera.main.transform.position; // adjust this distance if the camera is adjusted
-            ray.direction = Camera.main.transform.forward;
+            enemyInfoRay.origin = Camera.main.transform.position; // adjust this distance if the camera is adjusted
+            enemyInfoRay.direction = Camera.main.transform.forward;
 
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore) && (Vector3.Distance(hit.point, transform.position) > 10f))
+            if (Physics.SphereCast(enemyInfoRay.origin, playerController.pistolShotSize, enemyInfoRay.direction, out enemyInfoHit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore) && (Vector3.Distance(enemyInfoHit.point, transform.position) > 10f))
             {
                 // check to see if this hits an enemy
-                if (hit.transform.tag == "Enemy")
+                if (enemyInfoHit.transform.tag == "Enemy")
                 {   // if it is an enemy, get its information and set & activate our UI
-                    EnemyClass enemyClass = hit.transform.gameObject.GetComponent<EnemyClass>();
+                    EnemyClass enemyClass = enemyInfoHit.transform.gameObject.GetComponent<EnemyClass>();
                     // set our UI fields
                     enemyNameField.text = enemyClass.NameText; enemyHPField.text = enemyClass.HP + " / " + enemyClass.maxHP;
                     // set our UI slider
@@ -148,11 +153,26 @@ public class CameraScript : MonoBehaviour
 
         // if our camera has been shaken from a shot, move it back to the original position
         transform.localPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, snapShakeReturnLerpSpeed * Time.deltaTime);
+
+        float returnRate = 0.25f;
+
+        // ensure that our rotate mods are reducing properly
+        if (xRotateMod > 0)
+        { xRotateMod -= returnRate; }
+
+        if (xRotateMod < 0)
+        { xRotateMod += returnRate; }
+
+        if (yRotateMod > 0)
+        { yRotateMod -= returnRate; }       
+        
+        if (yRotateMod < 0)
+        { yRotateMod += returnRate; }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(hit.point, 0.5f);
+        Gizmos.DrawWireSphere(enemyInfoHit.point, 0.5f);
     }
 
     // call this whenever we want our camera to snap shake

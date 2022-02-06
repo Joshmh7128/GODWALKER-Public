@@ -141,14 +141,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject reticleRing; // reticle ring associated with the rifle
     [SerializeField] GameObject cubePuff; // our bullet cube particle effect
     [SerializeField] GameObject rifleMuzzleFlash; // the rifle muzzle flash
-    public float shotCoolDownRemain, shotCoolDown; // the amount of time until we can fire again
+
     public float rifleDamage; // rifle damage
 
+
     // pistol stuff
-    public float pistolDamage; // pistol damage
-    public float pistolMagSize; // how many shots per magazine for pistols
-    public float pistolMagFill; // how many shots are in our current magazine?
+    public float pistolDamage, pistolMagSize, pistolMagFill; // pistol damage // how many shots per magazine for pistols // how many shots are in our current magazine?
     public float pistolSoundPitch, pistolSoundPitchMin, pistolSoundPitchMax; // our pitch, min, and max
+    public float pistolShotSize; // the size the of the pistol spherecast
+    public float shotCoolDownRemain, shotCoolDown; // the amount of time until we can fire again
+    public float pistolRecoil; // the amount of recoil our pistols give off
 
     #endregion
 
@@ -395,10 +397,10 @@ public class PlayerController : MonoBehaviour
                             // fire muzzle flash when we fire
                             Instantiate(pistolMuzzleFlashFX, rightGunTip.position, rightGunTip.rotation, null);
                             PlayerBulletScriptFX ourBullet = Instantiate(playerBulletEffect, rightGunTip.position, rightGunTip.rotation, null).GetComponent<PlayerBulletScriptFX>();
-                            ourBullet.bulletTarget = diegeticAimTarget;
+                            ourBullet.bulletTarget = cameraScript.cameraCenterHit.point;
                             // hitscan and deal damage
                             RaycastHit hit;
-                            if (Physics.Raycast(rightGunTip.position, cameraScript.cameraCenterHit.point - rightGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                            if (Physics.SphereCast(rightGunTip.position, pistolShotSize, cameraScript.cameraCenterHit.point - rightGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
                             {
                                 // create a visual effect of our shot hitting
                                 Instantiate(pistolHitFX, hit.point, Quaternion.Euler(hit.normal));
@@ -418,8 +420,8 @@ public class PlayerController : MonoBehaviour
                             // shot cooldown
                             shotCoolDownRemain = shotCoolDown;
                             // camera fov change
-                            // dash screen fov lerp
-                            Mathf.Lerp(shotCoolDownRemain, shotCoolDown, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + (shotCoolDown/8));
+                            // shot screen fov lerp
+                            // Mathf.Lerp(shotCoolDownRemain, shotCoolDown, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + (shotCoolDown/8));
                         }
                         else if (rightArm == false)
                         {
@@ -434,10 +436,10 @@ public class PlayerController : MonoBehaviour
                             // fire muzzle flash when we fire
                             Instantiate(pistolMuzzleFlashFX, leftGunTip.position, leftGunTip.rotation, null);
                             PlayerBulletScriptFX ourBullet = Instantiate(playerBulletEffect, leftGunTip.position, leftGunTip.rotation, null).GetComponent<PlayerBulletScriptFX>();
-                            ourBullet.bulletTarget = diegeticAimTarget;
+                            ourBullet.bulletTarget = cameraScript.cameraCenterHit.point;
                             // hitscan and deal damage
                             RaycastHit hit;
-                            if (Physics.Raycast(leftGunTip.position, cameraScript.cameraCenterHit.point - leftGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                            if (Physics.SphereCast(leftGunTip.position, pistolShotSize, cameraScript.cameraCenterHit.point - leftGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
                             {
                                 // create a visual effect of our shot hitting
                                 Instantiate(pistolHitFX, hit.point, Quaternion.identity, null);
@@ -455,11 +457,13 @@ public class PlayerController : MonoBehaviour
                             // shot cooldown
                             shotCoolDownRemain = shotCoolDown;
                             // screen fov
-                            Mathf.Lerp(shotCoolDownRemain, shotCoolDown, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + (shotCoolDown/8));
+                            // Mathf.Lerp(shotCoolDownRemain, shotCoolDown, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + (shotCoolDown/8));
                         }
 
                         // screenshake
                         cameraScript.SnapScreenShake(snapShakeDelta);
+                        // weapon kick
+                        cameraScript.yRotateMod += pistolRecoil;
 
                         // reduce ammo amount
                         if (powerAmount > 0)

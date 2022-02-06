@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerBulletScriptFX : MonoBehaviour
 {
     // variables
-    public Transform bulletTarget; // what is the target of our bullet?
+    public Vector3 bulletTarget; // what is the target of our bullet?
     public float bulletDamage; // what is the damage of our bullet
     [SerializeField] float bulletSpeed; // what is the speed of our bullet?
     [SerializeField] GameObject cubePuff; // our particle effect on death
