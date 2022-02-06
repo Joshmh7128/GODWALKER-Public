@@ -158,6 +158,6 @@ public class CameraScript : MonoBehaviour
     // call this whenever we want our camera to snap shake
     public void SnapScreenShake(float snapShakeDelta)
     {
-        transform.localPosition = transform.localPosition + new Vector3(Random.Range(-snapShakeDelta, snapShakeDelta), Random.Range(-snapShakeDelta, snapShakeDelta), 0f);
+        transform.localPosition = transform.localPosition + new Vector3(0f, 0f, -snapShakeDelta);
     }
 }
