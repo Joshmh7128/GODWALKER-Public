@@ -90,7 +90,7 @@ public class GameData : MonoBehaviour
         saveData.SaveDataFloatArray[(int)SaveDataTypes.dropPodBugPartMax] = hubManager.droppodManager.bugPartMax;
         saveData.SaveDataFloatArray[(int)SaveDataTypes.storageUpgradeFactor] = hubManager.storageUpgradeFactor;
         saveData.SaveDataFloatArray[(int)SaveDataTypes.playerAmmoMax] = hubManager.playerController.powerMax;
-        saveData.SaveDataFloatArray[(int)SaveDataTypes.playerGemMax] = hubManager.playerController.gemMax;
+        saveData.SaveDataFloatArray[(int)SaveDataTypes.playerGemMax] = hubManager.playerController.naniteMax;
         // If our save File does not exist, create a new save file from our current values
         string jsonString = JsonUtility.ToJson(saveData);
         // write JSON to file

@@ -19,6 +19,7 @@ public class TreadTurretMinion : EnemyClass
     [SerializeField] GameObject bulletPrefab;  // what we are firing
     [SerializeField] GameObject deathParticle;  // our death particle
     bool isActive; // are we active? have we seen the player?
+    public dropTypes dropType;
 
     private void Start()
     {
@@ -61,7 +62,7 @@ public class TreadTurretMinion : EnemyClass
         if (HP <= 0)
         {
             // Instantiate(deathParticle, transform.position, Quaternion.identity, null); // spawn our death particle 
-            Destroy(gameObject); // destroy this enemy
+            OnDeath(); // destroy this enemy through our death function
         }
 
         // rotate our headjoint to look at the player
@@ -118,5 +119,25 @@ public class TreadTurretMinion : EnemyClass
         // perform hurt animation
     }
 
+    // our death function
+    private void OnDeath()
+    {
+        // depending on our droptype, drop different amounts of resources
+        switch (dropType)
+        {
+            case (dropTypes.power):
+                break;
+
+            case (dropTypes.nanites):
+                break;
+
+            case (dropTypes.HP):
+                break;
+        }
+        // then blow up
+
+        // then destroy ourselves
+
+    }
    
 }

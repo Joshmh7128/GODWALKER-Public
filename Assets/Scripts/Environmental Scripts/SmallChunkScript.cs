@@ -87,7 +87,7 @@ public class SmallChunkScript : MonoBehaviour
                     ourSource.clip = chunkClip;
                     ourSource.Play();
                     // do the rest
-                    playerController.gemAmount++;
+                    playerController.naniteAmount++;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
                     UpgradeSingleton.OnSmallChunkPickup(chunkType.ToString());
                     Destroy(gameObject);

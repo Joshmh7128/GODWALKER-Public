@@ -184,7 +184,7 @@ public class DroppodManager : MonoBehaviour
             UpgradeSingleton.DestroySingleton();
             playerController.ClearArtifactInfoUI();*/
             // unload the player
-            playerController.gemAmount = 0;
+            playerController.naniteAmount = 0;
             // reset remainingTrips
             remainingTrips = maxTrips;
             // wait until the hub has been loaded 

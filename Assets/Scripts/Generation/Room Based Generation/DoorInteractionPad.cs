@@ -38,12 +38,12 @@ public class DoorInteractionPad : MonoBehaviour
     {
         if (canOpen && specialDoorGem)
         {
-            if (GameObject.Find("Player").GetComponent<PlayerController>().gemAmount >= 100)
+            if (GameObject.Find("Player").GetComponent<PlayerController>().naniteAmount >= 100)
             {
                 if (player.GetButtonDown("ActionE"))
                 {
                     doorClass.OpenDoor();
-                    GameObject.Find("Player").GetComponent<PlayerController>().gemAmount -= 100;
+                    GameObject.Find("Player").GetComponent<PlayerController>().naniteAmount -= 100;
                 }
             }
         }     

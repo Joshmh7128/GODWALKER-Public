@@ -71,7 +71,7 @@ public class HubManager : MonoBehaviour
         droppodManager.mineralMax = gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.dropPodMineralMax];
         droppodManager.bugPartMax = gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.dropPodBugPartMax];
         playerController.powerMax = (int)gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.playerAmmoMax];
-        playerController.gemMax = (int)gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.playerGemMax];
+        playerController.naniteMax = (int)gameData.saveData.SaveDataFloatArray[(int)GameData.SaveDataTypes.playerGemMax];
 
     }
 

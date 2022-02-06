@@ -21,9 +21,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform playerYRotationParent; // used to make our treads slightly rock back and forth
     [SerializeField] bool rightArm = true;      // if true, shoot from right arm. if false, shoot from left arm. 
     public int powerAmount;                      // how much ammo we currently have
-    public int gemAmount;                       // gem amount
+    public int naniteAmount;                       // nanite amount
     public int powerMax;                         // how much ammo we can carry at one time
-    public int gemMax;                          // gem carry space
+    public int naniteMax;                          // gem carry space
     public int playerHP;                        // the player's health
     public int playerMaxHP;                     // the player's max health
     [SerializeField] Transform playerLegParent;    // the parent of our treads
@@ -339,8 +339,8 @@ public class PlayerController : MonoBehaviour
         ammoMaxText.text = powerMax.ToString(); // in text
         ammoSlider.value = (float)powerAmount / (float)powerMax;        
         // display our gem amount
-        gemAmountText.text = gemAmount.ToString(); // in text
-        gemMaxText.text = gemMax.ToString(); // in text
+        gemAmountText.text = naniteAmount.ToString(); // in text
+        gemMaxText.text = naniteMax.ToString(); // in text
         // displayer our HP amount
         hpAmountText.text = playerHP.ToString(); // in text
         hpMaxText.text = playerMaxHP.ToString(); // in text
@@ -586,7 +586,7 @@ public class PlayerController : MonoBehaviour
                 // display death canvas
                 deathCanvas.alpha = 0;
                 // reset all resources
-                gemAmount = 0;
+                naniteAmount = 0;
                 powerAmount = 0;
                 // fade out
                 fadeCanvas.alpha = 1;
@@ -754,6 +754,26 @@ public class PlayerController : MonoBehaviour
             isMitoInvincible = false;
             mitoZygoteShield.SetActive(false);
             UpgradeSingleton.Instance.mitoZygoteDuration = 0;
+        }
+    }
+
+    // public void for adding resources to us
+    public void AddResource(EnemyClass.dropTypes dropType)
+    {
+        // depending on what is picked up, do something different
+        switch (dropType)
+        {
+            case (EnemyClass.dropTypes.power):
+                powerAmount++;
+                break;
+
+            case (EnemyClass.dropTypes.nanites):
+                naniteAmount++;
+                break;
+
+            case (EnemyClass.dropTypes.HP):
+                playerHP++;
+                break;
         }
     }
 
