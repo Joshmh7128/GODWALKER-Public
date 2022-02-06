@@ -22,16 +22,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform diegeticAimTarget; // moves to our aiming position
     [SerializeField] Transform treadYRotationParent; // used to make our treads slightly rock back and forth
     [SerializeField] bool rightArm = true;      // if true, shoot from right arm. if false, shoot from left arm. 
-    public int ammoAmount;                      // how much ammo we currently have
+    public int powerAmount;                      // how much ammo we currently have
     public int gemAmount;                       // gem amount
-    public int ammoMax;                         // how much ammo we can carry at one time
+    public int powerMax;                         // how much ammo we can carry at one time
     public int gemMax;                          // gem carry space
     public int playerHP;                        // the player's health
     public int playerMaxHP;                     // the player's max health
     public int scrapAmount;                   // how many bug parts do we have?
-    public int gemUpgradeCost;
-    public int mineralUpgradeCost;
-    public int ammoUpgradeCost;
     [SerializeField] Transform treadsParent;    // the parent of our treads
     public bool canMove = true;
     public bool canFire = true;
@@ -337,9 +334,9 @@ public class PlayerController : MonoBehaviour
         
         #region // UI display
         // display our ammo amount
-        ammoAmountText.text = ammoAmount.ToString(); // in text
-        ammoMaxText.text = ammoMax.ToString(); // in text
-        ammoSlider.value = (float)ammoAmount / (float)ammoMax;        
+        ammoAmountText.text = powerAmount.ToString(); // in text
+        ammoMaxText.text = powerMax.ToString(); // in text
+        ammoSlider.value = (float)powerAmount / (float)powerMax;        
         // display our gem amount
         gemAmountText.text = gemAmount.ToString(); // in text
         gemMaxText.text = gemMax.ToString(); // in text
@@ -365,13 +362,13 @@ public class PlayerController : MonoBehaviour
             // check how much ammo we have, then determine how much damage we will deal based on it
             // ammo amount is out of 150. We want to split this into thirds. 
             // 100 to 150 = 3 dmg
-            if (ammoAmount > 100)
+            if (powerAmount > 100)
             { pistolDamage = 3; }
             // 50 to 100 = 2 dmg
-            if (ammoAmount > 50 && ammoAmount < 100)
+            if (powerAmount > 50 && powerAmount < 100)
             { pistolDamage = 2; }
             // 0 to 50 = 1 dmg
-            if (ammoAmount > 0 && ammoAmount < 50)
+            if (powerAmount > 0 && powerAmount < 50)
             { pistolDamage = 1; }
 
             if (player.GetButton("Fire"))
@@ -466,9 +463,9 @@ public class PlayerController : MonoBehaviour
                         cameraScript.shakeDuration += 5f;
 
                         // reduce ammo amount
-                        if (ammoAmount > 0)
+                        if (powerAmount > 0)
                         {
-                            ammoAmount--;
+                            powerAmount--;
                         }
 
                         // reduce our mag amount
@@ -587,7 +584,7 @@ public class PlayerController : MonoBehaviour
                 deathCanvas.alpha = 0;
                 // reset all resources
                 gemAmount = 0;
-                ammoAmount = 0;
+                powerAmount = 0;
                 scrapAmount = 0;
                 // fade out
                 fadeCanvas.alpha = 1;
@@ -697,26 +694,30 @@ public class PlayerController : MonoBehaviour
 
         // calculate our costs for upgrading storage
         gemUpgradeCost = (int)Mathf.Round((gemMax / 3) * 1.8f);
-        ammoUpgradeCost = (int)Mathf.Round((ammoMax / 3) * 1.8f);
+        ammoUpgradeCost = (int)Mathf.Round((powerMax / 3) * 1.8f);
 
-        // decrease hurt alpha
-        Mathf.Clamp(hurtCanvas.alpha, 0, 1);
-        hurtCanvas.alpha += -0.1f;
+        // decrease hurt alpha if it is above 0
+        if (hurtCanvas.alpha > 0)
+        {
+            Mathf.Clamp(hurtCanvas.alpha, 0, 1);
+            hurtCanvas.alpha += -0.1f;
+        }
 
-        // make sure we aren't out of bounds
+        // make sure our HP isnt out of bounds
         Mathf.Clamp(playerHP, 0, playerMaxHP);
 
-        // shot cooldown
+        // make sure to reduce shot cooldown
         if (shotCoolDownRemain > 0)
         {
             shotCoolDownRemain -= 1;
         }
 
-        // dash cooldown
+        // make sure we reduce dash cooldown
         if (dashCoolDown > 0)
         {
             dashCoolDown -= 1;
         }
+
         if (dashTime > 0)
         { dashTime--; }
 

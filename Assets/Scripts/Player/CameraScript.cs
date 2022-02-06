@@ -91,7 +91,7 @@ public class CameraScript : MonoBehaviour
             // calculate our X rotation
             xRotate += (player.GetAxis("JoyLookHorizontal") * 12f + player.GetAxis("MouseHorizontal")) * currentSensitivity * Time.fixedDeltaTime;
             // aim the camera at the child object of the head. head is moved by the above code
-            transform.LookAt(aimTarget.position);
+            // transform.LookAt(aimTarget.position);
             // apply it
             headTransform.eulerAngles = new Vector3(yRotate, xRotate, 0f);
             bodyTransform.eulerAngles = new Vector3(0f, xRotate, 0f);

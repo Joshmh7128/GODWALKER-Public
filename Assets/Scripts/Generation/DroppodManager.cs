@@ -147,7 +147,7 @@ public class DroppodManager : MonoBehaviour
         // start to move the pod up in to the sky
         ourPlatform.targetPos = targetPosFly;
         // reset the player ammo
-        playerTrans.gameObject.GetComponent<PlayerController>().ammoAmount = playerTrans.gameObject.GetComponent<PlayerController>().ammoMax;
+        playerTrans.gameObject.GetComponent<PlayerController>().powerAmount = playerTrans.gameObject.GetComponent<PlayerController>().powerMax;
         // wait until we are high in the air
         yield return new WaitUntil(() => Vector3.Distance(transform.position, targetPosFly) < 1f);
         // trigger the visual effect
@@ -374,9 +374,9 @@ public class DroppodManager : MonoBehaviour
                 bugPartAmount++;
             }*/
 
-            if (playerController.ammoAmount < playerController.ammoMax && ammoAmount > 0)
+            if (playerController.powerAmount < playerController.powerMax && ammoAmount > 0)
             {
-                playerController.ammoAmount++;
+                playerController.powerAmount++;
                 ammoAmount--;
             }
         }

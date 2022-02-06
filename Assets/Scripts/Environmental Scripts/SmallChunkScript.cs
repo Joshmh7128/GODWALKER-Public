@@ -67,9 +67,9 @@ public class SmallChunkScript : MonoBehaviour
                     ourSource.clip = chunkClip;
                     ourSource.Play();
                     // do the rest
-                    if (playerController.ammoAmount < playerController.ammoMax)
+                    if (playerController.powerAmount < playerController.powerMax)
                     {
-                        playerController.ammoAmount++;
+                        playerController.powerAmount++;
                     }
                     playerController.cameraScript.shakeDuration += 0.06f;
                     Instantiate(cubePuff, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), null);
