@@ -764,14 +764,16 @@ public class PlayerController : MonoBehaviour
         switch (dropType)
         {
             case (EnemyClass.dropTypes.power):
-                powerAmount++;
+                if (powerAmount < powerMax)
+                powerAmount += 3;
                 break;
 
             case (EnemyClass.dropTypes.nanites):
-                naniteAmount++;
+                naniteAmount += 10;
                 break;
 
             case (EnemyClass.dropTypes.HP):
+                if (playerHP < playerMaxHP)
                 playerHP++;
                 break;
         }

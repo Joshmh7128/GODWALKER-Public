@@ -23690,10 +23690,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 3.0147471
-  m_Height: 7.9810796
+  m_Radius: 2.62
+  m_Height: 7.96
   m_Direction: 1
-  m_Center: {x: -0.77927786, y: 3.0531576, z: 0.72198385}
+  m_Center: {x: 0, y: 3.0531576, z: 0.72198385}
 --- !u!195 &4663687623934639805
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -23730,7 +23730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 35
   maxHP: 35
-  NameText: Crab
+  NameText: Tread Turret (Bulky)
   playerTransform: {fileID: 0}
   closeRadiusMin: 1
   closeRadiusMax: 45
@@ -23749,6 +23749,11 @@ MonoBehaviour:
   treadRaycastStart: {fileID: 486666171128740124}
   bulletPrefab: {fileID: 1877941779878537961, guid: 5361a63318badb14a9a55cc51be2965c, type: 3}
   deathParticle: {fileID: 180860, guid: 8c3fc2b617b44e0428097d5f542f10f9, type: 3}
+  dropType: 0
+  dropAmount: 0
+  powerDrop: {fileID: 0}
+  healthDrop: {fileID: 0}
+  naniteDrop: {fileID: 0}
 --- !u!95 &7127639772949415576
 Animator:
   serializedVersion: 3

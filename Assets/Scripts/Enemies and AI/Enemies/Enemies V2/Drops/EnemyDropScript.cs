@@ -10,10 +10,10 @@ public class EnemyDropScript : MonoBehaviour
     /// written for other kinds of things.
     /// </summary>
 
-    [SerializeField] float pickupDistance, moveSpeed; // how far away does the player have to be for us to be picked up?
+    [SerializeField] float pickupDistance, moveSpeed, maxMoveSpeed; // how far away does the player have to be for us to be picked up?
     [SerializeField] GameObject playerObject; // player transform
     bool canMove = false;
-    EnemyClass.dropTypes dropType;
+    [SerializeField] EnemyClass.dropTypes dropType;
 
     private void Start()
     {
@@ -26,14 +26,20 @@ public class EnemyDropScript : MonoBehaviour
         // check out pickup distance
         if (Vector3.Distance(playerObject.transform.position, transform.position) < pickupDistance)
         { canMove = true; }
+    }
 
+    private void Update()
+    {
         // if we were ever within pickup distance of the player, speed up until we hit them
         if (canMove)
         {
-            // speed up
-            moveSpeed++;
+            // speed 
+            if (moveSpeed < maxMoveSpeed)
+            {
+                moveSpeed++;
+            }
             // apply our movement
-            transform.Translate((transform.position - playerObject.transform.position) * moveSpeed * Time.deltaTime); 
+            transform.position = Vector3.MoveTowards(transform.position, playerObject.transform.position, moveSpeed * Time.deltaTime);
         }
     }
 

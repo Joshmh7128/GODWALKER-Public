@@ -20,6 +20,8 @@ public class TreadTurretMinion : EnemyClass
     [SerializeField] GameObject deathParticle;  // our death particle
     bool isActive; // are we active? have we seen the player?
     public dropTypes dropType;
+    [SerializeField] float dropAmount;
+    [SerializeField] GameObject powerDrop, healthDrop, naniteDrop;
 
     private void Start()
     {
@@ -126,18 +128,48 @@ public class TreadTurretMinion : EnemyClass
         switch (dropType)
         {
             case (dropTypes.power):
+                while (dropAmount > 0)
+                {
+                    // spawn our desired amount of drops
+                    Instantiate(powerDrop, transform.position + new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)), Quaternion.identity);
+                    dropAmount--; // deduct our value
+
+                    // break condition
+                    if (dropAmount <= 0)
+                    { break; }
+                }
                 break;
 
             case (dropTypes.nanites):
+                while (dropAmount > 0)
+                {
+                    // spawn our desired amount of drops
+                    Instantiate(naniteDrop, transform.position + new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)), Quaternion.identity);
+                    dropAmount--; // deduct our value
+
+                    // break condition
+                    if (dropAmount <= 0)
+                    { break; }
+                }
                 break;
 
             case (dropTypes.HP):
+                while (dropAmount > 0)
+                {
+                    // spawn our desired amount of drops
+                    Instantiate(healthDrop, transform.position + new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)), Quaternion.identity);
+                    dropAmount--; // deduct our value
+
+                    // break condition
+                    if (dropAmount <= 0)
+                    { break; }
+                }
                 break;
         }
         // then blow up
 
         // then destroy ourselves
-
+        Destroy(gameObject);
     }
    
 }
