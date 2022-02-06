@@ -692,10 +692,6 @@ public class PlayerController : MonoBehaviour
             // UpdateArtifactInfoUI();
         }
 
-        // calculate our costs for upgrading storage
-        gemUpgradeCost = (int)Mathf.Round((gemMax / 3) * 1.8f);
-        ammoUpgradeCost = (int)Mathf.Round((powerMax / 3) * 1.8f);
-
         // decrease hurt alpha if it is above 0
         if (hurtCanvas.alpha > 0)
         {
