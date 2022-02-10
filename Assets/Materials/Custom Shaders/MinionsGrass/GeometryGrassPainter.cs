@@ -42,7 +42,7 @@ public class GeometryGrassPainter : MonoBehaviour
     public float sizeWidth = 1f;
     public float sizeLength = 1f;
     public float density = 1f;
-
+    public float displacementHeight = 1f;
 
     public float normalLimit = 1;
 
@@ -153,7 +153,7 @@ public class GeometryGrassPainter : MonoBehaviour
                             hitNormal = terrainHit.normal;
                             if (k != 0)
                             {
-                                var grassPosition = hitPos;// + Vector3.Cross(origin, hitNormal);
+                                var grassPosition = hitPos + new Vector3(0f,displacementHeight,0);// + Vector3.Cross(origin, hitNormal);
                                 grassPosition -= this.transform.position;
 
                                 positions.Add((grassPosition));

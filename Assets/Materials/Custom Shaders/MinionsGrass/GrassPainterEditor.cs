@@ -55,6 +55,7 @@ public class GrassPainterEditor : Editor
         grassPainter.brushSize = EditorGUILayout.Slider("Brush Size", grassPainter.brushSize, 0.1f, 10f);
         grassPainter.density = EditorGUILayout.Slider("Density", grassPainter.density, 0.1f, 10f);
         grassPainter.normalLimit = EditorGUILayout.Slider("Normal Limit", grassPainter.normalLimit, 0f, 1f);
+        grassPainter.displacementHeight = EditorGUILayout.Slider("Displacement Height", grassPainter.displacementHeight, 0f, 10f);
 
 
         EditorGUILayout.Space();
