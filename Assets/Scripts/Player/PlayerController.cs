@@ -498,7 +498,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // tab press to show and update objective panel
-        if (Input.GetKeyDown(KeyCode.Tab))
+
+        /*if (Input.GetKeyDown(KeyCode.Tab))
         {
             // save our previous body rotation
             previousBodyRotation = cameraScript.bodyTransform.rotation.eulerAngles;
@@ -553,22 +554,7 @@ public class PlayerController : MonoBehaviour
                 canMove = true;
                 cameraScript.canLook = true;
             }
-
-
-            #region // Old Development UI
-            /*
-            if (!objectiveShowing)
-            {
-                // run our panel coroutine
-                StartCoroutine(ObjectivePanelHandler("Collect Resources. Board Ship and Launch with Space when ready."));
-            }
-
-            if (artifactInfoText.color.a == 1)
-            { artifactInfoText.color = new Color(255, 255, 255, 0); }
-            else if (artifactInfoText.color.a == 0)
-            { artifactInfoText.color = new Color(255, 255, 255, 1); }*/
-            #endregion
-        }
+        }*/
 
         // lose condition
         if (playerHP <= 0)
