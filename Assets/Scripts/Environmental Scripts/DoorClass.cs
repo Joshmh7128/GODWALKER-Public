@@ -21,6 +21,7 @@ public class DoorClass : MonoBehaviour
 
         if (Vector3.Distance(playerTransform.position, transform.position) > interactDistance)
         {
+            if (GameObject.Find("MusicManager"))
             GameObject.Find("MusicManager").GetComponent<MusicController>().MusicMood(MusicController.musicMoods.explore);
         }
     }

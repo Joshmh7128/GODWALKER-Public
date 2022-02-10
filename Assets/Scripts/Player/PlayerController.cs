@@ -101,10 +101,8 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Values")]
     // movement and input
     Player player;
-    Vector3 move;
-    Vector3 moveH;
-    Vector3 moveV;
-    public bool canJump = true;
+    Vector3 move, moveH, moveV; // movement directions
+    public bool manualJumpControl = true, normalJumpAllow = false;
     [SerializeField] float moveSpeed;           // how fast can we move?
     [SerializeField] float gravity;             // gravity in the environment
     [SerializeField] float jumpVelocity; // how fast can we jump
@@ -277,14 +275,14 @@ public class PlayerController : MonoBehaviour
                 humanoidHandTargetAnimator.SetLayerWeight(5, 0);
 
             }
-            else if (characterController.isGrounded && player.GetButton("SpacePress") && canJump)
+            else if (characterController.isGrounded && player.GetButton("SpacePress") && manualJumpControl)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
 
                 humanoidPlayerAnimator.SetLayerWeight(2, 0);
             }
-            else if (characterController.velocity.y <= 0 && !characterController.isGrounded && canJump)
+            else if (characterController.velocity.y <= 0 && !characterController.isGrounded && manualJumpControl)
             {
                 // normal falling
                 gravityValue = gravity * fallMultiplier;
@@ -296,7 +294,7 @@ public class PlayerController : MonoBehaviour
                 // neck bob animation weight
                 neckTargetAnimator.SetLayerWeight(1,0); // run layer
             } 
-            else if (characterController.velocity.y > 0 && canJump)
+            else if (characterController.velocity.y > 0 && manualJumpControl)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
@@ -316,12 +314,9 @@ public class PlayerController : MonoBehaviour
             }
 
             // jumping
-            if (canJump)
+            if (manualJumpControl && player.GetButtonDown("SpacePress") && characterController.isGrounded && normalJumpAllow)
             {
-                if (player.GetButtonDown("SpacePress") && characterController.isGrounded)
-                {
-                    playerJumpVelocity += Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
-                }
+                playerJumpVelocity += Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
             }
 
             // total move 
@@ -497,6 +492,7 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene("Main Menu");
         }
 
+        #region // old code from tab to view updates
         // tab press to show and update objective panel
 
         /*if (Input.GetKeyDown(KeyCode.Tab))
@@ -555,6 +551,7 @@ public class PlayerController : MonoBehaviour
                 cameraScript.canLook = true;
             }
         }*/
+        #endregion
 
         // lose condition
         if (playerHP <= 0)
@@ -630,17 +627,16 @@ public class PlayerController : MonoBehaviour
         humanoidHandTargetAnimator.SetLayerWeight(3, rightIKArmKickback);
         humanoidHandTargetAnimator.SetLayerWeight(4, leftIKArmKickback);
 
-        // check if we are in the room generation scene, then stop showing the loading screen
-        if (SceneManager.GetActiveScene().name == "Room Generation")
-        {
-            // fade out
-            fadeCanvas.alpha = 0;
-        }
-
-        // check beneath us if we can jump  
-        if (Physics.Linecast(new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z), new Vector3(transform.position.x, transform.position.y - 2f, transform.position.z)))
-        {
-
+        // normal face check variabls
+        Ray normalCheckRay = new Ray(); normalCheckRay.origin = transform.position + new Vector3(0f, -3.451f, 0f); normalCheckRay.direction = Vector3.down; // how ray that we're firing
+        RaycastHit normalCheckHit; // our hit data
+        // check beneath us if the normal face we are standing on allows us to jump
+        if (Physics.Raycast(normalCheckRay.origin, normalCheckRay.direction, out normalCheckHit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        { // then see if the normal is within our allowed amount
+            if (Mathf.Abs(normalCheckHit.normal.y) < 0.3f)
+            { normalJumpAllow = false; }
+            else if (Mathf.Abs(normalCheckHit.normal.y) > 0.3f)
+            { normalJumpAllow = true; }
         }
     
         // lerp our camera to the inventory space
