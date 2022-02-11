@@ -633,9 +633,9 @@ public class PlayerController : MonoBehaviour
         // check beneath us if the normal face we are standing on allows us to jump
         if (Physics.Raycast(normalCheckRay.origin, normalCheckRay.direction, out normalCheckHit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         { // then see if the normal is within our allowed amount
-            if (Mathf.Abs(normalCheckHit.normal.y) < 0.3f)
+            if (Mathf.Abs(normalCheckHit.normal.y) < 0.45f)
             { normalJumpAllow = false; }
-            else if (Mathf.Abs(normalCheckHit.normal.y) > 0.3f)
+            else if (Mathf.Abs(normalCheckHit.normal.y) > 0.45f)
             { normalJumpAllow = true; }
         }
     
