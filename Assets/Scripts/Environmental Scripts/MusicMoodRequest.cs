@@ -11,12 +11,16 @@ public class MusicMoodRequest : MonoBehaviour
     {
         if (musicController == null)
         { 
+            if (GameObject.Find("MusicManager"))
             musicController = GameObject.Find("MusicManager").GetComponent<MusicController>(); 
         }
     }
 
     public void MusicRequest(MusicController.musicMoods mood)
     {
-        musicController.MusicMood(mood);
+        if (musicController != null)
+        {
+            musicController.MusicMood(mood);
+        }
     }
 }

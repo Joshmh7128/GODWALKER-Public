@@ -12,7 +12,7 @@ public class TreadTurretMinion : EnemyClass
 
     // our health point variables are defined in the EnemyClass; HP and MaxHP are defined in the parent abstract class
     [SerializeField] private Transform playerTransform; // our player's transform
-    [SerializeField] private float closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
+    [SerializeField] private float activationDistance, closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
     [SerializeField] private float x, y, z, rx, rz, headHeight; // our movement variables
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] Transform headJoint, shotPos, treadTransform, treadRaycastStart; // our head joint
@@ -74,9 +74,10 @@ public class TreadTurretMinion : EnemyClass
     // the fixed update runs 60 times per second
     private void FixedUpdate()
     {
-        // if we can see the player, activate our enemy
+
+        // if we can see the player or if our player is within reaction range, activate our enemy
         if (isActive == false)
-        { if (!Physics.Linecast(transform.position, playerTransform.position)) { Activate(); } }
+        { if (!Physics.Linecast(transform.position, playerTransform.position) && if (Vector3.Distance(transform.position, playerTransform.position) < activationDistance) { Activate(); } }
 
         // lets make sure our treads look forward and are level with the ground
         RaycastHit hit; 
