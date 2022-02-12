@@ -761,6 +761,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // public void for jump pads
+    public void JumpLaunch(float jumpPower)
+    {
+        playerJumpVelocity += Mathf.Sqrt(jumpPower * -3.0f * gravity);
+    }
+
     IEnumerator AutoShieldTimer(float shieldTime)
     {
         autoShieldCoroutineRunning = true;
