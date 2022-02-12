@@ -102,15 +102,18 @@ public class PlayerController : MonoBehaviour
     // movement and input
     Player player;
     Vector3 move, moveH, moveV; // movement directions
-    public bool manualJumpControl = true, normalJumpAllow = false;
+    public bool manualJumpControl = true, normalJumpAllow = false, isOnJumpPad = false;
     [SerializeField] float moveSpeed;           // how fast can we move?
     [SerializeField] float gravity;             // gravity in the environment
     [SerializeField] float jumpVelocity; // how fast can we jump
+    [SerializeField] float jumpPadVelocity; // our jump pad velocity
     [SerializeField] float fallMultiplier;  // how quicky we fall in addition to normal gravity
     [SerializeField] float normalFallMultiplier;  // how quicky we fall in addition to normal gravity
     [SerializeField] float lowJumpMultiplier;  // how quicky we fall in addition to normal gravity
     [SerializeField] float playerJumpVelocity;  // how quicky we fall in addition to normal gravity
+    [SerializeField] float playerJumpPadVelocity;  // how quicky we fall in addition to normal gravity
     float gravityValue;                        // real time simulated gravity
+    float verticalVelocity, verticalJumpVelocity, verticalJumpPadVelocity; // vertical velocity variable
     // everything to do with our dash
     [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
     [SerializeField] Vector3 dashDir;
@@ -196,8 +199,7 @@ public class PlayerController : MonoBehaviour
             moveV = playerHead.forward * pAxisV;
             moveH = playerHead.right * pAxisH;
 
-            // vertical velocity variable
-            float verticalVelocity;
+
 
             // rotate our treads (will be removed once humanoid animations are complete)
             Vector3 treadDirection = Vector3.RotateTowards(playerLegParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
@@ -268,8 +270,8 @@ public class PlayerController : MonoBehaviour
             // gravity modifications
             if (characterController.isGrounded && !player.GetButtonDown("SpacePress"))
             {
-                // jump falling
-                gravityValue = gravity*100;
+                // normal gravity
+                gravityValue = gravity*10;
                 // jump animation weights
                 humanoidPlayerAnimator.SetLayerWeight(6, 0);
                 humanoidHandTargetAnimator.SetLayerWeight(5, 0);
@@ -308,9 +310,14 @@ public class PlayerController : MonoBehaviour
                 neckTargetAnimator.SetLayerWeight(1, 0); // run layer
             }
 
-            if (characterController.isGrounded && playerJumpVelocity < 0)
+            // check if we are on the ground
+            if (characterController.isGrounded && !isOnJumpPad)
             {
-                playerJumpVelocity = 0f;
+                if (playerJumpVelocity < 0)
+                { playerJumpVelocity = 0; }
+
+                if (playerJumpPadVelocity < 0)
+                { playerJumpPadVelocity = 0; }
             }
 
             // jumping
@@ -319,8 +326,9 @@ public class PlayerController : MonoBehaviour
                 playerJumpVelocity += Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
             }
 
-            // total move 
-            verticalVelocity = playerJumpVelocity += gravityValue * Time.deltaTime;
+            verticalJumpVelocity = playerJumpVelocity += gravityValue * Time.deltaTime;
+            // verticalJumpPadVelocity = playerJumpPadVelocity += gravityValue * Time.deltaTime;
+            verticalVelocity = verticalJumpVelocity + verticalJumpPadVelocity;
             move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
             move += dashDir;
             // apply to the character controller
@@ -764,7 +772,10 @@ public class PlayerController : MonoBehaviour
     // public void for jump pads
     public void JumpLaunch(float jumpPower)
     {
-        playerJumpVelocity += Mathf.Sqrt(jumpPower * -3.0f * gravity);
+        // bool
+        /// isOnJumpPad = true; IS DONE ON JumpPad.cs
+        // launch
+        playerJumpVelocity += Mathf.Sqrt((jumpVelocity* jumpPower) * -3.0f * gravity);
     }
 
     IEnumerator AutoShieldTimer(float shieldTime)

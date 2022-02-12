@@ -16,10 +16,20 @@ public class JumpPad : MonoBehaviour
         // if our trigger comes into contact with the player
         if (other.transform.tag == "Player")
         {   // launch them
+            UpgradeSingleton.Instance.player.isOnJumpPad = true;
             UpgradeSingleton.Instance.player.JumpLaunch(jumpPower);
             // play our sound
             if (audioSource)
             audioSource.Play();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.tag == "Player")
+        {   
+            // make sure they know they are not on a jump
+            UpgradeSingleton.Instance.player.isOnJumpPad = false;
         }
     }
 }
