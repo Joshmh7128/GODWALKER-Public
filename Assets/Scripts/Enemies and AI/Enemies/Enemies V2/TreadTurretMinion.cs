@@ -40,8 +40,6 @@ public class TreadTurretMinion : EnemyClass
     // our movement coroutine
     private IEnumerator NavMeshPositionTarget()
     {
-        // wait 1 to 3 seconds
-        yield return new WaitForSeconds(Random.Range(1f, 3f));
         // if our HP is > 50% choose a position in our close radius, if < 50% choose in our far radius
         // top 50%
         if (HP > maxHP / 2f) { x = Random.Range(closeRadiusMin, closeRadiusMax); z = Random.Range(closeRadiusMin, closeRadiusMax); }        
@@ -53,6 +51,8 @@ public class TreadTurretMinion : EnemyClass
         // get the X and Z of that position and use the Y of our head so that we can walk up slopes (may need refining?)
         y = headHeight;
         navMeshAgent.destination = playerTransform.position + new Vector3(x, y, z);
+        // wait 1 to 3 seconds
+        yield return new WaitForSeconds(Random.Range(1f, 3f));
         // repeat this cycle
         StartCoroutine(NavMeshPositionTarget());
     }
@@ -74,7 +74,6 @@ public class TreadTurretMinion : EnemyClass
     // the fixed update runs 60 times per second
     private void FixedUpdate()
     {
-
         // if we can see the player or if our player is within reaction range, activate our enemy
         if (isActive == false)
         { if (!Physics.Linecast(headJoint.transform.position, playerTransform.position) || (Vector3.Distance(transform.position, playerTransform.position)) < activationDistance || HP != maxHP) { Activate(); } }
