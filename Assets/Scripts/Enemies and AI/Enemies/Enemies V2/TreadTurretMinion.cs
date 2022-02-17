@@ -52,7 +52,7 @@ public class TreadTurretMinion : EnemyClass
         y = headHeight;
         navMeshAgent.destination = playerTransform.position + new Vector3(x, y, z);
         // wait 1 to 3 seconds
-        yield return new WaitForSeconds(Random.Range(1f, 3f));
+        yield return new WaitForSeconds(Random.Range(0.5f, 1f));
         // repeat this cycle
         StartCoroutine(NavMeshPositionTarget());
     }

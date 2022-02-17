@@ -13,6 +13,7 @@ public class DoorClass : MonoBehaviour
     Transform playerTransform;
     bool isOpen; // are we open?
     [SerializeField] float interactDistance;
+    [SerializeField] CombatZone combatZone; // our associated combat zone to activate
 
     private void Start()
     {
@@ -31,8 +32,9 @@ public class DoorClass : MonoBehaviour
     {
         if (player.GetButtonDown("ActionE") && (isOpen == false) && Vector3.Distance(playerTransform.position, transform.position) < interactDistance)
         {
-            isOpen = true;
-            doorAnimator.Play("QueueDoor");
+            isOpen = true; // we're open
+            doorAnimator.Play("QueueDoor"); // animate!
+            combatZone.ActivateZone(); // activate the zone
         }
 
         if (!isOpen)
