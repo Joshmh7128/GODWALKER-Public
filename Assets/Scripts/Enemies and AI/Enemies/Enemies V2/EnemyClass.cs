@@ -15,4 +15,6 @@ public abstract class EnemyClass : MonoBehaviour
         power,
         HP
     }
+
+    public CombatZone combatZone; // what combat zone are we in?
 }

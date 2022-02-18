@@ -10,90 +10,55 @@ public class CombatZone : MonoBehaviour
     /// the player is currently fighting
     /// </summary>
 
-    [SerializeField] List<List<GameObject>> enemyWaves; // list of lists of enemies in each wave
+    [SerializeField] List<GameObject> waveParents; // the parents of wave objects that we'll put into our enemy lists
     [SerializeField] GameObject summonEffect; // our summoning particle effect
     bool isActive = false; // is this combat zone active? default to no
     int currentWave = 0; // which wave are we on?
+    [SerializeField] int childCount = 0; // the amount of active children
     List<GameObject> activeParticles; // our list of active particles
 
-    // public function that allows us to activate a zone
+    // starts our zone
     public void ActivateZone()
     {
-        ActivateWave();
-        isActive = true;
-    }
-    
-    // use to clean all active particles
-    void CleanParticles()
-    { 
-        foreach (GameObject particle in activeParticles)
-        {
-            Destroy(particle);
-        }
+        // activates our first wave
+        ActivateCurrentWave();
     }
 
-    void ActivateWave()
+    void ActivateCurrentWave()
     {
-        // activate our current wave
-        foreach (GameObject enemy in enemyWaves[currentWave])
+        // for each child of the wave, set it to true
+        foreach (Transform child in waveParents[currentWave].transform)
         {
-            // activate them
-            enemy.SetActive(true);
+            childCount++;
+            child.gameObject.SetActive(true);
         }
     }
 
     void EndCombat()
     {
-        // end combat
+        // music change
+
+        // open doors
+
+        // environment lighting change
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    public void OnDeath()
     {
-        // if we are active
-        if (isActive)
+        childCount--;
+
+        if (childCount <= 0)
         {
-            // cycle through the current enemyWave and make sure to remove any null enemy objects
-            for (int i = enemyWaves[currentWave].Count - 1; i >= 0; i--)
+            if (currentWave >= waveParents.Count)
             {
-                // cleanup
-                if (enemyWaves[currentWave][i] == null)
-                { enemyWaves[currentWave].RemoveAt(i); }
-            }
-
-            // check how many enemies are alive in the current wave, if there are 2 or less alive of the current wave, 
-            // spawn a particle effect at each position of each enemy in the next wave 
-            if (enemyWaves[currentWave].Count <= 2)
+                EndCombat();
+            } else 
             {
-                bool particlesMade = false;
-
-                if (particlesMade == false)
-                {
-                    foreach (GameObject enemy in enemyWaves[currentWave])
-                    {
-                        Instantiate(summonEffect, enemy.transform.position, Quaternion.identity, null);
-                    }
-
-                    particlesMade = true;
-                }
-            }
-
-            // if all enemies in the current wave are killed activate the next wave and remove all the old particle effects
-            if (enemyWaves[currentWave].Count == 0)
-            {
-                // next wave up
-                if (enemyWaves[currentWave + 1] != null)
-                {
-                    currentWave++;
-                    ActivateWave();
-                    CleanParticles();
-                }
-                else if (enemyWaves[currentWave + 1] == null) 
-                {
-                    // end combat if there are no more waves
-                    EndCombat();
-                }
+                Debug.Log("Wave " + currentWave + " over");
+                currentWave++;
+                ActivateCurrentWave();
             }
         }
     }
+
 }

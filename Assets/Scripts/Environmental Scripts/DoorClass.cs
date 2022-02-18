@@ -13,7 +13,7 @@ public class DoorClass : MonoBehaviour
     Transform playerTransform;
     bool isOpen; // are we open?
     [SerializeField] float interactDistance;
-    [SerializeField] CombatZone combatZone; // our associated combat zone to activate
+    [SerializeField] CombatZone nextCombatZone, pastCombatZone; // our associated combat zone to activate. our past combat zone to see if we can open
 
     private void Start()
     {
@@ -34,7 +34,7 @@ public class DoorClass : MonoBehaviour
         {
             isOpen = true; // we're open
             doorAnimator.Play("QueueDoor"); // animate!
-            combatZone.ActivateZone(); // activate the zone
+            nextCombatZone.ActivateZone(); // activate the zone
         }
 
         if (!isOpen)

@@ -64,6 +64,7 @@ public class TreadTurretMinion : EnemyClass
         if (HP <= 0)
         {
             // Instantiate(deathParticle, transform.position, Quaternion.identity, null); // spawn our death particle 
+            combatZone.OnDeath();
             OnDeath(); // destroy this enemy through our death function
         }
 
