@@ -585,7 +585,7 @@ public class PlayerController : MonoBehaviour
                 canMove = true;
                 cameraScript.canLook = true;
                 // load primer
-                SceneManager.LoadScene("RePrimer", LoadSceneMode.Single);
+                SceneManager.LoadScene("StartA1", LoadSceneMode.Single);
                 // set player HP to max
                 playerHP = playerMaxHP;
                 // make sure to reload the upgrade singleton and UI

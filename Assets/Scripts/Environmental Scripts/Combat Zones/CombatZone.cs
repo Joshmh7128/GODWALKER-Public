@@ -15,7 +15,8 @@ public class CombatZone : MonoBehaviour
     bool isActive = false; // is this combat zone active? default to no
     int currentWave = 0; // which wave are we on?
     [SerializeField] int childCount = 0; // the amount of active children
-    List<GameObject> activeParticles; // our list of active particles
+    List<GameObject> activeParticles = new List<GameObject>(); // our list of active particles
+    bool particlesActive; // are our particles active
 
     // starts our zone
     public void ActivateZone()
@@ -43,21 +44,54 @@ public class CombatZone : MonoBehaviour
         // environment lighting change
     }
 
+    void ClearParticles()
+    {
+        if (activeParticles.Count > 0)
+        {
+            // get each particle and...
+            foreach (GameObject gameObject in activeParticles)
+            {   // ...perform a murder!
+                Destroy(gameObject);
+            }
+        }
+
+        // there is... no more...
+        particlesActive = false;
+    }
+
+    // call whenever an enemy dies
     public void OnDeath()
     {
+        // lower childcount
         childCount--;
 
-        if (childCount <= 0)
+        // check to see if our wave is ending...
+        if (childCount == 0)
         {
             if (currentWave >= waveParents.Count)
             {
                 EndCombat();
-            } else 
+            }
+            else 
             {
                 Debug.Log("Wave " + currentWave + " over");
                 currentWave++;
                 ActivateCurrentWave();
+                // clear our particles
+                ClearParticles();
             }
+        } else if (childCount <= 2 && !particlesActive && currentWave+1 < waveParents.Count) // make sure we can make our particles!
+        {
+            foreach (Transform child in waveParents[currentWave+1].transform)
+            {
+                // make the particle effect
+                GameObject effect = Instantiate(summonEffect, child.position, Quaternion.identity, null);
+                //add it to the list
+                activeParticles.Add(effect);
+            }
+
+            // our particles are now active!!
+            particlesActive = true;
         }
     }
 
