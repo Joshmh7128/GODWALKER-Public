@@ -18,8 +18,11 @@ public abstract class EnemyClass : MonoBehaviour
 
     public CombatZone combatZone; // what combat zone are we in?
 
+    // use our awake function to check the parent of our parent 
     public void Awake()
     {
-        
+        // if we don't have a combat zone, get it from our root parent
+        if (!combatZone)
+            combatZone = transform.root.GetComponent<CombatZone>();
     }
 }
