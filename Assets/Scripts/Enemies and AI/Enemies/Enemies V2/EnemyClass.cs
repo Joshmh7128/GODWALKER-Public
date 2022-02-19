@@ -17,4 +17,9 @@ public abstract class EnemyClass : MonoBehaviour
     }
 
     public CombatZone combatZone; // what combat zone are we in?
+
+    public void Awake()
+    {
+        
+    }
 }

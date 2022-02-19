@@ -63,6 +63,7 @@ public class ThumperMinion : EnemyClass
         if (HP <= 0)
         {
             // Instantiate(deathParticle, transform.position, Quaternion.identity, null); // spawn our death particle 
+            combatZone.OnDeath(); // make sure we tell our combat zone we've died
             Destroy(gameObject); // destroy this object
         }
     }
