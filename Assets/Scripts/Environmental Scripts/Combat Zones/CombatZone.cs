@@ -17,6 +17,7 @@ public class CombatZone : MonoBehaviour
     [SerializeField] int childCount = 0; // the amount of active children
     List<GameObject> activeParticles = new List<GameObject>(); // our list of active particles
     bool particlesActive; // are our particles active
+    [SerializeField] List<DoorClass> doorClasses; // all the doors we will be locking and unlocking from combat
 
     // starts our zone
     public void ActivateZone()
