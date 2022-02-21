@@ -22,12 +22,10 @@ public class TreadTurretMinion : EnemyClass
     public dropTypes dropType;
     [SerializeField] float dropAmount;
     [SerializeField] GameObject powerDrop, healthDrop, naniteDrop;
+    bool hasActivated = false; // have we activtated?
 
     private void Start()
-    {
-        // make sure we are not active at the start
-        isActive = false;
-        
+    {        
         // get our player transform
         if (playerTransform == null)
         { playerTransform = UpgradeSingleton.Instance.player.transform; }
@@ -79,7 +77,7 @@ public class TreadTurretMinion : EnemyClass
         if (isActive == false)
         { if (!Physics.Linecast(headJoint.transform.position, playerTransform.position) || (Vector3.Distance(transform.position, playerTransform.position)) < activationDistance || HP != maxHP) { Activate(); } }
 
-        if (isActive == true) { Activate(); }
+        if (isActive == true && hasActivated == false) { Activate(); }
 
         // lets make sure our treads look forward and are level with the ground
         RaycastHit hit; 
@@ -101,7 +99,7 @@ public class TreadTurretMinion : EnemyClass
     void Activate()
     {
         // we are now active
-        isActive = true; 
+        isActive = true; hasActivated = true;
         // start our movement coroutine
         StartCoroutine(NavMeshPositionTarget());
         // play our shooting animation

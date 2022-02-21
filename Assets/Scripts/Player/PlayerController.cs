@@ -428,25 +428,10 @@ public class PlayerController : MonoBehaviour
             // if we press space, emergency teleport back to base (load primer)
             if (Input.GetKeyDown(KeyCode.F))
             {
-                // display death canvas
                 deathCanvas.alpha = 0;
-                // reset all resources
-                naniteAmount = 0;
-                powerAmount = 0;
-                // fade out
-                fadeCanvas.alpha = 1;
-                // let the player move
-                canMove = true;
-                cameraScript.canLook = true;
-                // load primer
-                SceneManager.LoadScene("StartA1", LoadSceneMode.Single);
-                // set player HP to max
-                playerHP = playerMaxHP;
-                // make sure to reload the upgrade singleton and UI
-                // unload the instance
                 UpgradeSingleton.DestroySingleton();
-                // make sure the player's position is reset on death
-                transform.position = new Vector3(0, 5, 0);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                Destroy(gameObject);
             }
         }
 

@@ -21,9 +21,6 @@ public class ThumperMinion : EnemyClass
 
     private void Start()
     {
-        // make sure we are not active at the start
-        isActive = false;
-
         // get our player transform
         if (playerTransform == null)
         { playerTransform = UpgradeSingleton.Instance.player.transform; }
