@@ -167,7 +167,7 @@ public class TreadTurretMinion : EnemyClass
                 break;
         }
         // then blow up
-
+        Instantiate(deathParticle, transform.position, Quaternion.identity, null);
         // then destroy ourselves
         Destroy(gameObject);
     }

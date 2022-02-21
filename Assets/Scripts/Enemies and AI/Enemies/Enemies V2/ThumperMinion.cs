@@ -18,7 +18,6 @@ public class ThumperMinion : EnemyClass
     [SerializeField] Transform treadTransform, treadRaycastStart; // our head joint
     [SerializeField] GameObject bulletPrefab;  // our bullet
     [SerializeField] GameObject deathParticle; // our death particle  
-    bool isActive; // are we active? have we seen the player?
 
     private void Start()
     {

@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
 
     #region // Visual effect Prefabs
     [Header("FX and Feel")]
-    [SerializeField] GameObject pistolMuzzleFlashFX, pistolHitFX;
+    [SerializeField] GameObject pistolMuzzleFlashFX, pistolHitFX, pistolEnemyHitFX;
     [SerializeField] float snapShakeDelta;
     #endregion
 
@@ -389,9 +389,12 @@ public class PlayerController : MonoBehaviour
 
                                 // deal damage
                                 if (hit.transform.tag == "Enemy")
-                                { 
+                                {
+                                    // deal damage
                                     if (hit.transform.gameObject.GetComponent<EnemyClass>() != null)
-                                    hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage((int)pistolDamage); 
+                                    { hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage((int)pistolDamage); }
+                                    // spawn effect
+                                    Instantiate(pistolEnemyHitFX, hit.point, Quaternion.identity, null);
                                 }
                             }
 
