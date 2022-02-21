@@ -18,6 +18,7 @@ public class CombatZone : MonoBehaviour
     List<GameObject> activeParticles = new List<GameObject>(); // our list of active particles
     bool particlesActive; // are our particles active
     [SerializeField] List<DoorClass> doorClasses; // all the doors we will be locking and unlocking from combat
+    [SerializeField] GameObject combatScenery, safeScenery; // our combat and safe scenery objects
 
     // starts our zone
     public void ActivateZone()
@@ -51,6 +52,8 @@ public class CombatZone : MonoBehaviour
         foreach (DoorClass door in doorClasses)
         { door.Unlock(); }
         // environment lighting change
+        combatScenery.SetActive(false);
+        safeScenery.SetActive(true);
     }
 
     void ClearParticles()
