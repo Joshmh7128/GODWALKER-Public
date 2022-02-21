@@ -410,9 +410,9 @@ public class PlayerController : MonoBehaviour
         // reload scene for dev purposes
         if (Input.GetKeyDown(KeyCode.F4))
         {
-            // empty our artifacts
             UpgradeSingleton.DestroySingleton();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Destroy(gameObject);
         }
 
         // lose condition

@@ -57,7 +57,7 @@ public class CameraScript : MonoBehaviour
     {
 
         // perform a raycast from the center of the camera to the screen to world point of it's center
-        Physics.Raycast(transform.position, transform.forward, out cameraCenterHit, Mathf.Infinity);
+        Physics.Raycast(transform.position, transform.forward, out cameraCenterHit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore);
 
         if (canLook)
         {

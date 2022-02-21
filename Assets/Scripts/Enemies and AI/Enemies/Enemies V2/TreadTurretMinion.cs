@@ -79,6 +79,8 @@ public class TreadTurretMinion : EnemyClass
         if (isActive == false)
         { if (!Physics.Linecast(headJoint.transform.position, playerTransform.position) || (Vector3.Distance(transform.position, playerTransform.position)) < activationDistance || HP != maxHP) { Activate(); } }
 
+        if (isActive == true) { Activate(); }
+
         // lets make sure our treads look forward and are level with the ground
         RaycastHit hit; 
         // fire a ray downwards
