@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 998914159518612747}
   - component: {fileID: 7205243946028643390}
   m_Layer: 0
-  m_Name: Player Bullet FX
+  m_Name: Player Bullet FX Power 2
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 664a1b08ce9f9d24299bff067549f7fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletTarget: {fileID: 0}
+  bulletTarget: {x: 0, y: 0, z: 0}
   bulletDamage: 0
   bulletSpeed: 1000
   cubePuff: {fileID: 389507898186102839, guid: e94a7b5395085964ab6f74af2c94316b, type: 3}
@@ -573,7 +573,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0, g: 0.5368862, b: 1, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5109,8 +5109,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c18cf577ed7b33f45827609e8ee5c2b9, type: 2}
-  - {fileID: 2100000, guid: c18cf577ed7b33f45827609e8ee5c2b9, type: 2}
+  - {fileID: 2100000, guid: 668e7847119961e4e8a8ba2c0a5df7a4, type: 2}
+  - {fileID: 2100000, guid: 668e7847119961e4e8a8ba2c0a5df7a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

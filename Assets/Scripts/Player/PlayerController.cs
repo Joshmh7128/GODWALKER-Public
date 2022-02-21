@@ -35,7 +35,6 @@ public class PlayerController : MonoBehaviour
 
     #region // Referenced Prefabs
     // referenced prefabs and objects
-    [SerializeField] GameObject playerBulletEffect;   // bullet prefab
     [SerializeField] Slider ammoSlider;         // our ammo slider
     [SerializeField] Text ammoAmountText;       // our ammo amount in text   
     [SerializeField] Text ammoMaxText;          // our ammo amount in text   
@@ -156,8 +155,10 @@ public class PlayerController : MonoBehaviour
     #region // Visual effect Prefabs
     [Header("FX and Feel")]
     [SerializeField] GameObject pistolMuzzleFlashPower1FX, pistolMuzzleFlashPower2FX, pistolMuzzleFlashPower3FX;
+    [SerializeField] GameObject playerBulletPower1FX, playerBulletPower2FX, playerBulletPower3FX;   // bullet prefab
     [SerializeField] GameObject pistolHitFX, pistolEnemyHitFX;
     [SerializeField] float snapShakeDelta;
+    PlayerBulletScriptFX ourBullet; // is set at runtime
     #endregion
 
     // Start is called before the first frame update
@@ -467,9 +468,28 @@ public class PlayerController : MonoBehaviour
 
         // once we have the pitch, play the sound
         fireAudioSource.Play();
-        // fire muzzle flash when we fire
-        Instantiate(pistolMuzzleFlashPower1FX, origin.position, origin.rotation, null);
-        PlayerBulletScriptFX ourBullet = Instantiate(playerBulletEffect, origin.position, origin.rotation, null).GetComponent<PlayerBulletScriptFX>();
+
+        // setup our shot FX
+        // level 1
+        if (powerAmount < 50f)
+        {
+            // fire muzzle flash when we fire
+            Instantiate(pistolMuzzleFlashPower1FX, origin.position, origin.rotation, null);
+            ourBullet = Instantiate(playerBulletPower1FX, origin.position, origin.rotation, null).GetComponent<PlayerBulletScriptFX>();
+        } 
+        else if (powerAmount > 50f && powerAmount < 100f)
+        {
+            // fire muzzle flash when we fire
+            Instantiate(pistolMuzzleFlashPower2FX, origin.position, origin.rotation, null);
+            ourBullet = Instantiate(playerBulletPower2FX, origin.position, origin.rotation, null).GetComponent<PlayerBulletScriptFX>();
+        }
+        else if (powerAmount > 100f)
+        {
+            // fire muzzle flash when we fire
+            Instantiate(pistolMuzzleFlashPower3FX, origin.position, origin.rotation, null);
+            ourBullet = Instantiate(playerBulletPower3FX, origin.position, origin.rotation, null).GetComponent<PlayerBulletScriptFX>();
+        }
+
         ourBullet.bulletTarget = cameraScript.cameraCenterHit.point;
         // hitscan and deal damage
         RaycastHit hit;
