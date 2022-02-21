@@ -11,7 +11,7 @@ public class DoorClass : MonoBehaviour
     [SerializeField] Animator doorAnimator;
     Player player;
     Transform playerTransform;
-    [SerializeField] bool isOpen, unlocked = false; // are we open? are we unlocked?
+    [SerializeField] public bool isOpen, unlocked = false; // are we open? are we unlocked?
     [SerializeField] float interactDistance;
     [SerializeField] CombatZone nextCombatZone, pastCombatZone; // our associated combat zone to activate. our past combat zone to see if we can open
     [SerializeField] GameObject openParent, lockedParent, interactionParent; // the parents of our open and closed door parents
@@ -30,16 +30,61 @@ public class DoorClass : MonoBehaviour
         // if are door is unlocked by default and is not affected by combat zones, make sure it is unlocked
         if (unlocked)
         { openParent.SetActive(true); }
+        else if (!unlocked)
+        { lockedParent.SetActive(true); }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player.GetButtonDown("ActionE") && (isOpen == false) && (unlocked == true) && Vector3.Distance(playerTransform.position, transform.position) < interactDistance)
+        // if we are near and it is unlocked
+        if ((isOpen == false) && (unlocked == true) && Vector3.Distance(playerTransform.position, transform.position) < interactDistance)
         {
-            isOpen = true; // we're open
-            doorAnimator.Play("QueueDoor"); // animate!
-            nextCombatZone.ActivateZone(); // activate the zone
+            // tell the player that they can open the door
+            UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", true);
+            // activate our interactable
+            interactionParent.SetActive(true);
+
+            // if we press E to open the door
+            if (player.GetButtonDown("ActionE"))
+            {
+                isOpen = true; // we're open
+                doorAnimator.Play("QueueDoor"); // animate!
+                if (nextCombatZone)
+                {
+                    nextCombatZone.ActivateZone(); // activate the zone
+                }
+                UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", false); // remove interaction text
+                interactionParent.SetActive(false); // disable interaction parent
+            }
+        } else if ((isOpen == false) && (unlocked == true) && Vector3.Distance(playerTransform.position, transform.position) > interactDistance)
+        {
+            // remove interaction text
+            UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", false);
+            interactionParent.SetActive(false); // disable interaction parent
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // if we're open and the player moves through the door, close it behind them
+        if (isOpen && nextCombatZone.combatComplete == false && other.transform.tag == "Player")
+        {
+            lockedParent.SetActive(true);
+        }
+    }
+
+    public void Unlock()
+    {
+        // unlock everything
+        lockedParent.SetActive(false); // set our locked parent to false
+        openParent.SetActive(true); // set our open parent to true
+        unlocked = true; // set the variable correctly
+    }
+
+    private void OnDrawGizmos()
+    {
+        // show our interaction sphere in the editor
+        Gizmos.DrawWireSphere(transform.position, interactDistance);
     }
 }

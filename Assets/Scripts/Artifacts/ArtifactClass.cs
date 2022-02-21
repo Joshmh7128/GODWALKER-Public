@@ -35,9 +35,6 @@ public abstract class ArtifactClass : MonoBehaviour
     {
         // build and add our info to the list
         UpgradeSingleton.Instance.artifactInfoList.Add(artifactName + " - " + artifactInfo);
-        // call the UI updates on the player
-        UpgradeSingleton.Instance.player.UpdateArtifactInfoUI(artifactName, artifactInfo, ourImage);
-        UpgradeSingleton.Instance.player.UpdateInfoPopupWrapper(artifactName, artifactInfo, rarityMaterialRenderer.material.color, ourImage);
         // destroy
         Destroy(gameObject);
     }

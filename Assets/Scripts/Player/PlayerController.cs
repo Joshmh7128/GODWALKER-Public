@@ -39,33 +39,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Slider ammoSlider;         // our ammo slider
     [SerializeField] Text ammoAmountText;       // our ammo amount in text   
     [SerializeField] Text ammoMaxText;          // our ammo amount in text   
-    [SerializeField] Slider mineralSlider;      // our mineral slider
-    [SerializeField] Text mineralAmountText;    // our mineral amount in text   
-    [SerializeField] Text mineralMaxText;       // our mineral amount in text   
-    [SerializeField] Slider gemSlider;          // our gem slider
-    [SerializeField] Text gemAmountText;        // our gem amount in text   
-    [SerializeField] Text gemMaxText;           // our gem amount in text   
+    [SerializeField] Text naniteAmountText;        // our Nanite amount in text   
+    [SerializeField] Text naniteMaxText;           // our Nanite amount in text   
     [SerializeField] Slider hpSlider;           // our hp slider
-    [SerializeField] Slider hpSliderDiegetic;   // our diegetic hp slider
     [SerializeField] Text hpAmountText;         // our hp amount in text
     [SerializeField] Text hpMaxText;            // our hp max in text
-    [SerializeField] Text scrapAmountText;        // bug amount text display
-    [SerializeField] Text bugMaxText;           // bug amount text display
     // hurt particle
     [SerializeField] GameObject hurtParticle;   // the hurt particle prefab
     [SerializeField] GameObject shootParticle;  // the shoot particle prefab
     #endregion
-    
-    #region // Diegetic UI
-    // diegetic UI we're modifying in this script
-    [SerializeField] CanvasGroup objectiveCanvas; // our objective canvase
-    public Text currentObjective; // our current objective
-    float objectiveAlphaChange; // how much should our alpha be changing?
-    public bool objectiveShowing; // is our objective showing?
-    public string objectiveCurrentMessage; // is our objective showing?
-    [SerializeField] GameObject tabIndicator; // our tab text indicating you can show the objective
-    #endregion
-
+   
     #region // Non-diegetic UI
     [Header("- Non Diegetic UI -")]
     // non-diegetic UI elements we're modifying
@@ -73,12 +56,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CanvasGroup deathCanvas; // our death canvas
     [SerializeField] CanvasGroup victoryCanvas; // our victory canvas
     [SerializeField] CanvasGroup fadeCanvas; // our fade, loading canvas
+    [SerializeField] CanvasGroup interactableCanvas; // our fade, loading canvas
+    [SerializeField] Text interactableMessage; // our interaction message
     // artifact pickup UI elements
     [SerializeField] CanvasGroup popupCanvas; // our popup canvas
     [SerializeField] Text popupTitle; // our popup title
     [SerializeField] Text popupDesc; // our popup description
     [SerializeField] Image popupImage; // our popup image
-    float popupAlphaChange; // our popup alphachange
+    float popupAlphaChange, interactableAlphaChange; // our popup alphachange
     // inventory related
     [SerializeField] Transform inventoryCameraPos; // position of cam when we access inventory
     [SerializeField] Transform mainCameraContainer; // position of cam when we access inventory
@@ -157,14 +142,7 @@ public class PlayerController : MonoBehaviour
 
     #region // Artifact Management
     // artifact upgradess
-    bool isInvincible, isMitoInvincible, autoShieldCoroutineRunning, mitoShieldCoroutineRunning;
-    float autoShieldTime; // the amount of time our autoshield engages and the amount of time it takes to cool down
-    [Header("Artifact Upgrades")]
-    [SerializeField] Text artifactInfoText; // our artifact info text
-    [SerializeField] GameObject autoShield; // our shield
-    [SerializeField] GameObject autoShieldCosmetic; // cosmetic item
-    [SerializeField] GameObject enemyCam; // our see through camera
-    [SerializeField] GameObject mitoZygoteShield; // our 1 hp shield
+    bool isInvincible, isMitoInvincible;
     #endregion
 
     #region // General Audio Related
@@ -342,8 +320,8 @@ public class PlayerController : MonoBehaviour
         ammoMaxText.text = powerMax.ToString(); // in text
         ammoSlider.value = (float)powerAmount / (float)powerMax;        
         // display our gem amount
-        gemAmountText.text = naniteAmount.ToString(); // in text
-        gemMaxText.text = naniteMax.ToString(); // in text
+        naniteAmountText.text = naniteAmount.ToString(); // in text
+        naniteMaxText.text = naniteMax.ToString(); // in text
         // displayer our HP amount
         hpAmountText.text = playerHP.ToString(); // in text
         hpMaxText.text = playerMaxHP.ToString(); // in text
@@ -500,67 +478,6 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene("Main Menu");
         }
 
-        #region // old code from tab to view updates
-        // tab press to show and update objective panel
-
-        /*if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            // save our previous body rotation
-            previousBodyRotation = cameraScript.bodyTransform.rotation.eulerAngles;
-
-            // show / hide our inventory
-            if (!inventoryOpen)
-            {
-                canFire = false;
-                // unlock cursor
-                Cursor.lockState = CursorLockMode.None;
-
-                // play the noise
-                inventoryAudioSource.clip = inventoryOpenAudio;
-                inventoryAudioSource.Play();
-
-                // make sure the inventory is seen and not blocked
-                gameplayUICanvas.alpha = 0;
-                inventoryCanvas.alpha = 1;
-
-                inventoryOpen = true;
-                canMove = false;
-                cameraScript.canLook = false;
-
-                // zero out the head so that it is not disorienting
-                
-                cameraScript.bodyTransform.rotation = Quaternion.Euler(new Vector3(0, cameraScript.bodyTransform.rotation.y, 0));
-                cameraScript.headTransform.rotation = Quaternion.Euler(new Vector3(cameraScript.headTransform.rotation.x, 0, cameraScript.headTransform.rotation.z));
-
-                // lerping camera now handled in the fixed update
-                // mainCameraContainer.position = inventoryCameraPos.position;
-                // mainCameraContainer.rotation = inventoryCameraPos.rotation;
-
-            } else
-            {
-                canFire = true;
-                // lock cursor
-                Cursor.lockState = CursorLockMode.Locked;
-                // play the noise
-                inventoryAudioSource.clip = inventoryCloseAudio;
-                inventoryAudioSource.Play();
-
-                // turn off the canvas
-                gameplayUICanvas.alpha = 1;
-                inventoryCanvas.alpha = 0;
-
-                // move camera
-                mainCameraContainer.position = Vector3.zero;
-                mainCameraContainer.rotation = Quaternion.Euler(Vector3.zero);
-                cameraScript.bodyTransform.rotation = Quaternion.Euler(previousBodyRotation);
-
-                inventoryOpen = false;
-                canMove = true;
-                cameraScript.canLook = true;
-            }
-        }*/
-        #endregion
-
         // lose condition
         if (playerHP <= 0)
         {
@@ -591,19 +508,9 @@ public class PlayerController : MonoBehaviour
                 // make sure to reload the upgrade singleton and UI
                 // unload the instance
                 UpgradeSingleton.DestroySingleton();
-                ClearArtifactInfoUI();
                 // make sure the player's position is reset on death
                 transform.position = new Vector3(0, 5, 0);
             }
-
-            // clear artifacts
-            ClearArtifactInfoUI();
-        }
-
-        // artifact upgrades
-        if (UpgradeSingleton.Instance.autoShieldDuration > 0 && autoShieldCosmetic.activeInHierarchy == false)
-        {
-            autoShieldCosmetic.SetActive(true);
         }
 
         if (Input.GetKey(KeyCode.Escape))
@@ -694,24 +601,13 @@ public class PlayerController : MonoBehaviour
         // dash screen fov lerp
         Mathf.Lerp(dashTime, dashTimeMax, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + dashTime);
 
-        // 1 hp shield from bug part drops
-        if (UpgradeSingleton.Instance.mitoZygoteDuration > 0)
-        {
-            if (!mitoShieldCoroutineRunning)
-            {
-                StartCoroutine(MitoZygoteShieldTimer());
-            }
-            mitoZygoteShield.SetActive(true);
-            isMitoInvincible = true;
-        } else if (UpgradeSingleton.Instance.mitoZygoteDuration <= 0)
-        {
-            mitoZygoteShield.SetActive(false);
-            isMitoInvincible = false;
-        }
-
         // our popup alpha change
         if (popupCanvas.alpha <= 1 && popupCanvas.alpha >= 0)
-        { popupCanvas.alpha += popupAlphaChange; }
+        { popupCanvas.alpha += popupAlphaChange; }        
+        
+        // our message alpha change
+        if (interactableCanvas.alpha <= 1 && interactableCanvas.alpha >= 0)
+        { interactableCanvas.alpha += interactableAlphaChange; }
     }
 
     // if we gain life, positive number, if we lose life, negative number
@@ -726,25 +622,9 @@ public class PlayerController : MonoBehaviour
             // spawn in a particle effect on the player to show that they got hurt
             Instantiate(hurtParticle, transform, true);
 
-            // check for autoshield
-
-            if (UpgradeSingleton.Instance.autoShieldDuration > 0)
-            {
-                if (!autoShieldCoroutineRunning)
-                StartCoroutine(AutoShieldTimer(UpgradeSingleton.Instance.autoShieldDuration));
-            }
-
             // mod it
             playerHP += HP;
         }   // if we have a mitozygote shield deal damage to it (deactivate it)
-        
-        
-        if ((HP < 0) && (isInvincible == false) && (isMitoInvincible == true))
-        {
-            isMitoInvincible = false;
-            mitoZygoteShield.SetActive(false);
-            UpgradeSingleton.Instance.mitoZygoteDuration = 0;
-        }
     }
 
     // public void for adding resources to us
@@ -778,58 +658,15 @@ public class PlayerController : MonoBehaviour
         playerJumpVelocity += Mathf.Sqrt((jumpVelocity* jumpPower) * -3.0f * gravity);
     }
 
-    IEnumerator AutoShieldTimer(float shieldTime)
+    // public void for triggering player-canvas notifications
+    public void InteractableMessageTrigger(string message, bool state)
     {
-        autoShieldCoroutineRunning = true;
-        autoShield.SetActive(true);
-        isInvincible = true;
-        yield return new WaitForSeconds(shieldTime);
-        autoShield.SetActive(false);
-        isInvincible = false;
-        autoShieldCoroutineRunning = false;
+        // apply our message
+        interactableMessage.text = message;
+        // apply our state
+        if (state == true)
+        { interactableAlphaChange = 0.1f; }
+        else if (state == false)
+        { interactableAlphaChange = -0.1f; }
     }
-
-    IEnumerator MitoZygoteShieldTimer()
-    {
-        mitoShieldCoroutineRunning = true;
-        yield return new WaitForSeconds(1);
-        if (UpgradeSingleton.Instance.mitoZygoteDuration > 0)
-        { UpgradeSingleton.Instance.mitoZygoteDuration--;  }
-        mitoShieldCoroutineRunning = false;
-    }
-
-    // set our artifact info text
-    public void UpdateArtifactInfoUI(string titleText, string infoText, Sprite icon)
-    {
-        // create a new ui grid object in our inventory
-        inventoryArtifactUIHandler.UpdateInventoryGrid(titleText, infoText, icon);
-    }
-
-    public void ClearArtifactInfoUI()
-    {
-        Debug.Log("Clearing Artifact InfoUI PostRun");
-        inventoryArtifactUIHandler.ClearInventoryGrid();
-    }
-
-    public void UpdateInfoPopupWrapper(string titleText, string descText, Color textColor, Sprite upgradeImage)
-    {
-        StartCoroutine(UpdateUpgradeInfoPopup(titleText, descText, textColor, upgradeImage));
-    }
-
-    // update our Upgrade Info Popup on pickup
-    public IEnumerator UpdateUpgradeInfoPopup(string titleText, string descText, Color textColor, Sprite upgradeImage)
-    {
-        // update our values
-        popupTitle.text = titleText;
-        popupTitle.color = textColor;
-        popupDesc.text = descText;
-        popupImage.sprite = upgradeImage;
-        // fade in our upgrade info popup alpha
-        popupAlphaChange = 0.1f;
-        // show for 5 seconds
-        yield return new WaitForSeconds(5f);
-        // make it go away
-        popupAlphaChange = -0.1f;
-    }
-
 }

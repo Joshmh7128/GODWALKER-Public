@@ -7,6 +7,7 @@ public abstract class EnemyClass : MonoBehaviour
     public float HP, maxHP; // our health points
     public string NameText;
     bool invincible; // are we invincible right now?
+    public bool isActive; // is this enemy active?
     public abstract void TakeDamage(int dmg); // how much damage are we taking?
     public enum dropTypes // what can we drop?
     {

@@ -18,7 +18,6 @@ public class TreadTurretMinion : EnemyClass
     [SerializeField] Transform headJoint, shotPos, treadTransform, treadRaycastStart; // our head joint
     [SerializeField] GameObject bulletPrefab;  // what we are firing
     [SerializeField] GameObject deathParticle;  // our death particle
-    bool isActive; // are we active? have we seen the player?
     public dropTypes dropType;
     [SerializeField] float dropAmount;
     [SerializeField] GameObject powerDrop, healthDrop, naniteDrop;

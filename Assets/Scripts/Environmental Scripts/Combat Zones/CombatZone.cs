@@ -12,7 +12,7 @@ public class CombatZone : MonoBehaviour
 
     [SerializeField] List<GameObject> waveParents; // the parents of wave objects that we'll put into our enemy lists
     [SerializeField] GameObject summonEffect; // our summoning particle effect
-    bool isActive = false; // is this combat zone active? default to no
+    public bool combatComplete = false; // is this combat zone complete? default to no
     int currentWave = 0; // which wave are we on?
     [SerializeField] int childCount = 0; // the amount of active children
     List<GameObject> activeParticles = new List<GameObject>(); // our list of active particles
@@ -32,16 +32,24 @@ public class CombatZone : MonoBehaviour
         foreach (Transform child in waveParents[currentWave].transform)
         {
             childCount++;
-            child.gameObject.SetActive(true);
+            if (child)
+            {
+                child.gameObject.SetActive(true);
+                // activate the enemyclass script on them if they have one
+                child.GetComponent<EnemyClass>().isActive = true;
+            }
         }
     }
 
     void EndCombat()
     {
+        // stop combat
+        combatComplete = true;
         // music change
-
-        // open doors
-
+        FindObjectOfType<MusicController>().MusicMood(MusicController.musicMoods.explore);
+        // unlock doors
+        foreach (DoorClass door in doorClasses)
+        { door.Unlock(); }
         // environment lighting change
     }
 
@@ -69,7 +77,7 @@ public class CombatZone : MonoBehaviour
         // check to see if our wave is ending...
         if (childCount == 0)
         {
-            if (currentWave >= waveParents.Count)
+            if (currentWave >= waveParents.Count-1)
             {
                 EndCombat();
             }

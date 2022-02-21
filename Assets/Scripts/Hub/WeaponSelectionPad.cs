@@ -13,7 +13,6 @@ public class WeaponSelectionPad : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.gameObject.GetComponent<PlayerController>().currentWeapon = targetType;
-            other.gameObject.GetComponent<PlayerController>().objectiveCurrentMessage = panelMessage;
         }
     }
 }

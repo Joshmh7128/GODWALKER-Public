@@ -83,12 +83,6 @@ public class DroppodManager : MonoBehaviour
         {
             generationManager = GameObject.Find("Generation Manager").GetComponent<GenerationManager>();
         }
-
-        // objective text handling
-        if (SceneManager.GetActiveScene().name == "Hub")
-        {
-            playerController.currentObjective.text = "Objective: Board Dropship when ready. Press 'E' to launch.";
-        }
     }
 
     private void Update()
@@ -164,11 +158,6 @@ public class DroppodManager : MonoBehaviour
         { inHub = false; }        
         if (SceneManager.GetActiveScene().name == "Room Generation")
         { inHub = false; }
-        if (SceneManager.GetActiveScene().name == "Hub")
-        { inHub = true;
-            // objective text handling
-            playerController.currentObjective.text = "Objective: Board Dropship. Launch with 'E' when ready.";
-        }
         // if we are not in the hub, check to make sure we have trips left
         if (remainingTrips < 1)
         {
@@ -240,8 +229,6 @@ public class DroppodManager : MonoBehaviour
             // load in to the advanced generation scene manually here
             SceneManager.LoadSceneAsync("Room Generation", LoadSceneMode.Single);
             yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Room Generation");
-            // objective text handling
-            playerController.currentObjective.text = "Objective: Find Horde. Destroy them.";
             // get our generation manager
             if (generationManager == null)
             {
