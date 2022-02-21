@@ -20,9 +20,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform diegeticAimTarget; // moves to our aiming position
     [SerializeField] Transform playerYRotationParent; // used to make our treads slightly rock back and forth
     [SerializeField] bool rightArm = true;      // if true, shoot from right arm. if false, shoot from left arm. 
-    public int powerAmount;                      // how much ammo we currently have
+    public float powerAmount;                      // how much ammo we currently have
     public int naniteAmount;                       // nanite amount
-    public int powerMax;                         // how much ammo we can carry at one time
+    public float powerMax;                         // how much ammo we can carry at one time
     public int naniteMax;                          // gem carry space
     public int playerHP;                        // the player's health
     public int playerMaxHP;                     // the player's max health
@@ -35,9 +35,10 @@ public class PlayerController : MonoBehaviour
 
     #region // Referenced Prefabs
     // referenced prefabs and objects
-    [SerializeField] Slider ammoSlider;         // our ammo slider
-    [SerializeField] Text ammoAmountText;       // our ammo amount in text   
-    [SerializeField] Text ammoMaxText;          // our ammo amount in text   
+    [SerializeField] Slider powerSlider;        // our power slider
+    [SerializeField] Image powerFill;           // the fill of our power slider
+    [SerializeField] Text ammoAmountText;       // our power amount in text   
+    [SerializeField] Text ammoMaxText;          // our power amount in text   
     [SerializeField] Text naniteAmountText;        // our Nanite amount in text   
     [SerializeField] Text naniteMaxText;           // our Nanite amount in text   
     [SerializeField] Slider hpSlider;           // our hp slider
@@ -154,11 +155,14 @@ public class PlayerController : MonoBehaviour
 
     #region // Visual effect Prefabs
     [Header("FX and Feel")]
-    [SerializeField] GameObject pistolMuzzleFlashPower1FX, pistolMuzzleFlashPower2FX, pistolMuzzleFlashPower3FX;
+
+    [SerializeField] GameObject pistolMuzzleFlashPower1FX;
+    [SerializeField] GameObject pistolMuzzleFlashPower2FX, pistolMuzzleFlashPower3FX;
     [SerializeField] GameObject playerBulletPower1FX, playerBulletPower2FX, playerBulletPower3FX;   // bullet prefab
     [SerializeField] GameObject pistolHitFX, pistolEnemyHitFX;
     [SerializeField] float snapShakeDelta;
     PlayerBulletScriptFX ourBullet; // is set at runtime
+    [SerializeField] Material power1Mat, power2Mat, power3Mat;
     #endregion
 
     // Start is called before the first frame update
@@ -320,7 +324,7 @@ public class PlayerController : MonoBehaviour
         // display our ammo amount
         ammoAmountText.text = powerAmount.ToString(); // in text
         ammoMaxText.text = powerMax.ToString(); // in text
-        ammoSlider.value = (float)powerAmount / (float)powerMax;        
+        powerSlider.value = (float)powerAmount / (float)powerMax;
         // display our gem amount
         naniteAmountText.text = naniteAmount.ToString(); // in text
         naniteMaxText.text = naniteMax.ToString(); // in text
@@ -346,14 +350,23 @@ public class PlayerController : MonoBehaviour
             // check how much ammo we have, then determine how much damage we will deal based on it
             // ammo amount is out of 150. We want to split this into thirds. 
             // 100 to 150 = 3 dmg
-            if (powerAmount > 100)
-            { pistolDamage = 3; }
+            if (powerAmount/powerMax > 0.66f)
+            { 
+                pistolDamage = 3;
+                snapShakeDelta = 0.50f;
+            }
             // 50 to 100 = 2 dmg
-            if (powerAmount > 50 && powerAmount < 100)
-            { pistolDamage = 2; }
+            if (powerAmount / powerMax > 0.33f && powerAmount / powerMax < 0.66f)
+            { 
+                pistolDamage = 2;
+                snapShakeDelta = 0.33f;
+            }
             // 0 to 50 = 1 dmg
-            if (powerAmount > 0 && powerAmount < 50)
-            { pistolDamage = 1; }
+            if (powerAmount / powerMax < 0.33f)
+            {
+                pistolDamage = 1;
+                snapShakeDelta = 0.25f;
+            }
 
             if (player.GetButton("Fire"))
             {
@@ -399,7 +412,7 @@ public class PlayerController : MonoBehaviour
         {
             // empty our artifacts
             UpgradeSingleton.DestroySingleton();
-            SceneManager.LoadScene("Main Menu");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         // lose condition
@@ -471,19 +484,19 @@ public class PlayerController : MonoBehaviour
 
         // setup our shot FX
         // level 1
-        if (powerAmount < 50f)
+        if (powerAmount / powerMax < 0.33f)
         {
             // fire muzzle flash when we fire
             Instantiate(pistolMuzzleFlashPower1FX, origin.position, origin.rotation, null);
             ourBullet = Instantiate(playerBulletPower1FX, origin.position, origin.rotation, null).GetComponent<PlayerBulletScriptFX>();
         } 
-        else if (powerAmount > 50f && powerAmount < 100f)
+        else if (powerAmount / powerMax > 0.33f && powerAmount / powerMax < 0.66f)
         {
             // fire muzzle flash when we fire
             Instantiate(pistolMuzzleFlashPower2FX, origin.position, origin.rotation, null);
             ourBullet = Instantiate(playerBulletPower2FX, origin.position, origin.rotation, null).GetComponent<PlayerBulletScriptFX>();
         }
-        else if (powerAmount > 100f)
+        else if (powerAmount / powerMax > 0.66f)
         {
             // fire muzzle flash when we fire
             Instantiate(pistolMuzzleFlashPower3FX, origin.position, origin.rotation, null);
@@ -535,6 +548,9 @@ public class PlayerController : MonoBehaviour
 
         // shot cooldown
         shotCoolDownRemain = shotCoolDown;
+
+        // update ammo amount
+        PowerBarColor();
 
     }
 
@@ -640,6 +656,7 @@ public class PlayerController : MonoBehaviour
             case (EnemyClass.dropTypes.power):
                 if (powerAmount < powerMax)
                 powerAmount += 4;
+                PowerBarColor();
                 break;
 
             case (EnemyClass.dropTypes.nanites):
@@ -660,6 +677,19 @@ public class PlayerController : MonoBehaviour
         /// isOnJumpPad = true; IS DONE ON JumpPad.cs
         // launch
         playerJumpVelocity += Mathf.Sqrt((jumpVelocity* jumpPower) * -3.0f * gravity);
+    }
+
+    // set our power bar's color when it changes
+    void PowerBarColor()
+    {
+        if (powerAmount / powerMax > 0.66f)
+        { powerFill.color = power3Mat.color; }
+        // 50 to 100 = 2 dmg
+        if (powerAmount / powerMax > 0.33f && powerAmount / powerMax < 0.66f)
+        { powerFill.color = power2Mat.color; }
+        // 0 to 50 = 1 dmg
+        if (powerAmount / powerMax < 0.33f)
+        { powerFill.color = power1Mat.color; }
     }
 
     // public void for triggering player-canvas notifications
