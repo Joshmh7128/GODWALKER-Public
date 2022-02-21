@@ -155,7 +155,8 @@ public class PlayerController : MonoBehaviour
 
     #region // Visual effect Prefabs
     [Header("FX and Feel")]
-    [SerializeField] GameObject pistolMuzzleFlashFX, pistolHitFX, pistolEnemyHitFX;
+    [SerializeField] GameObject pistolMuzzleFlashPower1FX, pistolMuzzleFlashPower2FX, pistolMuzzleFlashPower3FX;
+    [SerializeField] GameObject pistolHitFX, pistolEnemyHitFX;
     [SerializeField] float snapShakeDelta;
     #endregion
 
@@ -366,102 +367,21 @@ public class PlayerController : MonoBehaviour
                         // check arm
                         if (rightArm == true)
                         {
-                            // set the sound of our source
-                            fireAudioSource.clip = pistolsFireAudioClips[Random.Range(0, pistolsFireAudioClips.Length)];
-                            // change the pitch - lerp from min pitch to max pitch using shots fired / magsize so we can adjust the amount of shots fired and mag size overtime
-                            pistolSoundPitch = Random.Range(pistolSoundPitchMin,pistolSoundPitchMax);
-                            fireAudioSource.pitch = (float)pistolSoundPitch;
-
-                            // once we have the pitch, play the sound
-                            fireAudioSource.Play();
-
-                            // fire muzzle flash when we fire
-                            Instantiate(pistolMuzzleFlashFX, rightGunTip.position, rightGunTip.rotation, null);
-                            PlayerBulletScriptFX ourBullet = Instantiate(playerBulletEffect, rightGunTip.position, rightGunTip.rotation, null).GetComponent<PlayerBulletScriptFX>();
-                            ourBullet.bulletTarget = cameraScript.cameraCenterHit.point;
-                            // hitscan and deal damage
-                            RaycastHit hit;
-                            if (Physics.SphereCast(rightGunTip.position, pistolShotSize, cameraScript.cameraCenterHit.point - rightGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-                            {
-                                // create a visual effect of our shot hitting
-                                Instantiate(pistolHitFX, hit.point, Quaternion.Euler(hit.normal));
-                                // create a line render to show the path of our bullet in the air
-
-                                // deal damage
-                                if (hit.transform.tag == "Enemy")
-                                {
-                                    // deal damage
-                                    if (hit.transform.gameObject.GetComponent<EnemyClass>() != null)
-                                    { hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage((int)pistolDamage); }
-                                    // spawn effect
-                                    Instantiate(pistolEnemyHitFX, hit.point, Quaternion.identity, null);
-                                }
-                            }
-
+                            FireShot(rightGunTip);
+                            // change arm
                             rightArm = false;
                             // fire animation weight amount
                             rightIKArmKickback = 1;
-                            // shot cooldown
-                            shotCoolDownRemain = shotCoolDown;
-                            // camera fov change
-                            // shot screen fov lerp
-                            // Mathf.Lerp(shotCoolDownRemain, shotCoolDown, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + (shotCoolDown/8));
+
                         }
                         else if (rightArm == false)
                         {
-                            // set the sound of our source
-                            fireAudioSource.clip = pistolsFireAudioClips[Random.Range(0,pistolsFireAudioClips.Length)];
-                            // change the pitch - lerp from min pitch to max pitch using shots fired / magsize so we can adjust the amount of shots fired and mag size overtime
-                            pistolSoundPitch = Mathf.Lerp(pistolSoundPitchMin, pistolSoundPitchMax, (pistolMagSize - pistolMagFill) / pistolMagSize);
-                            fireAudioSource.pitch = (float)pistolSoundPitch;
-
-                            // once we have the pitch, play the sound
-                            fireAudioSource.Play();
-                            // fire muzzle flash when we fire
-                            Instantiate(pistolMuzzleFlashFX, leftGunTip.position, leftGunTip.rotation, null);
-                            PlayerBulletScriptFX ourBullet = Instantiate(playerBulletEffect, leftGunTip.position, leftGunTip.rotation, null).GetComponent<PlayerBulletScriptFX>();
-                            ourBullet.bulletTarget = cameraScript.cameraCenterHit.point;
-                            // hitscan and deal damage
-                            RaycastHit hit;
-                            if (Physics.SphereCast(leftGunTip.position, pistolShotSize, cameraScript.cameraCenterHit.point - leftGunTip.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-                            {
-                                // create a visual effect of our shot hitting
-                                Instantiate(pistolHitFX, hit.point, Quaternion.identity, null);
-                                // create a line render to show the path of our bullet in the air
-
-                                // deal damage
-                                if (hit.transform.tag == "Enemy")
-                                { hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage((int)pistolDamage); }
-                            }
+                            FireShot(leftGunTip);
+                            // change arm
                             rightArm = true;
                             // fire animation weight amount
                             leftIKArmKickback = 1;
-                            // particle effect
-                            Instantiate(shootParticle, leftGunTip.position, leftGunTip.rotation, null);
-                            // shot cooldown
-                            shotCoolDownRemain = shotCoolDown;
-                            // screen fov
-                            // Mathf.Lerp(shotCoolDownRemain, shotCoolDown, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + (shotCoolDown/8));
                         }
-
-                        // screenshake
-                        cameraScript.SnapScreenShake(snapShakeDelta);
-                        // weapon kick
-                        cameraScript.yRotateMod += pistolRecoil;
-
-                        // reduce ammo amount
-                        if (powerAmount > 0)
-                        {
-                            powerAmount--;
-                        }
-
-                        // reduce our mag amount
-                        if (pistolMagFill > 0)
-                        {
-                            pistolMagFill--;
-                        }
-
-
                     }
 
                     // if our mag is 0, set it to the magsize
@@ -535,6 +455,67 @@ public class PlayerController : MonoBehaviour
                 SceneManager.LoadScene("Hub");
             }
         }
+    }
+
+    void FireShot(Transform origin)
+    {
+        // set the sound of our source
+        fireAudioSource.clip = pistolsFireAudioClips[Random.Range(0, pistolsFireAudioClips.Length)];
+        // change the pitch - lerp from min pitch to max pitch using shots fired / magsize so we can adjust the amount of shots fired and mag size overtime
+        pistolSoundPitch = Mathf.Lerp(pistolSoundPitchMin, pistolSoundPitchMax, (pistolMagSize - pistolMagFill) / pistolMagSize);
+        fireAudioSource.pitch = (float)pistolSoundPitch;
+
+        // once we have the pitch, play the sound
+        fireAudioSource.Play();
+        // fire muzzle flash when we fire
+        Instantiate(pistolMuzzleFlashPower1FX, origin.position, origin.rotation, null);
+        PlayerBulletScriptFX ourBullet = Instantiate(playerBulletEffect, origin.position, origin.rotation, null).GetComponent<PlayerBulletScriptFX>();
+        ourBullet.bulletTarget = cameraScript.cameraCenterHit.point;
+        // hitscan and deal damage
+        RaycastHit hit;
+        if (Physics.SphereCast(origin.position, pistolShotSize, cameraScript.cameraCenterHit.point - origin.position, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        {
+            // create a visual effect of our shot hitting
+            Instantiate(pistolHitFX, hit.point, Quaternion.identity, null);
+            // create a line render to show the path of our bullet in the air
+
+            // deal damage
+            if (hit.transform.tag == "Enemy")
+            {
+                // deal damage
+                if (hit.transform.gameObject.GetComponent<EnemyClass>() != null)
+                { hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage((int)pistolDamage); }
+                // spawn effect
+                Instantiate(pistolEnemyHitFX, hit.point, Quaternion.identity, null);
+            }
+        }
+
+        // particle effect
+        Instantiate(shootParticle, origin.position, origin.rotation, null);
+        // shot cooldown
+        shotCoolDownRemain = shotCoolDown;
+       
+        // screenshake
+        cameraScript.SnapScreenShake(snapShakeDelta);
+
+        // weapon kick
+        cameraScript.yRotateMod += pistolRecoil;
+
+        // reduce ammo amount
+        if (powerAmount > 0)
+        {
+            powerAmount--;
+        }
+
+        // reduce our mag amount
+        if (pistolMagFill > 0)
+        {
+            pistolMagFill--;
+        }
+
+        // shot cooldown
+        shotCoolDownRemain = shotCoolDown;
+
     }
 
     // fixed update is called once per frame

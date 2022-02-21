@@ -18,6 +18,7 @@ public class TreadTurretMinion : EnemyClass
     [SerializeField] Transform headJoint, shotPos, treadTransform, treadRaycastStart; // our head joint
     [SerializeField] GameObject bulletPrefab;  // what we are firing
     [SerializeField] GameObject deathParticle;  // our death particle
+    [SerializeField] GameObject enableParticle;  // our death particle
     public dropTypes dropType;
     [SerializeField] float dropAmount;
     [SerializeField] GameObject powerDrop, healthDrop, naniteDrop;
@@ -86,6 +87,13 @@ public class TreadTurretMinion : EnemyClass
             // make our treads look at it
             treadTransform.LookAt(hit.point);
         }
+    }
+
+    // when we are enabled
+    private void OnEnable()
+    {
+        // spawn in our enabled fx
+        Instantiate(enableParticle, transform.position, Quaternion.identity, null);
     }
 
     void Activate()
