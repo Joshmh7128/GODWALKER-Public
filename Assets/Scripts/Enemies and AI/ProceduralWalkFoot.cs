@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class ProceduralWalkFoot : MonoBehaviour
 {
-    [SerializeField] Transform footGoal, footTarget, footLerp;
-    [SerializeField] Vector3 prevTargetPos; // our previous target position
-    [SerializeField] float maxFootDistanceDelta, footSpeed, currentFootSpeed, stepDistance, stepHeight; // how far away can our foot be before we move our feet to it?
+    [SerializeField] Transform footGoal, footTarget, footLerp; // set all three in inspector
+    Vector3 prevTargetPos; // our previous target position
+    [SerializeField] float maxFootDistanceDelta; // the maximum distance we can be away from our previous foot position
+    [SerializeField] float footSpeed; // how fast can we move our foot?
+    [SerializeField] float stepDistance; // how far forward do we step?
+    float currentFootSpeed, stepHeight;
 
     private void Start()
     {
