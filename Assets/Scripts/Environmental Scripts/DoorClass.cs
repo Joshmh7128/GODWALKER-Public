@@ -15,17 +15,24 @@ public class DoorClass : MonoBehaviour
     [SerializeField] float interactDistance;
     [SerializeField] CombatZone nextCombatZone, pastCombatZone; // our associated combat zone to activate. our past combat zone to see if we can open
     [SerializeField] GameObject openParent, lockedParent, interactionParent; // the parents of our open and closed door parents
+    [SerializeField] string targetPastCombatZone; // the combat zone we want to find and add ourselves to
+    [SerializeField] MusicController.musicMoods nextMood; // what will the next music mood be?
+
+    private void Awake()
+    {
+        // if our targetpastcombatzone is not null, add ourselves to it
+        if (targetPastCombatZone != "")
+        {
+            // add ourselves
+            GameObject.Find(targetPastCombatZone).GetComponent<CombatZone>().doorClasses.Add(this);
+        }
+    }
 
     private void Start()
     {
         player = ReInput.players.GetPlayer(0);
         playerTransform = UpgradeSingleton.Instance.player.transform;
 
-        if (Vector3.Distance(playerTransform.position, transform.position) > interactDistance)
-        {
-            if (GameObject.Find("MusicManager"))
-            GameObject.Find("MusicManager").GetComponent<MusicController>().MusicMood(MusicController.musicMoods.explore);
-        }
 
         // if are door is unlocked by default and is not affected by combat zones, make sure it is unlocked
         if (unlocked)
@@ -63,6 +70,13 @@ public class DoorClass : MonoBehaviour
             UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", false);
             interactionParent.SetActive(false); // disable interaction parent
         }
+    }
+
+    public void DoorMusicTrigger()
+    {
+        // choose the next music based on what kind of room it is
+            if (GameObject.Find("MusicManager"))
+                GameObject.Find("MusicManager").GetComponent<MusicController>().MusicMood(nextMood);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -75,21 +75,24 @@ public class EnemyBulletScript : MonoBehaviour
         {
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
-        }
-
-        // if this hits the player
-        if (collision.CompareTag("Player"))
+        }// if this hits the player
+        else if (collision.CompareTag("Player"))
         {
             playerTransform.gameObject.GetComponent<PlayerController>().AddHP(-1);
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }
-
         // if this hits a breakable
-        if (collision.CompareTag("Breakable"))
+        else if (collision.CompareTag("Breakable"))
         {
             // anything with the Breakable tag will be a chunk and have a BreakableBreak function
             collision.GetComponent<BreakableChunk>().BreakableBreak();
+            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+            Destroy(gameObject);
+        }
+        else
+        {
+            // if you hit anything else, die
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }

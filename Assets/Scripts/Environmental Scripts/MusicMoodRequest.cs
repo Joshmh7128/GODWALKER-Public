@@ -23,4 +23,13 @@ public class MusicMoodRequest : MonoBehaviour
             musicController.MusicMood(mood);
         }
     }
+
+    // get our door parent and ask it to play its music
+    public void DoorParentMusicRequest()
+    {
+        if (transform.parent != null)
+        {
+            transform.parent.GetComponent<DoorClass>().DoorMusicTrigger();
+        }
+    }
 }
