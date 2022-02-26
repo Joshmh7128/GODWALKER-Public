@@ -11,6 +11,7 @@ public abstract class EnemyClass : MonoBehaviour
     public abstract void TakeDamage(int dmg); // how much damage are we 
     public abstract void OnDeath(); // our death function
     public abstract void Activate(); // activation
+    public abstract void Attack(); // our attack
     public enum dropTypes // what can we drop?
     {
         none,

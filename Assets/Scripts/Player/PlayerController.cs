@@ -165,6 +165,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Material power1Mat, power2Mat, power3Mat;
     #endregion
 
+    private void Awake()
+    {
+        // initialize our upgrade instance
+        UpgradeSingleton.Instance.playerPlaced = true;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

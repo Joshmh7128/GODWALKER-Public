@@ -11,18 +11,41 @@ public class BasicFlyerMinion : EnemyClass
     /// 
     [SerializeField] Vector3 targetPosition; // where we are trying to move to
     [SerializeField] float fireRate; // how quickly we fire shots (deterministic animation speed)
-    [SerializeField] PlayerController playerController; // our player controller
-    [SerializeField] float movementSpeed, hMovementRadius, vMovementRadius, maxMoveDelta/*how close we need to go to our target pos*/, enemyRadius; // how much can we move around on the horizontal and vertical axes
+    PlayerController playerController; // our player controller
+    [SerializeField] float movementSpeed, hMovementRadius, vMovementRadius, /*how close we need to go to our target pos*/ enemyRadius; // how much can we move around on the horizontal and vertical axes
+    float maxMoveDelta; 
     bool pathBlocked; // is our path blocked?
     [SerializeField] float flightWaitTime; // how long do we wait in between making movements?
+    [SerializeField] Transform bodyContainer, mainContainer, rotationalContainer; // our transform containers
+    [SerializeField] Animator damageAnimator, mainAnimator;
+    [SerializeField] float rotationalKick; // how much do we rotational kick when we get hit?
+    [SerializeField] GameObject deathParticle, bulletPrefab; // our death particle system, our projectile
+    [SerializeField] Transform rightShotPos, leftShotPos; // our left and right shot positions
+    Vector3 shotPos;
+    bool isRight = true; // are we shooting from the right shot spot?
 
     private void Start()
     {
         // find our player controller on start
-        playerController = FindObjectOfType<PlayerController>();
+        playerController = UpgradeSingleton.Instance.player;
 
         // set our maxMoveDelta
-        maxMoveDelta = movementSpeed * 2;
+        maxMoveDelta = movementSpeed/50;
+
+        // activate for development purposes
+        Activate();
+        Debug.LogWarning("Flying Enemy Dev Activating!!");
+
+
+    }
+
+    private void Update()
+    {
+        if (HP <= 0)
+        {
+            if (combatZone) { combatZone.OnDeath(); }
+            OnDeath(); 
+        }
     }
 
     private void FixedUpdate()
@@ -30,6 +53,7 @@ public class BasicFlyerMinion : EnemyClass
         // if we are active in combat
         if (isActive)
         {
+
             // always move towards our target position if we are far away from it and our path is not blocked
             if (Vector3.Distance(transform.position, targetPosition) > maxMoveDelta && !pathBlocked)
             {
@@ -38,7 +62,7 @@ public class BasicFlyerMinion : EnemyClass
             }
 
             Ray movementSphereCast = new Ray(); 
-            movementSphereCast.origin = transform.position; movementSphereCast.direction = transform.position - targetPosition; 
+            movementSphereCast.origin = transform.position; movementSphereCast.direction = targetPosition - transform.position ; 
             // perform a spherecast towards our target position from our transport position
             if (Physics.SphereCast(movementSphereCast, enemyRadius, maxMoveDelta, Physics.AllLayers, QueryTriggerInteraction.Ignore))
             {
@@ -48,6 +72,12 @@ public class BasicFlyerMinion : EnemyClass
                 pathBlocked = false;
             }
         }
+
+        // have our body container look at the player
+        bodyContainer.LookAt(playerController.transform.position, Vector3.up);
+
+        // lerp our rotation container back to it's original rotation after it gets hit
+        rotationalContainer.rotation = Quaternion.Lerp(rotationalContainer.rotation, bodyContainer.rotation, 5 * Time.deltaTime);
     }
 
     public override void Activate()
@@ -62,18 +92,48 @@ public class BasicFlyerMinion : EnemyClass
     IEnumerator MovementPattern()
     {
         // choose a position around the player on the X and Z axes
-        targetPosition = playerController.transform.position + new Vector3(Random.Range(-hMovementRadius, hMovementRadius), Random.Range(-vMovementRadius, vMovementRadius), Random.Range(-hMovementRadius, hMovementRadius));
+        targetPosition = playerController.gameObject.GetComponent<Transform>().position + new Vector3(Random.Range(-hMovementRadius, hMovementRadius), Random.Range(transform.position.y + -vMovementRadius, transform.position.y + vMovementRadius), Random.Range(-hMovementRadius, hMovementRadius));
         // wait before moving again
         yield return new WaitForSeconds(flightWaitTime);
+        // start again
+        StartCoroutine(MovementPattern());
     }
 
     public override void TakeDamage(int dmg)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Damage");
+        // reduce our HP
+        HP -= dmg;
+        // do our damage flicker
+
+        // rotate our rotational body 
+        RandomRotationKick(rotationalKick);
     }
 
     public override void OnDeath()
     {
-        throw new System.NotImplementedException();
+        // then blow up
+        Instantiate(deathParticle, transform.position, Quaternion.identity, null);
+        // then destroy ourselves
+        Destroy(gameObject);
+    }
+
+    public void RandomRotationKick(float kickAmount)
+    {
+        // rotate our rotational body 
+        rotationalContainer.rotation = Quaternion.Euler(new Vector3(bodyContainer.rotation.eulerAngles.x + Random.Range(-kickAmount / 10, kickAmount / 10), bodyContainer.rotation.eulerAngles.y + Random.Range(-kickAmount, kickAmount), bodyContainer.rotation.eulerAngles.z + Random.Range(-kickAmount / 10, kickAmount / 10)));
+    }
+
+    public override void Attack()
+    {
+
+        // determine our shot position
+        if (isRight) { shotPos = rightShotPos.position; }
+        if (!isRight) { shotPos = leftShotPos.position; }
+
+        // fire our shot
+        Instantiate(bulletPrefab, shotPos, bodyContainer.rotation);
+        // flip which side we are on
+        isRight = !isRight;
     }
 }

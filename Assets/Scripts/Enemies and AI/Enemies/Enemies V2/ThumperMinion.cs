@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ThumperMinion : EnemyClass
+public class ThumperMinion : MonoBehaviour
 {
+    /*
     /// the tri shot minion is a small enemy who fires 3 shots at the player
     /// they move to random close points within a thick radius around the player when they are above 50% HP
     /// when they are below 50% HP they will move away from the player, and attempt to run from them
@@ -127,5 +128,5 @@ public class ThumperMinion : EnemyClass
     {
         throw new System.NotImplementedException();
     }
-
+    */
 }

@@ -111,7 +111,7 @@ public class TreadTurretMinion : EnemyClass
     }
 
     // bullet instantation for animation triggers
-    public void FireBullet()
+    public override void Attack()
     {
         Instantiate(bulletPrefab, shotPos); 
     }
