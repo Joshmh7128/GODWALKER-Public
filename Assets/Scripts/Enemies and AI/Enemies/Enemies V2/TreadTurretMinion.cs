@@ -61,8 +61,6 @@ public class TreadTurretMinion : EnemyClass
         // death condition
         if (HP <= 0)
         {
-            // Instantiate(deathParticle, transform.position, Quaternion.identity, null); // spawn our death particle 
-            combatZone.OnDeath();
             OnDeath(); // destroy this enemy through our death function
         }
 
@@ -96,7 +94,7 @@ public class TreadTurretMinion : EnemyClass
         Instantiate(enableParticle, transform.position, Quaternion.identity, null);
     }
 
-    void Activate()
+    public override void Activate()
     {
         // we are now active
         isActive = true; hasActivated = true;
@@ -130,8 +128,10 @@ public class TreadTurretMinion : EnemyClass
     }
 
     // our death function
-    private void OnDeath()
+    public override void OnDeath()
     {
+        // make sure we call our combat zone's death
+        combatZone.OnDeath();
         // depending on our droptype, drop different amounts of resources
         switch (dropType)
         {

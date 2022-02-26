@@ -86,7 +86,7 @@ public class ThumperMinion : EnemyClass
         }
     }
 
-    void Activate()
+    public override void Activate()
     {
         // we are now active
         isActive = true;
@@ -121,6 +121,11 @@ public class ThumperMinion : EnemyClass
         GetComponent<Animator>().speed = 1;
         GetComponent<Animator>().Play("HurtFlash");
         // perform hurt animation
+    }
+
+    public override void OnDeath()
+    {
+        throw new System.NotImplementedException();
     }
 
 }

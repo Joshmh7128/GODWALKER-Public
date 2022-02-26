@@ -8,7 +8,9 @@ public abstract class EnemyClass : MonoBehaviour
     public string NameText;
     bool invincible; // are we invincible right now?
     public bool isActive; // is this enemy active?
-    public abstract void TakeDamage(int dmg); // how much damage are we taking?
+    public abstract void TakeDamage(int dmg); // how much damage are we 
+    public abstract void OnDeath(); // our death function
+    public abstract void Activate(); // activation
     public enum dropTypes // what can we drop?
     {
         none,
@@ -26,4 +28,7 @@ public abstract class EnemyClass : MonoBehaviour
         if (!combatZone)
             combatZone = transform.root.GetComponent<CombatZone>();
     }
+
+
+
 }
