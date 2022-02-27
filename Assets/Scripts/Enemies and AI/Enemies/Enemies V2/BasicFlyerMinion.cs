@@ -105,7 +105,7 @@ public class BasicFlyerMinion : EnemyClass
         // reduce our HP
         HP -= dmg;
         // do our damage flicker
-
+        mainAnimator.Play("Damage");
         // rotate our rotational body 
         RandomRotationKick(rotationalKick);
     }
@@ -126,6 +126,9 @@ public class BasicFlyerMinion : EnemyClass
 
     public override void Attack()
     {
+        
+
+        mainAnimator.speed = Random.Range(0.75f, 1.25f);
 
         // determine our shot position
         if (isRight) { shotPos = rightShotPos.position; }
