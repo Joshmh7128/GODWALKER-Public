@@ -19,7 +19,7 @@ public class BasicFlyerMinion : EnemyClass
     [SerializeField] Transform bodyContainer, mainContainer, rotationalContainer; // our transform containers
     [SerializeField] Animator damageAnimator, mainAnimator;
     [SerializeField] float rotationalKick; // how much do we rotational kick when we get hit?
-    [SerializeField] GameObject deathParticle, bulletPrefab; // our death particle system, our projectile
+    [SerializeField] GameObject deathParticle, bulletPrefab, muzzleFlashParticle; // our death particle system, our projectile
     [SerializeField] Transform rightShotPos, leftShotPos; // our left and right shot positions
     Vector3 shotPos;
     bool isRight = true; // are we shooting from the right shot spot?
@@ -30,7 +30,7 @@ public class BasicFlyerMinion : EnemyClass
         playerController = UpgradeSingleton.Instance.player;
 
         // set our maxMoveDelta
-        maxMoveDelta = movementSpeed/50;
+        maxMoveDelta = movementSpeed/30;
 
         // activate for development purposes
         Activate();
@@ -133,6 +133,7 @@ public class BasicFlyerMinion : EnemyClass
 
         // fire our shot
         Instantiate(bulletPrefab, shotPos, bodyContainer.rotation);
+        Instantiate(muzzleFlashParticle, shotPos, bodyContainer.rotation);
         // flip which side we are on
         isRight = !isRight;
     }
