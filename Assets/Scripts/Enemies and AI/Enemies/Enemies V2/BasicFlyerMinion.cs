@@ -22,7 +22,8 @@ public class BasicFlyerMinion : EnemyClass
     [SerializeField] GameObject deathParticle, bulletPrefab, muzzleFlashParticle; // our death particle system, our projectile
     [SerializeField] Transform rightShotPos, leftShotPos; // our left and right shot positions
     Vector3 shotPos;
-    bool isRight = true; // are we shooting from the right shot spot?
+    bool isRight = true;
+    [SerializeField] bool changesSides = false; // are we shooting from the right shot spot? do our sides change
 
     private void Start()
     {
@@ -34,9 +35,6 @@ public class BasicFlyerMinion : EnemyClass
 
         // activate for development purposes
         Activate();
-        Debug.LogWarning("Flying Enemy Dev Activating!!");
-
-
     }
 
     private void Update()
@@ -138,6 +136,7 @@ public class BasicFlyerMinion : EnemyClass
         Instantiate(bulletPrefab, shotPos, bodyContainer.rotation);
         Instantiate(muzzleFlashParticle, shotPos, bodyContainer.rotation);
         // flip which side we are on
+        if (changesSides)
         isRight = !isRight;
     }
 }
