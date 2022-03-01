@@ -15,10 +15,12 @@ public class QuadTurretHeavy : EnemyClass
     [SerializeField] private float activationDistance, closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
     [SerializeField] private float x, y, z, rx, rz, headHeight, headRotSpeed; // our movement variables
     [SerializeField] private NavMeshAgent navMeshAgent;
-    [SerializeField] Transform headJoint, headParent, shotPos, treadTransform, treadRaycastStart; // our head joint
+    [SerializeField] Transform headJoint, headParent, treadTransform, treadRaycastStart; // our head joint
+    [SerializeField] List<Transform> shotPositions; // our list of shot positions
     [SerializeField] GameObject bulletPrefab;  // what we are firing
     [SerializeField] GameObject deathParticle;  // our death particle
     [SerializeField] GameObject enableParticle;  // our death particle
+    [SerializeField] GameObject muzzleFlashParticle;  // our death particle
     public dropTypes dropType;
     [SerializeField] float dropAmount;
     [SerializeField] GameObject powerDrop, healthDrop, naniteDrop;
@@ -104,13 +106,14 @@ public class QuadTurretHeavy : EnemyClass
         Vector3 direction = headJoint.position - playerTransform.transform.position; // get our initial direction from our head to our player
         Quaternion toRotation = Quaternion.FromToRotation(headJoint.forward - headJoint.position, direction); // use our head direction to point at the player
         Quaternion toRotationFixed = Quaternion.Euler(new Vector3(toRotation.eulerAngles.x, toRotation.eulerAngles.y, 0f)); // fix the rotation on the z axis so the head doesnt swing around
-        headJoint.localRotation = Quaternion.RotateTowards(headJoint.localRotation, toRotationFixed, headRotSpeed * Time.deltaTime);
+        headJoint.localRotation = Quaternion.RotateTowards(headJoint.rotation, toRotationFixed, headRotSpeed * Time.deltaTime);
     }
 
     // when we are enabled
     private void OnEnable()
     {
         // spawn in our enabled fx
+        if (enableParticle)
         Instantiate(enableParticle, transform.position, Quaternion.identity, null);
     }
 
@@ -130,10 +133,19 @@ public class QuadTurretHeavy : EnemyClass
         GetComponent<Animator>().speed = Random.Range(0.75f, 1.25f);
     }
 
-    // bullet instantation for animation triggers
+    // alternate through our shooting positions
     public override void Attack()
     {
-        Instantiate(bulletPrefab, shotPos);
+        
+    }
+
+    // custom attack for our 4 shot positions
+    public void CustomAttack(int shotPos)
+    {
+        // our shotPos int is handled by animation
+        Instantiate(bulletPrefab, shotPositions[shotPos].position, shotPositions[shotPos].rotation, null);
+        // and our flash particle too
+        Instantiate(muzzleFlashParticle, shotPositions[shotPos].position, shotPositions[shotPos].rotation, null);
     }
 
     // when we take damage
