@@ -13,7 +13,7 @@ public class QuadTurretHeavy : EnemyClass
     // our health point variables are defined in the EnemyClass; HP and MaxHP are defined in the parent abstract class
     [SerializeField] private Transform playerTransform; // our player's transform
     [SerializeField] private float activationDistance, closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
-    [SerializeField] private float x, y, z, rx, rz, headHeight; // our movement variables
+    [SerializeField] private float x, y, z, rx, rz, headHeight, headRotSpeed; // our movement variables
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] Transform headJoint, shotPos, treadTransform, treadRaycastStart; // our head joint
     [SerializeField] GameObject bulletPrefab;  // what we are firing
@@ -78,7 +78,10 @@ public class QuadTurretHeavy : EnemyClass
         }
 
         // rotate our headjoint to look at the player
-        headJoint.transform.LookAt(playerTransform);
+        Vector3 direction = headJoint.position - playerTransform.transform.position ; // get our initial direction from our head to our player
+        Quaternion toRotation = Quaternion.FromToRotation(headJoint.forward - headJoint.position, direction); // use our head direction to point at the player
+        Quaternion toRotationFixed = Quaternion.Euler(new Vector3(toRotation.eulerAngles.x, toRotation.eulerAngles.y, 0f)); // fix the rotation on the z axis so the head doesnt swing around
+        headJoint.rotation = Quaternion.Lerp(headJoint.rotation, toRotationFixed, headRotSpeed * Time.time);
     }
 
     // the fixed update runs 60 times per second
