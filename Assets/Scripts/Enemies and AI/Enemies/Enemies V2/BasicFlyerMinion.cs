@@ -89,8 +89,17 @@ public class BasicFlyerMinion : EnemyClass
     // this will control our movement patterns
     IEnumerator MovementPattern()
     {
+
+        int dec = Random.Range(0, 2);
         // choose a position around the player on the X and Z axes
-        targetPosition = playerController.gameObject.GetComponent<Transform>().position + new Vector3(Random.Range(-hMovementRadius, hMovementRadius), Random.Range(transform.position.y + -vMovementRadius, transform.position.y + vMovementRadius), Random.Range(-hMovementRadius, hMovementRadius));
+        if (dec == 0)
+        {
+            targetPosition = playerController.gameObject.GetComponent<Transform>().position + new Vector3(Random.Range(-hMovementRadius, hMovementRadius), Random.Range(transform.position.y + -vMovementRadius, transform.position.y + vMovementRadius), Random.Range(-hMovementRadius, hMovementRadius));
+        } else if (dec != 0)
+        {
+            targetPosition = transform.position + new Vector3(Random.Range(-hMovementRadius, hMovementRadius), 0f, Random.Range(-hMovementRadius, hMovementRadius));
+        }
+
         // wait before moving again
         yield return new WaitForSeconds(flightWaitTime);
         // start again

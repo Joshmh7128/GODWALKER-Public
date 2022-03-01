@@ -40,6 +40,10 @@ public class TreadTurretMinion : EnemyClass
     {
         // if our HP is > 50% choose a position in our close radius, if < 50% choose in our far radius
         // top 50%
+
+        // are we doing local or player based movement?
+        int dec = Random.Range(0, 2);
+        // calculate movement vectors
         if (HP > maxHP / 2f) { x = Random.Range(closeRadiusMin, closeRadiusMax); z = Random.Range(closeRadiusMin, closeRadiusMax); }        
         // bottom 50%
         if (HP < maxHP / 2f)
@@ -48,7 +52,14 @@ public class TreadTurretMinion : EnemyClass
         rx = Random.Range(0, 2); rz = Random.Range(0, 2); if (rx > 0) { x *= -1; } if (rz > 0) { z *= -1; }
         // get the X and Z of that position and use the Y of our head so that we can walk up slopes (may need refining?)
         y = headHeight;
-        navMeshAgent.destination = playerTransform.position + new Vector3(x, y, z);
+        if (dec == 0)
+        {
+            navMeshAgent.destination = playerTransform.position + new Vector3(x, y, z);
+        } else if (dec != 0)
+        {
+            navMeshAgent.destination = transform.position + new Vector3(x, y, z);
+        }
+
         // wait 1 to 3 seconds
         yield return new WaitForSeconds(Random.Range(0.5f, 1f));
         // repeat this cycle
