@@ -15,7 +15,7 @@ public class QuadTurretHeavy : EnemyClass
     [SerializeField] private float activationDistance, closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
     [SerializeField] private float x, y, z, rx, rz, headHeight, headRotSpeed; // our movement variables
     [SerializeField] private NavMeshAgent navMeshAgent;
-    [SerializeField] Transform headJoint, shotPos, treadTransform, treadRaycastStart; // our head joint
+    [SerializeField] Transform headJoint, headParent, shotPos, treadTransform, treadRaycastStart; // our head joint
     [SerializeField] GameObject bulletPrefab;  // what we are firing
     [SerializeField] GameObject deathParticle;  // our death particle
     [SerializeField] GameObject enableParticle;  // our death particle
@@ -76,12 +76,6 @@ public class QuadTurretHeavy : EnemyClass
         {
             OnDeath(); // destroy this enemy through our death function
         }
-
-        // rotate our headjoint to look at the player
-        Vector3 direction = headJoint.position - playerTransform.transform.position ; // get our initial direction from our head to our player
-        Quaternion toRotation = Quaternion.FromToRotation(headJoint.forward - headJoint.position, direction); // use our head direction to point at the player
-        Quaternion toRotationFixed = Quaternion.Euler(new Vector3(toRotation.eulerAngles.x, toRotation.eulerAngles.y, 0f)); // fix the rotation on the z axis so the head doesnt swing around
-        headJoint.rotation = Quaternion.Lerp(headJoint.rotation, toRotationFixed, headRotSpeed * Time.time);
     }
 
     // the fixed update runs 60 times per second
@@ -101,6 +95,16 @@ public class QuadTurretHeavy : EnemyClass
             // make our treads look at it
             treadTransform.LookAt(hit.point);
         }
+
+        // counter our head parent's rotation
+        Quaternion nullRotation = Quaternion.Euler(-transform.rotation.eulerAngles);
+        headParent.localRotation = nullRotation; 
+
+        // rotate our headjoint to look at the player
+        Vector3 direction = headJoint.position - playerTransform.transform.position; // get our initial direction from our head to our player
+        Quaternion toRotation = Quaternion.FromToRotation(headJoint.forward - headJoint.position, direction); // use our head direction to point at the player
+        Quaternion toRotationFixed = Quaternion.Euler(new Vector3(toRotation.eulerAngles.x, toRotation.eulerAngles.y, 0f)); // fix the rotation on the z axis so the head doesnt swing around
+        headJoint.localRotation = Quaternion.RotateTowards(headJoint.localRotation, toRotationFixed, headRotSpeed * Time.deltaTime);
     }
 
     // when we are enabled
