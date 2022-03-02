@@ -75,7 +75,10 @@ public class EnemyBulletScript : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-        Destroy(this.gameObject);
+        if (!usesPhysics)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -86,8 +89,10 @@ public class EnemyBulletScript : MonoBehaviour
         if (collision.CompareTag("Environment"))
         {
             if (!usesPhysics)
-            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-            Destroy(gameObject);
+            {
+                Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                Destroy(gameObject);
+            }
         }// if this hits the player
         else if (collision.CompareTag("Player"))
         {
@@ -107,8 +112,10 @@ public class EnemyBulletScript : MonoBehaviour
         {
             // if you hit anything else, die if you do not use physics
             if (!usesPhysics)
-            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-            Destroy(gameObject);
+            {
+                Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -116,8 +123,11 @@ public class EnemyBulletScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Environment")
         {
-            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-            Destroy(gameObject);
+            if (!usesPhysics)
+            {
+                Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+                Destroy(gameObject);
+            }
         }
     }
 }

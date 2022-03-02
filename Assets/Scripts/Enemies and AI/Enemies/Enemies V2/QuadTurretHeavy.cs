@@ -17,7 +17,7 @@ public class QuadTurretHeavy : EnemyClass
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] Transform headJoint, headParent, treadTransform, treadRaycastStart; // our head joint
     [SerializeField] List<Transform> shotPositions; // our list of shot positions
-    [SerializeField] GameObject bulletPrefab;  // what we are firing
+    [SerializeField] GameObject bulletPrefab, bombPrefab;  // what we are firing
     [SerializeField] GameObject deathParticle;  // our death particle
     [SerializeField] GameObject enableParticle;  // our death particle
     [SerializeField] GameObject muzzleFlashParticle;  // our death particle
@@ -142,8 +142,17 @@ public class QuadTurretHeavy : EnemyClass
     // custom attack for our 4 shot positions
     public void CustomAttack(int shotPos)
     {
-        // our shotPos int is handled by animation
-        Instantiate(bulletPrefab, shotPositions[shotPos].position, shotPositions[shotPos].rotation, null);
+        if (shotPos <= 3)
+        {
+            // our shotPos int is handled by animation
+            Instantiate(bulletPrefab, shotPositions[shotPos].position, shotPositions[shotPos].rotation, null);
+        }
+        else
+        {
+            // our shotPos int is handled by animation
+            Instantiate(bulletPrefab, shotPositions[shotPos].position, shotPositions[shotPos].rotation, null);
+        }
+
         // and our flash particle too
         Instantiate(muzzleFlashParticle, shotPositions[shotPos].position, shotPositions[shotPos].rotation, null);
     }
