@@ -29,6 +29,7 @@ public class CombatZone : MonoBehaviour
 
     void ActivateCurrentWave()
     {
+
         // for each child of the wave, set it to true
         foreach (Transform child in waveParents[currentWave].transform)
         {
@@ -40,6 +41,18 @@ public class CombatZone : MonoBehaviour
                 child.GetComponent<EnemyClass>().isActive = true;
             }
         }
+
+        // say our current wave to the player
+        UpgradeSingleton.Instance.player.InteractableMessageTrigger(waveParents[currentWave].name, true);
+        StartCoroutine(MessageClear());
+
+    }
+
+
+    IEnumerator MessageClear()
+    {
+        yield return new WaitForSeconds(5f);
+        UpgradeSingleton.Instance.player.InteractableMessageTrigger(waveParents[currentWave].name, false);
     }
 
     void EndCombat()
@@ -54,6 +67,9 @@ public class CombatZone : MonoBehaviour
         // environment lighting change
         combatScenery.SetActive(false);
         safeScenery.SetActive(true);
+        // tell the player we are complete
+        UpgradeSingleton.Instance.player.InteractableMessageTrigger("Room Clear", true);
+        StartCoroutine(MessageClear());
     }
 
     void ClearParticles()
