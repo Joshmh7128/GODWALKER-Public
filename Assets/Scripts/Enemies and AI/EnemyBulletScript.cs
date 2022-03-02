@@ -11,7 +11,7 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
     Transform playerTransform;
-    [SerializeField] bool speedsUp, targetPlayer; // does our bullet linearly speed up?
+    [SerializeField] bool speedsUp, targetPlayer, usesPhysics; // does our bullet linearly speed up?
     public Vector3 customDirection; // leave blank if no direction
 
     // for when our bullet is instantiated
@@ -32,8 +32,16 @@ public class EnemyBulletScript : MonoBehaviour
             transform.LookAt(bulletTarget); 
         }
 
+        if (usesPhysics)
+        {
+            // if this uses physics, launch it forwards
+            gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
+        }
+
         // start the safety kill
         StartCoroutine("SafetyKill");
+
+
     }
 
     private void FixedUpdate()
@@ -48,21 +56,25 @@ public class EnemyBulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // move bullet
-        if (customDirection != new Vector3(0, 0, 0))
+        if (!usesPhysics)
         {
-            transform.Translate(customDirection * bulletSpeed * Time.deltaTime);
-        }
-        else
-        {
+            // move bullet
+            if (customDirection != new Vector3(0, 0, 0))
+            {
+                transform.Translate(customDirection * bulletSpeed * Time.deltaTime);
+            }
+            else
+            {
 
-            transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
+                transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
+            }
         }
     }
 
     IEnumerator SafetyKill()
     {
         yield return new WaitForSeconds(5f);
+        Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
         Destroy(this.gameObject);
     }
 
@@ -73,6 +85,7 @@ public class EnemyBulletScript : MonoBehaviour
         // destroy if it hits the environment
         if (collision.CompareTag("Environment"))
         {
+            if (!usesPhysics)
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }// if this hits the player
@@ -92,7 +105,8 @@ public class EnemyBulletScript : MonoBehaviour
         }
         else
         {
-            // if you hit anything else, die
+            // if you hit anything else, die if you do not use physics
+            if (!usesPhysics)
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }
