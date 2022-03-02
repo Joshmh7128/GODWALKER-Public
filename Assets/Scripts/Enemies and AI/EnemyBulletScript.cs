@@ -40,8 +40,6 @@ public class EnemyBulletScript : MonoBehaviour
 
         // start the safety kill
         StartCoroutine("SafetyKill");
-
-
     }
 
     private void FixedUpdate()
@@ -73,14 +71,14 @@ public class EnemyBulletScript : MonoBehaviour
 
     IEnumerator SafetyKill()
     {
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(10f);
         DestroyBullet();
     }
 
     public void DestroyBullet()
     {
         Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider collision)

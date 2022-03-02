@@ -108,7 +108,7 @@ public class BasicFlyerMinion : EnemyClass
 
     public override void TakeDamage(int dmg)
     {
-        Debug.Log("Damage");
+        // Debug.Log("Damage");
         // reduce our HP
         HP -= dmg;
         // do our damage flicker
