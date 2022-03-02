@@ -150,7 +150,7 @@ public class QuadTurretHeavy : EnemyClass
         else
         {
             // our shotPos int is handled by animation
-            Instantiate(bulletPrefab, shotPositions[shotPos].position, shotPositions[shotPos].rotation, null);
+            Instantiate(bombPrefab, shotPositions[shotPos].position, shotPositions[shotPos].rotation, null);
         }
 
         // and our flash particle too

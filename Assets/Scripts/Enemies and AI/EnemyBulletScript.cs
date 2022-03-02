@@ -107,6 +107,10 @@ public class EnemyBulletScript : MonoBehaviour
             collision.GetComponent<BreakableChunk>().BreakableBreak();
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
+        }        // if this hits a breakable
+        else if (collision.CompareTag("Enemy"))
+        {
+
         }
         else
         {
