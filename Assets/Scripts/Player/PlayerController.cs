@@ -512,6 +512,15 @@ public class PlayerController : MonoBehaviour
                 // spawn effect
                 Instantiate(pistolEnemyHitFX, hit.point, Quaternion.identity, null);
             }
+
+            // deal damage
+            if (hit.transform.tag == "Bullet")
+            {
+                // destroy the bullet
+                hit.transform.gameObject.GetComponent<EnemyBulletScript>().DestroyBullet();
+                // spawn effect
+                Instantiate(pistolEnemyHitFX, hit.point, Quaternion.identity, null);
+            }
         }
 
         // particle effect

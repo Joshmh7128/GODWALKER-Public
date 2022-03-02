@@ -164,7 +164,7 @@ public class QuadTurretHeavy : EnemyClass
         HP -= dmg;
         // flicker 
         GetComponent<Animator>().speed = 1;
-        GetComponent<Animator>().Play("HurtFlash");
+        GetComponent<Animator>().Play("Damage");
         // perform hurt animation
     }
 

@@ -73,12 +73,14 @@ public class EnemyBulletScript : MonoBehaviour
 
     IEnumerator SafetyKill()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(20f);
+        DestroyBullet();
+    }
+
+    public void DestroyBullet()
+    {
         Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-        if (!usesPhysics)
-        {
-            Destroy(this.gameObject);
-        }
+        Destroy(this.gameObject);
     }
 
     private void OnTriggerEnter(Collider collision)

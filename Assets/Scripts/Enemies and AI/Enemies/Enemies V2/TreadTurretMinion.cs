@@ -13,7 +13,8 @@ public class TreadTurretMinion : EnemyClass
     // our health point variables are defined in the EnemyClass; HP and MaxHP are defined in the parent abstract class
     [SerializeField] private Transform playerTransform; // our player's transform
     [SerializeField] private float activationDistance, closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
-    [SerializeField] private float x, y, z, rx, rz, headHeight; // our movement variables
+    private float x, y, z, rx, rz, headHeight; // our movement variables
+    [SerializeField] float animationSpeedMin = 0.75f, animationSpeedMax = 1.25f;
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] Transform headJoint, shotPos, treadTransform, treadRaycastStart; // our head joint
     [SerializeField] GameObject bulletPrefab;  // what we are firing
@@ -57,7 +58,7 @@ public class TreadTurretMinion : EnemyClass
             navMeshAgent.destination = playerTransform.position + new Vector3(x, y, z);
         } else if (dec != 0)
         {
-            navMeshAgent.destination = transform.position + new Vector3(x, y, z);
+            navMeshAgent.destination = playerTransform.position + new Vector3(x*2, y, z*2);
         }
 
         // wait 1 to 3 seconds
@@ -118,13 +119,13 @@ public class TreadTurretMinion : EnemyClass
     // randomizing our animation speed
     public void RandomizeAnimationSpeed()
     {
-        GetComponent<Animator>().speed = Random.Range(0.75f, 1.25f);
+        GetComponent<Animator>().speed = Random.Range(animationSpeedMin, animationSpeedMax);
     }
 
     // bullet instantation for animation triggers
     public override void Attack()
     {
-        Instantiate(bulletPrefab, shotPos); 
+        Instantiate(bulletPrefab, shotPos.position, shotPos.rotation, null); 
     }
 
     // when we take damage
@@ -142,7 +143,8 @@ public class TreadTurretMinion : EnemyClass
     public override void OnDeath()
     {
         // make sure we call our combat zone's death
-        combatZone.OnDeath();
+        if (combatZone)
+        { combatZone.OnDeath(); }
         // depending on our droptype, drop different amounts of resources
         switch (dropType)
         {
