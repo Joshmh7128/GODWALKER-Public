@@ -74,9 +74,10 @@ public class EnemyBulletScript : MonoBehaviour
     }
 
     IEnumerator SafetyKill()
-    {
+    {   
         yield return new WaitForSeconds(10f);
-        DestroyBullet();
+        if (!usesParent)
+            DestroyBullet();
     }
 
     public void DestroyBullet()
