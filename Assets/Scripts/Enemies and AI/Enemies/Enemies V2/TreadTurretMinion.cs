@@ -15,6 +15,7 @@ public class TreadTurretMinion : EnemyClass
     [SerializeField] private float activationDistance, closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
     private float x, y, z, rx, rz, headHeight; // our movement variables
     [SerializeField] float animationSpeedMin = 0.75f, animationSpeedMax = 1.25f;
+    [SerializeField] float navMeshWaitMin = 0.5f, navMeshWaitMax = 1f;
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] Transform headJoint, shotPos, treadTransform, treadRaycastStart; // our head joint
     [SerializeField] GameObject bulletPrefab;  // what we are firing
@@ -62,7 +63,7 @@ public class TreadTurretMinion : EnemyClass
         }
 
         // wait 1 to 3 seconds
-        yield return new WaitForSeconds(Random.Range(0.5f, 1f));
+        yield return new WaitForSeconds(Random.Range(navMeshWaitMin, navMeshWaitMax));
         // repeat this cycle
         StartCoroutine(NavMeshPositionTarget());
     }
