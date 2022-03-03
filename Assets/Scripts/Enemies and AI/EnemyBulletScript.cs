@@ -11,7 +11,7 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
     Transform playerTransform;
-    [SerializeField] bool speedsUp, targetPlayer, usesPhysics; // does our bullet linearly speed up?
+    [SerializeField] bool speedsUp, targetPlayer, usesPhysics, usesParent = false; // does our bullet linearly speed up?
     public Vector3 customDirection; // leave blank if no direction
 
     // for when our bullet is instantiated
@@ -23,7 +23,11 @@ public class EnemyBulletScript : MonoBehaviour
             playerTransform = UpgradeSingleton.Instance.player.transform;
         }
 
-        transform.parent = null;
+        if (!usesParent)
+        {
+            transform.parent = null;
+        }
+
 
         // turn bullet
         if (bulletTarget == null && targetPlayer == true)
@@ -32,7 +36,7 @@ public class EnemyBulletScript : MonoBehaviour
             transform.LookAt(bulletTarget); 
         }
 
-        if (usesPhysics)
+        if (usesPhysics && gameObject.GetComponent<Rigidbody>() != null)
         {
             // if this uses physics, launch it forwards
             gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
