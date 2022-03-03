@@ -85,7 +85,8 @@ public class TreadTurretMinion : EnemyClass
     {
         // if we can see the player or if our player is within reaction range, activate our enemy
         if (isActive == false)
-        { if (!Physics.Linecast(headJoint.transform.position, playerTransform.position) || (Vector3.Distance(transform.position, playerTransform.position)) < activationDistance || HP != maxHP) { Activate(); } }
+        { if (!Physics.Linecast(headJoint.transform.position, playerTransform.position) || (Vector3.Distance(transform.position, playerTransform.position)) < activationDistance || HP != maxHP) 
+            { Activate(); } }
 
         if (isActive == true && hasActivated == false) { Activate(); }
 
