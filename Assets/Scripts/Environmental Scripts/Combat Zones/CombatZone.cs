@@ -40,7 +40,6 @@ public class CombatZone : MonoBehaviour
 
     void ActivateCurrentWave()
     {
-
         // for each child of the wave, set it to true
         foreach (Transform child in waveParents[currentWave].transform)
         {
@@ -56,7 +55,6 @@ public class CombatZone : MonoBehaviour
         // say our current wave to the player
         UpgradeSingleton.Instance.player.InteractableMessageTrigger(waveParents[currentWave].name, true);
         StartCoroutine(MessageClear());
-
     }
 
 
@@ -124,7 +122,7 @@ public class CombatZone : MonoBehaviour
             foreach (Transform child in waveParents[currentWave+1].transform)
             {
                 // make the particle effect
-                GameObject effect = Instantiate(summonEffect, child.position, Quaternion.identity, null);
+                GameObject effect = Instantiate(summonEffect, child.position + new Vector3(0f, 2f, 0f), Quaternion.identity, null);
                 //add it to the list
                 activeParticles.Add(effect);
             }
