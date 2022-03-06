@@ -9,7 +9,7 @@ public class MusicController : MonoBehaviour
 
     [SerializeField] AudioSource musicSource; // we will have one audio source for our music at all times
     [SerializeField] AudioClip[] track001Pieces; // all the pieces of track001
-
+    [SerializeField] bool mute; // should we mute
     // our different music moods
     public enum musicMoods
     {
@@ -23,6 +23,8 @@ public class MusicController : MonoBehaviour
     {
         // set our music to the exploring mood at the start
         MusicMood(musicMoods.explore);
+        // are we musted?
+        if (mute) { musicSource.volume = 0; }
     }
 
     public void MusicMood(musicMoods mood)
