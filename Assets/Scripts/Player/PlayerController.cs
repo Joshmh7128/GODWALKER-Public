@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
     Vector3 move, moveH, moveV; // movement directions
     public bool manualJumpControl = true, normalJumpAllow = false, isOnJumpPad = false;
     [SerializeField] float moveSpeed;           // how fast can we move?
-    [SerializeField] float gravity;             // gravity in the environment
+    [SerializeField] float gravity = -58.86f;   // gravity in the environment
     [SerializeField] float jumpVelocity; // how fast can we jump
     [SerializeField] float jumpPadVelocity; // our jump pad velocity
     [SerializeField] float fallMultiplier;  // how quicky we fall in addition to normal gravity
@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float playerJumpPadVelocity;  // how quicky we fall in addition to normal gravity
     [SerializeField] float playerJumpPadCooldown;  // how long we have to wait between jump pad usage
     float gravityValue;                        // real time simulated gravity
-    [SerializeField]  float verticalVelocity, verticalJumpVelocity, verticalJumpPadVelocity; // vertical velocity variable
+    [SerializeField] float verticalVelocity, verticalJumpVelocity, verticalJumpPadVelocity; // vertical velocity variable
     // everything to do with our dash
     [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
     [SerializeField] Vector3 dashDir;
@@ -260,13 +260,13 @@ public class PlayerController : MonoBehaviour
             if (characterController.isGrounded && !player.GetButtonDown("SpacePress"))
             {
                 // normal gravity
-                gravityValue = gravity*100;
+                gravityValue = gravity*50;
                 // jump animation weights
                 humanoidPlayerAnimator.SetLayerWeight(6, 0);
                 humanoidHandTargetAnimator.SetLayerWeight(5, 0);
 
             }
-            else if (characterController.isGrounded && player.GetButton("SpacePress") && manualJumpControl)
+            else if (characterController.isGrounded && player.GetButton("SpacePress") && manualJumpControl || isOnJumpPad)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
@@ -284,7 +284,7 @@ public class PlayerController : MonoBehaviour
                 humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
                 // neck bob animation weight
                 neckTargetAnimator.SetLayerWeight(1,0); // run layer
-            } 
+            } // upwards velocity custom gravity
             else if (characterController.velocity.y > 0 && manualJumpControl)
             {
                 // jump falling
@@ -304,21 +304,18 @@ public class PlayerController : MonoBehaviour
             {
                 if (playerJumpVelocity < 0)
                 { playerJumpVelocity = 0; }
-
-                if (playerJumpPadVelocity < 0)
-                { playerJumpPadVelocity = 0; }
             }
 
             // jumping
             if (manualJumpControl && player.GetButtonDown("SpacePress") && characterController.isGrounded && normalJumpAllow)
             {
-                playerJumpVelocity += Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
+                playerJumpVelocity = Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
             }
 
             // jump calculations
-            verticalJumpVelocity = playerJumpVelocity += gravityValue * Time.deltaTime;
+            playerJumpVelocity += gravityValue * Time.deltaTime;
             // verticalJumpPadVelocity = playerJumpPadVelocity += gravityValue * Time.deltaTime;
-            verticalVelocity = verticalJumpVelocity;
+            verticalVelocity = playerJumpVelocity;
             move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
             move += dashDir;
 
@@ -466,16 +463,11 @@ public class PlayerController : MonoBehaviour
     // public void for jump pads
     public void JumpLaunch(float jumpPower)
     {
-        // check if we have any launch cooldown left
-        if (playerJumpPadCooldown <= 0)
-        {
-            // check to make sure we are not using too much gravity
-            verticalVelocity = 0; playerJumpVelocity = 0; gravityValue = 0; verticalJumpVelocity = 0;
-            // launch
-            playerJumpVelocity += Mathf.Sqrt((jumpVelocity * jumpPower) * -3.0f * gravity);
-            // raise it
-            playerJumpPadCooldown = 6;
-        }
+        // check to make sure we are not using too much gravity
+        verticalVelocity = 0; playerJumpVelocity = 0; gravityValue = 0; verticalJumpVelocity = 0;
+        // launch
+        playerJumpVelocity = Mathf.Sqrt((jumpVelocity * jumpPower) * -3.0f * gravity);
+        Debug.Log(playerJumpVelocity);
     }
 
 
@@ -574,10 +566,6 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
-
-        // manage our jump pad cooldown
-        if (playerJumpPadCooldown > 0) { playerJumpPadCooldown -= 1; }
-
         // make sure our kick animations weights are counting down properly, so that when we fire the arms go back down
         rightIKArmKickback -= kickIKReduction; leftIKArmKickback -= kickIKReduction;
         humanoidHandTargetAnimator.SetLayerWeight(3, rightIKArmKickback);
