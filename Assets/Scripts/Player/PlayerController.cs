@@ -255,12 +255,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            // jumping
-            if (manualJumpControl && player.GetButtonDown("SpacePress") && characterController.isGrounded && normalJumpAllow)
-            {
-                playerJumpVelocity += Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
-            }
-
             // gravity modifications
             if (characterController.isGrounded && !player.GetButtonDown("SpacePress"))
             {
@@ -314,7 +308,18 @@ public class PlayerController : MonoBehaviour
                 { playerJumpPadVelocity = 0; }
             }
 
+            // jumping
+            if (manualJumpControl && player.GetButtonDown("SpacePress") && characterController.isGrounded && normalJumpAllow)
+            {
+                playerJumpVelocity += Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
+            }
 
+            // jump calculations
+            verticalJumpVelocity = playerJumpVelocity += gravityValue * Time.deltaTime;
+            // verticalJumpPadVelocity = playerJumpPadVelocity += gravityValue * Time.deltaTime;
+            verticalVelocity = verticalJumpVelocity + verticalJumpPadVelocity;
+            move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
+            move += dashDir;
         }
         #endregion  
         
@@ -560,14 +565,10 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
 
-        // jump calculations
-        verticalJumpVelocity = playerJumpVelocity += gravityValue * Time.deltaTime;
-        // verticalJumpPadVelocity = playerJumpPadVelocity += gravityValue * Time.deltaTime;
-        verticalVelocity = verticalJumpVelocity + verticalJumpPadVelocity;
-        move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
-        move += dashDir;
         // apply to the character controller
         characterController.Move(move * Time.deltaTime * moveSpeed);
+
+
 
         // make sure our kick animations weights are counting down properly, so that when we fire the arms go back down
         rightIKArmKickback -= kickIKReduction; leftIKArmKickback -= kickIKReduction;
