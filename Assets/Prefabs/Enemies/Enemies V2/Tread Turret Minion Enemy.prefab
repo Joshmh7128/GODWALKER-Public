@@ -23704,7 +23704,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1.6
-  m_Speed: 30
+  m_Speed: 45
   m_Acceleration: 45
   avoidancePriority: 50
   m_AngularSpeed: 360
@@ -23728,8 +23728,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a535ddcc60110e6429f6704935c1863b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 15
-  maxHP: 15
+  HP: 10
+  maxHP: 10
   NameText: Tread Turret (Bulky)
   isActive: 0
   combatZone: {fileID: 0}
@@ -23739,12 +23739,10 @@ MonoBehaviour:
   closeRadiusMax: 60
   farRadiusMin: 20
   farRadiusMax: 60
-  x: 0
-  y: 0
-  z: 0
-  rx: 0
-  rz: 0
-  headHeight: 3
+  animationSpeedMin: 0.75
+  animationSpeedMax: 1.25
+  navMeshWaitMin: 0.5
+  navMeshWaitMax: 1
   navMeshAgent: {fileID: 0}
   headJoint: {fileID: 9135955472761548991}
   shotPos: {fileID: 1721408886252274115}
