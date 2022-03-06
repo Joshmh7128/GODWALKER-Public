@@ -97,6 +97,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float lowJumpMultiplier;  // how quicky we fall in addition to normal gravity
     [SerializeField] float playerJumpVelocity;  // how quicky we fall in addition to normal gravity
     [SerializeField] float playerJumpPadVelocity;  // how quicky we fall in addition to normal gravity
+    [SerializeField] float playerJumpPadCooldown;  // how long we have to wait between jump pad usage
     float gravityValue;                        // real time simulated gravity
     float verticalVelocity, verticalJumpVelocity, verticalJumpPadVelocity; // vertical velocity variable
     // everything to do with our dash
@@ -315,14 +316,14 @@ public class PlayerController : MonoBehaviour
             }
 
             // jump calculations
-            verticalJumpVelocity = playerJumpVelocity += gravityValue * Time.fixedDeltaTime;
+            verticalJumpVelocity = playerJumpVelocity += gravityValue * Time.deltaTime;
             // verticalJumpPadVelocity = playerJumpPadVelocity += gravityValue * Time.deltaTime;
             verticalVelocity = verticalJumpVelocity + verticalJumpPadVelocity;
             move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
             move += dashDir;
 
             // apply to the character controller
-            characterController.Move(move * Time.fixedDeltaTime * moveSpeed);
+            characterController.Move(move * Time.deltaTime * moveSpeed);
         }
         #endregion
 
@@ -465,10 +466,16 @@ public class PlayerController : MonoBehaviour
     // public void for jump pads
     public void JumpLaunch(float jumpPower)
     {
-        // check to make sure we are not using too much gravity
-        verticalVelocity = 0; playerJumpVelocity = 0; gravityValue = 0; verticalJumpVelocity = 0; 
-        // launch
-        playerJumpVelocity += Mathf.Sqrt((jumpVelocity * jumpPower) * -3.0f * gravity);
+        // check if we have any launch cooldown left
+        if (playerJumpPadCooldown <= 0)
+        {
+            // check to make sure we are not using too much gravity
+            verticalVelocity = 0; playerJumpVelocity = 0; gravityValue = 0; verticalJumpVelocity = 0;
+            // launch
+            playerJumpVelocity += Mathf.Sqrt((jumpVelocity * jumpPower) * -3.0f * gravity);
+            // raise it
+            playerJumpPadCooldown += 6;
+        }
     }
 
 
@@ -567,6 +574,9 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
+
+        // manage our jump pad cooldown
+        playerJumpPadCooldown -= 1;
 
         // make sure our kick animations weights are counting down properly, so that when we fire the arms go back down
         rightIKArmKickback -= kickIKReduction; leftIKArmKickback -= kickIKReduction;
