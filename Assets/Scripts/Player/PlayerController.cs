@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float playerJumpPadVelocity;  // how quicky we fall in addition to normal gravity
     [SerializeField] float playerJumpPadCooldown;  // how long we have to wait between jump pad usage
     float gravityValue;                        // real time simulated gravity
-    float verticalVelocity, verticalJumpVelocity, verticalJumpPadVelocity; // vertical velocity variable
+    [SerializeField]  float verticalVelocity, verticalJumpVelocity, verticalJumpPadVelocity; // vertical velocity variable
     // everything to do with our dash
     [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
     [SerializeField] Vector3 dashDir;
@@ -318,7 +318,7 @@ public class PlayerController : MonoBehaviour
             // jump calculations
             verticalJumpVelocity = playerJumpVelocity += gravityValue * Time.deltaTime;
             // verticalJumpPadVelocity = playerJumpPadVelocity += gravityValue * Time.deltaTime;
-            verticalVelocity = verticalJumpVelocity + verticalJumpPadVelocity;
+            verticalVelocity = verticalJumpVelocity;
             move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
             move += dashDir;
 
