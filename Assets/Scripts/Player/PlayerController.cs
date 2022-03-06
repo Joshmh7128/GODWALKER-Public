@@ -189,8 +189,6 @@ public class PlayerController : MonoBehaviour
             moveV = playerHead.forward * pAxisV;
             moveH = playerHead.right * pAxisH;
 
-
-
             // rotate our treads (will be removed once humanoid animations are complete)
             Vector3 treadDirection = Vector3.RotateTowards(playerLegParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
             playerLegParent.rotation = Quaternion.LookRotation(treadDirection);
@@ -673,8 +671,8 @@ public class PlayerController : MonoBehaviour
     // public void for jump pads
     public void JumpLaunch(float jumpPower)
     {
-        // bool
-        /// isOnJumpPad = true; IS DONE ON JumpPad.cs
+        // check to make sure we are not using too much gravity
+        verticalJumpVelocity = 0;
         // launch
         playerJumpVelocity += Mathf.Sqrt((jumpVelocity* jumpPower) * -3.0f * gravity);
     }
