@@ -474,7 +474,7 @@ public class PlayerController : MonoBehaviour
             // launch
             playerJumpVelocity += Mathf.Sqrt((jumpVelocity * jumpPower) * -3.0f * gravity);
             // raise it
-            playerJumpPadCooldown += 6;
+            playerJumpPadCooldown = 6;
         }
     }
 
@@ -576,7 +576,7 @@ public class PlayerController : MonoBehaviour
     {
 
         // manage our jump pad cooldown
-        playerJumpPadCooldown -= 1;
+        if (playerJumpPadCooldown > 0) { playerJumpPadCooldown -= 1; }
 
         // make sure our kick animations weights are counting down properly, so that when we fire the arms go back down
         rightIKArmKickback -= kickIKReduction; leftIKArmKickback -= kickIKReduction;
