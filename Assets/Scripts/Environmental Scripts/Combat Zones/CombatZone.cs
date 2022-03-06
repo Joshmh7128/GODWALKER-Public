@@ -19,12 +19,23 @@ public class CombatZone : MonoBehaviour
     bool particlesActive; // are our particles active
     public List<DoorClass> doorClasses; // all the doors we will be locking and unlocking from combat
     [SerializeField] GameObject combatScenery, safeScenery; // our combat and safe scenery objects
+    [SerializeField] bool devActivate;
+
+
+    private void FixedUpdate()
+    {
+        if (devActivate)
+        {
+            ActivateZone();
+        }
+    }
 
     // starts our zone
     public void ActivateZone()
     {
         // activates our first wave
         ActivateCurrentWave();
+        devActivate = false;
     }
 
     void ActivateCurrentWave()
