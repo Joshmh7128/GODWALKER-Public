@@ -460,6 +460,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // public void for jump pads
+    public void JumpLaunch(float jumpPower)
+    {
+        // check to make sure we are not using too much gravity
+        verticalVelocity = 0; playerJumpVelocity = 0; gravityValue = 0; verticalJumpVelocity = 0; 
+        // launch
+        playerJumpVelocity += Mathf.Sqrt((jumpVelocity * jumpPower) * -3.0f * gravity);
+    }
+
+
     void FireShot(Transform origin)
     {
         // set the sound of our source
@@ -668,14 +678,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // public void for jump pads
-    public void JumpLaunch(float jumpPower)
-    {
-        // check to make sure we are not using too much gravity
-        verticalVelocity = 0;
-        // launch
-        playerJumpVelocity += Mathf.Sqrt((jumpVelocity* jumpPower) * -3.0f * gravity);
-    }
 
     // set our power bar's color when it changes
     void PowerBarColor()
