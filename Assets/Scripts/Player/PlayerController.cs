@@ -315,14 +315,17 @@ public class PlayerController : MonoBehaviour
             }
 
             // jump calculations
-            verticalJumpVelocity = playerJumpVelocity += gravityValue * Time.deltaTime;
+            verticalJumpVelocity = playerJumpVelocity += gravityValue * Time.fixedDeltaTime;
             // verticalJumpPadVelocity = playerJumpPadVelocity += gravityValue * Time.deltaTime;
             verticalVelocity = verticalJumpVelocity + verticalJumpPadVelocity;
             move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
             move += dashDir;
+
+            // apply to the character controller
+            characterController.Move(move * Time.fixedDeltaTime * moveSpeed);
         }
-        #endregion  
-        
+        #endregion
+
         #region // UI display
         // display our ammo amount
         ammoAmountText.text = powerAmount.ToString(); // in text
@@ -564,11 +567,6 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
-
-        // apply to the character controller
-        characterController.Move(move * Time.deltaTime * moveSpeed);
-
-
 
         // make sure our kick animations weights are counting down properly, so that when we fire the arms go back down
         rightIKArmKickback -= kickIKReduction; leftIKArmKickback -= kickIKReduction;
