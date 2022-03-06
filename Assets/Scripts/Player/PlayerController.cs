@@ -672,7 +672,7 @@ public class PlayerController : MonoBehaviour
     public void JumpLaunch(float jumpPower)
     {
         // check to make sure we are not using too much gravity
-        verticalJumpVelocity = 0;
+        verticalVelocity = 0;
         // launch
         playerJumpVelocity += Mathf.Sqrt((jumpVelocity* jumpPower) * -3.0f * gravity);
     }
