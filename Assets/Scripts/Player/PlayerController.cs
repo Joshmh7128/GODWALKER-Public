@@ -260,7 +260,7 @@ public class PlayerController : MonoBehaviour
             if (characterController.isGrounded && !player.GetButtonDown("SpacePress"))
             {
                 // normal gravity
-                gravityValue = gravity*50;
+                gravityValue = gravity*50; 
                 // jump animation weights
                 humanoidPlayerAnimator.SetLayerWeight(6, 0);
                 humanoidHandTargetAnimator.SetLayerWeight(5, 0);
