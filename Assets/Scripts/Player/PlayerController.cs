@@ -353,7 +353,7 @@ public class PlayerController : MonoBehaviour
         {
             // check how much ammo we have, then determine how much damage we will deal based on it
             // ammo amount is out of 150. We want to split this into thirds. 
-            // 100 to 150 = 3 dmg
+            // 100 to 150 = 4 dmg
             if (powerAmount/powerMax > 0.66f)
             { 
                 pistolDamage = pistolMaxDamage;
