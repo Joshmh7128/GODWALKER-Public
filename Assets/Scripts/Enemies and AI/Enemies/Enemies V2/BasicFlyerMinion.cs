@@ -90,14 +90,14 @@ public class BasicFlyerMinion : EnemyClass
     IEnumerator MovementPattern()
     {
 
-        int dec = Random.Range(0, 2);
+        float dec = Random.Range(0f, 1f);
         // choose a position around the player on the X and Z axes
-        if (dec == 0)
+        if (dec < 0.5)
         {
             targetPosition = playerController.gameObject.GetComponent<Transform>().position + new Vector3(Random.Range(-hMovementRadius, hMovementRadius), Random.Range(-vMovementRadius, vMovementRadius), Random.Range(-hMovementRadius, hMovementRadius));
-        } else if (dec != 0)
+        } else if (dec >= 0.5)
         {
-            targetPosition = transform.position + new Vector3(Random.Range(-hMovementRadius, hMovementRadius), 0f, Random.Range(-hMovementRadius, hMovementRadius));
+            targetPosition = transform.position + new Vector3(Random.Range(-hMovementRadius, hMovementRadius), Random.Range(-vMovementRadius, vMovementRadius), Random.Range(-hMovementRadius, hMovementRadius));
         }
 
         // wait before moving again
