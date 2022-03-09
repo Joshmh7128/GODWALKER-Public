@@ -356,19 +356,19 @@ public class PlayerController : MonoBehaviour
             // 100 to 150 = 3 dmg
             if (powerAmount/powerMax > 0.66f)
             { 
-                pistolDamage = 3;
+                // pistolDamage = pistolDamage;
                 snapShakeDelta = 0.50f;
             }
             // 50 to 100 = 2 dmg
             if (powerAmount / powerMax > 0.33f && powerAmount / powerMax < 0.66f)
             { 
-                pistolDamage = 2;
-                snapShakeDelta = 0.33f;
+                pistolDamage = pistolDamage * 0.5f;
+                snapShakeDelta = 0.5f;
             }
             // 0 to 50 = 1 dmg
             if (powerAmount / powerMax < 0.33f)
             {
-                pistolDamage = 1;
+                pistolDamage = pistolDamage * 0.33f;
                 snapShakeDelta = 0.25f;
             }
 
