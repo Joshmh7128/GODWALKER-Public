@@ -601,7 +601,7 @@ public class PlayerController : MonoBehaviour
         if (hurtCanvas.alpha > 0)
         {
             Mathf.Clamp(hurtCanvas.alpha, 0, 1);
-            hurtCanvas.alpha += -0.1f;
+            hurtCanvas.alpha += -0.025f;
         }
 
         // make sure our HP isnt out of bounds
