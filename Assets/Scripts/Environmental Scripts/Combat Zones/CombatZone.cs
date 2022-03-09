@@ -76,8 +76,6 @@ public class CombatZone : MonoBehaviour
         // environment lighting change
         combatScenery.SetActive(false);
         safeScenery.SetActive(true);
-        // tell the player we are complete
-        UpgradeSingleton.Instance.player.InteractableMessageTrigger("Room Clear", true);
         StartCoroutine(MessageClear());
     }
 
@@ -107,6 +105,8 @@ public class CombatZone : MonoBehaviour
         {
             if (currentWave >= waveParents.Count-1)
             {
+                // tell the player we are complete
+                UpgradeSingleton.Instance.player.InteractableMessageTrigger("Room Clear", true);
                 EndCombat();
             }
             else 
