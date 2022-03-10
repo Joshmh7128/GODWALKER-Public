@@ -10,7 +10,7 @@ public class EnemyDropScript : MonoBehaviour
     /// written for other kinds of things.
     /// </summary>
 
-    [SerializeField] float pickupDistance, moveSpeed, maxMoveSpeed; // how far away does the player have to be for us to be picked up?
+    [SerializeField] float pickupDistance, moveSpeed, maxMoveSpeed, value; // how far away does the player have to be for us to be picked up?
     [SerializeField] GameObject playerObject; // player transform
     bool canMove = false;
     [SerializeField] EnemyClass.dropTypes dropType;
@@ -48,7 +48,7 @@ public class EnemyDropScript : MonoBehaviour
         if (col.tag == "Player")
         {
             // trigger the resource pickup
-            playerObject.GetComponent<PlayerController>().AddResource(dropType);
+            playerObject.GetComponent<PlayerController>().AddResource(dropType, value);
             // destroy this gameobject
             Destroy(gameObject);
         }

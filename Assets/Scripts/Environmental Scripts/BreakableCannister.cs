@@ -46,7 +46,7 @@ public class BreakableCannister : MonoBehaviour
                     break;
 
                 case dropTypes.power:
-                    UpgradeSingleton.Instance.player.powerAmount += dropAmount;
+                    UpgradeSingleton.Instance.player.AddResource(EnemyClass.dropTypes.power, dropAmount);
                     break;
             }
         }

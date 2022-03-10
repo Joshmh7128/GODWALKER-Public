@@ -654,28 +654,37 @@ public class PlayerController : MonoBehaviour
             // mod it
             playerHP += HP;
         }   // if we have a mitozygote shield deal damage to it (deactivate it)
+        else if (HP > 0)
+        {
+            // mod it
+            playerHP += HP;
+        }
     }
 
     // public void for adding resources to us
-    public void AddResource(EnemyClass.dropTypes dropType)
+    public void AddResource(EnemyClass.dropTypes dropType, float amount)
     {
         // depending on what is picked up, do something different
         switch (dropType)
         {
             case (EnemyClass.dropTypes.power):
-                if (powerAmount < powerMax)
-                powerAmount += 4;
-                PowerBarColor();
+                if (powerAmount <= powerMax - amount)
+                { powerAmount += amount; }
+                else if (powerAmount > powerMax - amount) { powerAmount = powerMax; }
+                    PowerBarColor();
                 break;
 
             case (EnemyClass.dropTypes.nanites):
-                naniteAmount += 10;
+                naniteAmount += (int)amount;
                 break;
 
             case (EnemyClass.dropTypes.HP):
-                if (playerHP < playerMaxHP)
-                playerHP++;
-                break;
+                if (playerHP + amount < playerMaxHP)
+                {
+                    playerHP++;
+                }
+                else if (playerHP + amount >= playerMaxHP) { playerHP = playerMaxHP; }
+                    break;
         }
     }
 

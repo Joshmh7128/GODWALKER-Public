@@ -94,7 +94,9 @@ public class BasicFlyerMinion : EnemyClass
         // choose a position around the player on the X and Z axes
         if (dec < 0.5)
         {
-            targetPosition = playerController.gameObject.GetComponent<Transform>().position + new Vector3(Random.Range(-hMovementRadius, hMovementRadius), Random.Range(-vMovementRadius, vMovementRadius), Random.Range(-hMovementRadius, hMovementRadius));
+            Vector3 playerPos = playerController.gameObject.GetComponent<Transform>().position;
+
+            targetPosition =  new Vector3(Random.Range(-hMovementRadius, hMovementRadius) + playerPos.x, Random.Range(-vMovementRadius, vMovementRadius) + transform.position.y, Random.Range(-hMovementRadius, hMovementRadius) + playerPos.z);
         } else if (dec >= 0.5)
         {
             targetPosition = transform.position + new Vector3(Random.Range(-hMovementRadius, hMovementRadius), Random.Range(-vMovementRadius, vMovementRadius), Random.Range(-hMovementRadius, hMovementRadius));
