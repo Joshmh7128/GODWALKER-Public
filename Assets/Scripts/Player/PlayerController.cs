@@ -656,8 +656,14 @@ public class PlayerController : MonoBehaviour
         }   // if we have a mitozygote shield deal damage to it (deactivate it)
         else if (HP > 0)
         {
-            // mod it
-            playerHP += HP;
+            if (playerHP + HP <= playerMaxHP)
+            {
+                // mod it
+                playerHP += HP;
+            } else if (playerHP + HP > playerMaxHP)
+            {
+                playerHP = playerMaxHP;
+            }
         }
     }
 
@@ -683,7 +689,7 @@ public class PlayerController : MonoBehaviour
                 {
                     playerHP++;
                 }
-                else if (playerHP + amount >= playerMaxHP) { playerHP = playerMaxHP; }
+                else if (playerHP + amount > playerMaxHP) { playerHP = playerMaxHP; }
                     break;
         }
     }

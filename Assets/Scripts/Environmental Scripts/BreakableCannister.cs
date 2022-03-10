@@ -39,7 +39,7 @@ public class BreakableCannister : MonoBehaviour
             switch (dropType)
             {
                 case dropTypes.health:
-                    UpgradeSingleton.Instance.player.AddHP((int)dropAmount);
+                    UpgradeSingleton.Instance.player.AddResource(EnemyClass.dropTypes.HP, (int)dropAmount);
                     break;
 
                 case dropTypes.nanites:
