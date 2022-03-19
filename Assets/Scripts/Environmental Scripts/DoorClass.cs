@@ -41,6 +41,11 @@ public class DoorClass : MonoBehaviour
         {
             nextCombatZone.doorClasses.Add(this);
         }
+
+        if (pastCombatZone)
+        {
+            pastCombatZone.doorClasses.Add(this);
+        }
     }
 
     // Update is called once per frame
