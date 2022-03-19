@@ -25,6 +25,7 @@ public class TreadTurretMinion : EnemyClass
     [SerializeField] float dropAmount;
     [SerializeField] GameObject powerDrop, healthDrop, naniteDrop;
     bool hasActivated = false; // have we activtated?
+    [SerializeField] bool isBomb; // are we a bomb?
 
     private void Start()
     {        
@@ -194,5 +195,11 @@ public class TreadTurretMinion : EnemyClass
         // then destroy ourselves
         Destroy(gameObject);
     }
-   
+
+    // on trigger enter
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "Player" && isBomb)
+        OnDeath();
+    }
 }

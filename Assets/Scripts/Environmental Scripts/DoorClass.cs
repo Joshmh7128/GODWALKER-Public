@@ -105,6 +105,8 @@ public class DoorClass : MonoBehaviour
         // if we're open and the player moves through the door, close it behind them
         if (isOpen && nextCombatZone.combatComplete == false && other.transform.tag == "Player")
         {
+            // check if we have a next combat zone, if we dont we dont have to lock the door
+            if (nextCombatZone)
             lockedParent.SetActive(true);
         }
     }
