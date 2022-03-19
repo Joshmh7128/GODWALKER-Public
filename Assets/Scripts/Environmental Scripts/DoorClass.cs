@@ -71,8 +71,6 @@ public class DoorClass : MonoBehaviour
             }
             else if ((isOpen == false) && (unlocked == true) && Vector3.Distance(playerTransform.position, transform.position) > interactDistance)
             {
-                // remove interaction text
-                UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", false);
                 interactionParent.SetActive(false); // disable interaction parent
             }
         }
