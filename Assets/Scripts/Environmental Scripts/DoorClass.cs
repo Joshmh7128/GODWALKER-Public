@@ -49,7 +49,7 @@ public class DoorClass : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         // check if we are near enough to interact with the player
         if (Vector3.Distance(playerTransform.position, transform.position) < checkDistance)
