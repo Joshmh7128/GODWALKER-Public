@@ -18,6 +18,7 @@ public class DoorClass : MonoBehaviour
     [SerializeField] GameObject openParent, lockedParent, interactionParent; // the parents of our open and closed door parents
     [SerializeField] string targetPastCombatZone; // the combat zone we want to find and add ourselves to
     [SerializeField] MusicController.musicMoods nextMood; // what will the next music mood be?
+    [SerializeField] BoxCollider doorCheckTrigger; // our door check trigger
 
     private void Awake()
     {
@@ -108,6 +109,7 @@ public class DoorClass : MonoBehaviour
             // check if we have a next combat zone, if we dont we dont have to lock the door
             if (nextCombatZone)
             lockedParent.SetActive(true);
+            doorCheckTrigger.enabled = false; // disable our trigger so that shots do not get blocked by it
         }
     }
 
