@@ -35,6 +35,11 @@ public class DoorClass : MonoBehaviour
         { openParent.SetActive(true); }
         else if (!unlocked)
         { lockedParent.SetActive(true); }
+
+        if (nextCombatZone)
+        {
+            nextCombatZone.doorClasses.Add(this);
+        }
     }
 
     // Update is called once per frame

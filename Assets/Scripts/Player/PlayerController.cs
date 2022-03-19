@@ -300,12 +300,11 @@ public class PlayerController : MonoBehaviour
             }
 
             // check if we are on the ground and reset our jump velocity
-            /*
-            if (characterController.isGrounded && !isOnJumpPad)
+            if (characterController.isGrounded && !isOnJumpPad && !player.GetButtonDown("SpacePress"))
             {
                 if (playerJumpVelocity < 0)
                 { playerJumpVelocity = 0; }
-            }*/
+            }
 
             // jumping
             if (player.GetButtonDown("SpacePress") && characterController.isGrounded && normalGroundAngleJumpAllow)
