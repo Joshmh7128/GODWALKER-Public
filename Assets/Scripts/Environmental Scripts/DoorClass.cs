@@ -12,6 +12,7 @@ public class DoorClass : MonoBehaviour
     Player player;
     Transform playerTransform;
     [SerializeField] public bool isOpen, unlocked = false; // are we open? are we unlocked?
+    bool addedZone = false;                   // have we added ourselves to our past combat zone?
     [SerializeField] float interactDistance;
     [SerializeField] CombatZone nextCombatZone, pastCombatZone; // our associated combat zone to activate. our past combat zone to see if we can open
     [SerializeField] GameObject openParent, lockedParent, interactionParent; // the parents of our open and closed door parents
@@ -20,20 +21,7 @@ public class DoorClass : MonoBehaviour
 
     private void Awake()
     {
-        // if our targetpastcombatzone is not null, add ourselves to it
-        if (targetPastCombatZone != "")
-        {
-            // check if that target past zone exist
-            if (GameObject.Find(targetPastCombatZone))
-            {
-                // add ourselves
-                GameObject.Find(targetPastCombatZone).GetComponent<CombatZone>().doorClasses.Add(this);
-            } else if (!GameObject.Find(targetPastCombatZone))
-            {
-                // if we cant find that zone throw an error
-                Debug.Log(gameObject.name + " DoorClass is unable to find target past combat zone, do you have to set this in the inspector?");
-            }
-        }
+
     }
 
     private void Start()
@@ -77,6 +65,23 @@ public class DoorClass : MonoBehaviour
             // remove interaction text
             UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", false);
             interactionParent.SetActive(false); // disable interaction parent
+        }
+
+        // if our targetpastcombatzone is not null, add ourselves to it
+        if (targetPastCombatZone != "" && addedZone == false)
+        {
+            // check if that target past zone exist
+            if (GameObject.Find(targetPastCombatZone))
+            {
+                // add ourselves
+                GameObject.Find(targetPastCombatZone).GetComponent<CombatZone>().doorClasses.Add(this);
+                addedZone = true;
+            }
+            else if (!GameObject.Find(targetPastCombatZone))
+            {
+                // if we cant find that zone throw an error
+                Debug.Log(gameObject.name + " DoorClass is unable to find target past combat zone, do you have to set this in the inspector?");
+            }
         }
     }
 
