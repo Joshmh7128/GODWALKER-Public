@@ -13,7 +13,7 @@ public class QuadTurretHeavy : EnemyClass
     // our health point variables are defined in the EnemyClass; HP and MaxHP are defined in the parent abstract class
     [SerializeField] private Transform playerTransform; // our player's transform
     [SerializeField] private float activationDistance, closeRadiusMin, closeRadiusMax, farRadiusMin, farRadiusMax; // our close and far radii
-    [SerializeField] private float x, y, z, rx, rz, headHeight, headRotSpeed; // our movement variables
+    [SerializeField] private float x, y, z, rx, rz, headHeight, headRotSpeed, playerHeight; // our movement variables
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] Transform headJoint, headParent, treadTransform, treadRaycastStart; // our head joint
     [SerializeField] List<Transform> shotPositions; // our list of shot positions
@@ -103,7 +103,7 @@ public class QuadTurretHeavy : EnemyClass
         headParent.localRotation = nullRotation; 
 
         // rotate our headjoint to look at the player
-        Vector3 direction = headJoint.position - playerTransform.transform.position; // get our initial direction from our head to our player
+        Vector3 direction = headJoint.position - (playerTransform.transform.position + new Vector3(0f, playerHeight, 0f)); // get our initial direction from our head to our player
         Quaternion toRotation = Quaternion.FromToRotation(headJoint.forward - headJoint.position, direction); // use our head direction to point at the player
         Quaternion toRotationFixed = Quaternion.Euler(new Vector3(toRotation.eulerAngles.x, toRotation.eulerAngles.y, 0f)); // fix the rotation on the z axis so the head doesnt swing around
         headJoint.localRotation = Quaternion.RotateTowards(headJoint.rotation, toRotationFixed, headRotSpeed * Time.deltaTime);
