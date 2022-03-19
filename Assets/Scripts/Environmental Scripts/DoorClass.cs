@@ -13,7 +13,7 @@ public class DoorClass : MonoBehaviour
     Transform playerTransform;
     [SerializeField] public bool isOpen, unlocked = false; // are we open? are we unlocked?
     bool addedZone = false;                   // have we added ourselves to our past combat zone?
-    [SerializeField] float interactDistance;
+    [SerializeField] float interactDistance, checkDistance;
     [SerializeField] CombatZone nextCombatZone, pastCombatZone; // our associated combat zone to activate. our past combat zone to see if we can open
     [SerializeField] GameObject openParent, lockedParent, interactionParent; // the parents of our open and closed door parents
     [SerializeField] string targetPastCombatZone; // the combat zone we want to find and add ourselves to
@@ -43,33 +43,38 @@ public class DoorClass : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        // if we are near and it is unlocked
-        if ((isOpen == false) && (unlocked == true) && Vector3.Distance(playerTransform.position, transform.position) < interactDistance)
+        // check if we are near enough to interact with the player
+        if (Vector3.Distance(playerTransform.position, transform.position) < checkDistance)
         {
-            // tell the player that they can open the door
-            UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", true);
-            // activate our interactable
-            interactionParent.SetActive(true);
-
-            // if we press E to open the door
-            if (player.GetButtonDown("ActionE"))
+            // if we are near and it is unlocked
+            if ((isOpen == false) && (unlocked == true) && Vector3.Distance(playerTransform.position, transform.position) < interactDistance)
             {
-                isOpen = true; // we're open
-                doorAnimator.Play("QueueDoor"); // animate!
-                if (nextCombatZone)
+                // tell the player that they can open the door
+                UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", true);
+                // activate our interactable
+                interactionParent.SetActive(true);
+
+                // if we press E to open the door
+                if (player.GetButtonDown("ActionE"))
                 {
-                    nextCombatZone.ActivateZone(); // activate the zone
+                    isOpen = true; // we're open
+                    doorAnimator.Play("QueueDoor"); // animate!
+                    if (nextCombatZone)
+                    {
+                        nextCombatZone.ActivateZone(); // activate the zone
+                    }
+                    UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", false); // remove interaction text
+                    interactionParent.SetActive(false); // disable interaction parent
                 }
-                UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", false); // remove interaction text
+            }
+            else if ((isOpen == false) && (unlocked == true) && Vector3.Distance(playerTransform.position, transform.position) > interactDistance)
+            {
+                // remove interaction text
+                UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", false);
                 interactionParent.SetActive(false); // disable interaction parent
             }
-        } else if ((isOpen == false) && (unlocked == true) && Vector3.Distance(playerTransform.position, transform.position) > interactDistance)
-        {
-            // remove interaction text
-            UpgradeSingleton.Instance.player.InteractableMessageTrigger("Press E to open door", false);
-            interactionParent.SetActive(false); // disable interaction parent
         }
 
         // if our targetpastcombatzone is not null, add ourselves to it
@@ -117,6 +122,9 @@ public class DoorClass : MonoBehaviour
     private void OnDrawGizmos()
     {
         // show our interaction sphere in the editor
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, interactDistance);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, checkDistance);
     }
 }

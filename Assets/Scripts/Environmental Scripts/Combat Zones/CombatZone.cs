@@ -40,6 +40,11 @@ public class CombatZone : MonoBehaviour
 
     void ActivateCurrentWave()
     {
+        // say our current wave to the player
+        UpgradeSingleton.Instance.player.InteractableMessageTrigger(waveParents[currentWave].name, true);
+        Debug.Log(waveParents[currentWave].name);
+        StartCoroutine(MessageClear());
+
         // for each child of the wave, set it to true
         foreach (Transform child in waveParents[currentWave].transform)
         {
@@ -51,17 +56,12 @@ public class CombatZone : MonoBehaviour
                 child.GetComponent<EnemyClass>().isActive = true;
             }
         }
-
-        // say our current wave to the player
-        UpgradeSingleton.Instance.player.InteractableMessageTrigger(waveParents[currentWave].name, true);
-        StartCoroutine(MessageClear());
     }
-
 
     IEnumerator MessageClear()
     {
         yield return new WaitForSeconds(5f);
-        UpgradeSingleton.Instance.player.InteractableMessageTrigger(waveParents[currentWave].name, false);
+        // UpgradeSingleton.Instance.player.InteractableMessageTrigger(waveParents[currentWave].name, false);
     }
 
     void EndCombat()
