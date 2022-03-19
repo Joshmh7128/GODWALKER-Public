@@ -92,31 +92,6 @@ public class DroppodManager : MonoBehaviour
             hubManager = GameObject.Find("Hub Manager").GetComponent<HubManager>();
         }
 
-        if (canLaunch == true)
-        {
-            // make sure they canont jump
-            playerController.manualJumpControl = false;
-
-            // make our green zone green
-            greenZoneRenderer.material = brightGreen;
-            // launch
-            if (ReInput.players.GetPlayer(0).GetButtonDown("ActionE"))
-            {
-                // launch the drop pod
-                // gameObject.GetComponent<Animator>().Play("Asteroid Hop");
-                if (!isFlying)
-                {
-                    StartCoroutine("LaunchPod");
-                }
-            }
-        }
-        else
-        {
-            // make sure they canont jump
-            playerController.manualJumpControl = true;
-            greenZoneRenderer.material = dimGreen;
-        }
-
         // if we are in the hub and hit escape save progress
         if (Input.GetKeyDown(KeyCode.Escape))
         {

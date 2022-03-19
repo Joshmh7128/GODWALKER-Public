@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
     // movement and input
     Player player;
     Vector3 move, moveH, moveV; // movement directions
-    public bool manualJumpControl = true, normalJumpAllow = false, isOnJumpPad = false;
+    public bool normalGroundAngleJumpAllow = false, isOnJumpPad = false;
     [SerializeField] float moveSpeed;           // how fast can we move?
     [SerializeField] float gravity = -58.86f;   // gravity in the environment
     [SerializeField] float jumpVelocity; // how fast can we jump
@@ -266,14 +266,14 @@ public class PlayerController : MonoBehaviour
                 humanoidHandTargetAnimator.SetLayerWeight(5, 0);
 
             }
-            else if (characterController.isGrounded && player.GetButton("SpacePress") && manualJumpControl || isOnJumpPad)
+            else if (characterController.isGrounded && player.GetButtonDown("SpacePress") || isOnJumpPad)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
 
                 humanoidPlayerAnimator.SetLayerWeight(2, 0);
             }
-            else if (characterController.velocity.y <= 0 && !characterController.isGrounded && manualJumpControl)
+            else if (characterController.velocity.y <= 0 && !characterController.isGrounded)
             {
                 // normal falling
                 gravityValue = gravity * fallMultiplier;
@@ -285,7 +285,7 @@ public class PlayerController : MonoBehaviour
                 // neck bob animation weight
                 neckTargetAnimator.SetLayerWeight(1,0); // run layer
             } // upwards velocity custom gravity
-            else if (characterController.velocity.y > 0 && manualJumpControl)
+            else if (characterController.velocity.y > 0)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
@@ -299,15 +299,16 @@ public class PlayerController : MonoBehaviour
                 neckTargetAnimator.SetLayerWeight(1, 0); // run layer
             }
 
-            // check if we are on the ground
+            // check if we are on the ground and reset our jump velocity
+            /*
             if (characterController.isGrounded && !isOnJumpPad)
             {
                 if (playerJumpVelocity < 0)
                 { playerJumpVelocity = 0; }
-            }
+            }*/
 
             // jumping
-            if (manualJumpControl && player.GetButtonDown("SpacePress") && characterController.isGrounded && normalJumpAllow)
+            if (player.GetButtonDown("SpacePress") && characterController.isGrounded && normalGroundAngleJumpAllow)
             {
                 playerJumpVelocity = Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
             }
@@ -578,9 +579,9 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(normalCheckRay.origin, normalCheckRay.direction, out normalCheckHit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         { // then see if the normal is within our allowed amount
             if (Mathf.Abs(normalCheckHit.normal.y) < 0.45f)
-            { normalJumpAllow = false; }
+            { normalGroundAngleJumpAllow = false; }
             else if (Mathf.Abs(normalCheckHit.normal.y) > 0.45f)
-            { normalJumpAllow = true; }
+            { normalGroundAngleJumpAllow = true; }
         }
     
         // lerp our camera to the inventory space
