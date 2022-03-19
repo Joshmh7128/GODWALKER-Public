@@ -103,7 +103,6 @@ public class EnemyBulletScript : MonoBehaviour
         {
             playerTransform.gameObject.GetComponent<PlayerController>().AddHP(-1);
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-            if (!usesParent)
             Destroy(gameObject);
         }
         // if this hits a breakable
