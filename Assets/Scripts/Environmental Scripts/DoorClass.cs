@@ -23,8 +23,16 @@ public class DoorClass : MonoBehaviour
         // if our targetpastcombatzone is not null, add ourselves to it
         if (targetPastCombatZone != "")
         {
-            // add ourselves
-            GameObject.Find(targetPastCombatZone).GetComponent<CombatZone>().doorClasses.Add(this);
+            // check if that target past zone exist
+            if (GameObject.Find(targetPastCombatZone))
+            {
+                // add ourselves
+                GameObject.Find(targetPastCombatZone).GetComponent<CombatZone>().doorClasses.Add(this);
+            } else if (!GameObject.Find(targetPastCombatZone))
+            {
+                // if we cant find that zone throw an error
+                Debug.Log(gameObject.name + " DoorClass is unable to find target past combat zone, do you have to set this in the inspector?");
+            }
         }
     }
 
