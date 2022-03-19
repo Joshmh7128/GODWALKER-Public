@@ -61,7 +61,7 @@ public class CombatZone : MonoBehaviour
     IEnumerator MessageClear()
     {
         yield return new WaitForSeconds(5f);
-        // UpgradeSingleton.Instance.player.InteractableMessageTrigger(waveParents[currentWave].name, false);
+        UpgradeSingleton.Instance.player.InteractableMessageTrigger(waveParents[currentWave].name, false);
     }
 
     void EndCombat()
