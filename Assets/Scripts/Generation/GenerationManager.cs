@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class GenerationManager : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class GenerationManager : MonoBehaviour
     /// 
 
     // our list of layouts
+    [SerializeField] List<LayoutList> layouts; // out list of layouts
 
     // on enable triggers when the obejct becomes active in the hierarchy
     private void OnEnable()
@@ -25,10 +28,16 @@ public class GenerationManager : MonoBehaviour
     void GenerateMap()
     {
         // choose a layout
-        
+        int i = Random.Range(0, layouts.Count); // +1 since it is a float
+        LayoutList layoutList = layouts[i]; // this is out layout
         // choose rooms from that layout
-
-        // 
+        foreach (RoomSceneList roomSceneList in layoutList.roomSceneLists)
+        {
+            // get a random room and load that room in additively
+            SceneAsset scene = roomSceneList.chunks[Random.Range(0, roomSceneList.chunks.Count)];
+            // spawn in that scene
+            SceneManager.LoadScene(scene.name, LoadSceneMode.Additive);
+        }
     }
 
 }
