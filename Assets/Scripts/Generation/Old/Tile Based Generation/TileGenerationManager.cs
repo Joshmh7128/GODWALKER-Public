@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class TileGenerationManager : GenerationManager
+public class TileGenerationManager : OldGenerationManager
 {
     // our list of map generation chunks
     [SerializeField] RandomChildSelector[] randomChildSelectors;

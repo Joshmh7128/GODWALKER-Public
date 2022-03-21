@@ -19,7 +19,7 @@ public class TileClass : MonoBehaviour
     [SerializeField] bool devDraw = false; // should we be drawing gizmos?
     [SerializeField] ProceduralGenerationSetScript generator; // what is our generator?
     [SerializeField] GameObject playerPackage; // what is our player package?
-    public GenerationManager generationManager;
+    public OldGenerationManager generationManager;
     bool[,,] neighborStates = new bool[3, 3, 3]; // all neighbor bool states with 1,1,1 being the unused center
 
     public GameObject[,,] wallObjects = new GameObject[3, 3, 3]; // all objects to be spawned in as walls

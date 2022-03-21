@@ -14,7 +14,7 @@ public class DroppodManager : MonoBehaviour
     [SerializeField] Renderer greenZoneRenderer;
     [SerializeField] Material dimGreen;
     [SerializeField] Material brightGreen;
-    [SerializeField] GenerationManager generationManager;
+    [SerializeField] OldGenerationManager generationManager;
     [SerializeField] Transform playerTrans;
     [SerializeField] PlayerController playerController;
     [SerializeField] Vector3 targetPosGround;
@@ -81,7 +81,7 @@ public class DroppodManager : MonoBehaviour
         // make sure we have our generation manager
         if (generationManager == null && inHub == false && (SceneManager.GetActiveScene().name != "Primer"))
         {
-            generationManager = GameObject.Find("Generation Manager").GetComponent<GenerationManager>();
+            generationManager = GameObject.Find("Generation Manager").GetComponent<OldGenerationManager>();
         }
     }
 
@@ -207,7 +207,7 @@ public class DroppodManager : MonoBehaviour
             // get our generation manager
             if (generationManager == null)
             {
-                generationManager = GameObject.Find("Generation Manager").GetComponent<GenerationManager>();
+                generationManager = GameObject.Find("Generation Manager").GetComponent<OldGenerationManager>();
             }
             yield return new WaitUntil(() => generationManager != null);
             loaded = true;

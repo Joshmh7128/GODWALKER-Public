@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomGenerationManager : GenerationManager
+public class RoomGenerationManager : OldGenerationManager
 {
     //we will be using a system of rooms and doors to create our map
     public int roomCount; // how many rooms do we want in the map?
