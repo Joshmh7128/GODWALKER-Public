@@ -110,7 +110,6 @@ public class EnemyBulletScript : MonoBehaviour
         else if (collision.CompareTag("Breakable"))
         {
             // anything with the Breakable tag will be a chunk and have a BreakableBreak function
-            collision.GetComponent<BreakableChunk>().BreakableBreak();
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             Destroy(gameObject);
         }        // if this hits a breakable

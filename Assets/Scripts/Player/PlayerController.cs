@@ -74,7 +74,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip inventoryOpenAudio;
     [SerializeField] AudioClip inventoryCloseAudio;
     Vector3 previousBodyRotation; // used to make opening and closing the inventory panel more comfortable
-    [SerializeField] InventoryArtifactUIHandler inventoryArtifactUIHandler;
 
     // visual effects
     public bool canDistort; // should we distort the image?
