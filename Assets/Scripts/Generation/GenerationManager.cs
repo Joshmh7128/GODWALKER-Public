@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class GenerationManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    /// <summary>
+    /// This is generation version 9 and it'll handle which scenes are loaded into the map
+    /// We're going to do a pretty simple line of thinking here
+    /// 
+    /// </summary>
 }
