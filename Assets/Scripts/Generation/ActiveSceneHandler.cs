@@ -9,7 +9,7 @@ public class ActiveSceneHandler : MonoBehaviour
     /// script will set the scene it is placed in to active
     /// </summary>
     /// 
-    void OnEnable()
+    void Start()
     {
         SceneManager.SetActiveScene(gameObject.scene);
     }
