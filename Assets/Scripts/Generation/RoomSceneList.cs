@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEditor;
 
 public class RoomSceneList : MonoBehaviour
@@ -11,5 +12,5 @@ public class RoomSceneList : MonoBehaviour
     /// </summary>
     /// 
 
-    public List<SceneAsset> chunks; // the chunks that can be spawned in our room
+    public List<string> chunks; // the chunks that can be spawned in our room
 }

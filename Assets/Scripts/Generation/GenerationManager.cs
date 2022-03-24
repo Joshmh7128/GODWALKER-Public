@@ -34,9 +34,9 @@ public class GenerationManager : MonoBehaviour
         foreach (RoomSceneList roomSceneList in layoutList.roomSceneLists)
         {
             // get a random room and load that room in additively
-            SceneAsset scene = roomSceneList.chunks[Random.Range(0, roomSceneList.chunks.Count)];
+            string scene = roomSceneList.chunks[Random.Range(0, roomSceneList.chunks.Count)];
             // spawn in that scene
-            SceneManager.LoadScene(scene.name, LoadSceneMode.Additive);
+            SceneManager.LoadScene(scene, LoadSceneMode.Additive);
         }
     }
 
