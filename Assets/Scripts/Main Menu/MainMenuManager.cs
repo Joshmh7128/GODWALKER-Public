@@ -35,12 +35,12 @@ public class MainMenuManager : MonoBehaviour
     // load in to our primer
     public void AdvanceToPrimer()
     {
-        if (fadeImage.color.a < 1)
+        if (fadeCanvas.alpha < 1)
         {
             canFade = true;
         }
 
-        if (fadeImage.color.a >= 0.99)
+        if (fadeCanvas.alpha >= 0.99)
         {
             SceneManager.LoadScene("Primer", LoadSceneMode.Single);
         }
@@ -56,7 +56,7 @@ public class MainMenuManager : MonoBehaviour
 
         if (canFade == true)
         {
-
+            fadeCanvas.alpha += 0.05f;
             AdvanceToPrimer();
         }
     }
