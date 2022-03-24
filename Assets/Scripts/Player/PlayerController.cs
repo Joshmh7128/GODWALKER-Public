@@ -414,7 +414,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F4))
         {
             UpgradeSingleton.DestroySingleton();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene("Main Menu");
             Destroy(gameObject);
         }
 
