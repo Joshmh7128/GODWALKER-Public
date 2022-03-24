@@ -17,7 +17,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] Slider masterVolumeSlider; // master slider
     [SerializeField] Slider effectsVolumeSlider; // effects slider
     [SerializeField] Slider musicVolumeSlider; // music slider
-    [SerializeField] Image fadeImage; // the image we are fading for the menu to game transition
+    [SerializeField] CanvasGroup fadeCanvas; // the image we are fading for the menu to game transition
     bool canFade; 
     float masterVolume; // master volume
     float effectsVolume; // effects volume
@@ -56,9 +56,7 @@ public class MainMenuManager : MonoBehaviour
 
         if (canFade == true)
         {
-            Color tempColor = fadeImage.color;
-            tempColor.a += 0.1f;
-            fadeImage.color = tempColor;
+
             AdvanceToPrimer();
         }
     }
