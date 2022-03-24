@@ -16,14 +16,17 @@ public class MusicController : MonoBehaviour
         explore,
         tension,
         doorQueue,
-        battle
+        battle,
+        menu
     }
+
+    public musicMoods defaultMood; 
 
     private void Start()
     {
         // set our music to the exploring mood at the start
-        MusicMood(musicMoods.explore);
-        // are we musted?
+        MusicMood(defaultMood);
+        // are we muted?
         if (mute) { musicSource.volume = 0; }
     }
 
