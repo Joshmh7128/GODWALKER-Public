@@ -433,7 +433,7 @@ public class PlayerController : MonoBehaviour
             {
                 deathCanvas.alpha = 0;
                 UpgradeSingleton.DestroySingleton();
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                SceneManager.LoadScene("Primer");
                 Destroy(gameObject);
             }
         }
