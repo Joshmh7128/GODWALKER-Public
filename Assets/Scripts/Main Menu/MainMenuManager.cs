@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-
 public class MainMenuManager : MonoBehaviour
 {
     // our main menu UI pieces
