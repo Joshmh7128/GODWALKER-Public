@@ -18,13 +18,15 @@ public abstract class ChallengeHandler : MonoBehaviour
 
     private void Start()
     {
-        playerController = UpgradeSingleton.Instance.player;
-        player = ReInput.players.GetPlayer(0);
-        playerTransform = playerController.gameObject.transform;
+
     }
 
     private void FixedUpdate()
     {
+        if (playerController == null) { playerController = UpgradeSingleton.Instance.player; }
+        if (playerTransform == null) { playerTransform = playerController.gameObject.transform; }
+        if (player == null) { player = ReInput.players.GetPlayer(0); }
+
         // check if the player can activate us
         if (Vector3.Distance(transform.position, playerTransform.position) < activationDistance)
         {
