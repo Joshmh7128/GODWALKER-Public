@@ -12,11 +12,12 @@ public class SurvivalChallengeClass : ChallengeHandler
     /// 
 
     [SerializeField] List<GameObject> enemies; // the enemies we will spawn overtime
-    [SerializeField] List<Transform> spawnPoints; // all the spawnpoints we can use
+    [SerializeField] List<Transform> groundSpawnPoints, flyingSpawnPoints; // all the spawnpoints we can use
     [SerializeField] float survivalTimeMax, survivalTimeRemaining; // define our gameplay objectives
     float spawnRate, spawnIndex; // automatically determined
     [SerializeField] string challengeType, difficultyLevel, reward, fullInfo; // our info strings
 
+    // start runs when the object is active in the scene
     private void Start()
     {
         // set our info text correctly for this challenge
@@ -25,6 +26,7 @@ public class SurvivalChallengeClass : ChallengeHandler
         infoText.text = fullInfo;
     }
 
+    // activate the zone
     public override void Activate()
     {
         // setup our survival time
@@ -32,11 +34,15 @@ public class SurvivalChallengeClass : ChallengeHandler
         // start our countdown
         StartCoroutine(Countdown());
         // set our spawn interval
-        spawnRate = survivalTimeMax / enemies.Count;
+        spawnRate = survivalTimeMax / (enemies.Count);
+        // start spawning enemies
+        StartCoroutine(SpawnEnemy());
     }
 
+    // our countdown timer
     IEnumerator Countdown()
     {
+        // wait one second
         yield return new WaitForSeconds(1f);
 
         // if we run out of time, end it
@@ -50,16 +56,34 @@ public class SurvivalChallengeClass : ChallengeHandler
         {
             survivalTimeRemaining--;
             yield return new WaitForSeconds(1f);
+            StartCoroutine(Countdown());
         }
     }
 
     // spawn enemies at the pre-defined interval throughout our spawnpoints
     IEnumerator SpawnEnemy()
     {
+        // debug
+        Debug.Log("Spawn rate: " + spawnRate);
         // wait for the spawn
         yield return new WaitForSeconds(spawnRate);
+        // what kind of enemy are we spawning?
+        if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.ground)
+        {
+            // spawn at the ground spawn points
+            Instantiate(enemies[(int)spawnIndex], groundSpawnPoints[Random.Range(0, groundSpawnPoints.Count)].position, Quaternion.identity);
+        }
+
+        if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.flying)
+        {
+            // spawn at the ground spawn points
+            Instantiate(enemies[(int)spawnIndex], flyingSpawnPoints[Random.Range(0, flyingSpawnPoints.Count)].position, Quaternion.identity);
+        }
+
+
         // spawn one at a spawn point
-        Instantiate(enemies[(int)spawnIndex], spawnPoints[Random.Range(0,spawnPoints.Count)].position, Quaternion.identity);
+        // restart
+        StartCoroutine(SpawnEnemy());
     }
 
     public override void EndChallenge()

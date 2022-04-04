@@ -12,6 +12,10 @@ public abstract class EnemyClass : MonoBehaviour
     public abstract void OnDeath(); // our death function
     public abstract void Activate(); // activation
     public abstract void Attack(); // our attack
+    public enum enemyTypes
+    { ground, flying }
+    public enemyTypes enemyType;
+
     public enum dropTypes // what can we drop?
     {
         none,
