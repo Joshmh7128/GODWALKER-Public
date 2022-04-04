@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Rewired;
 
-public abstract class ChallengeClass : MonoBehaviour
+public abstract class ChallengeHandler : MonoBehaviour
 {
     // class exists for other challenges to inherit from
     [SerializeField] Text infoText;
@@ -35,7 +35,6 @@ public abstract class ChallengeClass : MonoBehaviour
                 {
                     Activate();
                 }
-
             }
         }
     }

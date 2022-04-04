@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SurvivalChallengeClass : ChallengeClass
+public class SurvivalChallengeClass : ChallengeHandler
 {
     /// <summary>
     /// A survival challenge is a challenge where enemies spawn over a period of time.
