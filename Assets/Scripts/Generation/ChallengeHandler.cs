@@ -16,9 +16,14 @@ public abstract class ChallengeHandler : MonoBehaviour
     [SerializeField] bool activated = false;
     public List<GameObject> activeEnemies; // the active enemies in the room
 
+    [SerializeField] string challengeType, difficultyLevel, reward, fullInfo; // our info strings
+
     private void Start()
     {
-
+        // set our info text correctly for this challenge
+        fullInfo = challengeType + "\n" + difficultyLevel + "\n" + reward;
+        // set that to the text on the canvas
+        infoText.text = fullInfo;
     }
 
     private void FixedUpdate()
@@ -41,15 +46,14 @@ public abstract class ChallengeHandler : MonoBehaviour
                     Activate();
                     activated = true;
                 }
-            }
-
-            // if they let go, reset the actionvalue to 0
-            if (player.GetButtonUp("ActionE") && !activated)
+            } else if (!player.GetButton("ActionE") && !activated)
             {
-                activationValue = 0;
+                activationValue -= activationRate;
                 activationSlider.value = activationValue;
             }
         }
+
+
     }
 
     public abstract void Activate();

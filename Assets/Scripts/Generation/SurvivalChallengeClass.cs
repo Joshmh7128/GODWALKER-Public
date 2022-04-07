@@ -15,15 +15,11 @@ public class SurvivalChallengeClass : ChallengeHandler
     [SerializeField] List<Transform> groundSpawnPoints, flyingSpawnPoints; // all the spawnpoints we can use
     [SerializeField] float survivalTimeMax, survivalTimeRemaining; // define our gameplay objectives
     float spawnRate, spawnIndex; // automatically determined
-    [SerializeField] string challengeType, difficultyLevel, reward, fullInfo; // our info strings
 
     // start runs when the object is active in the scene
     private void Start()
     {
-        // set our info text correctly for this challenge
-        fullInfo = challengeType + "\n" + difficultyLevel + "\n" + reward;
-        // set that to the text on the canvas
-        infoText.text = fullInfo;
+
     }
 
     // activate the zone
