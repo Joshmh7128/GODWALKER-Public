@@ -11,17 +11,20 @@ public class SurvivalChallengeClass : ChallengeHandler
     /// To facilitate this, on activation begin spawning one enemy at an interval of totalTime/enemyCount
     /// </summary>
     /// 
-
+    [Header("Enemy Pool")]
     [SerializeField] List<GameObject> enemies; // the enemies we will spawn overtime
     [SerializeField] List<Transform> groundSpawnPoints, flyingSpawnPoints; // all the spawnpoints we can use
     [SerializeField] float survivalTimeMax, survivalTimeRemaining; // define our gameplay objectives
-    [SerializeField] float spawnRate, spawnIndex; // automatically determined
+    [SerializeField] float spawnRate, spawnRateMax, spawnIndex; // automatically determined
     [SerializeField] Text holdToStartText; // text that tells the player how to start, deactivate on-activate
+    [SerializeField] GameObject summoningParticle; // the summoning particle
+    [SerializeField] List<GameObject> particles = new List<GameObject>(); // our particles to be destroyed
 
     // start runs when the object is active in the scene
     private void Start()
     {
-
+        // ENSURE WE ALWAYS HAVE A SPAWN RATE
+        if (spawnRateMax == 0) { spawnRateMax = 3; Debug.LogError("Spawn rate was not set in survival challenge - autoset to 3"); }
     }
 
     // activate the zone
@@ -34,13 +37,25 @@ public class SurvivalChallengeClass : ChallengeHandler
         // start our countdown
         StartCoroutine(Countdown());
         // set our spawn interval
-        spawnRate = survivalTimeMax / (enemies.Count);
+        spawnRate = spawnRateMax;
         // start spawning enemies
         StartCoroutine(SpawnEnemy());
         // hide our text
         holdToStartText.text = "";
         // set our bubble target size
         bubbleTargetSize = bubbleMaxSize;
+        // spawn summoning particles at every spawnpoint
+        foreach (Transform spawnpoint in groundSpawnPoints)
+        {
+            GameObject particle = Instantiate(summoningParticle, spawnpoint);
+            particles.Add(particle);
+        }
+
+        foreach (Transform spawnpoint in groundSpawnPoints)
+        {
+            GameObject particle = Instantiate(summoningParticle, spawnpoint);
+            particles.Add(particle);
+        }
     }
 
     // our countdown timer
@@ -69,7 +84,7 @@ public class SurvivalChallengeClass : ChallengeHandler
     IEnumerator SpawnEnemy()
     {
         // raise our spawn index
-        spawnIndex++;
+        spawnIndex = Random.Range(0, enemies.Count);
         // debug
         Debug.Log("Spawning enemy...");
         Debug.Log("Waiting...");
@@ -81,7 +96,8 @@ public class SurvivalChallengeClass : ChallengeHandler
             Debug.Log("Spawning ground enemy...");
 
             // spawn at the ground spawn points
-            Instantiate(enemies[(int)spawnIndex], groundSpawnPoints[Random.Range(0, groundSpawnPoints.Count)].position, Quaternion.identity);
+            GameObject enemy = Instantiate(enemies[(int)spawnIndex], groundSpawnPoints[Random.Range(0, groundSpawnPoints.Count)].position, Quaternion.identity);
+            activeEnemies.Add(enemy);
             Debug.Log("Spawned ground enemy");
 
         } else if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.flying)
@@ -89,7 +105,8 @@ public class SurvivalChallengeClass : ChallengeHandler
             if (flyingSpawnPoints.Count > 0)
             {
                 // spawn at the ground spawn points
-                Instantiate(enemies[(int)spawnIndex], flyingSpawnPoints[Random.Range(0, flyingSpawnPoints.Count)].position, Quaternion.identity);
+                GameObject enemy = Instantiate(enemies[(int)spawnIndex], flyingSpawnPoints[Random.Range(0, flyingSpawnPoints.Count)].position, Quaternion.identity);
+                activeEnemies.Add(enemy);
                 Debug.Log("Spawned flying enemy");
             } else
             {
@@ -97,8 +114,12 @@ public class SurvivalChallengeClass : ChallengeHandler
             }
         }
 
+        // speed up our spawn rate by 5% every time we spawn so that calamity ensues
+        if (spawnRate > 0.5f)
+        {
+            spawnRate = spawnRate - spawnRate * 0.05f;
+        }
 
-        // spawn one at a spawn point
         // restart
         StartCoroutine(SpawnEnemy());
     }
@@ -124,5 +145,11 @@ public class SurvivalChallengeClass : ChallengeHandler
 
         // shrink the bubble
         bubbleTargetSize = 0f;
+
+        // remove particles
+        foreach (GameObject particle in particles)
+        {
+            Destroy(particle);
+        }
     }
 }
