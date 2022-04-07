@@ -15,7 +15,7 @@ public class SurvivalChallengeClass : ChallengeHandler
     [SerializeField] List<GameObject> enemies; // the enemies we will spawn overtime
     [SerializeField] List<Transform> groundSpawnPoints, flyingSpawnPoints; // all the spawnpoints we can use
     [SerializeField] float survivalTimeMax, survivalTimeRemaining; // define our gameplay objectives
-    float spawnRate, spawnIndex; // automatically determined
+    [SerializeField] float spawnRate, spawnIndex; // automatically determined
     [SerializeField] Text holdToStartText; // text that tells the player how to start, deactivate on-activate
 
     // start runs when the object is active in the scene
@@ -68,27 +68,23 @@ public class SurvivalChallengeClass : ChallengeHandler
     // spawn enemies at the pre-defined interval throughout our spawnpoints
     IEnumerator SpawnEnemy()
     {
+        // raise our spawn index
+        spawnIndex++;
         // debug
         Debug.Log("Spawning enemy...");
         Debug.Log("Waiting...");
         // wait for the spawn
         yield return new WaitForSeconds(spawnRate);
-        Debug.Log("Waiting Done");
         // what kind of enemy are we spawning?
         if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.ground)
         {
-            if (groundSpawnPoints.Count > 0)
-            {
-                // spawn at the ground spawn points
-                Instantiate(enemies[(int)spawnIndex], groundSpawnPoints[Random.Range(0, groundSpawnPoints.Count)].position, Quaternion.identity);
-                Debug.Log("Spawned ground enemy");
-            } else
-            {
-                Debug.LogWarning("No Ground Spawnpoints Set!");
-            }
-        }
+            Debug.Log("Spawning ground enemy...");
 
-        if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.flying)
+            // spawn at the ground spawn points
+            Instantiate(enemies[(int)spawnIndex], groundSpawnPoints[Random.Range(0, groundSpawnPoints.Count)].position, Quaternion.identity);
+            Debug.Log("Spawned ground enemy");
+
+        } else if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.flying)
         {
             if (flyingSpawnPoints.Count > 0)
             {
