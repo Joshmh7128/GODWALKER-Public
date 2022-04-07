@@ -91,37 +91,42 @@ public class SurvivalChallengeClass : ChallengeHandler
         // wait for the spawn
         yield return new WaitForSeconds(spawnRate);
         // what kind of enemy are we spawning?
-        if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.ground)
+        if (!complete)
         {
-            Debug.Log("Spawning ground enemy...");
-
-            // spawn at the ground spawn points
-            GameObject enemy = Instantiate(enemies[(int)spawnIndex], groundSpawnPoints[Random.Range(0, groundSpawnPoints.Count)].position, Quaternion.identity);
-            activeEnemies.Add(enemy);
-            Debug.Log("Spawned ground enemy");
-
-        } else if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.flying)
-        {
-            if (flyingSpawnPoints.Count > 0)
+            if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.ground)
             {
+                Debug.Log("Spawning ground enemy...");
+
                 // spawn at the ground spawn points
-                GameObject enemy = Instantiate(enemies[(int)spawnIndex], flyingSpawnPoints[Random.Range(0, flyingSpawnPoints.Count)].position, Quaternion.identity);
+                GameObject enemy = Instantiate(enemies[(int)spawnIndex], groundSpawnPoints[Random.Range(0, groundSpawnPoints.Count)].position, Quaternion.identity);
                 activeEnemies.Add(enemy);
-                Debug.Log("Spawned flying enemy");
-            } else
-            {
-                Debug.LogWarning("No Flying Spawnpoints Set!");
+                Debug.Log("Spawned ground enemy");
+
             }
-        }
+            else if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.flying)
+            {
+                if (flyingSpawnPoints.Count > 0)
+                {
+                    // spawn at the ground spawn points
+                    GameObject enemy = Instantiate(enemies[(int)spawnIndex], flyingSpawnPoints[Random.Range(0, flyingSpawnPoints.Count)].position, Quaternion.identity);
+                    activeEnemies.Add(enemy);
+                    Debug.Log("Spawned flying enemy");
+                }
+                else
+                {
+                    Debug.LogWarning("No Flying Spawnpoints Set!");
+                }
+            }
 
-        // speed up our spawn rate by 5% every time we spawn so that calamity ensues
-        if (spawnRate > 0.5f)
-        {
-            spawnRate = spawnRate - spawnRate * 0.05f;
-        }
+            // speed up our spawn rate by 5% every time we spawn so that calamity ensues
+            if (spawnRate > 0.75f)
+            {
+                spawnRate = spawnRate - spawnRate * 0.05f;
+            }
 
-        // restart
-        StartCoroutine(SpawnEnemy());
+            // restart
+            StartCoroutine(SpawnEnemy());
+        }
     }
 
     // update our information on the panel
@@ -137,6 +142,7 @@ public class SurvivalChallengeClass : ChallengeHandler
         foreach (GameObject enemy in activeEnemies)
         {
             // kill that enemy
+            if (enemy != null)
             enemy.GetComponent<EnemyClass>().OnDeath(); // right now all enemies have OnDeath functions, list is gameobjects so we can mod it later
         }
 
@@ -151,5 +157,8 @@ public class SurvivalChallengeClass : ChallengeHandler
         {
             Destroy(particle);
         }
+
+        // we did it
+        complete = true;
     }
 }

@@ -13,7 +13,7 @@ public abstract class ChallengeHandler : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] Transform playerTransform;
     [SerializeField] Player player;
-    [SerializeField] bool activated = false;
+    public bool activated = false, complete = false;
     public List<GameObject> activeEnemies; // the active enemies in the room
     [SerializeField] Transform challengeBubble; // grow this on activation and shrink this on end
     public float bubbleGrowthRate, bubbleTargetSize, bubbleMaxSize; 
