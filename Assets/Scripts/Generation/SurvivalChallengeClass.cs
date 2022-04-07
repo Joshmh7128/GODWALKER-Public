@@ -69,9 +69,11 @@ public class SurvivalChallengeClass : ChallengeHandler
     IEnumerator SpawnEnemy()
     {
         // debug
-        Debug.Log("Spawn rate: " + spawnRate);
+        Debug.Log("Spawning enemy...");
+        Debug.Log("Waiting...");
         // wait for the spawn
         yield return new WaitForSeconds(spawnRate);
+        Debug.Log("Waiting Done");
         // what kind of enemy are we spawning?
         if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.ground)
         {
@@ -79,6 +81,7 @@ public class SurvivalChallengeClass : ChallengeHandler
             {
                 // spawn at the ground spawn points
                 Instantiate(enemies[(int)spawnIndex], groundSpawnPoints[Random.Range(0, groundSpawnPoints.Count)].position, Quaternion.identity);
+                Debug.Log("Spawned ground enemy");
             } else
             {
                 Debug.LogWarning("No Ground Spawnpoints Set!");
@@ -91,6 +94,7 @@ public class SurvivalChallengeClass : ChallengeHandler
             {
                 // spawn at the ground spawn points
                 Instantiate(enemies[(int)spawnIndex], flyingSpawnPoints[Random.Range(0, flyingSpawnPoints.Count)].position, Quaternion.identity);
+                Debug.Log("Spawned flying enemy");
             } else
             {
                 Debug.LogWarning("No Flying Spawnpoints Set!");

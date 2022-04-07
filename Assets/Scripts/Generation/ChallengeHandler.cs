@@ -48,7 +48,7 @@ public abstract class ChallengeHandler : MonoBehaviour
                     Activate();
                     activated = true;
                 }
-            } else if (!player.GetButton("ActionE") && !activated)
+            } else if (!player.GetButton("ActionE") && !activated && activationValue > 0)
             {
                 activationValue -= activationRate;
                 activationSlider.value = activationValue;
