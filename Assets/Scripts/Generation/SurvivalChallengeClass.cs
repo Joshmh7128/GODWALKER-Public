@@ -51,7 +51,7 @@ public class SurvivalChallengeClass : ChallengeHandler
             particles.Add(particle);
         }
 
-        foreach (Transform spawnpoint in groundSpawnPoints)
+        foreach (Transform spawnpoint in flyingSpawnPoints)
         {
             GameObject particle = Instantiate(summoningParticle, spawnpoint);
             particles.Add(particle);
