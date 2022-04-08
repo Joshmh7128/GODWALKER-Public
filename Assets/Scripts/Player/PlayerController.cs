@@ -193,6 +193,8 @@ public class PlayerController : MonoBehaviour
             Vector3 treadDirection = Vector3.RotateTowards(playerLegParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
             playerLegParent.rotation = Quaternion.LookRotation(treadDirection);
 
+            
+
             // horizontal dash
             if (player.GetButtonDown("DashButton"))
             {
