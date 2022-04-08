@@ -16,9 +16,10 @@ public abstract class ChallengeHandler : MonoBehaviour
     public bool activated = false, complete = false;
     public List<GameObject> activeEnemies; // the active enemies in the room
     [SerializeField] Transform challengeBubble; // grow this on activation and shrink this on end
-    public float bubbleGrowthRate, bubbleTargetSize, bubbleMaxSize; 
-
+    public float bubbleGrowthRate, bubbleTargetSize, bubbleMaxSize;
+    public GameObject bubbleCollider; // our bubble collider to activate and deactivate
     [SerializeField] string challengeType, difficultyLevel, reward, fullInfo; // our info strings
+    public List<DoorClass> doorClasses; // our door classes associated with the room
 
     private void Start()
     {
@@ -64,6 +65,15 @@ public abstract class ChallengeHandler : MonoBehaviour
             if (challengeBubble.localScale.x > bubbleTargetSize)
             { challengeBubble.localScale -= new Vector3(bubbleGrowthRate, bubbleGrowthRate, bubbleGrowthRate); }
         }
+
+        // manage our bubble collider
+        if (challengeBubble.localScale.x >= bubbleTargetSize && !complete && activated)
+        {
+            Debug.Log(challengeBubble.localScale.x + " " + bubbleTargetSize);
+            Debug.Log("turning on collider");
+            if (bubbleCollider.activeInHierarchy == false)
+            bubbleCollider.SetActive(true); 
+        } 
     }
 
     public abstract void Activate();

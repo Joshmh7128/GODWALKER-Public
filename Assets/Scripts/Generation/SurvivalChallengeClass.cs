@@ -152,6 +152,9 @@ public class SurvivalChallengeClass : ChallengeHandler
         // shrink the bubble
         bubbleTargetSize = 0f;
 
+        // turn off its collider
+        bubbleCollider.SetActive(false);
+
         // remove particles
         foreach (GameObject particle in particles)
         {
@@ -160,5 +163,11 @@ public class SurvivalChallengeClass : ChallengeHandler
 
         // we did it
         complete = true;
+
+        // unlock all doors associated to this room
+        foreach (DoorClass door in doorClasses)
+        {
+            door.Unlock();
+        }
     }
 }
