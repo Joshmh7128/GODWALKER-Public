@@ -18,16 +18,19 @@ public abstract class ChallengeHandler : MonoBehaviour
     [SerializeField] Transform challengeBubble; // grow this on activation and shrink this on end
     public float bubbleGrowthRate, bubbleTargetSize, bubbleMaxSize;
     public GameObject bubbleCollider; // our bubble collider to activate and deactivate
-    [SerializeField] string challengeType, difficultyLevel, reward, fullInfo; // our info strings
+    public string challengeType, difficultyLevel, reward, fullInfo; // our info strings
     public List<DoorClass> doorClasses; // our door classes associated with the room
     public GameObject combatLightParent, safeLightParent; // these are handled in EndChallenge() of each abstract challenge class
 
     private void Start()
     {
+        // run our pass start
+        PassStart();
         // set our info text correctly for this challenge
         fullInfo = challengeType + "\n" + difficultyLevel + "\n" + reward;
         // set that to the text on the canvas
         infoText.text = fullInfo;
+
     }
 
     private void FixedUpdate()
@@ -80,6 +83,7 @@ public abstract class ChallengeHandler : MonoBehaviour
     public abstract void Activate();
     public abstract void UpdateInfo(string optionalInfo);
     public abstract void EndChallenge();
+    public abstract void PassStart();
 
     private void OnDrawGizmos()
     {

@@ -21,8 +21,9 @@ public class SurvivalChallengeClass : ChallengeHandler
     [SerializeField] List<GameObject> particles = new List<GameObject>(); // our particles to be destroyed
 
     // start runs when the object is active in the scene
-    private void Start()
+    public override void PassStart()
     {
+        Debug.Log("start run");
         // ENSURE WE ALWAYS HAVE A SPAWN RATE
         if (spawnRateMax == 0) { spawnRateMax = 3; Debug.LogError("Spawn rate was not set in survival challenge - autoset to 3"); }
     }
