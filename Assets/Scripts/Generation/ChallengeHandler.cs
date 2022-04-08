@@ -20,6 +20,7 @@ public abstract class ChallengeHandler : MonoBehaviour
     public GameObject bubbleCollider; // our bubble collider to activate and deactivate
     [SerializeField] string challengeType, difficultyLevel, reward, fullInfo; // our info strings
     public List<DoorClass> doorClasses; // our door classes associated with the room
+    public GameObject combatLightParent, safeLightParent; // these are handled in EndChallenge() of each abstract challenge class
 
     private void Start()
     {

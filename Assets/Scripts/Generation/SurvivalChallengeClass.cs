@@ -161,13 +161,17 @@ public class SurvivalChallengeClass : ChallengeHandler
             Destroy(particle);
         }
 
-        // we did it
-        complete = true;
-
         // unlock all doors associated to this room
         foreach (DoorClass door in doorClasses)
         {
             door.Unlock();
         }
+
+        // set our lights correctly
+        combatLightParent.SetActive(false);
+        safeLightParent.SetActive(true);
+
+        // we did it
+        complete = true;
     }
 }
