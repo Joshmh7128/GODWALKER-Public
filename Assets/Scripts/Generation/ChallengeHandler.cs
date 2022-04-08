@@ -67,7 +67,7 @@ public abstract class ChallengeHandler : MonoBehaviour
         }
 
         // manage our bubble collider
-        if (challengeBubble.localScale.x >= bubbleTargetSize && !complete && activated)
+        if (challengeBubble.localScale.x >= (bubbleTargetSize-bubbleGrowthRate) && !complete && activated)
         {
             Debug.Log(challengeBubble.localScale.x + " " + bubbleTargetSize);
             Debug.Log("turning on collider");
