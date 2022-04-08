@@ -92,7 +92,7 @@ public class SurvivalChallengeClass : ChallengeHandler
         // wait for the spawn
         yield return new WaitForSeconds(spawnRate);
         // what kind of enemy are we spawning?
-        if (!complete)
+        if (complete == false)
         {
             if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.ground)
             {
@@ -149,6 +149,7 @@ public class SurvivalChallengeClass : ChallengeHandler
 
         // hide our text
         holdToStartText.text = "Challenge Complete";
+        infoText.text = "Challenge Complete";
 
         // shrink the bubble
         bubbleTargetSize = 0f;

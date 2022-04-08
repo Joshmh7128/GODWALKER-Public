@@ -13,7 +13,7 @@ public abstract class ChallengeHandler : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] Transform playerTransform;
     [SerializeField] Player player;
-    public bool activated = false, complete = false;
+    public bool activated = false, complete;
     public List<GameObject> activeEnemies; // the active enemies in the room
     [SerializeField] Transform challengeBubble; // grow this on activation and shrink this on end
     public float bubbleGrowthRate, bubbleTargetSize, bubbleMaxSize;
@@ -71,7 +71,7 @@ public abstract class ChallengeHandler : MonoBehaviour
         }
 
         // manage our bubble collider
-        if (challengeBubble.localScale.x >= (bubbleTargetSize-bubbleGrowthRate) && !complete && activated)
+        if (challengeBubble.localScale.x >= (bubbleTargetSize-bubbleGrowthRate) && complete == false && activated)
         {
             Debug.Log(challengeBubble.localScale.x + " " + bubbleTargetSize);
             Debug.Log("turning on collider");
