@@ -11,7 +11,7 @@ public class DoorClass : MonoBehaviour
     [SerializeField] Animator doorAnimator;
     Player player;
     Transform playerTransform;
-    [SerializeField] public bool isOpen, unlocked = false; // are we open? are we unlocked?
+    [SerializeField] public bool isOpen, unlocked = false, isChallenge = false; // are we open? are we unlocked? are we a challenge?
     bool addedZone = false;                   // have we added ourselves to our past combat zone?
     [SerializeField] float interactDistance, checkDistance;
     [SerializeField] CombatZone nextCombatZone, pastCombatZone; // our associated combat zone to activate. our past combat zone to see if we can open
@@ -109,10 +109,10 @@ public class DoorClass : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // if we're open and the player moves through the door, close it behind them
-        if (isOpen && nextCombatZone.combatComplete == false && other.transform.tag == "Player")
+        if (isOpen && other.transform.tag == "Player")
         {
             // check if we have a next combat zone, if we dont we dont have to lock the door
-            if (nextCombatZone)
+            if (nextCombatZone && nextCombatZone.combatComplete == false || isChallenge)
             lockedParent.SetActive(true);
             doorCheckTrigger.enabled = false; // disable our trigger so that shots do not get blocked by it
         }
