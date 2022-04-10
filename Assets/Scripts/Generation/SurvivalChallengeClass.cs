@@ -88,9 +88,6 @@ public class SurvivalChallengeClass : ChallengeHandler
             StartCoroutine(Countdown());
             UpdateInfo(optionalInfo: "");
         }
-
-        // show the challenge is starting on the interaction canvas
-        StartCoroutine(InteractionDisplayActivate());
     }
 
     // spawn enemies at the pre-defined interval throughout our spawnpoints
