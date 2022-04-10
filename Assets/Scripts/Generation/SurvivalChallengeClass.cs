@@ -65,12 +65,17 @@ public class SurvivalChallengeClass : ChallengeHandler
             GameObject particle = Instantiate(summoningParticle, spawnpoint);
             particles.Add(particle);
         }
+
+        // handle our doors
+        foreach (DoorClass door in doorClasses)
+        {
+
+        }
     }
 
     // our countdown timer
     IEnumerator Countdown()
     {
-
         // wait one second
         yield return new WaitForSeconds(1f);
 

@@ -20,11 +20,6 @@ public class DoorClass : MonoBehaviour
     [SerializeField] MusicController.musicMoods nextMood; // what will the next music mood be?
     [SerializeField] BoxCollider doorCheckTrigger; // our door check trigger
 
-    private void Awake()
-    {
-
-    }
-
     private void Start()
     {
         player = ReInput.players.GetPlayer(0);
@@ -112,10 +107,18 @@ public class DoorClass : MonoBehaviour
         if (isOpen && other.transform.tag == "Player")
         {
             // check if we have a next combat zone, if we dont we dont have to lock the door
-            if (nextCombatZone && nextCombatZone.combatComplete == false || isChallenge)
-            lockedParent.SetActive(true);
-            doorCheckTrigger.enabled = false; // disable our trigger so that shots do not get blocked by it
+            if (nextCombatZone && nextCombatZone.combatComplete == false)
+            {
+                Lock();
+            }
         }
+    }
+
+    // locking our door
+    public void Lock()
+    {
+        lockedParent.SetActive(true);
+        doorCheckTrigger.enabled = false; // disable our trigger so that shots do not get blocked by it
     }
 
     public void Unlock()
