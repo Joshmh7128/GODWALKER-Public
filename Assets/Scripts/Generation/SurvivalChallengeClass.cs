@@ -45,6 +45,14 @@ public class SurvivalChallengeClass : ChallengeHandler
         holdToStartText.text = "";
         // set our bubble target size
         bubbleTargetSize = bubbleMaxSize;
+        // trigger the popup dialogue on our player character
+        StartCoroutine(InteractionDisplayActivate());
+        // do a music request
+        if (FindObjectOfType<MusicController>() != null)
+        {
+            FindObjectOfType<MusicController>().MusicMood(MusicController.musicMoods.battle);
+        }
+
         // spawn summoning particles at every spawnpoint
         foreach (Transform spawnpoint in groundSpawnPoints)
         {
@@ -62,6 +70,7 @@ public class SurvivalChallengeClass : ChallengeHandler
     // our countdown timer
     IEnumerator Countdown()
     {
+
         // wait one second
         yield return new WaitForSeconds(1f);
 
@@ -79,6 +88,9 @@ public class SurvivalChallengeClass : ChallengeHandler
             StartCoroutine(Countdown());
             UpdateInfo(optionalInfo: "");
         }
+
+        // show the challenge is starting on the interaction canvas
+        StartCoroutine(InteractionDisplayActivate());
     }
 
     // spawn enemies at the pre-defined interval throughout our spawnpoints
@@ -157,6 +169,15 @@ public class SurvivalChallengeClass : ChallengeHandler
         // turn off its collider
         bubbleCollider.SetActive(false);
 
+        // show the challenge is over
+        StartCoroutine(InteractionDisplayComplete());
+
+        // do a music request
+        if (FindObjectOfType<MusicController>() != null)
+        {
+            FindObjectOfType<MusicController>().MusicMood(MusicController.musicMoods.explore);
+        }
+
         // remove particles
         foreach (GameObject particle in particles)
         {
@@ -175,5 +196,25 @@ public class SurvivalChallengeClass : ChallengeHandler
 
         // we did it
         complete = true;
+    }
+
+    IEnumerator InteractionDisplayComplete()
+    {
+        // show the challenge is over
+        UpgradeSingleton.Instance.player.InteractableMessageTrigger("Challenge Complete", true);
+        // wait
+        yield return new WaitForSeconds(3f);
+        // remove dialogue
+        UpgradeSingleton.Instance.player.InteractableMessageTrigger("Challenge Complete", false);
+    }
+
+    IEnumerator InteractionDisplayActivate()
+    {
+        // show the challenge is over
+        UpgradeSingleton.Instance.player.InteractableMessageTrigger("Challenge Activated", true);
+        // wait
+        yield return new WaitForSeconds(3f);
+        // remove dialogue
+        UpgradeSingleton.Instance.player.InteractableMessageTrigger("Challenge Activated", false);
     }
 }
