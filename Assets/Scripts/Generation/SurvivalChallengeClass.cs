@@ -15,7 +15,7 @@ public class SurvivalChallengeClass : ChallengeHandler
     [SerializeField] List<GameObject> enemies; // the enemies we will spawn overtime
     [SerializeField] List<Transform> groundSpawnPoints, flyingSpawnPoints; // all the spawnpoints we can use
     [SerializeField] float survivalTimeMax, survivalTimeRemaining; // define our gameplay objectives
-    [SerializeField] float spawnRate, spawnRateMax, spawnIndex; // automatically determined
+    [SerializeField] float spawnRate, spawnRateMax, spawnIndex, spawnRateDecreasePercent; // automatically determined
     [SerializeField] Text holdToStartText; // text that tells the player how to start, deactivate on-activate
     [SerializeField] GameObject summoningParticle; // the summoning particle
     [SerializeField] List<GameObject> particles = new List<GameObject>(); // our particles to be destroyed
@@ -66,10 +66,10 @@ public class SurvivalChallengeClass : ChallengeHandler
             particles.Add(particle);
         }
 
-        // handle our doors
+        // lock our doors
         foreach (DoorClass door in doorClasses)
         {
-
+            door.Lock();
         }
     }
 
@@ -136,7 +136,7 @@ public class SurvivalChallengeClass : ChallengeHandler
             // speed up our spawn rate by 5% every time we spawn so that calamity ensues
             if (spawnRate > 0.75f)
             {
-                spawnRate = spawnRate - spawnRate * 0.05f;
+                spawnRate = spawnRate - spawnRate * spawnRateDecreasePercent;
             }
 
             // restart
@@ -195,6 +195,12 @@ public class SurvivalChallengeClass : ChallengeHandler
         // set our lights correctly
         combatLightParent.SetActive(false);
         safeLightParent.SetActive(true);
+
+        // unlock our doors
+        foreach (DoorClass door in doorClasses)
+        {
+            door.Unlock();
+        }
 
         // we did it
         complete = true;
