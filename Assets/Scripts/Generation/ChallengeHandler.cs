@@ -15,6 +15,7 @@ public abstract class ChallengeHandler : MonoBehaviour
     [SerializeField] Player player;
     public bool activated = false, complete;
     public List<GameObject> activeEnemies; // the active enemies in the room
+    public float maximumActiveEnemies = 30; // how many enemies can there be at once?
     [SerializeField] Transform challengeBubble; // grow this on activation and shrink this on end
     public float bubbleGrowthRate, bubbleTargetSize, bubbleMaxSize;
     public GameObject bubbleCollider; // our bubble collider to activate and deactivate

@@ -105,8 +105,8 @@ public class SurvivalChallengeClass : ChallengeHandler
         Debug.Log("Waiting...");
         // wait for the spawn
         yield return new WaitForSeconds(spawnRate);
-        // what kind of enemy are we spawning?
-        if (complete == false)
+        // only spawn if the challenge is incomplete and we are not at the enemy amount cap
+        if (complete == false && activeEnemies.Count < maximumActiveEnemies)
         {
             if (enemies[(int)spawnIndex].GetComponent<EnemyClass>().enemyType == EnemyClass.enemyTypes.ground)
             {
