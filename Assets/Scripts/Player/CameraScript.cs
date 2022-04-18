@@ -16,9 +16,8 @@ public class CameraScript : MonoBehaviour
     public float xRotate, yRotate, xRotateMod, yRotateMod; // x, y rotation float
     [SerializeField] float minYAngle, maxYAngle; // min our Y can be is usually negative, max Y is usually positive
     public bool canLook = true; // can we look around?
-
     // player variables
-    [SerializeField] Transform cameraContainer, cameraContainerGoal; // parent container and it's movement goal
+    [SerializeField] Transform cameraContainer, cameraContainerGoal, trackContainer; // parent container and it's movement goal
     RaycastHit enemyInfoHit; // our aiming raycast hit
     Ray enemyInfoRay; // our aiming ray
     [SerializeField] PlayerController playerController;
@@ -34,7 +33,7 @@ public class CameraScript : MonoBehaviour
     // screenshake related
     Vector3 originalPos; [SerializeField] float snapShakeReturnLerpSpeed; // our original position (use when testing other pos than vector3.zero), how quickly we lerp back
 
-    // rifle aiming
+    // aiming
     public RaycastHit cameraCenterHit;
 
     // cosmetics to make our character look like they are moving
@@ -81,10 +80,18 @@ public class CameraScript : MonoBehaviour
             // apply it to our camera
             cameraContainer.eulerAngles = new Vector3(finalyRotate, finalxRotate, 0f);
         }
-        
-        // we're going to move our camera container to the proper position
 
-        // lerp our camera back to it's proper position if it moves away from it
+        // make sure there is nothing directly in front of our camera so that we do not clip in walls
+        // if there is something in front of our camera, move it forward
+        // cast a ray forward from the camera that is the distance of the camera to the player
+        Ray trackControlRay = new Ray(); // our dolly control ray
+        trackControlRay.direction = transform.forward; 
+        // perform the raycast
+        if (Physics.Raycast(trackControlRay, Vector3.Distance(transform.position, playerController.transform.position)))
+        {
+            // move our camera forward
+        }
+
 
 
     }
