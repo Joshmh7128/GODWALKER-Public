@@ -85,23 +85,6 @@ public class CameraScript : MonoBehaviour
             // apply it to our camera
             cameraContainer.eulerAngles = new Vector3(finalyRotate, finalxRotate, 0f);
         }
-
-        // make sure there is nothing directly in front of our camera so that we do not clip in walls
-        // if there is something in front of our camera, move it forward
-        // cast a ray forward from the camera that is the distance of the camera to the player
-        Ray trackControlRay = new Ray(); // our dolly control ray
-        trackControlRay.direction = transform.forward;
-        // perform the raycast
-        if (Physics.Linecast(trackTargetForward.position, trackTargetBackward.position) && Vector3.Distance(transform.position, trackTargetForward.position) > maximumClose)
-        {
-            // move our track container forward
-            trackContainer.transform.localPosition += new Vector3(0, 0, trackRate);
-        }
-        else if (!Physics.Linecast(trackTargetForward.position, trackTargetBackward.position))
-        {
-            // move our track container to 0
-            trackContainer.transform.localPosition = Vector3.zero;
-        }
     }
 
     private void FixedUpdate()
