@@ -34,7 +34,7 @@ public class CameraScript : MonoBehaviour
     Vector3 originalPos; [SerializeField] float snapShakeReturnLerpSpeed; // our original position (use when testing other pos than vector3.zero), how quickly we lerp back
 
     // camera track controller
-    [SerializeField] Transform trackContainer;
+    [SerializeField] Transform trackContainer, trackTargetForward, trackTargetBackward;
     [SerializeField] float maximumClose, trackRate;
 
 
@@ -90,16 +90,18 @@ public class CameraScript : MonoBehaviour
         // if there is something in front of our camera, move it forward
         // cast a ray forward from the camera that is the distance of the camera to the player
         Ray trackControlRay = new Ray(); // our dolly control ray
-        trackControlRay.direction = transform.forward; 
+        trackControlRay.direction = transform.forward;
         // perform the raycast
-        if (Physics.Raycast(trackControlRay, Vector3.Distance(transform.position, playerController.transform.position)))
+        if (Physics.Linecast(trackTargetBackward.position, trackTargetForward.position) && Vector3.Distance(transform.position, trackTargetForward.position) > maximumClose)
         {
             // move our track container forward
-            trackContainer.transform.position += new Vector3(0, 0, 1);
+            trackContainer.transform.localPosition += new Vector3(0, 0, 1);
         }
-
-
-
+        else if (!Physics.Linecast(trackTargetBackward.position, trackTargetForward.position))
+        {
+            // move our track container to 0
+            trackContainer.transform.localPosition = Vector3.zero;
+        }
     }
 
     private void FixedUpdate()
