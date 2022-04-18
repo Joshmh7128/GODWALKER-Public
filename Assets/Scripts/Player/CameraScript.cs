@@ -92,12 +92,12 @@ public class CameraScript : MonoBehaviour
         Ray trackControlRay = new Ray(); // our dolly control ray
         trackControlRay.direction = transform.forward;
         // perform the raycast
-        if (Physics.Linecast(trackTargetBackward.position, trackTargetForward.position) && Vector3.Distance(transform.position, trackTargetForward.position) > maximumClose)
+        if (Physics.Linecast(trackTargetForward.position, trackTargetBackward.position) && Vector3.Distance(transform.position, trackTargetForward.position) > maximumClose)
         {
             // move our track container forward
-            trackContainer.transform.localPosition += new Vector3(0, 0, 1);
+            trackContainer.transform.localPosition += new Vector3(0, 0, trackRate);
         }
-        else if (!Physics.Linecast(trackTargetBackward.position, trackTargetForward.position))
+        else if (!Physics.Linecast(trackTargetForward.position, trackTargetBackward.position))
         {
             // move our track container to 0
             trackContainer.transform.localPosition = Vector3.zero;
