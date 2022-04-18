@@ -17,7 +17,7 @@ public class CameraScript : MonoBehaviour
     [SerializeField] float minYAngle, maxYAngle; // min our Y can be is usually negative, max Y is usually positive
     public bool canLook = true; // can we look around?
     // player variables
-    [SerializeField] Transform cameraContainer, cameraContainerGoal, trackContainer; // parent container and it's movement goal
+    [SerializeField] Transform cameraContainer, cameraContainerGoal; // parent container and it's movement goal
     RaycastHit enemyInfoHit; // our aiming raycast hit
     Ray enemyInfoRay; // our aiming ray
     [SerializeField] PlayerController playerController;
@@ -32,6 +32,11 @@ public class CameraScript : MonoBehaviour
 
     // screenshake related
     Vector3 originalPos; [SerializeField] float snapShakeReturnLerpSpeed; // our original position (use when testing other pos than vector3.zero), how quickly we lerp back
+
+    // camera track controller
+    [SerializeField] Transform trackContainer;
+    [SerializeField] float maximumClose, trackRate;
+
 
     // aiming
     public RaycastHit cameraCenterHit;
@@ -89,7 +94,8 @@ public class CameraScript : MonoBehaviour
         // perform the raycast
         if (Physics.Raycast(trackControlRay, Vector3.Distance(transform.position, playerController.transform.position)))
         {
-            // move our camera forward
+            // move our track container forward
+            trackContainer.transform.position += new Vector3(0, 0, 1);
         }
 
 
