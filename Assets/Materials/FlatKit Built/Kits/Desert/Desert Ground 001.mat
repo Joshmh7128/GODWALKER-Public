@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Desert Ground 001
   m_Shader: {fileID: 4800000, guid: bee44b4a58655ee4cbff107302a3e131, type: 3}
-  m_ShaderKeywords: DR_CEL_EXTRA_ON DR_ENABLE_LIGHTMAP_DIR DR_VERTEX_COLORS_ON _CELPRIMARYMODE_SINGLE
+  m_ShaderKeywords: DR_ENABLE_LIGHTMAP_DIR DR_VERTEX_COLORS_ON _CELPRIMARYMODE_STEPS
     _TEXTUREBLENDINGMODE_MULTIPLY _UNITYSHADOWMODE_MULTIPLY _UNITYSHADOW_OCCLUSION
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -35,7 +35,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CelStepTexture:
-        m_Texture: {fileID: 2800000, guid: cba22a028c5a2904cb0372bec73e33f1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8aa0238885e3e484c889536d83210d7d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -91,9 +91,9 @@ Material:
     - _Blend: 0
     - _BumpScale: 1
     - _CameraDistanceImpact: 0
-    - _CelExtraEnabled: 1
+    - _CelExtraEnabled: 0
     - _CelNumSteps: 10
-    - _CelPrimaryMode: 1
+    - _CelPrimaryMode: 2
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -152,7 +152,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.482, g: 0.3411819, b: 0.201476, a: 1}
+    - _BaseColor: {r: 0.475, g: 0.3347172, b: 0.20567498, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorDim: {r: 0.39, g: 0.23319718, b: 0.13845, a: 1}
     - _ColorDimCurve: {r: 0.8509804, g: 0.5960784, b: 0.45098037, a: 1}
