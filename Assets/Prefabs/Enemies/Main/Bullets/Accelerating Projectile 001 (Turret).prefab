@@ -107,7 +107,6 @@ GameObject:
   - component: {fileID: 1877941779878537960}
   - component: {fileID: 3827108834713674566}
   - component: {fileID: -6219819150722728702}
-  - component: {fileID: 4897111797017452025}
   m_Layer: 0
   m_Name: Accelerating Projectile 001 (Turret)
   m_TagString: Untagged
@@ -142,7 +141,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1877941779878537961}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
@@ -160,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletTarget: {fileID: 0}
-  bulletSpeed: 100
+  bulletSpeed: 20
   cubePuff: {fileID: 130848, guid: f6ef699473b127846b41e07e642b852e, type: 3}
   ourParticleSystem: {fileID: 3655595585553835196}
   speedsUp: 0
@@ -184,19 +183,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!135 &4897111797017452025
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1877941779878537961}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.24
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2291484152482597860
 GameObject:
   m_ObjectHideFlags: 0

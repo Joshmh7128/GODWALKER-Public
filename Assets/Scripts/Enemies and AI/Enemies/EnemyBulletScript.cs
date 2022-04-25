@@ -116,16 +116,8 @@ public class EnemyBulletScript : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.tag == "Environment")
-        {
-            // break if you hit the environment and are not a physics bullet
-            if (!usesPhysics)
-            {
-                Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                Destroy(gameObject);
-            }
-        }
+        Debug.LogWarning("bullet collision logged!");
     }
 }
