@@ -67,7 +67,6 @@ public class EnemyBulletScript : MonoBehaviour
             }
             else
             {
-
                 transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
             }
         }
@@ -93,7 +92,7 @@ public class EnemyBulletScript : MonoBehaviour
         // destroy if it hits the environment
         if (collision.CompareTag("Environment"))
         {
-            // do nothing (here because we did previously want to do something, and will)
+
         }// if this hits the player
         else if (collision.CompareTag("Player"))
         {
@@ -101,23 +100,26 @@ public class EnemyBulletScript : MonoBehaviour
             playerTransform.gameObject.GetComponent<PlayerController>().AddHP(-1);
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             if (!usesParent)
-            Destroy(gameObject);
+            DestroyBullet();
         }
         // if this hits a breakable
         else if (collision.CompareTag("Breakable"))
         {
             // anything with the Breakable tag will be a chunk and have a BreakableBreak function
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-            Destroy(gameObject);
+            DestroyBullet();
         }        // if this hits a breakable
         else if (collision.CompareTag("Enemy"))
         {
             // do nothing (here because we did previously want to do something, and will)
         }
+        else
+        {
+        }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        Debug.LogWarning("bullet collision logged!");
+        DestroyBullet();
     }
 }
