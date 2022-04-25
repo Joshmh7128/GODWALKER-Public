@@ -93,14 +93,11 @@ public class EnemyBulletScript : MonoBehaviour
         // destroy if it hits the environment
         if (collision.CompareTag("Environment"))
         {
-            if (!usesPhysics)
-            {
-                Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                Destroy(gameObject);
-            }
+            // do nothing (here because we did previously want to do something, and will)
         }// if this hits the player
         else if (collision.CompareTag("Player"))
         {
+            // hurt the player
             playerTransform.gameObject.GetComponent<PlayerController>().AddHP(-1);
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             if (!usesParent)
@@ -115,16 +112,7 @@ public class EnemyBulletScript : MonoBehaviour
         }        // if this hits a breakable
         else if (collision.CompareTag("Enemy"))
         {
-
-        }
-        else
-        {
-            // if you hit anything else, die if you do not use physics
-            if (!usesPhysics)
-            {
-                Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-                Destroy(gameObject);
-            }
+            // do nothing (here because we did previously want to do something, and will)
         }
     }
 
@@ -132,6 +120,7 @@ public class EnemyBulletScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Environment")
         {
+            // break if you hit the environment and are not a physics bullet
             if (!usesPhysics)
             {
                 Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
