@@ -69,11 +69,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform mainCameraContainer; // position of cam when we access inventory
     bool inventoryOpen = false; // is our inventory open?
     [SerializeField] CanvasGroup inventoryCanvas; // the canvas of our inventory
-    [SerializeField] CanvasGroup gameplayUICanvas; // the canvas of our inventory
+    [SerializeField] CanvasGroup gameplayUICanvas; // the gameplay UI canvas
+    [SerializeField] RectTransform gameplayUICanvasRectTransform; // the rect
     [SerializeField] AudioSource inventoryAudioSource; // the inventory audio source
     [SerializeField] AudioClip inventoryOpenAudio;
     [SerializeField] AudioClip inventoryCloseAudio;
     Vector3 previousBodyRotation; // used to make opening and closing the inventory panel more comfortable
+
+    [SerializeField] List<Transform> activeEnemies = new List<Transform>(); // store our active enemies
+    [SerializeField] Transform testAimEnemy;
+    [SerializeField] RectTransform autoAimReticle; // our auto aim reticle
 
     // visual effects
     public bool canDistort; // should we distort the image?
@@ -326,26 +331,18 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region // UI display
-        // display our ammo amount
-        ammoAmountText.text = powerAmount.ToString(); // in text
-        ammoMaxText.text = powerMax.ToString(); // in text
+        // display our power amount
         powerSlider.value = (float)powerAmount / (float)powerMax;
-        // display our gem amount
-        naniteAmountText.text = naniteAmount.ToString(); // in text
-        naniteMaxText.text = naniteMax.ToString(); // in text
         // displayer our HP amount
-        hpAmountText.text = playerHP.ToString(); // in text
-        hpMaxText.text = playerMaxHP.ToString(); // in text
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
-        // display our bug part amount
-        // scrapAmountText.text = scrapAmount.ToString();
-        // modify our reticle ring
-        reticleRing.transform.localScale = new Vector3(Mathf.Lerp(0,1f,shotCoolDownRemain / shotCoolDown), Mathf.Lerp(0, 1f, shotCoolDownRemain / shotCoolDown), Mathf.Lerp(0, 1f, shotCoolDownRemain / shotCoolDown));
 
-        /// lets calculate our reload ammunition display for our pistols
-        /// for this we are going to want to place the total mag size to the left of our reticle
-
-
+        // move our ui aim reticle
+        Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(testAimEnemy.transform.position);
+        Vector2 WorldObject_ScreenPosition = new Vector2(
+        ((ViewportPosition.x * gameplayUICanvasRectTransform.sizeDelta.x) - (gameplayUICanvasRectTransform.sizeDelta.x * 0.5f)),
+        ((ViewportPosition.y * gameplayUICanvasRectTransform.sizeDelta.y) - (gameplayUICanvasRectTransform.sizeDelta.y * 0.5f)));
+        //now you can set the position of the ui element
+        autoAimReticle.anchoredPosition = WorldObject_ScreenPosition;
         #endregion
 
         #region // shot firing
@@ -630,14 +627,6 @@ public class PlayerController : MonoBehaviour
 
         // dash screen fov lerp
         Mathf.Lerp(dashTime, dashTimeMax, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + dashTime);
-
-        // our popup alpha change
-        if (popupCanvas.alpha <= 1 && popupCanvas.alpha >= 0)
-        { popupCanvas.alpha += popupAlphaChange; }        
-        
-        // our message alpha change
-        if (interactableCanvas.alpha <= 1 && interactableCanvas.alpha >= 0)
-        { interactableCanvas.alpha += interactableAlphaChange; }
     }
 
     // if we gain life, positive number, if we lose life, negative number
