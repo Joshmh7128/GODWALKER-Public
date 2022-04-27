@@ -84,8 +84,7 @@ public class PlayerController : MonoBehaviour
     // visual effects
     public bool canDistort; // should we distort the image?
     float distortRate = 4; // what rate should we distort the image?
-    [SerializeField] Volume postProcessingVolume; // our pp volume
-    float saturationMax, saturationMin, saturationCurrent; // our min, max, and current saturations
+    [SerializeField] GameObject hurtVolume50, hurtVolume25;
     #endregion
 
     #region // Player Movement Variables
@@ -182,9 +181,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         player = ReInput.players.GetPlayer(0);
-
-        // get our volume
-        postProcessingVolume = FindObjectOfType<Volume>();
     }
 
     // Update is called once per frame
@@ -662,7 +658,25 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+
         // whenever this is called, adjust the saturation of our screen
+        if (playerHP > playerMaxHP / 2)
+        {
+            hurtVolume50.SetActive(false);
+            hurtVolume25.SetActive(false);
+        }
+
+        if (playerHP < playerMaxHP / 2)
+        {
+            hurtVolume50.SetActive(true);
+            hurtVolume25.SetActive(false);
+        }
+
+        if (playerHP < playerMaxHP / 4)
+        {
+            hurtVolume50.SetActive(false);
+            hurtVolume25.SetActive(true);
+        }
 
     }
 
