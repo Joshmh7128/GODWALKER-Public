@@ -171,6 +171,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] RectTransform reticleLineLeft, reticleLineRight, reticleLineUp, reticleLineDown; // our four reticle lines
     Vector3 reticleLeftStart, reticleRightStart, reticleUpStart, reticleDownStart; // the starting positions of our reticles
     [SerializeField] float reticleKickAmount, reticleReturnSpeed;
+    [SerializeField] CanvasGroup hitmarkerCanvasGroup; // our hitmarker canvas group
     #endregion
 
     private void Awake()
@@ -530,16 +531,18 @@ public class PlayerController : MonoBehaviour
                 { hit.transform.gameObject.GetComponent<EnemyClass>().TakeDamage((int)pistolDamage); }
                 // spawn effect
                 Instantiate(pistolEnemyHitFX, hit.point, Quaternion.identity, null);
+
+                // trigger our hitmarker
+                HitmarkerTrigger();
             }
 
             // deal damage
             if (hit.transform.tag == "Bullet")
             {
-                // destroy the bullet
-                hit.transform.gameObject.GetComponent<EnemyBulletScript>().DestroyBullet();
                 // spawn effect
                 Instantiate(pistolEnemyHitFX, hit.point, Quaternion.identity, null);
             }
+
         }
 
         // particle effect
@@ -674,8 +677,25 @@ public class PlayerController : MonoBehaviour
 
         // handle our reticle
         ReticleReturn();
+
+        // handle our hitmarker
+        HitmarkerFade();
     }
 
+    // trigger our hitmarker
+    void HitmarkerTrigger()
+    {
+        // set the alpha to 1
+        hitmarkerCanvasGroup.alpha = 1;
+    }
+
+    // fade our hitmarker back to 0
+    void HitmarkerFade()
+    {
+        hitmarkerCanvasGroup.alpha += -0.25f;
+    }
+
+    // kick our UI reticle
     void ReticleKick()
     {
         // move all four of our reticle lines outwards
@@ -685,6 +705,7 @@ public class PlayerController : MonoBehaviour
         reticleLineLeft.anchoredPosition += new Vector2(-reticleKickAmount, 0);
     }
 
+    // bring our ui reticle back, run in fixed update
     void ReticleReturn()
     {
         // return our reticle ui elements to their original positions
