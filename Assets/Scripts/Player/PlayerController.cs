@@ -161,7 +161,6 @@ public class PlayerController : MonoBehaviour
 
     #region // Visual effect Prefabs
     [Header("FX and Feel")]
-
     [SerializeField] GameObject pistolMuzzleFlashPower1FX;
     [SerializeField] GameObject pistolMuzzleFlashPower2FX, pistolMuzzleFlashPower3FX;
     [SerializeField] GameObject playerBulletPower1FX, playerBulletPower2FX, playerBulletPower3FX;   // bullet prefab
@@ -181,6 +180,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         player = ReInput.players.GetPlayer(0);
+
     }
 
     // Update is called once per frame
@@ -677,6 +677,15 @@ public class PlayerController : MonoBehaviour
             hurtVolume50.SetActive(false);
             hurtVolume25.SetActive(true);
         }
+
+        if (playerHP <= 0)
+        {
+            hurtVolume50.SetActive(false);
+            hurtVolume25.SetActive(false);
+        }
+
+
+
 
     }
 
