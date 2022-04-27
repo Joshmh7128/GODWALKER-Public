@@ -168,6 +168,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float snapShakeDelta;
     PlayerBulletScriptFX ourBullet; // is set at runtime
     [SerializeField] Material power1Mat, power2Mat, power3Mat;
+    [SerializeField] RectTransform reticleLineLeft, reticleLineRight, reticleLineUp, reticleLineDown; // our four reticle lines
+    Vector3 reticleLeftStart, reticleRightStart, reticleUpStart, reticleDownStart; // the starting positions of our reticles
+    [SerializeField] float reticleKickAmount, reticleReturnSpeed;
     #endregion
 
     private void Awake()
@@ -180,6 +183,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         player = ReInput.players.GetPlayer(0);
+
+        // get the starting positions of our reticles
+        reticleUpStart = reticleLineUp.position;
+        reticleDownStart = reticleLineDown.position;
+        reticleRightStart = reticleLineRight.position;
+        reticleLeftStart = reticleLineLeft.position;
 
     }
 
@@ -337,6 +346,7 @@ public class PlayerController : MonoBehaviour
         // displayer our HP amount
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
 
+        // old form of auto-aim, will revisit later in time
         /*
         // move our ui aim reticle
         Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(testAimEnemy.transform.position);
@@ -561,6 +571,8 @@ public class PlayerController : MonoBehaviour
         // update ammo amount
         PowerBarColor();
 
+        // kick our UI element
+        ReticleKick();
     }
 
     // fixed update is called once per frame
@@ -629,6 +641,49 @@ public class PlayerController : MonoBehaviour
 
         // dash screen fov lerp
         Mathf.Lerp(dashTime, dashTimeMax, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + dashTime);
+
+        // check our player HP
+        // whenever this is called, adjust the saturation of our screen
+        if (playerHP > playerMaxHP / 2)
+        {
+            hurtVolume50.SetActive(false);
+            hurtVolume25.SetActive(false);
+        }
+
+        if (playerHP < playerMaxHP / 2 && playerHP > playerMaxHP / 3)
+        {
+            hurtVolume50.SetActive(true);
+            hurtVolume25.SetActive(false);
+        }
+
+        if (playerHP < playerMaxHP / 3)
+        {
+            hurtVolume50.SetActive(false);
+            hurtVolume25.SetActive(true);
+        }
+
+        if (playerHP <= 0)
+        {
+            hurtVolume50.SetActive(false);
+            hurtVolume25.SetActive(false);
+        }
+
+        // setup the interaction canvas
+        interactableCanvas.alpha += interactableAlphaChange;
+    }
+
+    void ReticleKick()
+    {
+        // move all four of our reticle lines outwards
+        reticleLineUp.position += new Vector3(0, reticleKickAmount, 0);
+        reticleLineDown.position += new Vector3(0, -reticleKickAmount, 0);
+        reticleLineRight.position += new Vector3(reticleKickAmount, 0, 0);
+        reticleLineLeft.position += new Vector3(-reticleKickAmount, 0, 0);
+    }
+
+    void ReticleReturn()
+    {
+        // return our reticle ui elements to their original positions
     }
 
     // if we gain life, positive number, if we lose life, negative number
@@ -657,36 +712,6 @@ public class PlayerController : MonoBehaviour
                 playerHP = playerMaxHP;
             }
         }
-
-
-        // whenever this is called, adjust the saturation of our screen
-        if (playerHP > playerMaxHP / 2)
-        {
-            hurtVolume50.SetActive(false);
-            hurtVolume25.SetActive(false);
-        }
-
-        if (playerHP < playerMaxHP / 2)
-        {
-            hurtVolume50.SetActive(true);
-            hurtVolume25.SetActive(false);
-        }
-
-        if (playerHP < playerMaxHP / 4)
-        {
-            hurtVolume50.SetActive(false);
-            hurtVolume25.SetActive(true);
-        }
-
-        if (playerHP <= 0)
-        {
-            hurtVolume50.SetActive(false);
-            hurtVolume25.SetActive(false);
-        }
-
-
-
-
     }
 
     // public void for adding resources to us
@@ -737,6 +762,7 @@ public class PlayerController : MonoBehaviour
     // public void for triggering player-canvas notifications
     public void InteractableMessageTrigger(string message, bool state)
     {
+        Debug.Log(interactableAlphaChange + " is the change alpha");
         // apply our message
         interactableMessage.text = message;
         // apply our state
