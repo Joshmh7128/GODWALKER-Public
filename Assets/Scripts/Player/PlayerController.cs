@@ -336,13 +336,14 @@ public class PlayerController : MonoBehaviour
         // displayer our HP amount
         hpSlider.value = (float)playerHP / (float)playerMaxHP;
 
+        /*
         // move our ui aim reticle
         Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(testAimEnemy.transform.position);
         Vector2 WorldObject_ScreenPosition = new Vector2(
         ((ViewportPosition.x * gameplayUICanvasRectTransform.sizeDelta.x) - (gameplayUICanvasRectTransform.sizeDelta.x * 0.5f)),
         ((ViewportPosition.y * gameplayUICanvasRectTransform.sizeDelta.y) - (gameplayUICanvasRectTransform.sizeDelta.y * 0.5f)));
         //now you can set the position of the ui element
-        autoAimReticle.anchoredPosition = WorldObject_ScreenPosition;
+        autoAimReticle.anchoredPosition = WorldObject_ScreenPosition;*/
         #endregion
 
         #region // shot firing
