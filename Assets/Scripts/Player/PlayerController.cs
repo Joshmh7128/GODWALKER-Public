@@ -185,10 +185,10 @@ public class PlayerController : MonoBehaviour
         player = ReInput.players.GetPlayer(0);
 
         // get the starting positions of our reticles
-        reticleUpStart = reticleLineUp.position;
-        reticleDownStart = reticleLineDown.position;
-        reticleRightStart = reticleLineRight.position;
-        reticleLeftStart = reticleLineLeft.position;
+        reticleUpStart = reticleLineUp.anchoredPosition;
+        reticleDownStart = reticleLineDown.anchoredPosition;
+        reticleRightStart = reticleLineRight.anchoredPosition;
+        reticleLeftStart = reticleLineLeft.anchoredPosition;
 
     }
 
@@ -670,20 +670,28 @@ public class PlayerController : MonoBehaviour
 
         // setup the interaction canvas
         interactableCanvas.alpha += interactableAlphaChange;
+        interactableCanvas.alpha = Mathf.Clamp(interactableCanvas.alpha, 0, 1);
+
+        // handle our reticle
+        ReticleReturn();
     }
 
     void ReticleKick()
     {
         // move all four of our reticle lines outwards
-        reticleLineUp.position += new Vector3(0, reticleKickAmount, 0);
-        reticleLineDown.position += new Vector3(0, -reticleKickAmount, 0);
-        reticleLineRight.position += new Vector3(reticleKickAmount, 0, 0);
-        reticleLineLeft.position += new Vector3(-reticleKickAmount, 0, 0);
+        reticleLineUp.anchoredPosition += new Vector2(0, reticleKickAmount);
+        reticleLineDown.anchoredPosition += new Vector2(0, -reticleKickAmount);
+        reticleLineRight.anchoredPosition += new Vector2(reticleKickAmount, 0);
+        reticleLineLeft.anchoredPosition += new Vector2(-reticleKickAmount, 0);
     }
 
     void ReticleReturn()
     {
         // return our reticle ui elements to their original positions
+        reticleLineUp.anchoredPosition = Vector2.Lerp(reticleLineUp.anchoredPosition, reticleUpStart, reticleReturnSpeed * Time.deltaTime);
+        reticleLineDown.anchoredPosition = Vector2.Lerp(reticleLineDown.anchoredPosition, reticleDownStart, reticleReturnSpeed * Time.deltaTime);
+        reticleLineRight.anchoredPosition = Vector2.Lerp(reticleLineRight.anchoredPosition, reticleRightStart, reticleReturnSpeed * Time.deltaTime);
+        reticleLineLeft.anchoredPosition = Vector2.Lerp(reticleLineLeft.anchoredPosition, reticleLeftStart, reticleReturnSpeed * Time.deltaTime);
     }
 
     // if we gain life, positive number, if we lose life, negative number
