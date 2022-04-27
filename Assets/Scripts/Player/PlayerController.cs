@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using Rewired;
 
 public class PlayerController : MonoBehaviour
@@ -83,7 +84,8 @@ public class PlayerController : MonoBehaviour
     // visual effects
     public bool canDistort; // should we distort the image?
     float distortRate = 4; // what rate should we distort the image?
-                           // public PostProcessVolume postProcessVolume; // our post process volume
+    [SerializeField] Volume postProcessingVolume; // our pp volume
+    float saturationMax, saturationMin, saturationCurrent; // our min, max, and current saturations
     #endregion
 
     #region // Player Movement Variables
@@ -180,6 +182,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         player = ReInput.players.GetPlayer(0);
+
+        // get our volume
+        postProcessingVolume = FindObjectOfType<Volume>();
     }
 
     // Update is called once per frame
@@ -656,6 +661,9 @@ public class PlayerController : MonoBehaviour
                 playerHP = playerMaxHP;
             }
         }
+
+        // whenever this is called, adjust the saturation of our screen
+
     }
 
     // public void for adding resources to us
