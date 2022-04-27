@@ -120,6 +120,7 @@ public class EnemyBulletScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!usesPhysics)
         DestroyBullet();
     }
 }
