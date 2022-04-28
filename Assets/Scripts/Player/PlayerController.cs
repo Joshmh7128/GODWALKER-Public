@@ -37,6 +37,9 @@ public class PlayerController : MonoBehaviour
     #region // Referenced Prefabs
     // referenced prefabs and objects
     [SerializeField] Slider powerSlider;        // our power slider
+    [SerializeField] Slider dashSlider;        // our power slider
+    [SerializeField] Color cannotDashColor, canDashColor; // our dash colors for the slider
+    [SerializeField] Image dashSliderImage; // the dash slider image
     [SerializeField] Image powerFill;           // the fill of our power slider
     [SerializeField] Text ammoAmountText;       // our power amount in text   
     [SerializeField] Text ammoMaxText;          // our power amount in text   
@@ -212,8 +215,6 @@ public class PlayerController : MonoBehaviour
             // rotate our treads (will be removed once humanoid animations are complete)
             Vector3 treadDirection = Vector3.RotateTowards(playerLegParent.forward, new Vector3(move.x, 0, move.z), 10 * Time.deltaTime, 0f);
             playerLegParent.rotation = Quaternion.LookRotation(treadDirection);
-
-            
 
             // horizontal dash
             if (player.GetButtonDown("DashButton"))
@@ -675,6 +676,19 @@ public class PlayerController : MonoBehaviour
         if (powerLerpSlider.value < powerSlider.value)
         { powerLerpSlider.value = Mathf.Lerp(powerLerpSlider.value, powerSlider.value, 0.5f * Time.deltaTime); }
         else { powerLerpSlider.value = powerSlider.value; }
+
+        // lets set our dash slider
+        float sliderMax = dashCoolDownMax * dashCoolDownMax;
+        float sliderValue = dashCoolDown * dashCoolDownMax;
+        dashSlider.value = (dashCoolDownMax - dashCoolDown) / dashCoolDownMax;
+        // set our dash slider color
+        if (dashSlider.value == 1f)
+        {
+            dashSliderImage.color = canDashColor; 
+        } else
+        {
+            dashSliderImage.color = cannotDashColor;
+        }
     }
 
     // handles our post processing volumes
