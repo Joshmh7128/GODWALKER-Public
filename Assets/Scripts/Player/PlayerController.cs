@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
     [SerializeField] Vector3 dashDir;
     [SerializeField] AudioSource dashAudioSource;
+    [SerializeField] AudioSource jumpAudioSource;
     [SerializeField] ParticleSystem dashParticleSystem; // the particles that appear when we dash
 
     #endregion
@@ -337,12 +338,14 @@ public class PlayerController : MonoBehaviour
             if (player.GetButtonDown("SpacePress") && characterController.isGrounded && normalGroundAngleJumpAllow)
             {
                 playerJumpVelocity = Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
+                jumpAudioSource.Play();
             } else if (player.GetButtonDown("SpacePress") && !characterController.isGrounded)
             {
                 if (remainingJumps > 0)
                 {
                     remainingJumps--;
-                    playerJumpVelocity = Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
+                    playerJumpVelocity = Mathf.Sqrt((jumpVelocity*3f) * -3.0f * gravity);
+                    jumpAudioSource.Play();
                 }
             }
 
@@ -698,10 +701,9 @@ public class PlayerController : MonoBehaviour
         {
             dashSliderImage.color = canDashColor;
             // play dash noises
-            dashUIAudioSource.gameObject.SetActive(true);
+            // dashUIAudioSource.Play();
         } else
         {
-            dashUIAudioSource.gameObject.SetActive(false);
             dashSliderImage.color = cannotDashColor;
         }
     }
