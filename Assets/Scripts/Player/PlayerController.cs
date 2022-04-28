@@ -338,14 +338,14 @@ public class PlayerController : MonoBehaviour
             if (player.GetButtonDown("SpacePress") && characterController.isGrounded && normalGroundAngleJumpAllow)
             {
                 playerJumpVelocity = Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
-                jumpAudioSource.Play();
+                // jumpAudioSource.Play();
             } else if (player.GetButtonDown("SpacePress") && !characterController.isGrounded)
             {
                 if (remainingJumps > 0)
                 {
                     remainingJumps--;
                     playerJumpVelocity = Mathf.Sqrt((jumpVelocity*3f) * -3.0f * gravity);
-                    jumpAudioSource.Play();
+                    // jumpAudioSource.Play();
                 }
             }
 
