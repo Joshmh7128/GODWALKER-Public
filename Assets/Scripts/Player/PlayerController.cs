@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text naniteAmountText;        // our Nanite amount in text   
     [SerializeField] Text naniteMaxText;           // our Nanite amount in text   
     [SerializeField] Slider hpSlider;           // our hp slider
+    [SerializeField] Slider hpLerpSlider;           // our hp lerp slider
+    [SerializeField] Slider powerLerpSlider;           // our hp lerp slider
     [SerializeField] Text hpAmountText;         // our hp amount in text
     [SerializeField] Text hpMaxText;            // our hp max in text
     // hurt particle
@@ -172,6 +174,8 @@ public class PlayerController : MonoBehaviour
     Vector3 reticleLeftStart, reticleRightStart, reticleUpStart, reticleDownStart; // the starting positions of our reticles
     [SerializeField] float reticleKickAmount, reticleReturnSpeed;
     [SerializeField] CanvasGroup hitmarkerCanvasGroup; // our hitmarker canvas group
+    [SerializeField] Text warningHP, warningPower; // our power and HP warnings
+    [SerializeField] Color power1color, power2color, power3color; // our power colors
     #endregion
 
     private void Awake()
@@ -645,18 +649,54 @@ public class PlayerController : MonoBehaviour
         // dash screen fov lerp
         Mathf.Lerp(dashTime, dashTimeMax, cameraScript.GetComponent<Camera>().fieldOfView = cameraScript.GetComponent<Camera>().fieldOfView + dashTime);
 
+        // handles our post processing volumes
+        StatRelatedEffects();
+
+        // setup the interaction canvas
+        interactableCanvas.alpha += interactableAlphaChange;
+        interactableCanvas.alpha = Mathf.Clamp(interactableCanvas.alpha, 0, 1);
+
+        // handle our reticle
+        ReticleReturn();
+
+        // handle our hitmarker
+        HitmarkerFade();
+
+        // handles all the UI bars that need to lerp their values
+        UIBarLerp();
+    }
+
+    // handles all the UI bars that need to lerp their values
+    void UIBarLerp()
+    {
+        hpLerpSlider.value = Mathf.Lerp(hpLerpSlider.value, hpSlider.value, 0.5f * Time.deltaTime);
+
+        // more specifics for our power
+        if (powerLerpSlider.value < powerSlider.value)
+        { powerLerpSlider.value = Mathf.Lerp(powerLerpSlider.value, powerSlider.value, 0.5f * Time.deltaTime); }
+        else { powerLerpSlider.value = powerSlider.value; }
+    }
+
+    // handles our post processing volumes
+    void StatRelatedEffects()
+    {
         // check our player HP
-        // whenever this is called, adjust the saturation of our screen
+        // whenever this is called,
         if (playerHP > playerMaxHP / 2)
         {
+            //  adjust the saturation of our screen
             hurtVolume50.SetActive(false);
             hurtVolume25.SetActive(false);
+            // adjust our warning renderers
+            warningHP.enabled = false;
         }
 
         if (playerHP < playerMaxHP / 2 && playerHP > playerMaxHP / 3)
         {
             hurtVolume50.SetActive(true);
             hurtVolume25.SetActive(false);
+            // adjust our warning renderers
+            warningHP.enabled = true;
         }
 
         if (playerHP < playerMaxHP / 3)
@@ -671,15 +711,10 @@ public class PlayerController : MonoBehaviour
             hurtVolume25.SetActive(false);
         }
 
-        // setup the interaction canvas
-        interactableCanvas.alpha += interactableAlphaChange;
-        interactableCanvas.alpha = Mathf.Clamp(interactableCanvas.alpha, 0, 1);
+        // check our power
+        if (powerAmount < powerMax * 0.66f)
+        { warningPower.enabled = true; } else { warningPower.enabled = false; }
 
-        // handle our reticle
-        ReticleReturn();
-
-        // handle our hitmarker
-        HitmarkerFade();
     }
 
     // trigger our hitmarker
@@ -779,19 +814,18 @@ public class PlayerController : MonoBehaviour
     void PowerBarColor()
     {
         if (powerAmount / powerMax > 0.66f)
-        { powerFill.color = power3Mat.color; }
+        { powerFill.color = power3color; }
         // 50 to 100 = 2 dmg
         if (powerAmount / powerMax > 0.33f && powerAmount / powerMax < 0.66f)
-        { powerFill.color = power2Mat.color; }
+        { powerFill.color = power2color; }
         // 0 to 50 = 1 dmg
         if (powerAmount / powerMax < 0.33f)
-        { powerFill.color = power1Mat.color; }
+        { powerFill.color = power1color; }
     }
 
     // public void for triggering player-canvas notifications
     public void InteractableMessageTrigger(string message, bool state)
     {
-        Debug.Log(interactableAlphaChange + " is the change alpha");
         // apply our message
         interactableMessage.text = message;
         // apply our state
