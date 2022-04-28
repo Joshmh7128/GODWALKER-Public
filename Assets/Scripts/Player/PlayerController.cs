@@ -110,6 +110,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float playerJumpPadVelocity;  // how quicky we fall in addition to normal gravity
     [SerializeField] float playerJumpPadCooldown;  // how long we have to wait between jump pad usage
     float gravityValue;                        // real time simulated gravity
+    [SerializeField] float maxJumps, remainingJumps; // our maximum and remaining jumps
     [SerializeField] float verticalVelocity, verticalJumpVelocity, verticalJumpPadVelocity; // vertical velocity variable
     // everything to do with our dash
     [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
@@ -282,6 +283,9 @@ public class PlayerController : MonoBehaviour
             // gravity modifications
             if (characterController.isGrounded && !player.GetButtonDown("SpacePress"))
             {
+                // reset our jumps
+                remainingJumps = maxJumps;
+
                 // normal gravity
                 gravityValue = gravity*50; 
                 // jump animation weights
@@ -333,10 +337,17 @@ public class PlayerController : MonoBehaviour
             if (player.GetButtonDown("SpacePress") && characterController.isGrounded && normalGroundAngleJumpAllow)
             {
                 playerJumpVelocity = Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
+            } else if (player.GetButtonDown("SpacePress") && !characterController.isGrounded)
+            {
+                if (remainingJumps > 0)
+                {
+                    remainingJumps--;
+                    playerJumpVelocity = Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
+                }
             }
 
             // jump calculations
-            playerJumpVelocity += gravityValue * Time.deltaTime;
+                playerJumpVelocity += gravityValue * Time.deltaTime;
             // verticalJumpPadVelocity = playerJumpPadVelocity += gravityValue * Time.deltaTime;
             verticalVelocity = playerJumpVelocity;
             move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
