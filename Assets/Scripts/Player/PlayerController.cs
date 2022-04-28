@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
     // referenced prefabs and objects
     [SerializeField] Slider powerSlider;        // our power slider
     [SerializeField] Slider dashSlider;        // our power slider
+    [SerializeField] AudioSource dashUIAudioSource; // the dash ui audio source
+    [SerializeField] AudioClip dashUIAudioClip;  // the dash ui audio clip
     [SerializeField] Color cannotDashColor, canDashColor; // our dash colors for the slider
     [SerializeField] Image dashSliderImage; // the dash slider image
     [SerializeField] Image powerFill;           // the fill of our power slider
@@ -220,7 +222,7 @@ public class PlayerController : MonoBehaviour
             if (player.GetButtonDown("DashButton"))
             {
                 // make sure we can actually dash
-                if (dashCoolDown <= 0 && (Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f))
+                if (dashCoolDown <= 0 && ((Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f)))
                 {
                     dashCoolDown = dashCoolDownMax;
                     dashTime = dashTimeMax;
@@ -684,7 +686,9 @@ public class PlayerController : MonoBehaviour
         // set our dash slider color
         if (dashSlider.value == 1f)
         {
-            dashSliderImage.color = canDashColor; 
+            dashSliderImage.color = canDashColor;
+            // play dash noises
+            dashUIAudioSource.enabled = true;
         } else
         {
             dashSliderImage.color = cannotDashColor;
