@@ -6,7 +6,7 @@ public class EnemyBulletScript : MonoBehaviour
 {
     // variables
     public Transform bulletTarget; // what is the target of our bullet?
-    [SerializeField] float bulletSpeed; // what is the speed of our bullet?
+    [SerializeField] float bulletSpeed, homingTime; // what is the speed of our bullet? how long does it home?
     [SerializeField] GameObject cubePuff; // our break particle effect
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
@@ -52,6 +52,13 @@ public class EnemyBulletScript : MonoBehaviour
         {
             bulletSpeed++;
             bulletSpeed++;
+        }
+
+        homingTime--;
+
+        if (homingTime > 0)
+        {
+            transform.LookAt(playerTransform);
         }
     }
 

@@ -39,7 +39,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Slider powerSlider;        // our power slider
     [SerializeField] Slider dashSlider;        // our power slider
     [SerializeField] AudioSource dashUIAudioSource; // the dash ui audio source
-    [SerializeField] AudioClip dashUIAudioClip;  // the dash ui audio clip
     [SerializeField] Color cannotDashColor, canDashColor; // our dash colors for the slider
     [SerializeField] Image dashSliderImage; // the dash slider image
     [SerializeField] Image powerFill;           // the fill of our power slider
@@ -688,9 +687,10 @@ public class PlayerController : MonoBehaviour
         {
             dashSliderImage.color = canDashColor;
             // play dash noises
-            dashUIAudioSource.enabled = true;
+            dashUIAudioSource.gameObject.SetActive(true);
         } else
         {
+            dashUIAudioSource.gameObject.SetActive(false);
             dashSliderImage.color = cannotDashColor;
         }
     }
