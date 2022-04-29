@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public int naniteAmount;                       // nanite amount
     public float powerMax;                         // how much ammo we can carry at one time
     public int naniteMax;                          // gem carry space
-    public int playerHP;                        // the player's health
+    public float playerHP;                        // the player's health
     public int playerMaxHP;                     // the player's max health
     [SerializeField] Transform playerLegParent;    // the parent of our treads
     public bool canMove = true;
@@ -782,7 +782,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // if we gain life, positive number, if we lose life, negative number
-    public void AddHP(int HP)
+    public void AddHP(float HP)
     {
         // is this number positive or negative?
         if ((HP < 0) && !((isInvincible == true) || (isMitoInvincible == true)))
