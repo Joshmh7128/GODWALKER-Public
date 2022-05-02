@@ -46,6 +46,12 @@ public class DoorClass : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // find our player
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.Find("Player").GetComponent<Transform>();
+        }
+
         // check if we are near enough to interact with the player
         if (Vector3.Distance(playerTransform.position, transform.position) < checkDistance)
         {
