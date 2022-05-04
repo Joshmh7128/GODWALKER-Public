@@ -25,6 +25,7 @@ public class QuadTurretHeavy : EnemyClass
     [SerializeField] float dropAmount;
     [SerializeField] GameObject powerDrop, healthDrop, naniteDrop;
     bool hasActivated = false; // have we activtated?
+    bool canFire; // can we shoot?
 
     private void Start()
     {
@@ -100,7 +101,7 @@ public class QuadTurretHeavy : EnemyClass
 
         // counter our head parent's rotation
         Quaternion nullRotation = Quaternion.Euler(-transform.rotation.eulerAngles);
-        headParent.localRotation = nullRotation; 
+        headParent.localRotation = nullRotation;
 
         // rotate our headjoint to look at the player
         Vector3 direction = headJoint.position - (playerTransform.transform.position + new Vector3(0f, playerHeight, 0f)); // get our initial direction from our head to our player
@@ -114,7 +115,7 @@ public class QuadTurretHeavy : EnemyClass
     {
         // spawn in our enabled fx
         if (enableParticle)
-        Instantiate(enableParticle, transform.position, Quaternion.identity, null);
+            Instantiate(enableParticle, transform.position, Quaternion.identity, null);
     }
 
     public override void Activate()
@@ -133,11 +134,96 @@ public class QuadTurretHeavy : EnemyClass
         GetComponent<Animator>().speed = Random.Range(0.75f, 1.25f);
     }
 
-    // alternate through our shooting positions
-    public override void Attack()
+    public override void Attack() { }
+
+    public void CallAttack(int isPhys)
     {
-        
+        if (isPhys == 1)
+        {
+            Attack(true, 0.17f, 4, true);
+        } else if (isPhys == 0)
+        {
+            Attack(true, 0.05f, 0, false);
+        }
     }
+
+    public void StopAttack()
+    {
+        canFire = false;
+    }
+
+    // alternate through our shooting positions
+    public void Attack(bool localCanFire, float firerate, int shotpos, bool isPhysics)
+    {
+        // make sure we can fire
+        canFire = localCanFire;
+
+        if (localCanFire)
+        {
+
+            if (!isPhysics)
+            {
+                // start our coroutine
+                StartCoroutine(ProjectileFireControl(firerate, shotpos));
+            } else if (isPhysics)
+            {
+                // start our coroutine
+                StartCoroutine(PhysicsFireControl(firerate, shotpos));
+            }
+        }
+    }
+
+    public IEnumerator ProjectileFireControl(float firerate, int shotpos)
+    {
+        yield return new WaitForSeconds(firerate);
+
+        if (canFire)
+        {
+            // if we are firing projectiles
+            if (shotpos < 3)
+            {
+                // fire the shot
+                CustomAttack(shotpos);
+                // handle where the shot is coming from
+                shotpos++;
+            } else if (shotpos >= 3)
+            {
+                // fire the shot
+                CustomAttack(shotpos);
+                // handle where the shot is coming from
+                shotpos = 0;
+            }
+            // call the coroutine again
+            StartCoroutine(ProjectileFireControl(firerate, shotpos));
+        }
+    }
+
+    public IEnumerator PhysicsFireControl(float firerate, int shotpos)
+    {
+        yield return new WaitForSeconds(firerate);
+
+        if (canFire)
+        {
+            // if we are firing projectiles
+            if (shotpos < 6)
+            {
+                // fire the shot
+                CustomAttack(shotpos);
+                // handle where the shot is coming from
+                shotpos++;
+            }
+            else if (shotpos == 6)
+            {
+                // fire the shot
+                CustomAttack(shotpos);
+                // handle where the shot is coming from
+                shotpos = 4;
+            }
+            // call the coroutine again
+            StartCoroutine(PhysicsFireControl(firerate, shotpos));
+        }
+    }
+
 
     // custom attack for our 4 shot positions
     public void CustomAttack(int shotPos)
