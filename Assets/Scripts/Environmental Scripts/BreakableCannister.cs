@@ -88,6 +88,8 @@ public class BreakableCannister : MonoBehaviour
             cannisterParent.SetActive(true);
             // make the recharge image inactive
             rechargeRing.enabled = false;
+            // make sure our trigger collider is on
+            gameObject.GetComponent<Collider>().enabled = true;
         }
 
         if (act == false)
@@ -96,6 +98,8 @@ public class BreakableCannister : MonoBehaviour
             cannisterParent.SetActive(false);
             // make the recharge image inactive
             rechargeRing.enabled = true;
+            // make sure our trigger collider is off
+            gameObject.GetComponent<Collider>().enabled = false;
         }
     }
 
@@ -121,7 +125,7 @@ public class BreakableCannister : MonoBehaviour
             // countdown
             rechargeTimeRemaining--;
             // set our image radial change
-            rechargeRing.fillAmount = rechargeTimeSeconds - (rechargeTimeRemaining / rechargeTimeSeconds);
+            rechargeRing.fillAmount = 1 - (rechargeTimeRemaining / rechargeTimeSeconds);
             // continue counting
             StartCoroutine(RechargeCountdown());
         }
