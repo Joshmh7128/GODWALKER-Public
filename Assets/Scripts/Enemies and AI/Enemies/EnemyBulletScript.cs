@@ -6,7 +6,7 @@ public class EnemyBulletScript : MonoBehaviour
 {
     // variables
     public Transform bulletTarget; // what is the target of our bullet?
-    [SerializeField] float bulletSpeed, homingTime; // what is the speed of our bullet? how long does it home?
+    [SerializeField] float bulletSpeed, homingTime, homingDistance, damage; // what is the speed of our bullet? how long does it home?
     [SerializeField] GameObject cubePuff; // our break particle effect
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
@@ -56,6 +56,11 @@ public class EnemyBulletScript : MonoBehaviour
 
         homingTime--;
 
+        if (Vector3.Distance(playerTransform.position, transform.position) > homingDistance)
+        {
+            homingTime = 0f;
+        }
+
         if (homingTime > 0)
         {
             transform.LookAt(playerTransform);
@@ -104,7 +109,7 @@ public class EnemyBulletScript : MonoBehaviour
         else if (collision.CompareTag("Player"))
         {
             // hurt the player
-            playerTransform.gameObject.GetComponent<PlayerController>().AddHP(-1);
+            playerTransform.gameObject.GetComponent<PlayerController>().AddHP(damage);
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             if (!usesParent)
             DestroyBullet();
