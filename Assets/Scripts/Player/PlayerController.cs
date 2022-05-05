@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float verticalVelocity, verticalJumpVelocity, verticalJumpPadVelocity; // vertical velocity variable
     // everything to do with our dash
     [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
-    bool isGrounded; // are we grounded?
+    [SerializeField] bool isGrounded; // are we grounded?
     [SerializeField] Vector3 dashDir;
     [SerializeField] AudioSource dashAudioSource;
     [SerializeField] AudioSource jumpAudioSource;
@@ -238,8 +238,8 @@ public class PlayerController : MonoBehaviour
             // perform a constant raycast downwards to replace charactercontroller.isgrounded
             RaycastHit hit;
             // raycast
-            Physics.Raycast(transform.position, -transform.up, out hit, 2.5f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-            Debug.DrawRay(transform.position, -transform.up * 2.5f);
+            Physics.Raycast(transform.position, -transform.up, out hit, 3.5f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+            Debug.DrawRay(transform.position, -transform.up * 3.5f);
             if (hit.transform != null)
             {
                 isGrounded = true;
