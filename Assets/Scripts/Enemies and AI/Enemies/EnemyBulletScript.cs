@@ -65,7 +65,21 @@ public class EnemyBulletScript : MonoBehaviour
         {
             transform.LookAt(playerTransform);
         }
+
+
+        // perform a raycast in our forward direction to see if we should break, if we dont use physics
+        DoubleCheckRaycast();
+
     }
+
+    void DoubleCheckRaycast()
+    {
+        RaycastHit hit;
+        // raycast
+        Physics.Raycast(transform.position, transform.forward, out hit, bulletSpeed * 5, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+        Debug.DrawRay(transform.position, transform.forward, Color.red, bulletSpeed * 5);
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -135,4 +149,5 @@ public class EnemyBulletScript : MonoBehaviour
         if (!usesPhysics)
         DestroyBullet();
     }
+
 }
