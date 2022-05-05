@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float verticalVelocity, verticalJumpVelocity, verticalJumpPadVelocity; // vertical velocity variable
     // everything to do with our dash
     [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
+    bool isGrounded; // are we grounded?
     [SerializeField] Vector3 dashDir;
     [SerializeField] AudioSource dashAudioSource;
     [SerializeField] AudioSource jumpAudioSource;
@@ -234,6 +235,20 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
+            // perform a constant raycast downwards to replace charactercontroller.isgrounded
+            RaycastHit hit;
+            // raycast
+            Physics.Raycast(transform.position, -transform.up, out hit, 2.5f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+            Debug.DrawRay(transform.position, -transform.up * 2.5f);
+            if (hit.transform != null)
+            {
+                isGrounded = true;
+            } else if (hit.transform == null)
+            {
+                isGrounded = false;
+            }
+
+                #region // animation weights
             // if we are moving and not 
             if ((Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f) && (dashCoolDown == 0))
             {
@@ -254,7 +269,7 @@ public class PlayerController : MonoBehaviour
                 // neck animation weights
                 if (neckTargetAnimator != null)
                 {
-                    if (characterController.isGrounded)
+                    if (isGrounded)
                     neckTargetAnimator.SetLayerWeight(1, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))); // run layer
                 }
             }
@@ -280,9 +295,10 @@ public class PlayerController : MonoBehaviour
                     neckTargetAnimator.SetLayerWeight(1, 0); // run layer
                 }
             }
+            #endregion
 
             // gravity modifications
-            if (characterController.isGrounded && !player.GetButtonDown("SpacePress"))
+            if (isGrounded && !player.GetButtonDown("SpacePress"))
             {
                 // reset our jumps
                 remainingJumps = maxJumps;
@@ -294,14 +310,14 @@ public class PlayerController : MonoBehaviour
                 humanoidHandTargetAnimator.SetLayerWeight(5, 0);
 
             }
-            else if (characterController.isGrounded && player.GetButtonDown("SpacePress") || isOnJumpPad)
+            else if (isGrounded && player.GetButtonDown("SpacePress") || isOnJumpPad)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
 
                 humanoidPlayerAnimator.SetLayerWeight(2, 0);
             }
-            else if (characterController.velocity.y <= 0 && !characterController.isGrounded)
+            else if (characterController.velocity.y <= 0 && !isGrounded)
             {
                 // normal falling
                 gravityValue = gravity * fallMultiplier;
@@ -328,18 +344,18 @@ public class PlayerController : MonoBehaviour
             }
 
             // check if we are on the ground and reset our jump velocity
-            if (characterController.isGrounded && !isOnJumpPad && !player.GetButtonDown("SpacePress"))
+            if (isGrounded && !isOnJumpPad && !player.GetButtonDown("SpacePress"))
             {
                 if (playerJumpVelocity < 0)
                 { playerJumpVelocity = 0; }
             }
 
             // jumping
-            if (player.GetButtonDown("SpacePress") && characterController.isGrounded && normalGroundAngleJumpAllow)
+            if (player.GetButtonDown("SpacePress") && isGrounded && normalGroundAngleJumpAllow)
             {
                 playerJumpVelocity = Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
                 // jumpAudioSource.Play();
-            } else if (player.GetButtonDown("SpacePress") && !characterController.isGrounded)
+            } else if (player.GetButtonDown("SpacePress") && !isGrounded)
             {
                 if (remainingJumps > 0)
                 {
