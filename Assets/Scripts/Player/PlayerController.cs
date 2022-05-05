@@ -185,6 +185,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Color power1color, power2color, power3color; // our power colors
     #endregion
 
+    // camera variables
+    [SerializeField] Transform trackParent;
+    [SerializeField] Transform cameraTransform;
+    [SerializeField] float maxCamDelta, minCamDelta;
+
     private void Awake()
     {
         // initialize our upgrade instance
@@ -503,6 +508,10 @@ public class PlayerController : MonoBehaviour
                 SceneManager.LoadScene("Hub");
             }
         }
+
+        // make sure we have the basics of a camera not hitting walls in place
+        CameraBoundControl();
+
     }
 
     // public void for jump pads
@@ -709,6 +718,29 @@ public class PlayerController : MonoBehaviour
 
         // handles all the UI bars that need to lerp their values
         UIBarLerp();
+    }
+
+    // camera bounding behaviour
+    private void CameraBoundControl()
+    {
+        RaycastHit hit;
+        // fire a ray backwards and forwards from the camera
+        Physics.Raycast(cameraTransform.position, -cameraTransform.forward, out hit, 3f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+        Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 3f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+        Debug.DrawRay(cameraTransform.position, -cameraTransform.forward * 3);
+        Debug.DrawRay(cameraTransform.position, cameraTransform.forward * 3);
+
+        // if there is something behind us, move forward
+        if (hit.transform != null)
+        {
+
+        }
+        // if there is nothing behind us, move back
+        if (hit.transform == null)
+        {
+            if (trackParent.localPosition != Vector3.zero)
+                trackParent.localPosition = Vector3.Lerp(trackParent.localPosition, Vector3.zero, 1f * Time.deltaTime);
+        }
     }
 
     // handles all the UI bars that need to lerp their values
