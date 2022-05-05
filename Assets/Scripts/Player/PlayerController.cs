@@ -248,7 +248,7 @@ public class PlayerController : MonoBehaviour
                 isGrounded = false;
             }
 
-                #region // animation weights
+        #region // animation weights
             // if we are moving and not 
             if ((Mathf.Abs(pAxisV) > 0.1f) || (Mathf.Abs(pAxisH) > 0.1f) && (dashCoolDown == 0))
             {
@@ -296,14 +296,14 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (!isGrounded)
+            if (!isAnimGrounded)
             {
                 // jump animation weight
                 humanoidPlayerAnimator.SetLayerWeight(6, 1);
                 humanoidPlayerAnimator.SetLayerWeight(2, 0);
                 // arm animation weights
                 humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
-            } else if (isGrounded)
+            } else if (isAnimGrounded)
             {
                 // jump animation weight
                 humanoidPlayerAnimator.SetLayerWeight(6, 0);
@@ -312,7 +312,7 @@ public class PlayerController : MonoBehaviour
                                                                         
             }
 
-            #endregion
+        #endregion
 
             // gravity modifications
             if (isGrounded && !player.GetButtonDown("SpacePress"))
