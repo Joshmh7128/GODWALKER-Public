@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float verticalVelocity, verticalJumpVelocity, verticalJumpPadVelocity; // vertical velocity variable
     // everything to do with our dash
     [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
-    [SerializeField] bool isGrounded; // are we grounded?
+    [SerializeField] bool isGrounded, isAnimGrounded; // are we grounded?
     [SerializeField] Vector3 dashDir;
     [SerializeField] AudioSource dashAudioSource;
     [SerializeField] AudioSource jumpAudioSource;
@@ -273,7 +273,7 @@ public class PlayerController : MonoBehaviour
                     neckTargetAnimator.SetLayerWeight(1, (Mathf.Abs(pAxisV) + Mathf.Abs(pAxisH))); // run layer
                 }
             }
-            else 
+            else if ((Mathf.Abs(pAxisV) < 0.1f) || (Mathf.Abs(pAxisH) < 0.1f))
             {
                 // leg animation weights
                 if (humanoidPlayerAnimator != null)
@@ -303,13 +303,10 @@ public class PlayerController : MonoBehaviour
                 humanoidPlayerAnimator.SetLayerWeight(2, 0);
                 // arm animation weights
                 humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
-                                                                                                                   // neck bob animation weight
-                neckTargetAnimator.SetLayerWeight(1, 0); // run layer
             } else if (isGrounded)
             {
                 // jump animation weight
                 humanoidPlayerAnimator.SetLayerWeight(6, 0);
-                humanoidPlayerAnimator.SetLayerWeight(2, 1);
                 // arm animation weights
                 humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
                                                                         
@@ -618,6 +615,21 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
+
+        // perform a constant raycast downwards to replace charactercontroller.isgrounded for animatoins
+        RaycastHit hit;
+        // raycast
+        Physics.Raycast(transform.position, -transform.up, out hit, 3.75f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+        if (hit.transform != null)
+        {
+            isAnimGrounded = true;
+        }
+        else if (hit.transform == null)
+        {
+            isAnimGrounded = false;
+        }
+
+
         // make sure our kick animations weights are counting down properly, so that when we fire the arms go back down
         rightIKArmKickback -= kickIKReduction; leftIKArmKickback -= kickIKReduction;
         humanoidHandTargetAnimator.SetLayerWeight(3, rightIKArmKickback);
