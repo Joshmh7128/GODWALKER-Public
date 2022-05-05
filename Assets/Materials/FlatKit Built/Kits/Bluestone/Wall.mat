@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Wall
   m_Shader: {fileID: 4800000, guid: bee44b4a58655ee4cbff107302a3e131, type: 3}
-  m_ShaderKeywords: DR_GRADIENT_ON DR_OUTLINE_ON DR_VERTEX_COLORS_ON _CELPRIMARYMODE_STEPS
-    _TEXTUREBLENDINGMODE_MULTIPLY _UNITYSHADOWMODE_MULTIPLY
+  m_ShaderKeywords: DR_CEL_EXTRA_ON DR_GRADIENT_ON DR_OUTLINE_ON DR_VERTEX_COLORS_ON
+    _CELPRIMARYMODE_SINGLE _RECEIVE_SHADOWS_OFF _TEXTUREBLENDINGMODE_MULTIPLY _UNITYSHADOWMODE_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -90,9 +90,9 @@ Material:
     - _Blend: 0
     - _BumpScale: 1
     - _CameraDistanceImpact: 1
-    - _CelExtraEnabled: 0
+    - _CelExtraEnabled: 1
     - _CelNumSteps: 10
-    - _CelPrimaryMode: 2
+    - _CelPrimaryMode: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -106,8 +106,8 @@ Material:
     - _FlatRimSize: 0
     - _FlatSpecularEdgeSmoothness: 0
     - _FlatSpecularSize: 0
-    - _Flatness: 0.443
-    - _FlatnessExtra: 0
+    - _Flatness: 0.415
+    - _FlatnessExtra: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -131,8 +131,8 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RimEnabled: 0
-    - _SelfShadingSize: 0.859
-    - _SelfShadingSizeExtra: 0
+    - _SelfShadingSize: 0.347
+    - _SelfShadingSizeExtra: 0.216
     - _ShadowEdgeSize: 0
     - _ShadowEdgeSizeExtra: 0
     - _Smoothness: 0.5
@@ -143,7 +143,7 @@ Material:
     - _Surface: 0
     - _TextureBlendingMode: 0
     - _TextureImpact: 1
-    - _UnityShadowMode: 1
+    - _UnityShadowMode: 0
     - _UnityShadowOcclusion: 0
     - _UnityShadowPower: 0.352
     - _UnityShadowSharpness: 1
@@ -151,9 +151,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.4819886, g: 0.5558418, b: 0.688, a: 1}
+    - _BaseColor: {r: 0.34632158, g: 0.45939076, b: 0.6509804, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorDim: {r: 0.45098037, g: 0.3215686, b: 0.24705878, a: 1}
+    - _ColorDim: {r: 0.22437647, g: 0.2731614, b: 0.3764706, a: 1}
     - _ColorDimCurve: {r: 0.85023, g: 0.85034, b: 0.8504499, a: 0.85056}
     - _ColorDimExtra: {r: 0.19099995, g: 0.14256781, b: 0.12319497, a: 0}
     - _ColorDimSteps: {r: 0, g: 0, b: 0, a: 1}
