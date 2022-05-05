@@ -295,6 +295,26 @@ public class PlayerController : MonoBehaviour
                     neckTargetAnimator.SetLayerWeight(1, 0); // run layer
                 }
             }
+
+            if (!isGrounded)
+            {
+                // jump animation weight
+                humanoidPlayerAnimator.SetLayerWeight(6, 1);
+                humanoidPlayerAnimator.SetLayerWeight(2, 0);
+                // arm animation weights
+                humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
+                                                                                                                   // neck bob animation weight
+                neckTargetAnimator.SetLayerWeight(1, 0); // run layer
+            } else if (isGrounded)
+            {
+                // jump animation weight
+                humanoidPlayerAnimator.SetLayerWeight(6, 0);
+                humanoidPlayerAnimator.SetLayerWeight(2, 1);
+                // arm animation weights
+                humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
+                                                                        
+            }
+
             #endregion
 
             // gravity modifications
@@ -305,53 +325,36 @@ public class PlayerController : MonoBehaviour
 
                 // normal gravity
                 gravityValue = gravity*50; 
-                // jump animation weights
-                humanoidPlayerAnimator.SetLayerWeight(6, 0);
-                humanoidHandTargetAnimator.SetLayerWeight(5, 0);
-
             }
-            else if (isGrounded && player.GetButtonDown("SpacePress") || isOnJumpPad)
+            
+            if (isGrounded && player.GetButtonDown("SpacePress") || isOnJumpPad)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
 
-                humanoidPlayerAnimator.SetLayerWeight(2, 0);
             }
-            else if (characterController.velocity.y <= 0 && !isGrounded)
+            
+            if (characterController.velocity.y <= 0 && !isGrounded)
             {
                 // normal falling
                 gravityValue = gravity * fallMultiplier;
-                // jump animation weight
-                humanoidPlayerAnimator.SetLayerWeight(6, 1);
-                humanoidPlayerAnimator.SetLayerWeight(2, 0);
-                // arm animation weights
-                humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f); // alternate idle layer
-                // neck bob animation weight
-                neckTargetAnimator.SetLayerWeight(1,0); // run layer
+               
             } // upwards velocity custom gravity
-            else if (characterController.velocity.y > 0)
+            
+            if (characterController.velocity.y > 0)
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
-                // jump animation weight
-                humanoidPlayerAnimator.SetLayerWeight(6, 1);
-                // run weight
-                humanoidPlayerAnimator.SetLayerWeight(2, 0);
-                // arm animation weights
-                humanoidHandTargetAnimator.SetLayerWeight(5, humanoidHandTargetAnimator.GetLayerWeight(5) + 0.1f);
-                // neck bob animation weight
-                neckTargetAnimator.SetLayerWeight(1, 0); // run layer
             }
 
             // check if we are on the ground and reset our jump velocity
             if (isGrounded && !isOnJumpPad && !player.GetButtonDown("SpacePress"))
             {
-                if (playerJumpVelocity < 0)
-                { playerJumpVelocity = 0; }
+                playerJumpVelocity = 0;
             }
 
             // jumping
-            if (player.GetButtonDown("SpacePress") && isGrounded && normalGroundAngleJumpAllow)
+            if (player.GetButtonDown("SpacePress") && isGrounded)
             {
                 playerJumpVelocity = Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
                 // jumpAudioSource.Play();
@@ -366,7 +369,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // jump calculations
-                playerJumpVelocity += gravityValue * Time.deltaTime;
+            playerJumpVelocity += gravityValue * Time.deltaTime;
             // verticalJumpPadVelocity = playerJumpPadVelocity += gravityValue * Time.deltaTime;
             verticalVelocity = playerJumpVelocity;
             move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
