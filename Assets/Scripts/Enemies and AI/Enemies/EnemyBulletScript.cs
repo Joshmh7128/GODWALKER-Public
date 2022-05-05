@@ -76,8 +76,16 @@ public class EnemyBulletScript : MonoBehaviour
     {
         RaycastHit hit;
         // raycast
-        Physics.Raycast(transform.position, transform.forward, out hit, bulletSpeed * 5, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-        Debug.DrawRay(transform.position, transform.forward, Color.red, bulletSpeed * 5);
+        Physics.Raycast(transform.position, transform.forward, out hit, bulletSpeed * 0.1f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+        Debug.DrawRay(transform.position, transform.forward * bulletSpeed * 0.1f, Color.red);
+
+        if (hit.transform != null)
+        {
+            if (hit.transform.tag != "Player")
+            {
+                DestroyBullet();
+            }
+        }
     }
 
 
