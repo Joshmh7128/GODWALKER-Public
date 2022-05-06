@@ -115,6 +115,8 @@ public class PlayerController : MonoBehaviour
     // everything to do with our dash
     [SerializeField] float  dashCoolDownMax, dashCoolDown, dashTime, dashTimeMax, dashIntensity; // how fast we dash
     [SerializeField] bool isGrounded, isAnimGrounded; // are we grounded?
+    float groundCheckCooldown; // can we check the ground
+    [SerializeField] LayerMask groundCheckIgnoreLayer;
     [SerializeField] Vector3 dashDir;
     [SerializeField] AudioSource dashAudioSource;
     [SerializeField] AudioSource jumpAudioSource;
@@ -243,12 +245,20 @@ public class PlayerController : MonoBehaviour
             // perform a constant raycast downwards to replace charactercontroller.isgrounded
             RaycastHit hit;
             // raycast
-            Physics.Raycast(transform.position, -transform.up, out hit, 3.5f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+            Physics.Raycast(transform.position, -transform.up, out hit, 3.5f, ~groundCheckIgnoreLayer, QueryTriggerInteraction.Ignore);
             Debug.DrawRay(transform.position, -transform.up * 3.5f);
-            if (hit.transform != null)
+            if (groundCheckCooldown <= 0)
             {
-                isGrounded = true;
-            } else if (hit.transform == null)
+                if (hit.transform != null)
+                {
+                    isGrounded = true;
+                    Debug.Log("grounded");
+                }
+                else if (hit.transform == null)
+                {
+                    isGrounded = false;
+                }
+            } else
             {
                 isGrounded = false;
             }
@@ -517,6 +527,7 @@ public class PlayerController : MonoBehaviour
     // public void for jump pads
     public void JumpLaunch(float jumpPower)
     {
+        groundCheckCooldown = 30;
         // check to make sure we are not using too much gravity
         verticalVelocity = 0; playerJumpVelocity = 0; gravityValue = 0; verticalJumpVelocity = 0;
         // launch
@@ -624,6 +635,10 @@ public class PlayerController : MonoBehaviour
     // fixed update is called once per frame
     private void FixedUpdate()
     {
+        if (groundCheckCooldown > 0)
+        {
+            groundCheckCooldown--;
+        }
 
         // perform a constant raycast downwards to replace charactercontroller.isgrounded for animatoins
         RaycastHit hit;
