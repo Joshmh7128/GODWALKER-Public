@@ -68,6 +68,7 @@ public class EnemyBulletScript : MonoBehaviour
 
 
         // perform a raycast in our forward direction to see if we should break, if we dont use physics
+        if (!usesPhysics)
         DoubleCheckRaycast();
 
     }
@@ -143,7 +144,7 @@ public class EnemyBulletScript : MonoBehaviour
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             DestroyBullet();
         }        // if this hits a breakable
-        else if (collision.CompareTag("Enemy"))
+        else if (collision.transform.tag == "Enemy")
         {
             // do nothing (here because we did previously want to do something, and will)
         }
