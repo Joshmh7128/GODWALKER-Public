@@ -25,7 +25,7 @@ public class FlowerTurretMinion : EnemyClass
     [SerializeField] bool isBomb; // are we a bomb?
 
     // shooting stuff
-    float fireRate; // how fast we fire
+    [SerializeField] float fireRate; // how fast we fire in seconds
     [SerializeField] GameObject bulletPrefab;  // what we are firing
     [SerializeField] Transform[] shotPositions; // our shot positions
 
