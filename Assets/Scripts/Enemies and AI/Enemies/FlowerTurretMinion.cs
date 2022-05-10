@@ -27,7 +27,7 @@ public class FlowerTurretMinion : EnemyClass
     // shooting stuff
     [SerializeField] float fireRate; // how fast we fire in seconds
     [SerializeField] GameObject bulletPrefab;  // what we are firing
-    [SerializeField] Transform[] shotPositions; // our shot positions
+    [SerializeField] List<Transform> shotPositions; // our shot positions
 
     private void Start()
     {
@@ -83,7 +83,7 @@ public class FlowerTurretMinion : EnemyClass
         }
 
         // rotate our headjoint to look at nothing
-        headJoint.transform.LookAt(new Vector3(0, headJoint.transform.position.y, 0));
+        // headJoint.transform.LookAt(new Vector3(0, headJoint.transform.position.y, 0));
     }
 
     // the fixed update runs 60 times per second

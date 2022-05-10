@@ -11,7 +11,7 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
     Transform playerTransform;
-    [SerializeField] bool speedsUp, targetPlayer, usesPhysics, usesParent = false; // does our bullet linearly speed up?
+    [SerializeField] bool speedsUp, targetPlayer, usesPhysics, overrideRaycast, usesParent = false; // does our bullet linearly speed up?
     public Vector3 customDirection; // leave blank if no direction
 
     // for when our bullet is instantiated
@@ -66,9 +66,22 @@ public class EnemyBulletScript : MonoBehaviour
             transform.LookAt(playerTransform);
         }
 
+        if (!usesPhysics)
+        {
+            // move bullet
+            if (customDirection != new Vector3(0, 0, 0))
+            {
+                transform.Translate(customDirection * bulletSpeed * Time.deltaTime);
+            }
+            else
+            {
+                transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
+            }
+        }
+
 
         // perform a raycast in our forward direction to see if we should break, if we dont use physics
-        if (!usesPhysics)
+        if (!usesPhysics && !overrideRaycast)
         DoubleCheckRaycast();
 
     }
@@ -93,18 +106,7 @@ public class EnemyBulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!usesPhysics)
-        {
-            // move bullet
-            if (customDirection != new Vector3(0, 0, 0))
-            {
-                transform.Translate(customDirection * bulletSpeed * Time.deltaTime);
-            }
-            else
-            {
-                transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
-            }
-        }
+       
     }
 
     IEnumerator SafetyKill()
@@ -116,6 +118,7 @@ public class EnemyBulletScript : MonoBehaviour
 
     public void DestroyBullet()
     {
+        if (cubePuff)
         Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
         Destroy(gameObject);
     }
