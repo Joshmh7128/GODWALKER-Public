@@ -82,7 +82,9 @@ public class EnemyBulletScript : MonoBehaviour
 
         // perform a raycast in our forward direction to see if we should break, if we dont use physics
         if (!usesPhysics && !overrideRaycast)
-        DoubleCheckRaycast();
+        {
+            DoubleCheckRaycast();
+        }
 
     }
 
@@ -152,9 +154,6 @@ public class EnemyBulletScript : MonoBehaviour
         else if (collision.transform.tag == "Enemy")
         {
             // do nothing (here because we did previously want to do something, and will)
-        }
-        else
-        {
         }
     }
 
