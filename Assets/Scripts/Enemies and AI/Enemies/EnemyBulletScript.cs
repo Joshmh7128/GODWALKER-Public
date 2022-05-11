@@ -118,8 +118,10 @@ public class EnemyBulletScript : MonoBehaviour
 
     public void DestroyBullet()
     {
-        if (cubePuff)
-        Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+        if (cubePuff != null)
+        {
+            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+        }
         Destroy(gameObject);
     }
 

@@ -252,7 +252,6 @@ public class PlayerController : MonoBehaviour
                 if (hit.transform != null)
                 {
                     isGrounded = true;
-                    Debug.Log("grounded");
                 }
                 else if (hit.transform == null)
                 {
