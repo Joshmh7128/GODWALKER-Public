@@ -6,7 +6,7 @@ public class EnemyBulletScript : MonoBehaviour
 {
     // variables
     public Transform bulletTarget; // what is the target of our bullet?
-    [SerializeField] float bulletSpeed, homingTime, homingDistance, damage; // what is the speed of our bullet? how long does it home?
+    [SerializeField] float bulletSpeed, homingTime, homingDistance, damage, bulletLife, bulletRadius; // what is the speed of our bullet? how long does it home?
     [SerializeField] GameObject cubePuff; // our break particle effect
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
@@ -43,7 +43,7 @@ public class EnemyBulletScript : MonoBehaviour
         }
 
         // start the safety kill
-        StartCoroutine("SafetyKill");
+        StartCoroutine(SafetyKill());
     }
 
     private void FixedUpdate()
@@ -112,10 +112,19 @@ public class EnemyBulletScript : MonoBehaviour
     }
 
     IEnumerator SafetyKill()
-    {   
-        yield return new WaitForSeconds(10f);
-        if (!usesParent)
-            DestroyBullet();
+    {
+        if (bulletLife > 0)
+        {
+            yield return new WaitForSeconds(bulletLife);
+            if (!usesParent)
+                DestroyBullet();
+        }
+        else
+        {
+            yield return new WaitForSeconds(10f);
+            if (!usesParent)
+                DestroyBullet();
+        }
     }
 
     public void DestroyBullet()
@@ -145,10 +154,14 @@ public class EnemyBulletScript : MonoBehaviour
                 Vector3 forward = transform.forward;
                 // do a raycast directly forward
                 RaycastHit hit;
-                Physics.Raycast(transform.position, forward, out hit, 1.5f, Physics.AllLayers, QueryTriggerInteraction.Collide);
-                // 
+                Physics.Raycast(transform.position, forward, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+                // reflect the vector
+                Vector3 newForward = Vector3.Reflect(forward, hit.normal);
+                Vector3 horizontalForward = new Vector3(newForward.x, 0f, newForward.z);
+                // set that direction
+                transform.rotation = Quaternion.LookRotation(horizontalForward);
             }
-        }// if this hits the player
+        } // if this hits the player
         else if (collision.transform.tag == "Player")
         {
             // hurt the player
@@ -162,6 +175,33 @@ public class EnemyBulletScript : MonoBehaviour
         }
     }
 
+    /*/
+    private void OnTriggerStay(Collider other)
+    {
+        // destroy if it hits the environment
+        if (other.transform.tag == "Environment")
+        {
+            if (overrideRaycast && !doesBounce)
+            {
+                Destroy(gameObject);
+            }
+
+            if (doesBounce)
+            {
+                // forward direction
+                Vector3 forward = transform.forward;
+                // do a raycast directly forward
+                RaycastHit hit;
+                Physics.Raycast(transform.position, forward, out hit, bulletRadius, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+                // reflect the vector
+                Vector3 newForward = Vector3.Reflect(forward, hit.normal);
+                Vector3 horizontalForward = new Vector3(newForward.x, 0f, newForward.z);
+                // set that direction
+                transform.rotation = Quaternion.LookRotation(horizontalForward);
+            }
+        }
+    }
+    */ 
     private void OnCollisionEnter(Collision collision)
     {
         if (!usesPhysics)
