@@ -11,7 +11,7 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
     Transform playerTransform;
-    [SerializeField] bool speedsUp, targetPlayer, usesPhysics, overrideRaycast, usesParent = false; // does our bullet linearly speed up?
+    [SerializeField] bool speedsUp, targetPlayer, usesPhysics, overrideRaycast, doesBounce, usesParent = false; // does our bullet linearly speed up?
     public Vector3 customDirection; // leave blank if no direction
 
     // for when our bullet is instantiated
@@ -134,9 +134,19 @@ public class EnemyBulletScript : MonoBehaviour
         // destroy if it hits the environment
         if (collision.transform.tag == "Environment")
         {
-            if (overrideRaycast)
+            if (overrideRaycast && !doesBounce)
             {
                 Destroy(gameObject);
+            }
+
+            if (doesBounce)
+            {
+                // forward direction
+                Vector3 forward = transform.forward;
+                // do a raycast directly forward
+                RaycastHit hit;
+                Physics.Raycast(transform.position, forward, out hit, 1.5f, Physics.AllLayers, QueryTriggerInteraction.Collide);
+                // 
             }
         }// if this hits the player
         else if (collision.transform.tag == "Player")
