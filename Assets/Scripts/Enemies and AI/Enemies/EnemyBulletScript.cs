@@ -143,6 +143,7 @@ public class EnemyBulletScript : MonoBehaviour
         // destroy if it hits the environment
         if (collision.transform.tag == "Environment")
         {
+            Debug.Log("environment trigger hit");
             if (overrideRaycast && !doesBounce)
             {
                 Destroy(gameObject);
@@ -160,6 +161,7 @@ public class EnemyBulletScript : MonoBehaviour
                 Vector3 horizontalForward = new Vector3(newForward.x, 0f, newForward.z);
                 // set that direction
                 transform.rotation = Quaternion.LookRotation(horizontalForward);
+                Debug.Log(horizontalForward);
             }
         } // if this hits the player
         else if (collision.transform.tag == "Player")
