@@ -132,25 +132,20 @@ public class EnemyBulletScript : MonoBehaviour
         // Debug.Log("Bullet Collision");
 
         // destroy if it hits the environment
-        if (collision.CompareTag("Environment"))
+        if (collision.transform.tag == "Environment")
         {
-
+            if (overrideRaycast)
+            {
+                Destroy(gameObject);
+            }
         }// if this hits the player
-        else if (collision.CompareTag("Player"))
+        else if (collision.transform.tag == "Player")
         {
             // hurt the player
             playerTransform.gameObject.GetComponent<PlayerController>().AddHP(damage);
-            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
             if (!usesParent)
             DestroyBullet();
         }
-        // if this hits a breakable
-        else if (collision.CompareTag("Breakable"))
-        {
-            // anything with the Breakable tag will be a chunk and have a BreakableBreak function
-            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
-            DestroyBullet();
-        }        // if this hits a breakable
         else if (collision.transform.tag == "Enemy")
         {
             // do nothing (here because we did previously want to do something, and will)
