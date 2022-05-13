@@ -158,7 +158,7 @@ public class EnemyBulletScript : MonoBehaviour
                 Physics.Raycast(transform.position, forward, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore);
                 // reflect the vector
                 Vector3 newForward = Vector3.Reflect(forward, hit.normal);
-                Vector3 horizontalForward = new Vector3(newForward.x, 0f, newForward.z);
+                Vector3 horizontalForward = new Vector3(newForward.x, newForward.y, newForward.z);
                 // set that direction
                 transform.rotation = Quaternion.LookRotation(horizontalForward);
                 Debug.Log(horizontalForward);

@@ -69343,7 +69343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a535ddcc60110e6429f6704935c1863b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 8
+  HP: 1
   maxHP: 8
   NameText: Bomb Bot
   isActive: 0
@@ -82018,11 +82018,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletTarget: {fileID: 0}
   bulletSpeed: 0
+  homingTime: 0
+  homingDistance: 0
+  damage: 0
+  bulletLife: 0
+  bulletRadius: 0
   cubePuff: {fileID: 130848, guid: ac0b6ab33006a2c4abb829ff77bc6804, type: 3}
   ourParticleSystem: {fileID: 0}
   speedsUp: 0
   targetPlayer: 0
   usesPhysics: 1
+  overrideRaycast: 0
+  doesBounce: 0
   usesParent: 1
   customDirection: {x: 0, y: 0, z: 0}
 --- !u!135 &7504696696120278132
