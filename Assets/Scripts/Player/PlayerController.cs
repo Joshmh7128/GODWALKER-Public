@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
     float groundCheckCooldown; // can we check the ground
     [SerializeField] LayerMask groundCheckIgnoreLayer;
     [SerializeField] Vector3 dashDir;
-    [SerializeField] AudioSource dashAudioSource;
+    [SerializeField] AudioSource dashAudioSource; bool canDashAudioPlay = true;
     [SerializeField] AudioSource jumpAudioSource;
     [SerializeField] ParticleSystem dashParticleSystem; // the particles that appear when we dash
 
@@ -771,15 +771,17 @@ public class PlayerController : MonoBehaviour
         float sliderMax = dashCoolDownMax * dashCoolDownMax;
         float sliderValue = dashCoolDown * dashCoolDownMax;
         dashSlider.value = (dashCoolDownMax - dashCoolDown) / dashCoolDownMax;
+
         // set our dash slider color
-        if (dashSlider.value == 1f)
+        if (dashSlider.value == 1f && canDashAudioPlay)
         {
             dashSliderImage.color = canDashColor;
             // play dash noises
-            // dashUIAudioSource.Play();
+            dashUIAudioSource.gameObject.SetActive(true);
         } else
         {
             dashSliderImage.color = cannotDashColor;
+            dashUIAudioSource.gameObject.SetActive(false);
         }
     }
 
