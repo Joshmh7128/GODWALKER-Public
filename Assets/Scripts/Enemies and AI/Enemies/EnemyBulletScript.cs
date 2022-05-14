@@ -104,7 +104,6 @@ public class EnemyBulletScript : MonoBehaviour
         }
     }
 
-
     // Update is called once per frame
     void Update()
     {
