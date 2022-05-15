@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region // Visual effect Prefabs
+    #region // FX and feel
     [Header("FX and Feel")]
     [SerializeField] GameObject pistolMuzzleFlashPower1FX;
     [SerializeField] GameObject pistolMuzzleFlashPower2FX, pistolMuzzleFlashPower3FX;
@@ -181,7 +181,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Material power1Mat, power2Mat, power3Mat;
     [SerializeField] RectTransform reticleLineLeft, reticleLineRight, reticleLineUp, reticleLineDown; // our four reticle lines
     Vector3 reticleLeftStart, reticleRightStart, reticleUpStart, reticleDownStart; // the starting positions of our reticles
-    [SerializeField] float reticleKickAmount, reticleReturnSpeed;
+    [SerializeField] float reticleKickAmount, reticleReturnSpeed, uiKickAmount, uiReturnSpeed;
+    [SerializeField] RectTransform uiGroup; // our UI group that we shake
     [SerializeField] CanvasGroup hitmarkerCanvasGroup; // our hitmarker canvas group
     [SerializeField] Text warningHP, warningPower; // our power and HP warnings
     [SerializeField] Color power1color, power2color, power3color; // our power colors
@@ -629,6 +630,9 @@ public class PlayerController : MonoBehaviour
 
         // kick our UI element
         ReticleKick();
+
+        // kick our non-reticle elements
+        UIKick(uiKickAmount);
     }
 
     // fixed update is called once per frame
@@ -732,6 +736,9 @@ public class PlayerController : MonoBehaviour
 
         // handles all the UI bars that need to lerp their values
         UIBarLerp();
+
+        // handles the UI jolting out and back in
+        UILerp(uiReturnSpeed);
     }
 
     // camera bounding behaviour
@@ -755,6 +762,22 @@ public class PlayerController : MonoBehaviour
             if (trackParent.localPosition != Vector3.zero)
                 trackParent.localPosition = Vector3.Lerp(trackParent.localPosition, Vector3.zero, 1f * Time.deltaTime);
         }
+    }
+
+    void UIKick(float kickAmount)
+    {
+        // if our y on our object is less than X then we dont kick, hard coded
+        if (uiGroup.position.y > -30)
+        {
+            // kick
+            uiGroup.position = new Vector3(0,kickAmount,0);
+        }
+    }
+
+    void UILerp(float amount)
+    {
+        // move our UI shake group back to it's loving home
+        uiGroup.position = Vector3.Lerp(uiGroup.position, Vector3.zero, amount * Time.deltaTime);
     }
 
     // handles all the UI bars that need to lerp their values
