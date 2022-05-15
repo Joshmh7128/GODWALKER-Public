@@ -192,6 +192,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform trackParent;
     [SerializeField] Transform cameraTransform;
     [SerializeField] float maxCamDelta, minCamDelta;
+    [SerializeField] float camSlerpSpeed; // how fast we slerp back after being lurched
 
     private void Awake()
     {
@@ -343,6 +344,8 @@ public class PlayerController : MonoBehaviour
             {
                 // jump falling
                 gravityValue = gravity * lowJumpMultiplier;
+                // do a jump
+                JumpLurch();
 
             }
             
@@ -369,11 +372,13 @@ public class PlayerController : MonoBehaviour
             if (player.GetButtonDown("SpacePress") && isGrounded)
             {
                 playerJumpVelocity = Mathf.Sqrt(jumpVelocity * -3.0f * gravity);
+                JumpLurch();
                 // jumpAudioSource.Play();
             } else if (player.GetButtonDown("SpacePress") && !isGrounded)
             {
                 if (remainingJumps > 0)
                 {
+                    JumpLurch();
                     remainingJumps--;
                     playerJumpVelocity = Mathf.Sqrt((jumpVelocity*3f) * -3.0f * gravity);
                     // jumpAudioSource.Play();
@@ -739,8 +744,25 @@ public class PlayerController : MonoBehaviour
 
         // handles the UI jolting out and back in
         UILerp(uiReturnSpeed);
+
+        // handles the jump lerping back every frame
+        JumpLerpBack();
     }
 
+    // do a jump
+    void JumpLurch()
+    {
+        // set the camera's x rotation to about -1
+        cameraTransform.localRotation = Quaternion.Euler(2,0,0);
+    }
+
+    void JumpLerpBack()
+    {
+        if (cameraTransform.localRotation != Quaternion.Euler(Vector3.zero))
+        {
+            cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, Quaternion.Euler(Vector3.zero), camSlerpSpeed * Time.deltaTime);
+        }
+    }
     // camera bounding behaviour
     private void CameraBoundControl()
     {
@@ -770,14 +792,16 @@ public class PlayerController : MonoBehaviour
         if (uiGroup.position.y > -30)
         {
             // kick
-            uiGroup.position = new Vector3(0,kickAmount,0);
+            uiGroup.localPosition = new Vector3(0,kickAmount,0);
         }
     }
 
     void UILerp(float amount)
     {
         // move our UI shake group back to it's loving home
-        uiGroup.position = Vector3.Lerp(uiGroup.position, Vector3.zero, amount * Time.deltaTime);
+        uiGroup.localPosition = Vector3.Lerp(uiGroup.position, Vector3.zero, amount * Time.deltaTime);
+
+        uiGroup.localPosition = Vector3.ClampMagnitude(uiGroup.localPosition, 15);
     }
 
     // handles all the UI bars that need to lerp their values

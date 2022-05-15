@@ -11,8 +11,11 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
     Transform playerTransform;
-    [SerializeField] bool speedsUp, targetPlayer, usesPhysics, overrideRaycast, doesBounce, usesParent = false; // does our bullet linearly speed up?
+    [SerializeField] bool speedsUp, targetPlayer, usesPhysics, overrideRaycast, doesBounce, usesParent = false, deathShot; // does our bullet linearly speed up?
     public Vector3 customDirection; // leave blank if no direction
+
+    [SerializeField] List<Transform> deathShotFirePositions; // list of our death shot fire positions
+    [SerializeField] GameObject deathShotObj; // what we are shooting on death
 
     // for when our bullet is instantiated
     private void Start()
@@ -132,6 +135,18 @@ public class EnemyBulletScript : MonoBehaviour
         {
             Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
         }
+
+        if (deathShot)
+        {
+            // turn off our collider
+            gameObject.GetComponent<Collider>().enabled = false;
+            // instantiate our shots
+            foreach(Transform pos in deathShotFirePositions)
+            {
+                Instantiate(deathShotObj, pos.position, pos.rotation, null);
+            }
+        }
+
         Destroy(gameObject);
     }
 
