@@ -19,6 +19,6 @@ public class DynamicVisibilityCull : MonoBehaviour
 
     private void OnBecameInvisible()
     {
-        localRenderer.enabled = true;
+        localRenderer.enabled = false;
     }
 }
