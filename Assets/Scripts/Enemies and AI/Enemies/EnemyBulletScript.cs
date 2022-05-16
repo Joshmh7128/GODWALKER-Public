@@ -92,6 +92,12 @@ public class EnemyBulletScript : MonoBehaviour
             DoubleCheckRaycast();
         }
 
+        // manage our tether if we have one
+        if (attachedTether)
+        {
+            tetherRenderer.SetPosition(0, transform.position);
+            tetherRenderer.SetPosition(1, attachedTether.position);
+        }
     }
 
     void DoubleCheckRaycast()
