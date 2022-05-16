@@ -19,6 +19,7 @@ public class EnemyBulletScript : MonoBehaviour
 
     [SerializeField] LineRenderer tetherRenderer; // our tether renderer
     [SerializeField] Transform attachedTether; // our attached tether
+    bool tetherBroken; // has our tether been broken?
 
     // for when our bullet is instantiated
     private void Start()
@@ -93,10 +94,18 @@ public class EnemyBulletScript : MonoBehaviour
         }
 
         // manage our tether if we have one
-        if (attachedTether)
+        if (attachedTether && !tetherBroken)
         {
             tetherRenderer.SetPosition(0, transform.position);
             tetherRenderer.SetPosition(1, attachedTether.position);
+            // check if the bullets can see each other
+            /*RaycastHit hit;
+            if (Physics.Linecast(transform.position, attachedTether.position, out hit, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            {
+                // if they cant, turn off
+                tetherBroken = true;
+                tetherRenderer.enabled = false;
+            }*/
         }
     }
 
