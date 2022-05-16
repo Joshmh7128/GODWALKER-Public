@@ -103,13 +103,20 @@ public class EnemyBulletScript : MonoBehaviour
             tetherRenderer.SetPosition(0, transform.position);
             tetherRenderer.SetPosition(1, attachedTether.position);
             // check if the bullets can see each other
-            /*RaycastHit hit;
+            RaycastHit hit;
             if (Physics.Linecast(transform.position, attachedTether.position, out hit, Physics.AllLayers, QueryTriggerInteraction.Ignore))
             {
                 // if they cant, turn off
                 tetherBroken = true;
                 tetherRenderer.enabled = false;
-            }*/
+
+                // if it hits the player
+                if (hit.transform.tag == "Player")
+                {
+                    // hurt the player
+                    playerTransform.gameObject.GetComponent<PlayerController>().AddHP(damage);
+                }
+            }
         }
     }
 
@@ -168,6 +175,9 @@ public class EnemyBulletScript : MonoBehaviour
                 Instantiate(deathShotObj, pos.position, pos.rotation, null);
             }
         }
+
+        if (tetherRenderer)
+            tetherRenderer.enabled = false;
 
         if (gameObject != null)
         Destroy(gameObject);
