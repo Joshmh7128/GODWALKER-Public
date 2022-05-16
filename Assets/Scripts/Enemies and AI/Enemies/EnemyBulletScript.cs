@@ -17,6 +17,9 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] List<Transform> deathShotFirePositions; // list of our death shot fire positions
     [SerializeField] GameObject deathShotObj; // what we are shooting on death
 
+    [SerializeField] LineRenderer tetherRenderer; // our tether renderer
+    [SerializeField] Transform attachedTether; // our attached tether
+
     // for when our bullet is instantiated
     private void Start()
     {
@@ -191,33 +194,6 @@ public class EnemyBulletScript : MonoBehaviour
         }
     }
 
-    /*/
-    private void OnTriggerStay(Collider other)
-    {
-        // destroy if it hits the environment
-        if (other.transform.tag == "Environment")
-        {
-            if (overrideRaycast && !doesBounce)
-            {
-                Destroy(gameObject);
-            }
-
-            if (doesBounce)
-            {
-                // forward direction
-                Vector3 forward = transform.forward;
-                // do a raycast directly forward
-                RaycastHit hit;
-                Physics.Raycast(transform.position, forward, out hit, bulletRadius, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-                // reflect the vector
-                Vector3 newForward = Vector3.Reflect(forward, hit.normal);
-                Vector3 horizontalForward = new Vector3(newForward.x, 0f, newForward.z);
-                // set that direction
-                transform.rotation = Quaternion.LookRotation(horizontalForward);
-            }
-        }
-    }
-    */ 
     private void OnCollisionEnter(Collision collision)
     {
         if (!usesPhysics)
