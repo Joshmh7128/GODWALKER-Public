@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 5948434438821859319}
   m_Layer: 0
   m_Name: Accelerating Projectile 002 (Homing)
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,13 +163,22 @@ MonoBehaviour:
   homingTime: 30
   homingDistance: 10
   damage: -0.1
+  bulletLife: 0
+  bulletRadius: 0
   cubePuff: {fileID: 130848, guid: f6ef699473b127846b41e07e642b852e, type: 3}
   ourParticleSystem: {fileID: 3655595585553835196}
   speedsUp: 0
   targetPlayer: 1
   usesPhysics: 0
+  overrideRaycast: 0
+  doesBounce: 0
   usesParent: 0
+  deathShot: 0
   customDirection: {x: 0, y: 0, z: 0}
+  deathShotFirePositions: []
+  deathShotObj: {fileID: 0}
+  tetherRenderer: {fileID: 0}
+  attachedTether: {fileID: 0}
 --- !u!54 &-6219819150722728702
 Rigidbody:
   m_ObjectHideFlags: 0

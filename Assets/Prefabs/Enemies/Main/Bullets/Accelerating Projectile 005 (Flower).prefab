@@ -4818,7 +4818,7 @@ GameObject:
   - component: {fileID: -6219819150722728702}
   m_Layer: 0
   m_Name: Accelerating Projectile 005 (Flower)
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4869,14 +4869,22 @@ MonoBehaviour:
   homingTime: 0
   homingDistance: 0
   damage: -1
+  bulletLife: 0
+  bulletRadius: 0
   cubePuff: {fileID: 0}
   ourParticleSystem: {fileID: 0}
   speedsUp: 0
   targetPlayer: 0
   usesPhysics: 0
   overrideRaycast: 1
+  doesBounce: 0
   usesParent: 0
+  deathShot: 0
   customDirection: {x: 0, y: 0, z: 0}
+  deathShotFirePositions: []
+  deathShotObj: {fileID: 0}
+  tetherRenderer: {fileID: 0}
+  attachedTether: {fileID: 0}
 --- !u!54 &-6219819150722728702
 Rigidbody:
   m_ObjectHideFlags: 0
