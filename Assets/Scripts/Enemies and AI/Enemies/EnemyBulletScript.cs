@@ -11,7 +11,7 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] ParticleSystem ourParticleSystem; // our particle effect
     Transform enemyManager;
     Transform playerTransform;
-    [SerializeField] bool speedsUp, targetPlayer, usesPhysics, overrideRaycast, doesBounce, usesParent = false, deathShot; // does our bullet linearly speed up?
+    [SerializeField] bool speedsUp, targetPlayer, usesPhysics, overrideRaycast, doesBounce, isBombBot, usesParent = false, deathShot; // does our bullet linearly speed up?
     public Vector3 customDirection; // leave blank if no direction
 
     [SerializeField] List<Transform> deathShotFirePositions; // list of our death shot fire positions
@@ -25,6 +25,7 @@ public class EnemyBulletScript : MonoBehaviour
     private void Start()
     {
         // add ourselves to the projectile manager
+        if (!isBombBot)
         HandleProjectile();
 
         // find player

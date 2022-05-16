@@ -7,7 +7,7 @@ public static class ProjectileManager
     // our list of projectiles
     public static List<EnemyBulletScript> projectiles = new List<EnemyBulletScript> ();
     // how many bullets can we have in a scene?
-    public static int projectileLimit = 700;
+    public static int projectileLimit = 1200;
     // function to remove the oldest bullet in the scene
     public static void CullCheck(int id)
     {
@@ -25,6 +25,11 @@ public static class ProjectileManager
                 // then when it is not null, remove it
                 if (projectiles[(id + 1) - projectileLimit] != null)
                 { projectiles[(id + 1) - projectileLimit].DestroyBullet(); }
+            }
+            // loop and remove any null instances
+            for (int i = projectiles.Count - 1; i >= 0; i--)
+            {
+                if (projectiles[i] == null) { projectiles.RemoveAt(i); }
             }
         }
     }
