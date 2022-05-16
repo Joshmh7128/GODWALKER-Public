@@ -46,12 +46,37 @@ public class BasicFlyerMinion : EnemyClass
         }
     }
 
+    private void HalfUpdate()
+    {
+        // if we are active in combat
+        if (isActive)
+        {
+            // always move towards our target position if we are far away from it and our path is not blocked
+            if (Vector3.Distance(transform.position, targetPosition) > maxMoveDelta && !pathBlocked)
+            {
+                // apply movement
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
+            }
+
+            Ray movementSphereCast = new Ray();
+            movementSphereCast.origin = transform.position; movementSphereCast.direction = targetPosition - transform.position;
+            // perform a spherecast towards our target position from our transport position
+            if (Physics.SphereCast(movementSphereCast, enemyRadius, maxMoveDelta, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            {
+                pathBlocked = true;
+            }
+            else if (!Physics.SphereCast(movementSphereCast, enemyRadius, maxMoveDelta, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            {
+                pathBlocked = false;
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
         // if we are active in combat
         if (isActive)
         {
-
             // always move towards our target position if we are far away from it and our path is not blocked
             if (Vector3.Distance(transform.position, targetPosition) > maxMoveDelta && !pathBlocked)
             {
