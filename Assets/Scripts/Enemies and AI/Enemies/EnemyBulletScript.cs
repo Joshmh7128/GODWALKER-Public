@@ -24,6 +24,9 @@ public class EnemyBulletScript : MonoBehaviour
     // for when our bullet is instantiated
     private void Start()
     {
+        // add ourselves to the projectile manager
+        HandleProjectile();
+
         // find player
         if (playerTransform == null)
         {
@@ -165,7 +168,15 @@ public class EnemyBulletScript : MonoBehaviour
             }
         }
 
+        if (gameObject != null)
         Destroy(gameObject);
+        Destroy(this);
+    }
+
+    void HandleProjectile()
+    {
+        ProjectileManager.projectiles.Add(this);
+        ProjectileManager.CullCheck(ProjectileManager.projectiles.IndexOf(this));
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -175,10 +186,9 @@ public class EnemyBulletScript : MonoBehaviour
         // destroy if it hits the environment
         if (collision.transform.tag == "Environment")
         {
-            Debug.Log("environment trigger hit");
             if (overrideRaycast && !doesBounce)
             {
-                Destroy(gameObject);
+                DestroyBullet();
             }
 
             if (doesBounce)
