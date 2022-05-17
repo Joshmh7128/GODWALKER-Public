@@ -75,7 +75,8 @@ public class CombatZone : MonoBehaviour
         // stop combat
         combatComplete = true;
         // music change
-        FindObjectOfType<MusicController>().MusicMood(MusicController.musicMoods.explore);
+        if (FindObjectOfType<MusicController>())
+            FindObjectOfType<MusicController>().MusicMood(MusicController.musicMoods.explore);
         // unlock doors
         foreach (DoorClass door in doorClasses)
         { door.Unlock(); }
