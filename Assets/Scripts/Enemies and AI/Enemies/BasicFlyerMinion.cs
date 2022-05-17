@@ -24,6 +24,7 @@ public class BasicFlyerMinion : EnemyClass
     Vector3 shotPos;
     bool isRight = true;
     [SerializeField] bool changesSides = false; // are we shooting from the right shot spot? do our sides change
+    [SerializeField] float halfUpdateTime; // how long in seconds should we wait?
 
     private void Start()
     {
@@ -35,6 +36,9 @@ public class BasicFlyerMinion : EnemyClass
 
         // activate for development purposes
         Activate();
+
+        // start our special physics update
+        StartCoroutine(HalfUpdateCo());
     }
 
     private void Update()
@@ -44,6 +48,13 @@ public class BasicFlyerMinion : EnemyClass
             if (combatZone) { combatZone.OnDeath(); }
             OnDeath(); 
         }
+    }
+
+    IEnumerator HalfUpdateCo()
+    {
+        yield return new WaitForSeconds(halfUpdateTime);
+        HalfUpdate();
+        StartCoroutine(HalfUpdateCo());
     }
 
     private void HalfUpdate()
@@ -74,28 +85,6 @@ public class BasicFlyerMinion : EnemyClass
 
     private void FixedUpdate()
     {
-        // if we are active in combat
-        if (isActive)
-        {
-            // always move towards our target position if we are far away from it and our path is not blocked
-            if (Vector3.Distance(transform.position, targetPosition) > maxMoveDelta && !pathBlocked)
-            {
-                // apply movement
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
-            }
-
-            Ray movementSphereCast = new Ray(); 
-            movementSphereCast.origin = transform.position; movementSphereCast.direction = targetPosition - transform.position ; 
-            // perform a spherecast towards our target position from our transport position
-            if (Physics.SphereCast(movementSphereCast, enemyRadius, maxMoveDelta, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-            {
-                pathBlocked = true;
-            } else if (!Physics.SphereCast(movementSphereCast, enemyRadius, maxMoveDelta, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-            {
-                pathBlocked = false;
-            }
-        }
-
         // have our body container look at the player
         bodyContainer.LookAt(playerController.transform.position, Vector3.up);
 
