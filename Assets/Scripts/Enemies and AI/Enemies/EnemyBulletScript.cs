@@ -162,7 +162,7 @@ public class EnemyBulletScript : MonoBehaviour
     {
         if (cubePuff != null)
         {
-            Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
+            // Instantiate(cubePuff, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), null);
         }
 
         if (deathShot)
@@ -197,7 +197,7 @@ public class EnemyBulletScript : MonoBehaviour
         // destroy if it hits the environment
         if (collision.transform.tag == "Environment")
         {
-            if (overrideRaycast && !doesBounce)
+            if (overrideRaycast && !doesBounce && !usesPhysics)
             {
                 DestroyBullet();
             }
