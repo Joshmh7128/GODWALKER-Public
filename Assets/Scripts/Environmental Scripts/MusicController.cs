@@ -17,7 +17,8 @@ public class MusicController : MonoBehaviour
         tension,
         doorQueue,
         battle,
-        menu
+        menu,
+        bigbattle
     }
 
     public musicMoods defaultMood; 
@@ -44,6 +45,9 @@ public class MusicController : MonoBehaviour
 
         if (mood == musicMoods.battle)
         { musicSource.clip = track001Pieces[3]; }
+        
+        if (mood == musicMoods.bigbattle)
+        { musicSource.clip = track001Pieces[4]; }
 
         if (!musicSource.isPlaying)
         {
