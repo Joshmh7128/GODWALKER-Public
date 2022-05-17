@@ -13,6 +13,7 @@ public class CombatZone : MonoBehaviour
     [SerializeField] List<GameObject> waveParents; // the parents of wave objects that we'll put into our enemy lists
     [SerializeField] GameObject summonEffect; // our summoning particle effect
     public bool combatComplete = false; // is this combat zone complete? default to no
+    [SerializeField] bool forceCombatComplete = false; // development force combat completion
     int currentWave = 0; // which wave are we on?
     [SerializeField] int childCount = 0; // the amount of active children
     List<GameObject> activeParticles = new List<GameObject>(); // our list of active particles
@@ -27,6 +28,11 @@ public class CombatZone : MonoBehaviour
         if (devActivate)
         {
             ActivateZone();
+        }
+
+        if (forceCombatComplete)
+        {
+            EndCombat();
         }
     }
 
@@ -74,9 +80,12 @@ public class CombatZone : MonoBehaviour
         foreach (DoorClass door in doorClasses)
         { door.Unlock(); }
         // environment lighting change
+        if (combatScenery)
         combatScenery.SetActive(false);
+        if (safeScenery)
         safeScenery.SetActive(true);
         StartCoroutine(MessageClear());
+        forceCombatComplete = false;
     }
 
     void ClearParticles()

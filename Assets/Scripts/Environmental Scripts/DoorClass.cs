@@ -92,6 +92,8 @@ public class DoorClass : MonoBehaviour
                 // add ourselves
                 GameObject.Find(targetPastCombatZone).GetComponent<CombatZone>().doorClasses.Add(this);
                 addedZone = true;
+                // if we add ourselves to a combat zone
+                Debug.Log(gameObject.name + " has added itself to " + targetPastCombatZone);
             }
             else if (!GameObject.Find(targetPastCombatZone))
             {
