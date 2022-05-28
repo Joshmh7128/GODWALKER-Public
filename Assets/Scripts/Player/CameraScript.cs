@@ -124,7 +124,7 @@ public class CameraScript : MonoBehaviour
                     // make sure we set our canvas to hide
                     enemyCanvasTargetAlpha = 0;
                     // set our UI slider to 0 HP
-                    enemyHPSlider.value = 0;
+                    // enemyHPSlider.value = 0;
                 }
             }
             else

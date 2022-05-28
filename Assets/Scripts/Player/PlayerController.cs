@@ -481,6 +481,11 @@ public class PlayerController : MonoBehaviour
         // reload scene for dev purposes
         if (Input.GetKeyDown(KeyCode.F4))
         {
+            //  adjust the saturation of our screen
+            hurtVolume50.SetActive(false);
+            hurtVolume25.SetActive(false);
+            // adjust our warning renderers
+            warningHP.enabled = false;
             UpgradeSingleton.DestroySingleton();
             SceneManager.LoadScene("Main Menu");
             Destroy(gameObject);
