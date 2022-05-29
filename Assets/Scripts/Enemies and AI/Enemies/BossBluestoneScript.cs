@@ -12,20 +12,14 @@ public class BossBluestoneScript : EnemyClass
     /// </summary>
 
     // our states for our state machine
-    enum states { 
+    public enum states { 
         OPENER, // our opener
-        P1A, // Spiral bullets, Teleport
-        P1B, // Homing bullets while strafing, Teleport
-        P1C, // Physics bullets while strafing, Teleport
-        P2A, // Bursts of half-walls of bullets alternating in cardinal and dia-cardinal directions, Teleport
-        P2B, // Homing and bouncing bullets, Teleport
-        P2C, // Busts of linked bullets while strafing, Teleport
-        P3A, // Bursts of full walls of bullets alternating in cardinal and dia-cardinal directions, Teleport
-        P3B, // Homing and breakable bullets while strafing, Teleport
-        P3C, // Bursts of Linked and homing while strafing, Teleport
+        PhaseOne,
+        PhaseTwo,
+        PhaseThree,
     }
-    // what is our current local state? cycle from 1 to 3 based on which attack pattern we did last
-    int localState = 1;
+    // our state
+    public states state;
 
     // our movement modes
     enum movementModes { strafe, teleport }
@@ -43,12 +37,29 @@ public class BossBluestoneScript : EnemyClass
     {
         // setup our random locations as a list
         targetLocationsRandomized = targetLocations;
+
+        // FOR DEBUG LAUNCHING
+        StartCoroutine(PhaseOne());
     }
 
     // update runs every frame
     void Update()
     {
+        // run our movement
+        Movement();
 
+        // check our phase every frame
+        if (state == states.PhaseTwo)
+        {
+            // stop phase 1
+            StopCoroutine(PhaseOne());
+        }
+
+        if (state == states.PhaseThree)
+        {
+            // stop phase 1
+           //  StopCoroutine(PhaseTwo());
+        }
     }
 
     // run our movement
@@ -107,18 +118,44 @@ public class BossBluestoneScript : EnemyClass
     
     public override void Attack()
     {
-        // check our HP
+        // check our HP and set our phase
         if (HP >= maxHP * 0.66)
         {
-            // check our local state
+            state = states.PhaseOne;
         }
         else if (HP < maxHP * 0.66 && HP >= maxHP * 0.33)
         {
-
+            state = states.PhaseTwo;
         }
         else
         {
+            state = states.PhaseThree;
+        }
+    }
 
+    // run through our three phase 1 animations
+    IEnumerator PhaseOne()
+    {
+        // fire our shots
+
+        // teleport
+        Teleport();
+        // strafe for 4 seconds
+        movementMode = movementModes.strafe;
+        targetLocation = targetLocationsRandomized[Random.Range(0,targetLocationsRandomized.Length)];
+        yield return new WaitForSeconds(4f);
+        // teleport
+        Teleport();
+        // strafe for 4 seconds
+        movementMode = movementModes.strafe;
+        targetLocation = targetLocationsRandomized[Random.Range(0, targetLocationsRandomized.Length)];
+        yield return new WaitForSeconds(4f);
+        // teleport
+        Teleport();
+        // if we can, repeat phase one
+        if (state == states.PhaseOne)
+        {
+            StartCoroutine(PhaseOne());
         }
     }
 
