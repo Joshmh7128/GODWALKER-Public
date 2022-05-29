@@ -26,18 +26,20 @@ public class BossBluestoneScript : EnemyClass
     movementModes movementMode;
 
     // our transform targets
-    [SerializeField] Transform[] targetLocations, targetLocationsRandomized; int teleportCount;
+    [SerializeField] Transform[] targetLocations;
+    [SerializeField] int teleportCount;
     // our current target
     [SerializeField] Transform targetLocation;
     // our movement speed
-    [SerializeField] float movementSpeed; 
+    [SerializeField] float movementSpeed;
+    // look targeting
+    [SerializeField] Transform targeter;
+    // visual fx
+    [SerializeField] GameObject teleportParticle; 
 
     // start runs when this script is loaded
     void Start()
     {
-        // setup our random locations as a list
-        targetLocationsRandomized = targetLocations;
-
         // FOR DEBUG LAUNCHING
         StartCoroutine(PhaseOne());
     }
@@ -62,6 +64,14 @@ public class BossBluestoneScript : EnemyClass
         }
     }
 
+    void LookTargeter()
+    {
+        // move our targeter
+        targeter.position = new Vector3(UpgradeSingleton.Instance.player.transform.position.x, transform.position.y, UpgradeSingleton.Instance.player.transform.position.z);
+        // look at our targeter
+        transform.LookAt(targeter.position);
+    }
+
     // run our movement
     void Movement()
     {
@@ -79,7 +89,9 @@ public class BossBluestoneScript : EnemyClass
         if (teleportCount < targetLocations.Length)
         {
             // move our body to a random spot
-            transform.position = targetLocationsRandomized[teleportCount].position;
+            Transform target = targetLocations[Random.Range(0, targetLocations.Length)];
+            Instantiate(teleportParticle, transform.position, Quaternion.identity, null).GetComponent<TransformLookAt>().targetPos = target;
+            transform.position = target.position;
             teleportCount++;
         }
 
@@ -88,21 +100,6 @@ public class BossBluestoneScript : EnemyClass
         {
             // reset our teleport count
             teleportCount = 0;
-
-            // randomize our array
-            for (int i = 0; i < targetLocations.Length; i++)
-            {
-                int j = Random.Range(0, targetLocations.Length);
-                // if our desired location is already in the list, randomize until we find a position that is not
-                while (targetLocationsRandomized.Contains<Transform>(targetLocations[j]))
-                {
-                    // test another one
-                    j = Random.Range(0, targetLocations.Length);
-                }
-
-                // once we find one that is not in the array already, add it to the randomized list
-                targetLocationsRandomized[i] = targetLocations[j];
-            }
         }
     }
 
@@ -142,13 +139,13 @@ public class BossBluestoneScript : EnemyClass
         Teleport();
         // strafe for 4 seconds
         movementMode = movementModes.strafe;
-        targetLocation = targetLocationsRandomized[Random.Range(0,targetLocationsRandomized.Length)];
+        targetLocation = targetLocations[Random.Range(0, targetLocations.Length)];
         yield return new WaitForSeconds(4f);
         // teleport
         Teleport();
         // strafe for 4 seconds
         movementMode = movementModes.strafe;
-        targetLocation = targetLocationsRandomized[Random.Range(0, targetLocationsRandomized.Length)];
+        targetLocation = targetLocations[Random.Range(0, targetLocations.Length)];
         yield return new WaitForSeconds(4f);
         // teleport
         Teleport();
