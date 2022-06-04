@@ -49,6 +49,10 @@ public class BossBluestoneScript : EnemyClass
     {
         // run our movement
         Movement();
+        // look at the player
+        LookTargeter();
+        // check our phase
+        CheckPhase();
 
         // check our phase every frame
         if (state == states.PhaseTwo)
@@ -62,6 +66,7 @@ public class BossBluestoneScript : EnemyClass
             // stop phase 1
            //  StopCoroutine(PhaseTwo());
         }
+
     }
 
     void LookTargeter()
@@ -78,25 +83,27 @@ public class BossBluestoneScript : EnemyClass
         // if we are strafing, move towards our target location
         if (movementMode == movementModes.strafe)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetLocation.position, movementSpeed*Time.deltaTime); ;
+            transform.position = Vector3.MoveTowards(transform.position, targetLocation.position, movementSpeed*Time.deltaTime);
+        }        
+        
+        // if we are teleporting, blip towards our target location
+        if (movementMode == movementModes.teleport)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetLocation.position, movementSpeed*Time.deltaTime*100);
         }
     }
 
     // call when we want to teleport
-    void Teleport()
+    void Blip()
     {
         // move through the list
         if (teleportCount < targetLocations.Length)
         {
             // move our body to a random spot
-            Transform target = targetLocations[Random.Range(0, targetLocations.Length)];
-            Instantiate(teleportParticle, transform.position, Quaternion.identity, null).GetComponent<TransformLookAt>().targetPos = target;
-            transform.position = target.position;
+            targetLocation = targetLocations[Random.Range(0, targetLocations.Length)];
+            movementMode = movementModes.teleport;
             teleportCount++;
-        }
-
-        // if we are equal to or more than our length, randomize the list and set teleport count to 0
-        if (teleportCount >= targetLocations.Length)
+        } else if (teleportCount >= targetLocations.Length)
         {
             // reset our teleport count
             teleportCount = 0;
@@ -114,6 +121,11 @@ public class BossBluestoneScript : EnemyClass
     }   
     
     public override void Attack()
+    {
+ 
+    }
+
+    void CheckPhase()
     {
         // check our HP and set our phase
         if (HP >= maxHP * 0.66)
@@ -136,19 +148,22 @@ public class BossBluestoneScript : EnemyClass
         // fire our shots
 
         // teleport
-        Teleport();
+        Blip();
+        yield return new WaitForSeconds(1f);
         // strafe for 4 seconds
         movementMode = movementModes.strafe;
         targetLocation = targetLocations[Random.Range(0, targetLocations.Length)];
         yield return new WaitForSeconds(4f);
         // teleport
-        Teleport();
+        Blip();
+        yield return new WaitForSeconds(1f);
         // strafe for 4 seconds
         movementMode = movementModes.strafe;
         targetLocation = targetLocations[Random.Range(0, targetLocations.Length)];
         yield return new WaitForSeconds(4f);
         // teleport
-        Teleport();
+        Blip();
+        yield return new WaitForSeconds(1f);
         // if we can, repeat phase one
         if (state == states.PhaseOne)
         {
