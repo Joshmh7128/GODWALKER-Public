@@ -44,8 +44,11 @@ public class PlayerController : MonoBehaviour
         {
             Physics.SphereCast(transform.position, playerWidth, Vector3.down, out groundedHit, playerHeight, Physics.AllLayers, QueryTriggerInteraction.Ignore);
 
-        } else if (groundCheckCooldown > 0)
+        } 
+        
+        if (groundCheckCooldown > 0)
         {
+            playerJumpVelocity += gravityValue * Time.deltaTime;
             groundCheckCooldown -= Time.deltaTime;
         }
 
