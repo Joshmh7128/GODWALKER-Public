@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
     // script handles movement of the player
     [Header("Movement")]
     public Vector3 moveH, moveV, move;
-    Transform cameraRig;
     [SerializeField] CharacterController characterController; // our character controller
     [SerializeField] float moveSpeed, gravity, jumpVelocity; // set in editor for controlling
     RaycastHit groundedHit; // checking to see if we have touched the ground
@@ -15,6 +14,11 @@ public class PlayerController : MonoBehaviour
     bool landed;
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
+
+    [Header("Animation Management")]
+    [SerializeField] Transform cameraRig, animationRigParent;
+    [SerializeField] float maxRealignAngle; // how far can the player turn before we need to realign
+    
 
     // setup our instance
     public static PlayerController instance;
@@ -34,9 +38,11 @@ public class PlayerController : MonoBehaviour
     {
         // process our movement inputs
         ProcessMovement();
+        // setup our animation parent so that the player faces the correct direction
+        ProcessAnimationParentControl();
     }
 
-
+    // our movement function
     void ProcessMovement()
     {
 
@@ -86,5 +92,22 @@ public class PlayerController : MonoBehaviour
         verticalVelocity = playerJumpVelocity;
         move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
         characterController.Move(move * Time.deltaTime * moveSpeed);
+    }
+
+    // our animation parent control
+    void ProcessAnimationParentControl()
+    {
+        // if we're not moving, only align when the absolute value of the difference between our animations is more than our realign angle
+        if (move == Vector3.zero)
+        {
+            if (Mathf.Abs(animationRigParent.eulerAngles.y - cameraRig.eulerAngles.y) > maxRealignAngle)
+            {
+                animationRigParent.eulerAngles = new Vector3(0, cameraRig.eulerAngles.y, 0);
+            }
+        }
+        
+        // if we are moving, make sure to turn the character every frame
+        if (move != Vector3.zero)
+        { animationRigParent.eulerAngles = new Vector3(0, cameraRig.eulerAngles.y, 0); }
     }
 }

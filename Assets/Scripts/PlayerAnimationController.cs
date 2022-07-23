@@ -8,7 +8,7 @@ public class PlayerAnimationController : MonoBehaviour
     PlayerController playerController;
     Animator animator; // our player animator
     Vector2 animationDirection; // which direction is the player moving?
-    string targetAnimatiom; // the target animation we want to play
+    string targetAnimationState; // the target animation we want to play
 
     // start runs after the awake and before the first update
     private void Start()
@@ -23,16 +23,36 @@ public class PlayerAnimationController : MonoBehaviour
     {
         // align our animation target
         MatchAnimationDirection();
+        // map our animations
+        MapAnimation();
+        // apply our animations
     }
 
+    // apply our animations to the animation controller
+    void ApplyAnimation()
+    {
+
+    }
+
+    // map our animations to the direction that the player is moving
     void MapAnimation()
     {
         // idle animation map
+        if (animationDirection == new Vector2(0, 0))
+        {
+            targetAnimationState = "Player_Idle";
+        }
 
         // forward animation map
         if (animationDirection == new Vector2(0,1))
         {
+            targetAnimationState = "Player_Running";
+        }
 
+        // backward animation map
+        if (animationDirection == new Vector2(0,-1))
+        {
+            targetAnimationState = "Player_Run Backward";
         }
     }
 
