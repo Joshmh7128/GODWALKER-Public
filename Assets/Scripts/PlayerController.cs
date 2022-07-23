@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     {
         // get our camera rig
         cameraRig = PlayerCameraController.instance.cameraRig;
+        // lock cursor
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
