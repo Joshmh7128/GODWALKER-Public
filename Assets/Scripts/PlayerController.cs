@@ -32,7 +32,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        // process our movement inputs
+        ProcessMovement();
+    }
+
+
+    void ProcessMovement()
+    {
 
         // declare our motion
         float pAxisV = Input.GetAxisRaw("Vertical");
@@ -44,8 +50,8 @@ public class PlayerController : MonoBehaviour
         {
             Physics.SphereCast(transform.position, playerWidth, Vector3.down, out groundedHit, playerHeight, Physics.AllLayers, QueryTriggerInteraction.Ignore);
 
-        } 
-        
+        }
+
         if (groundCheckCooldown > 0)
         {
             playerJumpVelocity += gravityValue * Time.deltaTime;
@@ -61,7 +67,7 @@ public class PlayerController : MonoBehaviour
             playerJumpVelocity += gravityValue * Time.deltaTime;
             landed = false;
         }
-        
+
         if (groundedHit.transform != null)
         {
             // jumping
@@ -80,7 +86,5 @@ public class PlayerController : MonoBehaviour
         verticalVelocity = playerJumpVelocity;
         move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
         characterController.Move(move * Time.deltaTime * moveSpeed);
-
     }
-
 }
