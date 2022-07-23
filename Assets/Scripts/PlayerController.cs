@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed, gravity, jumpVelocity; // set in editor for controlling
     RaycastHit groundedHit; // checking to see if we have touched the ground
     [SerializeField] float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
-    bool landed;
+    public bool grounded;
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
 
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
         if (groundedHit.transform == null)
         {
             playerJumpVelocity += gravityValue * Time.deltaTime;
-            landed = false;
+            grounded = false;
         }
 
         if (groundedHit.transform != null)
@@ -84,10 +84,10 @@ public class PlayerController : MonoBehaviour
                 playerJumpVelocity = Mathf.Sqrt(-jumpVelocity * gravity);
                 groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
             }
-            else if (!landed)
+            else if (!grounded)
             {
                 playerJumpVelocity = 0f;
-                landed = true;
+                grounded = true;
             }
         }
 

@@ -8,6 +8,7 @@ public class PlayerAnimationController : MonoBehaviour
     PlayerController playerController;
     Animator animator; // our player animator
     Vector2 animationDirection; // which direction is the player moving?
+    bool grounded; // are we grounded?
     enum TargetAnimationStates // list our animation states
     {
         baseLayer,
@@ -20,6 +21,7 @@ public class PlayerAnimationController : MonoBehaviour
         Legs_Run_Forward_Left,
         Legs_Run_Backward_Right,
         Legs_Run_Backward_Left,
+        Legs_Jumping,
 
         endLayer // exists for organization
 
@@ -66,58 +68,71 @@ public class PlayerAnimationController : MonoBehaviour
     // map our animations to the direction that the player is moving
     void MapAnimation()
     {
-        // idle animation map
-        if (animationDirection.x == 0 && animationDirection.y == 0)
-        {
-            targetAnimationState = TargetAnimationStates.Legs_Idle;
-        }
+        // set grounded 
+        grounded = playerController.grounded;
 
-        // forward animation map
-        if (animationDirection.x == 0 && animationDirection.y == 1)
+        // all of our movements on the ground
+        if (grounded)
         {
-            targetAnimationState = TargetAnimationStates.Legs_Run_Forward;
-        }
+            // idle animation map
+            if (animationDirection.x == 0 && animationDirection.y == 0)
+            {
+                targetAnimationState = TargetAnimationStates.Legs_Idle;
+            }
 
-        // backward animation map
-        if (animationDirection.x == 0 && animationDirection.y == -1)
-        {
-            targetAnimationState = TargetAnimationStates.Legs_Run_Backward;
-        }       
-        
-        // right animation map
-        if (animationDirection.x == 1 && animationDirection.y == 0)
-        {
-            targetAnimationState = TargetAnimationStates.Legs_Run_Right;
-        }   
-        
-        // left animation map
-        if (animationDirection.x == -1 && animationDirection.y == 0)
-        {
-            targetAnimationState = TargetAnimationStates.Legs_Run_Left;
-        }
+            // forward animation map
+            if (animationDirection.x == 0 && animationDirection.y == 1)
+            {
+                targetAnimationState = TargetAnimationStates.Legs_Run_Forward;
+            }
 
-        // forward right
-        if (animationDirection.x == 1 && animationDirection.y == 1)
+            // backward animation map
+            if (animationDirection.x == 0 && animationDirection.y == -1)
+            {
+                targetAnimationState = TargetAnimationStates.Legs_Run_Backward;
+            }
+
+            // right animation map
+            if (animationDirection.x == 1 && animationDirection.y == 0)
+            {
+                targetAnimationState = TargetAnimationStates.Legs_Run_Right;
+            }
+
+            // left animation map
+            if (animationDirection.x == -1 && animationDirection.y == 0)
+            {
+                targetAnimationState = TargetAnimationStates.Legs_Run_Left;
+            }
+
+            // forward right
+            if (animationDirection.x == 1 && animationDirection.y == 1)
+            {
+                targetAnimationState = TargetAnimationStates.Legs_Run_Forward_Right;
+            }
+
+            // forward left
+            if (animationDirection.x == -1 && animationDirection.y == 1)
+            {
+                targetAnimationState = TargetAnimationStates.Legs_Run_Forward_Left;
+            }
+
+            // backward right
+            if (animationDirection.x == 1 && animationDirection.y == -1)
+            {
+                targetAnimationState = TargetAnimationStates.Legs_Run_Backward_Right;
+            }
+
+            // forward left
+            if (animationDirection.x == -1 && animationDirection.y == -1)
+            {
+                targetAnimationState = TargetAnimationStates.Legs_Run_Backward_Left;
+            }
+        }
+   
+        // all of our movements when we are not on the ground
+        if (!grounded)
         {
-            targetAnimationState = TargetAnimationStates.Legs_Run_Forward_Right;
-        }        
-        
-        // forward left
-        if (animationDirection.x == -1 && animationDirection.y == 1)
-        {
-            targetAnimationState = TargetAnimationStates.Legs_Run_Forward_Left;
-        }        
-        
-        // backward right
-        if (animationDirection.x == 1 && animationDirection.y == -1)
-        {
-            targetAnimationState = TargetAnimationStates.Legs_Run_Backward_Right;
-        }        
-        
-        // forward left
-        if (animationDirection.x == -1 && animationDirection.y == -1)
-        {
-            targetAnimationState = TargetAnimationStates.Legs_Run_Backward_Left;
+
         }
     }
 
