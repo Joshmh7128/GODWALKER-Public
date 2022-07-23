@@ -15,7 +15,11 @@ public class PlayerAnimationController : MonoBehaviour
         Legs_Run_Forward,
         Legs_Run_Backward,
         Legs_Run_Right,
-        Legs_Run_Left,
+        Legs_Run_Left,      
+        Legs_Run_Forward_Right,
+        Legs_Run_Forward_Left,
+        Legs_Run_Backward_Right,
+        Legs_Run_Backward_Left,
 
         endLayer // exists for organization
 
@@ -90,6 +94,30 @@ public class PlayerAnimationController : MonoBehaviour
         if (animationDirection.x == -1 && animationDirection.y == 0)
         {
             targetAnimationState = TargetAnimationStates.Legs_Run_Left;
+        }
+
+        // forward right
+        if (animationDirection.x == 1 && animationDirection.y == 1)
+        {
+            targetAnimationState = TargetAnimationStates.Legs_Run_Forward_Right;
+        }        
+        
+        // forward left
+        if (animationDirection.x == -1 && animationDirection.y == 1)
+        {
+            targetAnimationState = TargetAnimationStates.Legs_Run_Forward_Left;
+        }        
+        
+        // backward right
+        if (animationDirection.x == 1 && animationDirection.y == -1)
+        {
+            targetAnimationState = TargetAnimationStates.Legs_Run_Backward_Right;
+        }        
+        
+        // forward left
+        if (animationDirection.x == -1 && animationDirection.y == -1)
+        {
+            targetAnimationState = TargetAnimationStates.Legs_Run_Backward_Left;
         }
     }
 
