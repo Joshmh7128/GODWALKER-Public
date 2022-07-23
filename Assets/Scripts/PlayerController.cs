@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     // script handles movement of the player
     [Header("Movement")]
-    Vector3 moveH, moveV, move;
+    public Vector3 moveH, moveV, move;
     Transform cameraRig;
     [SerializeField] CharacterController characterController; // our character controller
     [SerializeField] float moveSpeed, gravity, jumpVelocity; // set in editor for controlling
