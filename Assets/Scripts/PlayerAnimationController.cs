@@ -27,6 +27,13 @@ public class PlayerAnimationController : MonoBehaviour
 
     }
 
+    enum MovementStates
+    {
+        grounded, jumping, dashing
+    }
+
+    [SerializeField] MovementStates movementState; // our current movement state
+
     [SerializeField] TargetAnimationStates targetAnimationState; // what is our target animation state?
 
     Vector3 startPosition; // get our start position so that we can actively keep the player locked into it
@@ -71,8 +78,11 @@ public class PlayerAnimationController : MonoBehaviour
         // set grounded 
         grounded = playerController.grounded;
 
+        if (grounded) { movementState = MovementStates.grounded; }
+        else if (!grounded) { movementState = MovementStates.jumping; }
+
         // all of our movements on the ground
-        if (grounded)
+        if (movementState == MovementStates.grounded)
         {
             // idle animation map
             if (animationDirection.x == 0 && animationDirection.y == 0)
@@ -130,9 +140,9 @@ public class PlayerAnimationController : MonoBehaviour
         }
    
         // all of our movements when we are not on the ground
-        if (!grounded)
+        if (movementState == MovementStates.jumping)
         {
-
+            targetAnimationState = TargetAnimationStates.Legs_Jumping; // make our character jump
         }
     }
 
