@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CharacterController characterController; // our character controller
     [SerializeField] float moveSpeed, gravity, jumpVelocity; // set in editor for controlling
     RaycastHit groundedHit; // checking to see if we have touched the ground
-    [SerializeField] float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
+    public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
     public bool grounded;
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
