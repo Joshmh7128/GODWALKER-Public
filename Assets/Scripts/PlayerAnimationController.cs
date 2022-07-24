@@ -155,8 +155,14 @@ public class PlayerAnimationController : MonoBehaviour
             }
         }
    
-        // all of our movements when we are not on the ground
+        // jumping
         if (movementState == MovementStates.jumping)
+        {
+            targetAnimationState = TargetAnimationStates.Legs_Jumping; // make our character jump
+        }        
+        
+        // falling animation (set to jumping for now)
+        if (movementState == MovementStates.falling)
         {
             targetAnimationState = TargetAnimationStates.Legs_Jumping; // make our character jump
         }
