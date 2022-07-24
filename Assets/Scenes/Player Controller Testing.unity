@@ -1631,8 +1631,9 @@ MonoBehaviour:
   gravityValue: 0
   verticalVelocity: 0
   playerJumpVelocity: 0
-  playerHeight: 1.1
-  playerWidth: 0
+  grounded: 0
+  playerHeight: 0.9
+  playerWidth: 0.4
   groundCheckCooldown: 0
   groundCheckCooldownMax: 0.1
   cameraRig: {fileID: 0}
@@ -1650,12 +1651,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.15, z: 0}
 --- !u!4 &1390758124
 Transform:
   m_ObjectHideFlags: 0
@@ -3929,6 +3930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda1cc9306ec55f48ab350533ae94224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementState: 0
   targetAnimationState: 0
   animationTransitionLerpTime: 15
 --- !u!4 &7288187028207556524

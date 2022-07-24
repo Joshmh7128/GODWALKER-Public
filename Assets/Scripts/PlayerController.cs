@@ -57,7 +57,6 @@ public class PlayerController : MonoBehaviour
         if (groundCheckCooldown <= 0)
         {
             Physics.SphereCast(transform.position, playerWidth, Vector3.down, out groundedHit, playerHeight, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-
         }
 
         if (groundCheckCooldown > 0)
