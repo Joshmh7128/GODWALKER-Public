@@ -6,15 +6,20 @@ using UnityEngine;
 public class PlayerInverseKinematicsController : MonoBehaviour
 {
     // our IK targets
-    [SerializeField] Transform targetRightHand, targetLeftHand, targetLook;
+    [SerializeField] Transform targetRightHand, targetLeftHand, targetLook, targetParent, topSpine;
     [SerializeField] Animator animator;
 
     // control
     [SerializeField] bool rightArm, leftArm, look;
 
+    private void Update()
+    {
+        targetParent.position = Vector3.Lerp(targetParent.position, topSpine.position, 10f*Time.deltaTime);
+        targetParent.LookAt(targetLook);   
+    }
+
     private void OnAnimatorIK(int layerIndex)
     {
-
         if (rightArm)
         {   
             // right hands
@@ -35,7 +40,7 @@ public class PlayerInverseKinematicsController : MonoBehaviour
         {
             // look target
             animator.SetLookAtPosition(targetLook.position);
-            animator.SetLookAtWeight(1, 0.5f, 1, 1, 0);
+            animator.SetLookAtWeight(1, 1f, 1, 1, 0);
         }
     }
 }

@@ -243,14 +243,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 65637954}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.175, y: -0.006, z: 0.477}
+  m_LocalRotation: {x: 0.000000003026798, y: 0.0000000037252899, z: 0.7071066, w: 0.707107}
+  m_LocalPosition: {x: 0.09799994, y: -0.037999984, z: 0.46500033}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1384536403}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &200000287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,7 +1665,7 @@ GameObject:
   m_Layer: 0
   m_Name: IK_Targets
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1676,15 +1676,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384536402}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.0022578328, y: 0.083323546, z: 0.00018878763, w: 0.99652}
+  m_LocalPosition: {x: -0.015424023, y: 1.2738297, z: -0.012351508}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2135445493}
   - {fileID: 65637955}
-  m_Father: {fileID: 1640352839}
-  m_RootOrder: 1
+  m_Father: {fileID: 3668948135605410553}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1390758121
 GameObject:
@@ -2013,7 +2013,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3668948135605410553}
-  - {fileID: 1384536403}
   m_Father: {fileID: 1390758124}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2324,7 +2323,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135445492}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.207, y: -0.006000057, z: 0.477}
+  m_LocalPosition: {x: 0.163, y: -0.038, z: 0.465}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2406,7 +2405,7 @@ GameObject:
   m_Layer: 0
   m_Name: mixamorig1:Spine2
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3236,6 +3235,7 @@ Transform:
   m_Children:
   - {fileID: 4922229421350714078}
   - {fileID: 9120536979364472679}
+  - {fileID: 1384536403}
   m_Father: {fileID: 1640352839}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4078,9 +4078,11 @@ MonoBehaviour:
   targetRightHand: {fileID: 2135445493}
   targetLeftHand: {fileID: 65637955}
   targetLook: {fileID: 862855035}
+  targetParent: {fileID: 1384536403}
+  topSpine: {fileID: 6073452630485611303}
   animator: {fileID: 7208737119507464323}
-  rightArm: 0
-  leftArm: 0
+  rightArm: 1
+  leftArm: 1
   look: 1
 --- !u!4 &7288187028207556524
 Transform:
