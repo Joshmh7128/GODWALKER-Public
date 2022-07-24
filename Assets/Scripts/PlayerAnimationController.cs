@@ -23,23 +23,31 @@ public class PlayerAnimationController : MonoBehaviour
         Legs_Run_Backward_Left,
         Legs_Jumping,
         Legs_Falling,
+        Legs_Turning,
 
         endLayer // exists for organization
 
     }
 
-    enum MovementStates
+    public enum MovementStates
     {
-        grounded, jumping, falling, dashing
+        grounded, jumping, falling, dashing, turning
     }
 
-    [SerializeField] MovementStates movementState; // our current movement state
+    public MovementStates movementState; // our current movement state
 
     [SerializeField] TargetAnimationStates targetAnimationState; // what is our target animation state?
 
     Vector3 startPosition; // get our start position so that we can actively keep the player locked into it
 
     [SerializeField] float animationTransitionLerpTime; // the lerp speed at which animation values transition
+
+    public static PlayerAnimationController instance; // our instance
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // start runs after the awake and before the first update
     private void Start()
@@ -165,6 +173,12 @@ public class PlayerAnimationController : MonoBehaviour
         if (movementState == MovementStates.falling)
         {
             targetAnimationState = TargetAnimationStates.Legs_Jumping; // make our character jump
+        }        
+        
+        // turning in place
+        if (movementState == MovementStates.turning)
+        {
+            targetAnimationState = TargetAnimationStates.Legs_Turning; // make our character jump
         }
     }
 

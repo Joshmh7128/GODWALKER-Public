@@ -35,7 +35,7 @@ public class PlayerInverseKinematicsController : MonoBehaviour
         {
             // look target
             animator.SetLookAtPosition(targetLook.position);
-            animator.SetLookAtWeight(1, 1, 1, 1, 0);
+            animator.SetLookAtWeight(1, 0.5f, 1, 1, 0);
         }
     }
 }

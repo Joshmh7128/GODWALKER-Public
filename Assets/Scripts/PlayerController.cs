@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [Header("Animation Management")]
     [SerializeField] Transform cameraRig, animationRigParent;
     [SerializeField] float maxRealignAngle; // how far can the player turn before we need to realign
+    [SerializeField] float realignSpeed; // how quickly we align
     
 
     // setup our instance
@@ -95,18 +96,18 @@ public class PlayerController : MonoBehaviour
         characterController.Move(move * Time.deltaTime * moveSpeed);
     }
 
+    bool isParentAligned; // is our animation parent currently aligned
     // our animation parent control
     void ProcessAnimationParentControl()
     {
         // if we're not moving, only align when the absolute value of the difference between our animations is more than our realign angle
         if (move == Vector3.zero)
         {
-            if (Mathf.Abs(animationRigParent.eulerAngles.y - cameraRig.eulerAngles.y) > maxRealignAngle)
-            {
-                animationRigParent.eulerAngles = new Vector3(0, cameraRig.eulerAngles.y, 0);
-            }
+
+            animationRigParent.eulerAngles = new Vector3(0f, cameraRig.eulerAngles.y, 0f);
+
         }
-        
+
         // if we are moving, make sure to turn the character every frame
         if (move != Vector3.zero)
         { animationRigParent.eulerAngles = new Vector3(0, cameraRig.eulerAngles.y, 0); }
