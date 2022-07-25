@@ -13,7 +13,10 @@ public abstract class WeaponClass : MonoBehaviour
 
     // the positions that we need on very weapon
     public Vector3 weaponKickPos, weaponRecoilRot, bodyRecoilRot; // relative to local position
-    public Vector3 rightHandPos, leftHandPos; // where our right and left hands go on this weapon
+    public Transform rightHandPos, leftHandPos; // where our right and left hands go on this weapon
+    // the cosmetic information of our weapon
+    public GameObject weaponModel; // our weapon model saved as a prefab
+    public Renderer activeWeaponRenderer; // the renderer that is turned on when this weapon is the current active weapon
 
     public abstract void UseWeapon(); // public function assigned to using our weapon
 
