@@ -9,8 +9,8 @@ public class PlayerInverseKinematicsController : MonoBehaviour
     [SerializeField] Animator animator;
 
     // our procedural weapon kick and roll control
-    Vector3 weaponKickPos, weaponRecoilRot; // !! ensure these are local + relative!
-    [SerializeField] Transform recoilParent; // the transform we modify for weapon kick and recoil
+    Vector3 weaponKickPos, weaponRecoilRot, bodyRecoilRot; // !! ensure these are local + relative!
+    [SerializeField] Transform recoilParent, lookTargetRecoilParent; // the transform we modify for weapon kick and recoil
 
     // our weapon manager to assist in procedural animation
     PlayerWeaponManager weaponManager;
@@ -37,34 +37,38 @@ public class PlayerInverseKinematicsController : MonoBehaviour
     {
         weaponKickPos = weaponManager.currentWeapon.weaponKickPos;
         weaponRecoilRot = weaponManager.currentWeapon.weaponRecoilRot;
-        // run applications
+        bodyRecoilRot = weaponManager.currentWeapon.bodyRecoilRot;
+        // run animation applications
         ApplyKick();
         ApplyRecoil();
 
+        Debug.Log("ApplyKickRecoil called on " + this.name);
     }
 
     // apply the kick to our weapon
     void ApplyKick()
     {
-        transform.localPosition = weaponKickPos;
+        recoilParent.localPosition = weaponKickPos;
     }
 
     // apply the rotation of our weapon's recoil
     void ApplyRecoil()
     {
-        transform.localEulerAngles = weaponRecoilRot;
+        recoilParent.localEulerAngles = weaponRecoilRot;
+        lookTargetRecoilParent.localEulerAngles = bodyRecoilRot;
     }
 
     // run every frame. lerp our weapon's local position back to 0
     void ProcessKickLerpBack()
     {
-        transform.localPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, 10f * Time.deltaTime);
+        recoilParent.localPosition = Vector3.Lerp(recoilParent.localPosition, Vector3.zero, 10f * Time.deltaTime);
     }
 
     // run every frame. lerp our weapon's local rotation back to 0
     void ProcessRecoilLerpBack()
     {
-        transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, Vector3.zero, 10f * Time.deltaTime);
+        recoilParent.localRotation = Quaternion.Lerp(recoilParent.localRotation, Quaternion.identity, 10f * Time.deltaTime);
+        lookTargetRecoilParent.localRotation = Quaternion.Lerp(lookTargetRecoilParent.localRotation, Quaternion.identity, 10f * Time.deltaTime);
     }
 
     private void Update()

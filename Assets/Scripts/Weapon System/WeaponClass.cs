@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponClass : MonoBehaviour
+public abstract class WeaponClass : MonoBehaviour 
 {
     /// <summary>
     /// This script will be used to build out weapons for rock hopper
@@ -12,7 +12,7 @@ public abstract class WeaponClass : MonoBehaviour
     /// 
 
     // the positions that we need on very weapon
-    public Vector3 weaponKickPos, weaponRecoilRot; // relative to local position
+    public Vector3 weaponKickPos, weaponRecoilRot, bodyRecoilRot; // relative to local position
     public Vector3 rightHandPos, leftHandPos; // where our right and left hands go on this weapon
 
     public abstract void UseWeapon(); // public function assigned to using our weapon
