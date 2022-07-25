@@ -2,18 +2,77 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class PlayerInverseKinematicsController : MonoBehaviour
 {
     // our IK targets
     [SerializeField] Transform targetRightHand, targetLeftHand, targetLook, targetParent, topSpine;
     [SerializeField] Animator animator;
 
+    // our procedural weapon kick and roll control
+    Vector3 weaponKickPos, weaponRecoilRot; // !! ensure these are local + relative!
+    [SerializeField] Transform recoilParent; // the transform we modify for weapon kick and recoil
+
+    // our weapon manager to assist in procedural animation
+    PlayerWeaponManager weaponManager;
+
     // control
     [SerializeField] bool rightArm, leftArm, look;
 
+    // setup our instance
+    public static PlayerInverseKinematicsController instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    // start to grab instances needed
+    private void Start()
+    {
+        // get our weapon manager instance
+        weaponManager = PlayerWeaponManager.instance;
+    }
+
+    // use to update our values on fire
+    public void ApplyKickRecoil()
+    {
+        weaponKickPos = weaponManager.currentWeapon.weaponKickPos;
+        weaponRecoilRot = weaponManager.currentWeapon.weaponRecoilRot;
+        // run applications
+        ApplyKick();
+        ApplyRecoil();
+
+    }
+
+    // apply the kick to our weapon
+    void ApplyKick()
+    {
+        transform.localPosition = weaponKickPos;
+    }
+
+    // apply the rotation of our weapon's recoil
+    void ApplyRecoil()
+    {
+        transform.localEulerAngles = weaponRecoilRot;
+    }
+
+    // run every frame. lerp our weapon's local position back to 0
+    void ProcessKickLerpBack()
+    {
+        transform.localPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, 10f * Time.deltaTime);
+    }
+
+    // run every frame. lerp our weapon's local rotation back to 0
+    void ProcessRecoilLerpBack()
+    {
+        transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, Vector3.zero, 10f * Time.deltaTime);
+    }
+
     private void Update()
     {
+        // make sure we are properly kicking our weapon
+        ProcessKickLerpBack();
+        ProcessRecoilLerpBack();
+
         targetParent.position = Vector3.Lerp(targetParent.position, topSpine.position, 10f*Time.deltaTime);
         targetParent.LookAt(targetLook);   
     }

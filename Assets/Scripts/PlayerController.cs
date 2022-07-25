@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxRealignAngle; // how far can the player turn before we need to realign
     [SerializeField] float realignSpeed; // how quickly we align
     
+    // our weapon management
+    PlayerWeaponManager weaponManager;
 
     // setup our instance
     public static PlayerController instance;
@@ -32,6 +34,8 @@ public class PlayerController : MonoBehaviour
     {
         // get our camera rig
         cameraRig = PlayerCameraController.instance.cameraRig;
+        // get our weapon manager
+        weaponManager = PlayerWeaponManager.instance;
         // lock cursor
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -43,6 +47,8 @@ public class PlayerController : MonoBehaviour
         ProcessMovement();
         // setup our animation parent so that the player faces the correct direction
         ProcessAnimationParentControl();
+        // how we control our weapon
+        ProcessWeaponControl();
     }
 
     // our movement function
@@ -111,5 +117,15 @@ public class PlayerController : MonoBehaviour
         // if we are moving, make sure to turn the character every frame
         if (move != Vector3.zero)
         { animationRigParent.eulerAngles = new Vector3(0, cameraRig.eulerAngles.y, 0); }
+    }
+
+    // weapon control
+    void ProcessWeaponControl()
+    {
+        // fire our current weapon
+        if (Input.GetMouseButtonDown(0))
+        {
+            weaponManager.currentWeapon.UseWeapon();
+        }
     }
 }

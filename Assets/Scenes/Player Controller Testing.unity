@@ -243,12 +243,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 65637954}
-  m_LocalRotation: {x: 0.000000003026798, y: 0.0000000037252899, z: 0.7071066, w: 0.707107}
-  m_LocalPosition: {x: 0.022, y: 0.015, z: 0.517}
+  m_LocalRotation: {x: 0.000000002910383, y: 0.0000000037252903, z: 0.70710665, w: 0.707107}
+  m_LocalPosition: {x: 0.022, y: -0.03700011, z: 0.50900006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1384536403}
+  m_Father: {fileID: 912576411}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &200000287
@@ -1219,6 +1219,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &912576410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 912576411}
+  m_Layer: 0
+  m_Name: RecoilParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &912576411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912576410}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2135445493}
+  - {fileID: 65637955}
+  m_Father: {fileID: 1384536403}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &926192617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1847,11 +1880,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2135445493}
-  - {fileID: 65637955}
+  - {fileID: 912576411}
   m_Father: {fileID: 3668948135605410553}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.257, y: 1.116, z: 0.038}
 --- !u!1 &1390758121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1863,6 +1895,7 @@ GameObject:
   - component: {fileID: 1390758124}
   - component: {fileID: 1390758123}
   - component: {fileID: 1390758122}
+  - component: {fileID: 1390758125}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1936,6 +1969,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1390758125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390758121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75cf6956f20ebe341a4f3d547c85bd49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primaryWeapon: {fileID: 0}
+  secondaryWeapon: {fileID: 0}
+  tertiaryWeapon: {fileID: 0}
+  currentWeapon: {fileID: 0}
 --- !u!1 &1430228554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2475,7 +2524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2115410464}
   m_Layer: 0
-  m_Name: WeaponParent
+  m_Name: ActiveWeaponCosmetic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2521,13 +2570,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135445492}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.163, y: 0, z: 0.465}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.16300002, y: -0.052000053, z: 0.457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2115410464}
-  m_Father: {fileID: 1384536403}
+  m_Father: {fileID: 912576411}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &11988824718354458
