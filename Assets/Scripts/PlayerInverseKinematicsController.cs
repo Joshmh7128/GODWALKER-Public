@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerInverseKinematicsController : MonoBehaviour
 {
     // our IK targets
-    [SerializeField] Transform targetRightHand, targetLeftHand, targetLook, targetParent, topSpine;
+    public Transform targetRightHand, targetLeftHand, targetLook, targetParent, topSpine;
     [SerializeField] Animator animator;
 
     // our procedural weapon kick and roll control

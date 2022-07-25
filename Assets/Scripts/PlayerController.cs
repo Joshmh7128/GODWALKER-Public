@@ -126,7 +126,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("WeaponControl called UseWeapon");
-            weaponManager.currentWeapon.UseWeapon();
+            weaponManager.currentWeapon.UseWeapon(WeaponClass.WeaponUseTypes.OnDown);
+        }
+
+        // fire our current weapon with hold
+        if (Input.GetMouseButton(0))
+        {
+            Debug.Log("WeaponControl called UseWeapon");
+            weaponManager.currentWeapon.UseWeapon(WeaponClass.WeaponUseTypes.OnHold);
         }
     }
 }

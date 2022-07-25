@@ -18,7 +18,12 @@ public abstract class WeaponClass : MonoBehaviour
     public GameObject weaponModel; // our weapon model saved as a prefab
     public Renderer activeWeaponRenderer; // the renderer that is turned on when this weapon is the current active weapon
 
-    public abstract void UseWeapon(); // public function assigned to using our weapon
+    public enum WeaponUseTypes
+    {
+        OnDown, OnHold
+    }
+
+    public abstract void UseWeapon(WeaponUseTypes useType); // public function assigned to using our weapon
 
     // every weapon will have kick and recoil, unless they are a melee weapon, in which case we will use a different kind of attack method
     public void ApplyKickRecoil()

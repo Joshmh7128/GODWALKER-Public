@@ -25,6 +25,7 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         // setup the cosmetic elements of our weapons on the character
         UpdateWeaponCosmetics();
+        UpdateCurrentWeapon();
     }
 
     // swap between weapons
@@ -50,7 +51,7 @@ public class PlayerWeaponManager : MonoBehaviour
                     currentWeaponInt++; Debug.Log("adding int");
                 }
             }
-            UpdateCurrentWeapon((int)Input.mouseScrollDelta.y);
+            UpdateCurrentWeapon();
         }
 
         // scrolling down 
@@ -68,7 +69,7 @@ public class PlayerWeaponManager : MonoBehaviour
                     currentWeaponInt--;
                 }
             }
-            UpdateCurrentWeapon((int)Input.mouseScrollDelta.y);
+            UpdateCurrentWeapon();
         }
     }
 
@@ -93,25 +94,52 @@ public class PlayerWeaponManager : MonoBehaviour
         weaponStorageSlots[currentWeaponInt].GetChild(0).gameObject.SetActive(false);
     }
 
-    void UpdateCurrentWeapon(int changeDirection)
+    void UpdateCurrentWeapon()
     {
         // if we are changing down, show the previous weapon we were just holding in its slot
 
         // swap to the correct list entry
         currentWeapon = weaponClasses[currentWeaponInt];
-        // change the weapon prefab in our origin slot
-        Destroy(weaponContainer.GetChild(0).gameObject);
-        Instantiate(currentWeapon.gameObject, weaponContainer);
         // turn on all the renderers
         for (int i = 0; i < weaponStorageSlots.Count; i++)
         {
             if (weaponStorageSlots[i].childCount > 0)
             {
-                weaponContainer.GetChild(0).gameObject.SetActive(true);
+                weaponStorageSlots[i].GetChild(0).gameObject.SetActive(true);
             }
         }
 
+        // then grab the new weapon
+        StartCoroutine(GrabWeapon());
+
+    }
+
+    // run this when we are ready to grab a new weapon
+    IEnumerator GrabWeapon()
+    {
+        float elapsedTime = 0;
+        float waitTime = 0.1f;
+        // then set our hand targets on our animator to the hand targets on the gun
+        while (elapsedTime < waitTime)
+        {
+            // lerp to the current slot
+            PlayerInverseKinematicsController.instance.targetRightHand.position = Vector3.Lerp(PlayerInverseKinematicsController.instance.targetRightHand.position, weaponStorageSlots[currentWeaponInt].position, 8 * Time.deltaTime);
+            PlayerInverseKinematicsController.instance.targetLeftHand.position = Vector3.Lerp(PlayerInverseKinematicsController.instance.targetRightHand.position, weaponStorageSlots[currentWeaponInt].position, 8 * Time.deltaTime);
+            // elapsed time add
+            elapsedTime += Time.deltaTime;
+            yield return null;  
+        }
+
+        yield return new WaitForSeconds(0f);
         // then turn off the renderer of our active weapon in storage
         weaponStorageSlots[currentWeaponInt].GetChild(0).gameObject.SetActive(false);
+
+        // then set our hand targets on our animator to the hand targets on the gun
+        PlayerInverseKinematicsController.instance.targetRightHand.localPosition = currentWeapon.rightHandPos.localPosition;
+        PlayerInverseKinematicsController.instance.targetLeftHand.localPosition = currentWeapon.leftHandPos.localPosition;
+        // change the weapon prefab in our origin slot
+        Destroy(weaponContainer.GetChild(0).gameObject);
+        Instantiate(currentWeapon.gameObject, weaponContainer);
+
     }
 }
