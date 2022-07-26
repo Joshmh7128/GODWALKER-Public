@@ -9,7 +9,9 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] float minYAngle, maxYAngle; // the minimum and maximum rotations of the camera
     float currentSensitivity, yRotate, xRotate;
     [SerializeField] public Transform cameraRig;
- 
+    [SerializeField] float sphereCastWidth; // the width of our spherecast
+    RaycastHit hit, check; // hit is for things we are hitting, check is for environmental low level checks, like UI dynamics etc
+
     // setup an instance
     public static PlayerCameraController instance;
     private void Awake()
@@ -18,6 +20,36 @@ public class PlayerCameraController : MonoBehaviour
     }
 
     private void Update()
+    {
+        // process our camera inputs
+        ProcessCameraControl();
+        // calculate aim point
+        CalculateAimPoint();
+    }
+
+    // runs at physics speed
+    private void FixedUpdate()
+    {
+        // calculate this in the fixed update once every frame
+        CalculateCheckPoint();
+    }
+
+    // get our check point
+    void CalculateCheckPoint()
+    {
+        Physics.Raycast(transform.position, transform.forward, out check, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide);
+    }
+
+    // using code and algorithms, calculate where we are aiming at :O
+    void CalculateAimPoint()
+    {
+        // do a spherecast forward
+        Physics.SphereCast(transform.position, sphereCastWidth, transform.forward, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+    }
+
+
+    // control our camera via the mouse
+    void ProcessCameraControl()
     {
         // our camera control
         currentSensitivity = aimSensitivity * 10f;

@@ -16,6 +16,9 @@ public class PlayerWeaponManager : MonoBehaviour
     [SerializeField] int currentWeaponInt, maxWeapons; 
     [SerializeField] Transform weaponContainer;
 
+    // weapon item prefab
+    [SerializeField] GameObject weaponItemPrefab;
+
     // setup and set our instance
     public static PlayerWeaponManager instance;
     private void Awake()
@@ -118,7 +121,7 @@ public class PlayerWeaponManager : MonoBehaviour
     IEnumerator GrabWeapon()
     {
         float elapsedTime = 0;
-        float waitTime = 0.1f;
+        float waitTime = 0f; // raise this for crude grabbing animations
         // then set our hand targets on our animator to the hand targets on the gun
         while (elapsedTime < waitTime)
         {
@@ -141,5 +144,25 @@ public class PlayerWeaponManager : MonoBehaviour
         Destroy(weaponContainer.GetChild(0).gameObject);
         Instantiate(currentWeapon.gameObject, weaponContainer);
 
+    }
+
+    // pickup weapon
+    public void PickupWeapon(GameObject weapon, GameObject breaker)
+    {
+        // throw our an exact replica of the weapon we are currently holding
+        Weapon_Item weapon_item = Instantiate(weaponItemPrefab, transform.position, Quaternion.identity, null).GetComponent<Weapon_Item>();
+        weapon_item.weapon = currentWeapon.gameObject;
+
+        // set our current weapon to the weapon that we want to pickup
+        currentWeapon = weapon.GetComponent<WeaponClass>();
+        weaponClasses[currentWeaponInt] = weapon.GetComponent<WeaponClass>();
+        // setup cosmetics
+        GameObject destroying = weaponStorageSlots[currentWeaponInt].GetChild(0).gameObject;
+        Destroy(destroying);
+        Instantiate(weapon.GetComponent<WeaponClass>().weaponModel, weaponStorageSlots[currentWeaponInt]);
+        // destroy the other weapon object that is on the ground
+        breaker.GetComponent<ItemClass>().DestroyGameObject();
+        // update
+        UpdateCurrentWeapon();
     }
 }
