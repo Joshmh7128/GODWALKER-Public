@@ -39,7 +39,14 @@ public class PlayerCameraController : MonoBehaviour
     void ProcessAimTarget()
     {
         // set it to the point of our check point
-        AimTarget.position = check.point;
+        if (check.transform != null)
+        {
+            AimTarget.position = check.point;
+        }
+        else
+        {
+            AimTarget.position = transform.forward * 1000f;
+        }
     }
 
     // get our check point

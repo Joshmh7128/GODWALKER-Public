@@ -25,6 +25,8 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         // make sure we spawn our cosmetic weapons
         SpawnCosmeticWeapons();
+        // update
+        UpdateCurrentWeapon();
     }
 
     // swap between weapons
@@ -85,9 +87,10 @@ public class PlayerWeaponManager : MonoBehaviour
 
         // enable the current weapon
         weapons[currentWeaponInt].SetActive(true);
+
         currentWeapon = weapons[currentWeaponInt].GetComponent<WeaponClass>();
         UpdateCosmeticSlots();
-        SwitchWeapon();
+        StartCoroutine(SwitchWeapon());
     }
 
     // update our cosmetics
@@ -116,10 +119,12 @@ public class PlayerWeaponManager : MonoBehaviour
         
     }
 
+    float currentTime = 0, waitTime = 30f;
+    float currentTimeBack = 0;
     // run this when we are ready to grab a new weapon
-    void SwitchWeapon()
+    IEnumerator SwitchWeapon()
     {
-        
+        // insert animation of player grabing weapon here
 
         // then turn off the renderer of our active weapon in storage
         weaponCosmeticStorageSlots[currentWeaponInt].gameObject.SetActive(false);
@@ -127,6 +132,7 @@ public class PlayerWeaponManager : MonoBehaviour
         // then set our hand targets on our animator to the hand targets on the gun
         PlayerInverseKinematicsController.instance.targetRightHand.localPosition = currentWeapon.rightHandPos.localPosition;
         PlayerInverseKinematicsController.instance.targetLeftHand.localPosition = currentWeapon.leftHandPos.localPosition;
+        yield return null;
     }
 
 

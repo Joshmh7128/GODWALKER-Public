@@ -35,8 +35,10 @@ public class PlayerController : MonoBehaviour
         // get our camera rig
         cameraRig = PlayerCameraController.instance.cameraRig;
         // get our weapon manager
+        weaponManager = PlayerWeaponManager.instance; 
         // lock cursor
         Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     // Update is called once per frame
@@ -125,12 +127,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("WeaponControl called UseWeapon");
+            PlayerWeaponManager.instance.currentWeapon.UseWeapon(WeaponClass.WeaponUseTypes.OnDown);
         }
 
         // fire our current weapon with hold
         if (Input.GetMouseButton(0))
         {
             Debug.Log("WeaponControl called UseWeapon");
+            PlayerWeaponManager.instance.currentWeapon.UseWeapon(WeaponClass.WeaponUseTypes.OnHold);
         }
     }
 }

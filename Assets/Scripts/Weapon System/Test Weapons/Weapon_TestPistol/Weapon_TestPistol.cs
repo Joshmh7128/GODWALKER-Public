@@ -34,7 +34,7 @@ public class Weapon_TestPistol : WeaponClass
         // get our direction to our target
         Vector3 shotDirection = PlayerCameraController.instance.AimTarget.position - muzzleOrigin.position;
         // instantiate and shoot our projectile in that direction
-        // Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.Euler(shotDirection), null);
+        Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(shotDirection), null);
         remainingFirerate = firerate;
         currentMagazine--;
         // if we're at 0 ammo then reload
