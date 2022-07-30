@@ -102,10 +102,20 @@ public class PlayerWeaponManager : MonoBehaviour
             // turn on all the slots
             weaponCosmeticStorageSlots[i].gameObject.SetActive(true);
         }
+
+        // then turn off the renderer of our active weapon in storage
+        weaponCosmeticStorageSlots[currentWeaponInt].gameObject.SetActive(false);
     }
 
     void SpawnCosmeticWeapons()
     {
+        // first clean all the weapons
+        for (int i = 0; i < weapons.Count-1; i++)
+        {
+            if (weaponCosmeticStorageSlots[i].childCount > 0)
+            Destroy(weaponCosmeticStorageSlots[i].GetChild(0).gameObject);
+        }
+
         // for each weapon in our inventory, spawn their model on the body of the player
         for (int i = 0; i < weapons.Count; i++)
         {
@@ -114,13 +124,19 @@ public class PlayerWeaponManager : MonoBehaviour
         }
     }
 
-    void PickupWeapon()
+    public void PickupWeapon(GameObject newWeaponObject)
     {
-        
+        // swap the current weapon with an instantiation of a new weapon from the weaponclass of the item
+        // first do the weapon itself
+        GameObject kill = weapons[currentWeaponInt];
+        Destroy(kill);
+        weapons[currentWeaponInt] = Instantiate(newWeaponObject, weaponContainer, false);
+        // update cosmetics
+        SpawnCosmeticWeapons();
+        // update current weapon
+        UpdateCurrentWeapon();
     }
 
-    float currentTime = 0, waitTime = 30f;
-    float currentTimeBack = 0;
     // run this when we are ready to grab a new weapon
     IEnumerator SwitchWeapon()
     {
