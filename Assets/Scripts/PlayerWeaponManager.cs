@@ -79,7 +79,9 @@ public class PlayerWeaponManager : MonoBehaviour
 
         // enable the current weapon
         weapons[currentWeaponInt].SetActive(true);
+        currentWeapon = weapons[currentWeaponInt].GetComponent<WeaponClass>();
         UpdateCosmeticSlots();
+        SwitchWeapon();
     }
 
     // update our cosmetics
@@ -89,19 +91,26 @@ public class PlayerWeaponManager : MonoBehaviour
         for (int i = 0; i < weapons.Count; i++)
         {
             Instantiate(weapons[i].GetComponent<WeaponClass>().weaponModel, weaponCosmeticStorageSlots[i]);
-            // turn off the one we are holding
-            if (i == currentWeaponInt)
-            {
-                weaponCosmeticStorageSlots[i].gameObject.SetActive(false);
-            }
         }
     }
 
     // run this when we are ready to grab a new weapon
-    void GrabWeapon()
+    void SwitchWeapon()
     {
+        /*
+        float currentTime = 0, waitTime = 10;
+
+        while ( currentTime < waitTime)
+        {
+            // replace this with logic to play animations instead of this jank swap later on
+            PlayerInverseKinematicsController.instance.targetRightHand.localPosition = Vector3.Lerp(PlayerInverseKinematicsController.instance.targetRightHand.localPosition, weaponCosmeticStorageSlots[currentWeaponInt].localPosition, 10f * Time.deltaTime);
+            PlayerInverseKinematicsController.instance.targetLeftHand.localPosition = Vector3.Lerp(PlayerInverseKinematicsController.instance.targetLeftHand.localPosition, weaponCosmeticStorageSlots[currentWeaponInt].localPosition, 10f * Time.deltaTime);
+            currentTime++;
+            return;
+        }*/
+
         // then turn off the renderer of our active weapon in storage
-        weaponCosmeticStorageSlots[currentWeaponInt].GetChild(0).gameObject.SetActive(false);
+        weaponCosmeticStorageSlots[currentWeaponInt].gameObject.SetActive(false);
 
         // then set our hand targets on our animator to the hand targets on the gun
         PlayerInverseKinematicsController.instance.targetRightHand.localPosition = currentWeapon.rightHandPos.localPosition;
