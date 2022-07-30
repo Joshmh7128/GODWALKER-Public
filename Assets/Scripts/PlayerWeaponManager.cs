@@ -21,6 +21,12 @@ public class PlayerWeaponManager : MonoBehaviour
     private void Awake()
     { instance = this; }
 
+    private void Start()
+    {
+        // make sure we spawn our cosmetic weapons
+        SpawnCosmeticWeapons();
+    }
+
     // swap between weapons
     private void Update()
     {
@@ -87,27 +93,33 @@ public class PlayerWeaponManager : MonoBehaviour
     // update our cosmetics
     void UpdateCosmeticSlots()
     {
+        // for each weapon in our inventory, turn their weapon on
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            // turn on all the slots
+            weaponCosmeticStorageSlots[i].gameObject.SetActive(true);
+        }
+    }
+
+    void SpawnCosmeticWeapons()
+    {
         // for each weapon in our inventory, spawn their model on the body of the player
         for (int i = 0; i < weapons.Count; i++)
         {
-            Instantiate(weapons[i].GetComponent<WeaponClass>().weaponModel, weaponCosmeticStorageSlots[i]);
+            GameObject g = Instantiate(weapons[i].GetComponent<WeaponClass>().weaponModel, weaponCosmeticStorageSlots[i], false);
+            g.transform.localPosition = Vector3.zero;
         }
+    }
+
+    void PickupWeapon()
+    {
+        
     }
 
     // run this when we are ready to grab a new weapon
     void SwitchWeapon()
     {
-        /*
-        float currentTime = 0, waitTime = 10;
-
-        while ( currentTime < waitTime)
-        {
-            // replace this with logic to play animations instead of this jank swap later on
-            PlayerInverseKinematicsController.instance.targetRightHand.localPosition = Vector3.Lerp(PlayerInverseKinematicsController.instance.targetRightHand.localPosition, weaponCosmeticStorageSlots[currentWeaponInt].localPosition, 10f * Time.deltaTime);
-            PlayerInverseKinematicsController.instance.targetLeftHand.localPosition = Vector3.Lerp(PlayerInverseKinematicsController.instance.targetLeftHand.localPosition, weaponCosmeticStorageSlots[currentWeaponInt].localPosition, 10f * Time.deltaTime);
-            currentTime++;
-            return;
-        }*/
+        
 
         // then turn off the renderer of our active weapon in storage
         weaponCosmeticStorageSlots[currentWeaponInt].gameObject.SetActive(false);
