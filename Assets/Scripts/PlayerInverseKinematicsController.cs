@@ -29,15 +29,15 @@ public class PlayerInverseKinematicsController : MonoBehaviour
     private void Start()
     {
         // get our weapon manager instance
-        weaponManager = PlayerWeaponManager.instance;
     }
 
     // use to update our values on fire
     public void ApplyKickRecoil()
     {
+        /*
         weaponKickPos = weaponManager.currentWeapon.weaponKickPos;
         weaponRecoilRot = weaponManager.currentWeapon.weaponRecoilRot;
-        bodyRecoilRot = weaponManager.currentWeapon.bodyRecoilRot;
+        bodyRecoilRot = weaponManager.currentWeapon.bodyRecoilRot;*/
         // run animation applications
         ApplyKick();
         ApplyRecoil();

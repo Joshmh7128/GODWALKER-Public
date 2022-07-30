@@ -755,7 +755,7 @@ PrefabInstance:
       objectReference: {fileID: 109696965}
     - target: {fileID: 9220793262546347692, guid: 7f1ebea68c45c974c8a554c8e9d443d7, type: 3}
       propertyPath: m_VersionIndex
-      value: 63
+      value: 108
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f1ebea68c45c974c8a554c8e9d443d7, type: 3}
@@ -840,6 +840,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 402139250}
   m_CullTransparentMesh: 1
+--- !u!1 &405698269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 405698270}
+  m_Layer: 0
+  m_Name: AimTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &405698270
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405698269}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1575880729}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &417586552
 GameObject:
   m_ObjectHideFlags: 0
@@ -2679,6 +2710,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 80474632}
+  - {fileID: 405698270}
   m_Father: {fileID: 1586199803}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2699,6 +2731,7 @@ MonoBehaviour:
   maxYAngle: 90
   cameraRig: {fileID: 1586199803}
   sphereCastWidth: 0
+  AimTarget: {fileID: 405698270}
 --- !u!114 &1575880731
 MonoBehaviour:
   m_ObjectHideFlags: 0
