@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 5647615517598362728}
   - component: {fileID: 3490711668051721400}
   m_Layer: 0
-  m_Name: Weapon_TestPistol
+  m_Name: Weapon_TestPistol 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,14 +85,12 @@ MonoBehaviour:
   rightHandPos: {fileID: 8276147722444769938}
   leftHandPos: {fileID: 3620924467268204894}
   weaponModel: {fileID: 5176200992764314544, guid: 34a217275061e774cb0a362951a703b7, type: 3}
-  activeWeaponRenderer: {fileID: 7722890183555295850}
   firerate: 10
   remainingFirerate: 0
   muzzleOrigin: {fileID: 6252149465587129228}
   bulletPrefab: {fileID: 193226, guid: 7136cdad590bd7b4d84692bc0bc12bf1, type: 3}
   currentMagazine: 5
   maxMagazine: 5
-  inventoryPos: 2
 --- !u!1 &3628481724692177841
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,6 +160,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5647615517598362728}
     m_Modifications:
+    - target: {fileID: 939132434591367100, guid: 34a217275061e774cb0a362951a703b7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 17d0839647d9a9c4984bf855cff30529, type: 2}
     - target: {fileID: 1860996904680452986, guid: 34a217275061e774cb0a362951a703b7, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -227,10 +229,5 @@ PrefabInstance:
 --- !u!4 &1434350501930367625 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8485510003623587679, guid: 34a217275061e774cb0a362951a703b7, type: 3}
-  m_PrefabInstance: {fileID: 7360359867459540438}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &7722890183555295850 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 939132434591367100, guid: 34a217275061e774cb0a362951a703b7, type: 3}
   m_PrefabInstance: {fileID: 7360359867459540438}
   m_PrefabAsset: {fileID: 0}
