@@ -11,6 +11,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] public Transform cameraRig;
     [SerializeField] float sphereCastWidth; // the width of our spherecast
     RaycastHit hit, check; // hit is for things we are hitting, check is for environmental low level checks, like UI dynamics etc
+    [SerializeField] public Transform AimTarget; // the transform of the object we are using to aim at 
 
     // setup an instance
     public static PlayerCameraController instance;
@@ -23,8 +24,6 @@ public class PlayerCameraController : MonoBehaviour
     {
         // process our camera inputs
         ProcessCameraControl();
-        // calculate aim point
-        CalculateAimPoint();
     }
 
     // runs at physics speed
@@ -32,6 +31,15 @@ public class PlayerCameraController : MonoBehaviour
     {
         // calculate this in the fixed update once every frame
         CalculateCheckPoint();
+        // update the aim point
+        ProcessAimTarget();
+    }
+
+    // set the position of our aim target
+    void ProcessAimTarget()
+    {
+        // set it to the point of our check point
+        AimTarget.position = check.point;
     }
 
     // get our check point
@@ -39,14 +47,6 @@ public class PlayerCameraController : MonoBehaviour
     {
         Physics.Raycast(transform.position, transform.forward, out check, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide);
     }
-
-    // using code and algorithms, calculate where we are aiming at :O
-    void CalculateAimPoint()
-    {
-        // do a spherecast forward
-        Physics.SphereCast(transform.position, sphereCastWidth, transform.forward, out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-    }
-
 
     // control our camera via the mouse
     void ProcessCameraControl()

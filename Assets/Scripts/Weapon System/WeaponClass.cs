@@ -17,6 +17,8 @@ public abstract class WeaponClass : MonoBehaviour
     // the cosmetic information of our weapon
     public GameObject weaponModel; // our weapon model saved as a prefab
     public Renderer activeWeaponRenderer; // the renderer that is turned on when this weapon is the current active weapon
+    public float firerate, remainingFirerate; // how quickly can this weapon fire?
+    public Transform muzzleOrigin; // the origin of our muzzle
 
     public enum WeaponUseTypes
     {
