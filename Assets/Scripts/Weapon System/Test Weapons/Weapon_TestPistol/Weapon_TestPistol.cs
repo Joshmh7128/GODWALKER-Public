@@ -6,11 +6,6 @@ public class Weapon_TestPistol : WeaponClass
 {
     // attirbutes of this weapon
 
-    private void Start()
-    {
-        firerate = 10f; // fire once every 10 frames
-    }
-
     // called when the weapon is used
     public override void UseWeapon(WeaponUseTypes useType)
     {
