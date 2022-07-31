@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
 
     [Header("Animation Management")]
-    [SerializeField] Transform cameraRig, animationRigParent;
+    public Transform cameraRig, animationRigParent;
     [SerializeField] float maxRealignAngle; // how far can the player turn before we need to realign
     [SerializeField] float realignSpeed; // how quickly we align
     

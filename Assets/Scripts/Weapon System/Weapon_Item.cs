@@ -8,7 +8,7 @@ public class Weapon_Item : ItemClass
     bool canGrab; 
 
     // what is our weapon?
-    [SerializeField] GameObject weapon;
+    public GameObject weapon;
     [SerializeField] Transform modelParent;
 
     // start
@@ -25,7 +25,7 @@ public class Weapon_Item : ItemClass
         if (canGrab)
         {
             // replace with Use button later
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 PlayerWeaponManager.instance.PickupWeapon(weapon);
                 Destroy(gameObject);

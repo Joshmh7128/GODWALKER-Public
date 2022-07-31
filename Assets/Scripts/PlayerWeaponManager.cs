@@ -15,6 +15,9 @@ public class PlayerWeaponManager : MonoBehaviour
     public WeaponClass currentWeapon; // the current weapon in the player's hands
     [SerializeField] int currentWeaponInt; 
     [SerializeField] Transform weaponContainer;
+    [SerializeField] AudioSource weaponEquipSource; // our weapon equip audio source
+    // weapon item
+    [SerializeField] GameObject weaponItem;
 
     // setup and set our instance
     public static PlayerWeaponManager instance;
@@ -129,12 +132,21 @@ public class PlayerWeaponManager : MonoBehaviour
         // swap the current weapon with an instantiation of a new weapon from the weaponclass of the item
         // first do the weapon itself
         GameObject kill = weapons[currentWeaponInt];
+        // instantiate a copy of the weapon we are currently holding
+        Weapon_Item copyItem = Instantiate(weaponItem, PlayerController.instance.animationRigParent.position + PlayerController.instance.animationRigParent.forward, Quaternion.identity, null).GetComponent<Weapon_Item>();
+        GameObject copyWeapon = Instantiate(kill, copyItem.transform);
+        copyWeapon.SetActive(false);
+        copyItem.weapon = copyWeapon;
+        copyItem.gameObject.GetComponent<Rigidbody>().velocity = PlayerController.instance.animationRigParent.forward * 8;
+        copyItem.gameObject.transform.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
         Destroy(kill);
         weapons[currentWeaponInt] = Instantiate(newWeaponObject, weaponContainer, false);
         // update cosmetics
         SpawnCosmeticWeapons();
         // update current weapon
         UpdateCurrentWeapon();
+        // play our sound effect
+        weaponEquipSource.PlayOneShot(weaponEquipSource.clip);
     }
 
     // run this when we are ready to grab a new weapon
