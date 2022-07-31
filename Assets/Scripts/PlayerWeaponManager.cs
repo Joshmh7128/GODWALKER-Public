@@ -113,7 +113,7 @@ public class PlayerWeaponManager : MonoBehaviour
     void SpawnCosmeticWeapons()
     {
         // first clean all the weapons
-        for (int i = 0; i < weapons.Count-1; i++)
+        for (int i = 0; i < weapons.Count; i++)
         {
             if (weaponCosmeticStorageSlots[i].childCount > 0)
             Destroy(weaponCosmeticStorageSlots[i].GetChild(0).gameObject);

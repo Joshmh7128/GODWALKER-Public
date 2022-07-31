@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon_TestPistol : WeaponClass
+public class Weapon_TestRifle : WeaponClass
 {
     // attirbutes of this weapon
 
@@ -10,12 +10,11 @@ public class Weapon_TestPistol : WeaponClass
     public override void UseWeapon(WeaponUseTypes useType)
     {
         // since this is a semi automatic weapon, we want to fire ondown
-        if (useType == WeaponUseTypes.OnDown)
+        if (useType == WeaponUseTypes.OnHold)
         {
             // check if we can fire
             if (remainingFirerate <= 0 && currentMagazine > 0)
             {
-                Debug.Log("Fire() called on " + gameObject.name);
                 Fire(); // shoot our gun
             }
         }
@@ -33,7 +32,7 @@ public class Weapon_TestPistol : WeaponClass
         remainingFirerate = firerate;
         currentMagazine--;
         // if we're at 0 ammo then reload
-        if (currentMagazine <=0)
+        if (currentMagazine <= 0)
         {
             Reload();
         }
