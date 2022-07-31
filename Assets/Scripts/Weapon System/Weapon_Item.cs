@@ -27,8 +27,12 @@ public class Weapon_Item : ItemClass
             // replace with Use button later
             if (Input.GetKeyDown(KeyCode.E))
             {
-                PlayerWeaponManager.instance.PickupWeapon(weapon);
-                Destroy(gameObject);
+                if (PlayerWeaponManager.instance.pickupCooldown <= 0 && PlayerWeaponManager.instance.nearestWeapon == gameObject)
+                {
+                    PlayerWeaponManager.instance.nearbyWeapons.Remove(gameObject); // remove this weapon from the list
+                    PlayerWeaponManager.instance.PickupWeapon(weapon); // pickup the weapon
+                    Destroy(gameObject); // remove the weapon from the world
+                }
             }
         }
     }
@@ -38,6 +42,7 @@ public class Weapon_Item : ItemClass
     {
         if (other.gameObject.tag == "Player")
         {
+            PlayerWeaponManager.instance.nearbyWeapons.Add(gameObject);
             canGrab = true;
         }
     }
@@ -46,6 +51,7 @@ public class Weapon_Item : ItemClass
     {
         if (other.gameObject.tag == "Player")
         {
+            PlayerWeaponManager.instance.nearbyWeapons.Remove(gameObject);
             canGrab = false;
         }
     }

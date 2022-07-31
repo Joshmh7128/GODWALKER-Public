@@ -19,6 +19,15 @@ public class PlayerWeaponManager : MonoBehaviour
     // weapon item
     [SerializeField] GameObject weaponItem;
 
+
+    // weapon pickup related
+    public float pickupCooldown, pickupCooldownMax = 10f;
+
+
+    // nearby weapon list
+    public List<GameObject> nearbyWeapons; // the weapons near us
+    public GameObject nearestWeapon; // the weapon which is closest to us
+
     // setup and set our instance
     public static PlayerWeaponManager instance;
     private void Awake()
@@ -37,6 +46,15 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         // moving up and down with the scroll input
         ProcessScrollInput();
+
+        // process our weapon pickup cooldown
+        ProcessPickupCooldown();
+    }
+
+    private void FixedUpdate()
+    {
+        // of the weapons near us, find the closest
+        ProcessNearestWeapon();
     }
 
     // what we run to process the input
@@ -127,8 +145,18 @@ public class PlayerWeaponManager : MonoBehaviour
         }
     }
 
+    void ProcessPickupCooldown()
+    {
+        if (pickupCooldown >= 0)
+        {
+            pickupCooldown--;
+        }
+    }
+
     public void PickupWeapon(GameObject newWeaponObject)
     {
+        // set our cooldown
+        pickupCooldown = pickupCooldownMax;
         // swap the current weapon with an instantiation of a new weapon from the weaponclass of the item
         // first do the weapon itself
         GameObject kill = weapons[currentWeaponInt];
@@ -163,5 +191,27 @@ public class PlayerWeaponManager : MonoBehaviour
         yield return null;
     }
 
+    // find the closest weapon
+    void ProcessNearestWeapon()
+    {
+        if (nearbyWeapons.Count > 0)
+        {
+            foreach (GameObject weapon in nearbyWeapons)
+            {
+                if (nearestWeapon == null)
+                {
+                    nearestWeapon = weapon;
+                }
+                else
+                {
+                    // if the distance to our current weapon is less than the distance of the nearest weapon, then make the closer weapon the nearest weapon
+                    if (Vector3.Distance(transform.position, weapon.transform.position) < Vector3.Distance(transform.position, nearestWeapon.transform.position))
+                    {
+                        nearestWeapon = weapon;
+                    }
+                }
+            }
+        }
+    }
 
 }
