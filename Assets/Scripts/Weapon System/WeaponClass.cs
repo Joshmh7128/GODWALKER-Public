@@ -12,7 +12,7 @@ public abstract class WeaponClass : MonoBehaviour
     /// 
 
     // the positions that we need on very weapon
-    public Vector3 weaponKickPos, weaponRecoilRot, bodyRecoilRot; // relative to local position
+    public Vector3 weaponKickPos, weaponRecoilRot, bodyRecoilRot, reloadRot; // relative to local position
     public Transform rightHandPos, leftHandPos; // where our right and left hands go on this weapon
     // the cosmetic information of our weapon
     public GameObject weaponModel; // our weapon model saved as a prefab
@@ -22,6 +22,9 @@ public abstract class WeaponClass : MonoBehaviour
     public GameObject bulletPrefab; // we spawn this when we fire
     // ammunition vars
     public float currentMagazine, maxMagazine;
+    public float reloadTime; // the amount of time in seconds the reload takes
+    // audio 
+    public AudioSource reloadSource; // the audio source which plays our reload sound
 
     // our weapon use types
     public enum WeaponUseTypes

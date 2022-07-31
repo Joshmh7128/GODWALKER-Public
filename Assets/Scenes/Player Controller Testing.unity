@@ -15986,7 +15986,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1364
+  m_Name: pb_Mesh-1490
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -16775,7 +16775,7 @@ PrefabInstance:
       objectReference: {fileID: 1127003736}
     - target: {fileID: 9220793262546347692, guid: 7f1ebea68c45c974c8a554c8e9d443d7, type: 3}
       propertyPath: m_VersionIndex
-      value: 24
+      value: 57
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f1ebea68c45c974c8a554c8e9d443d7, type: 3}
@@ -16949,7 +16949,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1388
+  m_Name: pb_Mesh-1514
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -17113,7 +17113,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1232
+  m_Name: pb_Mesh-1274
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -17874,6 +17874,10 @@ MonoBehaviour:
   weaponContainer: {fileID: 1363232493}
   weaponEquipSource: {fileID: 710085938}
   weaponItem: {fileID: 582354195252808340, guid: ea93ae248fa8c8d409aedaacf7fbb3e0, type: 3}
+  pickupCooldown: 0
+  pickupCooldownMax: 10
+  nearbyWeapons: []
+  nearestWeapon: {fileID: 0}
 --- !u!1001 &1394176244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17943,7 +17947,7 @@ PrefabInstance:
       objectReference: {fileID: 1516548320}
     - target: {fileID: 9220793262546347692, guid: fe15cdfe74584f745a5f914fde989a24, type: 3}
       propertyPath: m_VersionIndex
-      value: 30
+      value: 69
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe15cdfe74584f745a5f914fde989a24, type: 3}
@@ -18135,7 +18139,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1256
+  m_Name: pb_Mesh-1340
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -23525,6 +23529,37 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &1730549605
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1730549606}
+  m_Layer: 0
+  m_Name: MagazineGrabTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1730549606
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730549605}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.158, y: -0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9120536979364472679}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1737153793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24125,7 +24160,7 @@ PrefabInstance:
       objectReference: {fileID: 813668054}
     - target: {fileID: 9220793262546347692, guid: 01cc0280a5826d649bde6492e6df03c2, type: 3}
       propertyPath: m_VersionIndex
-      value: 36
+      value: 78
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01cc0280a5826d649bde6492e6df03c2, type: 3}
@@ -24282,7 +24317,7 @@ PrefabInstance:
       objectReference: {fileID: 1122170520}
     - target: {fileID: 9220793262546347692, guid: 88a3c916972340b4585bcd345f6b2352, type: 3}
       propertyPath: m_VersionIndex
-      value: 30
+      value: 69
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88a3c916972340b4585bcd345f6b2352, type: 3}
@@ -26204,6 +26239,7 @@ MonoBehaviour:
   targetParent: {fileID: 1384536403}
   topSpine: {fileID: 6073452630485611303}
   animator: {fileID: 7208737119507464323}
+  reloading: 0
   recoilParent: {fileID: 912576411}
   lookTargetRecoilParent: {fileID: 80474632}
   rightArm: 1
@@ -26761,6 +26797,7 @@ Transform:
   - {fileID: 3637622056390800556}
   - {fileID: 3788923870927172354}
   - {fileID: 4269572436549388878}
+  - {fileID: 1730549606}
   m_Father: {fileID: 3668948135605410553}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

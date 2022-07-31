@@ -7,9 +7,10 @@ public class PlayerInverseKinematicsController : MonoBehaviour
     // our IK targets
     public Transform targetRightHand, targetLeftHand, targetLook, targetParent, topSpine;
     [SerializeField] Animator animator;
+    public bool reloading; // are we reloading?
 
     // our procedural weapon kick and roll control
-    Vector3 weaponKickPos, weaponRecoilRot, bodyRecoilRot; // !! ensure these are local + relative!
+    Vector3 weaponKickPos, weaponRecoilRot, bodyRecoilRot, reloadRot; // !! ensure these are local + relative!
     [SerializeField] Transform recoilParent, lookTargetRecoilParent; // the transform we modify for weapon kick and recoil
 
     // our weapon manager to assist in procedural animation
@@ -31,6 +32,8 @@ public class PlayerInverseKinematicsController : MonoBehaviour
         // get our weapon manager instance
         weaponManager = PlayerWeaponManager.instance;
     }
+
+    #region // kick and recoil
 
     // use to update our values on fire
     public void ApplyKickRecoil()
@@ -58,6 +61,7 @@ public class PlayerInverseKinematicsController : MonoBehaviour
         lookTargetRecoilParent.localEulerAngles = bodyRecoilRot;
     }
 
+
     // run every frame. lerp our weapon's local position back to 0
     void ProcessKickLerpBack()
     {
@@ -71,11 +75,43 @@ public class PlayerInverseKinematicsController : MonoBehaviour
         lookTargetRecoilParent.localRotation = Quaternion.Lerp(lookTargetRecoilParent.localRotation, Quaternion.identity, 10f * Time.deltaTime);
     }
 
+    #endregion
+
+    #region // reload animation properties
+    // for the application of our reload
+    public void ApplyReload()
+    {
+        reloading = true;
+        // set our reload rotation
+        reloadRot = weaponManager.currentWeapon.reloadRot;
+    }
+
+    public void EndReload()
+    {
+        reloading = false;
+    }
+
+    void ProcessReload()
+    {
+        // lerp to our current reloadRot
+        recoilParent.localRotation = Quaternion.Lerp(recoilParent.localRotation, Quaternion.Euler(reloadRot), 10f * Time.deltaTime);
+    }
+
+    #endregion
+
     private void Update()
     {
-        // make sure we are properly kicking our weapon
-        ProcessKickLerpBack();
-        ProcessRecoilLerpBack();
+        if (!reloading)
+        {
+            // make sure we are properly kicking our weapon
+            ProcessKickLerpBack();
+            ProcessRecoilLerpBack();
+        }
+        else
+        {
+            // process our reload when reloading
+            ProcessReload();
+        }
 
         targetParent.position = Vector3.Lerp(targetParent.position, topSpine.position, 10f*Time.deltaTime);
         targetParent.LookAt(targetLook);   

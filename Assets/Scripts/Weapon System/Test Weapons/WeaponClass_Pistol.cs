@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon_TestRifle : WeaponClass
+public class WeaponClass_Pistol : WeaponClass
 {
-    // attirbutes of this weapon
-
+    // attributes of this weapon
+    
     // called when the weapon is used
     public override void UseWeapon(WeaponUseTypes useType)
     {
         // since this is a semi automatic weapon, we want to fire ondown
-        if (useType == WeaponUseTypes.OnHold)
+        if (useType == WeaponUseTypes.OnDown)
         {
             // check if we can fire
             if (remainingFirerate <= 0 && currentMagazine > 0)
@@ -32,7 +32,7 @@ public class Weapon_TestRifle : WeaponClass
         remainingFirerate = firerate;
         currentMagazine--;
         // if we're at 0 ammo then reload
-        if (currentMagazine <= 0)
+        if (currentMagazine <=0)
         {
             Reload();
         }
@@ -41,6 +41,18 @@ public class Weapon_TestRifle : WeaponClass
     // function to reload the gun
     public override void Reload()
     {
+        StartCoroutine(ReloadTiming()); 
+    }
+
+    // coroutine to reload the gun
+    IEnumerator ReloadTiming()
+    {
+        PlayerInverseKinematicsController.instance.ApplyReload();
+        // make sure we setup our anim controlled to be chill with us reloading
+        yield return new WaitForSeconds(reloadTime);
+        PlayerInverseKinematicsController.instance.EndReload();
+        // play our reloaded sound
+        reloadSource.PlayOneShot(reloadSource.clip);
         currentMagazine = maxMagazine;
     }
 
