@@ -177,13 +177,17 @@ public class PlayerWeaponManager : MonoBehaviour
         weaponEquipSource.PlayOneShot(weaponEquipSource.clip);
     }
 
-    // run this when we are ready to grab a new weapon
+    // run this when we are ready to switch to another weapon
     IEnumerator SwitchWeapon()
     {
         // insert animation of player grabing weapon here
 
         // then turn off the renderer of our active weapon in storage
         weaponCosmeticStorageSlots[currentWeaponInt].gameObject.SetActive(false);
+        // reset the rotation of our recoil parent
+        PlayerInverseKinematicsController.instance.recoilParent.rotation = Quaternion.identity;
+        // interrupt any reloading animations that are playing
+        PlayerInverseKinematicsController.instance.reloading = false;
 
         // then set our hand targets on our animator to the hand targets on the gun
         PlayerInverseKinematicsController.instance.targetRightHand.localPosition = currentWeapon.rightHandPos.localPosition;

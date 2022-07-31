@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
         ProcessAnimationParentControl();
         // how we control our weapon
         ProcessWeaponControl();
+        // reloading
+        ProcessReloadControl();
     }
 
     // our movement function
@@ -103,7 +105,15 @@ public class PlayerController : MonoBehaviour
         characterController.Move(move * Time.deltaTime * moveSpeed);
     }
 
-    bool isParentAligned; // is our animation parent currently aligned
+    void ProcessReloadControl()
+    {
+        // when we press R, reload our current weapon
+        if (Input.GetKeyDown (KeyCode.R))
+        {
+            PlayerWeaponManager.instance.currentWeapon.Reload();
+        }
+    }
+
     // our animation parent control
     void ProcessAnimationParentControl()
     {
@@ -126,14 +136,12 @@ public class PlayerController : MonoBehaviour
         // fire our current weapon
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("WeaponControl called UseWeapon");
             PlayerWeaponManager.instance.currentWeapon.UseWeapon(WeaponClass.WeaponUseTypes.OnDown);
         }
 
         // fire our current weapon with hold
         if (Input.GetMouseButton(0))
         {
-            Debug.Log("WeaponControl called UseWeapon");
             PlayerWeaponManager.instance.currentWeapon.UseWeapon(WeaponClass.WeaponUseTypes.OnHold);
         }
     }

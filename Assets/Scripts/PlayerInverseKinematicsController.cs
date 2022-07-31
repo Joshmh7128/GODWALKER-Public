@@ -11,7 +11,7 @@ public class PlayerInverseKinematicsController : MonoBehaviour
 
     // our procedural weapon kick and roll control
     Vector3 weaponKickPos, weaponRecoilRot, bodyRecoilRot, reloadRot; // !! ensure these are local + relative!
-    [SerializeField] Transform recoilParent, lookTargetRecoilParent; // the transform we modify for weapon kick and recoil
+    public Transform recoilParent, lookTargetRecoilParent; // the transform we modify for weapon kick and recoil
 
     // our weapon manager to assist in procedural animation
     PlayerWeaponManager weaponManager;
