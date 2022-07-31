@@ -110,6 +110,8 @@ public class PlayerController : MonoBehaviour
         // when we press R, reload our current weapon
         if (Input.GetKeyDown (KeyCode.R))
         {
+            // check our IK controller to see if we are reloading
+            if (PlayerInverseKinematicsController.instance.reloading == false)
             PlayerWeaponManager.instance.currentWeapon.Reload();
         }
     }

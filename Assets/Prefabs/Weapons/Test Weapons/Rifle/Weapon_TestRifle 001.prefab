@@ -52,7 +52,7 @@ MonoBehaviour:
   weaponKickPos: {x: 0, y: -0.1, z: -0.1}
   weaponRecoilRot: {x: -5, y: 0, z: 0}
   bodyRecoilRot: {x: -10, y: 0, z: 0}
-  reloadRot: {x: 0, y: 0, z: 0}
+  reloadRot: {x: -10, y: 0, z: 5}
   rightHandPos: {fileID: 2056387741997913752}
   leftHandPos: {fileID: 6286597269984547457}
   weaponModel: {fileID: 2112149442825020013, guid: 58a263d1d5e76474aafb67d7665f59a5, type: 3}
@@ -62,7 +62,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 193226, guid: 7136cdad590bd7b4d84692bc0bc12bf1, type: 3}
   currentMagazine: 5
   maxMagazine: 5
-  reloadTime: 3
+  reloadTime: 2
   reloadSource: {fileID: -6808159000999141645}
   spreadX: 0
   spreadY: 0
@@ -81,7 +81,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5bb278e1cc61c564787b31ad9ef0b302, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
