@@ -26,6 +26,11 @@ public abstract class WeaponClass : MonoBehaviour
     // audio 
     public AudioSource reloadSource; // the audio source which plays our reload sound
 
+    // recoil for weapons
+    public float spreadX, spreadY, spreadMax; // spread on each of these axes
+    public float spreadXDelta, spreadYDelta; // the increase on each of these axes
+    public float spreadReduct; // how quickly we return to our original state
+
     // our weapon use types
     public enum WeaponUseTypes
     {

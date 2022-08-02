@@ -5,9 +5,7 @@ using UnityEngine;
 public class WeaponClass_Rifle : WeaponClass
 {
     // attirbutes of this weapon
-    [SerializeField] float spreadX, spreadY, spreadMax; // spread on each of these axes
-    [SerializeField] float spreadXDelta, spreadYDelta; // the increase on each of these axes
-    [SerializeField] float spreadReduct; // how quickly we return to our original state
+
     // called when the weapon is used
     public override void UseWeapon(WeaponUseTypes useType)
     {

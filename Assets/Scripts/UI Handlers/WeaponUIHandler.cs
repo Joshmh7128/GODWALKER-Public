@@ -7,72 +7,52 @@ public class WeaponUIHandler : MonoBehaviour
 {
     // this script serves as a handler for dynamic weapon UI. it uses weapon class data to display UI information
 
-    public GameObject weapon; // the weapon we're attached to
+    WeaponClass weaponClass; // the weaponclass of our weapon
 
-    WeaponTypes weaponType; // what weapon is this script attached to?
-    enum WeaponTypes
+    // the set of UI elements that we can use to represent our weapon
+    [SerializeField] Slider ammoSlider; // our weapon's slider
+    [SerializeField] Transform reticleLeft, reticleRight, reticleTop, reticleBottom; // all four of our reticle lines 
+    Vector3 reticleLeftOrigin, reticleRightOrigin, reticleTopOrigin, reticleBottomOrigin; // the four origin points of our reticles
+    [SerializeField] float reticleSpreadResponseMagnitude; // how much our reticles represent the spread
+
+    // run on start to setup our weapon
+    void SetupUI()
     {
-        none, pistol, rifle
+        // get our weaponClass
+        weaponClass = GetComponent<WeaponClass>();
+        // setup our reticle points
+        reticleLeftOrigin = reticleLeft.position;
+        reticleRightOrigin = reticleRight.position;
+        reticleTopOrigin = reticleTop.position;
+        reticleBottomOrigin = reticleBottom.position;
     }
 
-    // start runs at the beginning of the game
+    // run the UI
+    void ProcessUI()
+    {
+        // ammo slider
+        if (ammoSlider != null)
+        {
+            // set the values of the slider
+            ammoSlider.maxValue = weaponClass.maxMagazine;
+            ammoSlider.value = weaponClass.currentMagazine;
+        }
+
+        // dynamic reticle lerping
+        reticleRight.position = new Vector3(reticleRight.position.x + weaponClass.spreadX * reticleSpreadResponseMagnitude, reticleRight.position.y, reticleRight.position.z);
+        reticleLeft.position = new Vector3(reticleLeft.position.x + -weaponClass.spreadX * reticleSpreadResponseMagnitude, reticleLeft.position.y, reticleLeft.position.z);
+
+    }
+
     private void Start()
     {
-        // set the weapon mode based on the scripts attached to us
-        SetMode();
+        SetupUI();
     }
 
-    // runs every game tick
     private void Update()
     {
-        // run the according UI function each frame
+        // process our UI
         ProcessUI();
     }
 
-    // check the weapon gameobject to see what kind of UI we're going to be using, then set the state
-    void SetMode()
-    {
-        // if we are using a pistol, go into pistol state
-        if (weapon.GetComponent<WeaponClass_Pistol>() != null)
-        { weaponType = WeaponTypes.pistol; }
-
-        // if we are using a rifle, go into rifle state
-        if (weapon.GetComponent<WeaponClass_Rifle>() != null)
-        { weaponType = WeaponTypes.rifle; }
-    }
-
-    void ProcessUI()
-    {
-        // run the according function
-        if (weaponType == WeaponTypes.none)
-        {
-            ProcessUI_None();
-        }
-
-        if (weaponType == WeaponTypes.pistol)
-        {
-            ProcessUI_Pistol();
-        }
-
-        if (weaponType == WeaponTypes.rifle)
-        {
-            ProcessUI_Rifle();
-        }
-    }
-
-    void ProcessUI_None()
-    {
-        // nothing here yet
-    }
-
-    void ProcessUI_Pistol()
-    {
-        // display a slider which represented our pistol's ammo amount
-
-    }
-
-    void ProcessUI_Rifle()
-    {
-
-    }
 }
