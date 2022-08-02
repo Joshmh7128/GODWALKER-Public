@@ -13,7 +13,7 @@ public class WeaponUIHandler : MonoBehaviour
     [SerializeField] Slider ammoSlider; // our weapon's slider
     [SerializeField] RectTransform reticleRight, reticleLeft, reticleTop, reticleBottom; // all four of our reticle lines 
     Vector3 reticleLeftOrigin, reticleRightOrigin, reticleTopOrigin, reticleBottomOrigin; // the four origin points of our reticles
-    [SerializeField] float reticleSpreadResponseMagnitude; // how much our reticles represent the spread
+    [SerializeField] float reticleSpreadResponseMagnitude = 1000f; // how much our reticles represent the spread
 
     // run on start to setup our weapon
     void SetupUI()
