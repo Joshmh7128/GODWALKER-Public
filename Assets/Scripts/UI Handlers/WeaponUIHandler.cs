@@ -11,7 +11,7 @@ public class WeaponUIHandler : MonoBehaviour
 
     // the set of UI elements that we can use to represent our weapon
     [SerializeField] Slider ammoSlider; // our weapon's slider
-    [SerializeField] Transform reticleLeft, reticleRight, reticleTop, reticleBottom; // all four of our reticle lines 
+    [SerializeField] RectTransform reticleRight, reticleLeft, reticleTop, reticleBottom; // all four of our reticle lines 
     Vector3 reticleLeftOrigin, reticleRightOrigin, reticleTopOrigin, reticleBottomOrigin; // the four origin points of our reticles
     [SerializeField] float reticleSpreadResponseMagnitude; // how much our reticles represent the spread
 
@@ -21,10 +21,10 @@ public class WeaponUIHandler : MonoBehaviour
         // get our weaponClass
         weaponClass = GetComponent<WeaponClass>();
         // setup our reticle points
-        reticleLeftOrigin = reticleLeft.position;
-        reticleRightOrigin = reticleRight.position;
-        reticleTopOrigin = reticleTop.position;
-        reticleBottomOrigin = reticleBottom.position;
+        reticleLeftOrigin = reticleLeft.anchoredPosition;
+        reticleRightOrigin = reticleRight.anchoredPosition;
+        reticleTopOrigin = reticleTop.anchoredPosition;
+        reticleBottomOrigin = reticleBottom.anchoredPosition;
     }
 
     // run the UI
@@ -39,8 +39,21 @@ public class WeaponUIHandler : MonoBehaviour
         }
 
         // dynamic reticle lerping
-        reticleRight.position = new Vector3(reticleRight.position.x + weaponClass.spreadX * reticleSpreadResponseMagnitude, reticleRight.position.y, reticleRight.position.z);
-        reticleLeft.position = new Vector3(reticleLeft.position.x + -weaponClass.spreadX * reticleSpreadResponseMagnitude, reticleLeft.position.y, reticleLeft.position.z);
+        reticleRight.anchoredPosition = Vector2.Lerp(reticleRight.anchoredPosition, reticleRightOrigin, 2f * Time.deltaTime);
+        reticleLeft.anchoredPosition = Vector2.Lerp(reticleLeft.anchoredPosition, reticleLeftOrigin, 2f * Time.deltaTime);
+        reticleTop.anchoredPosition = Vector2.Lerp(reticleTop.anchoredPosition, reticleTopOrigin, 2f * Time.deltaTime);
+        reticleBottom.anchoredPosition = Vector2.Lerp(reticleBottom.anchoredPosition, reticleBottomOrigin, 2f * Time.deltaTime);
+
+    }
+
+    // kick ui, call when the weapon fires
+    public void KickUI()
+    {
+        // movement outwards
+        reticleRight.anchoredPosition = new Vector2(reticleRightOrigin.x + weaponClass.spreadX * reticleSpreadResponseMagnitude, 0);
+        reticleLeft.anchoredPosition = new Vector2(reticleLeftOrigin.x + -weaponClass.spreadX * reticleSpreadResponseMagnitude, 0);
+        reticleTop.anchoredPosition = new Vector2(0, reticleTopOrigin.y + weaponClass.spreadY * reticleSpreadResponseMagnitude);
+        reticleBottom.anchoredPosition = new Vector2(0, reticleBottomOrigin.y + -weaponClass.spreadY * reticleSpreadResponseMagnitude);
 
     }
 

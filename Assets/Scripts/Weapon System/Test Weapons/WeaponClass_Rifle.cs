@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class WeaponClass_Rifle : WeaponClass
 {
-    // attirbutes of this weapon
-
+    // attributes of this weapon
+    public override void WeaponStart()
+    {
+        throw new System.NotImplementedException();
+    }
     // called when the weapon is used
     public override void UseWeapon(WeaponUseTypes useType)
     {
@@ -25,6 +28,7 @@ public class WeaponClass_Rifle : WeaponClass
     {
         ApplyKickRecoil(); // apply our recoil
         AddSpread(); // add spread
+        weaponUIHandler.KickUI(); // kick our UI
         // get our direction to our target
         Vector3 shotDirection = (PlayerCameraController.instance.AimTarget.position - muzzleOrigin.position).normalized;
         // add to our shot direction based on our spread

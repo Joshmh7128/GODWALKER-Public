@@ -12,11 +12,14 @@ public abstract class WeaponClass : MonoBehaviour
     /// 
 
     // the positions that we need on very weapon
-    public Vector3 weaponKickPos, weaponRecoilRot, bodyRecoilRot, reloadRot; // relative to local position
+
+    [Header("Procedural Animation Variables")]
+    public Vector3 weaponKickPos; public Vector3 weaponRecoilRot, bodyRecoilRot, reloadRot; // relative to local position
     public Transform rightHandPos, leftHandPos; // where our right and left hands go on this weapon
     // the cosmetic information of our weapon
     public GameObject weaponModel; // our weapon model saved as a prefab
-    public float firerate, remainingFirerate; // how quickly can this weapon fire?
+    [Header("Combat Related")]
+    public float firerate; public float remainingFirerate; // how quickly can this weapon fire?
     public Transform muzzleOrigin; // the origin of our muzzle
     // our bullet prefab
     public GameObject bulletPrefab; // we spawn this when we fire
@@ -26,16 +29,30 @@ public abstract class WeaponClass : MonoBehaviour
     // audio 
     public AudioSource reloadSource; // the audio source which plays our reload sound
 
+    [Header("Recoil and Spread Variables")]
     // recoil for weapons
     public float spreadX, spreadY, spreadMax; // spread on each of these axes
     public float spreadXDelta, spreadYDelta; // the increase on each of these axes
     public float spreadReduct; // how quickly we return to our original state
+
+    // our UI handler
+    public WeaponUIHandler weaponUIHandler;
 
     // our weapon use types
     public enum WeaponUseTypes
     {
         OnDown, OnHold
     }
+
+    // the start that is called on every weapon
+    public void Start()
+    {
+
+        weaponUIHandler = GetComponent<WeaponUIHandler>();
+    }
+
+    // the start that is called manually on every weapon
+    public abstract void WeaponStart();
 
     public abstract void UseWeapon(WeaponUseTypes useType); // public function assigned to using our weapon
 

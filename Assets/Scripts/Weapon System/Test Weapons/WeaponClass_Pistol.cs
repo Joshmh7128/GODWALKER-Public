@@ -5,7 +5,11 @@ using UnityEngine;
 public class WeaponClass_Pistol : WeaponClass
 {
     // attributes of this weapon
-    
+    public override void WeaponStart()
+    {
+        throw new System.NotImplementedException();
+    }
+
     // called when the weapon is used
     public override void UseWeapon(WeaponUseTypes useType)
     {
