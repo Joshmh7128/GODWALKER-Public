@@ -181,7 +181,7 @@ public class PlayerWeaponManager : MonoBehaviour
     IEnumerator SwitchWeapon()
     {
         // insert animation of player grabing weapon here
-
+        currentWeapon.reloading = false;
         // then turn off the renderer of our active weapon in storage
         weaponCosmeticStorageSlots[currentWeaponInt].gameObject.SetActive(false);
         // reset the rotation of our recoil parent

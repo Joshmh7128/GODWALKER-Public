@@ -26,6 +26,7 @@ public abstract class WeaponClass : MonoBehaviour
     // ammunition vars
     public float currentMagazine, maxMagazine;
     public float reloadTime; // the amount of time in seconds the reload takes
+    public bool reloading; // are we reloading?
     // audio 
     public AudioSource reloadSource; // the audio source which plays our reload sound
 

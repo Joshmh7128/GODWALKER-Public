@@ -20,6 +20,12 @@ public class WeaponClass_Rifle : WeaponClass
             {
                 Fire(); // shoot our gun
             }
+
+            // if we're at 0 ammo then reload
+            if (remainingFirerate <= 0 && currentMagazine == 0)
+            {
+                Reload();
+            }
         }
     }
 
@@ -37,22 +43,22 @@ public class WeaponClass_Rifle : WeaponClass
         Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection), null);
         remainingFirerate = firerate;
         currentMagazine--;
-        // if we're at 0 ammo then reload
-        if (currentMagazine <= 0)
-        {
-            Reload();
-        }
     }
 
     // function to reload the gun
     public override void Reload()
     {
-        StartCoroutine(ReloadTiming());
+        if (!reloading)
+        {
+            weaponUIHandler.TriggerReload(reloadTime); // start a reload
+            StartCoroutine(ReloadTiming());
+        }
     }
 
     // coroutine to reload the gun
     IEnumerator ReloadTiming()
     {
+        reloading = true;
         PlayerInverseKinematicsController.instance.ApplyReload();
         // make sure we setup our anim controlled to be chill with us reloading
         yield return new WaitForSeconds(reloadTime);
@@ -60,6 +66,7 @@ public class WeaponClass_Rifle : WeaponClass
         // play our reloaded sound
         reloadSource.PlayOneShot(reloadSource.clip);
         currentMagazine = maxMagazine;
+        reloading = false;
     }
 
     // runs every physics frame

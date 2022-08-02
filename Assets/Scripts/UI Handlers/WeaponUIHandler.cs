@@ -10,7 +10,8 @@ public class WeaponUIHandler : MonoBehaviour
     WeaponClass weaponClass; // the weaponclass of our weapon
 
     // the set of UI elements that we can use to represent our weapon
-    [SerializeField] Slider ammoSlider; // our weapon's slider
+    [SerializeField] Slider ammoSlider, reloadSlider; // our weapon's slider
+    [SerializeField] CanvasGroup reloadSliderGroup; // the reload slider group
     [SerializeField] RectTransform reticleRight, reticleLeft, reticleTop, reticleBottom; // all four of our reticle lines 
     Vector3 reticleLeftOrigin, reticleRightOrigin, reticleTopOrigin, reticleBottomOrigin; // the four origin points of our reticles
     [SerializeField] float reticleSpreadResponseMagnitude = 100f; // how much our reticles represent the spread
@@ -43,7 +44,6 @@ public class WeaponUIHandler : MonoBehaviour
         reticleLeft.anchoredPosition = Vector2.Lerp(reticleLeft.anchoredPosition, reticleLeftOrigin, 2f * Time.deltaTime);
         reticleTop.anchoredPosition = Vector2.Lerp(reticleTop.anchoredPosition, reticleTopOrigin, 2f * Time.deltaTime);
         reticleBottom.anchoredPosition = Vector2.Lerp(reticleBottom.anchoredPosition, reticleBottomOrigin, 2f * Time.deltaTime);
-
     }
 
     // kick ui, call when the weapon fires
@@ -54,7 +54,31 @@ public class WeaponUIHandler : MonoBehaviour
         reticleLeft.anchoredPosition = new Vector2(reticleLeftOrigin.x + -weaponClass.spreadX * reticleSpreadResponseMagnitude, 0);
         reticleTop.anchoredPosition = new Vector2(0, reticleTopOrigin.y + weaponClass.spreadY * reticleSpreadResponseMagnitude);
         reticleBottom.anchoredPosition = new Vector2(0, reticleBottomOrigin.y + -weaponClass.spreadY * reticleSpreadResponseMagnitude);
+    }
 
+    public void TriggerReload(float reloadTime)
+    {
+        reloadSlider.maxValue = reloadTime;
+        reloadSlider.value = 0;
+    }
+
+    void ProcessReload()
+    {
+        // count up
+        if (reloadSlider.value < reloadSlider.maxValue)
+        {
+            reloadSliderGroup.alpha = 1f;
+            reloadSlider.value += Time.deltaTime;
+        }
+
+        // when we hit
+        if (reloadSlider.value == reloadSlider.maxValue)
+        {
+            if (reloadSliderGroup.alpha > 0)
+            {
+                reloadSliderGroup.alpha -= 0.1f;
+            }
+        }
     }
 
     private void Start()
@@ -66,6 +90,8 @@ public class WeaponUIHandler : MonoBehaviour
     {
         // process our UI
         ProcessUI();
+        // process the reload
+        ProcessReload();
     }
 
 }
