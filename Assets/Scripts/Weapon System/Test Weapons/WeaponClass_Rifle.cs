@@ -13,7 +13,7 @@ public class WeaponClass_Rifle : WeaponClass
     public override void UseWeapon(WeaponUseTypes useType)
     {
         // since this is a semi automatic weapon, we want to fire ondown
-        if (useType == WeaponUseTypes.OnHold)
+        if (useType == WeaponUseTypes.OnHold && !reloading)
         {
             // check if we can fire
             if (remainingFirerate <= 0 && currentMagazine > 0)

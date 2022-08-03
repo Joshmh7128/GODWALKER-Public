@@ -98,8 +98,12 @@ public class PlayerWeaponManager : MonoBehaviour
         }
     }
 
+    // when we update our weapon
     void UpdateCurrentWeapon()
     {
+        if (currentWeapon)
+        { currentWeapon.CancelReload(); }
+
         // turn off all the weapons
         foreach (GameObject weapon in weapons)
         {
@@ -157,7 +161,9 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         // set our cooldown
         pickupCooldown = pickupCooldownMax;
-        // swap the current weapon with an instantiation of a new weapon from the weaponclass of the item
+        // make sure we tell our current weapon it is being dropped
+        currentWeapon.OnDrop();
+        currentWeapon.CancelReload();
         // first do the weapon itself
         GameObject kill = weapons[currentWeaponInt];
         // instantiate a copy of the weapon we are currently holding
@@ -180,8 +186,7 @@ public class PlayerWeaponManager : MonoBehaviour
     // run this when we are ready to switch to another weapon
     IEnumerator SwitchWeapon()
     {
-        // insert animation of player grabing weapon here
-        currentWeapon.reloading = false;
+
         // then turn off the renderer of our active weapon in storage
         weaponCosmeticStorageSlots[currentWeaponInt].gameObject.SetActive(false);
         // reset the rotation of our recoil parent

@@ -81,6 +81,23 @@ public class WeaponUIHandler : MonoBehaviour
         }
     }
 
+    // cancel our reload
+    public void CancelReload()
+    {
+        Debug.Log("Cancel Reload called on weapon ui handler");
+        reloadSliderGroup.alpha = 0f;
+        reloadSlider.value = reloadSlider.maxValue;
+    }
+
+    // when this weapon is dropped
+    public void OnDrop()
+    {
+        reticleLeft.anchoredPosition = reticleLeftOrigin;
+        reticleRight.anchoredPosition = reticleRightOrigin;
+        reticleTop.anchoredPosition = reticleTopOrigin;
+        reticleBottom.anchoredPosition = reticleBottomOrigin;
+    }
+
     private void Start()
     {
         SetupUI();

@@ -48,7 +48,6 @@ public abstract class WeaponClass : MonoBehaviour
     // the start that is called on every weapon
     public void Start()
     {
-
         weaponUIHandler = GetComponent<WeaponUIHandler>();
     }
 
@@ -63,5 +62,18 @@ public abstract class WeaponClass : MonoBehaviour
     public void ApplyKickRecoil()
     {
         PlayerInverseKinematicsController.instance.ApplyKickRecoil();
+    }
+
+    // call this when we drop our weapon
+    public void OnDrop()
+    {
+        weaponUIHandler.OnDrop();
+    }
+
+    // what to do if we cancel a reload
+    public void CancelReload()
+    {
+        reloading = false;
+        weaponUIHandler.CancelReload();
     }
 }
