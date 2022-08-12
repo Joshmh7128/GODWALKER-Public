@@ -13,6 +13,7 @@ public class WeaponPartModifier : MonoBehaviour
     [SerializeField] float spreadMaxMod; 
     [SerializeField] float spreadDeltaXMod; 
     [SerializeField] float spreadDeltaYMod;
+    [SerializeField] float magazineMaxMod;
     [SerializeField] GameObject projectile; // the projectile of the weapon we want to fire
 
     private void OnEnable()
@@ -51,6 +52,12 @@ public class WeaponPartModifier : MonoBehaviour
         if (projectile)
         {
             weaponClass.bulletPrefab = projectile;
+        }
+
+        if (magazineMaxMod != 0)
+        {
+            weaponClass.maxMagazine += magazineMaxMod;
+            weaponClass.currentMagazine = weaponClass.maxMagazine;
         }
     }
 }
