@@ -80,7 +80,7 @@ public class WeaponPartModifier : MonoBehaviour
             }
 
             if (nameMod != "")
-            { weaponClass.name += " " + nameMod; }
+            { weaponClass.weaponName += " " + nameMod; }
         }
     }
 }
