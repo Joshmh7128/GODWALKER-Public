@@ -23,8 +23,6 @@ public class WeaponPartModifier : MonoBehaviour
 
     void ActivateModifiers()
     {
-        Debug.Log("modifiers triggering on " + gameObject.name);
-
         // find the weapon class
         if (transform.root.GetComponent<WeaponClass>())
         {
