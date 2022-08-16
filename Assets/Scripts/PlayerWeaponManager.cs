@@ -35,6 +35,13 @@ public class PlayerWeaponManager : MonoBehaviour
 
     private void Start()
     {
+        // set our weapons list
+        foreach (Transform child in weaponContainer)
+        { 
+            weapons.Add(child.gameObject);
+            child.gameObject.SetActive(false);
+        }
+
         // make sure we spawn our cosmetic weapons
         SpawnCosmeticWeapons();
         // update

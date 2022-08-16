@@ -94,6 +94,7 @@ public class PlayerInverseKinematicsController : MonoBehaviour
     void ProcessReload()
     {
         // lerp to our current reloadRot
+        recoilParent.localPosition = Vector3.Lerp(recoilParent.localPosition, Vector3.zero, 10f * Time.deltaTime);
         recoilParent.localRotation = Quaternion.Lerp(recoilParent.localRotation, Quaternion.Euler(reloadRot), 10f * Time.deltaTime);
     }
 

@@ -31,15 +31,29 @@ public class WeaponGenerator : MonoBehaviour
         // then for each root enable one object
         foreach (Transform root in roots)
         {
-            // enable a random child
-            int r = Random.Range(0, root.childCount);
-            root.GetChild(r).gameObject.SetActive(true);
-            // then clean the extras
-            foreach(Transform child in root)
+            // check if this root has any active objects
+            bool preActive = false;
+            for (int i = 0; i < root.childCount; i++)
             {
-                if (!child.gameObject.activeInHierarchy)
+                if (root.GetChild(i).gameObject.activeInHierarchy)
                 {
-                    Destroy(child.gameObject);
+                    preActive = true;
+                }
+            }
+
+            // if we did not preactivate parts on this root, activate one
+            if (!preActive)
+            {
+                // enable a random child part
+                int r = Random.Range(0, root.childCount);
+                root.GetChild(r).gameObject.SetActive(true);
+                // then clean the extras
+                foreach (Transform child in root)
+                {
+                    if (!child.gameObject.activeInHierarchy)
+                    {
+                        Destroy(child.gameObject);
+                    }
                 }
             }
         }

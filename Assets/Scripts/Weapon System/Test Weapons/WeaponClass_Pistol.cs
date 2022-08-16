@@ -21,6 +21,12 @@ public class WeaponClass_Pistol : WeaponClass
             {
                 Fire(); // shoot our gun
             }
+
+            // if we're at 0 ammo then reload
+            if (currentMagazine <= 0)
+            {
+                Reload();
+            }
         }
     }
 
@@ -38,11 +44,6 @@ public class WeaponClass_Pistol : WeaponClass
         Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection), null);
         remainingFirerate = firerate;
         currentMagazine--;
-        // if we're at 0 ammo then reload
-        if (currentMagazine <= 0)
-        {
-            Reload();
-        }
     }
 
     // function to reload the gun

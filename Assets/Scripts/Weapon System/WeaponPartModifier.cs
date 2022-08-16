@@ -27,37 +27,42 @@ public class WeaponPartModifier : MonoBehaviour
 
         // find the weapon class
         if (transform.root.GetComponent<WeaponClass>())
-        weaponClass = transform.root.GetComponent<WeaponClass>();
-
-        // apply modifiers
-        if (fireRateMod != 0)
-        { weaponClass.firerate += fireRateMod; }
-
-        if (reloadTimeMod != 0)
-        { weaponClass.reloadTime += reloadTimeMod; }
-
-        if (spreadMaxMod != 0)
-        { weaponClass.spreadMax += spreadMaxMod; }
-
-        if (spreadDeltaXMod != 0)
         {
-            weaponClass.spreadXDelta += spreadDeltaXMod;
+            weaponClass = transform.root.GetComponent<WeaponClass>();
         }
 
-        if (spreadDeltaYMod != 0)
+        if (weaponClass)
         {
-            weaponClass.spreadYDelta += spreadDeltaYMod;
-        }
+            // apply modifiers
+            if (fireRateMod != 0)
+            { weaponClass.firerate += fireRateMod; }
 
-        if (projectile)
-        {
-            weaponClass.bulletPrefab = projectile;
-        }
+            if (reloadTimeMod != 0)
+            { weaponClass.reloadTime += reloadTimeMod; }
 
-        if (magazineMaxMod != 0)
-        {
-            weaponClass.maxMagazine += magazineMaxMod;
-            weaponClass.currentMagazine = weaponClass.maxMagazine;
+            if (spreadMaxMod != 0)
+            { weaponClass.spreadMax += spreadMaxMod; }
+
+            if (spreadDeltaXMod != 0)
+            {
+                weaponClass.spreadXDelta += spreadDeltaXMod;
+            }
+
+            if (spreadDeltaYMod != 0)
+            {
+                weaponClass.spreadYDelta += spreadDeltaYMod;
+            }
+
+            if (projectile)
+            {
+                weaponClass.bulletPrefab = projectile;
+            }
+
+            if (magazineMaxMod != 0)
+            {
+                weaponClass.maxMagazine += magazineMaxMod;
+                weaponClass.currentMagazine = weaponClass.maxMagazine;
+            }
         }
     }
 }
