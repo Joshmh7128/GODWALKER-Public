@@ -41,7 +41,7 @@ public class WeaponClass_Pistol : WeaponClass
         // add to our shot direction based on our spread
         Vector3 modifiedShotDirection = new Vector3(shotDirection.x + Random.Range(-spreadX, spreadX), shotDirection.y + Random.Range(-spreadY, spreadY), shotDirection.z).normalized;
         // instantiate and shoot our projectile in that direction
-        Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection), null);
+        Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
         remainingFirerate = firerate;
         currentMagazine--;
     }

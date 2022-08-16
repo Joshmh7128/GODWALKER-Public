@@ -68,7 +68,7 @@ public class WeaponItemUIHandler : MonoBehaviour
     // set the info panel of our weapon
     void SetInfo()
     {
-        int accuracy = (int) ((100 - ((weapon_Class.spreadXDelta + weapon_Class.spreadYDelta) * 100)) / 100);
+        int accuracy = (int) (100 - ((weapon_Class.spreadXDelta + weapon_Class.spreadYDelta) * 100));
         int firerate = (int) (((60 - weapon_Class.firerate)/6) * 10) - 60; // our fire rate is in frames per second, so we want to divide it by 60 to show how many bullets per second we fire
 
         // set the info for our player
