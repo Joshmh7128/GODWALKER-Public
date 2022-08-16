@@ -61,7 +61,7 @@ public class PlayerWeaponManager : MonoBehaviour
     private void FixedUpdate()
     {
         // of the weapons near us, find the closest
-        ProcessNearestWeapon();
+        // ProcessNearestWeapon();
     }
 
     // what we run to process the input
@@ -217,14 +217,14 @@ public class PlayerWeaponManager : MonoBehaviour
             {
                 if (nearestWeapon == null)
                 {
-                    nearestWeapon = weapon;
+                    // nearestWeapon = weapon;
                 }
                 else
                 {
                     // if the distance to our current weapon is less than the distance of the nearest weapon, then make the closer weapon the nearest weapon
                     if (Vector3.Distance(transform.position, weapon.transform.position) < Vector3.Distance(transform.position, nearestWeapon.transform.position))
                     {
-                        nearestWeapon = weapon;
+                        //nearestWeapon = weapon;
                     }
                 }
             }
