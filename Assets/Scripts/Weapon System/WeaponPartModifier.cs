@@ -9,12 +9,14 @@ public class WeaponPartModifier : MonoBehaviour
 
     [Header("Modification Values: If any are set, they will modify the weapon")]
     [SerializeField] float fireRateMod;
-    [SerializeField] float reloadTimeMod; 
+    [SerializeField] float fireRateMax;
+    [SerializeField] float reloadTimeMod, reloadTimeMax; 
     [SerializeField] float spreadMaxMod; 
     [SerializeField] float spreadDeltaXMod; 
     [SerializeField] float spreadDeltaYMod;
-    [SerializeField] float magazineMaxMod;
+    [SerializeField] float magazineMaxMod, magazineMaxModMax;
     [SerializeField] GameObject projectile; // the projectile of the weapon we want to fire
+    [SerializeField] string nameMod; // an additional name mod
 
     private void OnEnable()
     {
@@ -35,8 +37,16 @@ public class WeaponPartModifier : MonoBehaviour
             if (fireRateMod != 0)
             { weaponClass.firerate += fireRateMod; }
 
+            if (fireRateMod != 0 && fireRateMax != 0)
+            { weaponClass.firerate += Random.Range(fireRateMod, fireRateMax); }
+
             if (reloadTimeMod != 0)
             { weaponClass.reloadTime += reloadTimeMod; }
+                      
+            if (reloadTimeMod != 0 && reloadTimeMax != 0)
+            { weaponClass.reloadTime += Random.Range(reloadTimeMod, reloadTimeMax); }
+
+
 
             if (spreadMaxMod != 0)
             { weaponClass.spreadMax += spreadMaxMod; }
@@ -61,6 +71,16 @@ public class WeaponPartModifier : MonoBehaviour
                 weaponClass.maxMagazine += magazineMaxMod;
                 weaponClass.currentMagazine = weaponClass.maxMagazine;
             }
+
+            if (magazineMaxMod != 0 && magazineMaxModMax != 0)
+            {
+                float m = Random.Range(magazineMaxMod, magazineMaxModMax);
+                weaponClass.maxMagazine += m;
+                weaponClass.currentMagazine = weaponClass.maxMagazine;
+            }
+
+            if (nameMod != "")
+            { weaponClass.name += " " + nameMod; }
         }
     }
 }

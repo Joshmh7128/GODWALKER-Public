@@ -80,7 +80,7 @@ public class PlayerCameraController : MonoBehaviour
     void ProcessUIRaycast()
     {
         // fire a ray forward
-        Physics.Raycast(transform.position, transform.forward, out uiCheck, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide);
+        Physics.Raycast(transform.position, transform.forward, out uiCheck, 5f, Physics.AllLayers, QueryTriggerInteraction.Collide);
         // then check for UI triggers
         if (uiCheck.transform.tag == "Item")
         {

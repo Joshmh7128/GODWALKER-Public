@@ -27,6 +27,10 @@ public abstract class WeaponClass : MonoBehaviour
     public float currentMagazine, maxMagazine;
     public float reloadTime; // the amount of time in seconds the reload takes
     public bool reloading; // are we reloading?
+    // our weapon's damage
+    public float damage = 1;
+    // our weapon's name
+    public string weaponName; 
     // audio 
     public AudioSource reloadSource; // the audio source which plays our reload sound
 
@@ -45,8 +49,14 @@ public abstract class WeaponClass : MonoBehaviour
         OnDown, OnHold
     }
 
-    // our weapon's damage
-    public float damage = 1; 
+
+    // weapon elements
+    public enum WeaponElements
+    {
+        Normal, Fire, Electric, Acid
+    }
+
+    [SerializeField] public WeaponElements weaponElement; // our weapon's element
 
     // the start that is called on every weapon
     public void Start()

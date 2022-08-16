@@ -28,6 +28,16 @@ public class WeaponItemUIHandler : MonoBehaviour
 
     float closeWait; // our wait to close time
 
+    string weaponInfo;
+    [SerializeField] Text weaponInfoText, weaponNameText;
+
+    private void Start()
+    {
+        // set the weaponclass
+        weapon_Class = weapon_Item.weapon.GetComponent<WeaponClass>();
+        // set our information
+        SetInfo();
+    }
 
     private void FixedUpdate()
     {
@@ -58,7 +68,19 @@ public class WeaponItemUIHandler : MonoBehaviour
     // set the info panel of our weapon
     void SetInfo()
     {
-        // set the info for our player
+        int accuracy = (int) ((100 - ((weapon_Class.spreadXDelta + weapon_Class.spreadYDelta) * 100)) / 100);
+        int firerate = (int) (((60 - weapon_Class.firerate)/6) * 10) - 60; // our fire rate is in frames per second, so we want to divide it by 60 to show how many bullets per second we fire
 
+        // set the info for our player
+        weaponInfo = 
+             weapon_Class.damage + "\n" +
+             accuracy + "\n" +
+             firerate + "\n" +
+             weapon_Class.reloadTime + "\n" +
+             weapon_Class.maxMagazine + "\n" +
+             weapon_Class.weaponElement.ToString();
+
+        weaponInfoText.text = weaponInfo;
+        weaponNameText.text = weapon_Class.weaponName;
     }
 }

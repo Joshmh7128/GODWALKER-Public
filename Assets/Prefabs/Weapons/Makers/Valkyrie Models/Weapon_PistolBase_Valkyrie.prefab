@@ -601,12 +601,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 193226, guid: 7136cdad590bd7b4d84692bc0bc12bf1, type: 3}
+  nameMod: 
 --- !u!1 &1457437974288140572
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,12 +1239,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0.15
   spreadDeltaXMod: 0.05
   spreadDeltaYMod: -0.05
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &3082957263922609277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1860,6 +1868,8 @@ MonoBehaviour:
   maxMagazine: 5
   reloadTime: 1
   reloading: 0
+  damage: 1
+  weaponName: 
   reloadSource: {fileID: 6746383898268795602}
   spreadX: 0
   spreadY: 0
@@ -1868,6 +1878,7 @@ MonoBehaviour:
   spreadYDelta: 0.1
   spreadReduct: 1
   weaponUIHandler: {fileID: 5401457314333831378}
+  weaponElement: 0
 --- !u!82 &6746383898268795602
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2472,12 +2483,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 3
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &4787135916544693571
 GameObject:
   m_ObjectHideFlags: 0
@@ -3167,12 +3182,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: -0.08
   spreadDeltaXMod: 0.05
   spreadDeltaYMod: 0.05
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &6663859519074985570
 GameObject:
   m_ObjectHideFlags: 0
@@ -3470,7 +3489,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1260
+  m_VersionIndex: 1266
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3488,12 +3507,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: -0.25
+  fireRateMax: 0.5
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: Dagger
 --- !u!1 &6663859519194423237
 GameObject:
   m_ObjectHideFlags: 0
@@ -4049,12 +4072,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 5
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &6663859519510700841
 GameObject:
   m_ObjectHideFlags: 0
@@ -4352,7 +4379,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1013
+  m_VersionIndex: 1019
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -4370,12 +4397,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 2
+  fireRateMax: 3
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: Spear
 --- !u!1 &6663859519572085011
 GameObject:
   m_ObjectHideFlags: 0
@@ -4811,12 +4842,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: -0.1
   spreadDeltaXMod: -0.05
   spreadDeltaYMod: -0.05
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &6663859519654755528
 GameObject:
   m_ObjectHideFlags: 0
@@ -5167,12 +5202,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 173562, guid: 7fdb8c68d6f32e24596345e96da3f668, type: 3}
+  nameMod: 
 --- !u!1 &6663859519878292368
 GameObject:
   m_ObjectHideFlags: 0
@@ -5488,12 +5527,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: -0.05
   spreadDeltaXMod: 0.25
   spreadDeltaYMod: 0.1
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &6663859519917543751
 GameObject:
   m_ObjectHideFlags: 0
@@ -5809,12 +5852,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: -0.25
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &6663859520022593362
 GameObject:
   m_ObjectHideFlags: 0
@@ -6181,7 +6228,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1970
+  m_VersionIndex: 1976
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -6199,12 +6246,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: -2
+  fireRateMax: 1
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: Cutlass
 --- !u!1 &6663859520154597984
 GameObject:
   m_ObjectHideFlags: 0
@@ -6520,12 +6571,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 135146, guid: c97bd0eaaa79f0c4099495a2f0fb8fe8, type: 3}
+  nameMod: 
 --- !u!1 &6663859520170300870
 GameObject:
   m_ObjectHideFlags: 0
@@ -6997,12 +7052,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 2
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &6663859520733831235
 GameObject:
   m_ObjectHideFlags: 0
@@ -7353,12 +7412,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: -2
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &6663859520918655752
 GameObject:
   m_ObjectHideFlags: 0
@@ -7674,12 +7737,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0.25
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &6663859520924656745
 GameObject:
   m_ObjectHideFlags: 0
@@ -7995,12 +8062,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: -0.25
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 0}
+  nameMod: 
 --- !u!1 &6663859521019537196
 GameObject:
   m_ObjectHideFlags: 0
@@ -8316,12 +8387,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRateMod: 0
+  fireRateMax: 0
   reloadTimeMod: 0
+  reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
   spreadDeltaYMod: 0
   magazineMaxMod: 0
+  magazineMaxModMax: 0
   projectile: {fileID: 179904, guid: dd15a11503ae11340a2acde56c241856, type: 3}
+  nameMod: 
 --- !u!1 &6814136343106308616
 GameObject:
   m_ObjectHideFlags: 0

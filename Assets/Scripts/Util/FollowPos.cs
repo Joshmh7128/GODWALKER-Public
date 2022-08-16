@@ -7,7 +7,7 @@ public class FollowPos : MonoBehaviour
     [SerializeField] Transform targetTransform; // our target
     [SerializeField] bool unparent; // should we unparent
 
-    private void Start()
+    private void OnEnable()
     {
         if (unparent)
             transform.parent = null;
