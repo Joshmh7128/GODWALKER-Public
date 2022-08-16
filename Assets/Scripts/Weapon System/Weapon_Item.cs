@@ -5,7 +5,8 @@ using UnityEngine;
 public class Weapon_Item : ItemClass
 {
     // can we be picked up?
-    bool canGrab; 
+    bool canGrab;
+    [SerializeField] float pickupDistance = 1;
 
     // what is our weapon?
     public GameObject weapon;
@@ -22,6 +23,27 @@ public class Weapon_Item : ItemClass
     // update
     private void Update()
     {
+        ProcessCanGrab();
+    }
+
+    void ProcessCanGrab()
+    {
+        // grab check
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < pickupDistance)
+        {
+            if (!PlayerWeaponManager.instance.nearbyWeapons.Contains(gameObject))
+            PlayerWeaponManager.instance.nearbyWeapons.Add(gameObject);
+            canGrab = true;
+        }
+
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) > pickupDistance)
+        {
+            if (PlayerWeaponManager.instance.nearbyWeapons.Contains(gameObject))
+                PlayerWeaponManager.instance.nearbyWeapons.Remove(gameObject);
+            canGrab = false;
+        }
+
+        // actual grabbing
         if (canGrab)
         {
             // replace with Use button later
@@ -35,30 +57,5 @@ public class Weapon_Item : ItemClass
                 }
             }
         }
-    }
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            PlayerWeaponManager.instance.nearbyWeapons.Add(gameObject);
-            canGrab = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            PlayerWeaponManager.instance.nearbyWeapons.Remove(gameObject);
-            canGrab = false;
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(transform.position, 0.5f);
     }
 }

@@ -1,0 +1,64 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class WeaponItemUIHandler : MonoBehaviour
+{
+    // should we show our panel?
+    public bool showPanel
+    {
+        set
+        {
+            panel.gameObject.SetActive(value);
+        }
+    } 
+
+    [SerializeField] Transform panel; // our panel transform parent
+
+    public Vector3 hitPoint // where is the camera script hitting on this object?
+    {
+        set { panel.transform.position = value; panel.transform.LookAt(Camera.main.transform.position); closeWait = 0.5f; }
+    } 
+
+    [SerializeField] Weapon_Item weapon_Item; // our weapon item
+    WeaponClass weapon_Class; // our weapon class to pull information from
+
+    [SerializeField] CanvasGroup weapon_CanvasGroup;
+
+    float closeWait; // our wait to close time
+
+
+    private void FixedUpdate()
+    {
+        if (closeWait > 0)
+        { 
+            weapon_CanvasGroup.alpha += Time.deltaTime*10;
+            closeWait -= Time.deltaTime; 
+        }
+
+        if (closeWait <= 0)
+        {
+            weapon_CanvasGroup.alpha -= Time.deltaTime;
+
+            if (weapon_CanvasGroup.alpha <= 0)
+            {
+                showPanel = false;
+            }
+        }
+
+        // check for death
+        if (weapon_Item == null)
+        {
+            Destroy(gameObject);
+        }
+
+    }
+
+    // set the info panel of our weapon
+    void SetInfo()
+    {
+        // set the info for our player
+
+    }
+}

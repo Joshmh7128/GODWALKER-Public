@@ -10,7 +10,7 @@ public class PlayerCameraController : MonoBehaviour
     float currentSensitivity, yRotate, xRotate;
     [SerializeField] public Transform cameraRig;
     [SerializeField] float sphereCastWidth; // the width of our spherecast
-    RaycastHit hit, check; // hit is for things we are hitting, check is for environmental low level checks, like UI dynamics etc
+    RaycastHit uiCheck, check; // hit is for things we are hitting, check is for environmental low level checks, like UI dynamics etc
     [SerializeField] public Transform AimTarget; // the transform of the object we are using to aim at 
 
     // setup an instance
@@ -33,6 +33,8 @@ public class PlayerCameraController : MonoBehaviour
         CalculateCheckPoint();
         // update the aim point
         ProcessAimTarget();
+        // update our ui raycast
+        ProcessUIRaycast();
     }
 
     // set the position of our aim target
@@ -45,7 +47,7 @@ public class PlayerCameraController : MonoBehaviour
         }
         else
         {
-            AimTarget.position = transform.forward * 1000f;
+            AimTarget.position = transform.forward * 500f;
         }
     }
 
@@ -72,5 +74,19 @@ public class PlayerCameraController : MonoBehaviour
 
         // apply it to our head
         cameraRig.eulerAngles = new Vector3(finalyRotate, finalxRotate, 0f);
+    }
+
+    // our forward rayast to check for interactables
+    void ProcessUIRaycast()
+    {
+        // fire a ray forward
+        Physics.Raycast(transform.position, transform.forward, out uiCheck, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide);
+        // then check for UI triggers
+        if (uiCheck.transform.tag == "Item")
+        {
+            WeaponItemUIHandler handler = uiCheck.transform.gameObject.GetComponent<WeaponItemUIHandler>();
+            handler.hitPoint = uiCheck.point;
+            handler.showPanel = true;
+        }
     }
 }

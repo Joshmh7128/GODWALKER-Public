@@ -45,6 +45,9 @@ public abstract class WeaponClass : MonoBehaviour
         OnDown, OnHold
     }
 
+    // our weapon's damage
+    public float damage = 1; 
+
     // the start that is called on every weapon
     public void Start()
     {
