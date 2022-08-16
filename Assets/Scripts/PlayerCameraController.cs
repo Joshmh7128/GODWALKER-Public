@@ -87,6 +87,7 @@ public class PlayerCameraController : MonoBehaviour
             WeaponItemUIHandler handler = uiCheck.transform.gameObject.GetComponent<WeaponItemUIHandler>();
             handler.hitPoint = uiCheck.point;
             handler.showPanel = true;
+            PlayerWeaponManager.instance.highlightedWeapon = uiCheck.transform.gameObject.GetComponent<WeaponItemUIHandler>().weapon_Item.gameObject;
         }
     }
 }

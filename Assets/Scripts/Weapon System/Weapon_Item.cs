@@ -5,7 +5,7 @@ using UnityEngine;
 public class Weapon_Item : ItemClass
 {
     // can we be picked up?
-    bool canGrab;
+    [SerializeField] bool canGrab;
     [SerializeField] float pickupDistance = 1;
 
     // what is our weapon?
@@ -49,9 +49,9 @@ public class Weapon_Item : ItemClass
             // replace with Use button later
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (PlayerWeaponManager.instance.pickupCooldown <= 0 && PlayerWeaponManager.instance.nearestWeapon == gameObject)
+                if (PlayerWeaponManager.instance.pickupCooldown <= 0 && PlayerWeaponManager.instance.highlightedWeapon == gameObject)
                 {
-                    PlayerWeaponManager.instance.nearbyWeapons.Remove(gameObject); // remove this weapon from the list
+                    // PlayerWeaponManager.instance.nearbyWeapons.Remove(gameObject); // remove this weapon from the list
                     PlayerWeaponManager.instance.PickupWeapon(weapon); // pickup the weapon
                     Destroy(gameObject); // remove the weapon from the world
                 }

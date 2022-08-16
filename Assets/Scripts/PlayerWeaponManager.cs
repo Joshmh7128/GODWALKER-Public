@@ -26,7 +26,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
     // nearby weapon list
     public List<GameObject> nearbyWeapons; // the weapons near us
-    public GameObject nearestWeapon; // the weapon which is closest to us
+    public GameObject nearestWeapon, highlightedWeapon; // the weapon which is closest to us
 
     // setup and set our instance
     public static PlayerWeaponManager instance;
@@ -166,6 +166,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
     public void PickupWeapon(GameObject newWeaponObject)
     {
+        Debug.Log("pickup weapon");
         // set our cooldown
         pickupCooldown = pickupCooldownMax;
         // make sure we tell our current weapon it is being dropped

@@ -19,10 +19,10 @@ public class WeaponItemUIHandler : MonoBehaviour
     public Vector3 hitPoint // where is the camera script hitting on this object?
     {
         set { panel.transform.position = value; panel.transform.LookAt(Camera.main.transform.position); closeWait = 0.5f; }
-    } 
+    }
 
-    [SerializeField] Weapon_Item weapon_Item; // our weapon item
-    WeaponClass weapon_Class; // our weapon class to pull information from
+    public Weapon_Item weapon_Item; // our weapon item
+    public WeaponClass weapon_Class; // our weapon class to pull information from
 
     [SerializeField] CanvasGroup weapon_CanvasGroup;
 
