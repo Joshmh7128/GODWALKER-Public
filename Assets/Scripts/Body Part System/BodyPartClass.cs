@@ -11,8 +11,8 @@ public abstract class BodyPartClass : MonoBehaviour
     /// </summary>
 
     // our bodypart types
-    public enum BodyPartTypes
-    { Head, Torso, RightArm, LeftArm, RightLeg, LeftLeg }
+    public enum BodyPartTypes // we use these arguments to pass information into the bodypart manager for pickups
+    { Head, Torso, Arm, RightArm, LeftArm, Leg, RightLeg, LeftLeg }
     // what type of bodypart is this?
     public BodyPartTypes bodyPartType;
 
