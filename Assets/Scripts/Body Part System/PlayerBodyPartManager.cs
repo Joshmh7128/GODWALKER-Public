@@ -66,7 +66,7 @@ public class PlayerBodyPartManager : MonoBehaviour
             {
                 // check their children and destory them
                 foreach (Transform child in parent)
-                { Destroy(child); } 
+                { Destroy(child.gameObject); } 
             }
 
             // then put parts back in there...
@@ -85,7 +85,7 @@ public class PlayerBodyPartManager : MonoBehaviour
             {
                 // check their children and destory them
                 foreach (Transform child in parent)
-                { Destroy(child); }
+                { Destroy(child.gameObject); }
             }
 
             // then put parts back in there...
@@ -103,7 +103,7 @@ public class PlayerBodyPartManager : MonoBehaviour
             {
                 // check their children and destory them
                 foreach (Transform child in parent)
-                { Destroy(child); }
+                { Destroy(child.gameObject); }
             }
 
             // then put parts back in there...
@@ -121,7 +121,7 @@ public class PlayerBodyPartManager : MonoBehaviour
             {
                 // check their children and destory them
                 foreach (Transform child in parent)
-                { Destroy(child); }
+                { Destroy(child.gameObject); }
             }
 
             // then put parts back in there...
@@ -139,7 +139,7 @@ public class PlayerBodyPartManager : MonoBehaviour
             {
                 // check their children and destory them
                 foreach (Transform child in parent)
-                { Destroy(child); }
+                { Destroy(child.gameObject); }
             }
 
             // then put parts back in there...
@@ -157,7 +157,7 @@ public class PlayerBodyPartManager : MonoBehaviour
             {
                 // check their children and destory them
                 foreach (Transform child in parent)
-                { Destroy(child); }
+                { Destroy(child.gameObject); }
             }
 
             // then put parts back in there...
