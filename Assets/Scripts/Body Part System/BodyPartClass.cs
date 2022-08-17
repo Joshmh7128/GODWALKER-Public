@@ -12,10 +12,12 @@ public abstract class BodyPartClass : MonoBehaviour
 
     // our bodypart types
     public enum BodyPartTypes
-    { Head, Torso, Arm, Leg }
+    { Head, Torso, RightArm, LeftArm, RightLeg, LeftLeg }
     // what type of bodypart is this?
     public BodyPartTypes bodyPartType;
 
-    // define all abstract functions here
-    public abstract void OnJump();
+    // our cosmetic object information
+    public List<GameObject> cosmeticParts; // set list in inspector of our parts
+
+
 }
