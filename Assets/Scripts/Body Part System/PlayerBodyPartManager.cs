@@ -16,4 +16,20 @@ public class PlayerBodyPartManager : MonoBehaviour
     public static PlayerBodyPartManager instance;
     private void Awake()
     { instance = this; }
+
+    // all the information needed to use our cosmetic info when we pickup parts
+
+    // head
+    public GameObject headPartParent;
+
+    // torso
+    public GameObject neckPartParent, TorsoSpine0Parent, TorsoSpine1Parent, TorsoSpine2Parent;
+
+    // legs
+    public GameObject rightUpperLegParent, rightLowerLegParent, rightFootParent;
+    public GameObject leftUpperLegParent, leftLowerLegParent, leftFootParent;
+
+    // arms
+    public GameObject rightShoulderParent, rightArmParent, rightForearmParent, rightHandParent;
+    public GameObject leftShoulderParent, leftArmParent, leftForearmParent, leftHandParent;
 }
