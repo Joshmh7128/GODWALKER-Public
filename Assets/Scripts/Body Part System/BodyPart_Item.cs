@@ -16,13 +16,15 @@ public class BodyPart_Item : MonoBehaviour
         InstantiateCosmeticPart();
     }
 
+    // instantiating cosmetics
     void InstantiateCosmeticPart()
     {
         GameObject part = Instantiate(bodyPartObject, cosmeticTransform);
+        bodyPartClass = Instantiate(part.GetComponent<BodyPartClass>());
+        // make sure they dont zero out on start
         foreach (Transform parent in part.transform)
         { parent.GetComponent<ZeroOut>().cancel = true; }
         part.transform.localPosition = Vector3.zero;
-        bodyPartClass = part.GetComponent<BodyPartClass>();
     }
 
     private void OnTriggerEnter(Collider other)
