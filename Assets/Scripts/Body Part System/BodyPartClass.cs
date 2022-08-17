@@ -19,5 +19,15 @@ public abstract class BodyPartClass : MonoBehaviour
     // our cosmetic object information
     public List<GameObject> cosmeticParts; // set list in inspector of our parts
 
+    public void Start()
+    {
+        PartStart();
+    }
+
+    // our start that runs manually after our class start
+    public virtual void PartStart()
+    {
+        Debug.Log("The part " + gameObject.name + "has a PartStart which has not been overridden");
+    }
 
 }
