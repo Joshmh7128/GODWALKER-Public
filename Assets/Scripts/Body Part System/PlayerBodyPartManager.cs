@@ -96,7 +96,7 @@ public class PlayerBodyPartManager : MonoBehaviour
         }
 
         // if this is a right arm...
-        if (type == BodyPartClass.BodyPartTypes.RightArm)
+        if (type == BodyPartClass.BodyPartTypes.RightArm || type == BodyPartClass.BodyPartTypes.Arm)
         {
             // for every parent...
             foreach (Transform parent in rightArmPartParents)
@@ -132,7 +132,7 @@ public class PlayerBodyPartManager : MonoBehaviour
         }
         
         // if this is a right Leg...
-        if (type == BodyPartClass.BodyPartTypes.RightLeg)
+        if (type == BodyPartClass.BodyPartTypes.RightLeg || type == BodyPartClass.BodyPartTypes.Leg)
         {
             // for every parent...
             foreach (Transform parent in rightLegPartParents)
