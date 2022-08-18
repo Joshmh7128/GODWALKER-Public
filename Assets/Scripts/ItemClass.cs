@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class ItemClass : MonoBehaviour
 {
-  
+    public bool canGrab;
 }

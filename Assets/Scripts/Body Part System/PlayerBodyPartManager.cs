@@ -17,6 +17,8 @@ public class PlayerBodyPartManager : MonoBehaviour
     private void Awake()
     { instance = this; }
 
+    public GameObject highlightedBodyPart;
+
     private void Start()
     {
         // make sure we refresh parts when this object is created
@@ -47,10 +49,10 @@ public class PlayerBodyPartManager : MonoBehaviour
     {
         PickupPart(headPartClass, BodyPartClass.BodyPartTypes.Head);
         PickupPart(torsoPartClass, BodyPartClass.BodyPartTypes.Torso);
-        PickupPart(rightArmPartClass, BodyPartClass.BodyPartTypes.RightArm);
-        PickupPart(leftArmPartClass, BodyPartClass.BodyPartTypes.LeftArm);
-        PickupPart(rightLegPartClass, BodyPartClass.BodyPartTypes.RightLeg);
-        PickupPart(leftLegPartClass, BodyPartClass.BodyPartTypes.LeftLeg);
+        PickupPart(rightArmPartClass, BodyPartClass.BodyPartTypes.Arm, true);
+        PickupPart(leftArmPartClass, BodyPartClass.BodyPartTypes.Arm, false);
+        PickupPart(rightLegPartClass, BodyPartClass.BodyPartTypes.Leg, true);
+        PickupPart(leftLegPartClass, BodyPartClass.BodyPartTypes.Leg, false);
     }
 
     // our part pickup class
@@ -94,80 +96,88 @@ public class PlayerBodyPartManager : MonoBehaviour
                 Instantiate(part.cosmeticParts[i], torsoPartParents[i]);
             }
         }
-
-        // if this is a right arm...
-        if (type == BodyPartClass.BodyPartTypes.RightArm || type == BodyPartClass.BodyPartTypes.Arm)
-        {
-            // for every parent...
-            foreach (Transform parent in rightArmPartParents)
-            {
-                // check their children and destory them
-                foreach (Transform child in parent)
-                { Destroy(child.gameObject); }
-            }
-
-            // then put parts back in there...
-            for (int i = 0; i < rightArmPartParents.Count; i++)
-            {   // get the correlating part and instnatiate it
-                Instantiate(part.cosmeticParts[i], rightArmPartParents[i]);
-            }
-        }
-
-        // if this is a left arm...
-        if (type == BodyPartClass.BodyPartTypes.LeftArm)
-        {
-            // for every parent...
-            foreach (Transform parent in leftArmPartParents)
-            {
-                // check their children and destory them
-                foreach (Transform child in parent)
-                { Destroy(child.gameObject); }
-            }
-
-            // then put parts back in there...
-            for (int i = 0; i < leftArmPartParents.Count; i++)
-            {   // get the correlating part and instnatiate it
-                Instantiate(part.cosmeticParts[i], leftArmPartParents[i]);
-            }
-        }
-        
-        // if this is a right Leg...
-        if (type == BodyPartClass.BodyPartTypes.RightLeg || type == BodyPartClass.BodyPartTypes.Leg)
-        {
-            // for every parent...
-            foreach (Transform parent in rightLegPartParents)
-            {
-                // check their children and destory them
-                foreach (Transform child in parent)
-                { Destroy(child.gameObject); }
-            }
-
-            // then put parts back in there...
-            for (int i = 0; i < rightLegPartParents.Count; i++)
-            {   // get the correlating part and instnatiate it
-                Instantiate(part.cosmeticParts[i], rightLegPartParents[i]);
-            }
-        }
-
-        // if this is a left Leg...
-        if (type == BodyPartClass.BodyPartTypes.LeftLeg)
-        {
-            // for every parent...
-            foreach (Transform parent in leftLegPartParents)
-            {
-                // check their children and destory them
-                foreach (Transform child in parent)
-                { Destroy(child.gameObject); }
-            }
-
-            // then put parts back in there...
-            for (int i = 0; i < leftLegPartParents.Count; i++)
-            {   // get the correlating part and instnatiate it
-                Instantiate(part.cosmeticParts[i], leftLegPartParents[i]);
-            }
-        }
-
     }
 
-    
+    public void PickupPart(BodyPartClass part, BodyPartClass.BodyPartTypes type, bool isRight)
+    {
+
+        // if this is an arm...
+        if (type == BodyPartClass.BodyPartTypes.Arm)
+        {
+            if (isRight)
+            {
+                // for every parent...
+                foreach (Transform parent in rightArmPartParents)
+                {
+                    // check their children and destory them
+                    foreach (Transform child in parent)
+                    { Destroy(child.gameObject); }
+                }
+
+                // then put parts back in there...
+                for (int i = 0; i < rightArmPartParents.Count; i++)
+                {   // get the correlating part and instnatiate it
+                    Instantiate(part.cosmeticParts[i], rightArmPartParents[i]);
+                }
+            }
+
+            // for left arms
+            if (!isRight)
+            {
+                // for every parent...
+                foreach (Transform parent in leftArmPartParents)
+                {
+                    // check their children and destory them
+                    foreach (Transform child in parent)
+                    { Destroy(child.gameObject); }
+                }
+
+                // then put parts back in there...
+                for (int i = 0; i < leftArmPartParents.Count; i++)
+                {   // get the correlating part and instnatiate it
+                    Instantiate(part.cosmeticParts[i], leftArmPartParents[i]);
+                }
+            }
+        }
+
+        // if this is a Leg...
+        if (type == BodyPartClass.BodyPartTypes.Leg)
+        {
+            if (isRight)
+            {
+                // for every parent...
+                foreach (Transform parent in rightLegPartParents)
+                {
+                    // check their children and destory them
+                    foreach (Transform child in parent)
+                    { Destroy(child.gameObject); }
+                }
+
+                // then put parts back in there...
+                for (int i = 0; i < rightLegPartParents.Count; i++)
+                {   // get the correlating part and instnatiate it
+                    Instantiate(part.cosmeticParts[i], rightLegPartParents[i]);
+                }
+            }
+
+            if (!isRight)
+            {
+                // for every parent...
+                foreach (Transform parent in leftLegPartParents)
+                {
+                    // check their children and destory them
+                    foreach (Transform child in parent)
+                    { Destroy(child.gameObject); }
+                }
+
+                // then put parts back in there...
+                for (int i = 0; i < leftLegPartParents.Count; i++)
+                {   // get the correlating part and instnatiate it
+                    Instantiate(part.cosmeticParts[i], leftLegPartParents[i]);
+                }
+            }
+        }
+
+
+    }
 }

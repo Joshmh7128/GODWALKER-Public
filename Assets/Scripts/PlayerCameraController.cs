@@ -12,7 +12,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] float sphereCastWidth; // the width of our spherecast
     RaycastHit uiCheck, check; // hit is for things we are hitting, check is for environmental low level checks, like UI dynamics etc
     [SerializeField] public Transform AimTarget; // the transform of the object we are using to aim at 
-
+    [SerializeField] ItemUIHandler handler;
     // setup an instance
     public static PlayerCameraController instance;
     private void Awake()
@@ -82,15 +82,27 @@ public class PlayerCameraController : MonoBehaviour
         // fire a ray forward
         Physics.Raycast(transform.position, transform.forward, out uiCheck, 5f, Physics.AllLayers, QueryTriggerInteraction.Collide);
         // then check for UI triggers
+        if (uiCheck.transform != null)
+        { Debug.Log(uiCheck.transform.gameObject.name); }
+
         if (uiCheck.transform.tag == "Item")
         {
+            Debug.Log(uiCheck.transform.gameObject.name);
             // check if it has a UI handler
-
-
-            ItemUIHandler handler = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>();
+            handler = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>();
             handler.hitPoint = uiCheck.point;
             handler.showPanel = true;
-            PlayerWeaponManager.instance.highlightedWeapon = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().weapon_Item.gameObject;
+
+            if (handler.itemType == ItemUIHandler.ItemTypes.Weapon)
+                PlayerWeaponManager.instance.highlightedWeapon = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().weapon_Item.gameObject;
+
+            if (handler.itemType == ItemUIHandler.ItemTypes.BodyPart)
+
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(uiCheck.point, 1f);
     }
 }

@@ -21,44 +21,86 @@ public class ItemUIHandler : MonoBehaviour
         set { panel.transform.position = value; panel.transform.LookAt(Camera.main.transform.position); closeWait = 0.5f; }
     }
 
+    // our enum for item types
+    public enum ItemTypes
+    {
+        Weapon, BodyPart
+    }
+
+    public ItemTypes itemType; // what type of item are we?
+    
+    [Header("- Weapon Data -")]
+    // information for weapons
     public Weapon_Item weapon_Item; // our weapon item
     public WeaponClass weapon_Class; // our weapon class to pull information from
-
-    [SerializeField] CanvasGroup weapon_CanvasGroup;
-
-    float closeWait; // our wait to close time
-
     string weaponInfo;
     [SerializeField] Text weaponInfoText, weaponNameText;
 
+    [Header("- Body Part Data -")]
+    // information for bodyparts
+    public BodyPartClass body_Part;
+    public Text bodyPartName, currentRightLegName, currentLeftLegName;
+    public Text bodyPartInfo, currentRightLegInfo, currentLeftLegInfo;
+
+    [Header("- Canvas Groups -")]
+    [SerializeField] CanvasGroup info_CanvasGroup, additional_CanvasGroup;
+    [SerializeField] bool useAdditional; // do we use our additional panels
+    float closeWait; // our wait to close time
+
+
+
     private void Start()
     {
-        // set the weaponclass
-        weapon_Class = weapon_Item.weapon.GetComponent<WeaponClass>();
+        GetInfo();
         // set our information
         SetInfo();
     }
 
+    void GetInfo()
+    {
+        // for weapons
+        if (itemType == ItemTypes.Weapon)
+        {
+            // set the weaponclass
+            if (weapon_Item)
+                weapon_Class = weapon_Item.weapon.GetComponent<WeaponClass>();
+        }
+
+        // for bodyparts
+        if (itemType == ItemTypes.BodyPart)
+        {
+            // check the bodypart type and whether or not we use additional panels
+            if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm || body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
+            {
+                useAdditional = true;
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
+        // processing opening / closing our panel
         if (closeWait > 0)
         { 
-            weapon_CanvasGroup.alpha += Time.deltaTime*10;
+            info_CanvasGroup.alpha += Time.deltaTime*10;
+            if (useAdditional) additional_CanvasGroup.alpha += Time.deltaTime * 10;
+
             closeWait -= Time.deltaTime; 
         }
 
         if (closeWait <= 0)
         {
-            weapon_CanvasGroup.alpha -= Time.deltaTime;
+            info_CanvasGroup.alpha -= Time.deltaTime;
+            if (useAdditional) additional_CanvasGroup.alpha -= Time.deltaTime * 10;
 
-            if (weapon_CanvasGroup.alpha <= 0)
+            if (info_CanvasGroup.alpha <= 0)
             {
                 showPanel = false;
             }
         }
 
         // check for death
-        if (weapon_Item == null)
+        if (weapon_Item == null && body_Part == null)
         {
             Destroy(gameObject);
         }
@@ -68,19 +110,29 @@ public class ItemUIHandler : MonoBehaviour
     // set the info panel of our weapon
     void SetInfo()
     {
-        int accuracy = (int) (90 - ((weapon_Class.spreadXDelta + weapon_Class.spreadYDelta) * 100));
-        int firerate = (int) (((60 - weapon_Class.firerate)/6) * 10) - 60; // our fire rate is in frames per second, so we want to divide it by 60 to show how many bullets per second we fire
+        // for our weapons
+        if (itemType == ItemTypes.Weapon)
+        {
+            int accuracy = (int)(90 - ((weapon_Class.spreadXDelta + weapon_Class.spreadYDelta) * 100));
+            int firerate = (int)(((60 - weapon_Class.firerate) / 6) * 10) - 60; // our fire rate is in frames per second, so we want to divide it by 60 to show how many bullets per second we fire
 
-        // set the info for our player
-        weaponInfo = 
-             weapon_Class.damage + "\n" +
-             accuracy + "\n" +
-             firerate + "\n" +
-             weapon_Class.reloadTime + "\n" +
-             weapon_Class.maxMagazine + "\n" +
-             weapon_Class.weaponElement.ToString();
+            // set the info for our player
+            weaponInfo =
+                 weapon_Class.damage + "\n" +
+                 accuracy + "\n" +
+                 firerate + "\n" +
+                 weapon_Class.reloadTime + "\n" +
+                 weapon_Class.maxMagazine + "\n" +
+                 weapon_Class.weaponElement.ToString();
 
-        weaponInfoText.text = weaponInfo;
-        weaponNameText.text = weapon_Class.weaponName;
+            weaponInfoText.text = weaponInfo;
+            weaponNameText.text = weapon_Class.weaponName;
+        }
+
+        // for our bodyparts
+        if (itemType == ItemTypes.BodyPart)
+        {
+
+        }
     }
 }

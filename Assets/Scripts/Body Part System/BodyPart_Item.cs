@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BodyPart_Item : MonoBehaviour
+public class BodyPart_Item : ItemClass
 {
     // script exists to be an item containing a part that the player can pickup
 
@@ -27,15 +27,19 @@ public class BodyPart_Item : MonoBehaviour
         part.transform.localPosition = Vector3.zero;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Pickup()
     {
-        // when we cone into contact with the player
-        if (other.gameObject.transform.tag == "Player")
-        {
-            // pickup this part using the playerbodypart manager
-            PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType);
-            // then destroy
-            Destroy(gameObject);
-        }
+        // pickup this part using the playerbodypart manager
+        PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType);
+        // then destroy
+        Destroy(gameObject);
+    }
+
+    public void Pickup(bool isRight)
+    {
+        // pickup this part using the playerbodypart manager
+        PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, isRight);
+        // then destroy
+        Destroy(gameObject);
     }
 }

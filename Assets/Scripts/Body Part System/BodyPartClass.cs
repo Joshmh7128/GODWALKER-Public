@@ -12,12 +12,15 @@ public abstract class BodyPartClass : MonoBehaviour
 
     // our bodypart types
     public enum BodyPartTypes // we use these arguments to pass information into the bodypart manager for pickups
-    { Head, Torso, Arm, RightArm, LeftArm, Leg, RightLeg, LeftLeg }
+    { Head, Torso, Arm, Leg}
     // what type of bodypart is this?
     public BodyPartTypes bodyPartType;
 
     // our cosmetic object information
     public List<GameObject> cosmeticParts; // set list in inspector of our parts
+
+    // the info about our body part
+    public string descriptiveInfo, bodyPartName; // the information about this bodypart in text
 
     public void Start()
     {

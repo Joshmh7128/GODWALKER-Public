@@ -5,8 +5,7 @@ using UnityEngine;
 public class Weapon_Item : ItemClass
 {
     // can we be picked up?
-    [SerializeField] bool canGrab;
-    [SerializeField] float pickupDistance = 1;
+    [SerializeField] float pickupDistance = 5;
 
     // what is our weapon?
     public GameObject weapon;
@@ -28,6 +27,7 @@ public class Weapon_Item : ItemClass
 
     void ProcessCanGrab()
     {
+        
         // grab check
         if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < pickupDistance)
         {
