@@ -97,6 +97,7 @@ public class PlayerCameraController : MonoBehaviour
                 PlayerWeaponManager.instance.highlightedWeapon = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().weapon_Item.gameObject;
 
             if (handler.itemType == ItemUIHandler.ItemTypes.BodyPart)
+                PlayerBodyPartManager.instance.highlightedBodyPart = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().bodyPart_Item.gameObject;
 
         }
     }

@@ -36,18 +36,18 @@ public class ItemUIHandler : MonoBehaviour
     string weaponInfo;
     [SerializeField] Text weaponInfoText, weaponNameText;
 
-    [Header("- Body Part Data -")]
+
     // information for bodyparts
     public BodyPartClass body_Part;
+    [Header("- Body Part Data -")]
+    public BodyPart_Item bodyPart_Item;
     public Text bodyPartName, currentRightLegName, currentLeftLegName;
     public Text bodyPartInfo, currentRightLegInfo, currentLeftLegInfo;
 
     [Header("- Canvas Groups -")]
-    [SerializeField] CanvasGroup info_CanvasGroup, additional_CanvasGroup;
-    [SerializeField] bool useAdditional; // do we use our additional panels
+    [SerializeField] CanvasGroup info_CanvasGroup;
+    [SerializeField] GameObject additional_info;
     float closeWait; // our wait to close time
-
-
 
     private void Start()
     {
@@ -69,10 +69,14 @@ public class ItemUIHandler : MonoBehaviour
         // for bodyparts
         if (itemType == ItemTypes.BodyPart)
         {
+            // get the part class manually
+            body_Part = bodyPart_Item.bodyPartObject.GetComponent<BodyPartClass>();
+
             // check the bodypart type and whether or not we use additional panels
             if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm || body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
             {
-                useAdditional = true;
+                Debug.Log("is bodypart");
+                additional_info.SetActive(true);
             }
         }
     }
@@ -83,7 +87,6 @@ public class ItemUIHandler : MonoBehaviour
         if (closeWait > 0)
         { 
             info_CanvasGroup.alpha += Time.deltaTime*10;
-            if (useAdditional) additional_CanvasGroup.alpha += Time.deltaTime * 10;
 
             closeWait -= Time.deltaTime; 
         }
@@ -91,7 +94,6 @@ public class ItemUIHandler : MonoBehaviour
         if (closeWait <= 0)
         {
             info_CanvasGroup.alpha -= Time.deltaTime;
-            if (useAdditional) additional_CanvasGroup.alpha -= Time.deltaTime * 10;
 
             if (info_CanvasGroup.alpha <= 0)
             {
@@ -102,9 +104,8 @@ public class ItemUIHandler : MonoBehaviour
         // check for death
         if (weapon_Item == null && body_Part == null)
         {
-            Destroy(gameObject);
+            // Destroy(gameObject);
         }
-
     }
 
     // set the info panel of our weapon

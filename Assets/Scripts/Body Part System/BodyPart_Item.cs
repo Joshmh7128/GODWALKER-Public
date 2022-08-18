@@ -27,6 +27,7 @@ public class BodyPart_Item : ItemClass
         part.transform.localPosition = Vector3.zero;
     }
 
+    // simple pickup
     public void Pickup()
     {
         // pickup this part using the playerbodypart manager
@@ -35,6 +36,7 @@ public class BodyPart_Item : ItemClass
         Destroy(gameObject);
     }
 
+    // dynamic pickup
     public void Pickup(bool isRight)
     {
         // pickup this part using the playerbodypart manager
