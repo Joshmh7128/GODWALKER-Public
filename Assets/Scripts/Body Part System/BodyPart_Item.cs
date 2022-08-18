@@ -10,6 +10,7 @@ public class BodyPart_Item : ItemClass
     [HideInInspector] public BodyPartClass bodyPartClass;
     [SerializeField] Transform cosmeticTransform; // for modifying the scale/position of the part
     [SerializeField] Transform ourCanvas; // so we can make sure it is destroyed
+    [SerializeField] GameObject pickupFX, playerPickupFX; // the effect when we get picked up
 
     // on start, instantiate our bodypart at the center of our object
     private void Start()
@@ -34,8 +35,7 @@ public class BodyPart_Item : ItemClass
         // pickup this part using the playerbodypart manager
         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType);
         // then destroy
-        Destroy(ourCanvas.gameObject);
-        Destroy(gameObject);
+        OnDestroyGameObject();
     }
 
     // dynamic pickup
@@ -44,13 +44,15 @@ public class BodyPart_Item : ItemClass
         // pickup this part using the playerbodypart manager
         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, isRight);
         // then destroy
-        Destroy(ourCanvas.gameObject);
-        Destroy(gameObject);
+        OnDestroyGameObject();
     }
 
     private void Update()
     {
         ProcessCanGrab();
+
+        // rotate our cosmetic parent
+        cosmeticTransform.localEulerAngles = new Vector3(0, cosmeticTransform.localEulerAngles.y + Time.deltaTime * 2, 0);
     }
 
     void ProcessCanGrab()
@@ -79,17 +81,14 @@ public class BodyPart_Item : ItemClass
                     if (bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Head || bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Torso)
                     {
                         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType); // pickup the weapon
-                        Destroy(ourCanvas.gameObject);
-                        Destroy(gameObject); // remove the weapon from the world
-                        
+                        OnDestroyGameObject();
                     }       
                     
                     // change our pickups based on what we are
                     if (bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Arm || bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
                     {
                         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, true); // pickup the weapon
-                        Destroy(ourCanvas.gameObject);
-                        Destroy(gameObject); // remove the weapon from the world
+                        OnDestroyGameObject();
                     }
                 }
             }
@@ -103,10 +102,18 @@ public class BodyPart_Item : ItemClass
                     if (bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Arm || bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
                     {
                         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, false); // pickup the weapon
-                        Destroy(gameObject); // remove the weapon from the world
+                        OnDestroyGameObject();
                     }
                 }
             }
         }
+    }
+
+    void OnDestroyGameObject()
+    {
+        Instantiate(pickupFX, transform.position, pickupFX.transform.rotation, null);
+        Instantiate(playerPickupFX, PlayerController.instance.transform.position + new Vector3(0, -1, 0), playerPickupFX.transform.rotation, PlayerController.instance.transform);
+        Destroy(ourCanvas.gameObject);
+        Destroy(gameObject); // remove the weapon from the world
     }
 }
