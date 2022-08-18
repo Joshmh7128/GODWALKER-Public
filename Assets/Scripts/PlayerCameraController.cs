@@ -84,10 +84,13 @@ public class PlayerCameraController : MonoBehaviour
         // then check for UI triggers
         if (uiCheck.transform.tag == "Item")
         {
-            WeaponItemUIHandler handler = uiCheck.transform.gameObject.GetComponent<WeaponItemUIHandler>();
+            // check if it has a UI handler
+
+
+            ItemUIHandler handler = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>();
             handler.hitPoint = uiCheck.point;
             handler.showPanel = true;
-            PlayerWeaponManager.instance.highlightedWeapon = uiCheck.transform.gameObject.GetComponent<WeaponItemUIHandler>().weapon_Item.gameObject;
+            PlayerWeaponManager.instance.highlightedWeapon = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().weapon_Item.gameObject;
         }
     }
 }

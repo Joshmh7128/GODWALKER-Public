@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WeaponItemUIHandler : MonoBehaviour
+public class ItemUIHandler : MonoBehaviour
 {
     // should we show our panel?
     public bool showPanel
