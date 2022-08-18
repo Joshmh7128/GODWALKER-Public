@@ -8,6 +8,7 @@ public class Weapon_Item : ItemClass
     // what is our weapon?
     public GameObject weapon;
     [SerializeField] Transform modelParent;
+    [SerializeField] Transform ourCanvas; // so we can make sure it is destroyed
 
     // start
     private void Start()
@@ -51,6 +52,7 @@ public class Weapon_Item : ItemClass
                 {
                     // PlayerWeaponManager.instance.nearbyWeapons.Remove(gameObject); // remove this weapon from the list
                     PlayerWeaponManager.instance.PickupWeapon(weapon); // pickup the weapon
+                    Destroy(ourCanvas.gameObject);
                     Destroy(gameObject); // remove the weapon from the world
                 }
             }

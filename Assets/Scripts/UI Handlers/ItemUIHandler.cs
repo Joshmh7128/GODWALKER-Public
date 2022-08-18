@@ -100,12 +100,6 @@ public class ItemUIHandler : MonoBehaviour
                 showPanel = false;
             }
         }
-
-        // check for death
-        if (weapon_Item == null && body_Part == null)
-        {
-            // Destroy(gameObject);
-        }
     }
 
     // set the info panel of our weapon

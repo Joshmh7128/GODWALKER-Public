@@ -9,6 +9,7 @@ public class BodyPart_Item : ItemClass
     public GameObject bodyPartObject; // the bodypart that this item contains
     [HideInInspector] public BodyPartClass bodyPartClass;
     [SerializeField] Transform cosmeticTransform; // for modifying the scale/position of the part
+    [SerializeField] Transform ourCanvas; // so we can make sure it is destroyed
 
     // on start, instantiate our bodypart at the center of our object
     private void Start()
@@ -20,7 +21,7 @@ public class BodyPart_Item : ItemClass
     void InstantiateCosmeticPart()
     {
         GameObject part = Instantiate(bodyPartObject, cosmeticTransform);
-        bodyPartClass = Instantiate(part.GetComponent<BodyPartClass>());
+        bodyPartClass = Instantiate(part.GetComponent<BodyPartClass>(), new Vector3(9999,9999,9999), Quaternion.identity, null); // instantiating them in slipspace
         // make sure they dont zero out on start
         foreach (Transform parent in part.transform)
         { parent.GetComponent<ZeroOut>().cancel = true; }
@@ -33,6 +34,7 @@ public class BodyPart_Item : ItemClass
         // pickup this part using the playerbodypart manager
         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType);
         // then destroy
+        Destroy(ourCanvas.gameObject);
         Destroy(gameObject);
     }
 
@@ -42,6 +44,7 @@ public class BodyPart_Item : ItemClass
         // pickup this part using the playerbodypart manager
         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, isRight);
         // then destroy
+        Destroy(ourCanvas.gameObject);
         Destroy(gameObject);
     }
 
@@ -76,13 +79,16 @@ public class BodyPart_Item : ItemClass
                     if (bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Head || bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Torso)
                     {
                         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType); // pickup the weapon
+                        Destroy(ourCanvas.gameObject);
                         Destroy(gameObject); // remove the weapon from the world
+                        
                     }       
                     
                     // change our pickups based on what we are
                     if (bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Arm || bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
                     {
                         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, true); // pickup the weapon
+                        Destroy(ourCanvas.gameObject);
                         Destroy(gameObject); // remove the weapon from the world
                     }
                 }
