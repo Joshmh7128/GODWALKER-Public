@@ -41,8 +41,9 @@ public class ItemUIHandler : MonoBehaviour
     public BodyPartClass body_Part;
     [Header("- Body Part Data -")]
     public BodyPart_Item bodyPart_Item;
-    public Text bodyPartName, currentRightLegName, currentLeftLegName;
-    public Text bodyPartInfo, currentRightLegInfo, currentLeftLegInfo;
+    public Text bodyPartName, currentRightName, currentLeftName;
+    public Text bodyPartInfo, currentRightInfo, currentLeftInfo;
+    BodyPartClass rightClass, leftClass; // for local ease
 
     [Header("- Canvas Groups -")]
     [SerializeField] CanvasGroup info_CanvasGroup;
@@ -75,7 +76,6 @@ public class ItemUIHandler : MonoBehaviour
             // check the bodypart type and whether or not we use additional panels
             if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm || body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
             {
-                Debug.Log("is bodypart");
                 additional_info.SetActive(true);
             }
         }
@@ -133,7 +133,28 @@ public class ItemUIHandler : MonoBehaviour
         // for our bodyparts
         if (itemType == ItemTypes.BodyPart)
         {
+            #region // setup our current classes based on type 
+            if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm)
+            {
+                rightClass = PlayerBodyPartManager.instance.rightArmPartClass;
+                leftClass = PlayerBodyPartManager.instance.leftArmPartClass;
+            }
 
+            if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
+            {
+                rightClass = PlayerBodyPartManager.instance.rightLegPartClass;
+                leftClass = PlayerBodyPartManager.instance.leftLegPartClass;
+            }
+            #endregion
+
+            // set our information
+            bodyPartName.text = body_Part.bodyPartName;
+            bodyPartInfo.text = body_Part.descriptiveInfo;
+            // right arm
+            currentRightName.text = rightClass.bodyPartName;
+            currentRightInfo.text = rightClass.descriptiveInfo;
+            currentLeftName.text = leftClass.bodyPartName;
+            currentLeftInfo.text = leftClass.descriptiveInfo;
         }
     }
 }

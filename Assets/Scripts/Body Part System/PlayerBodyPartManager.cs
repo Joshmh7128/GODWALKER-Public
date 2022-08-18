@@ -14,8 +14,10 @@ public class PlayerBodyPartManager : MonoBehaviour
 
     // setup and set our instance
     public static PlayerBodyPartManager instance;
-    private void Awake()
+    private void Awake() 
     { instance = this; }
+
+    public float pickupCooldown; // our pickup cooldown
 
     public GameObject highlightedBodyPart;
 
@@ -179,5 +181,19 @@ public class PlayerBodyPartManager : MonoBehaviour
         }
 
 
+    }
+
+    private void FixedUpdate()
+    {
+        ProcessPickupCooldown();
+    }
+
+    // our pickup cooldown
+    void ProcessPickupCooldown()
+    {
+        if (pickupCooldown >= 0)
+        {
+            pickupCooldown--;
+        }
     }
 }

@@ -44,4 +44,63 @@ public class BodyPart_Item : ItemClass
         // then destroy
         Destroy(gameObject);
     }
+
+    private void Update()
+    {
+        ProcessCanGrab();
+    }
+
+    void ProcessCanGrab()
+    {
+
+        // grab check
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < pickupDistance)
+        {
+            canGrab = true;
+        }
+
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) > pickupDistance)
+        {
+            canGrab = false;
+        }
+
+        // actual grabbing
+        if (canGrab)
+        {
+            // replace with Use button later
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (PlayerBodyPartManager.instance.pickupCooldown <= 0 && PlayerBodyPartManager.instance.highlightedBodyPart == gameObject)
+                {
+                    // change our pickups based on what we are
+                    if (bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Head || bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Torso)
+                    {
+                        PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType); // pickup the weapon
+                        Destroy(gameObject); // remove the weapon from the world
+                    }       
+                    
+                    // change our pickups based on what we are
+                    if (bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Arm || bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
+                    {
+                        PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, true); // pickup the weapon
+                        Destroy(gameObject); // remove the weapon from the world
+                    }
+                }
+            }
+
+            // other button
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (PlayerBodyPartManager.instance.pickupCooldown <= 0 && PlayerBodyPartManager.instance.highlightedBodyPart == gameObject)
+                {
+                    // change our pickups based on what we are
+                    if (bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Arm || bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
+                    {
+                        PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, false); // pickup the weapon
+                        Destroy(gameObject); // remove the weapon from the world
+                    }
+                }
+            }
+        }
+    }
 }

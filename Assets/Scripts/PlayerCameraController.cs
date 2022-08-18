@@ -82,12 +82,8 @@ public class PlayerCameraController : MonoBehaviour
         // fire a ray forward
         Physics.Raycast(transform.position, transform.forward, out uiCheck, 5f, Physics.AllLayers, QueryTriggerInteraction.Collide);
         // then check for UI triggers
-        if (uiCheck.transform != null)
-        { Debug.Log(uiCheck.transform.gameObject.name); }
-
         if (uiCheck.transform.tag == "Item")
         {
-            Debug.Log(uiCheck.transform.gameObject.name);
             // check if it has a UI handler
             handler = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>();
             handler.hitPoint = uiCheck.point;

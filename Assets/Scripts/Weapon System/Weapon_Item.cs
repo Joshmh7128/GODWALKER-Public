@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Weapon_Item : ItemClass
 {
-    // can we be picked up?
-    [SerializeField] float pickupDistance = 5;
 
     // what is our weapon?
     public GameObject weapon;
