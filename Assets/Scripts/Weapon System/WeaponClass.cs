@@ -30,7 +30,10 @@ public abstract class WeaponClass : MonoBehaviour
     // our weapon's damage
     public float damage = 1;
     // our weapon's name
-    public string weaponName; 
+    public string weaponName;
+
+    [Header("Feel Related")]
+    public float kickFOV = 90f;
     // audio 
     public AudioSource reloadSource, reloadSourceB; // the audio source which plays our reload sound
 

@@ -13,11 +13,19 @@ public class PlayerCameraController : MonoBehaviour
     RaycastHit uiCheck, check; // hit is for things we are hitting, check is for environmental low level checks, like UI dynamics etc
     [SerializeField] public Transform AimTarget; // the transform of the object we are using to aim at 
     [SerializeField] ItemUIHandler handler;
+    [SerializeField] Camera mainCam; // our main cam
+    [SerializeField] float aimFOV; // how far in we aim
     // setup an instance
     public static PlayerCameraController instance;
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        // setup our main cam to be referenced
+        mainCam = Camera.main;
     }
 
     private void Update()
@@ -35,6 +43,8 @@ public class PlayerCameraController : MonoBehaviour
         ProcessAimTarget();
         // update our ui raycast
         ProcessUIRaycast();
+        // update our camera FOV
+        ProcessCameraFOV();
     }
 
     // set the position of our aim target
@@ -82,19 +92,59 @@ public class PlayerCameraController : MonoBehaviour
         // fire a ray forward
         Physics.Raycast(transform.position, transform.forward, out uiCheck, 5f, Physics.AllLayers, QueryTriggerInteraction.Collide);
         // then check for UI triggers
-        if (uiCheck.transform.tag == "Item" && uiCheck.transform != null)
+        if (uiCheck.transform != null)
         {
-            // check if it has a UI handler
-            handler = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>();
-            handler.hitPoint = uiCheck.point;
-            handler.showPanel = true;
+            if (uiCheck.transform.tag == "Item")
+            {
+                // check if it has a UI handler
+                handler = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>();
+                handler.hitPoint = uiCheck.point;
+                handler.showPanel = true;
 
-            if (handler.itemType == ItemUIHandler.ItemTypes.Weapon)
-                PlayerWeaponManager.instance.highlightedWeapon = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().weapon_Item.gameObject;
+                if (handler.itemType == ItemUIHandler.ItemTypes.Weapon)
+                    PlayerWeaponManager.instance.highlightedWeapon = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().weapon_Item.gameObject;
 
-            if (handler.itemType == ItemUIHandler.ItemTypes.BodyPart)
-                PlayerBodyPartManager.instance.highlightedBodyPart = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().bodyPart_Item.gameObject;   
+                if (handler.itemType == ItemUIHandler.ItemTypes.BodyPart)
+                    PlayerBodyPartManager.instance.highlightedBodyPart = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().bodyPart_Item.gameObject;
+
+            }
         }
+    }
+
+    public enum FOVModes
+    {
+        normal, aiming, sprinting
+    }
+
+    public FOVModes FOVMode;
+
+    // for processing any field of view changes
+    void ProcessCameraFOV()
+    {
+        // if we're in normal fov mode, lerp back to normal
+        if (FOVMode == FOVModes.normal)
+        {
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 90f, 3f * Time.deltaTime);
+   
+        }
+
+        // if we're not in aiming mode
+        if (FOVMode == FOVModes.aiming)
+        {
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, aimFOV, 10f * Time.deltaTime);
+        }
+
+        // if we're sprinting
+        if (FOVMode == FOVModes.sprinting)
+        {
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 95f, 10f * Time.deltaTime);
+        }
+
+    }
+
+    public void FOVKickRequest(float fov)
+    {
+        mainCam.fieldOfView = fov;
     }
 
     private void OnDrawGizmos()

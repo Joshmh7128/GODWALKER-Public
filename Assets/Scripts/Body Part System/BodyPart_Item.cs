@@ -113,6 +113,7 @@ public class BodyPart_Item : ItemClass
     {
         Instantiate(pickupFX, transform.position, pickupFX.transform.rotation, null);
         Instantiate(playerPickupFX, PlayerController.instance.transform.position + new Vector3(0, -1, 0), playerPickupFX.transform.rotation, PlayerController.instance.transform);
+        PlayerCameraController.instance.FOVKickRequest(95f);
         Destroy(ourCanvas.gameObject);
         Destroy(gameObject); // remove the weapon from the world
     }

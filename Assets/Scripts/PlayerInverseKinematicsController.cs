@@ -44,8 +44,6 @@ public class PlayerInverseKinematicsController : MonoBehaviour
         // run animation applications
         ApplyKick();
         ApplyRecoil();
-
-        Debug.Log("ApplyKickRecoil called on " + this.name);
     }
 
     // apply the kick to our weapon

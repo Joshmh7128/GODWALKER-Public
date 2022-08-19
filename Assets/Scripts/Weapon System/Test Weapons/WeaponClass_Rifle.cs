@@ -35,6 +35,7 @@ public class WeaponClass_Rifle : WeaponClass
         ApplyKickRecoil(); // apply our recoil
         AddSpread(); // add spread
         weaponUIHandler.KickUI(); // kick our UI
+        PlayerCameraController.instance.FOVKickRequest(kickFOV); // kick our camera
         // get our direction to our target
         Vector3 shotDirection = (PlayerCameraController.instance.AimTarget.position - muzzleOrigin.position).normalized;
         // add to our shot direction based on our spread
