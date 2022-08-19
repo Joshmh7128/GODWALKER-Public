@@ -84,6 +84,24 @@ public class PlayerCameraController : MonoBehaviour
 
         // apply it to our head
         cameraRig.eulerAngles = new Vector3(finalyRotate, finalxRotate, 0f);
+
+        // aiming if we're not sprinting
+        if (FOVMode != FOVModes.sprinting)
+        {
+            // get our mouse inputs
+            if (Input.GetMouseButton(1) && FOVMode == FOVModes.normal)
+            {
+                PlayerController.instance.movementState = PlayerController.MovementStates.aiming;
+                FOVMode = FOVModes.aiming;
+            }
+
+            if (Input.GetMouseButtonUp(1) && FOVMode == FOVModes.aiming)
+            {
+                PlayerController.instance.movementState = PlayerController.MovementStates.normal;
+                FOVMode = FOVModes.normal;
+            }
+        }
+
     }
 
     // our forward rayast to check for interactables
@@ -131,20 +149,20 @@ public class PlayerCameraController : MonoBehaviour
         // if we're not in aiming mode
         if (FOVMode == FOVModes.aiming)
         {
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, aimFOV, 10f * Time.deltaTime);
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, aimFOV, 5f * Time.deltaTime);
         }
 
         // if we're sprinting
         if (FOVMode == FOVModes.sprinting)
         {
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 95f, 10f * Time.deltaTime);
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 100f, 10f * Time.deltaTime);
         }
 
     }
 
     public void FOVKickRequest(float fov)
     {
-        mainCam.fieldOfView = fov;
+        mainCam.fieldOfView += fov;
     }
 
     private void OnDrawGizmos()

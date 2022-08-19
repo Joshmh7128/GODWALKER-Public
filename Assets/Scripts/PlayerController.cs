@@ -8,12 +8,15 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public Vector3 moveH, moveV, move;
     [SerializeField] CharacterController characterController; // our character controller
-    [SerializeField] float moveSpeed, gravity, jumpVelocity; // set in editor for controlling
+    [SerializeField] float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
     RaycastHit groundedHit; // checking to see if we have touched the ground
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
     public bool grounded;
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
+
+    public enum MovementStates { normal, sprinting, aiming}
+    public MovementStates movementState;
 
     [Header("Animation Management")]
     public Transform cameraRig, animationRigParent;
@@ -34,6 +37,7 @@ public class PlayerController : MonoBehaviour
     // visual fx
     [SerializeField] GameObject jumpVFX;
     [SerializeField] GameObject landVFX;
+    [SerializeField] GameObject sprintParticleSystem;
 
     private void Start()
     {
@@ -62,7 +66,6 @@ public class PlayerController : MonoBehaviour
     // our movement function
     void ProcessMovement()
     {
-
         // declare our motion
         float pAxisV = Input.GetAxisRaw("Vertical");
         float pAxisH = Input.GetAxisRaw("Horizontal");
@@ -80,7 +83,7 @@ public class PlayerController : MonoBehaviour
             groundCheckCooldown -= Time.deltaTime;
         }
 
-        // movement application
+       
         // jump calculations
         gravityValue = gravity;
 
@@ -111,9 +114,36 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+
+        // sprint calculation
+        if (Input.GetKeyDown(KeyCode.LeftShift) && pAxisV > 0.1f)
+        {
+            movementState = MovementStates.sprinting;
+            PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.sprinting;
+        }
+
+        // sprint stopping
+        if (movementState == MovementStates.sprinting && (pAxisV <= 0.1f || Input.GetMouseButton(1)))
+        {
+            movementState = MovementStates.normal;
+            PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.normal;
+        }
+
+
+        // process our state into the movement speed adjuster
+        if (movementState == MovementStates.normal)
+        { moveSpeedAdjust = normalMoveMultiplier; sprintParticleSystem.SetActive(false); }        
+        if (movementState == MovementStates.sprinting)
+        { moveSpeedAdjust = sprintMoveMultiplier; sprintParticleSystem.SetActive(true); }       
+        if (movementState == MovementStates.aiming)
+        { moveSpeedAdjust = aimMoveMultiplier; sprintParticleSystem.SetActive(false); }
+
+        float finalMoveSpeed = moveSpeed * moveSpeedAdjust;
+        // calculate vertical movement
         verticalVelocity = playerJumpVelocity;
         move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
-        characterController.Move(move * Time.deltaTime * moveSpeed);
+        // apply final movement
+        characterController.Move(move * Time.deltaTime * finalMoveSpeed);
     }
 
     void ProcessReloadControl()
