@@ -1,15 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class EnemyClass : MonoBehaviour
 {
     // class exists as the baseline for all of our enemies
 
     // our behaviours
-    [SerializeField] List<EnemyBehaviour> allBehaviours;
+    public List<EnemyBehaviour> allBehaviours;
     List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
+
+    // our behavioural parents
+    [SerializeField] List<Transform> parents = new List<Transform>();
+
+    // our agent
+    public NavMeshAgent navMeshAgent;
 
     private void Start()
     {
@@ -22,7 +29,9 @@ public abstract class EnemyClass : MonoBehaviour
     // to run our behaviours
     void StartBehaviours()
     {
-       
+        // start our behaviours
+        StartCoroutine(AttackBehaviourHandler());
+        StartCoroutine(MovementBehaviourHandler());
     }
 
     IEnumerator AttackBehaviourHandler()
@@ -36,6 +45,11 @@ public abstract class EnemyClass : MonoBehaviour
             yield return new WaitForSecondsRealtime(behaviour.behaviourTime);
         }
 
+        StartCoroutine(AttackBehaviourHandler());
+    }
+    
+    IEnumerator MovementBehaviourHandler()
+    {
         // go through each attack
         foreach (EnemyBehaviour behaviour in movementBehaviours)
         {
@@ -44,11 +58,19 @@ public abstract class EnemyClass : MonoBehaviour
             // then wait
             yield return new WaitForSecondsRealtime(behaviour.behaviourTime);
         }
+
+        StartCoroutine(MovementBehaviourHandler());
     }
 
     // to sort the behaviours that our body uses
     void SortBehaviours()
     {
+        // enable our behaviours
+        foreach (Transform parent in parents)
+        {
+            parent.GetChild(Random.Range(0, parent.childCount)).gameObject.SetActive(true);
+        }
+
         foreach (EnemyBehaviour behaviour in allBehaviours)
         {
             if (behaviour.type == EnemyBehaviour.BehaviourType.attack)

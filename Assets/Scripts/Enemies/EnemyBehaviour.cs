@@ -12,6 +12,15 @@ public abstract class EnemyBehaviour : MonoBehaviour
     // our public type
     public BehaviourType type;
 
+    // our enemy class
+    public EnemyClass enemyClass;
+
+    public void OnEnable()
+    {
+        // add ourselves to the enemy class
+        enemyClass.allBehaviours.Add(this);
+    }
+
     // our main behaviour
     public virtual void RunMain()
     {
