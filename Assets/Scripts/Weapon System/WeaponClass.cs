@@ -41,7 +41,7 @@ public abstract class WeaponClass : MonoBehaviour
     // recoil for weapons
     public float spreadX, spreadY, spreadMax; // spread on each of these axes
     public float spreadXDelta, spreadYDelta; // the increase on each of these axes
-    public float spreadReduct; // how quickly we return to our original state
+    public float spreadReduct, originalSpreadReduct; // how quickly we return to our original state. changed and used in the player camera controller
 
     // our UI handler
     public WeaponUIHandler weaponUIHandler;
@@ -51,7 +51,6 @@ public abstract class WeaponClass : MonoBehaviour
     {
         OnDown, OnHold
     }
-
 
     // weapon elements
     public enum WeaponElements
@@ -64,7 +63,10 @@ public abstract class WeaponClass : MonoBehaviour
     // the start that is called on every weapon
     public void Start()
     {
+        // get our weapon handler
         weaponUIHandler = GetComponent<WeaponUIHandler>();
+        // set our original spread reduct
+        originalSpreadReduct = spreadReduct;
     }
 
     // the start that is called manually on every weapon

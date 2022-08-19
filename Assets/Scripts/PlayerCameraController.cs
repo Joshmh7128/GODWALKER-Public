@@ -143,19 +143,22 @@ public class PlayerCameraController : MonoBehaviour
         if (FOVMode == FOVModes.normal)
         {
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 90f, 3f * Time.deltaTime);
-   
+            PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
+
         }
 
         // if we're not in aiming mode
         if (FOVMode == FOVModes.aiming)
         {
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, aimFOV, 5f * Time.deltaTime);
+            PlayerWeaponManager.instance.currentWeapon.spreadReduct *= 2f;
         }
 
         // if we're sprinting
         if (FOVMode == FOVModes.sprinting)
         {
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 100f, 10f * Time.deltaTime);
+            PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
         }
 
     }
