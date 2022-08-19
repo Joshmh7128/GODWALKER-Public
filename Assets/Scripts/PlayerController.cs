@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
     void ProcessReloadControl()
     {
         // when we press R, reload our current weapon
-        if (Input.GetKeyDown (KeyCode.R))
+        if (Input.GetKeyDown (KeyCode.R) && PlayerWeaponManager.instance.currentWeapon.currentMagazine < PlayerWeaponManager.instance.currentWeapon.maxMagazine)
         {
             // check our IK controller to see if we are reloading
             if (PlayerInverseKinematicsController.instance.reloading == false)

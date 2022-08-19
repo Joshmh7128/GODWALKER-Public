@@ -145,10 +145,17 @@ public class ItemUIHandler : MonoBehaviour
             bodyPartName.text = body_Part.bodyPartName;
             bodyPartInfo.text = body_Part.descriptiveInfo;
             // right arm
-            currentRightName.text = rightClass.bodyPartName;
-            currentRightInfo.text = rightClass.descriptiveInfo;
-            currentLeftName.text = leftClass.bodyPartName;
-            currentLeftInfo.text = leftClass.descriptiveInfo;
+            if (rightClass)
+            {
+                currentRightName.text = rightClass.bodyPartName;
+                currentRightInfo.text = rightClass.descriptiveInfo;
+            }
+            // left arm
+            if (leftClass)
+            {
+                currentLeftName.text = leftClass.bodyPartName;
+                currentLeftInfo.text = leftClass.descriptiveInfo;
+            }
         }
     }
 }

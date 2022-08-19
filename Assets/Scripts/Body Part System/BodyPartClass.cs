@@ -30,7 +30,7 @@ public abstract class BodyPartClass : MonoBehaviour
     // our start that runs manually after our class start
     public virtual void PartStart()
     {
-        Debug.Log("The part " + gameObject.name + "has a PartStart which has not been overridden");
+        //Debug.Log("The part " + gameObject.name + "has a PartStart which has not been overridden");
     }
 
 }

@@ -60,6 +60,7 @@ public class WeaponClass_Pistol : WeaponClass
     IEnumerator ReloadTiming()
     {
         reloading = true;
+        reloadSourceB.PlayOneShot(reloadSourceB.clip);
         PlayerInverseKinematicsController.instance.ApplyReload();
         // make sure we setup our anim controlled to be chill with us reloading
         yield return new WaitForSeconds(reloadTime);

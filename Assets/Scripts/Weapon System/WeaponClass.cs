@@ -32,7 +32,7 @@ public abstract class WeaponClass : MonoBehaviour
     // our weapon's name
     public string weaponName; 
     // audio 
-    public AudioSource reloadSource; // the audio source which plays our reload sound
+    public AudioSource reloadSource, reloadSourceB; // the audio source which plays our reload sound
 
     [Header("Recoil and Spread Variables")]
     // recoil for weapons

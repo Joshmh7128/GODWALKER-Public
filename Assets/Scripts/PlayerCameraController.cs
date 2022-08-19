@@ -82,7 +82,7 @@ public class PlayerCameraController : MonoBehaviour
         // fire a ray forward
         Physics.Raycast(transform.position, transform.forward, out uiCheck, 5f, Physics.AllLayers, QueryTriggerInteraction.Collide);
         // then check for UI triggers
-        if (uiCheck.transform.tag == "Item")
+        if (uiCheck.transform.tag == "Item" && uiCheck.transform != null)
         {
             // check if it has a UI handler
             handler = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>();
@@ -93,8 +93,7 @@ public class PlayerCameraController : MonoBehaviour
                 PlayerWeaponManager.instance.highlightedWeapon = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().weapon_Item.gameObject;
 
             if (handler.itemType == ItemUIHandler.ItemTypes.BodyPart)
-                PlayerBodyPartManager.instance.highlightedBodyPart = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().bodyPart_Item.gameObject;
-
+                PlayerBodyPartManager.instance.highlightedBodyPart = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().bodyPart_Item.gameObject;   
         }
     }
 

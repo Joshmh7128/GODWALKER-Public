@@ -85,6 +85,6 @@ public class WeaponCreator : MonoBehaviour
         GameObject copyWeapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity);
         copyWeapon.SetActive(false);
         copyItem.weapon = copyWeapon;
-        Destroy(weaponObject);
+        // Destroy(weaponObject);
     }
 }
