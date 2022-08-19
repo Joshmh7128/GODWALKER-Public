@@ -30,6 +30,10 @@ public class PlayerController : MonoBehaviour
         instance = this;
     }
 
+    [Header("Visual FX")]
+    // visual fx
+    [SerializeField] GameObject jumpVFX;
+
     private void Start()
     {
         // get our camera rig
@@ -92,6 +96,9 @@ public class PlayerController : MonoBehaviour
             {
                 playerJumpVelocity = Mathf.Sqrt(-jumpVelocity * gravity);
                 groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
+                // instantiate a visual effect
+                Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation);
+
             }
             else if (!grounded)
             {
