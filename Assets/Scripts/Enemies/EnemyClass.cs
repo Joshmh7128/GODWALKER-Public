@@ -12,9 +12,6 @@ public abstract class EnemyClass : MonoBehaviour
     List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
 
-    // our behavioural parents
-    [SerializeField] List<Transform> parents = new List<Transform>();
-
     // our agent
     public NavMeshAgent navMeshAgent;
 
@@ -65,12 +62,6 @@ public abstract class EnemyClass : MonoBehaviour
     // to sort the behaviours that our body uses
     void SortBehaviours()
     {
-        // enable our behaviours
-        foreach (Transform parent in parents)
-        {
-            parent.GetChild(Random.Range(0, parent.childCount)).gameObject.SetActive(true);
-        }
-
         foreach (EnemyBehaviour behaviour in allBehaviours)
         {
             if (behaviour.type == EnemyBehaviour.BehaviourType.attack)
