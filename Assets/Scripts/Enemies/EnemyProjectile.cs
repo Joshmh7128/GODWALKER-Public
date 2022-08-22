@@ -15,12 +15,19 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] float speed; // how fast this projectile moves kinematically, or how hard it is launched
     Rigidbody rigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
+    [SerializeField] bool facePlayer; // do we face the player
 
     // start runs at the start
     private void Start()
     {
         // setup our rigidbody
         rigidbody = GetComponent<Rigidbody>();
+
+        // if we face the player
+        if (facePlayer)
+        {
+            transform.LookAt(PlayerController.instance.transform.position);
+        }
 
         if (projectileType == ProjectileTypes.kinematic)
         {

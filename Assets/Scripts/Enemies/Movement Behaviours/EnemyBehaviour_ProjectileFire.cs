@@ -18,7 +18,7 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
             // fire a projectile at the player
             Instantiate(projectile, projectileOrigin.position, projectileOrigin.rotation);
             // wait the fire rate
-            yield return new WaitForSeconds(fireRate);
+            yield return new WaitForSeconds(fireRate + Random.Range(0, fireRate));
             // advance
             fired++;
         }
