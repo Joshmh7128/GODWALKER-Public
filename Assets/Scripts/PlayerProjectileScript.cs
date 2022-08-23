@@ -32,7 +32,7 @@ public class PlayerProjectileScript : MonoBehaviour
     void ProcessHitscan()
     {
         // raycast forward
-        Physics.Raycast(transform.position, transform.forward, out hit, 1f, Physics.AllLayers);   
+        Physics.Raycast(transform.position, transform.forward, out hit, 2f, Physics.AllLayers);   
 
         // check if we've hit something
         if (hit.transform != null)
