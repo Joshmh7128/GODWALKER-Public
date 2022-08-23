@@ -20,6 +20,8 @@ public class CrabInverseKinematicsController : MonoBehaviour
     // this script supports two humanoid animators, up to four legs and four arms
     [SerializeField] LocalIKHandler frontAnimator, backAnimator;
 
+    [SerializeField] Transform topRigParent;
+
     // start
     private void Start()
     {
@@ -62,6 +64,8 @@ public class CrabInverseKinematicsController : MonoBehaviour
         ProcessLegTargetPositions();
         // move our legs
         ProcessLegIKControllers();
+        // process our top rig parent
+        ProcessTopRigParent();
     }
 
     // for calculating out leg target position
@@ -95,5 +99,11 @@ public class CrabInverseKinematicsController : MonoBehaviour
         }
 
 
+    }
+
+    // control our top rig parent
+    void ProcessTopRigParent()
+    {
+        topRigParent.LookAt(PlayerController.instance.transform);
     }
 }

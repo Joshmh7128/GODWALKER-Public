@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class EnemyClass_Test : EnemyClass
 {
-
+    public override void GetHurt()
+    {
+        throw new System.NotImplementedException();
+    }
 }

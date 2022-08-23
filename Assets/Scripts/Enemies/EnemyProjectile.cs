@@ -16,12 +16,15 @@ public class EnemyProjectile : MonoBehaviour
     Rigidbody rigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
     [SerializeField] bool facePlayer; // do we face the player
+    [SerializeField] int deathTime = 30; // how long to death
 
     // start runs at the start
     private void Start()
     {
         // setup our rigidbody
         rigidbody = GetComponent<Rigidbody>();
+
+        StartCoroutine(DeathCountdown());
 
         // if we face the player
         if (facePlayer)
@@ -94,6 +97,12 @@ public class EnemyProjectile : MonoBehaviour
         // spawn a deathobject
         Instantiate(deathObject, transform.position, Quaternion.identity, null);
         // then destroy
+        Destroy(gameObject);
+    }
+
+    IEnumerator DeathCountdown()
+    {
+        yield return new WaitForSecondsRealtime(deathTime);
         Destroy(gameObject);
     }
 }

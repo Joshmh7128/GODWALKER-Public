@@ -8,7 +8,7 @@ public abstract class EnemyClass : MonoBehaviour
     // class exists as the baseline for all of our enemies
 
     // our behaviours
-    public List<EnemyBehaviour> allBehaviours;
+    [HideInInspector] public List<EnemyBehaviour> allBehaviours;
     List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
 
@@ -72,4 +72,5 @@ public abstract class EnemyClass : MonoBehaviour
         }
     }
 
+    abstract public void GetHurt();
 }

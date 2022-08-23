@@ -57,7 +57,7 @@ public class PlayerCameraController : MonoBehaviour
         }
         else
         {
-            AimTarget.position = transform.forward * 500f;
+            AimTarget.position = mainCam.transform.position + (mainCam.transform.forward * 50f);
         }
     }
 

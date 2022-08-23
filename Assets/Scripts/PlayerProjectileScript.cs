@@ -7,6 +7,12 @@ public class PlayerProjectileScript : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] GameObject breakParticle; // the particle we use on death
     RaycastHit hit; // our raycast hit
+    [SerializeField] int deathTime = 30;
+
+    private void Start()
+    {
+        StartCoroutine(DeathCounter()); 
+    }
 
     // Update is called once per frame
     void Update()
@@ -31,6 +37,12 @@ public class PlayerProjectileScript : MonoBehaviour
         // check if we've hit something
         if (hit.transform != null)
         {
+            // if we hit an enemy
+            if (hit.transform.tag == "Enemy")
+            {
+                hit.transform.gameObject.GetComponent<EnemyClass>().GetHurt();
+            }
+
             // if we have hit something, destroy ourselves
             Destruction();
         }
@@ -44,4 +56,11 @@ public class PlayerProjectileScript : MonoBehaviour
         Instantiate(breakParticle, transform.position, Quaternion.identity, null);
         Destroy(gameObject);
     }
+
+    IEnumerator DeathCounter()
+    {
+        yield return new WaitForSeconds(deathTime);
+        Destroy(gameObject);
+    }
+         
 }

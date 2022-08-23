@@ -8,7 +8,16 @@ public class LocalIKHandler : MonoBehaviour
     [SerializeField] Transform rightHandTarget, leftHandTarget, rightFootTarget, leftFootTarget;
     [SerializeField] Transform lookTarget;
 
+    [SerializeField] Vector3 lookPos, kickVector;
+    [SerializeField] float kickReturnDelta;
+
     [SerializeField] Animator animator;
+
+    private void Start()
+    {
+        if (lookTarget != null)
+        StartCoroutine(TestKick());
+    }
 
     private void OnAnimatorIK(int layerIndex)
     {
@@ -40,5 +49,41 @@ public class LocalIKHandler : MonoBehaviour
             animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
         }
 
+        if (lookTarget != null)
+        {
+            animator.SetLookAtPosition(lookPos);
+            animator.SetLookAtWeight(1f);
+        }
+
     }
+
+    IEnumerator TestKick()
+    {
+        KickLookPos(30f);
+        yield return new WaitForSeconds(3f);
+        StartCoroutine(TestKick());
+    }
+
+    private void FixedUpdate()
+    {
+        ProcessLookPos();
+    }
+
+    // process our look
+    void ProcessLookPos()
+    {
+        if (lookTarget != null)
+        {
+            lookPos = lookTarget.position + kickVector;
+            // lerp kickvector back to zero
+            kickVector = Vector3.Lerp(kickVector, Vector3.zero, kickReturnDelta * Time.deltaTime);
+        }
+    }
+
+    // kick our look pos
+    public void KickLookPos(float kickAmount)
+    {
+        kickVector = new Vector3(Random.Range(-kickAmount, kickAmount), Random.Range(-kickAmount, kickAmount), Random.Range(-kickAmount, kickAmount));
+    }
+
 }

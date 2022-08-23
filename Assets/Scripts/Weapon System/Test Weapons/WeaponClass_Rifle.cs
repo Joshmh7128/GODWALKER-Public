@@ -37,11 +37,11 @@ public class WeaponClass_Rifle : WeaponClass
         weaponUIHandler.KickUI(); // kick our UI
         PlayerCameraController.instance.FOVKickRequest(kickFOV); // kick our camera
         // get our direction to our target
-        Vector3 shotDirection = (PlayerCameraController.instance.AimTarget.position - muzzleOrigin.position).normalized;
+        Vector3 shotDirection = PlayerCameraController.instance.AimTarget.position - muzzleOrigin.position;
         // add to our shot direction based on our spread
         Vector3 modifiedShotDirection = new Vector3(shotDirection.x + Random.Range(-spreadX, spreadX), shotDirection.y + Random.Range(-spreadY, spreadY), shotDirection.z).normalized;
         // instantiate and shoot our projectile in that direction
-        Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection), null);
+        Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
         remainingFirerate = firerate;
         currentMagazine--;
     }
