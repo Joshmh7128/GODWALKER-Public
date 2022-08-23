@@ -5,13 +5,15 @@ using UnityEngine;
 public class PlayerProjectileScript : MonoBehaviour
 {
     [SerializeField] float speed;
-    [SerializeField] GameObject breakParticle; // the particle we use on death
+    [SerializeField] GameObject breakParticle, muzzleEffect; // the particle we use on death
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;
 
     private void Start()
     {
-        StartCoroutine(DeathCounter()); 
+        StartCoroutine(DeathCounter());
+        // muzzle flash
+        MuzzleFX();
     }
 
     // Update is called once per frame
@@ -64,4 +66,11 @@ public class PlayerProjectileScript : MonoBehaviour
         Destroy(gameObject);
     }
          
+    // muzzle effect
+    void MuzzleFX()
+    {
+        // instantiate a muzzle effect at the origin of the shot and parent it there
+        Instantiate(muzzleEffect, PlayerWeaponManager.instance.currentWeapon.muzzleOrigin.position, PlayerWeaponManager.instance.currentWeapon.muzzleOrigin.rotation, PlayerWeaponManager.instance.currentWeapon.muzzleOrigin);
+    }
+
 }

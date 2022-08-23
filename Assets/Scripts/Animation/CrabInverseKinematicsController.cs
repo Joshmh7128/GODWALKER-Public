@@ -14,7 +14,7 @@ public class CrabInverseKinematicsController : MonoBehaviour
     [SerializeField] List<bool> canMove; // our list of bools whic tells the feet if they are allowed to move
     [SerializeField] float forwardStepDelta = 1f; // how far forward we step
     [SerializeField] float footSpeed = 1f; // how fast our feet move
-    [SerializeField] float footStepEpsilon, epsilonChangePer; // how far away our foot needs to be from our static position in order to step
+    [SerializeField] float wantStepAtDistance, epsilonChangePer; // how far away our foot needs to be from our static position in order to step
     [SerializeField] float footSwapTime; // how long does each foot have to stay put
 
     // this script supports two humanoid animators, up to four legs and four arms
@@ -75,7 +75,7 @@ public class CrabInverseKinematicsController : MonoBehaviour
         for (int i = 0; i < staticFeetPositions.Count; i++)
         {
             Vector3 dir = staticFeetPositions[i].position - targetFeetPositions[i].position;
-            if (Vector3.Distance(targetFeetPositions[i].position, staticFeetPositions[i].position) > footStepEpsilon + Random.Range(-footStepEpsilon * epsilonChangePer, footStepEpsilon * epsilonChangePer))
+            if (Vector3.Distance(targetFeetPositions[i].position, staticFeetPositions[i].position) > wantStepAtDistance + Random.Range(-wantStepAtDistance * epsilonChangePer, wantStepAtDistance * epsilonChangePer))
             {
                 // update our target leg positions to be at the static leg position + a little bit forward based 
                 // get our direction towards our static leg pos from our target leg pos
