@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public abstract class EnemyClass : MonoBehaviour
 {
     // class exists as the baseline for all of our enemies
+    // stats
+    [HeaderAttribute("-- Stats --")]
+    public string enemyName;
+    public int level; 
+    public float health, maxHealth;
 
     // our behaviours
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
@@ -78,6 +84,8 @@ public abstract class EnemyClass : MonoBehaviour
     {
         // process whether we can run our behaviours
         ProcessBehaviourStart();
+        // display our stats
+        ProcessCanvasDisplay();
     }
 
     // run in fixed update to see if we can see the player
@@ -99,12 +107,14 @@ public abstract class EnemyClass : MonoBehaviour
         }
     }
 
-    abstract public void GetHurt();
+    abstract public void GetHurt(float damage);
+
 
     // everything to do with our hurt flash renderer
     List<Renderer> renderers = new List<Renderer> ();
     List<Material> defaultRendererMaterials = new List<Material> ();
     List<GameObject> allChildren = new List<GameObject> ();
+    [HeaderAttribute("-- VFX --")]
     [SerializeField] Material hurtMaterial;
     // full function
     void SetupRenderers()
@@ -164,5 +174,20 @@ public abstract class EnemyClass : MonoBehaviour
 
     }
 
+    [HeaderAttribute("-- Canvas Display --")]
     // everything to do with our diegetic canvas
+    [SerializeField] Slider healthSlider; 
+    [SerializeField] Slider lerpHealthSlider; 
+    [SerializeField] Text healthDisplay, nameDisplay;
+    [SerializeField] float lerpSliderSpeed;
+    // run this to display our stats
+    void ProcessCanvasDisplay()
+    {
+        // manage our sliders
+        healthSlider.value = health / maxHealth;
+        lerpHealthSlider.value = Mathf.Lerp(lerpHealthSlider.value, healthSlider.value, lerpSliderSpeed * Time.deltaTime);
+        // manage our text displays
+        healthDisplay.text = "HP " + health + " / " + maxHealth;
+        nameDisplay.text = "Lvl " + level + " " + enemyName;
+    }
 }

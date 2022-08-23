@@ -6,8 +6,9 @@ public class EnemyClass_Crab : EnemyClass
 {
     [SerializeField] LocalIKHandler hurtHandler;
 
-    public override void GetHurt()
+    public override void GetHurt(float damage)
     {
+        health -= (int)damage;
         // when we get hurt, kick
         hurtHandler.KickLookPos(30f);
         // flash
