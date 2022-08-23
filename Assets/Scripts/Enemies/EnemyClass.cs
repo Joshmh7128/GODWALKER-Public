@@ -90,7 +90,7 @@ public abstract class EnemyClass : MonoBehaviour
             if (Physics.Linecast(transform.position, PlayerController.instance.transform.position, out hit, Physics.AllLayers, QueryTriggerInteraction.Ignore))
             {
                 // if we don't hit anything and we're not activated
-                if (hit.transform.tag != "Enemy" && !activated)
+                if (hit.transform.tag == "Player" && !activated)
                 {   // set ourselves to activated and start our behaviours
                     activated = true;
                     StartBehaviours();
@@ -164,8 +164,5 @@ public abstract class EnemyClass : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, PlayerController.instance.transform.position);  
-    }
+    // everything to do with our diegetic canvas
 }
