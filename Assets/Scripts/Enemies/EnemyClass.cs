@@ -11,7 +11,7 @@ public abstract class EnemyClass : MonoBehaviour
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
     List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
-
+    bool activated = false;
     // our agent
     [HideInInspector] public NavMeshAgent navMeshAgent;
 
@@ -20,8 +20,6 @@ public abstract class EnemyClass : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         // sort our behaviours
         SortBehaviours();
-        // start them 
-        StartBehaviours();
         // setup renderers for getting hurt and vfx
         SetupRenderers();
     }
@@ -72,6 +70,32 @@ public abstract class EnemyClass : MonoBehaviour
 
             if (behaviour.type == EnemyBehaviour.BehaviourType.movement)
             { movementBehaviours.Add(behaviour); }
+        }
+    }
+
+    // runs 60 times per second
+    private void FixedUpdate()
+    {
+        // process whether we can run our behaviours
+        ProcessBehaviourStart();
+    }
+
+    // run in fixed update to see if we can see the player
+    void ProcessBehaviourStart()
+    {
+        if (!activated)
+        {
+            RaycastHit hit;
+            // draw a linecast from us to the player and see if we can see them
+            if (Physics.Linecast(transform.position, PlayerController.instance.transform.position, out hit, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            {
+                // if we don't hit anything and we're not activated
+                if (hit.transform.tag != "Enemy" && !activated)
+                {   // set ourselves to activated and start our behaviours
+                    activated = true;
+                    StartBehaviours();
+                }
+            }
         }
     }
 
@@ -138,5 +162,10 @@ public abstract class EnemyClass : MonoBehaviour
             renderers[i].material = defaultRendererMaterials[i];
         }
 
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, PlayerController.instance.transform.position);  
     }
 }
