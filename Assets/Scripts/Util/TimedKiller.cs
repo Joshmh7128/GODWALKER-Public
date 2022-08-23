@@ -11,7 +11,7 @@ public class TimedKiller : MonoBehaviour
     [SerializeField] float killTime;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         StartCoroutine(Countdown());
     }
