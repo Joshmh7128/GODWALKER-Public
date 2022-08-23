@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerProjectileScript : MonoBehaviour
 {
     [SerializeField] float speed;
-    [SerializeField] GameObject breakParticle, muzzleEffect; // the particle we use on death
+    [SerializeField] GameObject breakParticle, muzzleEffect, hitFX; // the particle we use on death
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;
 
@@ -43,6 +43,7 @@ public class PlayerProjectileScript : MonoBehaviour
             if (hit.transform.tag == "Enemy")
             {
                 Debug.Log("Hit enemy");
+                Instantiate(hitFX, null);
                 hit.transform.gameObject.GetComponent<EnemyClass>().GetHurt();
             }
 
