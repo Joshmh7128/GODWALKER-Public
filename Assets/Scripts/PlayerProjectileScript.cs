@@ -43,8 +43,10 @@ public class PlayerProjectileScript : MonoBehaviour
             if (hit.transform.tag == "Enemy")
             {
                 Debug.Log("Hit enemy");
-                Instantiate(hitFX, null);
                 hit.transform.gameObject.GetComponent<EnemyClass>().GetHurt();
+                // our hitfX for hitmarkers
+                if (hitFX)
+                { Instantiate(hitFX, null); }
             }
 
             // if we have hit something, destroy ourselves
@@ -57,7 +59,9 @@ public class PlayerProjectileScript : MonoBehaviour
     {
         // spawn our death fx
         if (breakParticle != null)
+        // our break visual fx
         Instantiate(breakParticle, transform.position, Quaternion.identity, null);
+        
         Destroy(gameObject);
     }
 

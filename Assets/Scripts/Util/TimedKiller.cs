@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class TimedKiller : MonoBehaviour
 {
+    /// <summary>
+    /// use this script to kill an object after X seconds of existing
+    /// </summary>
+
+    [SerializeField] float killTime;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(Countdown());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator Countdown()
     {
-        
+        yield return new WaitForSeconds(killTime);
+        Destroy(gameObject);
     }
 }
