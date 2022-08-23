@@ -15,6 +15,7 @@ public class WeaponUIHandler : MonoBehaviour
     [SerializeField] RectTransform reticleRight, reticleLeft, reticleTop, reticleBottom; // all four of our reticle lines 
     Vector3 reticleLeftOrigin, reticleRightOrigin, reticleTopOrigin, reticleBottomOrigin; // the four origin points of our reticles
     [SerializeField] float reticleSpreadResponseMagnitude = 100f; // how much our reticles represent the spread
+    [SerializeField] Text ammoText; // displays the ammo in numerical form for us
 
     // run on start to setup our weapon
     void SetupUI()
@@ -44,6 +45,12 @@ public class WeaponUIHandler : MonoBehaviour
         reticleLeft.anchoredPosition = Vector2.Lerp(reticleLeft.anchoredPosition, reticleLeftOrigin, 2f * Time.deltaTime);
         reticleTop.anchoredPosition = Vector2.Lerp(reticleTop.anchoredPosition, reticleTopOrigin, 2f * Time.deltaTime);
         reticleBottom.anchoredPosition = Vector2.Lerp(reticleBottom.anchoredPosition, reticleBottomOrigin, 2f * Time.deltaTime);
+
+        // ammo text
+        if (ammoText != null)
+        {
+            ammoText.text = weaponClass.currentMagazine + " / " + weaponClass.maxMagazine;
+        }
     }
 
     // kick ui, call when the weapon fires
