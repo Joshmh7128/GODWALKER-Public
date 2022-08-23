@@ -17,6 +17,7 @@ public class WeaponPartModifier : MonoBehaviour
     [SerializeField] float magazineMaxMod, magazineMaxModMax;
     [SerializeField] GameObject projectile; // the projectile of the weapon we want to fire
     [SerializeField] string nameMod; // an additional name mod
+    [SerializeField] float damageMod;
 
     private void OnEnable()
     {
@@ -45,8 +46,6 @@ public class WeaponPartModifier : MonoBehaviour
                       
             if (reloadTimeMod != 0 && reloadTimeMax != 0)
             { weaponClass.reloadTime += Random.Range(reloadTimeMod, reloadTimeMax); }
-
-
 
             if (spreadMaxMod != 0)
             { weaponClass.spreadMax += spreadMaxMod; }
@@ -81,6 +80,11 @@ public class WeaponPartModifier : MonoBehaviour
 
             if (nameMod != "")
             { weaponClass.weaponName += " " + nameMod; }
+
+            if (damageMod != 0)
+            {
+                weaponClass.damage += damageMod;
+            }
         }
     }
 }
