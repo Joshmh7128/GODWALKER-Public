@@ -46,7 +46,7 @@ public class LocalIKHandler : MonoBehaviour
         if (lookTarget != null)
         {
             animator.SetLookAtPosition(lookPos);
-            animator.SetLookAtWeight(1f);
+            animator.SetLookAtWeight(1f, 1f, 1f, 0f, 0f); // set all position manually
         }
 
     }
