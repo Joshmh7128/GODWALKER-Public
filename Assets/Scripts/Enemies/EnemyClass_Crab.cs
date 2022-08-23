@@ -10,6 +10,7 @@ public class EnemyClass_Crab : EnemyClass
     {
         // when we get hurt, kick
         hurtHandler.KickLookPos(30f);
-
+        // flash
+        StartCoroutine(HurtFlash());
     }
 }
