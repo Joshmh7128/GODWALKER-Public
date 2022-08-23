@@ -107,7 +107,38 @@ public abstract class EnemyClass : MonoBehaviour
         }
     }
 
-    abstract public void GetHurt(float damage);
+    // getting hurt and dying
+    virtual public void GetHurt(float damage)
+    {
+        health -= (int)damage;
+        // flash
+        StartCoroutine(HurtFlash());
+        // if we are at 0 health, trigger death
+        if (health <= 0)
+        {
+            // die
+            OnDeath();
+        }
+
+        // run our get hurt extender
+        GetHurtExtension();
+    }
+
+    // more accessible get hurt class 
+    virtual public void GetHurtExtension()
+    {
+        // this is blank by default - put any additional gethurt aspects into this method
+        // by making this extender we can essentially add lines of code which run when GetHurt() runs
+    }
+
+    // dying
+    virtual public void OnDeath()
+    {
+        // spawn our on death fx
+        Instantiate(OnDeathFX, transform.position, Quaternion.identity, null);
+        // destroy the object
+        Destroy(gameObject);
+    }
 
     // everything to do with our hurt flash renderer
     List<Renderer> renderers = new List<Renderer> ();
@@ -115,6 +146,8 @@ public abstract class EnemyClass : MonoBehaviour
     List<GameObject> allChildren = new List<GameObject> ();
     [HeaderAttribute("-- VFX --")]
     [SerializeField] Material hurtMaterial;
+    [SerializeField] GameObject OnDeathFX; // our death explosion
+
     // full function
     void SetupRenderers()
     {
@@ -207,4 +240,7 @@ public abstract class EnemyClass : MonoBehaviour
             displayGroup.alpha -= Time.deltaTime;
         }
     }
+
+    // for death
+
 }

@@ -129,14 +129,20 @@ public class PlayerCameraController : MonoBehaviour
                 if (handler.itemType == ItemUIHandler.ItemTypes.BodyPart)
                     PlayerBodyPartManager.instance.highlightedBodyPart = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().bodyPart_Item.gameObject;
             }
+        }
 
-            // for enemy UI display
-            if (uiCheck.transform.tag == "Enemy")
+
+        RaycastHit enemyUICheck;
+        Physics.Raycast(transform.position, transform.forward, out enemyUICheck, 30f, Physics.AllLayers, QueryTriggerInteraction.Collide);
+        // for enemy UI display
+        if (enemyUICheck.transform != null)
+        {
+            if (enemyUICheck.transform.tag == "Enemy")
             {
                 Debug.Log("enemy tagged");
-                if (uiCheck.transform.gameObject.GetComponent<EnemyClass>())
+                if (enemyUICheck.transform.gameObject.GetComponent<EnemyClass>())
                 {
-                    uiCheck.transform.gameObject.GetComponent<EnemyClass>().showDisplay = true;
+                    enemyUICheck.transform.gameObject.GetComponent<EnemyClass>().showDisplay = true;
                 }
             }
         }

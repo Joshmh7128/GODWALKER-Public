@@ -6,12 +6,10 @@ public class EnemyClass_Crab : EnemyClass
 {
     [SerializeField] LocalIKHandler hurtHandler;
 
-    public override void GetHurt(float damage)
+    // override our get hurt extend since we're not doing anything differently that requires an override of the main gethurt class
+    public override void GetHurtExtension()
     {
-        health -= (int)damage;
-        // when we get hurt, kick
+        // kick our body
         hurtHandler.KickLookPos(30f);
-        // flash
-        StartCoroutine(HurtFlash());
     }
 }
