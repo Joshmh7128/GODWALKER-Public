@@ -40,6 +40,7 @@ public class PlayerProjectileScript : MonoBehaviour
             // if we hit an enemy
             if (hit.transform.tag == "Enemy")
             {
+                Debug.Log("Hit enemy");
                 hit.transform.gameObject.GetComponent<EnemyClass>().GetHurt();
             }
 

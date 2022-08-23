@@ -13,12 +13,6 @@ public class LocalIKHandler : MonoBehaviour
 
     [SerializeField] Animator animator;
 
-    private void Start()
-    {
-        if (lookTarget != null)
-        StartCoroutine(TestKick());
-    }
-
     private void OnAnimatorIK(int layerIndex)
     {
         if (rightHandTarget != null)
@@ -55,13 +49,6 @@ public class LocalIKHandler : MonoBehaviour
             animator.SetLookAtWeight(1f);
         }
 
-    }
-
-    IEnumerator TestKick()
-    {
-        KickLookPos(30f);
-        yield return new WaitForSeconds(3f);
-        StartCoroutine(TestKick());
     }
 
     private void FixedUpdate()
