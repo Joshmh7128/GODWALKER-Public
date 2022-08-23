@@ -115,6 +115,7 @@ public class PlayerCameraController : MonoBehaviour
         // then check for UI triggers
         if (uiCheck.transform != null)
         {
+            // for item UI display
             if (uiCheck.transform.tag == "Item")
             {
                 // check if it has a UI handler
@@ -127,7 +128,16 @@ public class PlayerCameraController : MonoBehaviour
 
                 if (handler.itemType == ItemUIHandler.ItemTypes.BodyPart)
                     PlayerBodyPartManager.instance.highlightedBodyPart = uiCheck.transform.gameObject.GetComponent<ItemUIHandler>().bodyPart_Item.gameObject;
+            }
 
+            // for enemy UI display
+            if (uiCheck.transform.tag == "Enemy")
+            {
+                Debug.Log("enemy tagged");
+                if (uiCheck.transform.gameObject.GetComponent<EnemyClass>())
+                {
+                    uiCheck.transform.gameObject.GetComponent<EnemyClass>().showDisplay = true;
+                }
             }
         }
     }

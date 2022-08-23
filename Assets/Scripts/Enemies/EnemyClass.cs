@@ -109,7 +109,6 @@ public abstract class EnemyClass : MonoBehaviour
 
     abstract public void GetHurt(float damage);
 
-
     // everything to do with our hurt flash renderer
     List<Renderer> renderers = new List<Renderer> ();
     List<Material> defaultRendererMaterials = new List<Material> ();
@@ -176,18 +175,36 @@ public abstract class EnemyClass : MonoBehaviour
 
     [HeaderAttribute("-- Canvas Display --")]
     // everything to do with our diegetic canvas
+    [SerializeField] CanvasGroup displayGroup;
     [SerializeField] Slider healthSlider; 
     [SerializeField] Slider lerpHealthSlider; 
     [SerializeField] Text healthDisplay, nameDisplay;
     [SerializeField] float lerpSliderSpeed;
+    public bool showDisplay // can we show our display?
+    {   // when our display is shown, set the alpha to 1
+        set { displayGroup.alpha = 1; }
+    } 
+
     // run this to display our stats
     void ProcessCanvasDisplay()
     {
+        // make sure we can be visible first
+        ProcessCanvasVisibility();
         // manage our sliders
         healthSlider.value = health / maxHealth;
         lerpHealthSlider.value = Mathf.Lerp(lerpHealthSlider.value, healthSlider.value, lerpSliderSpeed * Time.deltaTime);
         // manage our text displays
         healthDisplay.text = "HP " + health + " / " + maxHealth;
         nameDisplay.text = "Lvl " + level + " " + enemyName;
+    }
+
+    // for alpha of our canvas group
+    void ProcessCanvasVisibility()
+    {
+        // always be decreasing our alpha if it is more than 0, so that when it is not being set it is being lowered
+        if (displayGroup.alpha > 0)
+        {
+            displayGroup.alpha -= Time.deltaTime;
+        }
     }
 }
