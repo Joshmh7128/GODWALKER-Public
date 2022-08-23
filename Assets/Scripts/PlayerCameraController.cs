@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerCameraController : MonoBehaviour
 {
     [Header("Camera")]
-    [SerializeField] float aimSensitivity; // how fast the camera aims
+    [SerializeField] float aimSensitivity;
+    [SerializeField] float defaultSensitivity, adsSensitivity, sprintSensitivity; // how fast the camera aims
     [SerializeField] float minYAngle, maxYAngle; // the minimum and maximum rotations of the camera
     float currentSensitivity, yRotate, xRotate;
     [SerializeField] public Transform cameraRig;
@@ -26,6 +27,8 @@ public class PlayerCameraController : MonoBehaviour
     {
         // setup our main cam to be referenced
         mainCam = Camera.main;
+        // set default sense
+        defaultSensitivity = aimSensitivity;
     }
 
     private void Update()
@@ -144,7 +147,7 @@ public class PlayerCameraController : MonoBehaviour
         {
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 90f, 3f * Time.deltaTime);
             PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
-
+            aimSensitivity = defaultSensitivity;
         }
 
         // if we're not in aiming mode
@@ -152,6 +155,7 @@ public class PlayerCameraController : MonoBehaviour
         {
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, aimFOV, 5f * Time.deltaTime);
             PlayerWeaponManager.instance.currentWeapon.spreadReduct *= 2f;
+            aimSensitivity = defaultSensitivity * adsSensitivity;
         }
 
         // if we're sprinting
@@ -159,6 +163,7 @@ public class PlayerCameraController : MonoBehaviour
         {
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 100f, 10f * Time.deltaTime);
             PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
+            aimSensitivity = defaultSensitivity * sprintSensitivity;
         }
 
     }
