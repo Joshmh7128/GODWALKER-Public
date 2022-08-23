@@ -42,7 +42,7 @@ public abstract class EnemyClass : MonoBehaviour
             // run the behaviour
             behaviour.RunMain();
             // then wait
-            yield return new WaitForSecondsRealtime(behaviour.behaviourTime);
+            yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
         }
 
         StartCoroutine(AttackBehaviourHandler());
@@ -56,7 +56,7 @@ public abstract class EnemyClass : MonoBehaviour
             // run the behaviour
             behaviour.RunMain();
             // then wait
-            yield return new WaitForSecondsRealtime(behaviour.behaviourTime);
+            yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
         }
 
         StartCoroutine(MovementBehaviourHandler());

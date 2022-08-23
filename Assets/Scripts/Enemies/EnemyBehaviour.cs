@@ -30,5 +30,5 @@ public abstract class EnemyBehaviour : MonoBehaviour
     public abstract IEnumerator MainCoroutine();
 
     // our behaviour time
-    public float behaviourTime; // how long it is in seconds, realtime
+    public float behaviourTime, behaviourTimeRand; // how long it is in seconds, realtime
 }
