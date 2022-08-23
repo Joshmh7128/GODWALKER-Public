@@ -11,7 +11,7 @@ public class ArenaManager : MonoBehaviour
     /// </summary>
     /// 
 
-    [SerializeField] Transform inactiveParent, activeParent; // our parents for inactive and active enemies
+    [SerializeField] Transform activeParent, inactiveParent; // our parents for inactive and active enemies
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
 
     [SerializeField] int activeGoal; // how many do we want active at once?

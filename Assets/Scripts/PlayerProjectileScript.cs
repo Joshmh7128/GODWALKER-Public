@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerProjectileScript : MonoBehaviour
 {
     [SerializeField] float speed;
-    [SerializeField] float damage; // how much damage we deal
+    public float damage; // how much damage we deal
     [SerializeField] GameObject breakParticle, muzzleEffect, hitFX; // the particle we use on death
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;

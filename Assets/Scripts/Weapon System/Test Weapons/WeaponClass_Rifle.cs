@@ -41,7 +41,8 @@ public class WeaponClass_Rifle : WeaponClass
         // add to our shot direction based on our spread
         Vector3 modifiedShotDirection = new Vector3(shotDirection.x + Random.Range(-spreadX, spreadX), shotDirection.y + Random.Range(-spreadY, spreadY), shotDirection.z).normalized;
         // instantiate and shoot our projectile in that direction
-        Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
+        GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
+        bullet.GetComponent<PlayerProjectileScript>().damage = damage;
         remainingFirerate = firerate;
         currentMagazine--;
     }
