@@ -91,7 +91,6 @@ public class WeaponUIHandler : MonoBehaviour
     // cancel our reload
     public void CancelReload()
     {
-        Debug.Log("Cancel Reload called on weapon ui handler");
         reloadSliderGroup.alpha = 0f;
         reloadSlider.value = reloadSlider.maxValue;
     }

@@ -26,8 +26,12 @@ public class ArenaManager : MonoBehaviour
     {
         if (activeParent.childCount < activeGoal)
         {
-            if (inactiveParent.GetChild(0))
+            if (inactiveParent.GetChild(0) == null)
+            { return; }
+
+            if (inactiveParent.GetChild(0) != null)
             {
+                AdaptiveTrackHandler.instance.TriggerTrackChange(3);
                 EnableNewEnemy();
             }
         }

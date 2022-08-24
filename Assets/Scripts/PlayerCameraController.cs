@@ -139,7 +139,6 @@ public class PlayerCameraController : MonoBehaviour
         {
             if (enemyUICheck.transform.tag == "Enemy")
             {
-                Debug.Log("enemy tagged");
                 if (enemyUICheck.transform.gameObject.GetComponent<EnemyClass>())
                 {
                     enemyUICheck.transform.gameObject.GetComponent<EnemyClass>().showDisplay = true;

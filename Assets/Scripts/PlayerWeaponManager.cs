@@ -166,7 +166,6 @@ public class PlayerWeaponManager : MonoBehaviour
 
     public void PickupWeapon(GameObject newWeaponObject)
     {
-        Debug.Log("pickup weapon");
         // set our cooldown
         pickupCooldown = pickupCooldownMax;
         // make sure we tell our current weapon it is being dropped
