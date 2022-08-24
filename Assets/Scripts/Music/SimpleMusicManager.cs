@@ -14,10 +14,8 @@ public class SimpleMusicManager : MonoBehaviour
     // the length of one block (for Dynamic Track Test 01 a block is 4 measures at 156 bpm, or 6.15384 seconds)
     [SerializeField] float blockLength = 6.15384f;
 
-    public enum MusicMoods { intro, combat, outro, explore }
+    public enum MusicMoods { intro, outro, explore }
     public MusicMoods musicMood;
-
-    [SerializeField] List<AudioClip> queue = new List<AudioClip> ();
 
     [SerializeField] AudioClip intro, combat, outro, explore;
 
@@ -25,68 +23,51 @@ public class SimpleMusicManager : MonoBehaviour
 
     [SerializeField] AudioSource musicSource; // plays music
 
+    // setup our instance
+    public static SimpleMusicManager instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
-        StartCoroutine(BlockCounter());
+        PlaySong(MusicMoods.explore);
     }
 
-    // our block counter
-    private IEnumerator BlockCounter()
+    public void PlaySong(MusicMoods mood)
     {
-        UpdateQueue();
-        // PlayNext
-        PlayNext();
-        // wait
-        yield return new WaitForSecondsRealtime(blockLength);
-        // then loop
-        StartCoroutine(BlockCounter());
-    }
-
-    // update our queue based on our moods
-    void UpdateQueue()
-    {
-        // if our current mood is intro, add an introto the queue
-        if (musicMood == MusicMoods.intro)
+        // intro
+        if (mood == MusicMoods.intro)
         {
-            // stop our coroutine
-            StopAllCoroutines();
-            // add intro to the queue
-            queue.Add(intro);
-            // start our coroutine with our intro
-            BlockCounter();
-            // then set the mood to combat
-            musicMood = MusicMoods.combat;
+            musicSource.clip = intro;
+            musicSource.Play();
+            // then delay our combat music
+            StartCoroutine(DelayPlay(intro.length, combat));
         }
 
-        if (musicMood == MusicMoods.combat)
+        // exploring
+        if (mood == MusicMoods.explore)
         {
-            // add combat
-            queue.Add(combat);
-            // then set the mood to combat so that it plays again
-            musicMood = MusicMoods.combat;
+            musicSource.clip = explore;
+            musicSource.Play();
         }
 
-        if (musicMood == MusicMoods.outro)
+        if (mood == MusicMoods.outro)
         {
-            // add an outro to the queue
-            queue.Add(outro);
-            // then set us up to explore
-            musicMood = MusicMoods.explore;
-        }
-
-        if (musicMood == MusicMoods.explore)
-        {
-            // add an outro to the queue
-            queue.Add(explore);
-            // then set us up to explore
-            musicMood = MusicMoods.explore;
+            // play the outro
+            musicSource.clip = outro;
+            musicSource.Play();
+            // delay play explore
+            StartCoroutine(DelayPlay(outro.length, explore));
         }
     }
 
-    void PlayNext()
+    IEnumerator DelayPlay(float time, AudioClip clip)
     {
-        musicSource.clip = queue[currentTrack];
+        yield return new WaitForSeconds(time);
+        musicSource.clip = clip;
         musicSource.Play();
-        currentTrack++;
     }
+    
 }
