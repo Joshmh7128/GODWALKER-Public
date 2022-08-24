@@ -66,16 +66,6 @@ public class AdaptiveTrackHandler : MonoBehaviour
         DebugRandomize();
     }
 
-    private void ManageInstrument(Transform parent, int child)
-    {
-        // first disable each child
-        foreach (Transform c in parent)
-        { c.gameObject.SetActive(false); }
-
-        // then activate our desired track choice
-        parent.GetChild(child).gameObject.SetActive(true);
-    }
-
     // randomize the track for testing
     private void DebugRandomize()
     {
@@ -95,7 +85,7 @@ public class AdaptiveTrackHandler : MonoBehaviour
             // set all the children to inactive
             foreach (Transform child in trackParents[i])
             {
-                child.gameObject.SetActive(false);
+                child.gameObject.GetComponent<AudioSource>().mute = true;
             }
         }
 
@@ -103,7 +93,7 @@ public class AdaptiveTrackHandler : MonoBehaviour
         for (int j = 0; j < trackParents.Count; j++)
         {
             // for the parent activate the child in their correlating element of the track types list
-            trackParents[j].GetChild((int)trackTypes[j]).gameObject.SetActive(true);
+            trackParents[j].GetChild((int)trackTypes[j]).GetComponent<AudioSource>().mute = false;
         }
     }
 
