@@ -15,6 +15,7 @@ public class ArenaManager : MonoBehaviour
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
     GameObject previousSummon; // our previous summon
     [SerializeField] int activeGoal; // how many do we want active at once?
+    bool combatComplete = false;
 
     private void FixedUpdate()
     {
@@ -26,14 +27,18 @@ public class ArenaManager : MonoBehaviour
     {
         if (activeParent.childCount < activeGoal)
         {
-            if (inactiveParent.GetChild(0) == null)
-            { return; }
-
+           
+            if (inactiveParent.childCount > 0)
             if (inactiveParent.GetChild(0) != null)
             {
-                AdaptiveTrackHandler.instance.TriggerTrackChange(3);
                 EnableNewEnemy();
             }
+        }
+
+        if (activeParent.childCount <= 0 && inactiveParent.childCount <= 0)
+        {
+            // end the combat
+            EndCombat();
         }
     }
 
@@ -46,5 +51,16 @@ public class ArenaManager : MonoBehaviour
         if (previousSummon) { Destroy(previousSummon); }
         if (inactiveParent.childCount > 1)
         previousSummon = Instantiate(summoningEffect, inactiveParent.GetChild(0).position, Quaternion.identity, null);
+    }
+
+    // end combat here
+    void EndCombat()
+    {
+        if (!combatComplete)
+        {
+            combatComplete = true;
+            SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro);
+        }
+
     }
 }

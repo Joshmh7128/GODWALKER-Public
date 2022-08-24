@@ -33,11 +33,15 @@ public class PlayerController : MonoBehaviour
         instance = this;
     }
 
+    [Header("Combat Related")]
+    float health, maxHealth; // our health! stay alive!
+
     [Header("Visual FX")]
     // visual fx
     [SerializeField] GameObject jumpVFX;
     [SerializeField] GameObject landVFX;
     [SerializeField] GameObject sprintParticleSystem;
+    [SerializeField] GameObject capsulePrefab;
 
     private void Start()
     {
@@ -187,5 +191,30 @@ public class PlayerController : MonoBehaviour
         {
             PlayerWeaponManager.instance.currentWeapon.UseWeapon(WeaponClass.WeaponUseTypes.OnHold);
         }
+    }
+
+    // death
+    void OnPlayerDeath()
+    {
+        // turn off our animation parent
+        animationRigParent.gameObject.SetActive(false);
+        // instantiate a bodypart for each of our current bodyparts inside of a capsule collider explode object
+        GameObject headCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
+        Instantiate(PlayerBodyPartManager.instance.headPartClass.gameObject, headCap.transform);
+
+        GameObject bodyCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
+        Instantiate(PlayerBodyPartManager.instance.torsoPartClass.gameObject, bodyCap.transform);
+
+        GameObject rightArmCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
+        Instantiate(PlayerBodyPartManager.instance.rightArmPartClass.gameObject, rightArmCap.transform);       
+        
+        GameObject leftArmCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
+        Instantiate(PlayerBodyPartManager.instance.leftArmPartClass.gameObject, leftArmCap.transform);
+
+        GameObject rightLegCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
+        Instantiate(PlayerBodyPartManager.instance.rightLegPartClass.gameObject, rightLegCap.transform);
+
+        GameObject leftLegCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
+        Instantiate(PlayerBodyPartManager.instance.leftLegPartClass.gameObject, leftLegCap.transform);
     }
 }

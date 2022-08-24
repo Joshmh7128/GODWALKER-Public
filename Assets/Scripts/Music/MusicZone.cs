@@ -8,7 +8,7 @@ public class MusicZone : MonoBehaviour
     {
         if (other.transform.tag == "Player")
         {
-            SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
+            SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro);
         }
     }
 }

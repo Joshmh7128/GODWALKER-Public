@@ -17,6 +17,7 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] GameObject deathObject; // the object that spawns on death
     [SerializeField] bool facePlayer; // do we face the player
     [SerializeField] int deathTime = 30; // how long to death
+    [SerializeField] float openLifetime = 6f;
 
     // start runs at the start
     private void Start()
@@ -69,6 +70,12 @@ public class EnemyProjectile : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (openLifetime > 0)
+            openLifetime--;
+    }
+
     // update for kinematics
     void ProcessKinematic()
     {
@@ -86,8 +93,15 @@ public class EnemyProjectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // for now, if we collide with anything, die
-        if (other == null)
+        if (other.transform != null && (openLifetime <= 0))
         {
+            // what did we hit?
+            if (other.transform.tag == "Player")
+            {
+
+            }
+
+            // always destroy
             OnDestroyObject();
         }
     }

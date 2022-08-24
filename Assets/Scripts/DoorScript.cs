@@ -24,7 +24,7 @@ public class DoorScript : MonoBehaviour
     {
         Transform player = PlayerController.instance.transform;
         // can we open?
-        if (Vector3.Distance(player.position, transform.position) <= interactionDistance)
+        if (Vector3.Distance(player.position, transform.position) <= interactionDistance && !open)
         {
             canOpen = true;
             openMessage.SetActive(true);

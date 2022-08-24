@@ -37,6 +37,9 @@ public class SimpleMusicManager : MonoBehaviour
 
     public void PlaySong(MusicMoods mood)
     {
+        // make sure we arent about to play another song
+        StopAllCoroutines();
+
         // intro
         if (mood == MusicMoods.intro)
         {
@@ -59,7 +62,7 @@ public class SimpleMusicManager : MonoBehaviour
             musicSource.clip = outro;
             musicSource.Play();
             // delay play explore
-            StartCoroutine(DelayPlay(outro.length, explore));
+            StartCoroutine(DelayPlay(outro.length-0.001f, explore));
         }
     }
 
