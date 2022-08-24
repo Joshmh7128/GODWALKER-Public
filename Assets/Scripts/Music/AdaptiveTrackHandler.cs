@@ -16,10 +16,13 @@ public class AdaptiveTrackHandler : MonoBehaviour
     [SerializeField] AudioClip testLength;
     // use this to make enums
     enum TrackTypes { variant001, variant002, variant003, Count }
+    public enum MusicMoods { explore, combat}
 
     // our instruments
     [SerializeField] List<TrackTypes> trackTypes = new List<TrackTypes>(); // make sure to set in editor!
     [SerializeField] List<Transform> trackParents = new List<Transform>(); // the transform parents that hold our instrument objects
+
+    public Transform musicMoodExplore, musicMoodCombat;
 
     // setup our instance
     public static AdaptiveTrackHandler instance;
@@ -27,7 +30,6 @@ public class AdaptiveTrackHandler : MonoBehaviour
     {
         instance = this;
     }
-
 
     // start runs at the start of the game
     private void Start()
@@ -43,6 +45,45 @@ public class AdaptiveTrackHandler : MonoBehaviour
         // start our music counting
         StartCoroutine(BlockCounter());
     }
+
+    // use this to choose a mood instantly
+    public void ChooseMood(MusicMoods mood)
+    {
+        MuteAll();
+        Debug.Log("choosing mood");
+        // clean our trackParents
+        trackParents.Clear();
+
+        if (mood == MusicMoods.explore)
+        {
+            SetupTracks(musicMoodExplore);
+        }
+
+        if (mood == MusicMoods.combat)
+        {
+            SetupTracks(musicMoodCombat);
+        }
+    }
+
+    void SetupTracks(Transform moodParent)
+    {
+        foreach(Transform child in moodParent)
+        {
+            trackParents.Add(child);
+        }
+    }
+
+    void MuteAll()
+    {
+        foreach (Transform parent in trackParents)
+        {
+            foreach (Transform child in parent)
+            {
+                child.gameObject.GetComponent<AudioSource>().mute = true;
+            }
+        }
+    }
+
 
     // our block counter
     private IEnumerator BlockCounter()
