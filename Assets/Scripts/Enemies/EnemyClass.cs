@@ -12,6 +12,8 @@ public abstract class EnemyClass : MonoBehaviour
     public string enemyName;
     public int level; 
     public float health, maxHealth;
+    [SerializeField] float lootDropChancePercentage;
+    [SerializeField] GameObject gunCreator;
 
     // our behaviours
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
@@ -144,6 +146,14 @@ public abstract class EnemyClass : MonoBehaviour
     {
         // spawn our on death fx
         Instantiate(OnDeathFX, transform.position, Quaternion.identity, null);
+        // chance to drop a gun?
+        int i = Random.Range(0, 100);
+        // see if we should drop one
+        if (i < lootDropChancePercentage)
+        {
+            Instantiate(gunCreator, transform.position, Quaternion.identity, null);
+        }
+
         // destroy the object
         Destroy(gameObject);
     }

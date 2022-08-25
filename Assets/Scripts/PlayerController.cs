@@ -161,7 +161,6 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out adjusterHit, 2f))
         {
-            Debug.Log("adjusterhit");
             var slopeRotation = Quaternion.FromToRotation(Vector3.up, adjusterHit.normal);
             var adjustedVelocity = slopeRotation * velocity; // this will align the velocity with the surface
 
