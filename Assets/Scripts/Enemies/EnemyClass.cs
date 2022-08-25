@@ -34,12 +34,18 @@ public abstract class EnemyClass : MonoBehaviour
     void StartBehaviours()
     {
         // start our behaviours
+        if (attackBehaviours.Count > 0)
         StartCoroutine(AttackBehaviourHandler());
+
+        if (movementBehaviours.Count > 0)
         StartCoroutine(MovementBehaviourHandler());
     }
 
     IEnumerator AttackBehaviourHandler()
     {
+        // randomize our list of attack behaviours
+        attackBehaviours.Shuffle();
+
         // go through each attack
         foreach (EnemyBehaviour behaviour in attackBehaviours)
         {
@@ -54,6 +60,8 @@ public abstract class EnemyClass : MonoBehaviour
     
     IEnumerator MovementBehaviourHandler()
     {
+        movementBehaviours.Shuffle();
+
         // go through each attack
         foreach (EnemyBehaviour behaviour in movementBehaviours)
         {

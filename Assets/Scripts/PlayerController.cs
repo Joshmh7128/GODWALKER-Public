@@ -145,9 +145,33 @@ public class PlayerController : MonoBehaviour
         float finalMoveSpeed = moveSpeed * moveSpeedAdjust;
         // calculate vertical movement
         verticalVelocity = playerJumpVelocity;
+
         move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
+
+        move = AdjustVelocityToSlope(move);
+
         // apply final movement
         characterController.Move(move * Time.deltaTime * finalMoveSpeed);
+    }
+
+    RaycastHit adjusterHit;
+    private Vector3 AdjustVelocityToSlope(Vector3 velocity)
+    {
+        var ray = new Ray(transform.position, Vector3.down);
+
+        if (Physics.Raycast(ray, out adjusterHit, 2f))
+        {
+            Debug.Log("adjusterhit");
+            var slopeRotation = Quaternion.FromToRotation(Vector3.up, adjusterHit.normal);
+            var adjustedVelocity = slopeRotation * velocity; // this will align the velocity with the surface
+
+            if (adjustedVelocity.y < 0)
+            {
+                return adjustedVelocity;
+            }
+        }
+
+        return velocity;
     }
 
     void ProcessReloadControl()
@@ -216,5 +240,11 @@ public class PlayerController : MonoBehaviour
 
         GameObject leftLegCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
         Instantiate(PlayerBodyPartManager.instance.leftLegPartClass.gameObject, leftLegCap.transform);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(adjusterHit.point, 0.1f);
     }
 }
