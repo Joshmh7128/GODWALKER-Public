@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStatManager : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class PlayerStatManager : MonoBehaviour
     // our UI variables
     [SerializeField] CanvasGroup hurtUIGroup; // flash this when we take damage
     [SerializeField] GameObject hurtVolumes; // activate each of these at different health % levels to change the post processing as we get more and more hurt
-
+    [SerializeField] Slider healthSlider, healthLerpSlider; // our health slider and our lerp slider
 
     // runs 60 times per second
     private void FixedUpdate()
@@ -64,7 +65,8 @@ public class PlayerStatManager : MonoBehaviour
         }
 
         // even if we don't take damage trigger the UI to react as if we are taking damage
-        HurtUIFlash();
+        HurtUIFlash(); // flash our UI
+        HurtPlayerIK(); // make our player freak out on hit
 
     }
 
@@ -73,11 +75,21 @@ public class PlayerStatManager : MonoBehaviour
         // reset our hurtflash
         if (hurtUIGroup.alpha > 0)
             hurtUIGroup.alpha--;
+
+        // sync up our health bars
+        
     }
 
     void HurtUIFlash()
     {
         hurtUIGroup.alpha = 1;
+    }
+
+    // run the player ik
+    void HurtPlayerIK()
+    {
+        // change intensity as needed
+        PlayerInverseKinematicsController.instance.ApplyHurtKickRecoil(-0.4f, -10f, -10f);
     }
 
     // 

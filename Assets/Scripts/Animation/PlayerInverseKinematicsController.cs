@@ -59,6 +59,16 @@ public class PlayerInverseKinematicsController : MonoBehaviour
         lookTargetRecoilParent.localEulerAngles = bodyRecoilRot;
     }
 
+    // when we get hurt, apply similar methods of recoil, called from the PlayerStatManager
+    public void ApplyHurtKickRecoil(float kickAmount, float recoilRot, float bodyRecoilRot)
+    {
+        // move the recoild parent
+        recoilParent.localPosition = new Vector3(Random.Range(-kickAmount, kickAmount), Random.Range(-kickAmount, kickAmount), Random.Range(-kickAmount, kickAmount));
+        // rotate the angles of the parent
+        recoilParent.localEulerAngles = new Vector3(Random.Range(-recoilRot, recoilRot), Random.Range(-recoilRot, recoilRot), Random.Range(-recoilRot, recoilRot));
+        // set the angles of the body recoil
+        lookTargetRecoilParent.localEulerAngles = new Vector3(Random.Range(-bodyRecoilRot, bodyRecoilRot), Random.Range(-bodyRecoilRot, bodyRecoilRot), Random.Range(-bodyRecoilRot, bodyRecoilRot));
+    }
 
     // run every frame. lerp our weapon's local position back to 0
     void ProcessKickLerpBack()
