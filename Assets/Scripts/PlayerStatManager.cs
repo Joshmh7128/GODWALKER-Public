@@ -75,7 +75,7 @@ public class PlayerStatManager : MonoBehaviour
     {
         // reset our hurtflash
         if (hurtUIGroup.alpha > 0)
-            hurtUIGroup.alpha -= 0.2f * Time.deltaTime;
+            hurtUIGroup.alpha -= 0.3f * Time.deltaTime;
 
         // sync up our health bars
         healthSlider.value = health / maxHealth;
