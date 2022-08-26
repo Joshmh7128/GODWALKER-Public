@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // death
-    void OnPlayerDeath()
+    public void OnPlayerDeath()
     {
         // turn off our animation parent
         animationRigParent.gameObject.SetActive(false);

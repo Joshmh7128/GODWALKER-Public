@@ -33,8 +33,14 @@ public class PlayerWeaponManager : MonoBehaviour
     private void Awake()
     { instance = this; }
 
+    // body parts instance
+    PlayerBodyPartManager bodyPartManager;
+
     private void Start()
     {
+        // get our instance
+        bodyPartManager = PlayerBodyPartManager.instance;
+
         // set our weapons list
         foreach (Transform child in weaponContainer)
         { 
@@ -76,13 +82,17 @@ public class PlayerWeaponManager : MonoBehaviour
             {
                 if (currentWeaponInt + 1 >= weapons.Count)
                 {
+                    
                     currentWeaponInt = 0; Debug.Log("setting int");
                 } else if (currentWeaponInt + 1 < weapons.Count)
                 {
                     currentWeaponInt++; Debug.Log("adding int");
                 }
+                
             }
             UpdateCurrentWeapon();
+            // call our on swap
+            bodyPartManager.CallParts("OnWeaponSwap");
         }
 
         // scrolling down 
@@ -102,12 +112,16 @@ public class PlayerWeaponManager : MonoBehaviour
                 }
             }
             UpdateCurrentWeapon();
+            // call our on swap
+            bodyPartManager.CallParts("OnWeaponSwap");
         }
     }
 
     // when we update our weapon
     void UpdateCurrentWeapon()
     {
+
+
         if (currentWeapon)
         { currentWeapon.CancelReload(); }
 
