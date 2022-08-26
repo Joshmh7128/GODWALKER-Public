@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class PlayerStatManager : MonoBehaviour
 {
@@ -22,8 +23,10 @@ public class PlayerStatManager : MonoBehaviour
 
     // our UI variables
     [SerializeField] CanvasGroup hurtUIGroup; // flash this when we take damage
-    [SerializeField] GameObject hurtVolumes; // activate each of these at different health % levels to change the post processing as we get more and more hurt
+    [SerializeField] VolumeProfile normalProfile, hurt1Profile, hurt2Profile, hurt3Profile; // activate each of these at different health % levels to change the post processing as we get more and more hurt
+    [SerializeField] Volume mainVolume; // our main volume
     [SerializeField] Slider healthSlider, healthLerpSlider; // our health slider and our lerp slider
+    [SerializeField] Text hpReadout; // set this to be our current / max hp
 
     // runs 60 times per second
     private void FixedUpdate()
@@ -67,7 +70,8 @@ public class PlayerStatManager : MonoBehaviour
         // even if we don't take damage trigger the UI to react as if we are taking damage
         HurtUIFlash(); // flash our UI
         HurtPlayerIK(); // make our player freak out on hit
-
+        // update our post
+        ChoosePostProcessing();
     }
 
     // all our UI processing overtime
@@ -80,6 +84,9 @@ public class PlayerStatManager : MonoBehaviour
         // sync up our health bars
         healthSlider.value = health / maxHealth;
         healthLerpSlider.value = Mathf.Lerp(healthLerpSlider.value, healthSlider.value, 2*Time.deltaTime);
+
+        // check the % of HP we are at
+        hpReadout.text = "Health: " + health + " / " + maxHealth;
     }
 
     void HurtUIFlash()
@@ -92,6 +99,29 @@ public class PlayerStatManager : MonoBehaviour
     {
         // change intensity as needed
         PlayerInverseKinematicsController.instance.ApplyHurtKickRecoil(-0.4f, -10f, -10f);
+    }
+
+    // choose which post processing to show
+    void ChoosePostProcessing()
+    {
+        float currentHP = health / maxHealth;
+
+        // Debug.Log(currentHP);
+        // 75% or more = normal volume
+        if (currentHP > 0.75f)
+        { mainVolume.profile = normalProfile; }
+
+        // 75% to 50% = hurt 1
+        if (currentHP < 0.75f && currentHP > 0.50f)
+        { mainVolume.profile = hurt1Profile; }       
+        
+        // 50% to 33% = hurt 2
+        if (currentHP < 0.50f && currentHP > 0.33f)
+        { mainVolume.profile = hurt2Profile; }
+        
+        // 33% to 0% = hurt 3
+        if (currentHP < 0.33f)
+        { mainVolume.profile = hurt3Profile; }
     }
 
     // 
