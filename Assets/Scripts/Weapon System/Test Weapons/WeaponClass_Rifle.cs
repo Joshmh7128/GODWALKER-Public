@@ -43,7 +43,7 @@ public class WeaponClass_Rifle : WeaponClass
         // instantiate and shoot our projectile in that direction
         GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
         bullet.GetComponent<PlayerProjectileScript>().damage = damage;
-        remainingFirerate = firerate;
+        remainingFirerate = firerate + firerateMod;
         currentMagazine--;
     }
 

@@ -19,7 +19,7 @@ public abstract class WeaponClass : MonoBehaviour
     // the cosmetic information of our weapon
     public GameObject weaponModel; // our weapon model saved as a prefab
     [Header("Combat Related")]
-    public float firerate; public float remainingFirerate; // how quickly can this weapon fire?
+    public float firerate; public float remainingFirerate; public float firerateMod; // how quickly can this weapon fire?
     public Transform muzzleOrigin; // the origin of our muzzle
     // our bullet prefab
     public GameObject bulletPrefab; // we spawn this when we fire

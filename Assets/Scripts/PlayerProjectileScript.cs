@@ -10,6 +10,8 @@ public class PlayerProjectileScript : MonoBehaviour
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;
 
+    [SerializeField] bool usesTrigger;
+
     private void Start()
     {
         StartCoroutine(DeathCounter());
@@ -35,23 +37,30 @@ public class PlayerProjectileScript : MonoBehaviour
     void ProcessHitscan()
     {
         // raycast forward
+        if (!usesTrigger)
         Physics.Raycast(transform.position, transform.forward, out hit, 2f, Physics.AllLayers);   
 
         // check if we've hit something
         if (hit.transform != null)
         {
-            // if we hit an enemy
-            if (hit.transform.tag == "Enemy")
-            {
-                hit.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
-                // our hitfX for hitmarkers
-                if (hitFX)
-                { Instantiate(hitFX, null); }
-            }
-
-            // if we have hit something, destroy ourselves
-            Destruction();
+            // check and hit the enemy
+            HitEnemy(hit.transform);
         }
+    }
+
+    void HitEnemy(Transform enemy)
+    {
+        // if we hit an enemy
+        if (enemy.transform.tag == "Enemy")
+        {
+            enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
+            // our hitfX for hitmarkers
+            if (hitFX)
+            { Instantiate(hitFX, null); }
+        }
+
+        // if we have hit something, destroy ourselves
+        Destruction();
     }
 
     // our custom destruction script
@@ -67,15 +76,25 @@ public class PlayerProjectileScript : MonoBehaviour
 
     IEnumerator DeathCounter()
     {
-        yield return new WaitForSeconds(deathTime);
+        yield return new WaitForSecondsRealtime(deathTime);
         Destroy(gameObject);
     }
          
     // muzzle effect
     void MuzzleFX()
     {
+        if (muzzleEffect != null)
         // instantiate a muzzle effect at the origin of the shot and parent it there
         Instantiate(muzzleEffect, PlayerWeaponManager.instance.currentWeapon.muzzleOrigin.position, PlayerWeaponManager.instance.currentWeapon.muzzleOrigin.rotation, PlayerWeaponManager.instance.currentWeapon.muzzleOrigin);
+    }
+
+    // for trigger based bullets
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "Enemy")
+        {
+            HitEnemy(other.transform);
+        }
     }
 
 }

@@ -38,6 +38,7 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnADS() { }     // triggered when the player ADS
     public virtual void OffADS() { }    // triggered when the player stops ADS
     public virtual void OnSprint() { }  // triggered when the player sprints
+    public virtual void OffSprint() { }  // triggered when the player sprints
     public virtual void OnReload() { }  // triggered when the player reloads
 
 }
