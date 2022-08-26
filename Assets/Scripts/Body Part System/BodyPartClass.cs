@@ -40,5 +40,6 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnSprint() { }  // triggered when the player sprints
     public virtual void OffSprint() { }  // triggered when the player sprints
     public virtual void OnReload() { }  // triggered when the player reloads
+    public virtual void OnWeaponSwap() { } // whenever player changes weapons
 
 }

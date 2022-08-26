@@ -133,6 +133,8 @@ public class PlayerController : MonoBehaviour
         {
             movementState = MovementStates.sprinting;
             PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.sprinting;
+            // call on sprint
+            bodyPartManager.CallParts("OnSprint");
         }
 
         // sprint stopping
@@ -140,6 +142,8 @@ public class PlayerController : MonoBehaviour
         {
             movementState = MovementStates.normal;
             PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.normal;
+            // call off sprint
+            bodyPartManager.CallParts("OffSprint");
         }
 
 
