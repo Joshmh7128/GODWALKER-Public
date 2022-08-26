@@ -10,7 +10,7 @@ public class BodyPartClass_EarthBreaker : BodyPartClass
     public override void OnLand()
     {
         PlayerController player = PlayerController.instance;
-        // on land, instantiate a ground projectile
-        Instantiate(groundProjectile, player.transform.position, Quaternion.identity, null);
+        // on land, instantiate a ground projectile at the player's feet
+        Instantiate(groundProjectile, player.transform.position - new Vector3(0,0.9f,0), groundProjectile.transform.rotation, null);
     }
 }
