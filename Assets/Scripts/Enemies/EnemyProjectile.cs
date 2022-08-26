@@ -18,6 +18,11 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] bool facePlayer; // do we face the player
     [SerializeField] int deathTime = 30; // how long to death
     [SerializeField] float openLifetime = 6f;
+    [SerializeField] int damage; // how much damage does this deal?
+
+    // get our stat manager
+    PlayerStatManager statManager;
+
 
     // start runs at the start
     private void Start()
@@ -26,6 +31,9 @@ public class EnemyProjectile : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
 
         StartCoroutine(DeathCountdown());
+
+        // setup the stat manager
+        statManager = PlayerStatManager.instance;
 
         // if we face the player
         if (facePlayer)
@@ -98,7 +106,8 @@ public class EnemyProjectile : MonoBehaviour
             // what did we hit?
             if (other.transform.tag == "Player")
             {
-
+                // trigger a hurt on the stat manager
+                statManager.TakeDamage(damage); // oof ouch yikes
             }
 
             // always destroy
