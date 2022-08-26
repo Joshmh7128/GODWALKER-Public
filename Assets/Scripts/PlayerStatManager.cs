@@ -17,7 +17,7 @@ public class PlayerStatManager : MonoBehaviour
     }
 
     // our main public variables
-    public float health; // the player's health
+    public float health, maxHealth; // the player's health
     [SerializeField] float damageCooldown, damageCooldownMax; // how long we are unable to take damage for after taking damage
 
     // our UI variables
@@ -70,14 +70,16 @@ public class PlayerStatManager : MonoBehaviour
 
     }
 
+    // all our UI processing overtime
     void ProcessUI()
     {
         // reset our hurtflash
         if (hurtUIGroup.alpha > 0)
-            hurtUIGroup.alpha--;
+            hurtUIGroup.alpha -= 0.2f * Time.deltaTime;
 
         // sync up our health bars
-        
+        healthSlider.value = health / maxHealth;
+        healthLerpSlider.value = Mathf.Lerp(healthLerpSlider.value, healthSlider.value, 2*Time.deltaTime);
     }
 
     void HurtUIFlash()
