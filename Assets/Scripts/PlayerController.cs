@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     // our weapon management
     PlayerWeaponManager weaponManager;
 
+    // body part related
+    PlayerBodyPartManager bodyPartManager;
+
     // setup our instance
     public static PlayerController instance;
     public void Awake()
@@ -51,6 +54,8 @@ public class PlayerController : MonoBehaviour
         weaponManager = PlayerWeaponManager.instance; 
         // lock cursor
         Cursor.lockState = CursorLockMode.Locked;
+        // get our bodypart manager
+        bodyPartManager = PlayerBodyPartManager.instance;
 
     }
 
@@ -106,6 +111,8 @@ public class PlayerController : MonoBehaviour
                 groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
                 // instantiate a visual effect
                 Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation, transform);
+                // trigger an on jump effect
+                bodyPartManager.CallParts("OnJump");
 
             }
             else if (!grounded)
@@ -115,6 +122,8 @@ public class PlayerController : MonoBehaviour
 
                 playerJumpVelocity = 0f;
                 grounded = true;
+                // trigger an on land effect
+                bodyPartManager.CallParts("OnLand");
             }
         }
 

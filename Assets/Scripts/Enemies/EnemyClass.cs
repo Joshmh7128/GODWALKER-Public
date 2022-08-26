@@ -45,9 +45,7 @@ public abstract class EnemyClass : MonoBehaviour
 
     IEnumerator AttackBehaviourHandler()
     {
-        // randomize our list of attack behaviours
-        attackBehaviours.Shuffle();
-
+        // attackBehaviours.Shuffle();
         // go through each attack
         foreach (EnemyBehaviour behaviour in attackBehaviours)
         {
@@ -56,14 +54,12 @@ public abstract class EnemyClass : MonoBehaviour
             // then wait
             yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
         }
-
         StartCoroutine(AttackBehaviourHandler());
     }
     
     IEnumerator MovementBehaviourHandler()
     {
-        movementBehaviours.Shuffle();
-
+        // movementBehaviours.Shuffle();
         // go through each attack
         foreach (EnemyBehaviour behaviour in movementBehaviours)
         {
@@ -72,7 +68,6 @@ public abstract class EnemyClass : MonoBehaviour
             // then wait
             yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
         }
-
         StartCoroutine(MovementBehaviourHandler());
     }
 

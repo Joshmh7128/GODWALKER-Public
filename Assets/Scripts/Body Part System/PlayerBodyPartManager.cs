@@ -46,9 +46,32 @@ public class PlayerBodyPartManager : MonoBehaviour
     // our bodypart classes
     public BodyPartClass headPartClass, torsoPartClass, rightArmPartClass, leftArmPartClass, rightLegPartClass, leftLegPartClass;
 
+    // the list of our 6 bodyparts
+    public List<BodyPartClass> bodyParts = new List<BodyPartClass>();
+    /// <summary>
+    /// 0 - head
+    /// 1 - torso
+    /// 2 - right arm
+    /// 3 - left arm 
+    /// 4 - right leg
+    /// 5 - left leg
+    /// </summary>
+
+    public void CallParts(string function)
+    {
+        foreach (BodyPartClass bodyPartClass in bodyParts)
+        {
+            bodyPartClass.Invoke(function,0f);
+        }
+    }
+
+
     // refresh parts - makes sure we spawn in new parts when we start
     void RefreshParts()
     {
+        // refresh our bodypart upgrade manager
+
+        // refresh our cosmetics
         PickupPart(headPartClass, BodyPartClass.BodyPartTypes.Head);
         PickupPart(torsoPartClass, BodyPartClass.BodyPartTypes.Torso);
         PickupPart(rightArmPartClass, BodyPartClass.BodyPartTypes.Arm, true);
@@ -79,6 +102,10 @@ public class PlayerBodyPartManager : MonoBehaviour
                 if (part.cosmeticParts[i] != null)
                 Instantiate(part.cosmeticParts[i], headPartParents[i]);
             }
+
+            // put this into our list
+            bodyParts[0] = part;
+
         }
 
         // if this is a torso...
@@ -97,6 +124,10 @@ public class PlayerBodyPartManager : MonoBehaviour
             {   // get the correlating part and instnatiate it
                 Instantiate(part.cosmeticParts[i], torsoPartParents[i]);
             }
+
+            // put this into our list
+            bodyParts[1] = part;
+
         }
     }
 
@@ -121,6 +152,10 @@ public class PlayerBodyPartManager : MonoBehaviour
                 {   // get the correlating part and instnatiate it
                     Instantiate(part.cosmeticParts[i], rightArmPartParents[i]);
                 }
+
+                // put this into our list
+                bodyParts[2] = part;
+
             }
 
             // for left arms
@@ -139,6 +174,9 @@ public class PlayerBodyPartManager : MonoBehaviour
                 {   // get the correlating part and instnatiate it
                     Instantiate(part.cosmeticParts[i], leftArmPartParents[i]);
                 }
+
+                // put this into our list
+                bodyParts[3] = part;
             }
         }
 
@@ -160,6 +198,9 @@ public class PlayerBodyPartManager : MonoBehaviour
                 {   // get the correlating part and instnatiate it
                     Instantiate(part.cosmeticParts[i], rightLegPartParents[i]);
                 }
+
+                // put this into our list
+                bodyParts[4] = part;
             }
 
             if (!isRight)
@@ -177,6 +218,9 @@ public class PlayerBodyPartManager : MonoBehaviour
                 {   // get the correlating part and instnatiate it
                     Instantiate(part.cosmeticParts[i], leftLegPartParents[i]);
                 }
+
+                // put this into our list
+                bodyParts[5] = part;
             }
         }
 

@@ -6,6 +6,7 @@ public static class ExtensionMethods
 {
     static System.Random rng = new System.Random();
 
+    // this might be too intensive...
     public static void Shuffle<T>(this IList<T> list)
     {
         int n = list.Count;

@@ -33,4 +33,11 @@ public abstract class BodyPartClass : MonoBehaviour
         //Debug.Log("The part " + gameObject.name + "has a PartStart which has not been overridden");
     }
 
+    public virtual void OnJump() { Debug.Log("test!"); }    // triggered when the player presses the jump button
+    public virtual void OnLand() { }    // triggered when the player lands on the ground 
+    public virtual void OnADS() { }     // triggered when the player ADS
+    public virtual void OffADS() { }    // triggered when the player stops ADS
+    public virtual void OnSprint() { }  // triggered when the player sprints
+    public virtual void OnReload() { }  // triggered when the player reloads
+
 }
