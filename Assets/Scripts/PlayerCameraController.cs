@@ -16,6 +16,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] ItemUIHandler handler;
     [SerializeField] Camera mainCam; // our main cam
     [SerializeField] float aimFOV; // how far in we aim
+    bool canControl = true; // can we control this?
     // setup an instance
     public static PlayerCameraController instance;
     private void Awake()
@@ -34,6 +35,7 @@ public class PlayerCameraController : MonoBehaviour
     private void Update()
     {
         // process our camera inputs
+        if (canControl)
         ProcessCameraControl();
     }
 
@@ -186,6 +188,12 @@ public class PlayerCameraController : MonoBehaviour
     public void FOVKickRequest(float fov)
     {
         mainCam.fieldOfView += fov;
+    }
+
+    // when the player dies
+    public void OnPlayerDeath()
+    {
+        canControl = false;
     }
 
     private void OnDrawGizmos()

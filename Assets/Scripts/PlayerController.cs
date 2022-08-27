@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public bool grounded;
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
-
+    bool canMove = true; // can we move?
     public enum MovementStates { normal, sprinting, aiming}
     public MovementStates movementState;
 
@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // process our movement inputs
+        if (canMove)
         ProcessMovement();
         // setup our animation parent so that the player faces the correct direction
         ProcessAnimationParentControl();
@@ -231,6 +232,8 @@ public class PlayerController : MonoBehaviour
     {
         // turn off our animation parent
         animationRigParent.gameObject.SetActive(false);
+        // make sure we can't move
+        canMove = false; 
         // instantiate a bodypart for each of our current bodyparts inside of a capsule collider explode object
         GameObject headCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
         Instantiate(PlayerBodyPartManager.instance.headPartClass.gameObject, headCap.transform);
