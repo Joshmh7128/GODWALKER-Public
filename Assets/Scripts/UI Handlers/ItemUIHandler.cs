@@ -43,7 +43,7 @@ public class ItemUIHandler : MonoBehaviour
     public BodyPart_Item bodyPart_Item;
     public Text bodyPartName, currentRightName, currentLeftName;
     public Text bodyPartInfo, currentRightInfo, currentLeftInfo;
-    BodyPartClass rightClass, leftClass; // for local ease
+    [SerializeField] BodyPartClass rightClass, leftClass; // for local ease
 
     [Header("- Canvas Groups -")]
     [SerializeField] CanvasGroup info_CanvasGroup;
@@ -83,13 +83,13 @@ public class ItemUIHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        SetInfo();
         // processing opening / closing our panel
         if (closeWait > 0)
         { 
             info_CanvasGroup.alpha += Time.deltaTime*10;
 
             closeWait -= Time.deltaTime;
-            SetInfo();
         }
 
         if (closeWait <= 0)
@@ -131,14 +131,14 @@ public class ItemUIHandler : MonoBehaviour
             #region // setup our current classes based on type 
             if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm)
             {
-                rightClass = PlayerBodyPartManager.instance.rightArmPartClass;
-                leftClass = PlayerBodyPartManager.instance.leftArmPartClass;
+                rightClass = PlayerBodyPartManager.instance.bodyParts[2];
+                leftClass = PlayerBodyPartManager.instance.bodyParts[3];
             }
 
             if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
             {
-                rightClass = PlayerBodyPartManager.instance.rightLegPartClass;
-                leftClass = PlayerBodyPartManager.instance.leftLegPartClass;
+                rightClass = PlayerBodyPartManager.instance.bodyParts[4];
+                leftClass = PlayerBodyPartManager.instance.bodyParts[5];
             }
             #endregion
 
