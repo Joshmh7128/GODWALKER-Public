@@ -28,6 +28,8 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField] Slider healthSlider, healthLerpSlider; // our health slider and our lerp slider
     [SerializeField] Text hpReadout; // set this to be our current / max hp
 
+    bool hasDied; // have we died?
+
     // runs 60 times per second
     private void FixedUpdate()
     {
@@ -52,6 +54,7 @@ public class PlayerStatManager : MonoBehaviour
         if (health <= 0)
         {
             // die
+            KillPlayer();
         }
     }
 
@@ -124,9 +127,16 @@ public class PlayerStatManager : MonoBehaviour
         { mainVolume.profile = hurt3Profile; }
     }
 
-    // 
+    // kill our player
     void KillPlayer()
     {
+        // if we havent died yet
+        if (!hasDied)
+        {
+            // we have now died
+            hasDied = true;
+            PlayerController.instance.OnPlayerDeath();
 
+        }
     }
 }

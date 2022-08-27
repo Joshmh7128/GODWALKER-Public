@@ -115,6 +115,24 @@ public class EnemyProjectile : MonoBehaviour
         }
     }
 
+    // for while we are colliding inside of things, since we may be shot from inside of an object
+    private void OnTriggerStay(Collider other)
+    {
+        // for now, if we collide with anything, die
+        if (other.transform != null && (openLifetime <= 0))
+        {
+            // what did we hit?
+            if (other.transform.tag == "Player")
+            {
+                // trigger a hurt on the stat manager
+                statManager.TakeDamage(damage); // oof ouch yikes
+            }
+
+            // always destroy
+            OnDestroyObject();
+        }
+    }
+
     void OnDestroyObject()
     {
         // spawn a deathobject

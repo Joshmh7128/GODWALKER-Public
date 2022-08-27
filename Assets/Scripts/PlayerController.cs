@@ -36,9 +36,6 @@ public class PlayerController : MonoBehaviour
         instance = this;
     }
 
-    [Header("Combat Related")]
-    float health, maxHealth; // our health! stay alive!
-
     [Header("Visual FX")]
     // visual fx
     [SerializeField] GameObject jumpVFX;
