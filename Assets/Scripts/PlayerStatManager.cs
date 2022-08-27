@@ -136,7 +136,7 @@ public class PlayerStatManager : MonoBehaviour
             // we have now died
             hasDied = true;
             PlayerController.instance.OnPlayerDeath();
-
+            PlayerCameraController.instance.OnPlayerDeath();
         }
     }
 }

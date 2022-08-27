@@ -236,22 +236,22 @@ public class PlayerController : MonoBehaviour
         canMove = false; 
         // instantiate a bodypart for each of our current bodyparts inside of a capsule collider explode object
         GameObject headCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.headPartClass.gameObject, headCap.transform);
+        Instantiate(PlayerBodyPartManager.instance.headPartClass.gameObject, Vector3.zero, Quaternion.identity, headCap.transform);
 
         GameObject bodyCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.torsoPartClass.gameObject, bodyCap.transform);
+        Instantiate(PlayerBodyPartManager.instance.torsoPartClass.gameObject, Vector3.zero, Quaternion.identity, bodyCap.transform);
 
         GameObject rightArmCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.rightArmPartClass.gameObject, rightArmCap.transform);       
+        Instantiate(PlayerBodyPartManager.instance.rightArmPartClass.gameObject, Vector3.zero, Quaternion.identity, rightArmCap.transform);       
         
         GameObject leftArmCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.leftArmPartClass.gameObject, leftArmCap.transform);
+        Instantiate(PlayerBodyPartManager.instance.leftArmPartClass.gameObject, Vector3.zero, Quaternion.identity, leftArmCap.transform);
 
         GameObject rightLegCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.rightLegPartClass.gameObject, rightLegCap.transform);
+        Instantiate(PlayerBodyPartManager.instance.rightLegPartClass.gameObject, Vector3.zero, Quaternion.identity, rightLegCap.transform);
 
         GameObject leftLegCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.leftLegPartClass.gameObject, leftLegCap.transform);
+        Instantiate(PlayerBodyPartManager.instance.leftLegPartClass.gameObject, Vector3.zero, Quaternion.identity, leftLegCap.transform);
     }
 
     private void OnDrawGizmos()
