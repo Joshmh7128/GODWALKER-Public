@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject landVFX;
     [SerializeField] GameObject sprintParticleSystem;
     [SerializeField] GameObject capsulePrefab;
+    [SerializeField] GameObject deathFX; // our death fx
 
     private void Start()
     {
@@ -233,25 +234,34 @@ public class PlayerController : MonoBehaviour
         // turn off our animation parent
         animationRigParent.gameObject.SetActive(false);
         // make sure we can't move
-        canMove = false; 
+        canMove = false;
+        // explosino instantiation
+        Instantiate(deathFX, transform.position, Quaternion.identity, null);
+
         // instantiate a bodypart for each of our current bodyparts inside of a capsule collider explode object
-        GameObject headCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
+        GameObject headCap = Instantiate(capsulePrefab, transform.position + Vector3.up, Quaternion.identity, null);
         Instantiate(PlayerBodyPartManager.instance.headPartClass.gameObject, Vector3.zero, Quaternion.identity, headCap.transform);
+        headCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
 
         GameObject bodyCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
         Instantiate(PlayerBodyPartManager.instance.torsoPartClass.gameObject, Vector3.zero, Quaternion.identity, bodyCap.transform);
+        bodyCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
 
-        GameObject rightArmCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.rightArmPartClass.gameObject, Vector3.zero, Quaternion.identity, rightArmCap.transform);       
-        
-        GameObject leftArmCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
+        GameObject rightArmCap = Instantiate(capsulePrefab, transform.position + Vector3.right, Quaternion.identity, null);
+        Instantiate(PlayerBodyPartManager.instance.rightArmPartClass.gameObject, Vector3.zero, Quaternion.identity, rightArmCap.transform);
+        rightArmCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
+
+        GameObject leftArmCap = Instantiate(capsulePrefab, transform.position + -Vector3.right, Quaternion.identity, null);
         Instantiate(PlayerBodyPartManager.instance.leftArmPartClass.gameObject, Vector3.zero, Quaternion.identity, leftArmCap.transform);
+        leftArmCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
 
-        GameObject rightLegCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
+        GameObject rightLegCap = Instantiate(capsulePrefab, transform.position + Vector3.right + Vector3.down, Quaternion.identity, null);
         Instantiate(PlayerBodyPartManager.instance.rightLegPartClass.gameObject, Vector3.zero, Quaternion.identity, rightLegCap.transform);
+        rightLegCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
 
-        GameObject leftLegCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
+        GameObject leftLegCap = Instantiate(capsulePrefab, transform.position + -Vector3.right + Vector3.down, Quaternion.identity, null);
         Instantiate(PlayerBodyPartManager.instance.leftLegPartClass.gameObject, Vector3.zero, Quaternion.identity, leftLegCap.transform);
+        leftLegCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
     }
 
     private void OnDrawGizmos()
