@@ -19,7 +19,7 @@ public abstract class WeaponClass : MonoBehaviour
     // the cosmetic information of our weapon
     public GameObject weaponModel; // our weapon model saved as a prefab
     [Header("Combat Related")]
-    public float firerate; public float remainingFirerate; public float firerateMod; // how quickly can this weapon fire?
+    public float firerate; public float remainingFirerate, firerateMod; // how quickly can this weapon fire?
     public Transform muzzleOrigin; // the origin of our muzzle
     // our bullet prefab
     public GameObject bulletPrefab; // we spawn this when we fire
@@ -28,7 +28,7 @@ public abstract class WeaponClass : MonoBehaviour
     public float reloadTime; // the amount of time in seconds the reload takes
     public bool reloading; // are we reloading?
     // our weapon's damage
-    public float damage = 1;
+    public float damage = 1, damageMod; // our damage and the amount it is modified by upgrades
     // our weapon's name
     public string weaponName;
 
