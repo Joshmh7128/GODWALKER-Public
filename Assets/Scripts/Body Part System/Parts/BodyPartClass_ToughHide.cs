@@ -5,28 +5,32 @@ using UnityEngine;
 public class BodyPartClass_ToughHide : BodyPartClass
 {
     // whenever we take damage, start a timer for 10 seconds. current weapon deals 20% more damage in this window
-    bool buff; // are we buffing?
-    float buffAmount; // this is our buff amount
-    bool counting; // are we counting?
-    [SerializeField] GameObject FX; // activate when our effect is active
+    [SerializeField] float buffAmount; // this is our buff amount
+    [SerializeField] bool counting; // are we counting?
+    [SerializeField] GameObject VFX; // our vfx
 
     public override void OnPlayerTakeDamage()
     {
+        FindVFX(); // find it everytime we take damage
+
         // if we are not counting, start our counter
-        if (!counting)
+        if (counting == false)
         {
-            StartCoroutine(Counter());
+            StartCoroutine("Countdown");
         }
     }
 
     // call this when the player takes damage
-    IEnumerator Counter()
+    IEnumerator Countdown()
     {
         // we've started counting
         counting = true;
-        FX.SetActive(true);
+        VFX.SetActive(true);
+        // calculate
+        CalculateDamage();
         // apply the damage
         ApplyDamageBuff();
+        Debug.Log(buffAmount);
         yield return new WaitForSecondsRealtime(10f); 
         // reset the damage mods of all weapons
         foreach (GameObject weapon in PlayerWeaponManager.instance.weapons)
@@ -34,8 +38,8 @@ public class BodyPartClass_ToughHide : BodyPartClass
             weapon.GetComponent<WeaponClass>().damageMod = 0;
         }
         // we're done counting, so reset
-        FX.SetActive(false);
         counting = false;
+        VFX.SetActive(false);
     }
 
     // when we swap weapons, recalculate our buff
@@ -44,6 +48,7 @@ public class BodyPartClass_ToughHide : BodyPartClass
         // calculate
         CalculateDamage();
         // then apply it
+        if (counting)
         ApplyDamageBuff();
     }
 
@@ -51,7 +56,6 @@ public class BodyPartClass_ToughHide : BodyPartClass
     void ApplyDamageBuff()
     {
         // only if we are counting apply the damage bonus
-        if (counting)
         PlayerWeaponManager.instance.currentWeapon.damageMod = buffAmount;
     }
 
@@ -60,6 +64,14 @@ public class BodyPartClass_ToughHide : BodyPartClass
     {
         float damage = PlayerWeaponManager.instance.currentWeapon.damage;
         buffAmount = damage * 0.2f;
+    }
+
+    // find our visual fx
+    void FindVFX()
+    {
+        // our vfx need to be triggered manually, so on pickup find our effects
+        if (PlayerBodyPartManager.instance.torsoPartParents[0].GetChild(0).Find("VFX").gameObject != null)
+        VFX = PlayerBodyPartManager.instance.torsoPartParents[0].GetChild(0).Find("VFX").gameObject;
     }
 
 }

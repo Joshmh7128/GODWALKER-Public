@@ -88,7 +88,8 @@ public class ItemUIHandler : MonoBehaviour
         { 
             info_CanvasGroup.alpha += Time.deltaTime*10;
 
-            closeWait -= Time.deltaTime; 
+            closeWait -= Time.deltaTime;
+            SetInfo();
         }
 
         if (closeWait <= 0)

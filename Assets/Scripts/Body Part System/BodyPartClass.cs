@@ -42,5 +42,6 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnReload() { }              // triggered when the player reloads
     public virtual void OnWeaponSwap() { }          // whenever player changes weapons
     public virtual void OnPlayerTakeDamage() { }    // triggered when the player takes damage
+    public virtual void OnBodyPartPickup() { }      // triggered when a body part is picked up
 
 }

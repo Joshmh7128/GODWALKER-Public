@@ -43,7 +43,7 @@ public class WeaponClass_Pistol : WeaponClass
         Vector3 modifiedShotDirection = new Vector3(shotDirection.x + Random.Range(-spreadX, spreadX), shotDirection.y + Random.Range(-spreadY, spreadY), shotDirection.z).normalized;
         // instantiate and shoot our projectile in that direction
         GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
-        bullet.GetComponent<PlayerProjectileScript>().damage = damage;
+        bullet.GetComponent<PlayerProjectileScript>().damage = damage + damageMod;
         remainingFirerate = firerate + firerateMod;
         currentMagazine--;
     }

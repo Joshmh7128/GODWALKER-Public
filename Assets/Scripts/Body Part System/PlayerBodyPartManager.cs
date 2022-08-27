@@ -224,8 +224,6 @@ public class PlayerBodyPartManager : MonoBehaviour
                 bodyParts[5] = part;
             }
         }
-
-
     }
 
     private void FixedUpdate()

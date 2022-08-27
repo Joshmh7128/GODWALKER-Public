@@ -68,6 +68,8 @@ public class PlayerStatManager : MonoBehaviour
             damageCooldown = damageCooldownMax;
             // set our health
             health -= damageAmount;
+            // trigger an on jump effect
+            PlayerBodyPartManager.instance.CallParts("OnPlayerTakeDamage");
         }
 
         // even if we don't take damage trigger the UI to react as if we are taking damage
