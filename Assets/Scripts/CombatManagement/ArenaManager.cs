@@ -11,7 +11,7 @@ public class ArenaManager : MonoBehaviour
     /// </summary>
     /// 
 
-    [SerializeField] Transform activeParent, inactiveParent; // our parents for inactive and active enemies
+    public Transform activeParent, inactiveParent; // our parents for inactive and active enemies
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
     GameObject previousSummon; // our previous summon
     [SerializeField] int activeGoal; // how many do we want active at once?
@@ -51,6 +51,14 @@ public class ArenaManager : MonoBehaviour
         if (previousSummon) { Destroy(previousSummon); }
         if (inactiveParent.childCount > 1)
         previousSummon = Instantiate(summoningEffect, inactiveParent.GetChild(0).position, Quaternion.identity, null);
+    }
+
+    public void StopAllEnemyBehaviours()
+    {
+        foreach (Transform child in activeParent)
+        {
+            child.gameObject.GetComponent<EnemyClass>().StopAllCoroutines();
+        }
     }
 
     // end combat here

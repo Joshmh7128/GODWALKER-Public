@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -62,13 +63,18 @@ public class PlayerController : MonoBehaviour
     {
         // process our movement inputs
         if (canMove)
-        ProcessMovement();
-        // setup our animation parent so that the player faces the correct direction
-        ProcessAnimationParentControl();
-        // how we control our weapon
-        ProcessWeaponControl();
-        // reloading
-        ProcessReloadControl();
+        {
+            ProcessMovement();
+            // setup our animation parent so that the player faces the correct direction
+            ProcessAnimationParentControl();
+            // how we control our weapon
+            ProcessWeaponControl();
+            // reloading
+            ProcessReloadControl();
+        }
+
+        // resetting the scene
+        PrototypeReset();
     }
 
     // our movement function
@@ -215,6 +221,7 @@ public class PlayerController : MonoBehaviour
     // weapon control
     void ProcessWeaponControl()
     {
+        
         // fire our current weapon
         if (Input.GetMouseButtonDown(0))
         {
@@ -262,6 +269,15 @@ public class PlayerController : MonoBehaviour
         GameObject leftLegCap = Instantiate(capsulePrefab, transform.position + -Vector3.right + Vector3.down, Quaternion.identity, null);
         Instantiate(PlayerBodyPartManager.instance.leftLegPartClass.gameObject, Vector3.zero, Quaternion.identity, leftLegCap.transform);
         leftLegCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
+    }
+
+    // prototype reset
+    public void PrototypeReset()
+    {
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            SceneManager.LoadScene("Player Controller Testing");
+        }
     }
 
     private void OnDrawGizmos()
