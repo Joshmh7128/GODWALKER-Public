@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 public class ArenaHandler : MonoBehaviour
 {
@@ -52,6 +54,9 @@ public class ArenaHandler : MonoBehaviour
             if (door.open)
             door.triggerLock = true;
         }
+
+        // regenerate our navmesh
+        
     }
 
     private void FixedUpdate()
