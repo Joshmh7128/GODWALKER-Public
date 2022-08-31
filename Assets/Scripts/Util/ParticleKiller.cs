@@ -5,7 +5,7 @@ using UnityEngine;
 public class ParticleKiller : MonoBehaviour
 {
     // the particle system we're killing
-    [SerializeField] ParticleSystem particleSystem;
+    [SerializeField] ParticleSystem pSys;
     private void Start()
     {
         StartCoroutine(Timer());
@@ -13,7 +13,7 @@ public class ParticleKiller : MonoBehaviour
 
     IEnumerator Timer()
     {
-        yield return new WaitForSecondsRealtime(particleSystem.main.duration);
+        yield return new WaitForSecondsRealtime(pSys.main.duration);
         Destroy(gameObject);
     }
 }

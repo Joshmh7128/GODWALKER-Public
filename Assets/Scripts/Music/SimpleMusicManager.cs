@@ -12,14 +12,12 @@ public class SimpleMusicManager : MonoBehaviour
      /// 
 
     // the length of one block (for Dynamic Track Test 01 a block is 4 measures at 156 bpm, or 6.15384 seconds)
-    [SerializeField] float blockLength = 6.15384f;
+    // [SerializeField] float blockLength = 6.15384f;
 
     public enum MusicMoods { intro, outro, explore }
     public MusicMoods musicMood;
 
     [SerializeField] AudioClip intro, combat, outro, explore;
-
-    int currentTrack; // which track are we on?
 
     [SerializeField] AudioSource musicSource; // plays music
 

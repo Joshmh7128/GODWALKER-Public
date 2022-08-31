@@ -13,7 +13,7 @@ public class EnemyProjectile : MonoBehaviour
 
     [SerializeField] ProjectileTypes projectileType;
     [SerializeField] float speed; // how fast this projectile moves kinematically, or how hard it is launched
-    Rigidbody rigidbody;
+    Rigidbody localRigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
     [SerializeField] bool facePlayer; // do we face the player
     [SerializeField] int deathTime = 30; // how long to death
@@ -28,7 +28,7 @@ public class EnemyProjectile : MonoBehaviour
     private void Start()
     {
         // setup our rigidbody
-        rigidbody = GetComponent<Rigidbody>();
+        localRigidbody = GetComponent<Rigidbody>();
 
         StartCoroutine(DeathCountdown());
 
@@ -56,7 +56,7 @@ public class EnemyProjectile : MonoBehaviour
     void StartPhysics()
     {
         // launch our projectile forwards
-        rigidbody.AddForce(transform.forward * speed, ForceMode.Impulse);
+        localRigidbody.AddForce(transform.forward * speed, ForceMode.Impulse);
     }
 
     void StartKinematic()
