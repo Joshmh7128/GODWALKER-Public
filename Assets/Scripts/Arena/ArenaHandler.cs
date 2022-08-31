@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArenaManager : MonoBehaviour
+public class ArenaHandler : MonoBehaviour
 {
     /// <summary>
     /// This script manages one combat arena
@@ -17,6 +17,26 @@ public class ArenaManager : MonoBehaviour
     [SerializeField] int activeGoal; // how many do we want active at once?
     bool combatComplete = false;
 
+    // our list of spawn points
+    [SerializeField] List<Transform> spawnPoints; // all the spawnpoints in the room
+    Transform spawnPoint; // the spawn point we're using right now
+
+    // our list of arena fillers
+    [SerializeField] List<GameObject> arenaGeometries; // all the different geometries of arenas we can fill the environment with
+
+    private void Start()
+    {
+        // build an arena from our geometry prefabs
+        BuildArena();
+    }
+
+    // select a random geomety set and spawn it in
+    void BuildArena()
+    {
+        int i = Random.Range(0, arenaGeometries.Count);
+        Instantiate(arenaGeometries[i], transform.position, Quaternion.identity, null);
+    }
+
     private void FixedUpdate()
     {
         ProcessEnemyAmount();
@@ -27,7 +47,6 @@ public class ArenaManager : MonoBehaviour
     {
         if (activeParent.childCount < activeGoal)
         {
-           
             if (inactiveParent.childCount > 0)
             if (inactiveParent.GetChild(0) != null)
             {
@@ -44,13 +63,18 @@ public class ArenaManager : MonoBehaviour
 
     void EnableNewEnemy()
     {
+        // enable an enemy and move them to a spawn point
         Transform child = inactiveParent.GetChild(0);
         child.parent = activeParent;
+        child.transform.position = spawnPoint.position;
         child.gameObject.SetActive(true);
+        // set a random spawn point AFTER we spawn this enemy, so that the next one spawns at the same one as the effect
+        spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)]; 
         // spawn our summoningEffect where the new enemy will start
         if (previousSummon) { Destroy(previousSummon); }
         if (inactiveParent.childCount > 1)
-        previousSummon = Instantiate(summoningEffect, inactiveParent.GetChild(0).position, Quaternion.identity, null);
+        previousSummon = Instantiate(summoningEffect, spawnPoint.position, Quaternion.identity, null); // instantiate a new summing effect at the spawn point we have chosen
+
     }
 
     public void StopAllEnemyBehaviours()

@@ -59,8 +59,6 @@ public class PlayerProjectileScript : MonoBehaviour
             { Instantiate(hitFX, null); }
         }
 
-        // if we have hit something, destroy ourselves
-        Destruction();
     }
 
     // our custom destruction script
@@ -94,6 +92,12 @@ public class PlayerProjectileScript : MonoBehaviour
         if (other.transform.tag == "Enemy")
         {
             HitEnemy(other.transform);
+        }
+
+        if (other.transform.tag != "Player")
+        {
+            // if we have hit something, destroy ourselves
+            Destruction();
         }
     }
 

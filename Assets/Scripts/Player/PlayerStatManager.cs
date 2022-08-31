@@ -140,7 +140,7 @@ public class PlayerStatManager : MonoBehaviour
             PlayerController.instance.OnPlayerDeath();
             PlayerCameraController.instance.OnPlayerDeath();
             // JUST FOR THE PROTOTYPE stop all enemy behaviours in the test arena
-            FindObjectOfType<ArenaManager>().StopAllEnemyBehaviours();
+            FindObjectOfType<ArenaHandler>().StopAllEnemyBehaviours();
         }
     }
 }
