@@ -38,7 +38,7 @@ public class PlayerProjectileScript : MonoBehaviour
     {
         // raycast forward
         if (!usesTrigger)
-        Physics.Raycast(transform.position, transform.forward, out hit, 2f, Physics.AllLayers);   
+        Physics.Raycast(transform.position, transform.forward, out hit, 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);   
 
         // check if we've hit something
         if (hit.transform != null)

@@ -5,18 +5,26 @@ using UnityEngine.AI;
 
 public class NavMeshSurfaceBaker : MonoBehaviour
 {
-    NavMeshSurface surface;   
+    [SerializeField] NavMeshSurface[] surfaces;   
 
     // when we are enabled, update the navigational mesh
     private void OnEnable()
     {
-        surface = GetComponent<NavMeshSurface>();
         UpdateNavMesh();
+        StartCoroutine(Count());
     }
 
+    IEnumerator Count()
+    {
+        yield return new WaitForSeconds(1f);
+        UpdateNavMesh();
+    }
     // use this to update our nav mesh once we've built it
     public void UpdateNavMesh()
     {
-        surface.BuildNavMesh();
+        for (int i = 0; i < surfaces.Length; i++)
+        {
+            surfaces[i].BuildNavMesh();
+        }
     }
 }
