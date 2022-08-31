@@ -15,7 +15,11 @@ public class ArenaHandler : MonoBehaviour
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
     GameObject previousSummon; // our previous summon
     [SerializeField] int activeGoal; // how many do we want active at once?
-    bool combatComplete = false;
+    bool combatComplete
+    {
+        get { return combatComplete; }
+        set { combatComplete = value; CheckCombatCompletion(); }
+    }
 
     // our list of spawn points
     [SerializeField] List<Transform> spawnPoints; // all the spawnpoints in the room
@@ -23,6 +27,8 @@ public class ArenaHandler : MonoBehaviour
 
     // our list of arena fillers
     [SerializeField] List<GameObject> arenaGeometries; // all the different geometries of arenas we can fill the environment with
+    // our doors
+    [SerializeField] List<DoorScript> doors;
 
     private void Start()
     {
@@ -33,8 +39,19 @@ public class ArenaHandler : MonoBehaviour
     // select a random geomety set and spawn it in
     void BuildArena()
     {
+        // build the arenas
         int i = Random.Range(0, arenaGeometries.Count);
         Instantiate(arenaGeometries[i], transform.position, Quaternion.identity, null);
+        // lock the doors
+        foreach (DoorScript door in doors)
+        {
+            // if this door was not already open, lock it
+            if (!door.open)
+            door.canOpen = false;
+            // if this door was already open, trigger lock it
+            if (door.open)
+            door.triggerLock = true;
+        }
     }
 
     private void FixedUpdate()
@@ -94,5 +111,15 @@ public class ArenaHandler : MonoBehaviour
             SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro);
         }
 
+    }
+
+    // check out combat completion
+    void CheckCombatCompletion()
+    {
+        // when we set our combat completion, unlock all our doors
+        foreach (DoorScript door in doors)
+        {
+            door.Unlock();
+        }
     }
 }

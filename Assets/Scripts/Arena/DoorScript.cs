@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class DoorScript : MonoBehaviour
 {
-    bool open = false, canOpen;
+    public bool open = false, canOpen, triggerLock; // is this open? can we open it?
     [SerializeField] Animator animator;
     [SerializeField] float interactionDistance = 10f;
-    [SerializeField] GameObject openMessage;
-
-
+    [SerializeField] GameObject openMessage, lockParent;
+    
     private void FixedUpdate()
     {
         ProcessDistance();
@@ -47,4 +46,18 @@ public class DoorScript : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // if we have our trigger lock active, lock the door with the trigger
+        if (triggerLock)
+        {   // this happens when the player enters the room
+            lockParent.SetActive(true);
+        }
+    }
+
+    public void Unlock()
+    {
+        canOpen = true;
+        lockParent.SetActive(false);
+    }
 }
