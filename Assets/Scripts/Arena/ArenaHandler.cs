@@ -17,14 +17,10 @@ public class ArenaHandler : MonoBehaviour
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
     GameObject previousSummon; // our previous summon
     [SerializeField] int activeGoal; // how many do we want active at once?
-    bool combatComplete
-    {
-        get { return combatComplete; }
-        set { combatComplete = value; CheckCombatCompletion(); }
-    }
+    bool combatComplete;
 
     // our list of spawn points
-    [SerializeField] List<Transform> spawnPoints; // all the spawnpoints in the room
+    public List<Transform> spawnPoints = new List<Transform>(); // all the spawnpoints in the room
     Transform spawnPoint; // the spawn point we're using right now
 
     // our list of arena fillers
@@ -43,7 +39,10 @@ public class ArenaHandler : MonoBehaviour
     {
         // build the arenas
         int i = Random.Range(0, arenaGeometries.Count);
-        Instantiate(arenaGeometries[i], transform.position, Quaternion.identity, null);
+        GameObject geometry = Instantiate(arenaGeometries[i], transform.position, Quaternion.identity, null);
+        // set this as the geometry's arena, then send the spawnpoints to us
+        geometry.GetComponent<ArenaGeometryClass>().handler = this;
+        geometry.GetComponent<ArenaGeometryClass>().SendSpawnPoints();
         // lock the doors
         foreach (DoorScript door in doors)
         {
@@ -85,6 +84,8 @@ public class ArenaHandler : MonoBehaviour
 
     void EnableNewEnemy()
     {
+        // if our spawnpoint is null, set it to our first one just to get us started
+        if (spawnPoint == null) { spawnPoint = spawnPoints[0]; }
         // enable an enemy and move them to a spawn point
         Transform child = inactiveParent.GetChild(0);
         child.parent = activeParent;
@@ -113,6 +114,7 @@ public class ArenaHandler : MonoBehaviour
         if (!combatComplete)
         {
             combatComplete = true;
+            CheckCombatCompletion();
             SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro);
         }
 
