@@ -69,7 +69,7 @@ public class PlayerCameraController : MonoBehaviour
     // get our check point
     void CalculateCheckPoint()
     {
-        Physics.Raycast(transform.position, transform.forward, out check, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide);
+        Physics.Raycast(transform.position, transform.forward, out check, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore);
     }
 
     // control our camera via the mouse

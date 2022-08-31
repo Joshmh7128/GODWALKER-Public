@@ -46,16 +46,14 @@ public class ArenaHandler : MonoBehaviour
         // lock the doors
         foreach (DoorScript door in doors)
         {
-            // if this door was not already open, lock it
-            if (!door.open)
             door.canOpen = false;
-            // if this door was already open, trigger lock it
-            if (door.open)
             door.triggerLock = true;
+            // activate the barriers if they are open
+            if (door.open)
+                door.ManualLock();
         }
 
-        // regenerate our navmesh
-        
+        // nav mesh generation is done PER MESH inside the geometry prefab
     }
 
     private void FixedUpdate()

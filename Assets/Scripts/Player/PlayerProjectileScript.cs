@@ -94,15 +94,19 @@ public class PlayerProjectileScript : MonoBehaviour
     // for trigger based bullets
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "Enemy")
+        // only do this if the other collider is not a trigger
+        if (!other.isTrigger)
         {
-            HitEnemy(other.transform);
-        }
+            if (other.transform.tag == "Enemy")
+            {
+                HitEnemy(other.transform);
+            }
 
-        if (other.transform.tag != "Player")
-        {
-            // if we have hit something, destroy ourselves
-            Destruction();
+            if (other.transform.tag != "Player")
+            {
+                // if we have hit something, destroy ourselves
+                Destruction();
+            }
         }
     }
 

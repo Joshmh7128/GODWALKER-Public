@@ -49,7 +49,7 @@ public class DoorScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // if we have our trigger lock active, lock the door with the trigger
-        if (triggerLock)
+        if (triggerLock && other.transform.tag == "Player")
         {   // this happens when the player enters the room
             lockParent.SetActive(true);
         }
@@ -59,5 +59,10 @@ public class DoorScript : MonoBehaviour
     {
         canOpen = true;
         lockParent.SetActive(false);
+    }
+
+    public void ManualLock()
+    {
+        lockParent.SetActive(true);
     }
 }
