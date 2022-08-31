@@ -8,6 +8,8 @@ public class ParticleKiller : MonoBehaviour
     [SerializeField] ParticleSystem pSys;
     private void Start()
     {
+        if (pSys == null)
+        { pSys = GetComponent<ParticleSystem>(); }
         StartCoroutine(Timer());
     }
 
