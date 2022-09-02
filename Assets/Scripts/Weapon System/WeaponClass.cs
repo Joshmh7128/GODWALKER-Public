@@ -27,8 +27,10 @@ public abstract class WeaponClass : MonoBehaviour
     public float currentMagazine, maxMagazine;
     public float reloadTime; // the amount of time in seconds the reload takes
     public bool reloading; // are we reloading?
-    // our weapon's damage
-    public float damage = 1, damageMod; // our damage and the amount it is modified by upgrades
+    // our weapon's damage and level
+    public float level; // whenever we set the level, update our stats 
+
+    public float damage = 1, damageMod, damageLevelMultiplier; // our damage and the amount it is modified by upgrades
     // our weapon's name
     public string weaponName;
 
@@ -67,6 +69,9 @@ public abstract class WeaponClass : MonoBehaviour
         weaponUIHandler = GetComponent<WeaponUIHandler>();
         // set our original spread reduct
         originalSpreadReduct = spreadReduct;
+        // update our stats
+        UpdateStats();
+
     }
 
     // the start that is called manually on every weapon
@@ -93,5 +98,20 @@ public abstract class WeaponClass : MonoBehaviour
     {
         reloading = false;
         weaponUIHandler.CancelReload();
+    }
+
+    public void UpdateStats()
+    {
+        if (level > 0)
+        {
+            // set our damage accordingly
+            Debug.Log("setting stats " + level);
+            damage *= level;
+        }
+
+        if (level <= 0)
+        {
+            Debug.LogError(gameObject.name + " WeaponClass has a level of 0, check where this is being created! No stats are being set");
+        }
     }
 }

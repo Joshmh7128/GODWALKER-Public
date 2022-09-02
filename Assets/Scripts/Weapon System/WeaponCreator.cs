@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class WeaponCreator : MonoBehaviour
 {
+    /// <summary>
+    /// This script is used to create weapon items from a table of prefabs
+    /// It creates a weapon item with a weapon inside of it
+    /// </summary>
+
     // which weapon maker do we want to create a weapon from?
     public enum WeaponMakers
     {
@@ -16,6 +21,9 @@ public class WeaponCreator : MonoBehaviour
 
         end
     }
+
+    // the level of this weapon
+    public float level;
 
     // the one we have chosen
     [SerializeField] WeaponMakers WeaponMaker;
@@ -30,6 +38,9 @@ public class WeaponCreator : MonoBehaviour
     // our weapon objects
     GameObject weaponObject;
     [SerializeField] GameObject weaponItem; // the prefab of our weapon item
+    Weapon_Item copyItem;
+    GameObject copyWeapon;
+    WeaponClass weaponClass;
 
     private void OnEnable()
     {
@@ -81,10 +92,17 @@ public class WeaponCreator : MonoBehaviour
     void CreateWeaponItem()
     {
         // instantiate a copy of the weapon we are currently holding
-        Weapon_Item copyItem = Instantiate(weaponItem, transform.position, Quaternion.identity).GetComponent<Weapon_Item>();
-        GameObject copyWeapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity);
+        copyItem = Instantiate(weaponItem, transform.position, Quaternion.identity).GetComponent<Weapon_Item>();
+        copyWeapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity);
         copyWeapon.SetActive(false);
         copyItem.weapon = copyWeapon;
-        // Destroy(weaponObject);
+        weaponClass = copyItem.weapon.GetComponent<WeaponClass>();
+        UpdateItem();
+    }
+
+    public void UpdateItem()
+    {
+        weaponClass.level = level; // set our level
+        weaponClass.UpdateStats(); // manually update the stats when the item is created
     }
 }

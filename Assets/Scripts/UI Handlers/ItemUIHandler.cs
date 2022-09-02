@@ -34,7 +34,7 @@ public class ItemUIHandler : MonoBehaviour
     public Weapon_Item weapon_Item; // our weapon item
     public WeaponClass weapon_Class; // our weapon class to pull information from
     string weaponInfo;
-    [SerializeField] Text weaponInfoText, weaponNameText;
+    [SerializeField] Text weaponInfoText, weaponNameText, weaponLvlText;
 
 
     // information for bodyparts
@@ -123,6 +123,7 @@ public class ItemUIHandler : MonoBehaviour
 
             weaponInfoText.text = weaponInfo;
             weaponNameText.text = weapon_Class.weaponName;
+            weaponLvlText.text = "Lvl " + weapon_Class.level.ToString();
         }
 
         // for our bodyparts
