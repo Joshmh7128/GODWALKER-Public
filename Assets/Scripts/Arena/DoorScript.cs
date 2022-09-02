@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DoorScript : MonoBehaviour
 {
-    public bool open = false, canOpen, triggerLock; // is this open? can we open it?
+    public bool open = false, canOpen, triggerLock, triggerHit; // is this open? can we open it?
     [SerializeField] Animator animator;
     [SerializeField] float interactionDistance = 10f;
     [SerializeField] GameObject openMessage, lockParent;
@@ -49,9 +49,10 @@ public class DoorScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // if we have our trigger lock active, lock the door with the trigger
-        if (triggerLock && other.transform.tag == "Player")
+        if (triggerLock && other.transform.tag == "Player" && triggerHit == false)
         {   // this happens when the player enters the room
             lockParent.SetActive(true);
+            triggerHit = true;
         }
     }
 

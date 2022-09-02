@@ -39,7 +39,7 @@ public class BodyPartClass_WindSwift : BodyPartClass
         // then if we are sprinting, apply the firerate
         if (sprinting)
         {
-            weaponManager.currentWeapon.firerate = -firerateReduction;
+            weaponManager.currentWeapon.firerateMod = -firerateReduction;
         }
     }
 
