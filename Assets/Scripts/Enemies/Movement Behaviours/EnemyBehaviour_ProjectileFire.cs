@@ -7,10 +7,12 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
     [SerializeField] GameObject projectile; // which projectile are we firing?
     [SerializeField] Transform projectileOrigin; // the origin of our projectile
     [SerializeField] float fireAmount, fireRate; // how many are we firing and at what fire rate?
-
+    public float damage; // what is our damage?
     // our main coroutine
     public override IEnumerator MainCoroutine()
     {
+        damage = enemyClass.damage;
+
         int fired = 0;
 
         while (fired < fireAmount)
