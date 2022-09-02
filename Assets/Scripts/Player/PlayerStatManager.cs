@@ -28,6 +28,8 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField] Slider healthSlider, healthLerpSlider; // our health slider and our lerp slider
     [SerializeField] Text hpReadout; // set this to be our current / max hp
 
+    bool debugInvincible  = true; // use this for testing
+
     bool hasDied; // have we died?
 
     // runs 60 times per second
@@ -67,6 +69,7 @@ public class PlayerStatManager : MonoBehaviour
             // set our damage cooldown
             damageCooldown = damageCooldownMax;
             // set our health
+            if (!debugInvincible)
             health -= damageAmount;
             // trigger an on jump effect
             PlayerBodyPartManager.instance.CallParts("OnPlayerTakeDamage");

@@ -17,6 +17,7 @@ public class EnemyClass_Crab : EnemyClass
     {
         // set our health
         maxHealth = level * 50f; // crabs have 50hp per level
+        health = maxHealth;
         // set our damage
         damage = level * 2; // this is a standard curve
     }
