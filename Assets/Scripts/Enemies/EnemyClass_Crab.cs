@@ -12,4 +12,13 @@ public class EnemyClass_Crab : EnemyClass
         // kick our body
         hurtHandler.KickLookPos(30f);
     }
+
+    public override void SetLevelStats()
+    {
+        // set our health
+        maxHealth = level * 50f; // crabs have 50hp per level
+        // set our damage
+        damage = level * 2; // this is a standard curve
+    }
+
 }

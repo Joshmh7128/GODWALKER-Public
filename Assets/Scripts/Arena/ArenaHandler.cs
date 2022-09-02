@@ -28,6 +28,9 @@ public class ArenaHandler : MonoBehaviour
     // our doors
     [SerializeField] List<DoorScript> doors;
 
+    // our arena level
+    public int arenaLevel; 
+
     private void Start()
     {
         // build an arena from our geometry prefabs
@@ -86,9 +89,10 @@ public class ArenaHandler : MonoBehaviour
         if (spawnPoint == null) { spawnPoint = spawnPoints[0]; }
         // enable an enemy and move them to a spawn point
         Transform child = inactiveParent.GetChild(0);
-        child.parent = activeParent;
-        child.transform.position = spawnPoint.position;
-        child.gameObject.SetActive(true);
+        child.parent = activeParent; // set the parent
+        child.transform.position = spawnPoint.position; // set the position
+        child.gameObject.GetComponent<EnemyClass>().level = arenaLevel; // set the level of the enemy to the level of the arena
+        child.gameObject.SetActive(true); // turn on the enemy
         // set a random spawn point AFTER we spawn this enemy, so that the next one spawns at the same one as the effect
         spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)]; 
         // spawn our summoningEffect where the new enemy will start

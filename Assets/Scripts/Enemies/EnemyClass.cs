@@ -10,8 +10,10 @@ public abstract class EnemyClass : MonoBehaviour
     // stats
     [HeaderAttribute("-- Stats --")]
     public string enemyName;
-    public int level; 
-    public float health, maxHealth;
+    public int level;
+    public float health;
+    public float maxHealth;
+    public float damage; // how much damage do we deal?
     [SerializeField] float lootDropChancePercentage;
     [SerializeField] GameObject gunCreator;
 
@@ -30,6 +32,10 @@ public abstract class EnemyClass : MonoBehaviour
         SortBehaviours();
         // setup renderers for getting hurt and vfx
         SetupRenderers();
+        // for anything else we want to add in our inherited classes
+        StartExtension();
+        // set our stats
+        SetLevelStats();
     }
 
     // to run our behaviours
@@ -42,6 +48,12 @@ public abstract class EnemyClass : MonoBehaviour
         if (movementBehaviours.Count > 0)
         StartCoroutine(MovementBehaviourHandler());
     }
+
+    // we call this in the start of this class so that we can add functionality on the start event of inherited classes
+    virtual public void StartExtension() { }
+
+    // we must determine our values from our level
+    abstract public void SetLevelStats(); // every enemyclass must set its own stats
 
     IEnumerator AttackBehaviourHandler()
     {
@@ -253,7 +265,4 @@ public abstract class EnemyClass : MonoBehaviour
             displayGroup.alpha -= Time.deltaTime;
         }
     }
-
-    // for death
-
 }
