@@ -18,7 +18,7 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] bool facePlayer; // do we face the player
     [SerializeField] int deathTime = 30; // how long to death
     [SerializeField] float openLifetime = 6f;
-    [SerializeField] int damage; // how much damage does this deal?
+    public float damage; // how much damage does this deal?
 
     // get our stat manager
     PlayerStatManager statManager;
