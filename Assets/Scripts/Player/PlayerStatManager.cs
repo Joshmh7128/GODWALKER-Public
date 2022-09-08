@@ -28,7 +28,7 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField] Slider healthSlider, healthLerpSlider; // our health slider and our lerp slider
     [SerializeField] Text hpReadout; // set this to be our current / max hp
 
-    bool debugInvincible  = true; // use this for testing
+    bool debugInvincible = false; // use this for testing
 
     bool hasDied; // have we died?
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using JetBrains.Annotations;
 
 public class ArenaHandler : MonoBehaviour
 {
@@ -49,7 +50,7 @@ public class ArenaHandler : MonoBehaviour
         // lock the doors
         foreach (DoorScript door in doors)
         {
-            door.canOpen = false;
+            // door.canOpen = false;
             door.triggerLock = true;
             // activate the barriers if they are open
             if (door.open)

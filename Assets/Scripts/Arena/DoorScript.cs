@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DoorScript : MonoBehaviour
 {
-    public bool open = false, canOpen, triggerLock, triggerHit; // is this open? can we open it?
+    public bool open = false, canOpen, triggerLock, triggerHit, distanceLock; // is this open? can we open it?
     [SerializeField] Animator animator;
     [SerializeField] float interactionDistance = 10f;
     [SerializeField] GameObject openMessage, lockParent;
@@ -23,24 +23,24 @@ public class DoorScript : MonoBehaviour
     {
         Transform player = PlayerController.instance.transform;
         // can we open?
-        if (Vector3.Distance(player.position, transform.position) <= interactionDistance && !open)
+        if (Vector3.Distance(player.position, transform.position) <= interactionDistance && !open && canOpen)
         {
-            canOpen = true;
+            distanceLock = false;
             openMessage.SetActive(true);
         }
         else
         {
-            canOpen = false;
+            distanceLock = true;
             openMessage.SetActive(false);
         }
     }
 
     void ProcessInput()
     {
-        if (Input.GetKeyDown(KeyCode.E) && canOpen && !open)
+        if (Input.GetKeyDown(KeyCode.E) && canOpen == true && open == false && distanceLock == false)
         {
-            openMessage.SetActive(false);
             open = true;
+            openMessage.SetActive(false);
             animator.Play("DoorOpening");
             SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
         }

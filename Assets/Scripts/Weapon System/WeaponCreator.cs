@@ -93,7 +93,9 @@ public class WeaponCreator : MonoBehaviour
     {
         // instantiate a copy of the weapon we are currently holding
         copyItem = Instantiate(weaponItem, transform.position, Quaternion.identity).GetComponent<Weapon_Item>();
+        // create a copy of the weaponObject we are holding so that we can give it to the player
         copyWeapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity);
+        copyWeapon.transform.position = Vector3.zero;
         copyWeapon.SetActive(false);
         copyItem.weapon = copyWeapon;
         weaponClass = copyItem.weapon.GetComponent<WeaponClass>();
