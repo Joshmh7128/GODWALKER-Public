@@ -44,8 +44,11 @@ public class PlayerProjectileScript : MonoBehaviour
         if (hit.transform != null)
         {
             if (hit.transform.tag == "Enemy")
+            {
                 // check and hit the enemy
                 HitEnemy(hit.transform);
+                Destruction();
+            }
 
             if (hit.transform.tag != "Enemy")
                 // destroy our bullet if we hit anything else
