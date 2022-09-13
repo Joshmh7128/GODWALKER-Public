@@ -118,7 +118,6 @@ public class PlayerController : MonoBehaviour
                 Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation, transform);
                 // trigger an on jump effect
                 bodyPartManager.CallParts("OnJump");
-
             }
             else if (!grounded)
             {
