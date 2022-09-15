@@ -1,0 +1,8 @@
+name: Master
+on:
+  pull:
+    branches:
+      - main
+      - dev
+  schedule:
+    - cron: '0 23 * * *'
