@@ -9,9 +9,9 @@ public class LookAtPlayer : MonoBehaviour
     private void FixedUpdate()
     {
         if (!lookAtCamera)
-        transform.LookAt(PlayerController.instance.transform.position);
+            transform.LookAtPlayer();
 
         if (lookAtCamera)
-        transform.LookAt(Camera.main.transform.position);
+            transform.LookAtCamera();
     }
 }

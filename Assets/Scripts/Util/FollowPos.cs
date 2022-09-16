@@ -10,13 +10,12 @@ public class FollowPos : MonoBehaviour
     private void OnEnable()
     {
         if (unparent)
-            transform.parent = null;
+            transform.Unparent();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (targetTransform && transform.position != targetTransform.position)
-        transform.position = targetTransform.position;
+        transform.FollowPos(targetTransform);
     }
 }
