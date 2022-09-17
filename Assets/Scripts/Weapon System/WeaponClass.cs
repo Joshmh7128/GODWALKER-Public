@@ -105,13 +105,13 @@ public abstract class WeaponClass : MonoBehaviour
         if (level > 0)
         {
             // set our damage accordingly
-            Debug.Log("setting stats " + level);
+            // Debug.Log("setting stats " + level);
             damage *= level;
         }
 
         if (level <= 0)
         {
-            Debug.LogError(gameObject.name + " WeaponClass has a level of 0, check where this is being created! No stats are being set");
+            // Debug.LogError(gameObject.name + " WeaponClass has a level of 0, check where this is being created! No stats are being set");
         }
     }
 }

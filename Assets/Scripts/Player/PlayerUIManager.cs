@@ -24,6 +24,7 @@ public class PlayerUIManager : MonoBehaviour
     // lists concerning bodyparts
     [SerializeField] List<Text> nameDisplays;
     [SerializeField] List<Text> infoDisplays;
+    [SerializeField] List<Image> backgroundPanels; // all the background panels for the body
 
     // ui elements
     [SerializeField] CanvasGroup bodyPartCanvasGroup; // the body part canvas group we'll be interacting with
@@ -50,6 +51,11 @@ public class PlayerUIManager : MonoBehaviour
         {
             nameDisplays[i].text = partManager.bodyParts[i].bodyPartName; // set the name
             infoDisplays[i].text = partManager.bodyParts[i].descriptiveInfo; // set the descriptive information
+
+            // set the correlating background display to the average color of the bodypart
+            Color panelColor = Color.white;
+            foreach ()
+
         }
     }
 
