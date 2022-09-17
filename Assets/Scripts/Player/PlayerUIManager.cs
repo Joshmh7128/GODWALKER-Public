@@ -54,7 +54,31 @@ public class PlayerUIManager : MonoBehaviour
 
             // set the correlating background display to the average color of the bodypart
             Color panelColor = Color.white;
-            foreach ()
+            foreach (GameObject cos in partManager.bodyParts[i].cosmeticParts)
+            {
+                Color cosColor = Color.white;
+                Color temp = Color.white;
+                // get the average color of the parts in the cosmeticpart parent
+                foreach (Transform child in cos.transform)
+                {
+                    if (child.GetComponent<Renderer>() != null)
+                    {
+
+                        // set our temp to the color
+                        temp.r = child.gameObject.GetComponent<Renderer>().sharedMaterial.color.r;
+                        temp.g = child.gameObject.GetComponent<Renderer>().sharedMaterial.color.g;
+                        temp.b = child.gameObject.GetComponent<Renderer>().sharedMaterial.color.b;
+                        // lerp the color
+                        cosColor = Color.Lerp(cosColor, temp, 0.5f);
+                        cosColor = Color.Lerp(cosColor, Color.white, 0.25f); // lerp back to white for visibility
+                    }
+                }
+
+                // get the color and lerp it
+                panelColor = Color.Lerp(panelColor, cosColor, 0.5f);
+            }
+            // once we lerp to all the colors set the panel color
+            backgroundPanels[i].color = panelColor;
 
         }
     }
