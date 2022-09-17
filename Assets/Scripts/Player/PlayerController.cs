@@ -111,9 +111,11 @@ public class PlayerController : MonoBehaviour
 
             // if we were moving up in the last frame 
             if (move.y > 0)
-            {
+                bodyPartManager.CallParts("OnMoveUp");
 
-            }
+            // if we were moving down in the last frame
+            if (move.y < 0)
+                bodyPartManager.CallParts("OnMoveDown");
         }
 
         if (groundedHit.transform != null)

@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BodyPartClass_TyrantsFlight : MonoBehaviour
+public class BodyPartClass_TyrantsFlight : BodyPartClass
 {
-    // Start is called before the first frame update
-    void Start()
+    // test all three functions
+    public override void OnMoveUp()
     {
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    }   
 }
