@@ -22,6 +22,10 @@ public class PlayerWeaponManager : MonoBehaviour
     // weapon pickup related
     public float pickupCooldown, pickupCooldownMax = 10f;
 
+    // nearby weapon list
+    public List<GameObject> nearbyWeapons; // the weapons near us
+    public GameObject highlightedWeapon; // the weapon which is closest to us
+
     // setup and set our instance
     public static PlayerWeaponManager instance;
     private void Awake()
@@ -31,8 +35,8 @@ public class PlayerWeaponManager : MonoBehaviour
     PlayerBodyPartManager bodyPartManager;
 
     // critical hit chance
-    [SerializeField] public float criticalHitChance; // the chance out of 100 that we will get a critical hit
-    [SerializeField] public List<float> criticalHitModifiers; // all the multipliers which go into calculating out critical hit chance
+    public float criticalHitChance; // the chance out of 100 that we will get a critical hit
+    public List<float> criticalHitModifiers; // all the multipliers which go into calculating out critical hit chance
 
     private void Start()
     {
@@ -220,22 +224,21 @@ public class PlayerWeaponManager : MonoBehaviour
     void CalculateCriticalHitChance()
     {
         // temporarily set to 100
-        float tempCrit = 100;
+        float tempCrit = 10;
         // work through the modifiers
         if (criticalHitModifiers.Count > 0)
         {
             foreach (float modifier in criticalHitModifiers)
             {
-                tempCrit *= modifier;
+                tempCrit += modifier;
             }
         }
         else if (criticalHitModifiers.Count <= 0)
         {
-            tempCrit = 10f; // set 10% by default if we have no modifiers
+            tempCrit = 10f; // set to 10% chance by default
         }
 
         // then set it
         criticalHitChance = tempCrit;
     }
-
 }
