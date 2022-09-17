@@ -16,7 +16,7 @@ public class BodyPartClass_TyrantsFlight : BodyPartClass
     public override void OnMoveUp()
     {
         // set player instance of gravity to 50% while moving up
-        player.gravityUpMultiplier = 0.5f;
+        player.gravityUpMultiplier = 0.3f;
     }     
 
     public override void OnMoveDown()

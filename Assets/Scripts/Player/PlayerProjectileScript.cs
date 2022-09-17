@@ -6,7 +6,7 @@ using DamageNumbersPro;
 public class PlayerProjectileScript : MonoBehaviour
 {
     [SerializeField] float speed;
-    public float damage; // how much damage we deal
+    public float damage, localCritMod; // how much damage we deal, the local crit modifier
     
     // vfx
     [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX; // the particle we use on death
@@ -74,7 +74,7 @@ public class PlayerProjectileScript : MonoBehaviour
             // run a chance to see if this is a critical or not
             int c = Random.Range(0, 100);
             // check the chance
-            if (c <= weaponManager.criticalHitChance)
+            if (c <= weaponManager.criticalHitChance + localCritMod)
             {   
                 // randomly boost damage on critical hits
                 damage *= Random.Range(2, 4);
@@ -83,7 +83,7 @@ public class PlayerProjectileScript : MonoBehaviour
                 // our hitfX for hitmarkers
                 if (critHitFX)
                 { Instantiate(critHitFX, null); }
-            } else if (c > weaponManager.criticalHitChance)
+            } else if (c > weaponManager.criticalHitChance + localCritMod)
             {
                 // random normal modifier
                 damage *= Random.Range(0.9f, 1.25f);

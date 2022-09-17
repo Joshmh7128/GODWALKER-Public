@@ -31,8 +31,9 @@ public class WeaponClass_Pistol : WeaponClass
     }
 
     // what happens when we shoot this gun?
-    void Fire()
+    public override void Fire()
     {
+        bodyPartManager.CallParts("OnWeaponFire");
         ApplyKickRecoil(); // apply our recoil
         AddSpread(); // add spread
         weaponUIHandler.KickUI(); // kick our UI

@@ -48,6 +48,9 @@ public abstract class WeaponClass : MonoBehaviour
     // our UI handler
     public WeaponUIHandler weaponUIHandler;
 
+    // our body part manager
+    public PlayerBodyPartManager bodyPartManager;
+
     // our weapon use types
     public enum WeaponUseTypes
     {
@@ -67,6 +70,8 @@ public abstract class WeaponClass : MonoBehaviour
     {
         // get our weapon handler
         weaponUIHandler = GetComponent<WeaponUIHandler>();
+        // get our body part manager
+        bodyPartManager = PlayerBodyPartManager.instance;
         // set our original spread reduct
         originalSpreadReduct = spreadReduct;
         // update our stats
@@ -78,6 +83,8 @@ public abstract class WeaponClass : MonoBehaviour
     public abstract void WeaponStart();
 
     public abstract void UseWeapon(WeaponUseTypes useType); // public function assigned to using our weapon
+
+    public abstract void Fire(); // firing our weapon
 
     public abstract void Reload(bool instant); // function to reload the weapon
 
