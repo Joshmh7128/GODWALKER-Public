@@ -10,7 +10,7 @@ public class PlayerProjectileScript : MonoBehaviour
     
     // vfx
     [SerializeField] GameObject breakParticle, muzzleEffect, hitFX; // the particle we use on death
-    [SerializeField] DamageNumber normalHit, critHit; // normal and critical damage numbers
+    public DamageNumber normalHit, critHit; // normal and critical damage numbers
 
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;
@@ -27,9 +27,6 @@ public class PlayerProjectileScript : MonoBehaviour
         MuzzleFX();
         // get instance
         weaponManager = PlayerWeaponManager.instance;
-        // set the paths to our damage numbers
-        normalHit = Resources.Load("VFX/DamageNumbers/Normal-Glow.prefab") as DamageNumber;
-        critHit = Resources.Load("VFX/DamageNumbers/Critical-Glow.prefab") as DamageNumber;
     }
 
     // Update is called once per frame
@@ -90,7 +87,7 @@ public class PlayerProjectileScript : MonoBehaviour
                 // random normal modifier
                 damage *= Random.Range(0.9f, 1.25f);
                 // spawn normal damage number
-                critHit.Spawn(transform.position, damage);
+                normalHit.Spawn(transform.position, damage);
             }
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
             // our hitfX for hitmarkers
