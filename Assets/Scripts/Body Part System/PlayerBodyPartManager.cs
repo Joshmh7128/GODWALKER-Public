@@ -10,7 +10,10 @@ public class PlayerBodyPartManager : MonoBehaviour
     /// 
     /// each of these has their own slot, which is tracked here. 
     /// the instance of this script is called by any other scripts to interact with the functions on the associated parts.
+    /// 
     /// </summary>
+
+
 
     // setup and set our instance
     public static PlayerBodyPartManager instance;
@@ -65,7 +68,6 @@ public class PlayerBodyPartManager : MonoBehaviour
             bodyPartClass.Invoke(function,0f);
         }
     }
-
 
     // refresh parts - makes sure we spawn in new parts when we start
     void RefreshParts()
