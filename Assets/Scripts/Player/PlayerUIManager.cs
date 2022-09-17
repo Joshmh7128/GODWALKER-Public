@@ -45,7 +45,12 @@ public class PlayerUIManager : MonoBehaviour
     // set our names and info
     private void UpdateUI()
     {
-
+        // set all names and info to the correct text
+        for (int i = 0; i < nameDisplays.Count; i++)
+        {
+            nameDisplays[i].text = partManager.bodyParts[i].bodyPartName; // set the name
+            infoDisplays[i].text = partManager.bodyParts[i].descriptiveInfo; // set the descriptive information
+        }
     }
 
     // process our inputs
@@ -65,6 +70,8 @@ public class PlayerUIManager : MonoBehaviour
     private void ShowCanvas()
     {
         bodyPartCanvasGroup.alpha = 1;
+        // update our information whenever we show it
+        UpdateUI();
     }
 
     // fading out our canvas
