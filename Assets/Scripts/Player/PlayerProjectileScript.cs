@@ -12,11 +12,16 @@ public class PlayerProjectileScript : MonoBehaviour
 
     [SerializeField] bool usesTrigger;
 
+    // player controller instance
+    PlayerWeaponManager weaponManager;
+
     private void Start()
     {
         StartCoroutine(DeathCounter());
         // muzzle flash
         MuzzleFX();
+        // get instance
+        weaponManager = PlayerWeaponManager.instance;
     }
 
     // Update is called once per frame
@@ -61,6 +66,15 @@ public class PlayerProjectileScript : MonoBehaviour
         // if we hit an enemy
         if (enemy.transform.tag == "Enemy")
         {
+            // run a chance to see if this is a critical or not
+            int c = Random.Range(0, 100);
+            if (c <= weaponManager.criticalHitChance)
+            {   
+                // randomly boost damage on critical hits
+                damage *= Random.Range(2, 4);
+                // log that we got criticals
+                Debug.Log("Critical hit! Critical chance was: " + weaponManager.criticalHitChance);
+            }
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
             // our hitfX for hitmarkers
             if (hitFX)
