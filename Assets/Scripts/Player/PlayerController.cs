@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
     RaycastHit groundedHit; // checking to see if we have touched the ground
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
+    public float gravityUpMultiplier = 1, gravityDownMultiplier = 1; // our multipliers for moving up and down with gravity
     public bool grounded;
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
@@ -97,9 +98,8 @@ public class PlayerController : MonoBehaviour
             groundCheckCooldown -= Time.deltaTime;
         }
 
-       
         // jump calculations
-        gravityValue = gravity;
+        gravityValue = gravity * gravityUpMultiplier * gravityDownMultiplier;
 
         if (groundedHit.transform == null)
         {
