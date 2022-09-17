@@ -36,7 +36,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
     // critical hit chance
     public float criticalHitChance; // the chance out of 100 that we will get a critical hit
-    public List<float> criticalHitModifiers; // all the multipliers which go into calculating out critical hit chance
+    public List<float> criticalHitModifiers = new List<float>(); // all the multipliers which go into calculating out critical hit chance
 
     private void Start()
     {

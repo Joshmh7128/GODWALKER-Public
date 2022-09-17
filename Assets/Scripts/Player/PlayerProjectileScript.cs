@@ -9,7 +9,7 @@ public class PlayerProjectileScript : MonoBehaviour
     public float damage; // how much damage we deal
     
     // vfx
-    [SerializeField] GameObject breakParticle, muzzleEffect, hitFX; // the particle we use on death
+    [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX; // the particle we use on death
     public DamageNumber normalHit, critHit; // normal and critical damage numbers
 
     RaycastHit hit; // our raycast hit
@@ -80,19 +80,21 @@ public class PlayerProjectileScript : MonoBehaviour
                 damage *= Random.Range(2, 4);
                 // spawn critical damage number
                 critHit.Spawn(transform.position, damage);
-                // log that we got criticals
-                Debug.Log("Critical hit! Critical chance was: " + weaponManager.criticalHitChance);
+                // our hitfX for hitmarkers
+                if (critHitFX)
+                { Instantiate(critHitFX, null); }
             } else if (c > weaponManager.criticalHitChance)
             {
                 // random normal modifier
                 damage *= Random.Range(0.9f, 1.25f);
                 // spawn normal damage number
                 normalHit.Spawn(transform.position, damage);
+                // our hitfX for hitmarkers
+                if (normalHitFX)
+                { Instantiate(normalHitFX, null); }
             }
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
-            // our hitfX for hitmarkers
-            if (hitFX)
-            { Instantiate(hitFX, null); }
+
         }
 
     }

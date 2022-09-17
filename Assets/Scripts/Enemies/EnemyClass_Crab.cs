@@ -16,11 +16,11 @@ public class EnemyClass_Crab : EnemyClass
     public override void SetLevelStats()
     {
         // set our health
-        maxHealth = level * 50f; // crabs have 50hp per level
+        maxHealth = (level + level * 0.1f) * 50f; // crabs have 50hp per level
         health = maxHealth;
         // set our damage
-        // damage = level * 2; // this is a standard curve
-        damage = 1; // set our basic damage
+        // damage = level * (2 + level * 0.1f); // this is a standard curve
+        damage = 10; // set our basic damage
     }
 
 }
