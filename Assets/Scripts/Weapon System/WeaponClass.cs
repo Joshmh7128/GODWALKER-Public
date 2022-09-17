@@ -79,7 +79,7 @@ public abstract class WeaponClass : MonoBehaviour
 
     public abstract void UseWeapon(WeaponUseTypes useType); // public function assigned to using our weapon
 
-    public abstract void Reload(); // function to reload the weapon
+    public abstract void Reload(bool instant); // function to reload the weapon
 
     // every weapon will have kick and recoil, unless they are a melee weapon, in which case we will use a different kind of attack method
     public void ApplyKickRecoil()

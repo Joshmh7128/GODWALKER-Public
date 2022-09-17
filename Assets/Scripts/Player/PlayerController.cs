@@ -197,7 +197,7 @@ public class PlayerController : MonoBehaviour
         {
             // check our IK controller to see if we are reloading
             if (PlayerInverseKinematicsController.instance.reloading == false)
-            PlayerWeaponManager.instance.currentWeapon.Reload();
+            PlayerWeaponManager.instance.currentWeapon.Reload(false); // normal, non-instant reload
         }
     }
 

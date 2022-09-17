@@ -25,7 +25,7 @@ public class WeaponClass_Pistol : WeaponClass
             // if we're at 0 ammo then reload
             if (currentMagazine <= 0)
             {
-                Reload();
+                Reload(false);
             }
         }
     }
@@ -49,23 +49,37 @@ public class WeaponClass_Pistol : WeaponClass
     }
 
     // function to reload the gun
-    public override void Reload()
+    public override void Reload(bool instant)
     {
-        if (!reloading)
+        // our regular reloads
+        if (!instant)
         {
-            weaponUIHandler.TriggerReload(reloadTime); // start a reload
-            StartCoroutine(ReloadTiming());
+            if (!reloading)
+            {
+                weaponUIHandler.TriggerReload(reloadTime); // start a reload
+                StartCoroutine(ReloadTiming(reloadTime));
+            }
+        }
+
+        // our instance reloads
+        if (instant)
+        {
+            if (!reloading)
+            {
+                weaponUIHandler.TriggerReload(0.1f); // start a reload
+                StartCoroutine(ReloadTiming(0.1f));
+            }
         }
     }
 
     // coroutine to reload the gun
-    IEnumerator ReloadTiming()
+    IEnumerator ReloadTiming(float waitTime)
     {
         reloading = true;
         reloadSourceB.PlayOneShot(reloadSourceB.clip);
         PlayerInverseKinematicsController.instance.ApplyReload();
         // make sure we setup our anim controlled to be chill with us reloading
-        yield return new WaitForSeconds(reloadTime);
+        yield return new WaitForSeconds(waitTime);
         PlayerInverseKinematicsController.instance.EndReload();
         // play our reloaded sound
         reloadSource.PlayOneShot(reloadSource.clip);
