@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DamageNumbersPro;
 
 public class PlayerProjectileScript : MonoBehaviour
 {
     [SerializeField] float speed;
     public float damage; // how much damage we deal
+    
+    // vfx
     [SerializeField] GameObject breakParticle, muzzleEffect, hitFX; // the particle we use on death
+    [SerializeField] DamageNumber normalHit, critHit; // normal and critical damage numbers
+
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;
 
@@ -22,6 +27,9 @@ public class PlayerProjectileScript : MonoBehaviour
         MuzzleFX();
         // get instance
         weaponManager = PlayerWeaponManager.instance;
+        // set the paths to our damage numbers
+        normalHit = Resources.Load("VFX/DamageNumbers/Normal-Glow.prefab") as DamageNumber;
+        critHit = Resources.Load("VFX/DamageNumbers/Critical-Glow.prefab") as DamageNumber;
     }
 
     // Update is called once per frame
@@ -68,12 +76,21 @@ public class PlayerProjectileScript : MonoBehaviour
         {
             // run a chance to see if this is a critical or not
             int c = Random.Range(0, 100);
+            // check the chance
             if (c <= weaponManager.criticalHitChance)
             {   
                 // randomly boost damage on critical hits
                 damage *= Random.Range(2, 4);
+                // spawn critical damage number
+                critHit.Spawn(transform.position, damage);
                 // log that we got criticals
                 Debug.Log("Critical hit! Critical chance was: " + weaponManager.criticalHitChance);
+            } else if (c > weaponManager.criticalHitChance)
+            {
+                // random normal modifier
+                damage *= Random.Range(0.9f, 1.25f);
+                // spawn normal damage number
+                critHit.Spawn(transform.position, damage);
             }
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
             // our hitfX for hitmarkers
