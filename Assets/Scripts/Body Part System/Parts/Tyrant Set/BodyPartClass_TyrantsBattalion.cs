@@ -10,11 +10,14 @@ public class BodyPartClass_TyrantsBattalion : BodyPartClass
     public override void OnMoveUp() { active = true; }
     public override void OnMoveDown() { active = false; }
 
+    // our insances
     PlayerWeaponManager weaponManager;
+    PlayerBodyPartManager bodyPartManager;
 
     public override void PartStart()
     {
         weaponManager = PlayerWeaponManager.instance;
+        bodyPartManager = PlayerBodyPartManager.instance;
     }
 
     // whenever this weapon is fired, see if we should double-fire by calling fire again at 10% of the fire rate
@@ -25,15 +28,17 @@ public class BodyPartClass_TyrantsBattalion : BodyPartClass
         {   // roll to see if we perform it
             int c = Random.Range(0, 100);
             if (c <= 60)
-            {
-
-            }
+                RunDoubleFire();
         }
     }
 
     void RunDoubleFire()
     {
-        
+        // fire again
+        if (weaponManager.currentWeapon.currentMagazine > 0)
+        weaponManager.currentWeapon.Fire();
+        // send out the call that we're double-shotting
+        bodyPartManager.CallParts("OnDoubleShot");
     }
 
 }

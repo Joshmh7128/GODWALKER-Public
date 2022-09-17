@@ -54,6 +54,7 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnMoveMidair() { }          // triggeres every frame the player is midair
 
     public virtual void OnWeaponFire() { }           // triggred when a weapon is used
+    public virtual void OnDoubleShot() { }          // triggered whenever a double shot is fired
 
     public virtual void OnADS() { }                 // triggered when the player ADS
     public virtual void OffADS() { }                // triggered when the player stops ADS
@@ -64,5 +65,4 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnPlayerTakeDamage() { }    // triggered when the player takes damage
     public virtual void OnBodyPartPickup() { }      // triggered when a body part is picked up
     public virtual void OnProjectileHit() { }       // triggers when a projectile hits an enemy
-    public virtual void OnDoubleShot() { }          // triggered whenever a double shot is fired
 }
