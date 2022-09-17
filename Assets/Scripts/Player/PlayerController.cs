@@ -105,6 +105,15 @@ public class PlayerController : MonoBehaviour
         {
             playerJumpVelocity += gravityValue * Time.deltaTime;
             grounded = false;
+
+            // check and run our midair movements
+            bodyPartManager.CallParts("OnMoveMidair"); // we're moving while midair
+
+            // if we were moving up in the last frame 
+            if (move.y > 0)
+            {
+
+            }
         }
 
         if (groundedHit.transform != null)

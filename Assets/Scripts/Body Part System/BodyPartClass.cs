@@ -12,7 +12,7 @@ public abstract class BodyPartClass : MonoBehaviour
 
     // our bodypart types
     public enum BodyPartTypes // we use these arguments to pass information into the bodypart manager for pickups
-    { Head, Torso, Arm, Leg}
+    { Head, Torso, Arm, Leg }
     // what type of bodypart is this?
     public BodyPartTypes bodyPartType;
 
@@ -35,6 +35,11 @@ public abstract class BodyPartClass : MonoBehaviour
 
     public virtual void OnJump() { }                // triggered when the player presses the jump button
     public virtual void OnLand() { }                // triggered when the player lands on the ground 
+
+    public virtual void OnMoveUp() { }              // triggers every frame the player moves upwards
+    public virtual void OnMoveDown() { }            // triggers every frame the player moves downwards
+    public virtual void OnMoveMidair() { }          // triggeres every frame the player is midair
+
     public virtual void OnADS() { }                 // triggered when the player ADS
     public virtual void OffADS() { }                // triggered when the player stops ADS
     public virtual void OnSprint() { }              // triggered when the player sprints
@@ -44,4 +49,5 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnPlayerTakeDamage() { }    // triggered when the player takes damage
     public virtual void OnBodyPartPickup() { }      // triggered when a body part is picked up
     public virtual void OnProjectileHit() { }       // triggers when a projectile hits an enemy
+
 }
