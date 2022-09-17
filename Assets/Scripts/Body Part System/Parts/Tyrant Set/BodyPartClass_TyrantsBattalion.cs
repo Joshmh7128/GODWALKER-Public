@@ -28,15 +28,15 @@ public class BodyPartClass_TyrantsBattalion : BodyPartClass
         {   // roll to see if we perform it
             int c = Random.Range(0, 100);
             if (c <= 60)
-                RunDoubleFire();
+                RunDoubleShoot();
         }
     }
 
-    void RunDoubleFire()
+    void RunDoubleShoot()
     {
         // fire again
         if (weaponManager.currentWeapon.currentMagazine > 0)
-        weaponManager.currentWeapon.Fire();
+        weaponManager.currentWeapon.Fire(true);
         // send out the call that we're double-shotting
         bodyPartManager.CallParts("OnDoubleShot");
     }

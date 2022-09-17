@@ -84,7 +84,7 @@ public abstract class WeaponClass : MonoBehaviour
 
     public abstract void UseWeapon(WeaponUseTypes useType); // public function assigned to using our weapon
 
-    public abstract void Fire(); // firing our weapon
+    public abstract void Fire(bool doubleShot); // firing our weapon
 
     public abstract void Reload(bool instant); // function to reload the weapon
 

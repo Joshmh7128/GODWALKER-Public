@@ -80,18 +80,12 @@ public class PlayerProjectileScript : MonoBehaviour
                 damage *= Random.Range(2, 4);
                 // spawn critical damage number
                 critHit.Spawn(transform.position, damage);
-                // our hitfX for hitmarkers
-                if (critHitFX)
-                { Instantiate(critHitFX, null); }
             } else if (c > weaponManager.criticalHitChance + localCritMod)
             {
                 // random normal modifier
                 damage *= Random.Range(0.9f, 1.25f);
                 // spawn normal damage number
                 normalHit.Spawn(transform.position, damage);
-                // our hitfX for hitmarkers
-                if (normalHitFX)
-                { Instantiate(normalHitFX, null); }
             }
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
 

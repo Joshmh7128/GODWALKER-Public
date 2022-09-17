@@ -18,7 +18,7 @@ public class WeaponClass_Rifle : WeaponClass
             // check if we can fire
             if (remainingFirerate <= 0 && currentMagazine > 0)
             {
-                Fire(); // shoot our gun
+                Fire(false); // shoot our gun
             }
 
             // if we're at 0 ammo then reload
@@ -30,9 +30,9 @@ public class WeaponClass_Rifle : WeaponClass
     }
 
     // what happens when we shoot this gun?
-    public override void Fire()
+    public override void Fire(bool doubleShot)
     {
-        bodyPartManager.CallParts("OnWeaponFire");
+        if (!doubleShot) bodyPartManager.CallParts("OnWeaponFire");
         ApplyKickRecoil(); // apply our recoil
         AddSpread(); // add spread
         weaponUIHandler.KickUI(); // kick our UI
