@@ -25,6 +25,19 @@ public abstract class BodyPartClass : MonoBehaviour
     public void Start()
     {
         PartStart();
+        // check our cosmetics
+        CosmeticSave();
+    }
+
+    void CosmeticSave()
+    {
+        if (cosmeticParts.Count <= 0)
+        {
+            foreach (Transform child in transform)
+            {
+                cosmeticParts.Add(child.gameObject);
+            }
+        }
     }
 
     // our start that runs manually after our class start
