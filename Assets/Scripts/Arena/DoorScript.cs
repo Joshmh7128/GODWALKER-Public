@@ -56,14 +56,12 @@ public class DoorScript : MonoBehaviour
         }
     }
 
+    // our door-opening input reads
     void ProcessInput()
     {
         if (Input.GetKeyDown(KeyCode.E) && canOpen == true && open == false && distanceLock == false)
         {
-            open = true;
-            openMessage.SetActive(false);
-            animator.Play("DoorOpening");
-            SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
+            Open();
         }
     }
 
@@ -71,19 +69,37 @@ public class DoorScript : MonoBehaviour
     {
         // if we have our trigger lock active, lock the door with the trigger
         if (triggerLock && other.transform.tag == "Player" && triggerHit == false)
-        {   // this happens when the player enters the room
-            lockParent.SetActive(true);
-            triggerHit = true;
+        {
+            TriggerLock();
         }
     }
 
+    // to be run when the door animates and opens
+    void Open()
+    {
+        open = true;
+        openMessage.SetActive(false);
+        animator.Play("DoorOpening");
+        SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
+    }
+
+    // unlock to be used anywhere publicly
     public void Unlock()
     {
         canOpen = true;
         lockParent.SetActive(false);
     }
 
-    public void ManualLock()
+    // when our locking for specifically when the trigger is hit
+    void TriggerLock()
+    {
+        // this happens when the player enters the room
+        lockParent.SetActive(true);
+        triggerHit = true;
+    }
+
+    // locking to be used anywhere publicly
+    public void Lock()
     {
         lockParent.SetActive(true);
     }

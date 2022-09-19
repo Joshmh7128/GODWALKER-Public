@@ -54,7 +54,7 @@ public class ArenaHandler : MonoBehaviour
             door.triggerLock = true;
             // activate the barriers if they are open
             if (door.open)
-                door.ManualLock();
+                door.Lock();
         }
 
         // nav mesh generation is done PER MESH inside the geometry prefab
