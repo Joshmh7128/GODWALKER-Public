@@ -53,7 +53,7 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnMoveDown() { }            // triggers every frame the player moves downwards
     public virtual void OnMoveMidair() { }          // triggeres every frame the player is midair
 
-    public virtual void OnWeaponFire() { }           // triggred when a weapon is used
+    public virtual void OnWeaponFire() { }          // triggred when a weapon is used
     public virtual void OnDoubleShot() { }          // triggered whenever a double shot is fired
 
     public virtual void OnADS() { }                 // triggered when the player ADS

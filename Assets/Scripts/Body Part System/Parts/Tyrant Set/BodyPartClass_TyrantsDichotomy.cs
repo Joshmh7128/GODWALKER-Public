@@ -32,8 +32,8 @@ public class BodyPartClass_TyrantsDichotomy : BodyPartClass
     {
         if (active)
         {
-            // fire a double shot
-            weaponManager.currentWeapon.Fire(true);
+            // request then fire a double shot
+            weaponManager.currentWeapon.FireDoubleShot();
             // then make us inactive
             active = false;
         }

@@ -36,9 +36,9 @@ public class BodyPartClass_TyrantsBattalion : BodyPartClass
     {
         // fire again
         if (weaponManager.currentWeapon.currentMagazine > 0)
-        weaponManager.currentWeapon.Fire(true);
-        // send out the call that we're double-shotting
-        bodyPartManager.CallParts("OnDoubleShot");
+        {
+            weaponManager.currentWeapon.FireDoubleShot();
+        }
     }
 
 }

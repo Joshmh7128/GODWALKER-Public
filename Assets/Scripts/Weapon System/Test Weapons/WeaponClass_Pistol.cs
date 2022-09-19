@@ -19,7 +19,7 @@ public class WeaponClass_Pistol : WeaponClass
             // check if we can fire
             if (remainingFirerate <= 0 && currentMagazine > 0)
             {
-                Fire(false); // shoot our gun
+                Fire(); // shoot our gun
             }
 
             // if we're at 0 ammo then reload
@@ -31,9 +31,12 @@ public class WeaponClass_Pistol : WeaponClass
     }
 
     // what happens when we shoot this gun?
-    public override void Fire(bool doubleShot)
+    public override void Fire()
     {
-        if (!doubleShot) bodyPartManager.CallParts("OnWeaponFire");
+        // if there is not double shot request, this is a normal shot
+        if (!requestDoubleShot) bodyPartManager.CallParts("OnWeaponFire");
+        // if there is a double shot request, this is a double shot, then set request to false
+        if (requestDoubleShot) { bodyPartManager.CallParts("OnDoubleShot"); requestDoubleShot = false; }
         ApplyKickRecoil(); // apply our recoil
         AddSpread(); // add spread
         weaponUIHandler.KickUI(); // kick our UI

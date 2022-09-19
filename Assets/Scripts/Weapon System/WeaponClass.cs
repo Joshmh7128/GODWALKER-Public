@@ -45,6 +45,9 @@ public abstract class WeaponClass : MonoBehaviour
     public float spreadXDelta, spreadYDelta; // the increase on each of these axes
     public float spreadReduct, originalSpreadReduct; // how quickly we return to our original state. changed and used in the player camera controller
 
+    // everything to do with upgrades
+    public bool requestDoubleShot, requestHomingShot;
+
     // our UI handler
     public WeaponUIHandler weaponUIHandler;
 
@@ -84,7 +87,13 @@ public abstract class WeaponClass : MonoBehaviour
 
     public abstract void UseWeapon(WeaponUseTypes useType); // public function assigned to using our weapon
 
-    public abstract void Fire(bool doubleShot); // firing our weapon
+    public abstract void Fire(); // firing our weapon. special shots like double or homing shots are handled above in public vars
+
+    public virtual void FireDoubleShot() // call to fire a double shot
+    {
+        requestDoubleShot = true;
+        Fire();
+    }
 
     public abstract void Reload(bool instant); // function to reload the weapon
 
