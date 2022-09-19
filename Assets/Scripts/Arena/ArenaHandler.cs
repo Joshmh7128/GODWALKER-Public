@@ -27,7 +27,7 @@ public class ArenaHandler : MonoBehaviour
     // our list of arena fillers
     [SerializeField] List<GameObject> arenaGeometries; // all the different geometries of arenas we can fill the environment with
     // our doors
-    [SerializeField] List<DoorScript> doors;
+    public List<DoorScript> doors;
 
     // our arena level
     public int arenaLevel; 

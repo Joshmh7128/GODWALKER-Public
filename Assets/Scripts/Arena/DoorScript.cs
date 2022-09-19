@@ -9,6 +9,27 @@ public class DoorScript : MonoBehaviour
     [SerializeField] float interactionDistance = 10f;
     [SerializeField] GameObject openMessage, lockParent;
     
+    [SerializeField] List<ArenaHandler> associatedArenas = new List<ArenaHandler>();
+
+    private void Start()
+    {
+        // link ourselves to all associated arenas
+        LinkArenas();
+    }
+
+    // link each of our arenas to this door
+    void LinkArenas()
+    {
+        // add ourselves to that arena's list of doors if we are not already in there
+        foreach (var arena in associatedArenas)
+        {
+            if (!arena.doors.Contains(this))
+            {
+                arena.doors.Add(this);
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
         ProcessDistance();
