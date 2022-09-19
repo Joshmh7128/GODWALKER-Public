@@ -24,8 +24,6 @@ public class ArenaHandler : MonoBehaviour
     public List<Transform> spawnPoints = new List<Transform>(); // all the spawnpoints in the room
     Transform spawnPoint; // the spawn point we're using right now
 
-    // our list of arena fillers
-    [SerializeField] List<GameObject> arenaGeometries; // all the different geometries of arenas we can fill the environment with
     // our doors
     public List<DoorScript> doors;
 
@@ -45,13 +43,7 @@ public class ArenaHandler : MonoBehaviour
 
     // select a random geomety set and spawn it in
     void BuildArena()
-    {
-        // build the arenas
-        int i = Random.Range(0, arenaGeometries.Count);
-        GameObject geometry = Instantiate(arenaGeometries[i], transform.position, Quaternion.identity, null);
-        // set this as the geometry's arena, then send the spawnpoints to us
-        geometry.GetComponent<ArenaGeometryClass>().handler = this;
-        geometry.GetComponent<ArenaGeometryClass>().SendSpawnPoints();
+    { 
         // lock the doors
         foreach (DoorScript door in doors)
         {
