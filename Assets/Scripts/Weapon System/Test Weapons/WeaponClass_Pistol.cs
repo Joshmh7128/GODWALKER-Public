@@ -33,10 +33,15 @@ public class WeaponClass_Pistol : WeaponClass
     // what happens when we shoot this gun?
     public override void Fire()
     {
-        // if there is not double shot request, this is a normal shot
-        if (!requestDoubleShot) bodyPartManager.CallParts("OnWeaponFire");
+        bool requestCheck = requestDoubleShot || requestHomingShot;
+
+        // if there are no requests, this is a normal shot
+        if (!requestCheck) bodyPartManager.CallParts("OnWeaponFire");
         // if there is a double shot request, this is a double shot, then set request to false
         if (requestDoubleShot) { bodyPartManager.CallParts("OnDoubleShot"); requestDoubleShot = false; }
+        // if there is a request for a homing shot, this is a homing shot, then set request to false
+        bool isHoming = requestHomingShot; // set for local use
+        if (requestHomingShot) { bodyPartManager.CallParts("OnHomingShot"); requestHomingShot = false; }
         ApplyKickRecoil(); // apply our recoil
         AddSpread(); // add spread
         weaponUIHandler.KickUI(); // kick our UI

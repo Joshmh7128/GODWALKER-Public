@@ -129,7 +129,7 @@ public class ItemUIHandler : MonoBehaviour
 
         // for our bodyparts
         if (itemType == ItemTypes.BodyPart)
-        {
+        {/*
             #region // setup our current classes based on type 
             if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm)
             {
@@ -143,7 +143,7 @@ public class ItemUIHandler : MonoBehaviour
                 leftClass = PlayerBodyPartManager.instance.bodyParts[5];
             }
             #endregion
-
+            */
             // set our information
             bodyPartName.text = body_Part.bodyPartName;
             bodyPartInfo.text = body_Part.descriptiveInfo;
