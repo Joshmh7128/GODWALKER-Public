@@ -53,7 +53,7 @@ public class WeaponClass_Pistol : WeaponClass
         // instantiate and shoot our projectile in that direction
         GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
         // apply any mods to our bullet
-        if (isHoming) bullet.GetComponent<PlayerProjectileScript>()
+        if (isHoming) bullet.GetComponent<PlayerProjectileScript>().isHoming = true;
         bullet.GetComponent<PlayerProjectileScript>().damage = damage + damageMod;
         remainingFirerate = firerate + firerateMod;
         currentMagazine--;

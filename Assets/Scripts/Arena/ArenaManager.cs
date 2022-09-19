@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class ArenaManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    /// this class serves as a manager for a game-wide arena manager
+    /// access this instance to get the active arena
+    /// 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // setup our instance for ease of access
+    public static ArenaManager instance;
+    private void Awake()
+    { instance = this; }
+
+    public ArenaHandler activeArena; // the arena which the player most recently activated
 }
