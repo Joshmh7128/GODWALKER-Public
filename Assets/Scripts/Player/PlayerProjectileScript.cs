@@ -9,7 +9,7 @@ public class PlayerProjectileScript : MonoBehaviour
     public float damage, localCritMod; // how much damage we deal, the local crit modifier
     
     // vfx
-    [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX; // the particle we use on death
+    [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX, homingFX; // the particle we use on death
     public DamageNumber normalHit, critHit; // normal and critical damage numbers
 
     RaycastHit hit; // our raycast hit
@@ -19,6 +19,9 @@ public class PlayerProjectileScript : MonoBehaviour
 
     // player controller instance
     PlayerWeaponManager weaponManager;
+
+    // ability related variables
+    public bool isHoming; // does this home to the nearest enemy?
 
     private void Start()
     {
@@ -42,6 +45,9 @@ public class PlayerProjectileScript : MonoBehaviour
     {
         // go forward
         transform.position = transform.position + transform.forward * speed * Time.deltaTime;
+        // if we are homing
+
+    
     }
 
     void ProcessHitscan()
@@ -135,6 +141,12 @@ public class PlayerProjectileScript : MonoBehaviour
                 Destruction();
             }
         }
+    }
+
+    // if we are a homing bullet return the closest enemy in that moment and target
+    void SetHomingTarget()
+    {
+
     }
 
 }
