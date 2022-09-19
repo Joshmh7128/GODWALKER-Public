@@ -17,11 +17,15 @@ public class PlayerProjectileScript : MonoBehaviour
 
     [SerializeField] bool usesTrigger;
 
-    // player controller instance
+    // weapon manager instance
     PlayerWeaponManager weaponManager;
+    // arena handler instance
+    ArenaManager arenaManager;
+
 
     // ability related variables
     public bool isHoming; // does this home to the nearest enemy?
+    Transform homingTarget; // our homing target
 
     private void Start()
     {
@@ -30,6 +34,9 @@ public class PlayerProjectileScript : MonoBehaviour
         MuzzleFX();
         // get instance
         weaponManager = PlayerWeaponManager.instance;
+        arenaManager = ArenaManager.instance;
+        // if we are a homing bullet
+        if (isHoming) SetHomingTarget();
     }
 
     // Update is called once per frame
@@ -45,8 +52,8 @@ public class PlayerProjectileScript : MonoBehaviour
     {
         // go forward
         transform.position = transform.position + transform.forward * speed * Time.deltaTime;
-        // if we are homing
-
+        // if we're homing, look at our homing target
+        if (isHoming) transform.LookAt(homingTarget);
     
     }
 
@@ -146,7 +153,16 @@ public class PlayerProjectileScript : MonoBehaviour
     // if we are a homing bullet return the closest enemy in that moment and target
     void SetHomingTarget()
     {
-
+        // if we are homing, set homing target to nearest enemy in our active handler's active enemy transform parent 
+        Transform localTarget = arenaManager.activeArena.activeParent.GetChild(0); 
+        // loop through and find the closest active enemy
+        foreach(Transform enemy in arenaManager.activeArena.activeParent)
+        {
+            // if the distance from this bullet to the enemy is lower than our local target, set that
+            if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, localTarget.position))
+                localTarget = enemy;
+        }
+        
     }
 
 }

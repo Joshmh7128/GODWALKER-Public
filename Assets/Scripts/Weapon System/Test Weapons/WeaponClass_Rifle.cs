@@ -29,27 +29,8 @@ public class WeaponClass_Rifle : WeaponClass
         }
     }
 
-    // what happens when we shoot this gun?
-    public override void Fire()
-    {
-        // if there is not double shot request, this is a normal shot
-        if (!requestDoubleShot) bodyPartManager.CallParts("OnWeaponFire");
-        // if there is a double shot request, this is a double shot, then set request to false
-        if (requestDoubleShot) { bodyPartManager.CallParts("OnDoubleShot"); requestDoubleShot = false; }
-        ApplyKickRecoil(); // apply our recoil
-        AddSpread(); // add spread
-        weaponUIHandler.KickUI(); // kick our UI
-        PlayerCameraController.instance.FOVKickRequest(kickFOV); // kick our camera
-        // get our direction to our target
-        Vector3 shotDirection = PlayerCameraController.instance.AimTarget.position - muzzleOrigin.position;
-        // add to our shot direction based on our spread
-        Vector3 modifiedShotDirection = new Vector3(shotDirection.x + Random.Range(-spreadX, spreadX), shotDirection.y + Random.Range(-spreadY, spreadY), shotDirection.z).normalized;
-        // instantiate and shoot our projectile in that direction
-        GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
-        bullet.GetComponent<PlayerProjectileScript>().damage = damage + damageMod;
-        remainingFirerate = firerate + firerateMod;
-        currentMagazine--;
-    }
+    // what happens when we shoot this gun? commented out because it is the same as a pistol
+    // public override void Fire() { }
 
     // function to reload the gun
     public override void Reload(bool instant)
@@ -104,7 +85,7 @@ public class WeaponClass_Rifle : WeaponClass
         spreadY = Mathf.Lerp(spreadY, 0, spreadReduct * Time.deltaTime);  
     }
 
-    void AddSpread()
+    public override void AddSpread()
     {
         // spread increases overtime and slowly lowers back to normal
         if (spreadX < spreadMax)
