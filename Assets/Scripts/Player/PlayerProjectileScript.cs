@@ -21,7 +21,8 @@ public class PlayerProjectileScript : MonoBehaviour
     PlayerWeaponManager weaponManager;
     // arena handler instance
     ArenaManager arenaManager;
-
+    // body part manager
+    PlayerBodyPartManager bodyPartManager;
 
     // ability related variables
     public bool isHoming; // does this home to the nearest enemy?
@@ -35,6 +36,7 @@ public class PlayerProjectileScript : MonoBehaviour
         // get instance
         weaponManager = PlayerWeaponManager.instance;
         arenaManager = ArenaManager.instance;
+        bodyPartManager = PlayerBodyPartManager.instance;
         // if we are a homing bullet
         if (isHoming) SetHomingTarget();
     }
@@ -107,7 +109,9 @@ public class PlayerProjectileScript : MonoBehaviour
                 normalHit.Spawn(transform.position, damage);
             }
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
-
+            // run our on damage calls
+            if (isHoming)
+            bodyPartManager.CallParts("OnHomingShotDamage");
         }
 
     }
