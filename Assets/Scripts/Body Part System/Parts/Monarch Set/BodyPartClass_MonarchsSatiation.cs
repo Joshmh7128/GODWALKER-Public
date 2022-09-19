@@ -8,7 +8,6 @@ public class BodyPartClass_MonarchsSatiation : BodyPartClass
     PlayerWeaponManager weaponManager; // instance
     bool active; 
 
-
     public override void PartStart()
     {
         weaponManager = PlayerWeaponManager.instance;

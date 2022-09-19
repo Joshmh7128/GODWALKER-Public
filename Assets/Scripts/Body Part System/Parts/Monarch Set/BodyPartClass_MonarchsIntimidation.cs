@@ -9,27 +9,14 @@ public class BodyPartClass_MonarchsIntimidation : BodyPartClass
     PlayerWeaponManager weaponManager;
     bool active; 
 
-    public override void PartStart()
-    {
-        // get instance
-        weaponManager = PlayerWeaponManager.instance;
-    }
+    public override void PartStart() => weaponManager = PlayerWeaponManager.instance;
 
     // set active
-    public override void OnMoveDown()
-    {
-        active = true;
-    }
+    public override void OnMoveDown() => active = true;
 
-    public override void OnLand()
-    {
-        active = false;
-    }
+    public override void OnLand() => active = false;
 
-    public override void OnMoveUp()
-    {
-        active = false;
-    }
+    public override void OnMoveUp() => active = false;
 
     public override void OnHomingShotDamage()
     {
