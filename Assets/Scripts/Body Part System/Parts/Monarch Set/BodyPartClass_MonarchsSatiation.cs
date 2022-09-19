@@ -6,18 +6,19 @@ public class BodyPartClass_MonarchsSatiation : BodyPartClass
 {
     // while moving down homing shots have a +50% chance to deal critical damage
     PlayerWeaponManager weaponManager; // instance
-    bool active; 
+    bool active, movingDown;
 
-    public override void PartStart()
-    {
-        weaponManager = PlayerWeaponManager.instance;
-    }
+    public override void OnMoveDown() => movingDown = true;
+    public override void OnMoveUp() => movingDown = false;
+    public override void OnLand() => movingDown = false;
+
+    public override void PartStart() => weaponManager = PlayerWeaponManager.instance;
 
     // add critical chance on homing shot
     public override void OnHomingShot()
     {
         active = true;
-        if (!active)
+        if (!active && movingDown)
         weaponManager.criticalHitModifiers.Add(50f);
     }
 
