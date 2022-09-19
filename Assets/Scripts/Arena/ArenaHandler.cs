@@ -18,7 +18,7 @@ public class ArenaHandler : MonoBehaviour
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
     GameObject previousSummon; // our previous summon
     [SerializeField] int activeGoal; // how many do we want active at once?
-    bool combatComplete;
+    public bool combatBegun, combatComplete;
 
     // our list of spawn points
     public List<Transform> spawnPoints = new List<Transform>(); // all the spawnpoints in the room
@@ -29,6 +29,9 @@ public class ArenaHandler : MonoBehaviour
     // our doors
     public List<DoorScript> doors;
 
+    // arena manager
+    ArenaManager arenaManager;
+
     // our arena level
     public int arenaLevel; 
 
@@ -36,6 +39,8 @@ public class ArenaHandler : MonoBehaviour
     {
         // build an arena from our geometry prefabs
         BuildArena();
+        // get our arena manager instance
+        arenaManager = ArenaManager.instance;
     }
 
     // select a random geomety set and spawn it in
@@ -109,6 +114,14 @@ public class ArenaHandler : MonoBehaviour
         {
             child.gameObject.GetComponent<EnemyClass>().StopAllCoroutines();
         }
+    }
+
+    // start combat here - called from the associated doorclass
+    public void StartCombat()
+    {
+        combatBegun = true;
+        // set ourselves as the active arena in the arena manager
+        arenaManager.activeArena = this;
     }
 
     // end combat here

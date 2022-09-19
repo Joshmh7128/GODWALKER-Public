@@ -9,6 +9,7 @@ public class DoorScript : MonoBehaviour
     [SerializeField] float interactionDistance = 10f;
     [SerializeField] GameObject openMessage, lockParent;
     
+    // each door should be associated with 2 rooms at maximum
     [SerializeField] List<ArenaHandler> associatedArenas = new List<ArenaHandler>();
 
     private void Start()
@@ -77,10 +78,20 @@ public class DoorScript : MonoBehaviour
     // to be run when the door animates and opens
     void Open()
     {
+        // open our door
         open = true;
         openMessage.SetActive(false);
         animator.Play("DoorOpening");
         SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
+        // start combat in the correct arena
+        foreach(ArenaHandler arena in associatedArenas)
+        {
+            if (!arena.combatBegun)
+            {
+                arena.StartCombat();
+            }
+        }
+
     }
 
     // unlock to be used anywhere publicly
