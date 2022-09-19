@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BodyPartClass_TyrantsFlight : BodyPartClass
 {
-    // while moving up relative gravity is lowered by 50%
+    // while moving up relative gravity is lowered by 50% ( really 25% for proper effect)
     PlayerController player; // instance of player controller
 
     public override void PartStart()
