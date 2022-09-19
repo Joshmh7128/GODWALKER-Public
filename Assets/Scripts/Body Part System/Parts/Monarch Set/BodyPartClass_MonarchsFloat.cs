@@ -22,6 +22,6 @@ public class BodyPartClass_MonarchsFloat : BodyPartClass
     public override void OnMoveDown()
     {
         // set player instance of gravity to 50% while moving down
-        player.gravityDownMultiplier = 0.3f;
+        player.gravityDownMultiplier = 0.3f; 
     }
 }

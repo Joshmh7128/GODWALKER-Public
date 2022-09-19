@@ -52,8 +52,14 @@ public class PlayerProjectileScript : MonoBehaviour
     {
         // go forward
         transform.position = transform.position + transform.forward * speed * Time.deltaTime;
-        // if we're homing, look at our homing target
-        if (isHoming) transform.LookAt(homingTarget);
+        // if we are homing
+        if (isHoming)
+        {
+            // get direction from target to transform
+            Vector3 targetDirection = homingTarget.position - transform.position;
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 5 * Time.deltaTime, -0f);
+            transform.rotation = Quaternion.LookRotation(newDirection);
+        }
     
     }
 
@@ -163,6 +169,7 @@ public class PlayerProjectileScript : MonoBehaviour
                 localTarget = enemy;
         }
         
+        homingTarget = localTarget;
     }
 
 }

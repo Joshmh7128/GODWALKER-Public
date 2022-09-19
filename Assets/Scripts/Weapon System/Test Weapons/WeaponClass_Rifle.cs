@@ -22,7 +22,7 @@ public class WeaponClass_Rifle : WeaponClass
             }
 
             // if we're at 0 ammo then reload
-            if (remainingFirerate <= 0 && currentMagazine == 0)
+            if (remainingFirerate <= 0 && currentMagazine <= 0)
             {
                 Reload(false);
             }
