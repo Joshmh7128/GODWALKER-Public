@@ -12,7 +12,7 @@ public abstract class BodyPartClass : MonoBehaviour
 
     // our bodypart types
     public enum BodyPartTypes // we use these arguments to pass information into the bodypart manager for pickups
-    { Head, Torso, Arm, Leg}
+    { Head, Torso, Arm, Leg }
     // what type of bodypart is this?
     public BodyPartTypes bodyPartType;
 
@@ -25,6 +25,19 @@ public abstract class BodyPartClass : MonoBehaviour
     public void Start()
     {
         PartStart();
+        // check our cosmetics
+        CosmeticSave();
+    }
+
+    void CosmeticSave()
+    {
+        if (cosmeticParts.Count <= 0)
+        {
+            foreach (Transform child in transform)
+            {
+                cosmeticParts.Add(child.gameObject);
+            }
+        }
     }
 
     // our start that runs manually after our class start
@@ -35,6 +48,17 @@ public abstract class BodyPartClass : MonoBehaviour
 
     public virtual void OnJump() { }                // triggered when the player presses the jump button
     public virtual void OnLand() { }                // triggered when the player lands on the ground 
+
+    public virtual void OnMoveUp() { }              // triggers every frame the player moves upwards
+    public virtual void OnMoveDown() { }            // triggers every frame the player moves downwards
+    public virtual void OnMoveMidair() { }          // triggeres every frame the player is midair
+
+    public virtual void OnWeaponFire() { }          // triggred when a weapon is used
+    public virtual void OnDoubleShot() { }          // triggered whenever a Double shot is fired
+    public virtual void OnHomingShot() { }          // triggered when a Homing shot is fired
+
+    public virtual void OnHomingShotDamage() { }    // triggered when a Homing Shot deals damage to an enemy
+
     public virtual void OnADS() { }                 // triggered when the player ADS
     public virtual void OffADS() { }                // triggered when the player stops ADS
     public virtual void OnSprint() { }              // triggered when the player sprints

@@ -9,6 +9,28 @@ public class DoorScript : MonoBehaviour
     [SerializeField] float interactionDistance = 10f;
     [SerializeField] GameObject openMessage, lockParent;
     
+    // each door should be associated with 2 rooms at maximum
+    [SerializeField] List<ArenaHandler> associatedArenas = new List<ArenaHandler>();
+
+    private void Start()
+    {
+        // link ourselves to all associated arenas
+        LinkArenas();
+    }
+
+    // link each of our arenas to this door
+    void LinkArenas()
+    {
+        // add ourselves to that arena's list of doors if we are not already in there
+        foreach (var arena in associatedArenas)
+        {
+            if (!arena.doors.Contains(this))
+            {
+                arena.doors.Add(this);
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
         ProcessDistance();
@@ -35,14 +57,12 @@ public class DoorScript : MonoBehaviour
         }
     }
 
+    // our door-opening input reads
     void ProcessInput()
     {
         if (Input.GetKeyDown(KeyCode.E) && canOpen == true && open == false && distanceLock == false)
         {
-            open = true;
-            openMessage.SetActive(false);
-            animator.Play("DoorOpening");
-            SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
+            Open();
         }
     }
 
@@ -50,19 +70,47 @@ public class DoorScript : MonoBehaviour
     {
         // if we have our trigger lock active, lock the door with the trigger
         if (triggerLock && other.transform.tag == "Player" && triggerHit == false)
-        {   // this happens when the player enters the room
-            lockParent.SetActive(true);
-            triggerHit = true;
+        {
+            TriggerLock();
         }
     }
 
+    // to be run when the door animates and opens
+    void Open()
+    {
+        // open our door
+        open = true;
+        openMessage.SetActive(false);
+        animator.Play("DoorOpening");
+        SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
+        // start combat in the correct arena
+        foreach(ArenaHandler arena in associatedArenas)
+        {
+            if (!arena.combatBegun)
+            {
+                arena.StartCombat();
+            }
+        }
+
+    }
+
+    // unlock to be used anywhere publicly
     public void Unlock()
     {
         canOpen = true;
         lockParent.SetActive(false);
     }
 
-    public void ManualLock()
+    // when our locking for specifically when the trigger is hit
+    void TriggerLock()
+    {
+        // this happens when the player enters the room
+        lockParent.SetActive(true);
+        triggerHit = true;
+    }
+
+    // locking to be used anywhere publicly
+    public void Lock()
     {
         lockParent.SetActive(true);
     }

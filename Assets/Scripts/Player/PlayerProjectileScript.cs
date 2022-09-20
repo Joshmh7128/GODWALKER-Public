@@ -1,22 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DamageNumbersPro;
 
 public class PlayerProjectileScript : MonoBehaviour
 {
     [SerializeField] float speed;
-    public float damage; // how much damage we deal
-    [SerializeField] GameObject breakParticle, muzzleEffect, hitFX; // the particle we use on death
+    public float damage, localCritMod; // how much damage we deal, the local crit modifier
+    
+    // vfx
+    [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX, homingFX; // the particle we use on death
+    public DamageNumber normalHit, critHit; // normal and critical damage numbers
+
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;
 
     [SerializeField] bool usesTrigger;
+
+    // weapon manager instance
+    PlayerWeaponManager weaponManager;
+    // arena handler instance
+    ArenaManager arenaManager;
+    // body part manager
+    PlayerBodyPartManager bodyPartManager;
+
+    // ability related variables
+    public bool isHoming; // does this home to the nearest enemy?
+    Transform homingTarget; // our homing target
 
     private void Start()
     {
         StartCoroutine(DeathCounter());
         // muzzle flash
         MuzzleFX();
+        // get instance
+        weaponManager = PlayerWeaponManager.instance;
+        arenaManager = ArenaManager.instance;
+        bodyPartManager = PlayerBodyPartManager.instance;
+        // if we are a homing bullet
+        if (isHoming) SetHomingTarget();
     }
 
     // Update is called once per frame
@@ -32,6 +54,15 @@ public class PlayerProjectileScript : MonoBehaviour
     {
         // go forward
         transform.position = transform.position + transform.forward * speed * Time.deltaTime;
+        // if we are homing
+        if (isHoming)
+        {
+            // get direction from target to transform
+            Vector3 targetDirection = homingTarget.position - transform.position;
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 5 * Time.deltaTime, -0f);
+            transform.rotation = Quaternion.LookRotation(newDirection);
+        }
+    
     }
 
     void ProcessHitscan()
@@ -61,10 +92,26 @@ public class PlayerProjectileScript : MonoBehaviour
         // if we hit an enemy
         if (enemy.transform.tag == "Enemy")
         {
+            // run a chance to see if this is a critical or not
+            int c = Random.Range(0, 100);
+            // check the chance
+            if (c <= weaponManager.criticalHitChance + localCritMod)
+            {   
+                // randomly boost damage on critical hits
+                damage *= Random.Range(2, 4);
+                // spawn critical damage number
+                critHit.Spawn(transform.position, damage);
+            } else if (c > weaponManager.criticalHitChance + localCritMod)
+            {
+                // random normal modifier
+                damage *= Random.Range(0.9f, 1.25f);
+                // spawn normal damage number
+                normalHit.Spawn(transform.position, damage);
+            }
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
-            // our hitfX for hitmarkers
-            if (hitFX)
-            { Instantiate(hitFX, null); }
+            // run our on damage calls
+            if (isHoming)
+            bodyPartManager.CallParts("OnHomingShotDamage");
         }
 
     }
@@ -111,6 +158,22 @@ public class PlayerProjectileScript : MonoBehaviour
                 Destruction();
             }
         }
+    }
+
+    // if we are a homing bullet return the closest enemy in that moment and target
+    void SetHomingTarget()
+    {
+        // if we are homing, set homing target to nearest enemy in our active handler's active enemy transform parent 
+        Transform localTarget = arenaManager.activeArena.activeParent.GetChild(0); 
+        // loop through and find the closest active enemy
+        foreach(Transform enemy in arenaManager.activeArena.activeParent)
+        {
+            // if the distance from this bullet to the enemy is lower than our local target, set that
+            if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, localTarget.position))
+                localTarget = enemy;
+        }
+        
+        homingTarget = localTarget;
     }
 
 }

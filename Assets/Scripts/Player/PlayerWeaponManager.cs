@@ -19,14 +19,12 @@ public class PlayerWeaponManager : MonoBehaviour
     // weapon item
     [SerializeField] GameObject weaponItem;
 
-
     // weapon pickup related
     public float pickupCooldown, pickupCooldownMax = 10f;
 
-
     // nearby weapon list
     public List<GameObject> nearbyWeapons; // the weapons near us
-    public GameObject nearestWeapon, highlightedWeapon; // the weapon which is closest to us
+    public GameObject highlightedWeapon; // the weapon which is closest to us
 
     // setup and set our instance
     public static PlayerWeaponManager instance;
@@ -35,6 +33,10 @@ public class PlayerWeaponManager : MonoBehaviour
 
     // body parts instance
     PlayerBodyPartManager bodyPartManager;
+
+    // critical hit chance
+    public float criticalHitChance; // the chance out of 100 that we will get a critical hit
+    public List<float> criticalHitModifiers = new List<float>(); // all the multipliers which go into calculating out critical hit chance
 
     private void Start()
     {
@@ -62,12 +64,9 @@ public class PlayerWeaponManager : MonoBehaviour
 
         // process our weapon pickup cooldown
         ProcessPickupCooldown();
-    }
 
-    private void FixedUpdate()
-    {
-        // of the weapons near us, find the closest
-        // ProcessNearestWeapon();
+        // calculate our critical hit chance
+        CalculateCriticalHitChance();
     }
 
     // what we run to process the input
@@ -221,27 +220,25 @@ public class PlayerWeaponManager : MonoBehaviour
         yield return null;
     }
 
-    // find the closest weapon
-    void ProcessNearestWeapon()
+    // calculate critical hit chance
+    void CalculateCriticalHitChance()
     {
-        if (nearbyWeapons.Count > 0)
+        // temporarily set to 100
+        float tempCrit = 10;
+        // work through the modifiers
+        if (criticalHitModifiers.Count > 0)
         {
-            foreach (GameObject weapon in nearbyWeapons)
+            foreach (float modifier in criticalHitModifiers)
             {
-                if (nearestWeapon == null)
-                {
-                    // nearestWeapon = weapon;
-                }
-                else
-                {
-                    // if the distance to our current weapon is less than the distance of the nearest weapon, then make the closer weapon the nearest weapon
-                    if (Vector3.Distance(transform.position, weapon.transform.position) < Vector3.Distance(transform.position, nearestWeapon.transform.position))
-                    {
-                        //nearestWeapon = weapon;
-                    }
-                }
+                tempCrit += modifier;
             }
         }
-    }
+        else if (criticalHitModifiers.Count <= 0)
+        {
+            tempCrit = 10f; // set to 10% chance by default
+        }
 
+        // then set it
+        criticalHitChance = tempCrit;
+    }
 }

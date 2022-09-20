@@ -41,13 +41,13 @@ public class ItemUIHandler : MonoBehaviour
     public BodyPartClass body_Part;
     [Header("- Body Part Data -")]
     public BodyPart_Item bodyPart_Item;
-    public Text bodyPartName, currentRightName, currentLeftName;
-    public Text bodyPartInfo, currentRightInfo, currentLeftInfo;
+    public Text bodyPartName;
+    public Text bodyPartInfo;
     [SerializeField] BodyPartClass rightClass, leftClass; // for local ease
 
     [Header("- Canvas Groups -")]
     [SerializeField] CanvasGroup info_CanvasGroup;
-    [SerializeField] GameObject additional_info;
+    // [SerializeField] GameObject additional_info;
     float closeWait; // our wait to close time
 
     private void Start()
@@ -76,7 +76,8 @@ public class ItemUIHandler : MonoBehaviour
             // check the bodypart type and whether or not we use additional panels
             if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm || body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
             {
-                additional_info.SetActive(true);
+                // dont need additional panels anymore since we've moved on to accessible info
+                // additional_info.SetActive(true);
             }
         }
     }
@@ -128,7 +129,7 @@ public class ItemUIHandler : MonoBehaviour
 
         // for our bodyparts
         if (itemType == ItemTypes.BodyPart)
-        {
+        {/*
             #region // setup our current classes based on type 
             if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm)
             {
@@ -142,22 +143,10 @@ public class ItemUIHandler : MonoBehaviour
                 leftClass = PlayerBodyPartManager.instance.bodyParts[5];
             }
             #endregion
-
+            */
             // set our information
             bodyPartName.text = body_Part.bodyPartName;
             bodyPartInfo.text = body_Part.descriptiveInfo;
-            // right arm
-            if (rightClass)
-            {
-                currentRightName.text = rightClass.bodyPartName;
-                currentRightInfo.text = rightClass.descriptiveInfo;
-            }
-            // left arm
-            if (leftClass)
-            {
-                currentLeftName.text = leftClass.bodyPartName;
-                currentLeftInfo.text = leftClass.descriptiveInfo;
-            }
         }
     }
 }
