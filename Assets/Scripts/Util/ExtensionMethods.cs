@@ -19,4 +19,30 @@ public static class ExtensionMethods
             list[n] = value;
         }
     }
+
+    // make transforms look at the player
+    public static void LookAtPlayer(this Transform transform)
+    {
+        transform.LookAt(PlayerController.instance.transform.position);
+    }
+
+    // look at the main camera in the scene
+    public static void LookAtCamera(this Transform transform)
+    {
+        transform.LookAt(Camera.main.transform);
+    }
+
+    // follow a target transform
+    public static void FollowPos(this Transform transform, Transform target)
+    {
+        if (target && transform.position != target.position)
+            transform.position = target.position;
+    }
+
+    // unparent a transform
+    public static void Unparent(this Transform transform)
+    {
+        transform.parent = null;
+    }
+
 }
