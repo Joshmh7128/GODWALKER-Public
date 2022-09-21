@@ -25,7 +25,7 @@ public class ArenaHandler : MonoBehaviour
     Transform spawnPoint; // the spawn point we're using right now
 
     // our doors
-    public List<DoorScript> doors;
+    [HideInInspector] public List<DoorScript> doors;
 
     // arena manager
     ArenaManager arenaManager;
@@ -161,7 +161,9 @@ public class ArenaHandler : MonoBehaviour
             // spawn an alternate bodypart at the upgade spawn point
             if (c >= 50)
             {
-                Instantiate(arenaManager.alternateSet[arenaManager.alternateIndex], upgradeSpawnPoint);
+                BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
+
+                item.bodyPartObject = Instantiate(arenaManager.alternateSet[arenaManager.alternateIndex], upgradeSpawnPoint);
                 // then add one to the main index so we get another one next
                 arenaManager.alternateIndex++;
             }
@@ -169,7 +171,9 @@ public class ArenaHandler : MonoBehaviour
 
         if (special)
         {
-            Instantiate(arenaManager.specialSet[arenaManager.specialIndex], upgradeSpawnPoint);
+            BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
+
+            item.bodyPartObject = Instantiate(arenaManager.specialSet[arenaManager.specialIndex], upgradeSpawnPoint);
             // then add one to the main index so we get another one next
             arenaManager.specialIndex++;
         }
