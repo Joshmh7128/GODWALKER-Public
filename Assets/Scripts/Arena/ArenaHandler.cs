@@ -64,6 +64,7 @@ public class ArenaHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (combatBegun)
         ProcessEnemyAmount();
     }
 
