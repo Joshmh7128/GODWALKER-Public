@@ -14,4 +14,10 @@ public class ArenaManager : MonoBehaviour
     { instance = this; }
 
     public ArenaHandler activeArena; // the arena which the player most recently activated
+
+    // our upgrade sets to be used by our arenas when we spawn in upgrades
+    public List<GameObject> mainSet, alternateSet, specialSet; // the main, alternate, and special sets
+    public int mainIndex, alternateIndex, specialIndex;
+
+
 }

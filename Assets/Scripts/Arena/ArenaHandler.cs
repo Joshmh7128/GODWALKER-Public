@@ -31,7 +31,12 @@ public class ArenaHandler : MonoBehaviour
     ArenaManager arenaManager;
 
     // our arena level
-    public int arenaLevel; 
+    public int arenaLevel;
+
+    // everything to do with upgrades
+    [SerializeField] Transform upgradeSpawnPoint; // where the upgrade spawns
+    [SerializeField] GameObject bodyPartItem; // an empty body part item prefab
+    [SerializeField] bool specialRoom; // is this a special room?
 
     private void Start()
     {
@@ -119,13 +124,55 @@ public class ArenaHandler : MonoBehaviour
     // end combat here
     void EndCombat()
     {
+        // end combat
         if (!combatComplete)
         {
             combatComplete = true;
             CheckCombatCompletion();
             SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro);
+
+            // spawn our new body part from the list
+            // 50/50 chance to get the next in the same set
+            CreateBodyPartItem(specialRoom);
+
         }
 
+    }
+
+    // create a body part set
+    void CreateBodyPartItem(bool special)
+    {
+        // if we are not special
+        if (!special)
+        {
+            // 50/50 chance to generate main or alternate
+            int c = Random.Range(0, 100); 
+            // spawn a main bodypart at the upgade spawn point
+            if (c < 50)
+            {
+                // spawn in a body part item and then add the associated upgrade to that item
+                BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
+
+                item.bodyPartObject = Instantiate(arenaManager.mainSet[arenaManager.mainIndex], upgradeSpawnPoint);
+                // then add one to the main index so we get another one next
+                arenaManager.mainIndex++;
+            } 
+            
+            // spawn an alternate bodypart at the upgade spawn point
+            if (c >= 50)
+            {
+                Instantiate(arenaManager.alternateSet[arenaManager.alternateIndex], upgradeSpawnPoint);
+                // then add one to the main index so we get another one next
+                arenaManager.alternateIndex++;
+            }
+        }
+
+        if (special)
+        {
+            Instantiate(arenaManager.specialSet[arenaManager.specialIndex], upgradeSpawnPoint);
+            // then add one to the main index so we get another one next
+            arenaManager.specialIndex++;
+        }
     }
 
     // check out combat completion
