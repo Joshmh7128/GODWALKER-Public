@@ -17,7 +17,7 @@ public class ArenaManager : MonoBehaviour
 
     // our upgrade sets to be used by our arenas when we spawn in upgrades
     public List<GameObject> mainSet, alternateSet, specialSet; // the main, alternate, and special sets
-    public int mainIndex, alternateIndex, specialIndex;
+    public int mainIndex, alternateIndex;
 
 
 }

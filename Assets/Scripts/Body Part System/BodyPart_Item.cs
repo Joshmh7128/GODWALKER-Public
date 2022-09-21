@@ -52,7 +52,7 @@ public class BodyPart_Item : ItemClass
         ProcessCanGrab();
 
         // rotate our cosmetic parent
-        cosmeticTransform.localEulerAngles = new Vector3(0, cosmeticTransform.localEulerAngles.y + Time.deltaTime * 2, 0);
+        cosmeticTransform.localEulerAngles = new Vector3(0, cosmeticTransform.localEulerAngles.y + Time.deltaTime * 5f, 0);
     }
 
     void ProcessCanGrab()

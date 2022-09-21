@@ -149,34 +149,53 @@ public class ArenaHandler : MonoBehaviour
             int c = Random.Range(0, 100); 
             // spawn a main bodypart at the upgade spawn point
             if (c < 50)
-            {
-                // spawn in a body part item and then add the associated upgrade to that item
-                BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
+            { 
+                // if we havent spawned all items yet
+                if (arenaManager.mainIndex <= arenaManager.mainSet.Count)
+                {
+                    // spawn in a body part item and then add the associated upgrade to that item
+                    BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
 
-                item.bodyPartObject = Instantiate(arenaManager.mainSet[arenaManager.mainIndex], upgradeSpawnPoint);
-                // then add one to the main index so we get another one next
-                arenaManager.mainIndex++;
+                    item.bodyPartObject = Instantiate(arenaManager.mainSet[arenaManager.mainIndex], upgradeSpawnPoint);
+                    // then add one to the main index so we get another one next
+                    arenaManager.mainIndex++;
+                }
+
+                // if we have then spawn a special 
+                SpawnSpecialItem();
+
             } 
             
             // spawn an alternate bodypart at the upgade spawn point
             if (c >= 50)
             {
-                BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
+                // if we havent spawned all items yet
+                if (arenaManager.alternateIndex <= arenaManager.alternateSet.Count)
+                {
+                    BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
 
-                item.bodyPartObject = Instantiate(arenaManager.alternateSet[arenaManager.alternateIndex], upgradeSpawnPoint);
-                // then add one to the main index so we get another one next
-                arenaManager.alternateIndex++;
+                    item.bodyPartObject = Instantiate(arenaManager.alternateSet[arenaManager.alternateIndex], upgradeSpawnPoint);
+                    // then add one to the main index so we get another one next
+                    arenaManager.alternateIndex++;
+                }
+
+                // if we have then spawn a special 
+                SpawnSpecialItem();
             }
         }
 
-        if (special)
-        {
-            BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
+        // spawn a special
+        if (special) SpawnSpecialItem();
+    }
 
-            item.bodyPartObject = Instantiate(arenaManager.specialSet[arenaManager.specialIndex], upgradeSpawnPoint);
-            // then add one to the main index so we get another one next
-            arenaManager.specialIndex++;
-        }
+    void SpawnSpecialItem()
+    {
+        BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
+        int i = Random.Range(0, arenaManager.specialSet.Count);
+
+        item.bodyPartObject = Instantiate(arenaManager.specialSet[i], upgradeSpawnPoint);
+        // then remove the part from the list so we cant spawn it again
+        arenaManager.specialSet.Remove(arenaManager.specialSet[i]);
     }
 
     // check out combat completion
