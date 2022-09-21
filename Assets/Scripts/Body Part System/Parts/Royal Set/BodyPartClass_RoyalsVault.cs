@@ -16,7 +16,6 @@ public class BodyPartClass_RoyalsVault : BodyPartClass
     public override void OnMoveMidair()
     {
         // set player instance of gravity to 50% while moving up
-        player.gravityUpMultiplier = 0.3f;
-        player.gravityUpMultiplier = 0.3f;
+        player.gravityMidairMultiplier = 0.3f;
     }
 }
