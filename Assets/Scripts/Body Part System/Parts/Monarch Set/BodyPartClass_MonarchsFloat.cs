@@ -11,7 +11,8 @@ public class BodyPartClass_MonarchsFloat : BodyPartClass
     {
         // set instance
         player = PlayerController.instance;
-        player.gravityMidairMultiplier = 1; // reset this so that we don't float after picking up the midair version of this 
+        player.gravityMidairMultiplier = 0; // reset this so that we don't float after picking up the midair version of this 
+        player.gravityUpMultiplier = 1;
     }
 
     public override void OnMoveUp()
@@ -23,6 +24,6 @@ public class BodyPartClass_MonarchsFloat : BodyPartClass
     public override void OnMoveDown()
     {
         // set player instance of gravity to 50% while moving down
-        player.gravityDownMultiplier = 0.3f; 
+        player.gravityDownMultiplier = 0.2f; 
     }
 }
