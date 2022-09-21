@@ -154,15 +154,15 @@ public class ArenaHandler : MonoBehaviour
                 if (arenaManager.mainIndex <= arenaManager.mainSet.Count)
                 {
                     // spawn in a body part item and then add the associated upgrade to that item
-                    BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
-
-                    item.bodyPartObject = Instantiate(arenaManager.mainSet[arenaManager.mainIndex], upgradeSpawnPoint);
+                    BodyPart_Item item = Instantiate(bodyPartItem, upgradeSpawnPoint).GetComponent<BodyPart_Item>();
+                    // set the bodypart
+                    item.bodyPartObject = Instantiate(arenaManager.mainSet[arenaManager.mainIndex], new Vector3(9999, 9999, 9999), Quaternion.identity);
                     // then add one to the main index so we get another one next
                     arenaManager.mainIndex++;
                 }
 
                 // if we have then spawn a special 
-                SpawnSpecialItem();
+                // SpawnSpecialItem();
 
             } 
             
@@ -172,15 +172,15 @@ public class ArenaHandler : MonoBehaviour
                 // if we havent spawned all items yet
                 if (arenaManager.alternateIndex <= arenaManager.alternateSet.Count)
                 {
-                    BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
+                    BodyPart_Item item = Instantiate(bodyPartItem, upgradeSpawnPoint).GetComponent<BodyPart_Item>();
 
-                    item.bodyPartObject = Instantiate(arenaManager.alternateSet[arenaManager.alternateIndex], upgradeSpawnPoint);
+                    item.bodyPartObject = Instantiate(arenaManager.alternateSet[arenaManager.alternateIndex], new Vector3(9999, 9999, 9999), Quaternion.identity);
                     // then add one to the main index so we get another one next
                     arenaManager.alternateIndex++;
                 }
 
                 // if we have then spawn a special 
-                SpawnSpecialItem();
+                // SpawnSpecialItem();
             }
         }
 
@@ -190,10 +190,10 @@ public class ArenaHandler : MonoBehaviour
 
     void SpawnSpecialItem()
     {
-        BodyPart_Item item = Instantiate(bodyPartItem).GetComponent<BodyPart_Item>();
+        BodyPart_Item item = Instantiate(bodyPartItem, upgradeSpawnPoint).GetComponent<BodyPart_Item>();
         int i = Random.Range(0, arenaManager.specialSet.Count);
+        item.bodyPartObject = Instantiate(arenaManager.specialSet[i], new Vector3(9999, 9999, 9999), Quaternion.identity);
 
-        item.bodyPartObject = Instantiate(arenaManager.specialSet[i], upgradeSpawnPoint);
         // then remove the part from the list so we cant spawn it again
         arenaManager.specialSet.Remove(arenaManager.specialSet[i]);
     }

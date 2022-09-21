@@ -11,6 +11,7 @@ public class BodyPartClass_TyrantsFlight : BodyPartClass
     {
         // set instance
         player = PlayerController.instance;
+        player.gravityMidairMultiplier = 1; // reset this so that we don't float after picking up the midair version of this 
     }
 
     public override void OnMoveUp()
