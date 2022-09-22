@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class PlayerStatManager : MonoBehaviour
 {
@@ -57,7 +58,14 @@ public class PlayerStatManager : MonoBehaviour
         {
             // die
             KillPlayer();
+            StartCoroutine(CountDown());
         }
+    }
+
+    IEnumerator CountDown()
+    {
+        yield return new WaitForSecondsRealtime(5f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // take damage
