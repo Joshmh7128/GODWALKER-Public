@@ -38,7 +38,7 @@ public class PlayerProjectileScript : MonoBehaviour
         arenaManager = ArenaManager.instance;
         bodyPartManager = PlayerBodyPartManager.instance;
         // if we are a homing bullet
-        if (isHoming) SetHomingTarget();
+        if (isHoming) { SetHomingTarget(); Instantiate(homingFX, transform); } 
     }
 
     // Update is called once per frame
