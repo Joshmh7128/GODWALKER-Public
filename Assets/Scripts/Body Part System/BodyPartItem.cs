@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BodyPart_Item : ItemClass
+public class BodyPartItem : ItemClass
 {
     // script exists to be an item containing a part that the player can pickup
 
