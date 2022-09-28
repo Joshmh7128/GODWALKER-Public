@@ -87,18 +87,15 @@ public abstract class WeaponClass : MonoBehaviour
 
     public abstract void UseWeapon(WeaponUseTypes useType); // public function assigned to using our weapon
 
-    public virtual void Fire() 
+    public virtual void Fire()
     {
-
-        bool requestCheck = requestDoubleShot || requestHomingShot;
-
         // if there are no requests, this is a normal shot
-        if (!requestCheck) bodyPartManager.CallParts("OnWeaponFire");
+        bodyPartManager.CallParts("OnWeaponFire");
         // if there is a double shot request, this is a double shot, then set request to false
         if (requestDoubleShot) { bodyPartManager.CallParts("OnDoubleShot"); requestDoubleShot = false; }
         // if there is a request for a homing shot, this is a homing shot, then set request to false
-        bool isHoming = requestHomingShot; // set for local use
-        if (requestHomingShot) { bodyPartManager.CallParts("OnHomingShot"); requestHomingShot = false; }
+        bool isHoming = false; // setup for local use
+        if (requestHomingShot) { bodyPartManager.CallParts("OnHomingShot"); requestHomingShot = false; isHoming = true; }
         ApplyKickRecoil(); // apply our recoil
         AddSpread(); // add spread
         weaponUIHandler.KickUI(); // kick our UI
@@ -110,7 +107,7 @@ public abstract class WeaponClass : MonoBehaviour
         // instantiate and shoot our projectile in that direction
         GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
         // apply any mods to our bullet
-        if (isHoming) bullet.GetComponent<PlayerProjectileScript>().isHoming = true;
+        if (isHoming) { bullet.GetComponent<PlayerProjectileScript>().isHoming = true; Debug.Log("Is Homing"); }    
         bullet.GetComponent<PlayerProjectileScript>().damage = damage + damageMod;
         remainingFirerate = firerate + firerateMod;
         currentMagazine--;
