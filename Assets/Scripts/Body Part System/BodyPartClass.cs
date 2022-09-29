@@ -18,24 +18,82 @@ public abstract class BodyPartClass : MonoBehaviour
 
     // our cosmetic object information
     public List<GameObject> cosmeticParts; // set list in inspector of our parts
+    public Transform cosmeticParent; // the parent of our cosmetic object, used for randomized bodyparts
+    public List<GameObject> cosmeticParents; // the list of cosmetic parents, same order as our enum
 
     // the info about our body part
     public string descriptiveInfo, bodyPartName; // the information about this bodypart in text
 
+    public bool cancelConstruct;
+
     public void Start()
     {
         PartStart();
-        // check our cosmetics
+        // only run these if we have not canceled our construction
+        // construct part
+        if (!cancelConstruct)
+        {
+            ConstructPart(cancelConstruct);
+            // check our cosmetics if we do not have a cosmetic parent
+            CosmeticSave();
+        }
+    }
+
+    public void RefreshPart(BodyPartTypes type) {
+
+        this.bodyPartType = type;
+        ConstructPart(cancelConstruct);
+        // check our cosmetics if we do not have a cosmetic parent
         CosmeticSave();
     }
 
+    // construct our part
+    void ConstructPart(bool canceled)
+    {  
+        // only run if you have parents
+        if (cosmeticParents.Count > 0)
+        {
+            // what type are we?
+            if (!canceled)
+            {
+                Debug.Log("running part randomization!");
+                int i = Random.Range(0, 4); bodyPartType = (BodyPartTypes)i;
+            }
+            // setup our cosmetic parts from the cosmetic parent
+            cosmeticParent = cosmeticParents[(int)bodyPartType].transform;
+            // then remove the parents we dont need
+            for (int j = 0; j < cosmeticParents.Count; j++)
+            {
+                if (cosmeticParents[j].transform != cosmeticParent.transform)
+                    Destroy(cosmeticParents[j].gameObject);
+            }
+        }
+    }
+
+    // get our cosmetics
     void CosmeticSave()
     {
-        if (cosmeticParts.Count <= 0)
+        // if we do not have a cosmetic parent, this is not a randomized object, so use our transform
+        if (cosmeticParent == null)
         {
-            foreach (Transform child in transform)
+            if (cosmeticParts.Count <= 0)
             {
-                cosmeticParts.Add(child.gameObject);
+                foreach (Transform child in transform)
+                {
+                    cosmeticParts.Add(child.gameObject);
+                }
+            }
+        }
+
+        // if we have a cosmetic parent, this is a randomized object, so use our parent
+        if (cosmeticParent)
+        {
+            if (cosmeticParts.Count <= 0)
+            {
+                foreach (Transform child in cosmeticParent)
+                {
+                    cosmeticParts.Add(child.gameObject);
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class BodyPartItem : ItemClass
@@ -21,12 +22,35 @@ public class BodyPartItem : ItemClass
     // instantiating cosmetics
     void InstantiateCosmeticPart()
     {
-        GameObject part = Instantiate(bodyPartObject, cosmeticTransform);
-        bodyPartClass = Instantiate(part.GetComponent<BodyPartClass>(), new Vector3(9999,9999,9999), Quaternion.identity, null); // instantiating them in slipspace
+        // build the part out of our body part object
+        GameObject cosmeticPart = Instantiate(bodyPartObject, cosmeticTransform);
+        bodyPartClass = Instantiate(cosmeticPart.GetComponent<BodyPartClass>(), new Vector3(9999,9999,9999), Quaternion.identity, null); // instantiating them in slipspace
+        StartCoroutine(Buffer(cosmeticPart));
         // make sure they dont zero out on start
-        foreach (Transform parent in part.transform)
-        { parent.GetComponent<ZeroOut>().cancel = true; }
-        part.transform.localPosition = Vector3.zero;
+        for (int i = 0; i < cosmeticPart.GetComponent<BodyPartClass>().cosmeticParts.Count; i++)
+        {
+            if (cosmeticPart.GetComponent<BodyPartClass>().cosmeticParent)
+            {
+                foreach (Transform child in cosmeticPart.GetComponent<BodyPartClass>().cosmeticParent)
+                {
+                    child.GetComponent<ZeroOut>().cancel = true;
+                }
+            }
+            else
+            {
+                // cancel the zero out
+                cosmeticPart.GetComponent<BodyPartClass>().cosmeticParts[i].gameObject.GetComponent<ZeroOut>().cancel = true;
+            }
+
+        }
+        cosmeticPart.transform.localPosition = Vector3.zero;
+    }
+
+    IEnumerator Buffer(GameObject cosmeticPart)
+    {
+        yield return new WaitForFixedUpdate();
+        bodyPartClass.cancelConstruct = true; // cancel the construct because we want an exact copy of the item
+        bodyPartClass.RefreshPart(cosmeticPart.GetComponent<BodyPartClass>().bodyPartType); // refresh the part now that it is in 
     }
 
     // simple pickup
