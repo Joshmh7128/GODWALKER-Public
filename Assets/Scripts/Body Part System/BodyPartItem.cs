@@ -47,9 +47,11 @@ public class BodyPartItem : ItemClass
         cosmeticPart.transform.localPosition = Vector3.zero;
     }
 
+    // buffer for spawning in the object we are picking up
     IEnumerator Buffer(GameObject cosmeticPart)
     {
         yield return new WaitForFixedUpdate();
+
         bodyPartClass.cancelConstruct = true; // cancel the construct because we want an exact copy of the item
         bodyPartClass.RefreshPart(cosmeticPart.GetComponent<BodyPartClass>().bodyPartType); // refresh the part now that it is in 
     }

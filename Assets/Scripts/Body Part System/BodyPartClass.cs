@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class BodyPartClass : MonoBehaviour
@@ -45,6 +46,12 @@ public abstract class BodyPartClass : MonoBehaviour
         ConstructPart(cancelConstruct);
         // check our cosmetics if we do not have a cosmetic parent
         CosmeticSave();
+
+        // zero out this part. this function is only used for parts we pickup, not cosmetic parts
+        foreach(GameObject part in cosmeticParts)
+        {
+            part.GetComponent<ZeroOut>().ManualZero(); // manually zero out 
+        }
     }
 
     // construct our part
