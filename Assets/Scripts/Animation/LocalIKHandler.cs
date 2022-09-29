@@ -6,7 +6,7 @@ public class LocalIKHandler : MonoBehaviour
 {
 
     [SerializeField] Transform rightHandTarget, leftHandTarget, rightFootTarget, leftFootTarget;
-    [SerializeField] Transform lookTarget;
+    public Transform lookTarget;
 
     [SerializeField] Vector3 lookPos, kickVector;
     [SerializeField] float kickReturnDelta;
@@ -70,6 +70,7 @@ public class LocalIKHandler : MonoBehaviour
     // kick our look pos
     public void KickLookPos(float kickAmount)
     {
+        Debug.Log("kicking " + kickAmount);
         kickVector = new Vector3(Random.Range(-kickAmount, kickAmount), Random.Range(-kickAmount, kickAmount), Random.Range(-kickAmount, kickAmount));
     }
 
