@@ -56,7 +56,6 @@ public abstract class BodyPartClass : MonoBehaviour
             // what type are we?
             if (!canceled)
             {
-                Debug.Log("running part randomization!");
                 int i = Random.Range(0, 4); bodyPartType = (BodyPartTypes)i;
             }
             // setup our cosmetic parts from the cosmetic parent
