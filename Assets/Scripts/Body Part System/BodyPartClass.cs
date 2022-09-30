@@ -16,7 +16,7 @@ public abstract class BodyPartClass : MonoBehaviour
     { Head, Torso, Arm, Leg }
     // what type of bodypart is this?
     public BodyPartTypes bodyPartType;
-
+    [HideInInspector] public bool overrideGen; // do we override the generation?
     // our cosmetic object information
     public List<GameObject> cosmeticParts; // set list in inspector of our parts
     public Transform cosmeticParent; // the parent of our cosmetic object, used for randomized bodyparts
@@ -63,7 +63,12 @@ public abstract class BodyPartClass : MonoBehaviour
             // what type are we?
             if (!canceled)
             {
-                int i = Random.Range(0, 4); bodyPartType = (BodyPartTypes)i;
+                // if we are NOT override generation
+                if (!overrideGen)
+                {
+                    int i = Random.Range(0, 4);
+                    bodyPartType = (BodyPartTypes)i;
+                }
             }
             // setup our cosmetic parts from the cosmetic parent
             cosmeticParent = cosmeticParents[(int)bodyPartType].transform;

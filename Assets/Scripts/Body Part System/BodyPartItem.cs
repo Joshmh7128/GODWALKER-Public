@@ -12,6 +12,8 @@ public class BodyPartItem : ItemClass
     [SerializeField] Transform cosmeticTransform; // for modifying the scale/position of the part
     [SerializeField] Transform ourCanvas; // so we can make sure it is destroyed
     [SerializeField] GameObject pickupFX, playerPickupFX; // the effect when we get picked up
+    public bool overrideGeneration;
+    public BodyPartClass.BodyPartTypes overrideBodyPartType; // use this and the bool to override the generation of a part
 
     // on start, instantiate our bodypart at the center of our object
     private void Start()
@@ -24,8 +26,17 @@ public class BodyPartItem : ItemClass
     {
         // build the part out of our body part object
         GameObject cosmeticPart = Instantiate(bodyPartObject, cosmeticTransform);
+        // if we want this object to be a specific body part, set and use override
+        if (overrideGeneration)
+        {
+            cosmeticPart.GetComponent<BodyPartClass>().overrideGen = true;
+            cosmeticPart.GetComponent<BodyPartClass>().bodyPartType = overrideBodyPartType;
+        }
         bodyPartClass = Instantiate(cosmeticPart.GetComponent<BodyPartClass>(), new Vector3(9999,9999,9999), Quaternion.identity, null); // instantiating them in slipspace
         bodyPartClass.cancelConstruct = true; // cancel the construct because we want an exact copy of the item
+
+
+
         StartCoroutine(Buffer(cosmeticPart));
         // make sure they dont zero out on start
         for (int i = 0; i < cosmeticPart.GetComponent<BodyPartClass>().cosmeticParts.Count; i++)
