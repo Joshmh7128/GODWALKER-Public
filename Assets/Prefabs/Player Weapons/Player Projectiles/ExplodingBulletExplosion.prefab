@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 19983730}
   - component: {fileID: 8285908}
   - component: {fileID: 114730798815361218}
+  - component: {fileID: 1697394791628112982}
+  - component: {fileID: 6032414844493674168}
   m_Layer: 0
   m_Name: ExplodingBulletExplosion
   m_TagString: Untagged
@@ -4943,6 +4945,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomPercent: 8
+--- !u!114 &1697394791628112982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0c84bc889109df44a0548b9549c2ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  explosionHit: {fileID: 8345128898323218344, guid: e1fac80f94e758c4f9d76d9912328b69, type: 3}
+--- !u!135 &6032414844493674168
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130848}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.85
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &134072
 GameObject:
   m_ObjectHideFlags: 0

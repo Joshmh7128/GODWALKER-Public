@@ -70,7 +70,6 @@ public class LocalIKHandler : MonoBehaviour
     // kick our look pos
     public void KickLookPos(float kickAmount)
     {
-        Debug.Log("kicking " + kickAmount);
         kickVector = new Vector3(Random.Range(-kickAmount, kickAmount), Random.Range(-kickAmount, kickAmount), Random.Range(-kickAmount, kickAmount));
     }
 

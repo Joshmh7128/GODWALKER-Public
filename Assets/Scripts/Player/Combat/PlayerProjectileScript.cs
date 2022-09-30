@@ -124,7 +124,13 @@ public class PlayerProjectileScript : MonoBehaviour
         // spawn our death fx
         if (breakParticle != null) Instantiate(breakParticle, transform.position, Quaternion.identity, null);
         // does this bullet explode?
-        if (doesExplode) Instantiate(playerExplosionPrefab, transform.position, Quaternion.identity, null);
+        PlayerExplosionScript explosion = null;
+        if (doesExplode)
+        {
+            explosion = Instantiate(playerExplosionPrefab, transform.position, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
+            explosion.damage = damage;
+        }
+            
 
         Destroy(gameObject);
     }

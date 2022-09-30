@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DamageNumbersPro;
 
 public class PlayerExplosionScript : MonoBehaviour
 {
@@ -8,8 +9,9 @@ public class PlayerExplosionScript : MonoBehaviour
     /// 
 
     PlayerBodyPartManager bodyPartManager;
-    public float damage; // set by our bullet when we are instantiated
+    [HideInInspector] public float damage; // set by our bullet when we are instantiated
     int enemiesHit; // how many enemies this explosion hit
+    [SerializeField] DamageNumber explosionHit;
 
     // get instance
     private void Awake() => bodyPartManager = PlayerBodyPartManager.instance;
@@ -25,6 +27,11 @@ public class PlayerExplosionScript : MonoBehaviour
             bodyPartManager.CallParts("OnExplosionDamage");
             // deal damage
             other.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
+            // random normal modifier
+            damage *= Random.Range(1.1f, 1.8f);
+            // spawn normal damage number
+            Debug.Log(damage);
+            explosionHit.Spawn(transform.position, damage);
             // disable the collider in the next frame
             StartCoroutine(DisableBuffer()); // then disable the collider
         }
