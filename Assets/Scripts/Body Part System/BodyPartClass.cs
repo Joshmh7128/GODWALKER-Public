@@ -20,6 +20,7 @@ public abstract class BodyPartClass : MonoBehaviour
     // our cosmetic object information
     public List<GameObject> cosmeticParts; // set list in inspector of our parts
     public Transform cosmeticParent; // the parent of our cosmetic object, used for randomized bodyparts
+    [Header("ORDER: HEAD, TORSO, ARM, LEG")]
     public List<GameObject> cosmeticParents; // the list of cosmetic parents, same order as our enum
 
     // the info about our body part
