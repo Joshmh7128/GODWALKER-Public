@@ -128,6 +128,9 @@ public abstract class BodyPartClass : MonoBehaviour
 
     public virtual void OnHomingShotDamage() { }    // triggered when a Homing Shot deals damage to an enemy
 
+    public virtual void OnExplosionDamage() { }     // triggered when an explosion deals damage to one enemy
+    public virtual void OnMultipleExplosionDamage() { }     // triggered when an explosion deals damage to one enemy
+
     public virtual void OnADS() { }                 // triggered when the player ADS
     public virtual void OffADS() { }                // triggered when the player stops ADS
     public virtual void OnSprint() { }              // triggered when the player sprints

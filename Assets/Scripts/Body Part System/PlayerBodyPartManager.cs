@@ -54,10 +54,8 @@ public class PlayerBodyPartManager : MonoBehaviour
     /// <summary>
     /// 0 - head
     /// 1 - torso
-    /// 2 - right arm
-    /// 3 - left arm 
-    /// 4 - right leg
-    /// 5 - left leg
+    /// 2 - arm
+    /// 4 - leg
     /// </summary>
 
     public void CallParts(string function)

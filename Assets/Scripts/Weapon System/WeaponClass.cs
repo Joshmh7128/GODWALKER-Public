@@ -46,7 +46,7 @@ public abstract class WeaponClass : MonoBehaviour
     public float spreadReduct, originalSpreadReduct; // how quickly we return to our original state. changed and used in the player camera controller
 
     // everything to do with upgrades
-    public bool requestDoubleShot, requestHomingShot;
+    public bool requestDoubleShot, requestHomingShot, requestExplodingShot;
 
     // our UI handler
     public WeaponUIHandler weaponUIHandler;
@@ -89,6 +89,7 @@ public abstract class WeaponClass : MonoBehaviour
 
     public virtual void Fire()
     {
+
         // if there are no requests, this is a normal shot
         bodyPartManager.CallParts("OnWeaponFire");
         // if there is a double shot request, this is a double shot, then set request to false
@@ -96,9 +97,16 @@ public abstract class WeaponClass : MonoBehaviour
         // if there is a request for a homing shot, this is a homing shot, then set request to false
         bool isHoming = false; // setup for local use
         if (requestHomingShot) { bodyPartManager.CallParts("OnHomingShot"); requestHomingShot = false; isHoming = true; }
-        ApplyKickRecoil(); // apply our recoil
-        AddSpread(); // add spread
-        weaponUIHandler.KickUI(); // kick our UI
+        // does this bullet explode?
+        bool doesExplode = false;// setup for local use
+        if (requestExplodingShot) { requestExplodingShot = false; doesExplode = true; }
+        
+        // apply our recoil
+        ApplyKickRecoil();
+        // add spread
+        AddSpread();
+        // kick our UI
+        weaponUIHandler.KickUI(); 
         PlayerCameraController.instance.FOVKickRequest(kickFOV);
         // get our direction to our target
         Vector3 shotDirection = PlayerCameraController.instance.AimTarget.position - muzzleOrigin.position;
@@ -106,8 +114,13 @@ public abstract class WeaponClass : MonoBehaviour
         Vector3 modifiedShotDirection = new Vector3(shotDirection.x + Random.Range(-spreadX, spreadX), shotDirection.y + Random.Range(-spreadY, spreadY), shotDirection.z).normalized;
         // instantiate and shoot our projectile in that direction
         GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
-        // apply any mods to our bullet
-        if (isHoming) { bullet.GetComponent<PlayerProjectileScript>().isHoming = true; Debug.Log("Is Homing"); }    
+        
+        /// apply any mods to our bullet
+        // homing?
+        if (isHoming) { bullet.GetComponent<PlayerProjectileScript>().isHoming = true; }    
+        // exploding?
+        if (doesExplode) { bullet.GetComponent<PlayerProjectileScript>().doesExplode = true; }
+        // damage modifiers?
         bullet.GetComponent<PlayerProjectileScript>().damage = damage + damageMod;
         remainingFirerate = firerate + firerateMod;
         currentMagazine--;
