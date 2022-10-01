@@ -50,6 +50,8 @@ public class PlayerProjectileScript : MonoBehaviour
         if (isHoming) { SetHomingTarget(); Instantiate(homingFX, transform); }
         // if we have a frame start buffer
         if (startInvBuffer) StartCoroutine(InvBuffer());
+        // check our raycast before moving
+        ProcessHitscan();
     }
 
     // Update is called once per frame

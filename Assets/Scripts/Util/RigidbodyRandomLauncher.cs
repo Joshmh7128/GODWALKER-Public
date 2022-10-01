@@ -31,13 +31,10 @@ public class RigidbodyRandomLauncher : MonoBehaviour
         // if we want to clean
         if (count > 10f && clean)
         {
-            if (Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.y) + Mathf.Abs(rb.velocity.z) < 0.3f)
-            {
-                // freeze everything
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-                // disable collider
-                gameObject.GetComponent<Collider>().enabled = false;
-            }
+            // freeze everything
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+            // disable collider
+            gameObject.GetComponent<Collider>().enabled = false;
         }
     }
 }
