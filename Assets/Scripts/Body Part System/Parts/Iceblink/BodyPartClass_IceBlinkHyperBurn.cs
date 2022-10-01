@@ -67,16 +67,29 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
         RequestDoubleShot();
     }
 
+    // whenever an explosion damages the player
+    public override void OnExplosionDamagePlayer()
+    {        
+        // store our current weapon's bullet as a prefab
+        GameObject projectile = weaponManager.currentWeapon.bulletPrefab;
+
+        // fire 20 lifestealing shots
+        for (int i = 0; i < 20; i++)
+        {
+            // instantiate a new projectile at the explosion point
+            PlayerProjectileScript activeProjectile = Instantiate(projectile, PlayerController.instance.transform.position, Quaternion.LookRotation(Vector3.up)).GetComponent<PlayerProjectileScript>();
+            activeProjectile.isHoming = true;
+            activeProjectile.isLifesteal = true;
+            activeProjectile.startInvBuffer = true; // this bullet needs to exist for one fixedupdate before destroying
+        }
+    }
+
     void RequestDoubleShot()
     {
         weaponManager.currentWeapon.requestDoubleShot = true;
     }
 
-    // local function to request that the next shot be a homing shot
-    void RequestHoming()
-    {
-        weaponManager.currentWeapon.requestHomingShot = true;
-    }
+    
 
     // local function used to request that the next shot be an explosion
     void RequestExplosion()

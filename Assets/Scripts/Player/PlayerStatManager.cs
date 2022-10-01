@@ -96,7 +96,13 @@ public class PlayerStatManager : MonoBehaviour
         if (health < maxHealth)
         {
             LifeUIFlash();
+            if (health + healthAmount < maxHealth)
             health += healthAmount;
+
+            if (health + healthAmount > maxHealth)
+            {
+                health = maxHealth;
+            }
             PlayerBodyPartManager.instance.CallParts("OnPlayerGainLife");
             // update our post
             ChoosePostProcessing();
