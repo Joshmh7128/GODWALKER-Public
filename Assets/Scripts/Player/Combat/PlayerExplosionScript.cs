@@ -13,6 +13,7 @@ public class PlayerExplosionScript : MonoBehaviour
     [HideInInspector] public float damage; // set by our bullet when we are instantiated
     public int enemiesHit; // how many enemies this explosion hit
     [SerializeField] DamageNumber explosionHit;
+    public bool used; // has this been used in an effect already?
     // get instance
     private void Awake()
     {
@@ -23,15 +24,20 @@ public class PlayerExplosionScript : MonoBehaviour
         projectileManager.explosionScripts.Add(this);
     }
 
-    // every frame get all the colliders
-    private void OnTriggerStay(Collider other)
+    private void Start()
+    {
+        // check for our explosion
+        OverlapCheck();
+    }
+
+    void CheckAction(GameObject other)
     {
         // check everything we're colliding with - is there an enemy?
-        if (other.gameObject.transform.tag == "Enemy")
+        if (other.transform.tag == "Enemy")
         {
             enemiesHit++;
             // deal damage
-            other.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
+            other.GetComponent<EnemyClass>().GetHurt(damage);
             // random normal modifier
             damage *= Random.Range(1.1f, 1.8f);
             // spawn normal damage number
@@ -40,6 +46,16 @@ public class PlayerExplosionScript : MonoBehaviour
             StartCoroutine(DisableBuffer()); // then disable the collider
         }
     }
+
+    private void OverlapCheck()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, transform.localScale.x);
+        foreach (var collider in colliders)
+        {
+            CheckAction(collider.gameObject);
+        }
+    }
+
 
     // a buffer to disable our collider and destroy our object
     IEnumerator DisableBuffer()

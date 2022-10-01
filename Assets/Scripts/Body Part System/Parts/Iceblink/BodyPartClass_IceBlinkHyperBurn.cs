@@ -43,7 +43,7 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
         // loop through out list of explosions 
         foreach (PlayerExplosionScript explosion in projectileManager.explosionScripts)
         {
-            if (explosion.enemiesHit > 0)
+            if (explosion.enemiesHit > 0 && !explosion.used)
             {
                 // instantiate a new projectile at the explosion point
                 PlayerProjectileScript activeProjectile = Instantiate(projectile, explosion.transform.position, Quaternion.LookRotation(Vector3.up)).GetComponent<PlayerProjectileScript>();
@@ -51,6 +51,7 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
                 activeProjectile.secondHome = true; // we want this bullet to go to the 2nd closest target from its origin, not the closest
                 activeProjectile.doesExplode = true;
                 activeProjectile.startInvBuffer = true; // this bullet needs to exist for one fixedupdate before destroying
+                explosion.used = true;
             }
         }
     }
