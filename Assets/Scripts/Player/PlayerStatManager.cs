@@ -23,7 +23,7 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField] float damageCooldown, damageCooldownMax; // how long we are unable to take damage for after taking damage
 
     // our UI variables
-    [SerializeField] CanvasGroup hurtUIGroup; // flash this when we take damage
+    [SerializeField] CanvasGroup hurtUIGroup, lifeGainUIGroup; // flash this when we take damage
     [SerializeField] VolumeProfile normalProfile, hurt1Profile, hurt2Profile, hurt3Profile; // activate each of these at different health % levels to change the post processing as we get more and more hurt
     [SerializeField] Volume mainVolume; // our main volume
     [SerializeField] Slider healthSlider, healthLerpSlider; // our health slider and our lerp slider
@@ -79,7 +79,7 @@ public class PlayerStatManager : MonoBehaviour
             // set our health
             if (!debugInvincible)
             health -= damageAmount;
-            // trigger an on jump effect
+            // trigger a damage effect
             PlayerBodyPartManager.instance.CallParts("OnPlayerTakeDamage");
         }
 
@@ -90,12 +90,28 @@ public class PlayerStatManager : MonoBehaviour
         ChoosePostProcessing();
     }
 
+    // add health
+    public void AddHealth(float healthAmount)
+    {
+        if (health < maxHealth)
+        {
+            LifeUIFlash();
+            health += healthAmount;
+            PlayerBodyPartManager.instance.CallParts("OnPlayerGainLife");
+            // update our post
+            ChoosePostProcessing();
+        }
+    }
+
     // all our UI processing overtime
     void ProcessUI()
     {
         // reset our hurtflash
         if (hurtUIGroup.alpha > 0)
             hurtUIGroup.alpha -= 0.3f * Time.deltaTime;
+               
+        if (lifeGainUIGroup.alpha > 0)
+            lifeGainUIGroup.alpha -= 0.3f * Time.deltaTime;
 
         // sync up our health bars
         healthSlider.value = health / maxHealth;
@@ -108,6 +124,11 @@ public class PlayerStatManager : MonoBehaviour
     void HurtUIFlash()
     {
         hurtUIGroup.alpha = 1;
+    }
+
+    void LifeUIFlash()
+    {
+        lifeGainUIGroup.alpha = 1;
     }
 
     // run the player ik

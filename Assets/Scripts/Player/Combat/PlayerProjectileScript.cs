@@ -30,6 +30,7 @@ public class PlayerProjectileScript : MonoBehaviour
     public bool startInvBuffer = false;
     public bool isHoming, secondHome; // does this home to the nearest enemy?
     public bool doesExplode; // does this explode?
+    public bool isLifesteal; // does this life steal
     [SerializeField] GameObject playerExplosionPrefab; // the explosion prefab
     Transform homingTarget; // our homing target
 
@@ -126,6 +127,11 @@ public class PlayerProjectileScript : MonoBehaviour
             // run our on damage calls
             if (isHoming)
             bodyPartManager.CallParts("OnHomingShotDamage");
+
+            if (isLifesteal)
+            {
+                PlayerStatManager.instance.AddHealth(damage);
+            }
         }
 
     }

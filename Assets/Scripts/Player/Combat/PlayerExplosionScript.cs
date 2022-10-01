@@ -45,6 +45,13 @@ public class PlayerExplosionScript : MonoBehaviour
             // disable the collider in the next frame
             StartCoroutine(DisableBuffer()); // then disable the collider
         }
+
+        // if we collide with the player, deal damage to them
+        if (other.transform.tag == "Player")
+        {
+            PlayerStatManager.instance.TakeDamage(damage);
+            bodyPartManager.CallParts("OnExplosionDamagePlayer"); // damage the player
+        }
     }
 
     private void OverlapCheck()

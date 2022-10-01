@@ -155,6 +155,7 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnHomingShotDamage() { }    // triggered when a Homing Shot deals damage to an enemy
 
     public virtual void OnExplosionDamage() { }     // triggered when an explosion deals damage to one enemy
+    public virtual void OnExplosionDamagePlayer() { }       // triggered when an explosion deals damage to one enemy
     public virtual void OnMultipleExplosionDamage() { }     // triggered when an explosion deals damage to one enemy
 
     public virtual void OnADS() { }                 // triggered when the player ADS
@@ -164,6 +165,7 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnReload() { }              // triggered when the player reloads
     public virtual void OnWeaponSwap() { }          // whenever player changes weapons
     public virtual void OnPlayerTakeDamage() { }    // triggered when the player takes damage
+    public virtual void OnPlayerGainLife() { }      // triggered when the player gains life
     public virtual void OnBodyPartPickup() { }      // triggered when a body part is picked up
     public virtual void OnProjectileHit() { }       // triggers when a projectile hits an enemy
 }
