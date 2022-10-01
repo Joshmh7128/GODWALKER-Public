@@ -57,7 +57,7 @@ public class PlayerProjectileScript : MonoBehaviour
         // go forward
         transform.position = transform.position + transform.forward * speed * Time.deltaTime;
         // if we are homing
-        if (isHoming)
+        if (isHoming && homingTarget != null)
         {
             // get direction from target to transform
             Vector3 targetDirection = homingTarget.position - transform.position;

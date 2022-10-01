@@ -44,6 +44,7 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
         // loop through out list of explosions 
         foreach (PlayerExplosionScript explosion in projectileManager.explosionScripts)
         {
+            Debug.Log("also Triggered");
             if (explosion.enemiesHit > 0)
             {
                 Debug.Log("Spawning new homing bullet");

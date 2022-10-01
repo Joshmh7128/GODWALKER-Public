@@ -49,6 +49,8 @@ public class PlayerExplosionScript : MonoBehaviour
         // check how many enemies we hit
         bodyPartManager.CallParts("OnExplosionDamage");
         if (enemiesHit > 1) bodyPartManager.CallParts("OnMultipleExplosionDamage");
+        // wait for the fixed update
+        yield return new WaitForFixedUpdate();
         // then remove the explosion from the list
         projectileManager.explosionScripts.Remove(this);
         // then disable collider
