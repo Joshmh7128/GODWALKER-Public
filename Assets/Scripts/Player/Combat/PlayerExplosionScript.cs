@@ -13,12 +13,16 @@ public class PlayerExplosionScript : MonoBehaviour
     [HideInInspector] public float damage; // set by our bullet when we are instantiated
     int enemiesHit; // how many enemies this explosion hit
     [SerializeField] DamageNumber explosionHit;
+    bool OnExplosionCalled = false;
 
     // get instance
     private void Awake()
     {
         projectileManager = PlayerProjectileManager.instance;
         bodyPartManager = PlayerBodyPartManager.instance;
+
+        // immediately add ourselves to the projectile manager's list of explosions
+        projectileManager.explosionScripts.Add(this);
     }
 
     // every frame get all the colliders
@@ -28,8 +32,12 @@ public class PlayerExplosionScript : MonoBehaviour
         if (other.gameObject.transform.tag == "Enemy")
         {
             enemiesHit++;
-            // call our explosion damage
-            bodyPartManager.CallParts("OnExplosionDamage");
+            // call our explosion damage only once
+            if (!OnExplosionCalled)
+            {
+                bodyPartManager.CallParts("OnExplosionDamage");
+                OnExplosionCalled = true;   
+            }
             // deal damage
             other.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
             // random normal modifier
