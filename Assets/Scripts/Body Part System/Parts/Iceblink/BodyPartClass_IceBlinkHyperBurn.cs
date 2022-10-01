@@ -24,7 +24,7 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
 
     public override void OnBodyPartPickup()
     {
-        RequestExplosion();
+        Debug.Log("test");
     }
 
     // whenever the weapon is fired

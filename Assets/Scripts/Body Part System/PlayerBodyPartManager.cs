@@ -67,6 +67,15 @@ public class PlayerBodyPartManager : MonoBehaviour
         }
     }
 
+    public void CallParts(string function, float time)
+    {
+        foreach (BodyPartClass bodyPartClass in bodyParts)
+        {
+            // Debug.Log(function);
+            bodyPartClass.Invoke(function, time);
+        }
+    }
+
     // refresh parts - makes sure we spawn in new parts when we start
     void RefreshParts()
     {

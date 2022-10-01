@@ -71,8 +71,6 @@ public class BodyPartItem : ItemClass
     {
         // pickup this part using the playerbodypart manager
         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType);
-        // call the on bodypart pickup on the bdorypartmanager
-        PlayerBodyPartManager.instance.CallParts("OnBodyPartPickup");
         // then destroy
         OnDestroyGameObject();
     }
@@ -82,16 +80,13 @@ public class BodyPartItem : ItemClass
     {
         // pickup this part using the playerbodypart manager
         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, isRight);
-        // call the on bodypart pickup on the bdorypartmanager
-        PlayerBodyPartManager.instance.CallParts("OnBodyPartPickup");
         // then destroy
         OnDestroyGameObject();
     }
 
     private void Update()
     {
-        ProcessCanGrab();
-
+        ProcessCanGrab();   
         // rotate our cosmetic parent
         cosmeticTransform.localEulerAngles = new Vector3(0, cosmeticTransform.localEulerAngles.y + Time.deltaTime * 5f, 0);
     }
@@ -158,4 +153,5 @@ public class BodyPartItem : ItemClass
         Destroy(ourCanvas.gameObject);
         Destroy(gameObject); // remove the weapon from the world
     }
+
 }
