@@ -60,8 +60,17 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
             }
         }
     }
+    
+    // whenever multiple damage happens, request a double shot
+    public override void OnMultipleExplosionDamage()
+    {
+        RequestDoubleShot();
+    }
 
-
+    void RequestDoubleShot()
+    {
+        weaponManager.currentWeapon.requestDoubleShot = true;
+    }
 
     // local function to request that the next shot be a homing shot
     void RequestHoming()

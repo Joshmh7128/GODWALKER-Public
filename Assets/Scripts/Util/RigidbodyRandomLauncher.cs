@@ -12,7 +12,7 @@ public class RigidbodyRandomLauncher : MonoBehaviour
     [SerializeField] float force;
     [SerializeField] bool clean;
     Rigidbody rb;
-    int count; 
+    float count; 
 
     private void Start()
     {
@@ -26,10 +26,10 @@ public class RigidbodyRandomLauncher : MonoBehaviour
 
     private void FixedUpdate()
     {
-        count++;
+        count += Time.deltaTime;
 
         // if we want to clean
-        if (count > 10f && clean)
+        if (count > 5f && clean)
         {
             // freeze everything
             rb.constraints = RigidbodyConstraints.FreezeAll;
