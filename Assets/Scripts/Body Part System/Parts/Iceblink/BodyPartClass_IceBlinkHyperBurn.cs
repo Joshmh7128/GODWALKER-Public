@@ -40,13 +40,15 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
         // store our current weapon's bullet as a prefab
         GameObject projectile = weaponManager.currentWeapon.bulletPrefab;
 
+        Debug.Log("Triggered");
         // loop through out list of explosions 
         foreach (PlayerExplosionScript explosion in projectileManager.explosionScripts)
         {
             if (explosion.enemiesHit > 0)
             {
+                Debug.Log("Spawning new homing bullet");
                 // instantiate a new projectile at the explosion point
-                PlayerProjectileScript activeProjectile = Instantiate(projectile, explosion.transform.position + explosion.transform.forward, Quaternion.identity).GetComponent<PlayerProjectileScript>();
+                PlayerProjectileScript activeProjectile = Instantiate(projectile, explosion.transform.position, Quaternion.identity).GetComponent<PlayerProjectileScript>();
                 activeProjectile.isHoming = true;
                 activeProjectile.doesExplode = true;
             }
