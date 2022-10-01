@@ -14,19 +14,28 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
 
     PlayerWeaponManager weaponManager; // our weapon manager
 
+    // our part start
     public override void PartStart()
     {
         weaponManager = PlayerWeaponManager.instance;
     }
 
+    // whenever the weapon is fired
     public override void OnWeaponFire()
     {
         RequestExplosion();
     }
 
+    // whenever a double shot is fired
     public override void OnDoubleShot()
     {
         RequestExplosion();
+    }
+
+    // whenever an explosion deals damage to an enemy a Homing shot is fired out of the explosion
+    public override void OnExplosionDamage()
+    {
+
     }
 
     // local function to request that the next shot be a homing shot
@@ -35,6 +44,7 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
         weaponManager.currentWeapon.requestHomingShot = true;
     }
 
+    // local function used to request that the next shot be an explosion
     void RequestExplosion()
     {
         weaponManager.currentWeapon.requestExplodingShot = true;

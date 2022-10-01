@@ -9,12 +9,17 @@ public class PlayerExplosionScript : MonoBehaviour
     /// 
 
     PlayerBodyPartManager bodyPartManager;
+    PlayerProjectileManager projectileManager;
     [HideInInspector] public float damage; // set by our bullet when we are instantiated
     int enemiesHit; // how many enemies this explosion hit
     [SerializeField] DamageNumber explosionHit;
 
     // get instance
-    private void Awake() => bodyPartManager = PlayerBodyPartManager.instance;
+    private void Awake()
+    {
+        projectileManager = PlayerProjectileManager.instance;
+        bodyPartManager = PlayerBodyPartManager.instance;
+    }
 
     // every frame get all the colliders
     private void OnTriggerStay(Collider other)
