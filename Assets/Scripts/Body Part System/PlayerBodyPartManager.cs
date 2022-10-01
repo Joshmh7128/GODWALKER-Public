@@ -62,7 +62,7 @@ public class PlayerBodyPartManager : MonoBehaviour
     {
         foreach (BodyPartClass bodyPartClass in bodyParts)
         {
-            Debug.Log(function);
+            // Debug.Log(function);
             bodyPartClass.Invoke(function,0f);
         }
     }

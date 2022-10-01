@@ -25,7 +25,8 @@ public class PlayerProjectileScript : MonoBehaviour
     PlayerBodyPartManager bodyPartManager;
 
     // ability related variables
-    public bool isHoming; // does this home to the nearest enemy?
+    public bool startInvBuffer = false;
+    public bool isHoming, secondHome; // does this home to the nearest enemy?
     public bool doesExplode; // does this explode?
     [SerializeField] GameObject playerExplosionPrefab; // the explosion prefab
     Transform homingTarget; // our homing target
@@ -40,7 +41,9 @@ public class PlayerProjectileScript : MonoBehaviour
         arenaManager = ArenaManager.instance;
         bodyPartManager = PlayerBodyPartManager.instance;
         // if we are a homing bullet
-        if (isHoming) { SetHomingTarget(); Instantiate(homingFX, transform); } 
+        if (isHoming) { SetHomingTarget(); Instantiate(homingFX, transform); }
+        // if we have a frame start buffer
+        if (startInvBuffer) StartCoroutine(InvBuffer());
     }
 
     // Update is called once per frame
@@ -61,7 +64,7 @@ public class PlayerProjectileScript : MonoBehaviour
         {
             // get direction from target to transform
             Vector3 targetDirection = homingTarget.position - transform.position;
-            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 5 * Time.deltaTime, -0f);
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 10 * Time.deltaTime, -0f);
             transform.rotation = Quaternion.LookRotation(newDirection);
         }
     
@@ -121,18 +124,26 @@ public class PlayerProjectileScript : MonoBehaviour
     // our custom destruction script
     void Destruction()
     {
-        // spawn our death fx
-        if (breakParticle != null) Instantiate(breakParticle, transform.position, Quaternion.identity, null);
-        // does this bullet explode?
-        PlayerExplosionScript explosion = null;
-        if (doesExplode)
+        // make sure we dont have a fixed update buffer running
+        if (!startInvBuffer)
         {
-            explosion = Instantiate(playerExplosionPrefab, transform.position, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
-            explosion.damage = damage;
+            // spawn our death fx
+            if (breakParticle != null) Instantiate(breakParticle, transform.position, Quaternion.identity, null);
+            // does this bullet explode?
+            PlayerExplosionScript explosion = null;
+            if (doesExplode)
+            {
+                explosion = Instantiate(playerExplosionPrefab, transform.position, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
+                explosion.damage = damage;
+            }
+            Destroy(gameObject);
         }
-            
+    }
 
-        Destroy(gameObject);
+    IEnumerator InvBuffer()
+    {
+        yield return new WaitForFixedUpdate();
+        startInvBuffer = false;
     }
 
     IEnumerator DeathCounter()
@@ -182,6 +193,24 @@ public class PlayerProjectileScript : MonoBehaviour
         }
         
         homingTarget = localTarget;
+
+        // if we are homing to the 2nd closest target, do the same loop but exclude our localTarget
+        Transform secondTarget = arenaManager.activeArena.activeParent.GetChild(0);
+        if (secondHome)
+        {
+            // loop through and find the closest active enemy
+            foreach (Transform enemy in arenaManager.activeArena.activeParent)
+            {
+                // if the distance from this bullet to the enemy is lower than our local target, set that
+                if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, secondTarget.position) && enemy.gameObject != localTarget.gameObject)
+                    secondTarget = enemy;
+            }
+
+            if (localTarget == secondTarget) Debug.LogError("Homing Projectile has origin Homing target");
+
+            homingTarget = secondTarget;
+
+        }
     }
 
 }
