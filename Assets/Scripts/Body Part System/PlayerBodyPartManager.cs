@@ -70,8 +70,6 @@ public class PlayerBodyPartManager : MonoBehaviour
     // refresh parts - makes sure we spawn in new parts when we start
     void RefreshParts()
     {
-        // refresh our bodypart upgrade manager
-
         // refresh our cosmetics
         PickupPart(headPartClass, BodyPartClass.BodyPartTypes.Head);
         PickupPart(torsoPartClass, BodyPartClass.BodyPartTypes.Torso);

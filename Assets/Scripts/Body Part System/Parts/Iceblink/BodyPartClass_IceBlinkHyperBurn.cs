@@ -43,9 +43,13 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
         // loop through out list of explosions 
         foreach (PlayerExplosionScript explosion in projectileManager.explosionScripts)
         {
-            // instantiate a new projectile at the explosion point
-            PlayerProjectileScript activeProjectile = Instantiate(projectile, explosion.transform.position, Quaternion.identity).GetComponent<PlayerProjectileScript>();
-            activeProjectile.isHoming = true;
+            if (explosion.enemiesHit > 0)
+            {
+                // instantiate a new projectile at the explosion point
+                PlayerProjectileScript activeProjectile = Instantiate(projectile, explosion.transform.position + explosion.transform.forward, Quaternion.identity).GetComponent<PlayerProjectileScript>();
+                activeProjectile.isHoming = true;
+                activeProjectile.doesExplode = true;
+            }
         }
     }
 
