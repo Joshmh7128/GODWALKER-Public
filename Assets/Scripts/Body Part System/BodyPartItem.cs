@@ -147,6 +147,8 @@ public class BodyPartItem : ItemClass
 
     void OnDestroyGameObject()
     {
+        // call an invoke
+        PlayerBodyPartManager.instance.CallParts("OnBodyPartPickup", 0.1f);
         Instantiate(pickupFX, transform.position, pickupFX.transform.rotation, null);
         Instantiate(playerPickupFX, PlayerController.instance.transform.position + new Vector3(0, -1, 0), playerPickupFX.transform.rotation, PlayerController.instance.transform);
         PlayerCameraController.instance.FOVKickRequest(5f);
