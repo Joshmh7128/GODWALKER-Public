@@ -71,6 +71,8 @@ public class BodyPartItem : ItemClass
     {
         // pickup this part using the playerbodypart manager
         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType);
+        // call the on bodypart pickup on the bdorypartmanager
+        PlayerBodyPartManager.instance.CallParts("OnBodyPartPickup");
         // then destroy
         OnDestroyGameObject();
     }
@@ -80,6 +82,8 @@ public class BodyPartItem : ItemClass
     {
         // pickup this part using the playerbodypart manager
         PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, isRight);
+        // call the on bodypart pickup on the bdorypartmanager
+        PlayerBodyPartManager.instance.CallParts("OnBodyPartPickup");
         // then destroy
         OnDestroyGameObject();
     }

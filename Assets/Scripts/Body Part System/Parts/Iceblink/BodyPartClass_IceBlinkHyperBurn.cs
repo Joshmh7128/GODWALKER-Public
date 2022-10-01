@@ -22,6 +22,11 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
         projectileManager = PlayerProjectileManager.instance;
     }
 
+    public override void OnBodyPartPickup()
+    {
+        RequestExplosion();
+    }
+
     // whenever the weapon is fired
     public override void OnWeaponFire()
     {
@@ -55,6 +60,8 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
             }
         }
     }
+
+
 
     // local function to request that the next shot be a homing shot
     void RequestHoming()
