@@ -10,10 +10,12 @@ public class PlayerProjectileManager : MonoBehaviour
     public static PlayerProjectileManager instance;
     private void Awake() => instance = this;
 
+    public float activeProjectileMax = 100f;
+
     // explosions
     public List<PlayerExplosionScript> explosionScripts = new List<PlayerExplosionScript>();
 
     // projectiles NOT SETUP 
-    // public List<PlayerProjectileScript> playerProjectileScripts = new List<PlayerProjectileScript>();
+    public List<PlayerProjectileScript> playerProjectileScripts = new List<PlayerProjectileScript>();
 
 }
