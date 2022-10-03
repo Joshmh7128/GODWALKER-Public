@@ -13,7 +13,6 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
     // our mine prefab
     [SerializeField] GameObject minePrefab;
     bool active, canDrop, coroutineRunning; // are we active or inactive? can we drop another mine?
-
     // player instance
     PlayerController playerController;
 
@@ -31,7 +30,13 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
         if (!coroutineRunning) StartCoroutine(Counter()); 
     }
 
-    public override void OffSprint() => active = false;
+    public override void OffSprint()
+    {
+        // we are no longer active
+        active = false;
+        // reset the sprint move mod
+        playerController.sprintMoveMod = 0;
+    }
 
     // function for dropping mines
     void DropMine()
@@ -61,6 +66,13 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
         {
             coroutineRunning = false;
         }
+    }
+
+    // whenever we deal explosive damage increase sprint speed by 10%
+    public override void OnExplosionDamage()
+    {
+        if (active && playerController.sprintMoveMod > 3)
+        playerController.sprintMoveMod += 0.1f;
     }
 
 }

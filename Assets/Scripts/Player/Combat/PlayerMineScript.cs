@@ -10,14 +10,16 @@ public class PlayerMineScript : MonoBehaviour
     [SerializeField] float radius; // how large is this bomb?
     [SerializeField] GameObject explosionPrefab; // the player's explosion prefab
     [SerializeField] Collider collider; // our mesh collider
-    int i = 0; // counter for activity
+    float i = 0; // counter for activity
 
     // instances
     ArenaManager arenaManager; ArenaHandler currentArena;
+    PlayerWeaponManager weaponManager;
     private void Awake()
     {
         arenaManager = ArenaManager.instance;
         currentArena = arenaManager.activeArena;
+        weaponManager = PlayerWeaponManager.instance;
     }
 
     // check every frame to see if we explode
@@ -26,8 +28,8 @@ public class PlayerMineScript : MonoBehaviour
     // check to see if any of the enemies walk into our mines using a distance loop
     void MineCheck()
     {
-        if (i < 5) i++;
-        if (i >= 5) { collider.enabled = true; }
+        if (i < 0.25) i += Time.deltaTime;
+        if (i >= 0.25) { collider.enabled = true; }
 
         foreach(Transform enemy in currentArena.activeParent)
         {
@@ -42,9 +44,11 @@ public class PlayerMineScript : MonoBehaviour
     void MineExplode(Transform enemy)
     {
         // spawn an explosion at the enemy
-        Instantiate(explosionPrefab, enemy.position, Quaternion.identity, null);
+        PlayerExplosionScript explosionA = Instantiate(explosionPrefab, enemy.position, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
+        explosionA.damage = weaponManager.currentWeapon.damage * Random.Range(0.9f, 1.25f);
         // spawn an explosion at our position
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity, null);
+        PlayerExplosionScript explosionB = Instantiate(explosionPrefab, transform.position, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
+        explosionB.damage = weaponManager.currentWeapon.damage * Random.Range(0.9f, 1.25f);
         // destroy this object
         Destroy(gameObject);
     }
