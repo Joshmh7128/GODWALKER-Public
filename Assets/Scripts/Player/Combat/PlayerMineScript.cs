@@ -9,7 +9,7 @@ public class PlayerMineScript : MonoBehaviour
 
     [SerializeField] float radius; // how large is this bomb?
     [SerializeField] GameObject explosionPrefab; // the player's explosion prefab
-    [SerializeField] MeshCollider meshCollider; // our mesh collider
+    [SerializeField] Collider collider; // our mesh collider
     int i = 0; // counter for activity
 
     // instances
@@ -23,28 +23,12 @@ public class PlayerMineScript : MonoBehaviour
     // check every frame to see if we explode
     private void FixedUpdate() => MineCheck();
 
-    private void Start()
-    {
-        // start our invincible start
-        StartCoroutine(InvStart());
-    }
-
-    // make the mine inactive at start and then turn on its colliders after 5 frames
-    IEnumerator InvStart()
-    {
-        yield return new WaitForFixedUpdate();
-        if (i < 5)
-        {
-            StartCoroutine(InvStart());
-        } else if (i >= 5)
-        {
-            meshCollider.enabled = true;
-        }
-    }
-
     // check to see if any of the enemies walk into our mines using a distance loop
     void MineCheck()
     {
+        if (i < 5) i++;
+        if (i >= 5) { collider.enabled = true; }
+
         foreach(Transform enemy in currentArena.activeParent)
         {
             if (Vector3.Distance(transform.position, enemy.position) < radius)

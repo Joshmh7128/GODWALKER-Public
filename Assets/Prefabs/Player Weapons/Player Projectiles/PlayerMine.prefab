@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 5143239655084568158}
   - component: {fileID: 5143239655084568159}
   - component: {fileID: 5143239655084568156}
-  - component: {fileID: 5143239655084568157}
   - component: {fileID: 5143239655084568154}
   - component: {fileID: 5143239655084568147}
   - component: {fileID: 6391342779099341139}
+  - component: {fileID: 1665815582719408694}
   m_Layer: 0
   m_Name: PlayerMine
   m_TagString: Untagged
@@ -614,7 +614,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5143239655084568155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -656,20 +656,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5143239655084568155}
-  m_Mesh: {fileID: 0}
---- !u!64 &5143239655084568157
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5143239655084568155}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!54 &5143239655084568154
 Rigidbody:
@@ -714,7 +700,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 10.15
   explosionPrefab: {fileID: 130848, guid: 4adaafb742f78e942a908f4d10f3d630, type: 3}
-  meshCollider: {fileID: 5143239655084568157}
+  collider: {fileID: 0}
+--- !u!65 &1665815582719408694
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5143239655084568155}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.4180443, y: 0.17195326, z: 2.9601212}
+  m_Center: {x: 0, y: -0.00000011920929, z: 0}
 --- !u!1 &5143239655687559516
 GameObject:
   m_ObjectHideFlags: 0

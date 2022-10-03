@@ -38,7 +38,7 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
     {
         // drop a mine
         if (canDrop)
-        Instantiate(minePrefab, playerController.transform.position + new Vector3(Random.Range(-1, 1),0 , Random.Range(-1, 1)), Quaternion.identity, null);
+        Instantiate(minePrefab, playerController.transform.position + playerController.animationRigParent.forward, Quaternion.identity, null);
     }
 
     // check every second to see if we can drop another mine
