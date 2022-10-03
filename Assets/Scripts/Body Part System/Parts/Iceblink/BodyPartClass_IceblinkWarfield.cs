@@ -12,28 +12,55 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
 
     // our mine prefab
     [SerializeField] GameObject minePrefab;
-    bool active, canDrop; // are we active or inactive? can we drop another mine?
+    bool active, canDrop, coroutineRunning; // are we active or inactive? can we drop another mine?
+
+    // player instance
+    PlayerController playerController;
+
+    public override void PartStart()
+    {
+        // get our instance
+        playerController = PlayerController.instance;
+    }
 
     // set active
-    public override void OnSprint() => active = true;
+    public override void OnSprint()
+    { 
+        active = true; 
+        // only start the coroutine again if we can drop another mine
+        if (!coroutineRunning) StartCoroutine(Counter()); 
+    }
+
     public override void OffSprint() => active = false;
 
     // function for dropping mines
     void DropMine()
     {
         // drop a mine
-
-        // start the counter
-
+        if (canDrop)
+        Instantiate(minePrefab, playerController.transform.position + new Vector3(Random.Range(-1, 1),0 , Random.Range(-1, 1)), Quaternion.identity, null);
     }
 
-
-    // counter for being able to drop again
+    // check every second to see if we can drop another mine
     IEnumerator Counter()
     {
+        coroutineRunning = true;
+        // if we are sprinting
+        if (active)
+        DropMine();
+        // after the drop, we cannot drop another mine until the timer runs our
         canDrop = false;
         yield return new WaitForSecondsRealtime(1);
         canDrop = true;
+        // if we are still sprinting drop another mine
+        if (active)
+        {
+            StartCoroutine(Counter());
+        }
+        else if (!active)
+        {
+            coroutineRunning = false;
+        }
     }
 
 }
