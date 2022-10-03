@@ -15,11 +15,16 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
     bool active, canDrop, coroutineRunning; // are we active or inactive? can we drop another mine?
     // player instance
     PlayerController playerController;
+    // weapon manager instance
+    PlayerWeaponManager playerWeaponManager;
+    // our buff as updated
+    float buffAmount;
 
     public override void PartStart()
     {
         // get our instance
         playerController = PlayerController.instance;
+        playerWeaponManager = PlayerWeaponManager.instance;
     }
 
     // set active
@@ -36,6 +41,8 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
         active = false;
         // reset the sprint move mod
         playerController.sprintMoveMod = 0;
+        // reset the damage buff
+        ManageBuff(buffAmount);
     }
 
     // function for dropping mines
@@ -72,7 +79,30 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
     public override void OnExplosionDamage()
     {
         if (active)
-        playerController.sprintMoveMod += 0.1f;
+        {
+            // make our player move faster
+            playerController.sprintMoveMod += 0.1f;
+            // damage mod
+            ManageBuff(buffAmount, playerController.sprintMoveMod);
+        }
     }
 
+    void ManageBuff(float lastBuff, float newBuff)
+    {
+        // remove our previous buff
+        playerWeaponManager.currentWeapon.damageMods.Remove(lastBuff);
+        // then update our damage mod to match
+        playerWeaponManager.currentWeapon.damageMods.Add(newBuff);
+        // then set to match
+        buffAmount = newBuff;
+    }
+
+    void ManageBuff(float lastBuff)
+    {
+        // remove our previous buff
+        if (playerWeaponManager.currentWeapon.damageMods.Contains(lastBuff))
+        playerWeaponManager.currentWeapon.damageMods.Remove(lastBuff);
+        // then set to match
+        buffAmount = 0;
+    }
 }

@@ -99,6 +99,12 @@ public abstract class WeaponClass : MonoBehaviour
     // the start that is called manually on every weapon
     public abstract void WeaponStart();
 
+    // on enable
+    public void OnEnable()
+    {
+        damageMods.Clear(); // clear our damage mods list just in case we have anything leftover
+    }
+
     public abstract void UseWeapon(WeaponUseTypes useType); // public function assigned to using our weapon
 
     public virtual void Fire()
@@ -135,7 +141,7 @@ public abstract class WeaponClass : MonoBehaviour
         // exploding?
         if (doesExplode) { bullet.GetComponent<PlayerProjectileScript>().doesExplode = true; }
         // damage modifiers?
-        bullet.GetComponent<PlayerProjectileScript>().damage = damage + damageMod;
+        bullet.GetComponent<PlayerProjectileScript>().damage = damage * damageMod;
         remainingFirerate = firerate + firerateMod;
         currentMagazine--;
     } // firing our weapon. special shots like double or homing shots are handled above in public vars
