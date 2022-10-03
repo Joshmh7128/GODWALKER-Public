@@ -30,7 +30,21 @@ public abstract class WeaponClass : MonoBehaviour
     // our weapon's damage and level
     public float level; // whenever we set the level, update our stats 
 
-    public float damage = 1, damageMod, damageLevelMultiplier; // our damage and the amount it is modified by upgrades
+    public float damage = 1, damageLevelMultiplier; // our damage and the amount it is modified by upgrades
+    public List<float> damageMods; 
+    float damageMod
+    {
+        get 
+        { 
+            float d = 0;
+            foreach (float f in damageMods)
+            {
+                d += f;
+            }
+            return d; 
+        }
+    }
+    
     // our weapon's name
     public string weaponName;
 
