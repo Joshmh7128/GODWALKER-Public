@@ -71,7 +71,7 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
     // whenever we deal explosive damage increase sprint speed by 10%
     public override void OnExplosionDamage()
     {
-        if (active && playerController.sprintMoveMod > 3)
+        if (active)
         playerController.sprintMoveMod += 0.1f;
     }
 
