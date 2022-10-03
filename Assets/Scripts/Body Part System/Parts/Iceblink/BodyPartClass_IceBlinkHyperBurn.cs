@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
+public class BodyPartClass_IceblinkHyperBurn : BodyPartClass
 {
     // All shots are now homing, lol
     /// <summary>
@@ -74,7 +74,7 @@ public class BodyPartClass_IceBlinkHyperBurn : BodyPartClass
         GameObject projectile = weaponManager.currentWeapon.bulletPrefab;
 
         // fire 20 lifestealing shots
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 2; i++)
         {
             // instantiate a new projectile at the explosion point
             PlayerProjectileScript activeProjectile = Instantiate(projectile, PlayerController.instance.transform.position, Quaternion.LookRotation(Vector3.up)).GetComponent<PlayerProjectileScript>();

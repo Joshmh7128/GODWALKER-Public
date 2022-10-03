@@ -9,11 +9,12 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public Vector3 moveH, moveV, move;
     [SerializeField] CharacterController characterController; // our character controller
-    [SerializeField] float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
+    [SerializeField] float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
     RaycastHit groundedHit; // checking to see if we have touched the ground
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
     public float gravityUpMultiplier = 1, gravityDownMultiplier = 1, gravityMidairMultiplier; // our multipliers for moving up and down with gravity
     public bool grounded;
+    [HideInInspector] public float velocity; // our velocity which we only want to read!
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
     bool canMove = true; // can we move?
@@ -161,12 +162,11 @@ public class PlayerController : MonoBehaviour
             bodyPartManager.CallParts("OffSprint");
         }
 
-
         // process our state into the movement speed adjuster
         if (movementState == MovementStates.normal)
         { moveSpeedAdjust = normalMoveMultiplier; sprintParticleSystem.SetActive(false); }        
         if (movementState == MovementStates.sprinting)
-        { moveSpeedAdjust = sprintMoveMultiplier; sprintParticleSystem.SetActive(true); }       
+        { moveSpeedAdjust = sprintMoveMultiplier + sprintMoveMod; sprintParticleSystem.SetActive(true); }       
         if (movementState == MovementStates.aiming)
         { moveSpeedAdjust = aimMoveMultiplier; sprintParticleSystem.SetActive(false); }
 
@@ -180,6 +180,10 @@ public class PlayerController : MonoBehaviour
 
         // apply final movement
         characterController.Move(move * Time.deltaTime * finalMoveSpeed);
+
+        // output our velocity
+        velocity = (Mathf.Abs(move.x) + Mathf.Abs(move.y) + Mathf.Abs(move.z)) * finalMoveSpeed;
+
     }
 
     RaycastHit adjusterHit;
