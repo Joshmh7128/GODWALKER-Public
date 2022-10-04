@@ -251,6 +251,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // ability control
+    void ProcessAbilityControl()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            foreach (BodyPartClass part in bodyPartManager.bodyParts)
+            {
+                part.UseAbility(); // use the ability 
+                bodyPartManager.CallParts("OnUseAbility");
+            }
+        }
+    }
+
     // death
     public void OnPlayerDeath()
     {

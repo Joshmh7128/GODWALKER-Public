@@ -14,7 +14,7 @@ public class AbilityUIHandler : MonoBehaviour
 
     public void UseAbility()
     {
-
+        readySource.Play();
     }
 
 }
