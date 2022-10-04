@@ -23,9 +23,16 @@ public class AbilityUIHandler : MonoBehaviour
         Debug.Log("Ability used");
     }
 
+    void ProcessValues()
+    {
+        // setup charge slider
+        chargeSlider.maxValue = bodyPart.abilityRechargeTimeMax;
+        chargeSlider.value = bodyPart.abilityRechargeTime;
+    }
+
     private void FixedUpdate()
     {
-        
+        ProcessValues();
     }
 
 }

@@ -51,19 +51,17 @@ public class PlayerUIManager : MonoBehaviour
     // update our ability UI
     public void UpdateAbilityUI()
     {
-        // clear our current ability group if we have an ability group
-        try
-        {
-            foreach (Transform child in abilityLayoutGroup.transform)
-            {
-                Destroy(child);
-            }
-        }
-        catch { return; }
+        StartCoroutine(BufferCheck());
+    }
 
+    public void UpdateAbilityUI(bool overload)
+    {
+        // clear our current ability group if we have an ability group
+        for (int i = abilityLayoutGroup.transform.childCount - 1; i > 0; i--)
+            Destroy(abilityLayoutGroup.transform.GetChild(i).gameObject);
 
         // check all our parts for ability prefabs
-        foreach (var part in partManager.bodyParts)
+        foreach (BodyPartClass part in partManager.bodyParts)
         {
             if (part.abilityCosmetic != null)
             {
@@ -73,8 +71,15 @@ public class PlayerUIManager : MonoBehaviour
                 // link an associated body part to the ability cosmetic ui
                 element.bodyPart = part;
                 part.abilityCosmetic = element;
-            } else if (part.abilityCosmetic == null) { return; }
+            }
+            else if (part.abilityCosmetic == null) { return; }
         }
+    }
+
+    IEnumerator BufferCheck()
+    {
+        yield return new WaitForFixedUpdate();
+        UpdateAbilityUI(true);        
     }
 
     // set our names and info

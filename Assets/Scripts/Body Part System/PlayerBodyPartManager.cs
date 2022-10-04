@@ -66,7 +66,7 @@ public class PlayerBodyPartManager : MonoBehaviour
     {
         foreach (BodyPartClass bodyPartClass in bodyParts)
         {
-            Debug.Log(function);
+            // Debug.Log(function);
             bodyPartClass.Invoke(function,0f);
         }
     }
@@ -246,6 +246,7 @@ public class PlayerBodyPartManager : MonoBehaviour
     // tell our player UI manager to update the ability UI
     void UpdateAbilityUI()
     {
+        Debug.Log("Updating ability UI");
         uiManager.UpdateAbilityUI();
     }
 
