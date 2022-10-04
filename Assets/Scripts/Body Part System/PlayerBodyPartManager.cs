@@ -246,7 +246,7 @@ public class PlayerBodyPartManager : MonoBehaviour
     // tell our player UI manager to update the ability UI
     void UpdateAbilityUI()
     {
-        Debug.Log("Updating ability UI");
+        // Debug.Log("Updating ability UI");
         uiManager.UpdateAbilityUI();
     }
 

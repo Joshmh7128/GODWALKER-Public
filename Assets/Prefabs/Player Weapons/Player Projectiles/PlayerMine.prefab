@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5143239655084568147}
   - component: {fileID: 6391342779099341139}
   - component: {fileID: 1665815582719408694}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerMine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -712,7 +712,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.4180443, y: 0.17195326, z: 2.9601212}
+  m_Size: {x: 1, y: 0.1, z: 1}
   m_Center: {x: 0, y: -0.00000011920929, z: 0}
 --- !u!1 &5143239655687559516
 GameObject:
@@ -727,7 +727,7 @@ GameObject:
   - component: {fileID: 5143239655687559507}
   - component: {fileID: 5143239655687559504}
   - component: {fileID: 5143239655687559505}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1372,9 +1372,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5143239655084568144}
     m_Modifications:
+    - target: {fileID: 116404, guid: 79d97692376e24e46987f3902d4c21c6, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 170308, guid: 79d97692376e24e46987f3902d4c21c6, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 197318, guid: 79d97692376e24e46987f3902d4c21c6, type: 3}
       propertyPath: m_Name
       value: BasicZoneRed 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 197318, guid: 79d97692376e24e46987f3902d4c21c6, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 429692, guid: 79d97692376e24e46987f3902d4c21c6, type: 3}
       propertyPath: m_RootOrder

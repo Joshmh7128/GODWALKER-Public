@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     bool canMove = true; // can we move?
     public enum MovementStates { normal, sprinting, aiming}
     public MovementStates movementState;
+    int playerIgnoreMask;
+    int ignoreLayerMask;
 
     [Header("Animation Management")]
     public Transform cameraRig, animationRigParent;
@@ -37,6 +39,10 @@ public class PlayerController : MonoBehaviour
     public void Awake()
     {
         instance = this;
+        // setup bit layer masks
+        playerIgnoreMask = LayerMask.NameToLayer("PlayerIgnore");
+        ignoreLayerMask = (1 << playerIgnoreMask);
+        ignoreLayerMask = ~ignoreLayerMask;
     }
 
     [Header("Visual FX")]
@@ -92,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
         if (groundCheckCooldown <= 0)
         {
-            Physics.SphereCast(transform.position, playerWidth, Vector3.down, out groundedHit, playerHeight, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+            Physics.SphereCast(transform.position, playerWidth, Vector3.down, out groundedHit, playerHeight, ignoreLayerMask, QueryTriggerInteraction.Ignore);
         }
 
         if (groundCheckCooldown > 0)
@@ -193,7 +199,7 @@ public class PlayerController : MonoBehaviour
     {
         var ray = new Ray(transform.position, Vector3.down);
 
-        if (Physics.Raycast(ray, out adjusterHit, 2f))
+        if (Physics.Raycast(ray, out adjusterHit, 2f, ignoreLayerMask, QueryTriggerInteraction.Ignore))
         {
             var slopeRotation = Quaternion.FromToRotation(Vector3.up, adjusterHit.normal);
             var adjustedVelocity = slopeRotation * velocity; // this will align the velocity with the surface
