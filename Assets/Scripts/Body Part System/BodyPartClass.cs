@@ -25,6 +25,7 @@ public abstract class BodyPartClass : MonoBehaviour
 
     [Header("Ability related")]
     public AbilityUIHandler abilityCosmetic; // our ability UI element
+    [HideInInspector] public AbilityUIHandler activeAbilityCosmetic; // our ability UI element
     public float abilityRechargeTime, abilityRechargeTimeMax; // our ability recharge time
 
     [Header("Information related")]
@@ -173,7 +174,7 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void UseAbility()  // direct action non-trigger used to run the ability on a part
     { 
         // try and use our ability
-        try { abilityCosmetic.UseAbility(); } catch { return; }
+        try { activeAbilityCosmetic.UseAbility(); } catch { return; }
         // set our timer
         abilityRechargeTime = abilityRechargeTimeMax; 
         // use our ability

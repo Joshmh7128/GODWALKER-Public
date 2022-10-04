@@ -116,14 +116,14 @@ public class BodyPartItem : ItemClass
                     // change our pickups based on what we are
                     if (bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Head || bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Torso)
                     {
-                        PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType); // pickup the weapon
+                        PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType); // pickup the body part
                         OnDestroyGameObject();
                     }       
                     
                     // change our pickups based on what we are
                     if (bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Arm || bodyPartClass.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
                     {
-                        PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, true); // pickup the weapon
+                        PlayerBodyPartManager.instance.PickupPart(bodyPartClass, bodyPartClass.bodyPartType, true); // pickup the body part
                         OnDestroyGameObject();
                     }
                 }

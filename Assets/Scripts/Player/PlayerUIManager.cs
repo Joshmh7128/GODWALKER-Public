@@ -57,9 +57,10 @@ public class PlayerUIManager : MonoBehaviour
     public void UpdateAbilityUI(bool overload)
     {
         // clear our current ability group if we have an ability group
-        for (int i = abilityLayoutGroup.transform.childCount - 1; i > 0; i--)
+        for (int i = abilityLayoutGroup.transform.childCount - 1; i >= 0; i--)
             Destroy(abilityLayoutGroup.transform.GetChild(i).gameObject);
 
+        
         // check all our parts for ability prefabs
         foreach (BodyPartClass part in partManager.bodyParts)
         {
@@ -70,9 +71,9 @@ public class PlayerUIManager : MonoBehaviour
 
                 // link an associated body part to the ability cosmetic ui
                 element.bodyPart = part;
-                part.abilityCosmetic = element;
+                part.activeAbilityCosmetic = element;
             }
-            else if (part.abilityCosmetic == null) { return; }
+            else if (part.abilityCosmetic == null) { }
         }
     }
 
