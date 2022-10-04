@@ -87,6 +87,12 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
         }
     }
 
+    // use this ability: fire 5 bombs
+    public override void OnUseAbility()
+    {
+
+    }
+
     void ManageBuff(float lastBuff, float newBuff)
     {
         // remove our previous buff

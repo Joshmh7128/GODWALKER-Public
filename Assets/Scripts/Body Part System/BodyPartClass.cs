@@ -24,7 +24,8 @@ public abstract class BodyPartClass : MonoBehaviour
     public List<GameObject> cosmeticParents; // the list of cosmetic parents, same order as our enum
 
     [Header("Ability related")]
-    public GameObject abilityCosmetic; // our ability UI element
+    public AbilityUIHandler abilityCosmetic; // our ability UI element
+    public float abilityRechargeTime, abilityRechargeTimeMax; // our ability recharge time
 
     // the info about our body part
     [TextArea(1, 20)]
@@ -138,6 +139,13 @@ public abstract class BodyPartClass : MonoBehaviour
         }
     }
 
+    // fixed update
+    private void FixedUpdate()
+    {
+        // if we used an ability, lower the charge
+        if (abilityRechargeTime > 0) abilityRechargeTime -= Time.deltaTime;
+    }
+
     // our start that runs manually after our class start
     public virtual void PartStart()
     {
@@ -161,8 +169,18 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnExplosionDamagePlayer() { }       // triggered when an explosion deals damage to one enemy
     public virtual void OnMultipleExplosionDamage() { }     // triggered when an explosion deals damage to one enemy
 
-    public virtual void UseAbility() { }            // direct action non-trigger used to run the ability on a part
-    public virtual void OnUseAbility() { }          // anything we want to have happen after an ability use is triggered
+    public virtual void UseAbility()  // direct action non-trigger used to run the ability on a part
+    { 
+        // try and use our ability
+        try { abilityCosmetic.UseAbility(); } catch { return; }
+        // set our timer
+        abilityRechargeTime = abilityRechargeTimeMax; 
+        // use our ability
+        OnUseAbility(); 
+        
+
+    }            
+    public virtual void OnUseAbility() { }          // anything we want to have happen when an ability use is triggered
 
     public virtual void OnADS() { }                 // triggered when the player ADS
     public virtual void OffADS() { }                // triggered when the player stops ADS

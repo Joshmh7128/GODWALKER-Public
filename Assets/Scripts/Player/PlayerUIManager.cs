@@ -67,7 +67,7 @@ public class PlayerUIManager : MonoBehaviour
 
                 // link an associated body part to the ability cosmetic ui
                 element.bodyPart = part;
-                part.abilityCosmetic = element.gameObject;
+                part.abilityCosmetic = element;
             }
         }
     }

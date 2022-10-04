@@ -259,7 +259,6 @@ public class PlayerController : MonoBehaviour
             foreach (BodyPartClass part in bodyPartManager.bodyParts)
             {
                 part.UseAbility(); // use the ability 
-                bodyPartManager.CallParts("OnUseAbility");
             }
         }
     }
