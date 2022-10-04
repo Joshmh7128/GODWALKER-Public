@@ -51,11 +51,16 @@ public class PlayerUIManager : MonoBehaviour
     // update our ability UI
     public void UpdateAbilityUI()
     {
-        // clear our current ability group
-        foreach (Transform child in abilityLayoutGroup.transform)
+        // clear our current ability group if we have an ability group
+        try
         {
-            Destroy(child);
+            foreach (Transform child in abilityLayoutGroup.transform)
+            {
+                Destroy(child);
+            }
         }
+        catch { return; }
+
 
         // check all our parts for ability prefabs
         foreach (var part in partManager.bodyParts)
@@ -68,7 +73,7 @@ public class PlayerUIManager : MonoBehaviour
                 // link an associated body part to the ability cosmetic ui
                 element.bodyPart = part;
                 part.abilityCosmetic = element;
-            }
+            } else if (part.abilityCosmetic == null) { return; }
         }
     }
 
