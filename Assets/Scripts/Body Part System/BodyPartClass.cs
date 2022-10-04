@@ -27,6 +27,7 @@ public abstract class BodyPartClass : MonoBehaviour
     public AbilityUIHandler abilityCosmetic; // our ability UI element
     public float abilityRechargeTime, abilityRechargeTimeMax; // our ability recharge time
 
+    [Header("Information related")]
     // the info about our body part
     [TextArea(1, 20)]
     public string descriptiveInfo, bodyPartName; // the information about this bodypart in text
@@ -176,10 +177,10 @@ public abstract class BodyPartClass : MonoBehaviour
         // set our timer
         abilityRechargeTime = abilityRechargeTimeMax; 
         // use our ability
-        OnUseAbility(); 
-        
-
+        if (CanUseAbility()) OnUseAbility(); 
     }            
+
+    public bool CanUseAbility() { if (abilityRechargeTime <= 0) { return true; } else return false; }
     public virtual void OnUseAbility() { }          // anything we want to have happen when an ability use is triggered
 
     public virtual void OnADS() { }                 // triggered when the player ADS

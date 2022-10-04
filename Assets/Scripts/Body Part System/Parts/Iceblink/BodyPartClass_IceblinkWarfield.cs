@@ -90,7 +90,10 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
     // use this ability: fire 5 bombs
     public override void OnUseAbility()
     {
-
+        for (int i = 0; i < 5; i++)
+        {
+            Instantiate(minePrefab, playerController.transform.position + playerController.animationRigParent.forward, Quaternion.identity, null);
+        }
     }
 
     void ManageBuff(float lastBuff, float newBuff)
