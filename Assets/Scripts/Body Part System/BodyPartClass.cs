@@ -174,8 +174,9 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void UseAbility()  // direct action non-trigger used to run the ability on a part
     {
         // use our ability
-        if (CanUseAbility()) OnUseAbility();
+        if (CanUseAbility())
         {
+            OnUseAbility();
             // try and use our ability
             try { activeAbilityCosmetic.UseAbility(); } catch { return; }
             // set our timer
@@ -184,7 +185,7 @@ public abstract class BodyPartClass : MonoBehaviour
  
     }            
 
-    public bool CanUseAbility() { if (abilityRechargeTime > 0) { return true; } else return false; }
+    public bool CanUseAbility() { if (abilityRechargeTime <= 0) { return true; } else return false; }
     public virtual void OnUseAbility() { }          // anything we want to have happen when an ability use is triggered
 
     public virtual void OnADS() { }                 // triggered when the player ADS
