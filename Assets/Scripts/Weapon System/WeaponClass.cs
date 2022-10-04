@@ -41,7 +41,7 @@ public abstract class WeaponClass : MonoBehaviour
             {
                 d += f;
             }
-            return d; 
+            return d + 1; // make sure we cant do damage * 0
         }
     }
     
