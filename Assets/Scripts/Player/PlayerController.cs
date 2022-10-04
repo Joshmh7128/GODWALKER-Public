@@ -73,6 +73,8 @@ public class PlayerController : MonoBehaviour
             ProcessWeaponControl();
             // reloading
             ProcessReloadControl();
+            // abilities
+            ProcessAbilityControl();
         }
 
         // resetting the scene

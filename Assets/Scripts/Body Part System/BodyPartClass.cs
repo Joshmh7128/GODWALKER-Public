@@ -23,6 +23,9 @@ public abstract class BodyPartClass : MonoBehaviour
     [Header("!! ORDER: HEAD, TORSO, ARM, LEG !!")]
     public List<GameObject> cosmeticParents; // the list of cosmetic parents, same order as our enum
 
+    [Header("Ability related")]
+    public GameObject abilityCosmetic; // our ability UI element
+
     // the info about our body part
     [TextArea(1, 20)]
     public string descriptiveInfo, bodyPartName; // the information about this bodypart in text
