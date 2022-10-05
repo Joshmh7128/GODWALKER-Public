@@ -165,21 +165,15 @@ public class PlayerProjectileScript : MonoBehaviour
             {
                 try
                 {
-                    teleportCallBack.TryTeleport();
-                }
+                    teleportCallBack.TryTeleport(transform.position);
+                } catch { }
             }
 
-
             // remove from list
-            projectileManager.playerProjectileScripts.Remove(this);
-
-            
+            projectileManager.activeProjectileScripts.Remove(this);            
 
             Destroy(gameObject); 
         }
-
-
-
     }
 
     IEnumerator InvBuffer()
@@ -274,15 +268,15 @@ public class PlayerProjectileScript : MonoBehaviour
     void SafetyCheck()
     {
         // add ourselves to the list if there is not too many
-        if (projectileManager.playerProjectileScripts.Count < projectileManager.activeProjectileMax)
+        if (projectileManager.activeProjectileScripts.Count < projectileManager.activeProjectileMax)
         {
-            projectileManager.playerProjectileScripts.Add(this);
+            projectileManager.activeProjectileScripts.Add(this);
         } 
         else
         {   // destroy one of the last bullets in the list
-            int i = projectileManager.playerProjectileScripts.Count - 1;
-            Destroy(projectileManager.playerProjectileScripts[i].gameObject);
-            projectileManager.playerProjectileScripts.Remove(projectileManager.playerProjectileScripts[i]);
+            int i = projectileManager.activeProjectileScripts.Count - 1;
+            Destroy(projectileManager.activeProjectileScripts[i].gameObject);
+            projectileManager.activeProjectileScripts.Remove(projectileManager.activeProjectileScripts[i]);
         }
     }
 }

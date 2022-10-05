@@ -317,15 +317,24 @@ public class PlayerController : MonoBehaviour
     // teleportation
     public void Teleport(Vector3 teleportPosition)
     {
+        Debug.Log("Player controller is attempting teleport");
         // reset velocities
         playerJumpVelocity = 0;
         verticalVelocity = 0;
         // turn off character controller
         characterController.enabled = false;
+        StartCoroutine(TeleportBuffer(teleportPosition));
+    }
+
+    IEnumerator TeleportBuffer(Vector3 teleportPosition)
+    {
+        Debug.Log("Player controller is running teleport buffer");
+        yield return new WaitForFixedUpdate();
         // move to new position
         transform.position = teleportPosition;
         // turn on character controller
         characterController.enabled = true;
+        Debug.Log("Player controller teleport buffer complete");
     }
 
     private void OnDrawGizmos()

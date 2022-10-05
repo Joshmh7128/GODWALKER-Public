@@ -49,26 +49,39 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
     // request a teleport shot
     void RequestTeleportShot()
     {
-        playerWeaponManager.currentWeapon.requestTeleportShot = true;
-        // find the shot
-        StartCoroutine(FindShot());
+        if (teleportActive && teleportCooldown <= 0)
+        {
+            playerWeaponManager.currentWeapon.requestTeleportShot = true;
+            // find the shot
+            StartCoroutine(FindShot());
+        }
     }
 
     // find our teleport shot and link this to it
     IEnumerator FindShot()
     {
         yield return new WaitForFixedUpdate();
-
+        // loop through the player projectile manager and find a teleporting shot
+        foreach (var projectile in playerProjectileManager.activeProjectileScripts)
+        {
+            if (projectile.isTeleportShot)
+            {
+                projectile.teleportCallBack = this;
+                
+            }
+        }
     }
 
-    // the actual teleport action
+    // the actual teleport action, called back by the latest fired bullet
     public override void TryTeleport(Vector3 teleportPos)
     {
+        Debug.Log("trying teleport");
         if (teleportActive && teleportCooldown <= 0)
         {
             // set teleport cooldown
             teleportCooldown = teleportCooldownMax;
             // teleport action on player character
+            playerController.Teleport(teleportPos);
         }
     }
 

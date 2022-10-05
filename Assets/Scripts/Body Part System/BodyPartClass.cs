@@ -58,7 +58,7 @@ public abstract class BodyPartClass : MonoBehaviour
         // zero out this part. this function is only used for parts we pickup, not cosmetic parts
         foreach(GameObject part in cosmeticParts)
         {
-            part.GetComponent<ZeroOut>().ManualZero(); // manually zero out 
+            part.GetComponent<ZeroOut>().ManualZero();  // manually zero out 
         }
     }
 
@@ -191,7 +191,7 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnADS() { }                 // triggered when the player ADS
     public virtual void OffADS() { }                // triggered when the player stops ADS
 
-    public virtual void TryTeleport() { }           // used for any parts which want to involve teleportation
+    public virtual void TryTeleport(Vector3 targetPos) { }           // used for any parts which want to involve teleportation
 
     public virtual void OnSprint() { }              // triggered when the player sprints
     public virtual void OffSprint() { }             // triggered when the player sprints
