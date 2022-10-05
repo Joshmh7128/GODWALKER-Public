@@ -314,6 +314,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // teleportation
+    public void Teleport(Vector3 teleportPosition)
+    {
+        // reset velocities
+        playerJumpVelocity = 0;
+        verticalVelocity = 0;
+        // turn off character controller
+        characterController.enabled = false;
+        // move to new position
+        transform.position = teleportPosition;
+        // turn on character controller
+        characterController.enabled = true;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
