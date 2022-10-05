@@ -15,6 +15,9 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
     bool teleportActive;
     // how often can we teleport?
     float teleportCooldown, teleportCooldownMax = 0.25f;
+    // our charge
+    int charge; 
+
 
     // setup activity
     public override void OnADS() { teleportActive = true; RequestTeleportShot(); }
@@ -89,5 +92,14 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
             Instantiate(shockExplosionPrefab, teleportPos, Quaternion.identity);
         }
     }
+
+    // whenever we deal shock damage we build up one charge
+    public override void OnShockDamage()
+    {
+        charge++;
+    }
+
+    // when we use our ability
+
 
 }
