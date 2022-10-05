@@ -15,7 +15,10 @@ public class PlayerProjectileManager : MonoBehaviour
     // explosions
     public List<PlayerExplosionScript> explosionScripts = new List<PlayerExplosionScript>();
 
-    // projectiles NOT 
+    // shock explosion
+    public List<PlayerShockExplosionScript> shockExplosionScripts = new List<PlayerShockExplosionScript>();
+
+    // projectiles
     public List<PlayerProjectileScript> activeProjectileScripts = new List<PlayerProjectileScript>();
 
 }
