@@ -19,9 +19,11 @@ public class PlayerCameraController : MonoBehaviour
     bool canControl = true; // can we control this?
     // setup an instance
     public static PlayerCameraController instance;
+    PlayerBodyPartManager bodyPartManager;
     private void Awake()
     {
         instance = this;
+        bodyPartManager = PlayerBodyPartManager.instance;
     }
 
     private void Start()
@@ -165,6 +167,7 @@ public class PlayerCameraController : MonoBehaviour
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 90f, 3f * Time.deltaTime);
             PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
             aimSensitivity = defaultSensitivity;
+            bodyPartManager.CallParts("WhileADS");
         }
 
         // if we're not in aiming mode
@@ -173,6 +176,7 @@ public class PlayerCameraController : MonoBehaviour
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, aimFOV, 5f * Time.deltaTime);
             PlayerWeaponManager.instance.currentWeapon.spreadReduct *= 2f;
             aimSensitivity = defaultSensitivity * adsSensitivity;
+            bodyPartManager.CallParts("WhileNotADS");
         }
 
         // if we're sprinting
@@ -181,6 +185,7 @@ public class PlayerCameraController : MonoBehaviour
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 100f, 10f * Time.deltaTime);
             PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
             aimSensitivity = defaultSensitivity * sprintSensitivity;
+            bodyPartManager.CallParts("WhileNotADS");
         }
 
     }

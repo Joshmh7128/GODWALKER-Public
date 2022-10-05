@@ -14,11 +14,11 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
     // can we teleport?
     bool teleportActive;
     // how often can we teleport?
-    float teleportCooldown, teleportCooldownMax;
+    float teleportCooldown, teleportCooldownMax = 3;
 
     // setup activity
-    public override void OnADS() => teleportActive = true;
-    public override void OffADS() => teleportActive = false;
+    public override void WhileADS() => teleportActive = true;
+    public override void WhileNotADS() => teleportActive = false;
     
     // instances
     PlayerController playerController;
