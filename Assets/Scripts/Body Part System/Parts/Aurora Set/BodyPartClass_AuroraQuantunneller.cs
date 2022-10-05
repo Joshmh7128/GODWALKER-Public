@@ -17,7 +17,7 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
     float teleportCooldown, teleportCooldownMax = 3;
 
     // setup activity
-    public override void WhileADS() => teleportActive = true;
+    public override void WhileADS() { teleportActive = true; RequestTeleportShot(); }
     public override void WhileNotADS() => teleportActive = false;
     
     // instances
@@ -67,7 +67,6 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
             if (projectile.isTeleportShot)
             {
                 projectile.teleportCallBack = this;
-                
             }
         }
     }
