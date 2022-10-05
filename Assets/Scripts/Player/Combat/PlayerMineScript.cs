@@ -9,7 +9,7 @@ public class PlayerMineScript : MonoBehaviour
 
     [SerializeField] float radius; // how large is this bomb?
     [SerializeField] GameObject explosionPrefab; // the player's explosion prefab
-    [SerializeField] Collider collider; // our mesh collider
+    [SerializeField] Collider localCollider; // our mesh collider
     float i = 0; // counter for activity
 
     // instances
@@ -29,7 +29,7 @@ public class PlayerMineScript : MonoBehaviour
     void MineCheck()
     {
         if (i < 0.25) i += Time.deltaTime;
-        if (i >= 0.25) { collider.enabled = true; }
+        if (i >= 0.25) { localCollider.enabled = true; }
 
         foreach(Transform enemy in currentArena.activeParent)
         {
