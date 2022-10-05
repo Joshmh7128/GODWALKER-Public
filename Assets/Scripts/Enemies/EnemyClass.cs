@@ -301,8 +301,7 @@ public abstract class EnemyClass : MonoBehaviour
         if (effect == Effects.Shock)
         {
             // spawn in the shock zone prefab on us
-            GameObject obj = Resources.Load<GameObject>("EnemyElementalEffects/ShockZone.prefab");
-            Debug.Log(obj.name);
+            GameObject obj = Resources.Load<GameObject>("EnemyElementalEffects/ShockZone");
             Instantiate(obj, transform);
         }
     }

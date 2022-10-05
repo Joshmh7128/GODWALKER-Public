@@ -20,8 +20,8 @@ namespace EpicToonFX
                 li = gameObject.GetComponent<Light>();
                 initIntensity = li.intensity;
             }
-            else
-                print("No light object found on " + gameObject.name);
+            else { }
+                //print("No light object found on " + gameObject.name);
         }
 
         // Update is called once per frame
