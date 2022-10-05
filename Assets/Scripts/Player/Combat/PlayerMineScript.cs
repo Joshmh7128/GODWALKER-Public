@@ -29,7 +29,7 @@ public class PlayerMineScript : MonoBehaviour
     void MineCheck()
     {
         if (i < 0.25) i += Time.deltaTime;
-        if (i >= 0.25) { localCollider.enabled = true; }
+        if (i >= 0.25) try { localCollider.enabled = true; } catch { }
 
         foreach(Transform enemy in currentArena.activeParent)
         {
