@@ -191,7 +191,7 @@ public class PlayerProjectileScript : MonoBehaviour
     IEnumerator DeathCounter()
     {
         yield return new WaitForSecondsRealtime(deathTime);
-        Destruction();
+        Destruction(new Vector3(999,999,999));
     }
 
     // the check we run to spawn in our visual fx on this bullet's start
@@ -227,7 +227,7 @@ public class PlayerProjectileScript : MonoBehaviour
                 // if we have hit something, destroy ourselves
                 if (!doesBounce)
                 {
-                    Destruction();
+                    Destruction(hit.point);
                 }
 
                 // if we do bounce, then get the normal and bounce off of it

@@ -21,7 +21,7 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
 
     // setup activity
     public override void OnADS() { teleportActive = true; RequestTeleportShot(); }
-    public override void OffADS() => teleportActive = false;
+    public override void OffADS() { teleportActive = false; playerWeaponManager.currentWeapon.requestTeleportShot = false; } 
 
     // shock explosion
     [SerializeField] GameObject shockExplosionPrefab, shockProjectilePrefab;
@@ -39,7 +39,7 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
     }
 
     // countdown
-    public void FixedUpdate()
+    public override void PartFixedUpdate()
     {
         if (teleportCooldown > 0)
             teleportCooldown -= Time.deltaTime;

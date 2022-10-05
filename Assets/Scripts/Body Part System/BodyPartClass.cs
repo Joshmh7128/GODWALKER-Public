@@ -142,10 +142,11 @@ public abstract class BodyPartClass : MonoBehaviour
     }
 
     // fixed update
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         // if we used an ability, lower the charge
         if (abilityRechargeTime > 0) abilityRechargeTime -= Time.deltaTime;
+        PartFixedUpdate();
     }
 
     // our start that runs manually after our class start
@@ -153,6 +154,8 @@ public abstract class BodyPartClass : MonoBehaviour
     {
         //Debug.Log("The part " + gameObject.name + "has a PartStart which has not been overridden");
     }
+
+    public virtual void PartFixedUpdate() { }       // called at the end of every fixed update to be used by parts when they need a fixed update
 
     public virtual void OnJump() { }                // triggered when the player presses the jump button
     public virtual void OnLand() { }                // triggered when the player lands on the ground 
