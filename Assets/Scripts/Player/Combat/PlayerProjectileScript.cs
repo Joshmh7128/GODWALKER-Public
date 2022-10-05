@@ -5,7 +5,7 @@ using DamageNumbersPro;
 
 public class PlayerProjectileScript : MonoBehaviour
 {
-    [SerializeField] float speed;
+    public float speed;
     public float damage, localCritMod; // how much damage we deal, the local crit modifier
     
     // vfx
@@ -90,7 +90,7 @@ public class PlayerProjectileScript : MonoBehaviour
     {
         // raycast forward
         if (!usesTrigger)
-        Physics.Raycast(transform.position, transform.forward, out hit, 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);   
+        Physics.Raycast(transform.position, transform.forward, out hit, speed * Time.deltaTime * 2, Physics.AllLayers, QueryTriggerInteraction.Ignore);   
 
         // check if we've hit something
         if (hit.transform != null)
@@ -99,12 +99,12 @@ public class PlayerProjectileScript : MonoBehaviour
             {
                 // check and hit the enemy
                 HitEnemy(hit.transform);
-                Destruction();
+                Destruction(hit.point);
             }
 
             if (hit.transform.tag != "Enemy" && !doesBounce)
                 // destroy our bullet if we hit anything else
-                Destruction();
+                Destruction(hit.point);
         }
     }
 
@@ -149,20 +149,20 @@ public class PlayerProjectileScript : MonoBehaviour
     }
 
     // our custom destruction script
-    void Destruction()
+    void Destruction(Vector3 deathPos)
     {
         // make sure we dont have a fixed update buffer running
         if (!startInvBuffer)
         {
             // spawn our death fx
-            if (breakParticle != null) Instantiate(breakParticle, transform.position, Quaternion.identity, null);
+            if (breakParticle != null) Instantiate(breakParticle, deathPos, Quaternion.identity, null);
             
             /// ability related
             // does this bullet explode?
             PlayerExplosionScript explosion = null;
             if (doesExplode)
             {
-                explosion = Instantiate(playerExplosionPrefab, transform.position, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
+                explosion = Instantiate(playerExplosionPrefab, deathPos, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
                 explosion.damage = damage;
             }
             
@@ -171,7 +171,7 @@ public class PlayerProjectileScript : MonoBehaviour
             {
                 try
                 {
-                    teleportCallBack.TryTeleport(transform.position);
+                    teleportCallBack.TryTeleport(deathPos);
                 } catch { }
             }
 

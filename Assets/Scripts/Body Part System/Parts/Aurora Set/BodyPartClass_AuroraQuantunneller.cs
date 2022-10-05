@@ -113,7 +113,8 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
         for (int i = 0; i < localCharge; i++)
         {
             yield return new WaitForSecondsRealtime(0.5f);
-            Instantiate(shockProjectilePrefab, playerController.transform.position + playerController.animationRigParent.forward + Vector3.up*2, playerController.animationRigParent.rotation, null);
+            PlayerProjectileScript p = Instantiate(shockProjectilePrefab, playerController.transform.position + playerController.animationRigParent.forward + Vector3.up*2, playerController.animationRigParent.rotation, null).GetComponent<PlayerProjectileScript>();
+            p.speed = p.speed / 2;
         }
 
         yield return null;
