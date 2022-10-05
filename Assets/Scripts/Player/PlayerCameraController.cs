@@ -100,14 +100,14 @@ public class PlayerCameraController : MonoBehaviour
             {
                 PlayerController.instance.movementState = PlayerController.MovementStates.aiming;
                 FOVMode = FOVModes.aiming;
-                bodyPartManager.CallParts("WhileADS");
+                bodyPartManager.CallParts("OnADS");
             }
 
             if (Input.GetMouseButtonUp(1) && FOVMode == FOVModes.aiming)
             {
                 PlayerController.instance.movementState = PlayerController.MovementStates.normal;
                 FOVMode = FOVModes.normal;
-                bodyPartManager.CallParts("WhileNotADS");
+                bodyPartManager.CallParts("OffADS");
             }
         }
     }
