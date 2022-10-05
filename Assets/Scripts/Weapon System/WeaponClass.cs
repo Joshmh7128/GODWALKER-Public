@@ -60,7 +60,7 @@ public abstract class WeaponClass : MonoBehaviour
     public float spreadReduct, originalSpreadReduct; // how quickly we return to our original state. changed and used in the player camera controller
 
     // everything to do with upgrades
-    public bool requestDoubleShot, requestHomingShot, requestExplodingShot;
+    public bool requestDoubleShot, requestHomingShot, requestExplodingShot, requestTeleportShot;
 
     // our UI handler
     public WeaponUIHandler weaponUIHandler;
@@ -120,7 +120,10 @@ public abstract class WeaponClass : MonoBehaviour
         // does this bullet explode?
         bool doesExplode = false;// setup for local use
         if (requestExplodingShot) { requestExplodingShot = false; doesExplode = true; }
-        
+        // is this a teleporting shot?
+        bool isTeleportShot = false;
+        if (requestTeleportShot) { requestTeleportShot = false; isTeleportShot = true; }
+
         // apply our recoil
         ApplyKickRecoil();
         // add spread
@@ -134,12 +137,16 @@ public abstract class WeaponClass : MonoBehaviour
         Vector3 modifiedShotDirection = new Vector3(shotDirection.x + Random.Range(-spreadX, spreadX), shotDirection.y + Random.Range(-spreadY, spreadY), shotDirection.z).normalized;
         // instantiate and shoot our projectile in that direction
         GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
-        
+        PlayerProjectileScript bulletScript = bullet.GetComponent<PlayerProjectileScript>();
+
         /// apply any mods to our bullet
         // homing?
-        if (isHoming) { bullet.GetComponent<PlayerProjectileScript>().isHoming = true; }    
+        if (isHoming) { bulletScript.isHoming = true; }    
         // exploding?
-        if (doesExplode) { bullet.GetComponent<PlayerProjectileScript>().doesExplode = true; }
+        if (doesExplode) { bulletScript.doesExplode = true; }
+        // teleport?
+        if (isTeleportShot) { bulletScript.isTeleportShot = true; }
+
         // damage modifiers?
         bullet.GetComponent<PlayerProjectileScript>().damage = damage * damageMod;
         remainingFirerate = firerate + firerateMod;

@@ -9,7 +9,7 @@ public class PlayerProjectileScript : MonoBehaviour
     public float damage, localCritMod; // how much damage we deal, the local crit modifier
     
     // vfx
-    [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX, homingFX; // the particle we use on death
+    [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX, homingFX, teleportFX; // the particle we use on death
     public DamageNumber normalHit, critHit; // normal and critical damage numbers
 
     RaycastHit hit; // our raycast hit
@@ -48,8 +48,9 @@ public class PlayerProjectileScript : MonoBehaviour
         projectileManager = PlayerProjectileManager.instance;        
         // check to ensure we never go over the intended amount of projectiles active in the scene
         SafetyCheck();
-        // if we are a homing bullet
-        if (isHoming) { SetHomingTarget(); Instantiate(homingFX, transform); }
+        // run our abilities check
+        StartAbilityCheck();
+
         // if we have a frame start buffer
         if (startInvBuffer) StartCoroutine(InvBuffer());
         // check our raycast before moving
@@ -64,7 +65,6 @@ public class PlayerProjectileScript : MonoBehaviour
         // check our raycast
         ProcessHitscan();
     }
-
 
     void ProcessMovement()
     {
@@ -171,7 +171,16 @@ public class PlayerProjectileScript : MonoBehaviour
         yield return new WaitForSecondsRealtime(deathTime);
         Destruction();
     }
-         
+
+    // the check we run to spawn in our visual fx on this bullet's start
+    void StartAbilityCheck()
+    {
+        // if we are a homing bullet
+        if (isHoming) { SetHomingTarget(); Instantiate(homingFX, transform); }
+        // if we are a teleporting bullet
+        if (isTeleportShot) { Instantiate(teleportFX, transform); }
+    }
+
     // muzzle effect
     void MuzzleFX()
     {
