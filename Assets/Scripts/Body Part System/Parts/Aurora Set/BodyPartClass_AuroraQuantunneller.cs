@@ -23,10 +23,13 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
     // instances
     PlayerController playerController;
     PlayerWeaponManager playerWeaponManager;
+    PlayerProjectileManager playerProjectileManager;
+
     private void Awake()
     {
         playerController = PlayerController.instance;
         playerWeaponManager = PlayerWeaponManager.instance;
+        playerProjectileManager = PlayerProjectileManager.instance;
     }
 
     // countdown
@@ -36,14 +39,30 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
             teleportCooldown -= Time.deltaTime;
     }
 
+    // on shoot
+    public override void OnWeaponFire()
+    {
+        // request a teleport shot
+        RequestTeleportShot();
+    }
+
     // request a teleport shot
+    void RequestTeleportShot()
+    {
+        playerWeaponManager.currentWeapon.requestTeleportShot = true;
+        // find the shot
+        StartCoroutine(FindShot());
+    }
 
+    // find our teleport shot and link this to it
+    IEnumerator FindShot()
+    {
+        yield return new WaitForFixedUpdate();
 
-    // find our teleport shot, store position, and then try to teleport to it
-
+    }
 
     // the actual teleport action
-    void TryTeleport(Vector3 teleportPos)
+    public override void TryTeleport(Vector3 teleportPos)
     {
         if (teleportActive && teleportCooldown <= 0)
         {

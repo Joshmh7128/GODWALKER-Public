@@ -32,6 +32,8 @@ public class PlayerProjectileScript : MonoBehaviour
     public bool doesExplode; // does this explode?
     public bool isLifesteal; // does this life steal
     public bool isTeleportShot; // is this a shot we can try to teleport to?
+    public BodyPartClass teleportCallBack; // when we destroy and are a teleporting shot, send a signal here
+
     [SerializeField] GameObject playerExplosionPrefab; // the explosion prefab
     Transform homingTarget; // our homing target
 
@@ -45,7 +47,10 @@ public class PlayerProjectileScript : MonoBehaviour
         weaponManager = PlayerWeaponManager.instance;
         arenaManager = ArenaManager.instance;
         bodyPartManager = PlayerBodyPartManager.instance;
-        projectileManager = PlayerProjectileManager.instance;        
+        projectileManager = PlayerProjectileManager.instance;
+        // add ourselves to the projectile manager
+        projectileManager.activeProjectileScripts.Add(this);
+
         // check to ensure we never go over the intended amount of projectiles active in the scene
         SafetyCheck();
         // run our abilities check
@@ -145,6 +150,8 @@ public class PlayerProjectileScript : MonoBehaviour
         {
             // spawn our death fx
             if (breakParticle != null) Instantiate(breakParticle, transform.position, Quaternion.identity, null);
+            
+            /// ability related
             // does this bullet explode?
             PlayerExplosionScript explosion = null;
             if (doesExplode)
@@ -152,12 +159,27 @@ public class PlayerProjectileScript : MonoBehaviour
                 explosion = Instantiate(playerExplosionPrefab, transform.position, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
                 explosion.damage = damage;
             }
+            
+            // does this bullet involve teleporting?
+            if (isTeleportShot)
+            {
+                try
+                {
+                    teleportCallBack.TryTeleport();
+                }
+            }
+
 
             // remove from list
             projectileManager.playerProjectileScripts.Remove(this);
 
+            
+
             Destroy(gameObject); 
         }
+
+
+
     }
 
     IEnumerator InvBuffer()

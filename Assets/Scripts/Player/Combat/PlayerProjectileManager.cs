@@ -15,7 +15,7 @@ public class PlayerProjectileManager : MonoBehaviour
     // explosions
     public List<PlayerExplosionScript> explosionScripts = new List<PlayerExplosionScript>();
 
-    // projectiles NOT SETUP 
-    public List<PlayerProjectileScript> playerProjectileScripts = new List<PlayerProjectileScript>();
+    // projectiles NOT 
+    public List<PlayerProjectileScript> activeProjectileScripts = new List<PlayerProjectileScript>();
 
 }
