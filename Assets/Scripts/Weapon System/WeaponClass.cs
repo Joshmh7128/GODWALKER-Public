@@ -48,6 +48,9 @@ public abstract class WeaponClass : MonoBehaviour
     // our UI handler
     public WeaponUIHandler weaponUIHandler;
 
+    // our body part manager
+    public PlayerBodyPartManager bodyPartManager;
+
     // our weapon use types
     public enum WeaponUseTypes
     {
@@ -67,6 +70,8 @@ public abstract class WeaponClass : MonoBehaviour
     {
         // get our weapon handler
         weaponUIHandler = GetComponent<WeaponUIHandler>();
+        // get our body part manager
+        bodyPartManager = PlayerBodyPartManager.instance;
         // set our original spread reduct
         originalSpreadReduct = spreadReduct;
         // update our stats
@@ -79,7 +84,9 @@ public abstract class WeaponClass : MonoBehaviour
 
     public abstract void UseWeapon(WeaponUseTypes useType); // public function assigned to using our weapon
 
-    public abstract void Reload(); // function to reload the weapon
+    public abstract void Fire(bool doubleShot); // firing our weapon
+
+    public abstract void Reload(bool instant); // function to reload the weapon
 
     // every weapon will have kick and recoil, unless they are a melee weapon, in which case we will use a different kind of attack method
     public void ApplyKickRecoil()
@@ -105,13 +112,13 @@ public abstract class WeaponClass : MonoBehaviour
         if (level > 0)
         {
             // set our damage accordingly
-            Debug.Log("setting stats " + level);
+            // Debug.Log("setting stats " + level);
             damage *= level;
         }
 
         if (level <= 0)
         {
-            Debug.LogError(gameObject.name + " WeaponClass has a level of 0, check where this is being created! No stats are being set");
+            // Debug.LogError(gameObject.name + " WeaponClass has a level of 0, check where this is being created! No stats are being set");
         }
     }
 }

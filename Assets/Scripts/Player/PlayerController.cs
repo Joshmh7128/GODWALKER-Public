@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
     RaycastHit groundedHit; // checking to see if we have touched the ground
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
+    public float gravityUpMultiplier = 1, gravityDownMultiplier = 1; // our multipliers for moving up and down with gravity
     public bool grounded;
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
@@ -97,14 +98,24 @@ public class PlayerController : MonoBehaviour
             groundCheckCooldown -= Time.deltaTime;
         }
 
-       
         // jump calculations
-        gravityValue = gravity;
+        gravityValue = gravity * gravityUpMultiplier * gravityDownMultiplier;
 
         if (groundedHit.transform == null)
         {
             playerJumpVelocity += gravityValue * Time.deltaTime;
             grounded = false;
+
+            // check and run our midair movements
+            bodyPartManager.CallParts("OnMoveMidair"); // we're moving while midair
+
+            // if we were moving up in the last frame 
+            if (move.y > 0)
+                bodyPartManager.CallParts("OnMoveUp");
+
+            // if we were moving down in the last frame
+            if (move.y < 0)
+                bodyPartManager.CallParts("OnMoveDown");
         }
 
         if (groundedHit.transform != null)
@@ -197,7 +208,7 @@ public class PlayerController : MonoBehaviour
         {
             // check our IK controller to see if we are reloading
             if (PlayerInverseKinematicsController.instance.reloading == false)
-            PlayerWeaponManager.instance.currentWeapon.Reload();
+            PlayerWeaponManager.instance.currentWeapon.Reload(false); // normal, non-instant reload
         }
     }
 

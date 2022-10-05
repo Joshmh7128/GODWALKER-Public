@@ -18,20 +18,21 @@ public class WeaponClass_Rifle : WeaponClass
             // check if we can fire
             if (remainingFirerate <= 0 && currentMagazine > 0)
             {
-                Fire(); // shoot our gun
+                Fire(false); // shoot our gun
             }
 
             // if we're at 0 ammo then reload
             if (remainingFirerate <= 0 && currentMagazine == 0)
             {
-                Reload();
+                Reload(false);
             }
         }
     }
 
     // what happens when we shoot this gun?
-    void Fire()
+    public override void Fire(bool doubleShot)
     {
+        if (!doubleShot) bodyPartManager.CallParts("OnWeaponFire");
         ApplyKickRecoil(); // apply our recoil
         AddSpread(); // add spread
         weaponUIHandler.KickUI(); // kick our UI
@@ -48,23 +49,37 @@ public class WeaponClass_Rifle : WeaponClass
     }
 
     // function to reload the gun
-    public override void Reload()
+    public override void Reload(bool instant)
     {
-        if (!reloading)
+        // our regular reloads
+        if (!instant)
         {
-            weaponUIHandler.TriggerReload(reloadTime); // start a reload
-            StartCoroutine(ReloadTiming());
+            if (!reloading)
+            {
+                weaponUIHandler.TriggerReload(reloadTime); // start a reload
+                StartCoroutine(ReloadTiming(reloadTime));
+            }
+        }
+
+        // our instance reloads
+        if (instant)
+        {
+            if (!reloading)
+            {
+                weaponUIHandler.TriggerReload(0.1f); // start a reload
+                StartCoroutine(ReloadTiming(0.1f));
+            }
         }
     }
 
     // coroutine to reload the gun
-    IEnumerator ReloadTiming()
+    IEnumerator ReloadTiming(float waitTime)
     {
         reloading = true;
         reloadSourceB.PlayOneShot(reloadSourceB.clip);
         PlayerInverseKinematicsController.instance.ApplyReload();
         // make sure we setup our anim controlled to be chill with us reloading
-        yield return new WaitForSeconds(reloadTime);
+        yield return new WaitForSeconds(waitTime);
         PlayerInverseKinematicsController.instance.EndReload();
         // play our reloaded sound
         reloadSource.PlayOneShot(reloadSource.clip);

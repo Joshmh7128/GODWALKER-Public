@@ -1,22 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DamageNumbersPro;
 
 public class PlayerProjectileScript : MonoBehaviour
 {
     [SerializeField] float speed;
-    public float damage; // how much damage we deal
-    [SerializeField] GameObject breakParticle, muzzleEffect, hitFX; // the particle we use on death
+    public float damage, localCritMod; // how much damage we deal, the local crit modifier
+    
+    // vfx
+    [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX; // the particle we use on death
+    public DamageNumber normalHit, critHit; // normal and critical damage numbers
+
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;
 
     [SerializeField] bool usesTrigger;
+
+    // player controller instance
+    PlayerWeaponManager weaponManager;
 
     private void Start()
     {
         StartCoroutine(DeathCounter());
         // muzzle flash
         MuzzleFX();
+        // get instance
+        weaponManager = PlayerWeaponManager.instance;
     }
 
     // Update is called once per frame
@@ -61,10 +71,24 @@ public class PlayerProjectileScript : MonoBehaviour
         // if we hit an enemy
         if (enemy.transform.tag == "Enemy")
         {
+            // run a chance to see if this is a critical or not
+            int c = Random.Range(0, 100);
+            // check the chance
+            if (c <= weaponManager.criticalHitChance + localCritMod)
+            {   
+                // randomly boost damage on critical hits
+                damage *= Random.Range(2, 4);
+                // spawn critical damage number
+                critHit.Spawn(transform.position, damage);
+            } else if (c > weaponManager.criticalHitChance + localCritMod)
+            {
+                // random normal modifier
+                damage *= Random.Range(0.9f, 1.25f);
+                // spawn normal damage number
+                normalHit.Spawn(transform.position, damage);
+            }
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
-            // our hitfX for hitmarkers
-            if (hitFX)
-            { Instantiate(hitFX, null); }
+
         }
 
     }
