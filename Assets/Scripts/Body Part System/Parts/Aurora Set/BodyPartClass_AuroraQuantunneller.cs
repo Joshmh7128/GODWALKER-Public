@@ -24,7 +24,7 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
     public override void OffADS() => teleportActive = false;
 
     // shock explosion
-    [SerializeField] GameObject shockExplosionPrefab;
+    [SerializeField] GameObject shockExplosionPrefab, shockProjectilePrefab;
 
     // instances
     PlayerController playerController;
@@ -99,7 +99,24 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
         charge++;
     }
 
-    // when we use our ability
+    // when we use our ability discharge everything we've stored up!
+    public override void OnUseAbility()
+    {
+        StartCoroutine(AbilityBuffer());
+    }
 
+    // coroutine to discharge
+    IEnumerator AbilityBuffer()
+    {
+        int localCharge = charge;
+        charge = 0;
+        for (int i = 0; i < localCharge; i++)
+        {
+            yield return new WaitForSecondsRealtime(1 / 30);
+            Instantiate(shockProjectilePrefab, playerController.transform.position + playerController.animationRigParent.forward, playerController.animationRigParent.rotation, null);
+        }
+
+        yield return null;
+    }
 
 }

@@ -15,7 +15,7 @@ public class PlayerProjectileScript : MonoBehaviour
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;
 
-    [SerializeField] bool usesTrigger;
+    [SerializeField] bool usesTrigger, doesBounce; // our physics related aspects of this script
 
     // weapon manager instance
     PlayerWeaponManager weaponManager;
@@ -102,7 +102,7 @@ public class PlayerProjectileScript : MonoBehaviour
                 Destruction();
             }
 
-            if (hit.transform.tag != "Enemy")
+            if (hit.transform.tag != "Enemy" && !doesBounce)
                 // destroy our bullet if we hit anything else
                 Destruction();
         }
@@ -113,6 +113,12 @@ public class PlayerProjectileScript : MonoBehaviour
         // if we hit an enemy
         if (enemy.transform.tag == "Enemy")
         {
+            // make sure we have damage
+            if (damage == 0)
+            {
+                damage = weaponManager.currentWeapon.damage;
+            }
+
             // run a chance to see if this is a critical or not
             int c = Random.Range(0, 100);
             // check the chance
@@ -219,7 +225,20 @@ public class PlayerProjectileScript : MonoBehaviour
             if (other.transform.tag != "Player")
             {
                 // if we have hit something, destroy ourselves
-                Destruction();
+                if (!doesBounce)
+                {
+                    Destruction();
+                }
+
+                // if we do bounce, then get the normal and bounce off of it
+                if (doesBounce)
+                {
+                    // raycast forwards
+                    RaycastHit hit;
+                    Physics.Raycast(transform.position, transform.forward, out hit, 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+                    Vector3 newDir = Vector3.Reflect(transform.forward, hit.normal); // reflect
+                    transform.rotation = Quaternion.LookRotation(newDir); // rotate
+                }
             }
         }
     }
@@ -267,6 +286,7 @@ public class PlayerProjectileScript : MonoBehaviour
     // safety check
     void SafetyCheck()
     {
+      
         // add ourselves to the list if there is not too many
         if (projectileManager.activeProjectileScripts.Count < projectileManager.activeProjectileMax)
         {
