@@ -330,8 +330,17 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player controller is running teleport buffer");
         yield return new WaitForFixedUpdate();
+        // get a position that is 95% of the way to the new position so that we don't go through any walls
+        // get direction, dest - start
+        Vector3 dir = teleportPosition - transform.position;
+        // get distance
+        float distance = Vector3.Distance(transform.position, teleportPosition);
+        distance *= 0.95f; // get 95%
+        // get target position relative to zero point
+        Vector3 targetPosition = (dir.normalized * distance);
+        targetPosition += transform.position; // add our transform position as well to make this a local pos
         // move to new position
-        transform.position = teleportPosition;
+        transform.position = targetPosition;
         // turn on character controller
         characterController.enabled = true;
         Debug.Log("Player controller teleport buffer complete");

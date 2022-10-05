@@ -75,9 +75,11 @@ public class PlayerShockExplosionScript : MonoBehaviour
         yield return new WaitForFixedUpdate();
         // then remove the explosion from the list
         if (!doesLoop)
+        {
             projectileManager.shockExplosionScripts.Remove(this);
-        // then disable collider
-        gameObject.GetComponent<Collider>().enabled = false;
+            // then disable collider
+            gameObject.GetComponent<Collider>().enabled = false;
+        }
         // then wait another 2 seconds
         yield return new WaitForSecondsRealtime(1f);
         // then destroy this object
