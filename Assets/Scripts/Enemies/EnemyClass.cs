@@ -25,6 +25,12 @@ public abstract class EnemyClass : MonoBehaviour
     // our agent
     [HideInInspector] public NavMeshAgent navMeshAgent;
 
+    PlayerBodyPartManager playerBodyPartManager;
+    private void Awake()
+    {
+        playerBodyPartManager = PlayerBodyPartManager.instance;
+    }
+
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -303,6 +309,7 @@ public abstract class EnemyClass : MonoBehaviour
             // spawn in the shock zone prefab on us
             GameObject obj = Resources.Load<GameObject>("EnemyElementalEffects/ShockZone");
             Instantiate(obj, transform);
+            playerBodyPartManager.CallParts("OnShockEffect");
         }
     }
 

@@ -171,6 +171,7 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnExplosionDamagePlayer() { }       // triggered when an explosion deals damage to one enemy
     public virtual void OnMultipleExplosionDamage() { }     // triggered when an explosion deals damage to one enemy
     public virtual void OnShockDamage() { }         // triggered when an explosion deals damage to one enemy
+    public virtual void OnShockEffect() { }         // triggered when an enemy is dealt the shock effect for the first time
 
     public virtual void UseAbility()  // direct action non-trigger used to run the ability on a part
     {

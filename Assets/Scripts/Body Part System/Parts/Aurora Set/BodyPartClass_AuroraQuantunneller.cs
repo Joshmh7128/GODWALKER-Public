@@ -94,7 +94,7 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
     }
 
     // whenever we deal shock damage we build up one charge
-    public override void OnShockDamage()
+    public override void OnShockEffect()
     {
         charge++;
     }
