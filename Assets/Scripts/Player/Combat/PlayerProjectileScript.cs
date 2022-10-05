@@ -31,6 +31,7 @@ public class PlayerProjectileScript : MonoBehaviour
     public bool isHoming, secondHome; // does this home to the nearest enemy?
     public bool doesExplode; // does this explode?
     public bool isLifesteal; // does this life steal
+    public bool isTeleportShot; // is this a shot we can try to teleport to?
     [SerializeField] GameObject playerExplosionPrefab; // the explosion prefab
     Transform homingTarget; // our homing target
 
