@@ -35,7 +35,7 @@ public class BodyPartClass_ToughHide : BodyPartClass
         // reset the damage mods of all weapons
         foreach (GameObject weapon in PlayerWeaponManager.instance.weapons)
         {
-            weapon.GetComponent<WeaponClass>().damageMod = 0;
+            weapon.GetComponent<WeaponClass>().damageMods.Remove(buffAmount);
         }
         // we're done counting, so reset
         counting = false;
@@ -56,7 +56,7 @@ public class BodyPartClass_ToughHide : BodyPartClass
     void ApplyDamageBuff()
     {
         // only if we are counting apply the damage bonus
-        PlayerWeaponManager.instance.currentWeapon.damageMod = buffAmount;
+        PlayerWeaponManager.instance.currentWeapon.damageMods.Add(buffAmount);
     }
 
     // calculate how much damage we are dealing in addition

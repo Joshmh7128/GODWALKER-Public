@@ -6,7 +6,7 @@ public class LocalIKHandler : MonoBehaviour
 {
 
     [SerializeField] Transform rightHandTarget, leftHandTarget, rightFootTarget, leftFootTarget;
-    [SerializeField] Transform lookTarget;
+    public Transform lookTarget;
 
     [SerializeField] Vector3 lookPos, kickVector;
     [SerializeField] float kickReturnDelta;

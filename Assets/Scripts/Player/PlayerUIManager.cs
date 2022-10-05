@@ -18,6 +18,10 @@ public class PlayerUIManager : MonoBehaviour
     /// 5 - left leg
     /// </summary>
 
+    // setup our instance
+    public static PlayerUIManager instance;
+    private void Awake() => instance = this;
+
     // our instance of the bodypart manager 
     PlayerBodyPartManager partManager;
 
@@ -28,6 +32,8 @@ public class PlayerUIManager : MonoBehaviour
 
     // ui elements
     [SerializeField] CanvasGroup bodyPartCanvasGroup; // the body part canvas group we'll be interacting with
+    [SerializeField] HorizontalLayoutGroup abilityLayoutGroup; // our ability layout group
+
 
     // start
     private void Start()
@@ -42,9 +48,43 @@ public class PlayerUIManager : MonoBehaviour
         ProcessInput();
     }
 
+    // update our ability UI
+    public void UpdateAbilityUI()
+    {
+        StartCoroutine(BufferCheck());
+    }
+
+    public void UpdateAbilityUI(bool overload)
+    {
+        // clear our current ability group if we have an ability group
+        for (int i = abilityLayoutGroup.transform.childCount - 1; i >= 0; i--)
+            Destroy(abilityLayoutGroup.transform.GetChild(i).gameObject);
+
+        
+        // check all our parts for ability prefabs
+        foreach (BodyPartClass part in partManager.bodyParts)
+        {
+            if (part.abilityCosmetic != null)
+            {
+                // spawn in that prefab if this upgrade has an ability on it into the ui group
+                AbilityUIHandler element = Instantiate(part.abilityCosmetic, abilityLayoutGroup.transform).GetComponent<AbilityUIHandler>();
+
+                // link an associated body part to the ability cosmetic ui
+                element.bodyPart = part;
+                part.activeAbilityCosmetic = element;
+            }
+            else if (part.abilityCosmetic == null) { }
+        }
+    }
+
+    IEnumerator BufferCheck()
+    {
+        yield return new WaitForFixedUpdate();
+        UpdateAbilityUI(true);        
+    }
 
     // set our names and info
-    private void UpdateUI()
+    private void UpdateBodyPartUI()
     {
         // set all names and info to the correct text
         for (int i = 0; i < nameDisplays.Count; i++)
@@ -101,7 +141,7 @@ public class PlayerUIManager : MonoBehaviour
     {
         bodyPartCanvasGroup.alpha = 1;
         // update our information whenever we show it
-        UpdateUI();
+        UpdateBodyPartUI();
     }
 
     // fading out our canvas

@@ -5,7 +5,6 @@ using UnityEngine;
 public class BodyPartClass_TyrantsRetribution : BodyPartClass
 {
     // while moving up double shots have an increase 25% critical hit chance
-
     bool active; // is this active? when is it active?
     public override void OnMoveUp() { active = true; }
     public override void OnMoveDown() 

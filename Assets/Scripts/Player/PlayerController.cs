@@ -9,16 +9,19 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public Vector3 moveH, moveV, move;
     [SerializeField] CharacterController characterController; // our character controller
-    [SerializeField] float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
+    public float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
     RaycastHit groundedHit; // checking to see if we have touched the ground
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
-    public float gravityUpMultiplier = 1, gravityDownMultiplier = 1; // our multipliers for moving up and down with gravity
+    public float gravityUpMultiplier = 1, gravityDownMultiplier = 1, gravityMidairMultiplier; // our multipliers for moving up and down with gravity
     public bool grounded;
+    [HideInInspector] public float velocity; // our velocity which we only want to read!
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
     bool canMove = true; // can we move?
     public enum MovementStates { normal, sprinting, aiming}
     public MovementStates movementState;
+    int playerIgnoreMask;
+    int ignoreLayerMask;
 
     [Header("Animation Management")]
     public Transform cameraRig, animationRigParent;
@@ -36,6 +39,10 @@ public class PlayerController : MonoBehaviour
     public void Awake()
     {
         instance = this;
+        // setup bit layer masks
+        playerIgnoreMask = LayerMask.NameToLayer("PlayerIgnore");
+        ignoreLayerMask = (1 << playerIgnoreMask);
+        ignoreLayerMask = ~ignoreLayerMask;
     }
 
     [Header("Visual FX")]
@@ -72,6 +79,8 @@ public class PlayerController : MonoBehaviour
             ProcessWeaponControl();
             // reloading
             ProcessReloadControl();
+            // abilities
+            ProcessAbilityControl();
         }
 
         // resetting the scene
@@ -89,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
         if (groundCheckCooldown <= 0)
         {
-            Physics.SphereCast(transform.position, playerWidth, Vector3.down, out groundedHit, playerHeight, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+            Physics.SphereCast(transform.position, playerWidth, Vector3.down, out groundedHit, playerHeight, ignoreLayerMask, QueryTriggerInteraction.Ignore);
         }
 
         if (groundCheckCooldown > 0)
@@ -99,7 +108,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // jump calculations
-        gravityValue = gravity * gravityUpMultiplier * gravityDownMultiplier;
+        if (gravityMidairMultiplier == 0) { gravityValue = gravity * gravityUpMultiplier * gravityDownMultiplier; } else { gravityValue = gravity * gravityMidairMultiplier; }
 
         if (groundedHit.transform == null)
         {
@@ -161,12 +170,11 @@ public class PlayerController : MonoBehaviour
             bodyPartManager.CallParts("OffSprint");
         }
 
-
         // process our state into the movement speed adjuster
         if (movementState == MovementStates.normal)
         { moveSpeedAdjust = normalMoveMultiplier; sprintParticleSystem.SetActive(false); }        
         if (movementState == MovementStates.sprinting)
-        { moveSpeedAdjust = sprintMoveMultiplier; sprintParticleSystem.SetActive(true); }       
+        { moveSpeedAdjust = sprintMoveMultiplier + sprintMoveMod; sprintParticleSystem.SetActive(true); }       
         if (movementState == MovementStates.aiming)
         { moveSpeedAdjust = aimMoveMultiplier; sprintParticleSystem.SetActive(false); }
 
@@ -180,6 +188,10 @@ public class PlayerController : MonoBehaviour
 
         // apply final movement
         characterController.Move(move * Time.deltaTime * finalMoveSpeed);
+
+        // output our velocity
+        velocity = (Mathf.Abs(move.x) + Mathf.Abs(move.y) + Mathf.Abs(move.z)) * finalMoveSpeed;
+
     }
 
     RaycastHit adjusterHit;
@@ -187,7 +199,7 @@ public class PlayerController : MonoBehaviour
     {
         var ray = new Ray(transform.position, Vector3.down);
 
-        if (Physics.Raycast(ray, out adjusterHit, 2f))
+        if (Physics.Raycast(ray, out adjusterHit, 2f, ignoreLayerMask, QueryTriggerInteraction.Ignore))
         {
             var slopeRotation = Quaternion.FromToRotation(Vector3.up, adjusterHit.normal);
             var adjustedVelocity = slopeRotation * velocity; // this will align the velocity with the surface
@@ -242,6 +254,18 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             PlayerWeaponManager.instance.currentWeapon.UseWeapon(WeaponClass.WeaponUseTypes.OnHold);
+        }
+    }
+
+    // ability control
+    void ProcessAbilityControl()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            foreach (BodyPartClass part in bodyPartManager.bodyParts)
+            {
+                part.UseAbility(); // use the ability 
+            }
         }
     }
 

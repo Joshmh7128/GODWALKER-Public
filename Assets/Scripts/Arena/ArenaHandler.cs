@@ -18,35 +18,37 @@ public class ArenaHandler : MonoBehaviour
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
     GameObject previousSummon; // our previous summon
     [SerializeField] int activeGoal; // how many do we want active at once?
-    bool combatComplete;
+    public bool combatBegun, combatComplete;
 
     // our list of spawn points
     public List<Transform> spawnPoints = new List<Transform>(); // all the spawnpoints in the room
     Transform spawnPoint; // the spawn point we're using right now
 
-    // our list of arena fillers
-    [SerializeField] List<GameObject> arenaGeometries; // all the different geometries of arenas we can fill the environment with
     // our doors
-    [SerializeField] List<DoorScript> doors;
+    [HideInInspector] public List<DoorScript> doors;
+
+    // arena manager
+    ArenaManager arenaManager;
 
     // our arena level
-    public int arenaLevel; 
+    public int arenaLevel;
+
+    // everything to do with upgrades
+    [SerializeField] Transform upgradeSpawnPoint; // where the upgrade spawns
+    [SerializeField] GameObject bodyPartItem; // an empty body part item prefab
+    [SerializeField] bool specialRoom; // is this a special room?
 
     private void Start()
     {
         // build an arena from our geometry prefabs
         BuildArena();
+        // get our arena manager instance
+        arenaManager = ArenaManager.instance;
     }
 
     // select a random geomety set and spawn it in
     void BuildArena()
-    {
-        // build the arenas
-        int i = Random.Range(0, arenaGeometries.Count);
-        GameObject geometry = Instantiate(arenaGeometries[i], transform.position, Quaternion.identity, null);
-        // set this as the geometry's arena, then send the spawnpoints to us
-        geometry.GetComponent<ArenaGeometryClass>().handler = this;
-        geometry.GetComponent<ArenaGeometryClass>().SendSpawnPoints();
+    { 
         // lock the doors
         foreach (DoorScript door in doors)
         {
@@ -54,7 +56,7 @@ public class ArenaHandler : MonoBehaviour
             door.triggerLock = true;
             // activate the barriers if they are open
             if (door.open)
-                door.ManualLock();
+                door.Lock();
         }
 
         // nav mesh generation is done PER MESH inside the geometry prefab
@@ -62,6 +64,7 @@ public class ArenaHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (combatBegun)
         ProcessEnemyAmount();
     }
 
@@ -111,16 +114,89 @@ public class ArenaHandler : MonoBehaviour
         }
     }
 
+    // start combat here - called from the associated doorclass
+    public void StartCombat()
+    {
+        combatBegun = true;
+        // set ourselves as the active arena in the arena manager
+        arenaManager.activeArena = this;
+    }
+
     // end combat here
     void EndCombat()
     {
+        // end combat
         if (!combatComplete)
         {
             combatComplete = true;
             CheckCombatCompletion();
             SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro);
+
+            // spawn our new body part from the list
+            // 50/50 chance to get the next in the same set
+            CreateBodyPartItem(specialRoom);
+
         }
 
+    }
+
+    // create a body part set
+    void CreateBodyPartItem(bool special)
+    {
+        // if we are not special
+        if (!special)
+        {
+            // 50/50 chance to generate main or alternate
+            int c = Random.Range(0, 100); 
+            // spawn a main bodypart at the upgade spawn point
+            if (c < 50)
+            { 
+                // if we havent spawned all items yet
+                if (arenaManager.mainIndex <= arenaManager.mainSet.Count)
+                {
+                    // spawn in a body part item and then add the associated upgrade to that item
+                    BodyPartItem item = Instantiate(bodyPartItem, upgradeSpawnPoint).GetComponent<BodyPartItem>();
+                    // set the bodypart
+                    item.bodyPartObject = Instantiate(arenaManager.mainSet[arenaManager.mainIndex], new Vector3(9999, 9999, 9999), Quaternion.identity);
+                    // then add one to the main index so we get another one next
+                    arenaManager.mainIndex++;
+                }
+
+                // if we have then spawn a special 
+                // SpawnSpecialItem();
+
+            } 
+            
+            // spawn an alternate bodypart at the upgade spawn point
+            if (c >= 50)
+            {
+                // if we havent spawned all items yet
+                if (arenaManager.alternateIndex <= arenaManager.alternateSet.Count)
+                {
+                    BodyPartItem item = Instantiate(bodyPartItem, upgradeSpawnPoint).GetComponent<BodyPartItem>();
+
+                    item.bodyPartObject = Instantiate(arenaManager.alternateSet[arenaManager.alternateIndex], new Vector3(9999, 9999, 9999), Quaternion.identity);
+                    // then add one to the main index so we get another one next
+                    arenaManager.alternateIndex++;
+                }
+
+                // if we have then spawn a special 
+                // SpawnSpecialItem();
+            }
+        }
+
+        // spawn a special
+        if (special) SpawnSpecialItem();
+    }
+
+    void SpawnSpecialItem()
+    {
+        BodyPartItem item = Instantiate(bodyPartItem, upgradeSpawnPoint).GetComponent<BodyPartItem>();
+        int i = Random.Range(0, arenaManager.specialSet.Count);
+        item.bodyPartObject = Instantiate(arenaManager.specialSet[i], new Vector3(9999, 9999, 9999), Quaternion.identity);
+
+        // then remove the part from the list so we cant spawn it again
+        arenaManager.specialSet.Remove(arenaManager.specialSet[i]);
     }
 
     // check out combat completion

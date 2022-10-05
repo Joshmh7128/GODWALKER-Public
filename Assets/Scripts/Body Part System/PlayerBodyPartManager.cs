@@ -17,8 +17,12 @@ public class PlayerBodyPartManager : MonoBehaviour
 
     // setup and set our instance
     public static PlayerBodyPartManager instance;
+    public PlayerUIManager uiManager;
     private void Awake() 
-    { instance = this; }
+    {
+        instance = this;
+        uiManager = PlayerUIManager.instance;
+    }
 
     public float pickupCooldown; // our pickup cooldown
 
@@ -54,10 +58,8 @@ public class PlayerBodyPartManager : MonoBehaviour
     /// <summary>
     /// 0 - head
     /// 1 - torso
-    /// 2 - right arm
-    /// 3 - left arm 
-    /// 4 - right leg
-    /// 5 - left leg
+    /// 2 - arm
+    /// 4 - leg
     /// </summary>
 
     public void CallParts(string function)
@@ -69,11 +71,18 @@ public class PlayerBodyPartManager : MonoBehaviour
         }
     }
 
+    public void CallParts(string function, float time)
+    {
+        foreach (BodyPartClass bodyPartClass in bodyParts)
+        {
+            // Debug.Log(function);
+            bodyPartClass.Invoke(function, time);
+        }
+    }
+
     // refresh parts - makes sure we spawn in new parts when we start
     void RefreshParts()
     {
-        // refresh our bodypart upgrade manager
-
         // refresh our cosmetics
         PickupPart(headPartClass, BodyPartClass.BodyPartTypes.Head);
         PickupPart(torsoPartClass, BodyPartClass.BodyPartTypes.Torso);
@@ -132,6 +141,9 @@ public class PlayerBodyPartManager : MonoBehaviour
             bodyParts[1] = part;
 
         }
+
+        // then update the ability UI
+        UpdateAbilityUI();
     }
 
     public void PickupPart(BodyPartClass part, BodyPartClass.BodyPartTypes type, bool isRight)
@@ -226,6 +238,16 @@ public class PlayerBodyPartManager : MonoBehaviour
                 bodyParts[5] = part;
             }
         }
+
+        // then update the ability UI
+        UpdateAbilityUI();
+    }
+
+    // tell our player UI manager to update the ability UI
+    void UpdateAbilityUI()
+    {
+        // Debug.Log("Updating ability UI");
+        uiManager.UpdateAbilityUI();
     }
 
     private void FixedUpdate()
@@ -241,4 +263,5 @@ public class PlayerBodyPartManager : MonoBehaviour
             pickupCooldown--;
         }
     }
+
 }

@@ -30,7 +30,21 @@ public abstract class WeaponClass : MonoBehaviour
     // our weapon's damage and level
     public float level; // whenever we set the level, update our stats 
 
-    public float damage = 1, damageMod, damageLevelMultiplier; // our damage and the amount it is modified by upgrades
+    public float damage = 1, damageLevelMultiplier; // our damage and the amount it is modified by upgrades
+    public List<float> damageMods; 
+    float damageMod
+    {
+        get 
+        { 
+            float d = 0;
+            foreach (float f in damageMods)
+            {
+                d += f;
+            }
+            return d + 1; // make sure we cant do damage * 0
+        }
+    }
+    
     // our weapon's name
     public string weaponName;
 
@@ -44,6 +58,9 @@ public abstract class WeaponClass : MonoBehaviour
     public float spreadX, spreadY, spreadMax; // spread on each of these axes
     public float spreadXDelta, spreadYDelta; // the increase on each of these axes
     public float spreadReduct, originalSpreadReduct; // how quickly we return to our original state. changed and used in the player camera controller
+
+    // everything to do with upgrades
+    public bool requestDoubleShot, requestHomingShot, requestExplodingShot;
 
     // our UI handler
     public WeaponUIHandler weaponUIHandler;
@@ -82,9 +99,60 @@ public abstract class WeaponClass : MonoBehaviour
     // the start that is called manually on every weapon
     public abstract void WeaponStart();
 
+    // on enable
+    public void OnEnable()
+    {
+        damageMods.Clear(); // clear our damage mods list just in case we have anything leftover
+    }
+
     public abstract void UseWeapon(WeaponUseTypes useType); // public function assigned to using our weapon
 
-    public abstract void Fire(bool doubleShot); // firing our weapon
+    public virtual void Fire()
+    {
+
+        // if there are no requests, this is a normal shot
+        bodyPartManager.CallParts("OnWeaponFire");
+        // if there is a double shot request, this is a double shot, then set request to false
+        if (requestDoubleShot) { bodyPartManager.CallParts("OnDoubleShot"); requestDoubleShot = false; }
+        // if there is a request for a homing shot, this is a homing shot, then set request to false
+        bool isHoming = false; // setup for local use
+        if (requestHomingShot) { bodyPartManager.CallParts("OnHomingShot"); requestHomingShot = false; isHoming = true; }
+        // does this bullet explode?
+        bool doesExplode = false;// setup for local use
+        if (requestExplodingShot) { requestExplodingShot = false; doesExplode = true; }
+        
+        // apply our recoil
+        ApplyKickRecoil();
+        // add spread
+        AddSpread();
+        // kick our UI
+        weaponUIHandler.KickUI(); 
+        PlayerCameraController.instance.FOVKickRequest(kickFOV);
+        // get our direction to our target
+        Vector3 shotDirection = PlayerCameraController.instance.AimTarget.position - muzzleOrigin.position;
+        // add to our shot direction based on our spread
+        Vector3 modifiedShotDirection = new Vector3(shotDirection.x + Random.Range(-spreadX, spreadX), shotDirection.y + Random.Range(-spreadY, spreadY), shotDirection.z).normalized;
+        // instantiate and shoot our projectile in that direction
+        GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(modifiedShotDirection.normalized), null);
+        
+        /// apply any mods to our bullet
+        // homing?
+        if (isHoming) { bullet.GetComponent<PlayerProjectileScript>().isHoming = true; }    
+        // exploding?
+        if (doesExplode) { bullet.GetComponent<PlayerProjectileScript>().doesExplode = true; }
+        // damage modifiers?
+        bullet.GetComponent<PlayerProjectileScript>().damage = damage * damageMod;
+        remainingFirerate = firerate + firerateMod;
+        currentMagazine--;
+    } // firing our weapon. special shots like double or homing shots are handled above in public vars
+
+    public virtual void FireDoubleShot() // call to fire a double shot
+    {
+        requestDoubleShot = true;
+        Fire();
+    }
+    public virtual void AddSpread() { } // adding spread to our weapon
+
 
     public abstract void Reload(bool instant); // function to reload the weapon
 

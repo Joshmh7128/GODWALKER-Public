@@ -15,4 +15,10 @@ public class ZeroOut : MonoBehaviour
             transform.localEulerAngles = Vector3.zero;
         }
     }
+
+    public void ManualZero()
+    {
+        transform.localPosition = Vector3.zero;
+        transform.localEulerAngles = Vector3.zero;
+    }
 }

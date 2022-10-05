@@ -40,7 +40,7 @@ public class ItemUIHandler : MonoBehaviour
     // information for bodyparts
     public BodyPartClass body_Part;
     [Header("- Body Part Data -")]
-    public BodyPart_Item bodyPart_Item;
+    public BodyPartItem bodyPart_Item;
     public Text bodyPartName;
     public Text bodyPartInfo;
     [SerializeField] BodyPartClass rightClass, leftClass; // for local ease
@@ -84,7 +84,7 @@ public class ItemUIHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        SetInfo();
+        // SetInfo();
         // processing opening / closing our panel
         if (closeWait > 0)
         { 
@@ -93,7 +93,7 @@ public class ItemUIHandler : MonoBehaviour
             closeWait -= Time.deltaTime;
         }
 
-        if (closeWait <= 0)
+        if (closeWait <= 0 && info_CanvasGroup.alpha > 0)
         {
             info_CanvasGroup.alpha -= Time.deltaTime;
 
@@ -129,7 +129,7 @@ public class ItemUIHandler : MonoBehaviour
 
         // for our bodyparts
         if (itemType == ItemTypes.BodyPart)
-        {
+        {/*
             #region // setup our current classes based on type 
             if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm)
             {
@@ -143,7 +143,7 @@ public class ItemUIHandler : MonoBehaviour
                 leftClass = PlayerBodyPartManager.instance.bodyParts[5];
             }
             #endregion
-
+            */
             // set our information
             bodyPartName.text = body_Part.bodyPartName;
             bodyPartInfo.text = body_Part.descriptiveInfo;

@@ -12,7 +12,7 @@ public class RigidbodyRandomLauncher : MonoBehaviour
     [SerializeField] float force;
     [SerializeField] bool clean;
     Rigidbody rb;
-    int count; 
+    float count; 
 
     private void Start()
     {
@@ -26,18 +26,15 @@ public class RigidbodyRandomLauncher : MonoBehaviour
 
     private void FixedUpdate()
     {
-        count++;
+        count += Time.deltaTime;
 
         // if we want to clean
-        if (count > 10f && clean)
+        if (count > 5f && clean)
         {
-            if (Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.y) + Mathf.Abs(rb.velocity.z) < 0.3f)
-            {
-                // freeze everything
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-                // disable collider
-                gameObject.GetComponent<Collider>().enabled = false;
-            }
+            // freeze everything
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+            // disable collider
+            gameObject.GetComponent<Collider>().enabled = false;
         }
     }
 }

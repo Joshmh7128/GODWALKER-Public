@@ -9,12 +9,15 @@ public class BodyPartClass_TyrantsDichotomy : BodyPartClass
     /// 
 
     PlayerWeaponManager weaponManager;
-    bool active; // is this active?
+    bool active, movingUp; // is this active?
 
     public override void PartStart()
     {
         weaponManager = PlayerWeaponManager.instance;
     }
+
+    public override void OnMoveUp() => movingUp = true;
+    public override void OnMoveDown() => movingUp = false;
 
     // whenever we double fire, check if we are active
     public override void OnDoubleShot()
@@ -30,10 +33,10 @@ public class BodyPartClass_TyrantsDichotomy : BodyPartClass
     // if we are active on weapon fire...
     public override void OnWeaponFire()
     {
-        if (active)
+        if (active && movingUp)
         {
-            // fire a double shot
-            weaponManager.currentWeapon.Fire(true);
+            // request then fire a double shot
+            weaponManager.currentWeapon.FireDoubleShot();
             // then make us inactive
             active = false;
         }
