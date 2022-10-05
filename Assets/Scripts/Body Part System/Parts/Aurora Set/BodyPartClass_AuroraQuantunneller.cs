@@ -19,7 +19,10 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
     // setup activity
     public override void OnADS() { teleportActive = true; RequestTeleportShot(); }
     public override void OffADS() => teleportActive = false;
-    
+
+    // shock explosion
+    [SerializeField] GameObject shockExplosionPrefab;
+
     // instances
     PlayerController playerController;
     PlayerWeaponManager playerWeaponManager;
@@ -81,6 +84,9 @@ public class BodyPartClass_AuroraQuantunneller : BodyPartClass
             teleportCooldown = teleportCooldownMax;
             // teleport action on player character
             playerController.Teleport(teleportPos);
+            // spawn our explosion at the start and end points
+            Instantiate(shockExplosionPrefab, transform.position, Quaternion.identity);
+            Instantiate(shockExplosionPrefab, teleportPos, Quaternion.identity);
         }
     }
 

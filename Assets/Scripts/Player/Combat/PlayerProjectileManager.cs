@@ -21,10 +21,4 @@ public class PlayerProjectileManager : MonoBehaviour
     // projectiles
     public List<PlayerProjectileScript> activeProjectileScripts = new List<PlayerProjectileScript>();
 
-    // cleanup 
-    public void Cleanup()
-    {
-
-    }
-
 }

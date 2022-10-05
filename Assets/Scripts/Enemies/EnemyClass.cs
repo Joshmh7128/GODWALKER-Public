@@ -276,9 +276,21 @@ public abstract class EnemyClass : MonoBehaviour
         Shock
     }
 
+    List<Effects> activeEffects = new List<Effects>();
+
     // apply effects
     internal void ApplyEffect(Effects effect)
     {
+        foreach (Effects ef in activeEffects)
+        {
+            if (ef == effect)
+            {
+                return;
+            }
+        }
+
+        activeEffects.Add(effect);
+
         // empty statement
         if (effect == Effects.None)
         {
@@ -289,7 +301,7 @@ public abstract class EnemyClass : MonoBehaviour
         if (effect == Effects.Shock)
         {
             // spawn in the shock zone prefab on us
-            Instantiate(Resources.Load<GameObject>("Assets/Resources/EnemyElementalEffects/ShockZone.prefab"), transform);
+            Instantiate(Resources.Load<GameObject>("EnemyElementalEffects/ShockZone.prefab"), transform);
         }
     }
 
