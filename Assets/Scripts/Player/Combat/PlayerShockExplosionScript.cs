@@ -14,6 +14,7 @@ public class PlayerShockExplosionScript : MonoBehaviour
     public int enemiesHit; // how many enemies this explosion hit
     [SerializeField] DamageNumber shockHit;
     public bool used; // has this been used in an effect already?
+    [SerializeField] bool doesLoop; // does this loop?
     // get instance
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class PlayerShockExplosionScript : MonoBehaviour
         bodyPartManager = PlayerBodyPartManager.instance;
 
         // immediately add ourselves to the projectile manager's list of explosions
+        if (!doesLoop)
         projectileManager.shockExplosionScripts.Add(this);
     }
 
@@ -45,13 +47,6 @@ public class PlayerShockExplosionScript : MonoBehaviour
             // disable the collider in the next frame
             StartCoroutine(DisableBuffer()); // then disable the collider
         }
-
-        // if we collide with the player, deal damage to them
-        if (other.transform.tag == "Player")
-        {
-            PlayerStatManager.instance.TakeDamage(damage);
-            bodyPartManager.CallParts("OnExplosionDamagePlayer"); // damage the player
-        }
     }
 
     private void OverlapCheck()
@@ -70,8 +65,7 @@ public class PlayerShockExplosionScript : MonoBehaviour
         // wait for the fixed update
         yield return new WaitForFixedUpdate();
         // check how many enemies we hit
-        bodyPartManager.CallParts("OnExplosionDamage");
-        if (enemiesHit > 1) bodyPartManager.CallParts("OnMultipleExplosionDamage");
+        bodyPartManager.CallParts("OnShockDamage");
         // wait for the fixed update
         yield return new WaitForFixedUpdate();
         // then remove the explosion from the list
@@ -79,9 +73,12 @@ public class PlayerShockExplosionScript : MonoBehaviour
         // then disable collider
         gameObject.GetComponent<Collider>().enabled = false;
         // then wait another 2 seconds
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(1f);
         // then destroy this object
-        Destroy(gameObject);
+        if (!doesLoop)
+            Destroy(gameObject);
+        if (doesLoop)
+            OverlapCheck();
     }
 
 }

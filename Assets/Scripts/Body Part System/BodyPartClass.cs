@@ -170,6 +170,7 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnExplosionDamage() { }     // triggered when an explosion deals damage to one enemy
     public virtual void OnExplosionDamagePlayer() { }       // triggered when an explosion deals damage to one enemy
     public virtual void OnMultipleExplosionDamage() { }     // triggered when an explosion deals damage to one enemy
+    public virtual void OnShockDamage() { }         // triggered when an explosion deals damage to one enemy
 
     public virtual void UseAbility()  // direct action non-trigger used to run the ability on a part
     {
@@ -188,8 +189,8 @@ public abstract class BodyPartClass : MonoBehaviour
     public bool CanUseAbility() { if (abilityRechargeTime <= 0) { return true; } else return false; }
     public virtual void OnUseAbility() { }          // anything we want to have happen when an ability use is triggered
 
-    public virtual void OnADS() { }              // triggered every frame the player is aiming down sights
-    public virtual void OffADS() { }           // triggered every frame the player is not aiming down sights
+    public virtual void OnADS() { }                 // triggered every frame the player is aiming down sights
+    public virtual void OffADS() { }                // triggered every frame the player is not aiming down sights
 
     public virtual void TryTeleport(Vector3 targetPos) { }           // used for any parts which want to involve teleportation
 

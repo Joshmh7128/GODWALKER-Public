@@ -268,4 +268,29 @@ public abstract class EnemyClass : MonoBehaviour
             displayGroup.alpha -= Time.deltaTime;
         }
     }
+
+    // enum for the different effects we can apply
+    internal enum Effects
+    {
+        None, 
+        Shock
+    }
+
+    // apply effects
+    internal void ApplyEffect(Effects effect)
+    {
+        // empty statement
+        if (effect == Effects.None)
+        {
+
+        }
+
+        // shock
+        if (effect == Effects.Shock)
+        {
+            // spawn in the shock zone prefab on us
+            Instantiate(Resources.Load<GameObject>("Assets/Resources/EnemyElementalEffects/ShockZone.prefab"), transform);
+        }
+    }
+
 }
