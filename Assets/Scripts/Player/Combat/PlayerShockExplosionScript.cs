@@ -63,7 +63,6 @@ public class PlayerShockExplosionScript : MonoBehaviour
         }
     }
 
-
     // a buffer to disable our collider and destroy our object
     IEnumerator DisableBuffer()
     {
