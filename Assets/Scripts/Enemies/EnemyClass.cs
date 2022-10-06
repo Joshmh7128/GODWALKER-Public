@@ -276,7 +276,7 @@ public abstract class EnemyClass : MonoBehaviour
     }
 
     // enum for the different effects we can apply
-    internal enum Effects
+    public enum Effects
     {
         None, 
         Shock

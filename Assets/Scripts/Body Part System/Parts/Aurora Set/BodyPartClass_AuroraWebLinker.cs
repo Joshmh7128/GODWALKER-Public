@@ -32,6 +32,12 @@ public class BodyPartClass_AuroraWebLinker : BodyPartClass
         weaponManager.currentWeapon.requestShockExplodingShot = true;
     }
 
+    void CalculateBuff()
+    {
+        // for every enemy tethered gain +50% damage
+
+    }
+
     // on ability use, find a random looping shock explosion
     public override void OnUseAbility()
     {
