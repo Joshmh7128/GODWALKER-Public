@@ -146,6 +146,7 @@ public class PlayerShockExplosionScript : MonoBehaviour
             RaycastHit hit; Physics.Linecast(lineRendStart.position, lineRendEnd.position, out hit, Physics.AllLayers, QueryTriggerInteraction.Ignore);
             if (hit.transform.tag == "Enemy")
             {
+                if (!hit.transform.gameObject.GetComponent<EnemyClass>().activeEffects.Contains(EnemyClass.Effects.Shock))
                 Instantiate(shockExplosion, hit.transform.position, Quaternion.identity, null);
             }
         }

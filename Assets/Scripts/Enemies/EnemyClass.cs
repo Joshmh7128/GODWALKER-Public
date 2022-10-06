@@ -282,7 +282,7 @@ public abstract class EnemyClass : MonoBehaviour
         Shock
     }
 
-    List<Effects> activeEffects = new List<Effects>();
+    public List<Effects> activeEffects = new List<Effects>();
 
     // apply effects
     internal void ApplyEffect(Effects effect)
