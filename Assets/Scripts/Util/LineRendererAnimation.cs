@@ -7,17 +7,21 @@ public class LineRendererAnimation : MonoBehaviour
     [SerializeField] float fps; // what is the framerate of the animation?
     [SerializeField] List<Sprite> sprites; // frames of the animation
     int i; // our index
+    LineRenderer lineRenderer;
 
     private void Start()
     {
+        lineRenderer = GetComponent<LineRenderer>();
         StartCoroutine(DoAnimation());
     }
 
     IEnumerator DoAnimation()
     {
-        yield return new WaitForSecondsRealtime(fps / 60);
+        float x = 1 / (60 / fps);
+        yield return new WaitForSecondsRealtime(x);
         i++;
-        if (i > sprites.Count) i = 0;
-        gameObject.GetComponent<LineRenderer>().material.mainTexture = sprites[i].texture;
+        if (i >= sprites.Count) i = 0;
+        lineRenderer.material.mainTexture = sprites[i].texture;
+        StartCoroutine(DoAnimation());
     }
 }
