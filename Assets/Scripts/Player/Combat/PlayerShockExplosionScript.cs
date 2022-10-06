@@ -23,6 +23,9 @@ public class PlayerShockExplosionScript : MonoBehaviour
     public Transform tetherTarget; // our target for tethering
     public Transform lineRendStart, lineRendEnd; // for our line renderer start and end positions
 
+    // a prefab of ourselves
+    [SerializeField] GameObject shockExplosion;
+
     // get instance
     private void Awake()
     {
@@ -137,7 +140,15 @@ public class PlayerShockExplosionScript : MonoBehaviour
         lineRenderer.SetPosition(0, lineRendStart.position);
 
         if (lineRendEnd != null)
-        lineRenderer.SetPosition(1, lineRendEnd.position);
+        {
+            lineRenderer.SetPosition(1, lineRendEnd.position);
+            // if we have a start and end point, perform a linecast to those points, and spawn an explosion if we hit an enemy
+            RaycastHit hit; Physics.Linecast(lineRendStart.position, lineRendEnd.position, out hit, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+            if (hit.transform.tag == "Enemy")
+            {
+                Instantiate(shockExplosion, hit.transform.position, Quaternion.identity, null);
+            }
+        }
 
         // check if we lost our end
         if (lineRendEnd == null)
