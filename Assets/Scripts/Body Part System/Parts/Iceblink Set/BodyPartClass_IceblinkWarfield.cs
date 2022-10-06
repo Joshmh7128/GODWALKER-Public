@@ -45,6 +45,12 @@ public class BodyPartClass_IceblinkWarfield : BodyPartClass
         ManageBuff(buffAmount);
     }
 
+    public override void OnWeaponSwap()
+    {        
+        // reset the damage buff
+        ManageBuff(buffAmount);
+    }
+
     // function for dropping mines
     void DropMine()
     {

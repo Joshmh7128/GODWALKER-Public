@@ -14,6 +14,9 @@ public class BodyPartClass_AuroraWebLinker : BodyPartClass
     // setup instances
     PlayerWeaponManager weaponManager;
     PlayerProjectileManager projectileManager;
+
+    float buffAmount; // how much we're buffing
+
     private void Awake()
     {
         projectileManager = PlayerProjectileManager.instance;
@@ -30,13 +33,47 @@ public class BodyPartClass_AuroraWebLinker : BodyPartClass
     public override void OnWeaponFire()
     {
         weaponManager.currentWeapon.requestShockExplodingShot = true;
+        CalculateBuff();
+    }
+
+    public override void OnWeaponSwap()
+    {
+        ManageBuff(buffAmount);
     }
 
     void CalculateBuff()
     {
         // for every enemy tethered gain +50% damage
+        float buff = 0; 
+        foreach (PlayerShockExplosionScript shock in projectileManager.loopingShockExplosionScripts)
+        {
+            if (shock.isTethered)
+                buff += 0.5f;
+        }
 
+        // then setup the new buff
+        ManageBuff(buffAmount, buff);
     }
+
+    void ManageBuff(float lastBuff, float newBuff)
+    {
+        // remove our previous buff
+        weaponManager.currentWeapon.damageMods.Remove(lastBuff);
+        // then update our damage mod to match
+        weaponManager.currentWeapon.damageMods.Add(newBuff);
+        // then set to match
+        buffAmount = newBuff;
+    }
+
+    void ManageBuff(float lastBuff)
+    {
+        // remove our previous buff
+        if (weaponManager.currentWeapon.damageMods.Contains(lastBuff))
+            weaponManager.currentWeapon.damageMods.Remove(lastBuff);
+        // then set to match
+        buffAmount = 0;
+    }
+
 
     // on ability use, find a random looping shock explosion
     public override void OnUseAbility()
