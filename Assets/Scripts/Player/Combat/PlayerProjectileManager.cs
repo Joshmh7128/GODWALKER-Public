@@ -34,6 +34,13 @@ public class PlayerProjectileManager : MonoBehaviour
     // projectiles
     public List<PlayerProjectileScript> activeProjectileScripts = new List<PlayerProjectileScript>();
 
+    public void RefreshActiveList() // clean the list
+    {
+        for (int i = 0; i < activeProjectileScripts.Count; i++)
+        {
+            if (activeProjectileScripts[i] == null) activeProjectileScripts.Remove(activeProjectileScripts[i]);
+        }
+    }
 
 
 }
