@@ -15,7 +15,7 @@ public class PlayerShockExplosionScript : MonoBehaviour
     public int enemiesHit; // how many enemies this explosion hit
     [SerializeField] DamageNumber shockHit;
     public bool used; // has this been used in an effect already?
-    [SerializeField] bool doesLoop; // does this loop?
+    public bool doesLoop; // does this loop?
 
     /// links / tethers
     [SerializeField] LineRenderer lineRenderer; // our line renderer for connecting looping explosion zones together
@@ -32,7 +32,9 @@ public class PlayerShockExplosionScript : MonoBehaviour
 
         // immediately add ourselves to the projectile manager's list of explosions
         if (!doesLoop)
-        projectileManager.shockExplosionScripts.Add(this);
+            projectileManager.shockExplosionScripts.Add(this);
+        if (doesLoop)
+            projectileManager.loopingShockExplosionScripts.Add(this);
     }
 
     private void Start()
@@ -105,23 +107,26 @@ public class PlayerShockExplosionScript : MonoBehaviour
     // our function for linking tethers
     public void BuildTether()
     {
-        // refresh our shock list
-        projectileManager.RefreshShockList();
-        // find another active shock explosion and tether to it
-        foreach (var shockEx in projectileManager.shockExplosionScripts)
+        if (doesLoop)
         {
-            if (shockEx != this && !shockEx.isTethered)
+            // refresh our shock list
+            projectileManager.RefreshShockList();
+            // find another active shock explosion and tether to it
+            foreach (var shockEx in projectileManager.loopingShockExplosionScripts)
             {
-                // set our line renderer to follow our position and follow the other shock explosion's position
-                isTethered = true;
+                if (shockEx != this && !shockEx.isTethered && shockEx.doesLoop)
+                {
+                    // set our line renderer to follow our position and follow the other shock explosion's position
+                    isTethered = true;
 
-                lineRendStart = transform;
-                lineRendEnd = shockEx.transform;
+                    lineRendStart = transform;
+                    lineRendEnd = shockEx.transform;
 
-                // then tell our end to tether!
-                shockEx.BuildTether();
+                    // then tell our end to tether!
+                    shockEx.BuildTether();
 
-                break; // break out of the loop
+                    break; // break out of the loop
+                }
             }
         }
     }

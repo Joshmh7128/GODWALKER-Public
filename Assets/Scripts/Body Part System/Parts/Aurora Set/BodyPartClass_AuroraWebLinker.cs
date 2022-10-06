@@ -29,9 +29,9 @@ public class BodyPartClass_AuroraWebLinker : BodyPartClass
     // on ability use, find a random looping shock explosion
     public override void OnUseAbility()
     {
-        foreach (PlayerShockExplosionScript shock in projectileManager.shockExplosionScripts)
+        foreach (PlayerShockExplosionScript shock in projectileManager.loopingShockExplosionScripts)
         {
-            if (!shock.isTethered)
+            if (!shock.isTethered && shock.doesLoop)
             {
                 // build a tether with the first shock explosion we find that can
                 shock.BuildTether();
