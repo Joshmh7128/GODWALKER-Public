@@ -30,11 +30,12 @@ public class PlayerProjectileScript : MonoBehaviour
     public bool startInvBuffer = false;
     public bool isHoming, secondHome; // does this home to the nearest enemy?
     public bool doesExplode; // does this explode?
+    public bool doesShockExplode; // does this shock explode?
     public bool isLifesteal; // does this life steal
     public bool isTeleportShot; // is this a shot we can try to teleport to?
     public BodyPartClass teleportCallBack; // when we destroy and are a teleporting shot, send a signal here
 
-    [SerializeField] GameObject playerExplosionPrefab; // the explosion prefab
+    [SerializeField] GameObject playerExplosionPrefab, playerShockExplosionPrefab; // the explosion and shock explosions prefabs
     Transform homingTarget; // our homing target
 
     private void Start()
@@ -164,6 +165,13 @@ public class PlayerProjectileScript : MonoBehaviour
             {
                 explosion = Instantiate(playerExplosionPrefab, deathPos, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
                 explosion.damage = damage;
+            }
+
+            PlayerShockExplosionScript shock = null;
+            if (doesShockExplode)
+            {
+                shock = Instantiate(playerShockExplosionPrefab, deathPos, Quaternion.identity, null).GetComponent<PlayerShockExplosionScript>();
+                shock.damage = damage;
             }
             
             // does this bullet involve teleporting?

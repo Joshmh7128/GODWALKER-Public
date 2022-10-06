@@ -17,8 +17,18 @@ public class PlayerProjectileManager : MonoBehaviour
 
     // shock explosion
     public List<PlayerShockExplosionScript> shockExplosionScripts = new List<PlayerShockExplosionScript>();
+    public void RefreshShockList() // clean the list
+    {
+        for (int i = 0; i < shockExplosionScripts.Count; i++)
+        {
+            if (shockExplosionScripts[i] == null) shockExplosionScripts.Remove(shockExplosionScripts[i]);
+        }
+    }
+
 
     // projectiles
     public List<PlayerProjectileScript> activeProjectileScripts = new List<PlayerProjectileScript>();
+
+
 
 }

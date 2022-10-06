@@ -16,6 +16,13 @@ public class PlayerShockExplosionScript : MonoBehaviour
     [SerializeField] DamageNumber shockHit;
     public bool used; // has this been used in an effect already?
     [SerializeField] bool doesLoop; // does this loop?
+
+    /// links / tethers
+    [SerializeField] LineRenderer lineRenderer; // our line renderer for connecting looping explosion zones together
+    public bool isTethered; // is this tethered?
+    public Transform tetherTarget; // our target for tethering
+    public Transform lineRendStart, lineRendEnd; // for our line renderer start and end positions
+
     // get instance
     private void Awake()
     {
@@ -32,6 +39,13 @@ public class PlayerShockExplosionScript : MonoBehaviour
     {
         // check for our explosion
         OverlapCheck();
+    }
+
+    private void FixedUpdate()
+    {
+        // process our line renderer
+        if (isTethered)
+        ProcessTether();
     }
 
     void CheckAction(GameObject other)
@@ -88,4 +102,31 @@ public class PlayerShockExplosionScript : MonoBehaviour
             OverlapCheck();
     }
 
+    // our function for linking tethers
+    public void BuildTether()
+    {
+        // refresh our shock list
+        projectileManager.RefreshShockList();
+        // find another active shock explosion and tether to it
+        foreach (var shockEx in projectileManager.shockExplosionScripts)
+        {
+            if (shockEx != this && !shockEx.isTethered)
+            {
+                // set our line renderer to follow our position and follow the other shock explosion's position
+                isTethered = true;
+
+                lineRendStart = transform;
+                lineRendEnd = shockEx.transform;
+
+                break; // break out of the loop
+            }
+        }
+    }
+
+    // run when we want to update our line renderer positions
+    void ProcessTether()
+    {
+        lineRenderer.SetPosition(0, lineRendStart.position);
+        lineRenderer.SetPosition(1, lineRendEnd.position);
+    }
 }

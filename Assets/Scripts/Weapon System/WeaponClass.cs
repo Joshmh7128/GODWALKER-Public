@@ -60,7 +60,7 @@ public abstract class WeaponClass : MonoBehaviour
     public float spreadReduct, originalSpreadReduct; // how quickly we return to our original state. changed and used in the player camera controller
 
     // everything to do with upgrades
-    public bool requestDoubleShot, requestHomingShot, requestExplodingShot, requestTeleportShot;
+    public bool requestDoubleShot, requestHomingShot, requestExplodingShot, requestTeleportShot, requestShockExplodingShot;
 
     // our UI handler
     public WeaponUIHandler weaponUIHandler;
@@ -123,6 +123,10 @@ public abstract class WeaponClass : MonoBehaviour
         // is this a teleporting shot?
         bool isTeleportShot = false;
         if (requestTeleportShot) { requestTeleportShot = false; isTeleportShot = true; }
+        // is this a shocking shot?
+        bool isShocking = false;
+        if (requestShockExplodingShot) { requestShockExplodingShot = false; isShocking = true; }
+   
 
         // apply our recoil
         ApplyKickRecoil();
@@ -146,6 +150,8 @@ public abstract class WeaponClass : MonoBehaviour
         if (doesExplode) { bulletScript.doesExplode = true; }
         // teleport?
         if (isTeleportShot) { bulletScript.isTeleportShot = true; }
+        // shocking?
+        if (isShocking) { bulletScript.doesShockExplode = true; }
 
         // damage modifiers?
         bullet.GetComponent<PlayerProjectileScript>().damage = damage * damageMod;
