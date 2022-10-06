@@ -20,6 +20,12 @@ public class BodyPartClass_AuroraWebLinker : BodyPartClass
         weaponManager = PlayerWeaponManager.instance;
     }
 
+    // when we pick this up request a shock shot
+    public override void OnBodyPartPickup()
+    {
+        weaponManager.currentWeapon.requestShockExplodingShot = true;
+    }
+
     // whenever we shoot request a shock shot
     public override void OnWeaponFire()
     {

@@ -135,6 +135,8 @@ public class PlayerShockExplosionScript : MonoBehaviour
     void ProcessTether()
     {
         lineRenderer.SetPosition(0, lineRendStart.position);
+
+        if (lineRendEnd != null)
         lineRenderer.SetPosition(1, lineRendEnd.position);
 
         // check if we lost our end
