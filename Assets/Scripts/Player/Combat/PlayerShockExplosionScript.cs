@@ -118,6 +118,9 @@ public class PlayerShockExplosionScript : MonoBehaviour
                 lineRendStart = transform;
                 lineRendEnd = shockEx.transform;
 
+                // then tell our end to tether!
+                shockEx.BuildTether();
+
                 break; // break out of the loop
             }
         }
@@ -128,5 +131,9 @@ public class PlayerShockExplosionScript : MonoBehaviour
     {
         lineRenderer.SetPosition(0, lineRendStart.position);
         lineRenderer.SetPosition(1, lineRendEnd.position);
+
+        // check if we lost our end
+        if (lineRendEnd == null)
+        { lineRendEnd = transform; }
     }
 }
