@@ -138,7 +138,7 @@ public class PlayerCameraController : MonoBehaviour
 
 
         RaycastHit enemyUICheck;
-        Physics.Raycast(transform.position, transform.forward, out enemyUICheck, 30f, Physics.AllLayers, QueryTriggerInteraction.Collide);
+        Physics.Raycast(transform.position, transform.forward, out enemyUICheck, 90f, Physics.AllLayers, QueryTriggerInteraction.Collide);
         // for enemy UI display
         if (enemyUICheck.transform != null)
         {
