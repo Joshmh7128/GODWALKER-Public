@@ -6,12 +6,12 @@ public class EnemyProjectile : MonoBehaviour
 {
     // script exists to manage enemy projectiles and their movemnet in the world
 
-    [SerializeField] enum ProjectileTypes
+    public enum ProjectileTypes
     {
-        kinematic, physics
+        kinematic, physics, curves
     }
 
-    [SerializeField] ProjectileTypes projectileType;
+    public ProjectileTypes projectileType;
     [SerializeField] float speed; // how fast this projectile moves kinematically, or how hard it is launched
     Rigidbody localRigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
@@ -19,6 +19,10 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] int deathTime = 30; // how long to death
     [SerializeField] float openLifetime = 6f;
     public float damage; // how much damage does this deal?
+
+    // our curve speed
+    [SerializeField] float curveSpeed; // how fast we curve in any direction
+    Vector3 curveVector; // our curve vector
 
     // get our stat manager
     PlayerStatManager statManager;
@@ -50,6 +54,12 @@ public class EnemyProjectile : MonoBehaviour
         {
             StartPhysics();
         }
+
+        if (projectileType == ProjectileTypes.curves)
+        {
+            // calculate our curve vector
+            curveVector = new Vector3(Random.Range(-curveSpeed, curveSpeed), Random.Range(-curveSpeed, curveSpeed), Random.Range(-curveSpeed, curveSpeed));
+        }
     }
 
     // our physics start
@@ -76,6 +86,13 @@ public class EnemyProjectile : MonoBehaviour
         {
             ProcessPhysics();
         }
+
+        if (projectileType == ProjectileTypes.curves)
+        {
+            ProcessKinematic();
+            ProcessCurves();
+        }
+
     }
 
     private void FixedUpdate()
@@ -89,6 +106,13 @@ public class EnemyProjectile : MonoBehaviour
     {
         // move forward
         transform.position += (transform.forward * speed * Time.deltaTime);
+    }
+
+    // update for curving shots
+    void ProcessCurves()
+    {
+        // rotate the bullet slightley at a random vector multiplied by our rotation delta
+        transform.eulerAngles += curveVector;
     }
 
     // update for physics
