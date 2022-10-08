@@ -22,7 +22,7 @@ public abstract class EnemyClass : MonoBehaviour
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
     List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
-    bool activated = false;
+    [SerializeField] bool activated = false;
     // our agent
     [HideInInspector] public NavMeshAgent navMeshAgent;
 
@@ -264,14 +264,17 @@ public abstract class EnemyClass : MonoBehaviour
     // run this to display our stats
     void ProcessCanvasDisplay()
     {
-        // make sure we can be visible first
-        ProcessCanvasVisibility();
-        // manage our sliders
-        healthSlider.value = health / maxHealth;
-        lerpHealthSlider.value = Mathf.Lerp(lerpHealthSlider.value, healthSlider.value, lerpSliderSpeed * Time.deltaTime);
-        // manage our text displays
-        healthDisplay.text = "HP " + health + " / " + maxHealth;
-        nameDisplay.text = "Lvl " + level + " " + enemyName;
+        if (displayGroup)
+        {
+            // make sure we can be visible first
+            ProcessCanvasVisibility();
+            // manage our sliders
+            healthSlider.value = health / maxHealth;
+            lerpHealthSlider.value = Mathf.Lerp(lerpHealthSlider.value, healthSlider.value, lerpSliderSpeed * Time.deltaTime);
+            // manage our text displays
+            healthDisplay.text = "HP " + health + " / " + maxHealth;
+            nameDisplay.text = "Lvl " + level + " " + enemyName;
+        }
     }
 
     // for alpha of our canvas group
