@@ -11,6 +11,7 @@ public class EnemyClass_Crab : EnemyClass
     public override void StartExtension()
     {
         // find and set our player as the look target
+        if (hurtHandler != null)
         hurtHandler.lookTarget = PlayerController.instance.transform;
     }
 

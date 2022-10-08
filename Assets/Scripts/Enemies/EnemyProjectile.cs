@@ -204,6 +204,7 @@ public class EnemyProjectile : MonoBehaviour
     void OnDestroyObject()
     {
         // spawn a deathobject
+        if (deathObject)
         Instantiate(deathObject, transform.position, Quaternion.identity, null);
         // then destroy
         Destroy(gameObject);

@@ -258,7 +258,7 @@ public abstract class EnemyClass : MonoBehaviour
     [SerializeField] float lerpSliderSpeed;
     public bool showDisplay // can we show our display?
     {   // when our display is shown, set the alpha to 1
-        set { displayGroup.alpha = 1; }
+        set { if (displayGroup) displayGroup.alpha = 1; }
     } 
 
     // run this to display our stats
@@ -278,7 +278,7 @@ public abstract class EnemyClass : MonoBehaviour
     void ProcessCanvasVisibility()
     {
         // always be decreasing our alpha if it is more than 0, so that when it is not being set it is being lowered
-        if (displayGroup.alpha > 0)
+        if (displayGroup && displayGroup.alpha > 0)
         {
             displayGroup.alpha -= Time.deltaTime;
         }
