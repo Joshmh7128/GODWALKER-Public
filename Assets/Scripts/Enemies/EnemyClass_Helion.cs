@@ -19,6 +19,11 @@ public class EnemyClass_Helion : EnemyClass
         damage = 10; // set our basic damage
     }
 
+    public void FixedUpdate()
+    {
+        // rotate our body slowly to make us look more dramatic
+        transform.eulerAngles += new Vector3(0, 0.15f, 0);
+    }
 
 
 }

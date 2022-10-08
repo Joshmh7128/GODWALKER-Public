@@ -27,7 +27,6 @@ public abstract class EnemyBehaviour : MonoBehaviour
     // our main behaviour
     public virtual void RunMain()
     {
-        complete = false;
         StartCoroutine(MainCoroutine());
     }
     // the coroutine where the behaviour is defined, per class

@@ -67,19 +67,14 @@ public abstract class EnemyClass : MonoBehaviour
         // go through each attack
         foreach (EnemyBehaviour behaviour in attackBehaviours)
         {
+            behaviour.complete = false;
+            Debug.Log("start behaviour state: " + behaviour.complete);
             // run the behaviour
             behaviour.RunMain();
             // wait one fixed update
             yield return new WaitForFixedUpdate();
-            // then wait if we have a time
-            if (behaviour.behaviourTime > 0)
-            {
-                yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
-            } else
-            {
-                // wait until the behaviour is complete
-                yield return new WaitUntil(() => behaviour.complete);
-            }
+            // then wait
+            yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
 
         }
         StartCoroutine(AttackBehaviourHandler());
