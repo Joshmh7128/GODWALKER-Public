@@ -6,6 +6,7 @@ public class EnemyClass_Crab : EnemyClass
 {
     [SerializeField] LocalIKHandler hurtHandler;
     [SerializeField] float baseHealth; // the base health of this enemy
+    [SerializeField] bool kicks; // do we apply a kick animation?
 
     public override void StartExtension()
     {
@@ -17,6 +18,7 @@ public class EnemyClass_Crab : EnemyClass
     public override void GetHurtExtension()
     {
         // kick our body
+        if (kicks)
         hurtHandler.KickLookPos(30f);
     }
 
