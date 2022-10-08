@@ -138,6 +138,13 @@ public class EnemyProjectile : MonoBehaviour
         Vector3 targetDirection = PlayerController.instance.transform.position - transform.position;
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 10 * Time.deltaTime, -0f);
         transform.rotation = Quaternion.LookRotation(newDirection);
+
+        // once we get close enough to the player, stop homing
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < 4)
+        {
+            projectileType = ProjectileTypes.kinematic;
+        }
+
     }
 
     // update for physics
