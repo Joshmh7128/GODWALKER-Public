@@ -12,6 +12,9 @@ public abstract class EnemyBehaviour : MonoBehaviour
     // our public type
     public BehaviourType type;
 
+    // our completion
+    public bool complete;
+
     // our enemy class
     public EnemyClass enemyClass;
 
@@ -24,6 +27,7 @@ public abstract class EnemyBehaviour : MonoBehaviour
     // our main behaviour
     public virtual void RunMain()
     {
+        complete = false;
         StartCoroutine(MainCoroutine());
     }
     // the coroutine where the behaviour is defined, per class

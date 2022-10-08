@@ -69,8 +69,18 @@ public abstract class EnemyClass : MonoBehaviour
         {
             // run the behaviour
             behaviour.RunMain();
+            // wait one fixed update
+            yield return new WaitForFixedUpdate();
             // then wait
-            yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
+            if (behaviour.behaviourTime == 0)
+            {
+                yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
+            } else
+            {
+                // wait until the behaviour is complete
+                yield return new WaitUntil(() => behaviour.complete);
+            }
+
         }
         StartCoroutine(AttackBehaviourHandler());
     }
