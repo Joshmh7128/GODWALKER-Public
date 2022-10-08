@@ -55,12 +55,18 @@ public class PlayerProjectileScript : MonoBehaviour
         // check to ensure we never go over the intended amount of projectiles active in the scene
         SafetyCheck();
         // run our abilities check
-        StartAbilityCheck();
+        StartCoroutine(ProjectileStartBuffer());
 
         // if we have a frame start buffer
         if (startInvBuffer) StartCoroutine(InvBuffer());
         // check our raycast before moving
         ProcessHitscan();
+    }
+
+    IEnumerator ProjectileStartBuffer()
+    {
+        yield return new WaitForFixedUpdate();
+        StartAbilityCheck();
     }
 
     // Update is called once per frame
@@ -302,9 +308,8 @@ public class PlayerProjectileScript : MonoBehaviour
         } 
         else
         {   // destroy one of the last bullets in the list
-            int i = projectileManager.activeProjectileScripts.Count - 1;
-            Destroy(projectileManager.activeProjectileScripts[i].gameObject);
-            projectileManager.activeProjectileScripts.Remove(projectileManager.activeProjectileScripts[i]);
+            Destroy(projectileManager.activeProjectileScripts[0].gameObject);
+            projectileManager.activeProjectileScripts.Remove(projectileManager.activeProjectileScripts[0]);
         }
     }
 }
