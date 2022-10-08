@@ -73,19 +73,22 @@ public class CrabInverseKinematicsController : MonoBehaviour
     // for calculating out leg target position
     void ProcessLegTargetPositions()
     {
-        // for each static leg position...
-        for (int i = 0; i < staticFeetPositions.Count; i++)
+        if (staticFeetPositions.Count > 0)
         {
-            Vector3 dir = staticFeetPositions[i].position - targetFeetPositions[i].position;
-            if (Vector3.Distance(targetFeetPositions[i].position, staticFeetPositions[i].position) > wantStepAtDistance + Random.Range(-wantStepAtDistance * epsilonChangePer, wantStepAtDistance * epsilonChangePer))
+            // for each static leg position...
+            for (int i = 0; i < staticFeetPositions.Count; i++)
             {
-                // update our target leg positions to be at the static leg position + a little bit forward based 
-                // get our direction towards our static leg pos from our target leg pos
-                targetFeetPositions[i].position = staticFeetPositions[i].position + (dir.normalized * forwardStepDelta);
+                Vector3 dir = staticFeetPositions[i].position - targetFeetPositions[i].position;
+                if (Vector3.Distance(targetFeetPositions[i].position, staticFeetPositions[i].position) > wantStepAtDistance + Random.Range(-wantStepAtDistance * epsilonChangePer, wantStepAtDistance * epsilonChangePer))
+                {
+                    // update our target leg positions to be at the static leg position + a little bit forward based 
+                    // get our direction towards our static leg pos from our target leg pos
+                    targetFeetPositions[i].position = staticFeetPositions[i].position + (dir.normalized * forwardStepDelta);
 
-                // then mod our footstep epsilon
+                    // then mod our footstep epsilon
+                }
+
             }
-
         }
     }
 
