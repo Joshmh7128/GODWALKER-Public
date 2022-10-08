@@ -14,33 +14,39 @@ public class EnemyBehaviour_HelionProjectileFire : EnemyBehaviour
     public override IEnumerator MainCoroutine()
     {
         // loop and fire out our shots
+        int index = 0;
+        while (index < startPositions.Count - 1)
+        {
+            if (!complete) // if we can still run this
+            {
+                // set our projectile origin
+                projectileOrigin = startPositions[index];
+                // fire a projectile away from the center of mass
+                Vector3 dir = projectileOrigin.position - enemyClass.transform.position;
+                Quaternion q = Quaternion.LookRotation(dir);
+                GameObject shot = Instantiate(projectile, projectileOrigin.position, q);
+                // set the damage of the shot
+                shot.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
+                // wait the fire rate
+                yield return new WaitForSeconds(fireRate);
+                // advance
+                index++;
+            }
+            if (complete)
+            {
+                break;
+            }
+        }
+
         if (!complete)
         {
-            int index = 0;
-            while (index < startPositions.Count - 1)
-            {
-                if (!complete) // if we can still run this
-                {
-                    // set our projectile origin
-                    projectileOrigin = startPositions[index];
-                    // fire a projectile away from the center of mass
-                    Vector3 dir = projectileOrigin.position - enemyClass.transform.position;
-                    Quaternion q = Quaternion.LookRotation(dir);
-                    GameObject shot = Instantiate(projectile, projectileOrigin.position, q);
-                    // set the damage of the shot
-                    shot.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
-                    // wait the fire rate
-                    yield return new WaitForSeconds(fireRate);
-                    // advance
-                    index++;
-                }
-            }
-
-            // at the end check if we are not complete and start over
-            if (!complete) StartCoroutine(MainCoroutine());
-
+            StartCoroutine(MainCoroutine());
         }
-        yield return null;
+
+        if (complete)
+        {
+            yield return null;
+        }
 
     }
 }

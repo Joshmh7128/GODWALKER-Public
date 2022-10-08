@@ -68,15 +68,14 @@ public abstract class EnemyClass : MonoBehaviour
         foreach (EnemyBehaviour behaviour in attackBehaviours)
         {
             behaviour.complete = false;
-            Debug.Log("start behaviour state: " + behaviour.complete);
             // run the behaviour
             behaviour.RunMain();
             // wait one fixed update
             yield return new WaitForFixedUpdate();
             // then wait
             yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
+            // then set the completion to true
             behaviour.complete = true;
-
         }
         StartCoroutine(AttackBehaviourHandler());
     }
