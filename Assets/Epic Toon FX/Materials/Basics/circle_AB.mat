@@ -21,19 +21,19 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: circle_AB
-  m_Shader: {fileID: 4800000, guid: 0406db5a14f94604a8c57ccfbc9f3b46, type: 3}
-  m_ValidKeywords:
+  m_Shader: {fileID: 4800000, guid: 13c02b14c4d048fa9653293d54f6e0e1, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ALPHATEST_ON
   - _FADING_ON
+  - _FLIPBOOKBLENDING_OFF
   - _SOFTPARTICLES_ON
   - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords:
-  - _FLIPBOOKBLENDING_OFF
   m_LightmapFlags: 6
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - ALWAYS
   - SHADOWCASTER
@@ -41,6 +41,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 155f67fd8750f8e4e83c8efb1731f3a0, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -59,7 +63,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
+    - PixelSnap: 0
+    - _AlphaClip: 1
     - _Blend: 0
     - _BlendOp: 0
     - _BumpScale: 1
@@ -75,6 +80,7 @@ Material:
     - _DistortionStrengthScaled: 0
     - _DstBlend: 10
     - _EmissionEnabled: 0
+    - _EnableExternalAlpha: 0
     - _FlipbookBlending: 0
     - _FlipbookMode: 0
     - _InvFade: 3
@@ -94,6 +100,8 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 6.6666665, b: 0, a: 0}
     - _TintColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.5019608}
   m_BuildTextureStacks: []

@@ -24,7 +24,7 @@ public class EnemyBehaviour_HelionProjectileFire : EnemyBehaviour
             // set the damage of the shot
             shot.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
             // wait the fire rate
-            yield return new WaitForSeconds(fireRate + Random.Range(0, fireRate));
+            yield return new WaitForSeconds(fireRate);
             // advance
             index++;
         }
