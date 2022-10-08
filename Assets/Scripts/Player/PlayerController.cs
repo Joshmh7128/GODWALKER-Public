@@ -160,7 +160,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
         // sprint calculation
         if (Input.GetKeyDown(KeyCode.LeftShift) && pAxisV > 0.1f && grounded)
         {
@@ -262,7 +261,7 @@ public class PlayerController : MonoBehaviour
         Vector3 lmoveV = cameraRig.forward * pAxisV;
         Vector3 lmoveH = cameraRig.right * pAxisH;
         // lock to horizontal movement
-        Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, -playerJumpVelocity, lmoveH.z + lmoveV.z);
+        Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, 0, lmoveH.z + lmoveV.z);
         // move character
         characterController.Move(lmove * dashSpeed * Time.deltaTime);
     }

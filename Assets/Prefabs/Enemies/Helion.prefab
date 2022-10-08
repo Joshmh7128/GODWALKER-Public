@@ -136,9 +136,11 @@ MonoBehaviour:
   health: 300
   maxHealth: 300
   damage: 0
+  invincible: 0
   lootDropChancePercentage: 0
   gunCreator: {fileID: 0}
   allBehaviours: []
+  activated: 0
   navMeshAgent: {fileID: 0}
   hurtMaterial: {fileID: 2100000, guid: d82b881a1864fcf4f801a3c25b287011, type: 2}
   OnDeathFX: {fileID: 4389282343268243973, guid: cbd722f0e8603b640b4643846cf380a4, type: 3}
@@ -4997,7 +4999,7 @@ MonoBehaviour:
   behaviourTimeRand: 0
   projectile: {fileID: 8768527373532932189, guid: 6aaa83ccbb0f03149802b8444f4da133, type: 3}
   projectileOrigin: {fileID: 0}
-  fireRate: 0.025
+  fireRate: 0.1
   startPositions:
   - {fileID: 626547446325395762}
   - {fileID: 626547446125309791}

@@ -316,8 +316,10 @@ public class PlayerProjectileScript : MonoBehaviour
         } 
         else
         {   // destroy one of the last bullets in the list
-            Destroy(projectileManager.activeProjectileScripts[0].gameObject);
-            projectileManager.activeProjectileScripts.Remove(projectileManager.activeProjectileScripts[0]);
+            PlayerProjectileScript g = projectileManager.activeProjectileScripts[0];
+            // then destroy
+            projectileManager.activeProjectileScripts.Remove(g);
+            Destroy(g);
         }
     }
 }

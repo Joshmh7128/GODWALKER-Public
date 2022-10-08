@@ -51,11 +51,13 @@ MonoBehaviour:
   speed: 20
   deathObject: {fileID: 132352, guid: 3fa89c507a098e44cbbe7bf7646ebfe3, type: 3}
   facePlayer: 0
+  invincible: 0
   deathTime: 10
   openLifetime: 10
   damage: 1
   homingSpeed: 0
   curveSpeed: 0.25
+  ringExpandSpeed: 0
 --- !u!135 &1721817983131584903
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -158,6 +160,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 498308, guid: 53ddef5e12afabb4f9904ea55a273930, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224926, guid: 53ddef5e12afabb4f9904ea55a273930, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19817450, guid: 53ddef5e12afabb4f9904ea55a273930, type: 3}
