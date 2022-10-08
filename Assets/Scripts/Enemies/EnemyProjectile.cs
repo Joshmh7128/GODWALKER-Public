@@ -8,7 +8,7 @@ public class EnemyProjectile : MonoBehaviour
 
     public enum ProjectileTypes
     {
-        kinematic, physics, curves
+        kinematic, physics, curves, homing
     }
 
     public ProjectileTypes projectileType;
@@ -21,6 +21,7 @@ public class EnemyProjectile : MonoBehaviour
     public float damage; // how much damage does this deal?
 
     // our curve speed
+    [SerializeField] float homingSpeed; // how fast we home towards the player
     [SerializeField] float curveSpeed; // how fast we curve in any direction
     Vector3 curveVector; // our curve vector
 
@@ -60,6 +61,15 @@ public class EnemyProjectile : MonoBehaviour
             // calculate our curve vector
             curveVector = new Vector3(Random.Range(-curveSpeed, curveSpeed), Random.Range(-curveSpeed, curveSpeed), Random.Range(-curveSpeed, curveSpeed));
         }
+
+        if (projectileType == ProjectileTypes.homing)
+        {
+            // home in on the player
+            // if we are homing, get direction from target to transform
+            Vector3 targetDirection = PlayerController.instance.transform.position - transform.position;
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 10 * Time.deltaTime, -0f);
+            transform.rotation = Quaternion.LookRotation(newDirection);
+        }
     }
 
     // our physics start
@@ -93,6 +103,12 @@ public class EnemyProjectile : MonoBehaviour
             ProcessCurves();
         }
 
+        if (projectileType == ProjectileTypes.homing)
+        {
+            ProcessKinematic();
+            ProcessHoming();
+        }
+
     }
 
     private void FixedUpdate()
@@ -113,6 +129,15 @@ public class EnemyProjectile : MonoBehaviour
     {
         // rotate the bullet slightley at a random vector multiplied by our rotation delta
         transform.eulerAngles += curveVector;
+    }
+
+    void ProcessHoming()
+    {
+        // home in on the player
+        // if we are homing, get direction from target to transform
+        Vector3 targetDirection = PlayerController.instance.transform.position - transform.position;
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 10 * Time.deltaTime, -0f);
+        transform.rotation = Quaternion.LookRotation(newDirection);
     }
 
     // update for physics

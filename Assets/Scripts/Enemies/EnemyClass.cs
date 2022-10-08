@@ -75,6 +75,7 @@ public abstract class EnemyClass : MonoBehaviour
             yield return new WaitForFixedUpdate();
             // then wait
             yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
+            behaviour.complete = true;
 
         }
         StartCoroutine(AttackBehaviourHandler());
