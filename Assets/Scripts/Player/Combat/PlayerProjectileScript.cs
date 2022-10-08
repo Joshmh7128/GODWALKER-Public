@@ -153,6 +153,14 @@ public class PlayerProjectileScript : MonoBehaviour
             }
         }
 
+        if (enemy.transform.tag == "Enemy" && hit.transform.gameObject.GetComponent<EnemyClass>().invincible)
+        {
+            // random normal modifier
+            damage = 0;
+            // spawn normal damage number
+            normalHit.Spawn(transform.position, damage);   
+        }
+
     }
 
     // our custom destruction script
@@ -268,8 +276,8 @@ public class PlayerProjectileScript : MonoBehaviour
         // loop through and find the closest active enemy
         foreach(Transform enemy in arenaManager.activeArena.activeParent)
         {
-            // if the distance from this bullet to the enemy is lower than our local target, set that
-            if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, localTarget.position))
+            // if the distance from this bullet to the enemy is lower than our local target, set that. also, make sure they are not invincible
+            if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, localTarget.position) && !enemy.GetComponent<EnemyClass>().invincible)
                 localTarget = enemy;
         }
         
@@ -283,7 +291,7 @@ public class PlayerProjectileScript : MonoBehaviour
             foreach (Transform enemy in arenaManager.activeArena.activeParent)
             {
                 // if the distance from this bullet to the enemy is lower than our local target, set that
-                if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, secondTarget.position) && enemy.gameObject != localTarget.gameObject)
+                if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, secondTarget.position) && enemy.gameObject != localTarget.gameObject && !enemy.GetComponent<EnemyClass>().invincible)
                     secondTarget = enemy;
             }
 

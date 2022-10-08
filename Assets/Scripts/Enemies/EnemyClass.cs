@@ -22,7 +22,7 @@ public abstract class EnemyClass : MonoBehaviour
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
     List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
-    [SerializeField] bool activated = false;
+    [SerializeField] bool activated;
     // our agent
     [HideInInspector] public NavMeshAgent navMeshAgent;
 
@@ -43,6 +43,9 @@ public abstract class EnemyClass : MonoBehaviour
         StartExtension();
         // set our stats
         SetLevelStats();
+        // if we are already active
+        if (activated)
+        { StartBehaviours(); }
     }
 
     // to run our behaviours

@@ -16,7 +16,8 @@ public class EnemyProjectile : MonoBehaviour
     Rigidbody localRigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
     [SerializeField] bool facePlayer; // do we face the player
-    [SerializeField] int deathTime = 30; // how long to death
+    [SerializeField] bool invincible; // are we invincible?
+    [SerializeField] int deathTime; // how long to death
     [SerializeField] float openLifetime = 6f;
     public float damage; // how much damage does this deal?
 
@@ -179,6 +180,7 @@ public class EnemyProjectile : MonoBehaviour
             }
 
             // always destroy
+            if (!invincible)
             OnDestroyObject();
         }
     }
@@ -197,6 +199,7 @@ public class EnemyProjectile : MonoBehaviour
             }
 
             // always destroy
+            if (!invincible)
             OnDestroyObject();
         }
     }
@@ -213,6 +216,7 @@ public class EnemyProjectile : MonoBehaviour
     IEnumerator DeathCountdown()
     {
         yield return new WaitForSecondsRealtime(deathTime);
-        Destroy(gameObject);
+        Debug.Log("death countdown kill");
+        OnDestroyObject();
     }
 }

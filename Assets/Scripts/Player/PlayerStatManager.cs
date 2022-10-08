@@ -71,23 +71,27 @@ public class PlayerStatManager : MonoBehaviour
     // take damage
     public void TakeDamage(float damageAmount)
     {
-        // don't take damage if we are un able to
-        if (damageCooldown <= 0)
+        // if the player is not dashing
+        if (!PlayerController.instance.dashing)
         {
-            // set our damage cooldown
-            damageCooldown = damageCooldownMax;
-            // set our health
-            if (!debugInvincible)
-            health -= damageAmount;
-            // trigger a damage effect
-            PlayerBodyPartManager.instance.CallParts("OnPlayerTakeDamage");
-        }
+            // don't take damage if we are un able to
+            if (damageCooldown <= 0)
+            {
+                // set our damage cooldown
+                damageCooldown = damageCooldownMax;
+                // set our health
+                if (!debugInvincible)
+                    health -= damageAmount;
+                // trigger a damage effect
+                PlayerBodyPartManager.instance.CallParts("OnPlayerTakeDamage");
+            }
 
-        // even if we don't take damage trigger the UI to react as if we are taking damage
-        HurtUIFlash(); // flash our UI
-        HurtPlayerIK(); // make our player freak out on hit
-        // update our post
-        ChoosePostProcessing();
+            // even if we don't take damage trigger the UI to react as if we are taking damage
+            HurtUIFlash(); // flash our UI
+            HurtPlayerIK(); // make our player freak out on hit
+                            // update our post
+            ChoosePostProcessing();
+        }
     }
 
     // add health

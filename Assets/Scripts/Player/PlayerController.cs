@@ -14,7 +14,15 @@ public class PlayerController : MonoBehaviour
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
     public float gravityUpMultiplier = 1, gravityDownMultiplier = 1, gravityMidairMultiplier; // our multipliers for moving up and down with gravity
     public bool grounded;
-    [HideInInspector] public float velocity; // our velocity which we only want to read!
+
+    // dash related
+    [Header("Dash Management")]
+    public float dashSpeed; // how fast we move when dashing
+    public float dashTime, dashTimeMax; // how long we dash for
+    public bool dashing = false; // are we currently dashing
+
+    [Header("Collision and readout")]
+    [SerializeField] public float velocity; // our velocity which we only want to read!
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
     bool canMove = true; // can we move?
@@ -27,7 +35,8 @@ public class PlayerController : MonoBehaviour
     public Transform cameraRig, animationRigParent;
     [SerializeField] float maxRealignAngle; // how far can the player turn before we need to realign
     [SerializeField] float realignSpeed; // how quickly we align
-    
+    [SerializeField] List<GameObject> dashVFX; // our list of dash fx
+
     // our weapon management
     PlayerWeaponManager weaponManager;
 
@@ -153,12 +162,50 @@ public class PlayerController : MonoBehaviour
 
 
         // sprint calculation
-        if (Input.GetKeyDown(KeyCode.LeftShift) && pAxisV > 0.1f)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && pAxisV > 0.1f && grounded)
         {
             movementState = MovementStates.sprinting;
             PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.sprinting;
             // call on sprint
             bodyPartManager.CallParts("OnSprint");
+        }
+
+        // dash calculation
+        if (Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) > 0.1f || Mathf.Abs(pAxisH) > 0.1f) && !grounded && dashTime <= dashTimeMax)
+        {
+            // if we can dash
+            if (dashTime <= dashTimeMax)
+            {
+                // vfx check
+                if (dashTime == 0)
+                {
+                    PlayerCameraController.instance.FOVKickRequest(3);
+                }
+
+                UseDash();
+                dashing = true; // we are currently dashing
+                dashTime += Time.deltaTime; // count up the dash
+            }
+        }
+
+        // dash time calculation
+        if (dashTime > 0 && !dashing)
+        {
+            dashTime -= Time.deltaTime;
+        }
+
+        // dash cancel. if we stop midair, that's it
+        if (Input.GetKeyUp(KeyCode.LeftShift) && !grounded)
+        {
+            dashing = false;
+            dashTime = dashTimeMax;
+        }
+
+        // dash reset
+        if (grounded && dashTime > 0)
+        {
+            dashing = false;
+            dashTime = 0;
         }
 
         // sprint stopping
@@ -192,6 +239,19 @@ public class PlayerController : MonoBehaviour
         // output our velocity
         velocity = (Mathf.Abs(move.x) + Mathf.Abs(move.y) + Mathf.Abs(move.z)) * finalMoveSpeed;
 
+    }
+
+    void UseDash()
+    {
+        // declare our motion
+        float pAxisV = Input.GetAxisRaw("Vertical");
+        float pAxisH = Input.GetAxisRaw("Horizontal");
+        Vector3 lmoveV = cameraRig.forward * pAxisV;
+        Vector3 lmoveH = cameraRig.right * pAxisH;
+        // lock to horizontal movement
+        Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, 0, lmoveH.z + lmoveV.z);
+        // move character
+        characterController.Move(lmove * dashSpeed * Time.deltaTime);
     }
 
     RaycastHit adjusterHit;
