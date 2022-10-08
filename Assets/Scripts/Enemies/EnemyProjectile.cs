@@ -8,7 +8,7 @@ public class EnemyProjectile : MonoBehaviour
 
     public enum ProjectileTypes
     {
-        kinematic, physics, curves, homing
+        kinematic, physics, curves, homing, ring
     }
 
     public ProjectileTypes projectileType;
@@ -24,6 +24,7 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] float homingSpeed; // how fast we home towards the player
     [SerializeField] float curveSpeed; // how fast we curve in any direction
     Vector3 curveVector; // our curve vector
+    [SerializeField] float ringExpandSpeed; // how fast the rings expand from this enemy
 
     // get our stat manager
     PlayerStatManager statManager;
@@ -70,6 +71,12 @@ public class EnemyProjectile : MonoBehaviour
             Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 10 * Time.deltaTime, -0f);
             transform.rotation = Quaternion.LookRotation(newDirection);
         }
+
+        if (projectileType == ProjectileTypes.ring)
+        {
+            // expand
+             // transform.localScale += new Vector3(ringExpandSpeed, 0, ringExpandSpeed);
+        }
     }
 
     // our physics start
@@ -109,6 +116,11 @@ public class EnemyProjectile : MonoBehaviour
             ProcessHoming();
         }
 
+        if (projectileType == ProjectileTypes.ring)
+        {
+            // expand
+            transform.localScale += new Vector3(ringExpandSpeed * Time.deltaTime, 0, ringExpandSpeed * Time.deltaTime);
+        }
     }
 
     private void FixedUpdate()
