@@ -176,12 +176,8 @@ public class PlayerController : MonoBehaviour
             // if we can dash
             if (dashTime <= dashTimeMax)
             {
-                // vfx check
-                if (dashTime == 0)
-                {
-                    PlayerCameraController.instance.FOVKickRequest(3);
-                }
-
+                // vfx stuff
+                PlayerCameraController.instance.FOVKickRequest(95, true);
                 if (dashing)
                 {
                     foreach (GameObject g in dashVFX)
@@ -217,7 +213,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // vfx off
-        if (dashTime == dashTimeMax || !dashing)
+        if (dashTime >= dashTimeMax || !dashing)
         {
             foreach (GameObject g in dashVFX)
             {
@@ -266,7 +262,7 @@ public class PlayerController : MonoBehaviour
         Vector3 lmoveV = cameraRig.forward * pAxisV;
         Vector3 lmoveH = cameraRig.right * pAxisH;
         // lock to horizontal movement
-        Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, 0, lmoveH.z + lmoveV.z);
+        Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, -playerJumpVelocity, lmoveH.z + lmoveV.z);
         // move character
         characterController.Move(lmove * dashSpeed * Time.deltaTime);
     }

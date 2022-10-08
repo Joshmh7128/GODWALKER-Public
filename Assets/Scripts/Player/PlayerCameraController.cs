@@ -193,6 +193,11 @@ public class PlayerCameraController : MonoBehaviour
         mainCam.fieldOfView += fov;
     }
 
+    public void FOVKickRequest(float fov, bool hold)
+    {
+        mainCam.fieldOfView = fov;
+    }
+
     // when the player dies
     public void OnPlayerDeath()
     {
