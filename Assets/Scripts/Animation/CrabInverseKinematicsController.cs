@@ -36,12 +36,14 @@ public class CrabInverseKinematicsController : MonoBehaviour
         // unparent each target foot transform
         foreach (Transform foot in targetFeetPositions)
         {
+            if (foot)
             foot.transform.parent = null;
         }
 
         // unparent our controllers as well
         foreach (Transform foot in feetIKControllers)
         {
+            if (foot)
             foot.transform.parent = null;
         }
     }
