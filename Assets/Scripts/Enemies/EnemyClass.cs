@@ -14,6 +14,7 @@ public abstract class EnemyClass : MonoBehaviour
     public float health;
     public float maxHealth;
     public float damage; // how much damage do we deal?
+    public bool invincible; // is this invincible?
     [SerializeField] float lootDropChancePercentage;
     [SerializeField] GameObject gunCreator;
 
@@ -138,18 +139,21 @@ public abstract class EnemyClass : MonoBehaviour
     // getting hurt and dying
     virtual public void GetHurt(float damage)
     {
-        health -= (int)damage;
-        // flash
-        StartCoroutine(HurtFlash());
-        // if we are at 0 health, trigger death
-        if (health <= 0)
+        if (!invincible)
         {
-            // die
-            OnDeath();
-        }
+            health -= (int)damage;
+            // flash
+            StartCoroutine(HurtFlash());
+            // if we are at 0 health, trigger death
+            if (health <= 0)
+            {
+                // die
+                OnDeath();
+            }
 
-        // run our get hurt extender
-        GetHurtExtension();
+            // run our get hurt extender
+            GetHurtExtension();
+        }
     }
 
     // more accessible get hurt class 
@@ -292,29 +296,33 @@ public abstract class EnemyClass : MonoBehaviour
     // apply effects
     internal void ApplyEffect(Effects effect)
     {
-        foreach (Effects ef in activeEffects)
+        if (!invincible)
         {
-            if (ef == effect)
+            foreach (Effects ef in activeEffects)
             {
-                return;
+                if (ef == effect)
+                {
+                    return;
+                }
             }
-        }
 
-        activeEffects.Add(effect);
+            activeEffects.Add(effect);
 
-        // empty statement
-        if (effect == Effects.None)
-        {
+            // empty statement
+            if (effect == Effects.None)
+            {
 
-        }
+            }
 
-        // shock
-        if (effect == Effects.Shock)
-        {
-            // spawn in the shock zone prefab on us
-            GameObject obj = Resources.Load<GameObject>("EnemyElementalEffects/ShockZone");
-            Instantiate(obj, transform);
-            playerBodyPartManager.CallParts("OnShockEffect");
+            // shock
+            if (effect == Effects.Shock)
+            {
+                // spawn in the shock zone prefab on us
+                GameObject obj = Resources.Load<GameObject>("EnemyElementalEffects/ShockZone");
+                Instantiate(obj, transform);
+                playerBodyPartManager.CallParts("OnShockEffect");
+            }
+
         }
     }
 
