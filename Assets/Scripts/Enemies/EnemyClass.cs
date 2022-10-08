@@ -108,7 +108,7 @@ public abstract class EnemyClass : MonoBehaviour
     }
 
     // runs 60 times per second
-    private void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         // process whether we can run our behaviours
         ProcessBehaviourStart();

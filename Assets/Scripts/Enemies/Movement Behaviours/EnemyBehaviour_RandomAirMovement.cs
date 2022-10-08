@@ -12,6 +12,7 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
     [SerializeField] float speed; // how fast do we move?
     [SerializeField] float bodyRadius; // how big is our body?
     [SerializeField] float moveDistance; // how far do we move per check?
+    [SerializeField] bool drawGizmos;
 
     public override IEnumerator MainCoroutine()
     {
@@ -23,7 +24,7 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
     // choose a new position on the x axis
     void ChoosePos()
     {
-        targetPos = transform.position + new Vector3(Random.Range(-moveDistance, moveDistance), 0, Random.Range(-moveDistance, moveDistance));
+        targetPos = enemyClass.transform.position + new Vector3(Random.Range(-moveDistance, moveDistance), 0, Random.Range(-moveDistance, moveDistance));
     }
 
     public void FixedUpdate()
@@ -32,8 +33,8 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
         if (active)
         {
             // check if we are going to run into anything
-            Vector3 dir = targetPos - transform.position; 
-            Ray ray = new Ray(transform.position, dir);
+            Vector3 dir = targetPos - enemyClass.transform.position; 
+            Ray ray = new Ray(enemyClass.transform.position, dir);
 
             // if we hit anything, stop moving
             if (Physics.SphereCast(ray, bodyRadius*1.5f, bodyRadius * 1.5f, Physics.AllLayers, QueryTriggerInteraction.Ignore))
@@ -42,8 +43,23 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
             }
 
             // other than that, move towards our target position
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, speed);
+            enemyClass.transform.position = Vector3.MoveTowards(transform.position, targetPos, speed*Time.deltaTime);
 
+            // when we reach our position, choose a new one
+            if (Vector3.Distance(enemyClass.transform.position, targetPos) < bodyRadius)
+            {
+                ChoosePos();
+            }
+
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (drawGizmos)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(targetPos, 5);
         }
     }
 
