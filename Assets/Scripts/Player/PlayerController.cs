@@ -182,6 +182,14 @@ public class PlayerController : MonoBehaviour
                     PlayerCameraController.instance.FOVKickRequest(3);
                 }
 
+                if (dashing)
+                {
+                    foreach (GameObject g in dashVFX)
+                    {
+                        g.SetActive(true);
+                    }
+                }
+
                 UseDash();
                 dashing = true; // we are currently dashing
                 dashTime += Time.deltaTime; // count up the dash
@@ -206,6 +214,15 @@ public class PlayerController : MonoBehaviour
         {
             dashing = false;
             dashTime = 0;
+        }
+
+        // vfx off
+        if (dashTime == dashTimeMax || !dashing)
+        {
+            foreach (GameObject g in dashVFX)
+            {
+                g.SetActive(false);
+            }
         }
 
         // sprint stopping
