@@ -639,6 +639,8 @@ MonoBehaviour:
   ourCanvas: {fileID: 2840980042599322923}
   pickupFX: {fileID: 7888954802308269109, guid: c7cb7fe52e9ba9e4d91c02d6a8f91348, type: 3}
   playerPickupFX: {fileID: 931352995334258111, guid: 45a0ad2fac5845c4d9d31cda0cfff255, type: 3}
+  overrideGeneration: 0
+  overrideBodyPartType: 0
 --- !u!54 &2840980042249687824
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -861,7 +863,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 2840980042323745206}
+  hitPoint: {x: 0, y: 0, z: 0}
   itemType: 1
+  rootItemClass: {fileID: 2840980042249687831}
   weapon_Item: {fileID: 0}
   weapon_Class: {fileID: 0}
   weaponInfoText: {fileID: 2840980041374870140}

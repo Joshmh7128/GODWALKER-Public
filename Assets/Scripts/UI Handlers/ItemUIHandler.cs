@@ -16,19 +16,19 @@ public class ItemUIHandler : MonoBehaviour
 
     [SerializeField] Transform panel; // our panel transform parent
 
-    public Vector3 hitPoint // where is the camera script hitting on this object?
-    {
-        set { panel.transform.position = value; panel.transform.LookAt(Camera.main.transform.position); closeWait = 0.5f; }
-    }
+    public Vector3 hitPoint;
 
     // our enum for item types
     public enum ItemTypes
     {
-        Weapon, BodyPart
+        Weapon, BodyPart, Pickup
     }
 
     public ItemTypes itemType; // what type of item are we?
     
+    [Header("ROOT ITEM CLASS")]
+    [SerializeField] ItemClass rootItemClass; 
+
     [Header("- Weapon Data -")]
     // information for weapons
     public Weapon_Item weapon_Item; // our weapon item
@@ -73,11 +73,15 @@ public class ItemUIHandler : MonoBehaviour
             // get the part class manually
             body_Part = bodyPart_Item.bodyPartObject.GetComponent<BodyPartClass>();
         }
+
     }
 
     private void FixedUpdate()
     {
-        // SetInfo();
+        // if we can grab, set the closeWait to 0.5f
+        if (rootItemClass.canGrab)
+        { closeWait = 0.5f; }
+        
         // processing opening / closing our panel
         if (closeWait > 0)
         { 
