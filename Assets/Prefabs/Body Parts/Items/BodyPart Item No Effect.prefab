@@ -635,6 +635,8 @@ MonoBehaviour:
   ourCanvas: {fileID: 2840980042599322923}
   pickupFX: {fileID: 7888954802308269109, guid: c7cb7fe52e9ba9e4d91c02d6a8f91348, type: 3}
   playerPickupFX: {fileID: 931352995334258111, guid: 45a0ad2fac5845c4d9d31cda0cfff255, type: 3}
+  overrideGeneration: 0
+  overrideBodyPartType: 0
 --- !u!54 &2840980042249687824
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -857,7 +859,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 2840980042323745206}
-  itemType: 1
+  hitPoint: {x: 0, y: 0, z: 0}
+  itemType: 2
+  rootItemClass: {fileID: 0}
+  itemInfo: {fileID: 0}
+  itemName: {fileID: 0}
   weapon_Item: {fileID: 0}
   weapon_Class: {fileID: 0}
   weaponInfoText: {fileID: 2840980041374870140}
@@ -866,15 +872,10 @@ MonoBehaviour:
   body_Part: {fileID: 0}
   bodyPart_Item: {fileID: 2840980042249687831}
   bodyPartName: {fileID: 2840980041130555634}
-  currentRightName: {fileID: 0}
-  currentLeftName: {fileID: 0}
   bodyPartInfo: {fileID: 2840980041374870140}
-  currentRightInfo: {fileID: 0}
-  currentLeftInfo: {fileID: 0}
   rightClass: {fileID: 0}
   leftClass: {fileID: 0}
   info_CanvasGroup: {fileID: 2840980040975520946}
-  additional_info: {fileID: 0}
 --- !u!1001 &6180566918714378526
 PrefabInstance:
   m_ObjectHideFlags: 0

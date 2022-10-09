@@ -21,7 +21,7 @@ public class ItemUIHandler : MonoBehaviour
     // our enum for item types
     public enum ItemTypes
     {
-        Weapon, BodyPart, Pickup
+        Pickup, Weapon, BodyPart,
     }
 
     public ItemTypes itemType; // what type of item are we?
