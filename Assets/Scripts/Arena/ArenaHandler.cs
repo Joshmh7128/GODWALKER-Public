@@ -24,6 +24,9 @@ public class ArenaHandler : MonoBehaviour
     public List<Transform> spawnPoints = new List<Transform>(); // all the spawnpoints in the room
     Transform spawnPoint; // the spawn point we're using right now
 
+    // our list of waves
+    [SerializeField] List<Transform> waveParents; // wave parents hold enemies as child objects
+
     // our doors
     [HideInInspector] public List<DoorScript> doors;
 
@@ -37,6 +40,15 @@ public class ArenaHandler : MonoBehaviour
     [SerializeField] Transform upgradeSpawnPoint; // where the upgrade spawns
     [SerializeField] GameObject bodyPartItem; // an empty body part item prefab
     [SerializeField] bool specialRoom; // is this a special room?
+
+    public enum ArenaModes
+    {
+        Wave, // wave based combat
+        Single, // one single combat
+        GoalAmount // keep as many enemies in the environment as you can
+    }
+
+    public ArenaModes arenaMode; 
 
     private void Start()
     {
@@ -58,25 +70,64 @@ public class ArenaHandler : MonoBehaviour
             if (door.open)
                 door.Lock();
         }
-
-        // nav mesh generation is done PER MESH inside the geometry prefab
     }
 
     private void FixedUpdate()
     {
         if (combatBegun)
-        ProcessEnemyAmount();
+        {
+            if (arenaMode == ArenaModes.GoalAmount)
+            ProcessGoalAmount();
+
+            if (arenaMode == ArenaModes.Wave)
+            {
+                ProcessWave();
+            }
+        }
+    }
+
+    // process our waves
+    void ProcessWave()
+    {
+        // if there are no enemies in our active parent,
+        // get all the child objects of the next wave and make them children of the active parent,
+        // then delete the wave parent
+
+        if (activeParent.childCount <= 0)
+        {
+            // if we have a new wave to do
+
+            if (waveParents[0] != null)
+            {
+                // the 0th wave parent
+                foreach (Transform child in waveParents[0])
+                {
+                    child.parent = activeParent;
+
+                    if (waveParents[0].childCount <= 0)
+                    {
+                        GameObject parent = waveParents[0].gameObject;
+                        waveParents.Remove(parent.transform);
+                        Destroy(parent.gameObject);
+                    }
+                }
+            }
+            else
+            {
+                EndCombat();
+            }
+        }
     }
 
     // process our enemies
-    void ProcessEnemyAmount()
+    void ProcessGoalAmount()
     {
         if (activeParent.childCount < activeGoal)
         {
             if (inactiveParent.childCount > 0)
             if (inactiveParent.GetChild(0) != null)
             {
-                EnableNewEnemy();
+                EnableNewEnemyAtSpawnPoint();
             }
         }
 
@@ -87,7 +138,7 @@ public class ArenaHandler : MonoBehaviour
         }
     }
 
-    void EnableNewEnemy()
+    void EnableNewEnemyAtSpawnPoint()
     {
         // if our spawnpoint is null, set it to our first one just to get us started
         if (spawnPoint == null) { spawnPoint = spawnPoints[0]; }
@@ -120,6 +171,12 @@ public class ArenaHandler : MonoBehaviour
         combatBegun = true;
         // set ourselves as the active arena in the arena manager
         arenaManager.activeArena = this;
+        // activate all enemies
+        foreach(Transform transform in activeParent)
+        {
+            transform.GetComponent<EnemyClass>().ManualBehaviourStart();
+        }    
+
     }
 
     // end combat here

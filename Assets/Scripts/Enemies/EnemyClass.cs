@@ -22,7 +22,7 @@ public abstract class EnemyClass : MonoBehaviour
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
     List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
-    [SerializeField] bool activated;
+    public bool activated;
     // our agent
     [HideInInspector] public NavMeshAgent navMeshAgent;
 
@@ -137,6 +137,13 @@ public abstract class EnemyClass : MonoBehaviour
                 }
             }
         }
+    }
+
+    // called by arena handler
+    public void ManualBehaviourStart()
+    {
+        activated = true;
+        StartBehaviours();
     }
 
     // getting hurt and dying
