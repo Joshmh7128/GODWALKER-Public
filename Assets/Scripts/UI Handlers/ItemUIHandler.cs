@@ -72,13 +72,6 @@ public class ItemUIHandler : MonoBehaviour
         {
             // get the part class manually
             body_Part = bodyPart_Item.bodyPartObject.GetComponent<BodyPartClass>();
-
-            // check the bodypart type and whether or not we use additional panels
-            if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm || body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
-            {
-                // dont need additional panels anymore since we've moved on to accessible info
-                // additional_info.SetActive(true);
-            }
         }
     }
 
@@ -129,21 +122,7 @@ public class ItemUIHandler : MonoBehaviour
 
         // for our bodyparts
         if (itemType == ItemTypes.BodyPart)
-        {/*
-            #region // setup our current classes based on type 
-            if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Arm)
-            {
-                rightClass = PlayerBodyPartManager.instance.bodyParts[2];
-                leftClass = PlayerBodyPartManager.instance.bodyParts[3];
-            }
-
-            if (body_Part.bodyPartType == BodyPartClass.BodyPartTypes.Leg)
-            {
-                rightClass = PlayerBodyPartManager.instance.bodyParts[4];
-                leftClass = PlayerBodyPartManager.instance.bodyParts[5];
-            }
-            #endregion
-            */
+        {
             // set our information
             bodyPartName.text = body_Part.bodyPartName;
             bodyPartInfo.text = body_Part.descriptiveInfo;
