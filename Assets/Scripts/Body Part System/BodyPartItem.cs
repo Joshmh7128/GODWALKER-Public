@@ -93,18 +93,6 @@ public class BodyPartItem : ItemClass
 
     void ProcessCanGrab()
     {
-
-        // grab check
-        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < pickupDistance)
-        {
-            canGrab = true;
-        }
-
-        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) > pickupDistance)
-        {
-            canGrab = false;
-        }
-
         // actual grabbing
         if (canGrab)
         {

@@ -26,20 +26,17 @@ public class Weapon_Item : ItemClass
 
     void ProcessCanGrab()
     {
-        
         // grab check
-        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < pickupDistance)
+        if (canGrab)
         {
             if (!PlayerWeaponManager.instance.nearbyWeapons.Contains(gameObject))
-            PlayerWeaponManager.instance.nearbyWeapons.Add(gameObject);
-            canGrab = true;
+                PlayerWeaponManager.instance.nearbyWeapons.Add(gameObject);
         }
 
-        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) > pickupDistance)
+        if (!canGrab)
         {
             if (PlayerWeaponManager.instance.nearbyWeapons.Contains(gameObject))
                 PlayerWeaponManager.instance.nearbyWeapons.Remove(gameObject);
-            canGrab = false;
         }
 
         // actual grabbing

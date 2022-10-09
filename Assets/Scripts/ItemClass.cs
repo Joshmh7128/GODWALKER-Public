@@ -8,4 +8,18 @@ public abstract class ItemClass : MonoBehaviour
     // can we be picked up?
     public float pickupDistance = 5;
 
+    public virtual void ProcessCanGrabState()
+    {
+        // grab check
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < pickupDistance)
+        { 
+            canGrab = true;
+        }
+
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) > pickupDistance)
+        {
+            canGrab = false;
+        }
+
+    }
 }
