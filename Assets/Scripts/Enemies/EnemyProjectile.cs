@@ -153,7 +153,7 @@ public class EnemyProjectile : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(newDirection);
 
         // once we get close enough to the player, stop homing
-        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < 4)
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < 6)
         {
             projectileType = ProjectileTypes.kinematic;
         }
