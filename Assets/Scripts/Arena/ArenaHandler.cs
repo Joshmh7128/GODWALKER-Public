@@ -133,6 +133,14 @@ public class ArenaHandler : MonoBehaviour
         // if we have a new wave to do
         if (waveParents[0] != null)
         {
+            if (waveParents[1] == null)
+            {
+                StartCoroutine(ShowWaveMessage("Enemies Incoming"));
+            }
+            else
+            {
+                StartCoroutine(ShowWaveMessage("Final Wave Incoming"));
+            }
             Debug.Log("setting up " + waveParents[0].name);
             // put all desired enemies into a list
             List<Transform> enemyTransforms = new List<Transform>();
@@ -325,7 +333,6 @@ public class ArenaHandler : MonoBehaviour
         messageText.text = message;
         messageGroupTargetA = 1;
         yield return new WaitForSecondsRealtime(4f);
-
-
+        messageGroupTargetA = 0;
     }
 }
