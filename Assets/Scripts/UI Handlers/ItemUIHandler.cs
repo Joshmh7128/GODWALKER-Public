@@ -27,7 +27,8 @@ public class ItemUIHandler : MonoBehaviour
     public ItemTypes itemType; // what type of item are we?
     
     [Header("ROOT ITEM CLASS")]
-    [SerializeField] ItemClass rootItemClass; 
+    [SerializeField] ItemClass rootItemClass;
+    public Text itemInfo, itemName; // our base item info and name
 
     [Header("- Weapon Data -")]
     // information for weapons

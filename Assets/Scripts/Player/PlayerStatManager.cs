@@ -114,6 +114,17 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+    // add max health
+    public void AddMaxHealth(float increaseAmount)
+    {
+        LifeUIFlash();
+        maxHealth += increaseAmount;
+
+        PlayerBodyPartManager.instance.CallParts("OnPlayerGainLife");
+        // update our post
+        ChoosePostProcessing();
+    }
+
     // all our UI processing overtime
     void ProcessUI()
     {

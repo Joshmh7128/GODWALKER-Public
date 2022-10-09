@@ -8,6 +8,11 @@ public abstract class ItemClass : MonoBehaviour
     // can we be picked up?
     public float pickupDistance = 5;
 
+    public virtual void FixedUpdate()
+    {
+        ProcessCanGrabState();
+    }
+
     public virtual void ProcessCanGrabState()
     {
         // grab check
