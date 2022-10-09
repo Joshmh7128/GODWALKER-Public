@@ -37,6 +37,8 @@ public class DeathTrigger : MonoBehaviour
         yield return new WaitForSeconds(1f);
         // teleport player to the last place they were grounded at
         controller.Teleport(controller.lastGroundedPos);
+        // take 5% damage
+        statManager.TakeDamage(statManager.maxHealth*0.05f);
         // trigger the fade to white
         statManager.fadeUITargetA = 0;
     }
