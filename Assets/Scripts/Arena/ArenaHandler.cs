@@ -95,32 +95,37 @@ public class ArenaHandler : MonoBehaviour
 
         if (activeParent.childCount <= 0)
         {
-            // if we have a new wave to do
+            SetupWave();
+        }
+    }
 
-            if (waveParents[0] != null)
+    void SetupWave()
+    {
+        // if we have a new wave to do
+        if (waveParents[0] != null)
+        {
+            Debug.Log("setting up " + waveParents[0].name);
+            // the 0th wave parent
+            foreach (Transform child in waveParents[0])
             {
-                // the 0th wave parent
-                foreach (Transform child in waveParents[0])
+                // ensure it is enabled
+                child.gameObject.SetActive(true);
+                child.parent = activeParent;
+
+                if (waveParents[0].childCount <= 0)
                 {
-                    // ensure it is enabled
-                    child.gameObject.SetActive(true);
-                    child.parent = activeParent;
-
-                    if (waveParents[0].childCount <= 0)
-                    {
-                        GameObject parent = waveParents[0].gameObject;
-                        waveParents.Remove(parent.transform);
-                        Destroy(parent.gameObject);
-                    }
-
-                    // manually start the behaviours
-                    child.GetComponent<EnemyClass>().ManualBehaviourStart();
+                    GameObject parent = waveParents[0].gameObject;
+                    waveParents.Remove(parent.transform);
+                    Destroy(parent.gameObject);
                 }
+
+                // manually start the behaviours
+                child.GetComponent<EnemyClass>().ManualBehaviourStart();
             }
-            else
-            {
-                EndCombat();
-            }
+        }
+        else
+        {
+            EndCombat();
         }
     }
 
