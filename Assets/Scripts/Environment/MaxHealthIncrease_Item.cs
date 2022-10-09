@@ -23,7 +23,7 @@ public class MaxHealthIncrease_Item : ItemClass
 
     void SetStats()
     {
-        if (maxHealthIncrease != 0)
+        if (maxHealthIncrease == 0)
         {
             maxHealthIncrease = (int)Random.Range(1, 3) * 10;
         }
@@ -42,9 +42,14 @@ public class MaxHealthIncrease_Item : ItemClass
     void ProcessPickup()
     {
         // if we can grab and can pickup
-        if (canGrab & Input.GetKey(KeyCode.E))
+        if (canGrab & Input.GetKeyDown(KeyCode.E))
         {
-            playerStatManager.AddMaxHealth(maxHealthIncrease);
+            playerStatManager.AddMaxHealth(maxHealthIncrease);        
+            // then destroy object
+            Destroy(uiHandler.gameObject);
+            Destroy(gameObject);
         }
+
+
     }
 }

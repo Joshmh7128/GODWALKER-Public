@@ -119,10 +119,9 @@ public class PlayerStatManager : MonoBehaviour
     {
         LifeUIFlash();
         maxHealth += increaseAmount;
-        // sync up healthbar
-        healthSlider.maxValue = maxHealth;
-        healthLerpSlider.maxValue = maxHealth;
-
+        // sync up healthbars
+        healthSlider.value = health / maxHealth;
+        healthLerpSlider.value = health / maxHealth;
         // update our post
         ChoosePostProcessing();
     }
