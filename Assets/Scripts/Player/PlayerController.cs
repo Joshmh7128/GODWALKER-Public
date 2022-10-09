@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour
     // our movement function
     void ProcessMovement()
     {
+        #region // Core Movement
         // declare our motion
         float pAxisV = Input.GetAxisRaw("Vertical");
         float pAxisH = Input.GetAxisRaw("Horizontal");
@@ -171,6 +172,18 @@ public class PlayerController : MonoBehaviour
             bodyPartManager.CallParts("OnSprint");
         }
 
+        // sprint stopping
+        if (movementState == MovementStates.sprinting && (pAxisV <= 0.1f || Input.GetMouseButton(1)))
+        {
+            movementState = MovementStates.normal;
+            PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.normal;
+            // call off sprint
+            bodyPartManager.CallParts("OffSprint");
+        }
+
+        #endregion
+
+        #region // Dashing
         // dash calculation
         if (Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) > 0.1f || Mathf.Abs(pAxisH) > 0.1f) && !grounded && dashTime <= dashTimeMax)
         {
@@ -221,25 +234,26 @@ public class PlayerController : MonoBehaviour
                 g.SetActive(false);
             }
         }
+        #endregion
 
+        #region // Last Grounded Point
         // set our last grounded point
         if (grounded && !dashing)
         {
             groundTime += Time.deltaTime;
             Debug.Log(groundTime);
-            if (groundTime >= 1)
+            if (groundTime >= 0.6f)
             lastGroundedPos = transform.position;
         }
-
-        // sprint stopping
-        if (movementState == MovementStates.sprinting && (pAxisV <= 0.1f || Input.GetMouseButton(1)))
+        
+        // reset groundTime
+        if (!grounded || groundTime > 0.6f)
         {
-            movementState = MovementStates.normal;
-            PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.normal;
-            // call off sprint
-            bodyPartManager.CallParts("OffSprint");
+            groundTime = 0;
         }
+        #endregion
 
+        #region // Movement State Processing
         // process our state into the movement speed adjuster
         if (movementState == MovementStates.normal)
         { moveSpeedAdjust = normalMoveMultiplier; sprintParticleSystem.SetActive(false); }        
@@ -247,7 +261,9 @@ public class PlayerController : MonoBehaviour
         { moveSpeedAdjust = sprintMoveMultiplier + sprintMoveMod; sprintParticleSystem.SetActive(true); }       
         if (movementState == MovementStates.aiming)
         { moveSpeedAdjust = aimMoveMultiplier; sprintParticleSystem.SetActive(false); }
+        #endregion
 
+        #region // Movement Application
         float finalMoveSpeed = moveSpeed * moveSpeedAdjust;
         // calculate vertical movement
         verticalVelocity = playerJumpVelocity;
@@ -261,7 +277,7 @@ public class PlayerController : MonoBehaviour
 
         // output our velocity
         velocity = (Mathf.Abs(move.x) + Mathf.Abs(move.y) + Mathf.Abs(move.z)) * finalMoveSpeed;
-
+        #endregion
     }
 
     void UseDash()
