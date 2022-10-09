@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DoorScript : MonoBehaviour
 {
-    public bool open = false, canOpen, triggerLock, triggerHit, distanceLock; // is this open? can we open it?
+    public bool open = false, canOpen, triggerLock, triggerHit, triggerOverride, distanceLock, toCombat; // is this open? can we open it?
     [SerializeField] Animator animator;
     [SerializeField] float interactionDistance = 10f;
     [SerializeField] GameObject openMessage, lockParent, timerCanvasObject;
@@ -73,7 +73,7 @@ public class DoorScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // if we have our trigger lock active, lock the door with the trigger
-        if (triggerLock && other.transform.tag == "Player" && triggerHit == false)
+        if (triggerLock && other.transform.tag == "Player" && triggerHit == false && triggerOverride == false)
         {
             TriggerLock();
         }
@@ -111,13 +111,16 @@ public class DoorScript : MonoBehaviour
         open = true;
         openMessage.SetActive(false);
         animator.Play("DoorOpening");
-        SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
-        // start combat in the correct arena
-        foreach(ArenaHandler arena in associatedArenas)
+        if (toCombat)
         {
-            if (!arena.combatBegun)
+            SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
+            // start combat in the correct arena
+            foreach (ArenaHandler arena in associatedArenas)
             {
-                arena.StartCombat();
+                if (!arena.combatBegun)
+                {
+                    arena.StartCombat();
+                }
             }
         }
 

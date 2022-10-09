@@ -37,6 +37,7 @@ public class ArenaHandler : MonoBehaviour
     // everything to do with upgrades
     [SerializeField] Transform upgradeSpawnPoint; // where the upgrade spawns
     [SerializeField] GameObject bodyPartItem; // an empty body part item prefab
+    [SerializeField] GameObject bodyPartObject; // a premade body part 
     [SerializeField] bool specialRoom; // is this a special room?
 
     public enum ArenaModes
@@ -80,8 +81,6 @@ public class ArenaHandler : MonoBehaviour
             if (arenaMode == ArenaModes.Wave)
             {
                 ProcessWave();
-
-
             }
         }
     }
@@ -150,7 +149,7 @@ public class ArenaHandler : MonoBehaviour
         if (waveParents[0] != null)
         {
             
-            Debug.Log("setting up " + waveParents[0].name);
+            // Debug.Log("setting up " + waveParents[0].name);
             // put all desired enemies into a list
             List<Transform> enemyTransforms = new List<Transform>();
             foreach (Transform child in waveParents[0])
@@ -263,7 +262,7 @@ public class ArenaHandler : MonoBehaviour
             StartCoroutine(ShowWaveMessage("Combat Complete"));
             // spawn our new body part from the list
             // 50/50 chance to get the next in the same set
-            CreateBodyPartItem(specialRoom);
+            CreateBodyPartItem(bodyPartObject);
 
         }
 
@@ -316,6 +315,12 @@ public class ArenaHandler : MonoBehaviour
 
         // spawn a special
         if (special) SpawnSpecialItem();
+    }
+
+    void CreateBodyPartItem(GameObject bodyPart)
+    {
+        // spawn in a body part item and then add the associated upgrade to that item
+        Instantiate(bodyPart, upgradeSpawnPoint);
     }
 
     void SpawnSpecialItem()
