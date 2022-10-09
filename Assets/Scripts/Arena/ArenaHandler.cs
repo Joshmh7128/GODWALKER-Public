@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.AI;
-using JetBrains.Annotations;
+using UnityEngine.UI;
 
 public class ArenaHandler : MonoBehaviour
 {
@@ -74,6 +72,17 @@ public class ArenaHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // message group alpha handling
+        if (messageGroup.alpha < messageGroupTargetA)
+        {
+            messageGroup.alpha += Time.deltaTime;
+        }
+
+        if (messageGroup.alpha > messageGroupTargetA)
+        {
+            messageGroup.alpha -= Time.deltaTime;
+        }
+
         if (combatBegun)
         {
             if (arenaMode == ArenaModes.GoalAmount)
@@ -86,6 +95,7 @@ public class ArenaHandler : MonoBehaviour
         }
     }
 
+    bool setupWaveRunning; // is setup wave running
     // process our waves
     void ProcessWave()
     {
@@ -93,37 +103,46 @@ public class ArenaHandler : MonoBehaviour
         // get all the child objects of the next wave and make them children of the active parent,
         // then delete the wave parent
 
-        if (activeParent.childCount <= 0)
+        if (activeParent.childCount <= 0 && !setupWaveRunning)
         {
-            SetupWave();
+            StartCoroutine(SetupWave(false));
         }
     }
 
-    void SetupWave()
+    IEnumerator SetupWave(bool instant)
     {
+        setupWaveRunning = true;
+        List<Transform> vfx = new List<Transform>();
+        // if it's not instant, wait
+        if (!instant)
+        {
+            // spawn a bunch of summon vfx
+            foreach (Transform child in waveParents[0])
+            {
+                Transform t = Instantiate(summoningEffect, child.position, Quaternion.identity, null).transform;
+                vfx.Add(t);
+            }
+
+            yield return new WaitForSecondsRealtime(5f);
+            // then destroy all the vfx when we continue
+            foreach (Transform t in vfx)
+            {
+                Destroy(t.gameObject);
+            }
+        }
         // if we have a new wave to do
         if (waveParents[0] != null)
         {
             Debug.Log("setting up " + waveParents[0].name);
-            // the 0th wave parent
-            int j = waveParents[0].childCount; // store since we'll be changing the child count amount by removing them 
-            for (int i = 0; i <= j; i++) // loop
+            // put all desired enemies into a list
+            List<Transform> enemyTransforms = new List<Transform>();
+            foreach (Transform child in waveParents[0])
             {
-                waveParents[0].GetChild(i).gameObject.SetActive(true);
-                waveParents[0].GetChild(i).gameObject.GetComponent<EnemyClass>().ManualBehaviourStart();
-                waveParents[0].GetChild(i).parent = activeParent;
-
-                if (waveParents[0].childCount <= 0)
-                {
-                    GameObject parent = waveParents[0].gameObject;
-                    waveParents.Remove(parent.transform);
-                    Destroy(parent.gameObject);
-                }
-
+                enemyTransforms.Add(child);
             }
 
-
-            foreach (Transform child in waveParents[0])
+            // use the list to move all our enemies over to the correct parent
+            foreach (Transform child in enemyTransforms)
             {
                 // ensure it is enabled
                 child.gameObject.SetActive(true);
@@ -139,6 +158,9 @@ public class ArenaHandler : MonoBehaviour
                 // manually start the behaviours
                 child.GetComponent<EnemyClass>().ManualBehaviourStart();
             }
+
+            // setup wave has run
+            setupWaveRunning = false;
         }
         else
         {
@@ -291,5 +313,19 @@ public class ArenaHandler : MonoBehaviour
         {
             door.Unlock();
         }
+    }
+
+    // everything to do with our UI
+    [SerializeField] CanvasGroup messageGroup; // our UI group
+    [SerializeField] Text messageText; // the message text
+    float messageGroupTargetA; // the target alpha of our message group
+
+    IEnumerator ShowWaveMessage(string message)
+    {
+        messageText.text = message;
+        messageGroupTargetA = 1;
+        yield return new WaitForSecondsRealtime(4f);
+
+
     }
 }

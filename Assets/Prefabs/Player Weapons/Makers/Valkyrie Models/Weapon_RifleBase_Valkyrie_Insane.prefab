@@ -5570,8 +5570,10 @@ MonoBehaviour:
   maxMagazine: 15
   reloadTime: 1
   reloading: 0
+  level: 0
   damage: 10
-  damageMod: 0
+  damageLevelMultiplier: 0
+  damageMods: []
   weaponName: 
   kickFOV: 2
   reloadSource: {fileID: 4808965472883277900}
@@ -5583,7 +5585,13 @@ MonoBehaviour:
   spreadYDelta: 0.01
   spreadReduct: 4
   originalSpreadReduct: 0
+  requestDoubleShot: 0
+  requestHomingShot: 0
+  requestExplodingShot: 0
+  requestTeleportShot: 0
+  requestShockExplodingShot: 0
   weaponUIHandler: {fileID: 5926391929870182259}
+  bodyPartManager: {fileID: 0}
   weaponElement: 0
 --- !u!114 &5926391929870182259
 MonoBehaviour:
@@ -6787,7 +6795,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1328
+  m_VersionIndex: 1331
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -12738,7 +12746,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1817
+  m_VersionIndex: 1820
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -15570,7 +15578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRateMod: -3
   fireRateMax: 0
-  reloadTimeMod: 0
+  reloadTimeMod: -3
   reloadTimeMax: 0
   spreadMaxMod: 0
   spreadDeltaXMod: 0
@@ -16837,7 +16845,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2626
+  m_VersionIndex: 2629
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
