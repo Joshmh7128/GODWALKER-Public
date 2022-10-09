@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DoorScript : MonoBehaviour
 {
     public bool open = false, canOpen, triggerLock, triggerHit, distanceLock; // is this open? can we open it?
     [SerializeField] Animator animator;
     [SerializeField] float interactionDistance = 10f;
-    [SerializeField] GameObject openMessage, lockParent;
-    
+    [SerializeField] GameObject openMessage, lockParent, timerCanvasObject;
+
+    [SerializeField] bool timed; // is this a timed door?
+    [SerializeField] float timeRemaining = 60; // how much time is left?
+    [SerializeField] Text timeText; 
     // each door should be associated with 2 rooms at maximum
     [SerializeField] List<ArenaHandler> associatedArenas = new List<ArenaHandler>();
 
@@ -75,6 +79,31 @@ public class DoorScript : MonoBehaviour
         }
     }
 
+    // runs when combat begins
+    public void CombatBegin()
+    {
+        if (timed)
+        {
+            timerCanvasObject.SetActive(true);
+            StartCoroutine(Timer());
+        }
+    }
+
+    IEnumerator Timer()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        if (timeRemaining > 0)
+        {
+            timeRemaining -= 1f;
+            timeText.text = timeRemaining.ToString(); // show how much time is left
+            StartCoroutine(Timer()); // keep counting down
+        }
+        if (timeRemaining == 0)
+        {
+            timeText.text = "Locked. You didn't kill them fast enough.";
+        }
+    }
+
     // to be run when the door animates and opens
     void Open()
     {
@@ -95,10 +124,22 @@ public class DoorScript : MonoBehaviour
     }
 
     // unlock to be used anywhere publicly
-    public void Unlock()
+    public void AttemptUnlock()
     {
-        canOpen = true;
-        lockParent.SetActive(false);
+        if (timed)
+        { 
+            if (timeRemaining > 0)
+            {
+                canOpen = true;
+                lockParent.SetActive(false);
+                timerCanvasObject.SetActive(false);
+            }
+        }
+        else
+        {
+            canOpen = true;
+            lockParent.SetActive(false);
+        }
     }
 
     // when our locking for specifically when the trigger is hit

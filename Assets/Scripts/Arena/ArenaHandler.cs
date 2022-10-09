@@ -233,10 +233,15 @@ public class ArenaHandler : MonoBehaviour
         // set ourselves as the active arena in the arena manager
         arenaManager.activeArena = this;
         // activate all enemies
-        foreach(Transform transform in activeParent)
+        foreach (Transform transform in activeParent)
         {
             transform.GetComponent<EnemyClass>().ManualBehaviourStart();
         }    
+        // run the combat start on our doors
+        foreach (DoorScript door in doors)
+        {
+            door.CombatBegin();
+        }
 
     }
 
@@ -324,7 +329,7 @@ public class ArenaHandler : MonoBehaviour
         // when we set our combat completion, unlock all our doors
         foreach (DoorScript door in doors)
         {
-            door.Unlock();
+            door.AttemptUnlock();
         }
     }
 
