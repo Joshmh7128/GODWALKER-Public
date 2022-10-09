@@ -72,17 +72,6 @@ public class ArenaHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // message group alpha handling
-        if (messageGroup.alpha < messageGroupTargetA)
-        {
-            messageGroup.alpha += Time.deltaTime;
-        }
-
-        if (messageGroup.alpha > messageGroupTargetA)
-        {
-            messageGroup.alpha -= Time.deltaTime;
-        }
-
         if (combatBegun)
         {
             if (arenaMode == ArenaModes.GoalAmount)
@@ -91,6 +80,8 @@ public class ArenaHandler : MonoBehaviour
             if (arenaMode == ArenaModes.Wave)
             {
                 ProcessWave();
+
+
             }
         }
     }
@@ -99,6 +90,17 @@ public class ArenaHandler : MonoBehaviour
     // process our waves
     void ProcessWave()
     {
+        // message group alpha handling
+        if (messageGroup.alpha < messageGroupTargetA)
+        {
+            messageGroup.alpha += 2 * Time.deltaTime;
+        }
+
+        if (messageGroup.alpha > messageGroupTargetA)
+        {
+            messageGroup.alpha -= 2 * Time.deltaTime;
+        }
+
         // if there are no enemies in our active parent,
         // get all the child objects of the next wave and make them children of the active parent,
         // then delete the wave parent
@@ -123,6 +125,15 @@ public class ArenaHandler : MonoBehaviour
                 vfx.Add(t);
             }
 
+            if (waveParents.Count > 1)
+            {
+                StartCoroutine(ShowWaveMessage("Enemies Incoming"));
+            }
+            else if (waveParents.Count == 1)
+            {
+                StartCoroutine(ShowWaveMessage("Final Wave Incoming"));
+            }
+
             yield return new WaitForSecondsRealtime(5f);
             // then destroy all the vfx when we continue
             foreach (Transform t in vfx)
@@ -133,14 +144,7 @@ public class ArenaHandler : MonoBehaviour
         // if we have a new wave to do
         if (waveParents[0] != null)
         {
-            if (waveParents[1] == null)
-            {
-                StartCoroutine(ShowWaveMessage("Enemies Incoming"));
-            }
-            else
-            {
-                StartCoroutine(ShowWaveMessage("Final Wave Incoming"));
-            }
+            
             Debug.Log("setting up " + waveParents[0].name);
             // put all desired enemies into a list
             List<Transform> enemyTransforms = new List<Transform>();
@@ -246,6 +250,7 @@ public class ArenaHandler : MonoBehaviour
             CheckCombatCompletion();
             SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro);
 
+            StartCoroutine(ShowWaveMessage("Combat Complete"));
             // spawn our new body part from the list
             // 50/50 chance to get the next in the same set
             CreateBodyPartItem(specialRoom);
