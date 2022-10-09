@@ -106,6 +106,23 @@ public class ArenaHandler : MonoBehaviour
         {
             Debug.Log("setting up " + waveParents[0].name);
             // the 0th wave parent
+            int j = waveParents[0].childCount; // store since we'll be changing the child count amount by removing them 
+            for (int i = 0; i <= j; i++) // loop
+            {
+                waveParents[0].GetChild(i).gameObject.SetActive(true);
+                waveParents[0].GetChild(i).gameObject.GetComponent<EnemyClass>().ManualBehaviourStart();
+                waveParents[0].GetChild(i).parent = activeParent;
+
+                if (waveParents[0].childCount <= 0)
+                {
+                    GameObject parent = waveParents[0].gameObject;
+                    waveParents.Remove(parent.transform);
+                    Destroy(parent.gameObject);
+                }
+
+            }
+
+
             foreach (Transform child in waveParents[0])
             {
                 // ensure it is enabled
