@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
     public float gravityUpMultiplier = 1, gravityDownMultiplier = 1, gravityMidairMultiplier; // our multipliers for moving up and down with gravity
     public bool grounded;
+    public Vector3 lastGroundedPos; // the last position we were at when we were grounded
 
     // dash related
     [Header("Dash Management")]

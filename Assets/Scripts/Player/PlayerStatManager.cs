@@ -23,7 +23,8 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField] float damageCooldown, damageCooldownMax; // how long we are unable to take damage for after taking damage
 
     // our UI variables
-    [SerializeField] CanvasGroup hurtUIGroup, lifeGainUIGroup; // flash this when we take damage
+    [SerializeField] CanvasGroup hurtUIGroup, lifeGainUIGroup, fadeUIGroup; // flash this when we take damage
+    public float fadeUITargetA; // the target alpha for our fade ui group
     [SerializeField] VolumeProfile normalProfile, hurt1Profile, hurt2Profile, hurt3Profile; // activate each of these at different health % levels to change the post processing as we get more and more hurt
     [SerializeField] Volume mainVolume; // our main volume
     [SerializeField] Slider healthSlider, healthLerpSlider; // our health slider and our lerp slider
@@ -122,6 +123,16 @@ public class PlayerStatManager : MonoBehaviour
                
         if (lifeGainUIGroup.alpha > 0)
             lifeGainUIGroup.alpha -= 0.3f * Time.deltaTime;
+
+        if (fadeUIGroup.alpha < fadeUITargetA)
+        {
+            fadeUIGroup.alpha += 0.3f * Time.deltaTime;
+        }
+
+        if (fadeUIGroup.alpha > fadeUITargetA)
+        {
+            fadeUIGroup.alpha -= 0.3f * Time.deltaTime;
+        }
 
         // sync up our health bars
         healthSlider.value = health / maxHealth;
