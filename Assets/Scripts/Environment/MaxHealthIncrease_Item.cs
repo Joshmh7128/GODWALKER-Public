@@ -32,9 +32,8 @@ public class MaxHealthIncrease_Item : ItemClass
         uiHandler.itemInfo.text = infoString;
     }
 
-    public override void FixedUpdate()
+    public void Update()
     {
-        base.FixedUpdate();
         ProcessPickup();
     }
 
