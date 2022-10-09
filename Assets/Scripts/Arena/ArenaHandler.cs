@@ -102,6 +102,8 @@ public class ArenaHandler : MonoBehaviour
                 // the 0th wave parent
                 foreach (Transform child in waveParents[0])
                 {
+                    // ensure it is enabled
+                    child.gameObject.SetActive(true);
                     child.parent = activeParent;
 
                     if (waveParents[0].childCount <= 0)
@@ -110,6 +112,9 @@ public class ArenaHandler : MonoBehaviour
                         waveParents.Remove(parent.transform);
                         Destroy(parent.gameObject);
                     }
+
+                    // manually start the behaviours
+                    child.GetComponent<EnemyClass>().ManualBehaviourStart();
                 }
             }
             else
