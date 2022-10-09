@@ -8,6 +8,7 @@ public class MaxHealthIncrease_Item : ItemClass
     [SerializeField] float maxHealthIncrease; // how much does this item increase max health?
     string infoString; // our info
     [SerializeField] ItemUIHandler uiHandler; // our UI handler
+    [SerializeField] GameObject vfx; // our vfx
 
     // our instance
     PlayerStatManager playerStatManager;
@@ -43,7 +44,9 @@ public class MaxHealthIncrease_Item : ItemClass
         // if we can grab and can pickup
         if (canGrab & Input.GetKeyDown(KeyCode.E))
         {
-            playerStatManager.AddMaxHealth(maxHealthIncrease);        
+            playerStatManager.AddMaxHealth(maxHealthIncrease);
+            // spawn fx on player
+            Instantiate(vfx, PlayerController.instance.transform.position + Vector3.up * 0.5f, Quaternion.identity);
             // then destroy object
             Destroy(uiHandler.gameObject);
             Destroy(gameObject);

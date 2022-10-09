@@ -104,7 +104,7 @@ public class PlayerStatManager : MonoBehaviour
             if (health + healthAmount < maxHealth)
             health += healthAmount;
 
-            if (health + healthAmount > maxHealth)
+            if (health + healthAmount >= maxHealth)
             {
                 health = maxHealth;
             }
