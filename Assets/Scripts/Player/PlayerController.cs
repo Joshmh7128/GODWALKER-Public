@@ -221,6 +221,12 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        // set our last grounded point
+        if (grounded && !dashing)
+        {
+            lastGroundedPos = transform.position;
+        }
+
         // sprint stopping
         if (movementState == MovementStates.sprinting && (pAxisV <= 0.1f || Input.GetMouseButton(1)))
         {

@@ -216,7 +216,6 @@ public class EnemyProjectile : MonoBehaviour
     IEnumerator DeathCountdown()
     {
         yield return new WaitForSecondsRealtime(deathTime);
-        Debug.Log("death countdown kill");
         OnDestroyObject();
     }
 }

@@ -126,12 +126,12 @@ public class PlayerStatManager : MonoBehaviour
 
         if (fadeUIGroup.alpha < fadeUITargetA)
         {
-            fadeUIGroup.alpha += 0.3f * Time.deltaTime;
+            fadeUIGroup.alpha += 2f * Time.deltaTime;
         }
 
         if (fadeUIGroup.alpha > fadeUITargetA)
         {
-            fadeUIGroup.alpha -= 0.3f * Time.deltaTime;
+            fadeUIGroup.alpha -= 2f * Time.deltaTime;
         }
 
         // sync up our health bars

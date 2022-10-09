@@ -19,7 +19,7 @@ public class DeathTrigger : MonoBehaviour
         controller = PlayerController.instance;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider collision)
     {
         // if we collide with the player and our coroutine is not running
         if (collision.transform.tag == "Player" && !running)

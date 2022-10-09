@@ -10,7 +10,6 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
     // our main coroutine
     public override IEnumerator MainCoroutine()
     {
-        Debug.Log("firing");
         // loop and fire out our shots
         int fired = 0;
         while (fired < fireAmount)
