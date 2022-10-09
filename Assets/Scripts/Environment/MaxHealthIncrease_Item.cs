@@ -46,7 +46,7 @@ public class MaxHealthIncrease_Item : ItemClass
         {
             playerStatManager.AddMaxHealth(maxHealthIncrease);
             // spawn fx on player
-            Instantiate(vfx, PlayerController.instance.transform.position + Vector3.up * 0.5f, Quaternion.identity);
+            Instantiate(vfx, PlayerController.instance.transform.position + Vector3.up * 0.5f, vfx.transform.rotation);
             // then destroy object
             Destroy(uiHandler.gameObject);
             Destroy(gameObject);
