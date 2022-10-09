@@ -241,7 +241,6 @@ public class PlayerController : MonoBehaviour
         if (grounded && !dashing)
         {
             groundTime += Time.deltaTime;
-            Debug.Log(groundTime);
             if (groundTime >= 0.6f)
             lastGroundedPos = transform.position;
         }
