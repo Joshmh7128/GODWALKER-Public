@@ -105,9 +105,14 @@ public class ArenaHandler : MonoBehaviour
         // get all the child objects of the next wave and make them children of the active parent,
         // then delete the wave parent
 
-        if (activeParent.childCount <= 0 && !setupWaveRunning)
+        if (activeParent.childCount <= 0 && !setupWaveRunning && waveParents.Count > 0)
         {
             StartCoroutine(SetupWave(false));
+        }
+        
+        if (activeParent.childCount <= 0 && waveParents.Count == 0)
+        {
+            EndCombat();
         }
     }
 
