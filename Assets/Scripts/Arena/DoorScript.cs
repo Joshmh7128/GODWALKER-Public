@@ -55,13 +55,20 @@ public class DoorScript : MonoBehaviour
         if (Vector3.Distance(player.position, transform.position) <= interactionDistance && !open && (canOpen || keyLocked))
         {
             distanceLock = false;
-            if (PlayerStatManager.instance.keyAmount > 0)
+            if (keyLocked && PlayerStatManager.instance.keyAmount > 0)
                 openMessage.SetActive(true);
+
+            if (!keyLocked)
+                openMessage.SetActive(true);
+            
         }
         else
         {
             distanceLock = true;
-            if (PlayerStatManager.instance.keyAmount > 0)
+            if (keyLocked && PlayerStatManager.instance.keyAmount > 0)
+                openMessage.SetActive(false);
+
+            if (!keyLocked)
                 openMessage.SetActive(false);
         }
     }
@@ -78,7 +85,8 @@ public class DoorScript : MonoBehaviour
         // if we're attempting to open with a key
         if (Input.GetKeyDown(KeyCode.E) && keyLocked == true && open == false && distanceLock == false && PlayerStatManager.instance.keyAmount > 0)
         {
-            keyLocked = false; Open();
+            PlayerStatManager.instance.keyAmount--;
+            Open();
         }
 
     }
