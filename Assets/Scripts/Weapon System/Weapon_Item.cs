@@ -7,7 +7,6 @@ public class Weapon_Item : ItemClass
 
     // what is our weapon?
     public GameObject weapon;
-    [SerializeField] int levelOverride;
     [SerializeField] Transform modelParent;
     [SerializeField] Transform ourCanvas; // so we can make sure it is destroyed
 
@@ -17,12 +16,6 @@ public class Weapon_Item : ItemClass
         // spawn the weapon model in
         GameObject g = Instantiate(weapon.GetComponent<WeaponClass>().weaponModel, modelParent);
         g.transform.localPosition = Vector3.zero;
-        // make sure we override our weapon's level
-        if (levelOverride != 0)
-        {
-            weapon.GetComponent<WeaponClass>().level = levelOverride;
-            weapon.GetComponent<WeaponClass>().UpdateStats();
-        }
     }
 
     // update
