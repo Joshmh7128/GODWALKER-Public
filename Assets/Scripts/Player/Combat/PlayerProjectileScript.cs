@@ -15,7 +15,11 @@ public class PlayerProjectileScript : MonoBehaviour
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;
 
+    [SerializeField] bool usesPhysics;
+    [SerializeField] float physicsLaunchForce;
+
     [SerializeField] bool usesTrigger, doesBounce; // our physics related aspects of this script
+
 
     // weapon manager instance
     PlayerWeaponManager weaponManager;
@@ -65,8 +69,16 @@ public class PlayerProjectileScript : MonoBehaviour
 
     IEnumerator ProjectileStartBuffer()
     {
+        TypeCheck();
         yield return new WaitForFixedUpdate();
         StartAbilityCheck();
+    }
+
+    void TypeCheck()
+    {
+        // if we use physics, launch the projectile
+        if (usesPhysics)
+            gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * physicsLaunchForce);
     }
 
     // Update is called once per frame
@@ -219,6 +231,8 @@ public class PlayerProjectileScript : MonoBehaviour
     // the check we run to spawn in our visual fx on this bullet's start
     void StartAbilityCheck()
     {
+
+
         // if we are a homing bullet
         if (isHoming) { SetHomingTarget(); Instantiate(homingFX, transform); }
         // if we are a teleporting bullet

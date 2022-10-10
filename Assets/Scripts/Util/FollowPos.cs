@@ -16,6 +16,7 @@ public class FollowPos : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (targetTransform)
         transform.FollowPos(targetTransform);
     }
 }
