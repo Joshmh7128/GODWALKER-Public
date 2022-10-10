@@ -184,4 +184,16 @@ public class DoorScript : MonoBehaviour
     {
         lockParent.SetActive(true);
     }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        foreach (ArenaHandler arena in associatedArenas)
+        {
+            Gizmos.DrawLine(transform.position, arena.transform.position);
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(arena.transform.position, 3);
+        }
+    }
 }
