@@ -114,6 +114,20 @@ public class ItemUIHandler : MonoBehaviour
             // set the info for our player
             weaponInfo =
                  weapon_Class.damage + "\n" +
+                 weapon_Class.customInfo;
+
+            weaponInfoText.text = weaponInfo;
+            weaponNameText.text = weapon_Class.weaponName;
+            weaponLvlText.text = "Lvl " + weapon_Class.level.ToString();
+
+            #region // old
+            /*
+            int accuracy = (int)(90 - ((weapon_Class.spreadXDelta + weapon_Class.spreadYDelta) * 100));
+            int firerate = (int)(((60 - weapon_Class.firerate) / 6) * 10) - 60; // our fire rate is in frames per second, so we want to divide it by 60 to show how many bullets per second we fire
+
+            // set the info for our player
+            weaponInfo =
+                 weapon_Class.damage + "\n" +
                  accuracy + "\n" +
                  firerate + "\n" +
                  weapon_Class.reloadTime + "\n" +
@@ -122,7 +136,8 @@ public class ItemUIHandler : MonoBehaviour
 
             weaponInfoText.text = weaponInfo;
             weaponNameText.text = weapon_Class.weaponName;
-            weaponLvlText.text = "Lvl " + weapon_Class.level.ToString();
+            weaponLvlText.text = "Lvl " + weapon_Class.level.ToString();*/
+            #endregion
         }
 
         // for our bodyparts
