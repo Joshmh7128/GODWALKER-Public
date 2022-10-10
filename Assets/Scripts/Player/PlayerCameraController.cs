@@ -23,11 +23,11 @@ public class PlayerCameraController : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        bodyPartManager = PlayerBodyPartManager.instance;
     }
 
     private void Start()
     {
+        bodyPartManager = PlayerBodyPartManager.instance;
         // setup our main cam to be referenced
         mainCam = Camera.main;
         // set default sense

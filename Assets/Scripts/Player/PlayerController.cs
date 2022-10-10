@@ -410,6 +410,11 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene("DemoPrototype");
         }
+
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            SceneManager.LoadScene("Player Controller Testing");
+        }
     }
 
     // teleportation
