@@ -231,8 +231,6 @@ public class PlayerProjectileScript : MonoBehaviour
     // the check we run to spawn in our visual fx on this bullet's start
     void StartAbilityCheck()
     {
-
-
         // if we are a homing bullet
         if (isHoming) { SetHomingTarget(); Instantiate(homingFX, transform); }
         // if we are a teleporting bullet
