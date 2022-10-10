@@ -113,7 +113,7 @@ public class ItemUIHandler : MonoBehaviour
 
             // set the info for our player
             weaponInfo =
-                 weapon_Class.damage + "\n" +
+                 "Damage: " + weapon_Class.damage + "\n" +
                  weapon_Class.customInfo;
 
             weaponInfoText.text = weaponInfo;
