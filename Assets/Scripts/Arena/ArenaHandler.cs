@@ -327,7 +327,7 @@ public class ArenaHandler : MonoBehaviour
     void CreateBodyPartItem(GameObject bodyPart)
     {
         // spawn in a body part item and then add the associated upgrade to that item
-        Instantiate(bodyPart, upgradeSpawnPoint);
+        Instantiate(bodyPart, upgradeSpawnPoint.position, Quaternion.identity);
     }
 
     void SpawnSpecialItem()
