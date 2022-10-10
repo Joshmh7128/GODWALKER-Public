@@ -355,4 +355,11 @@ public class ArenaHandler : MonoBehaviour
         yield return new WaitForSecondsRealtime(4f);
         messageGroupTargetA = 0;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.position, 3);
+    }
+
 }
