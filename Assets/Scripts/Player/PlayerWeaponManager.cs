@@ -60,7 +60,7 @@ public class PlayerWeaponManager : MonoBehaviour
     private void Update()
     {
         // moving up and down with the scroll input
-        ProcessScrollInput();
+        // ProcessScrollInput();
 
         // process our weapon pickup cooldown
         ProcessPickupCooldown();

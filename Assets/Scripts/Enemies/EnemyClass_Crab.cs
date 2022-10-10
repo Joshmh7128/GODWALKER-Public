@@ -25,6 +25,9 @@ public class EnemyClass_Crab : EnemyClass
 
     public override void SetLevelStats()
     {
+        // set our level to the active arena
+        level = ArenaManager.instance.activeArena.arenaLevel;
+
         // set our health
         maxHealth = (level + level * 0.15f) * baseHealth; // crabs have 100hp per level
         health = maxHealth;
