@@ -28,7 +28,6 @@ public abstract class WeaponClass : MonoBehaviour
     public float reloadTime; // the amount of time in seconds the reload takes
     public bool reloading; // are we reloading?
     // our weapon's damage and level
-    public string customInfo; // the custom info about the weapon
     public float level; // whenever we set the level, update our stats 
 
     public float damage = 1, damageLevelMultiplier; // our damage and the amount it is modified by upgrades
@@ -45,9 +44,13 @@ public abstract class WeaponClass : MonoBehaviour
             return d + 1; // make sure we cant do damage * 0
         }
     }
-    
-    // our weapon's name
+
+    // our weapon's
+    // 
+    [Header("Weapon Information")]
     public string weaponName;
+
+    public string customInfo; // the custom info about the weapon
 
     [Header("Feel Related")]
     public float kickFOV = 90f;
