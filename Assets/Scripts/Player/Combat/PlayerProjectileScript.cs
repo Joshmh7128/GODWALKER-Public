@@ -236,7 +236,13 @@ public class PlayerProjectileScript : MonoBehaviour
     void StartAbilityCheck()
     {
         // if we are a homing bullet
-        if (isHoming) { SetHomingTarget(); Instantiate(homingFX, transform); }
+        if (isHoming) { 
+            SetHomingTarget(); Instantiate(homingFX, transform); 
+            body = gameObject.GetComponent<Rigidbody>();
+            body.isKinematic = true;
+            body.useGravity = false;
+            usesPhysics = false;
+        }
         // if we are a teleporting bullet
         if (isTeleportShot) { Instantiate(teleportFX, transform); }
     }
