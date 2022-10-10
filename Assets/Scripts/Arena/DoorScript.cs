@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class DoorScript : MonoBehaviour
 {
-    public bool open = false, canOpen, triggerLock, triggerHit, triggerOverride, distanceLock, toCombat; // is this open? can we open it?
+    public bool open = false, canOpen, triggerLock, triggerHit, triggerOverride, distanceLock, toCombat, keyLocked; // is this open? can we open it?
     [SerializeField] Animator animator;
     [SerializeField] float interactionDistance = 10f;
-    [SerializeField] GameObject openMessage, lockParent, timerCanvasObject;
+    [SerializeField] GameObject openMessage, lockParent, timerCanvasObject, keyMessage;
 
     [SerializeField] bool timed; // is this a timed door?
     [SerializeField] float timeRemaining = 60; // how much time is left?
@@ -20,6 +20,9 @@ public class DoorScript : MonoBehaviour
     {
         // link ourselves to all associated arenas
         LinkArenas();
+
+        // if we're key locked, show it
+        if (keyLocked) { keyMessage.SetActive(true); }
     }
 
     // link each of our arenas to this door
@@ -49,25 +52,35 @@ public class DoorScript : MonoBehaviour
     {
         Transform player = PlayerController.instance.transform;
         // can we open?
-        if (Vector3.Distance(player.position, transform.position) <= interactionDistance && !open && canOpen)
+        if (Vector3.Distance(player.position, transform.position) <= interactionDistance && !open && (canOpen || keyLocked))
         {
             distanceLock = false;
-            openMessage.SetActive(true);
+            if (PlayerStatManager.instance.keyAmount > 0)
+                openMessage.SetActive(true);
         }
         else
         {
             distanceLock = true;
-            openMessage.SetActive(false);
+            if (PlayerStatManager.instance.keyAmount > 0)
+                openMessage.SetActive(false);
         }
     }
 
     // our door-opening input reads
     void ProcessInput()
     {
+        // if we can open
         if (Input.GetKeyDown(KeyCode.E) && canOpen == true && open == false && distanceLock == false)
         {
             Open();
         }
+
+        // if we're attempting to open with a key
+        if (Input.GetKeyDown(KeyCode.E) && keyLocked == true && open == false && distanceLock == false && PlayerStatManager.instance.keyAmount > 0)
+        {
+            keyLocked = false; Open();
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -110,6 +123,7 @@ public class DoorScript : MonoBehaviour
         // open our door
         open = true;
         openMessage.SetActive(false);
+        keyMessage.SetActive(false);
         animator.Play("DoorOpening");
         if (toCombat)
         {
@@ -123,7 +137,6 @@ public class DoorScript : MonoBehaviour
                 }
             }
         }
-
     }
 
     // unlock to be used anywhere publicly
@@ -138,10 +151,15 @@ public class DoorScript : MonoBehaviour
                 timerCanvasObject.SetActive(false);
             }
         }
-        else
+        else if (!keyLocked)
         {
             canOpen = true;
             lockParent.SetActive(false);
+        } else if (keyLocked && PlayerStatManager.instance.keyAmount > 0)
+        {
+            PlayerStatManager.instance.keyAmount--;
+            keyLocked = false;
+            canOpen = true;
         }
     }
 
