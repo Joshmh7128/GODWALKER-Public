@@ -31,28 +31,31 @@ public class WeaponGenerator : MonoBehaviour
         // then for each root enable one object
         foreach (Transform root in roots)
         {
-            // check if this root has any active objects
-            bool preActive = false;
-            for (int i = 0; i < root.childCount; i++)
+            if (root.childCount > 0)
             {
-                if (root.GetChild(i).gameObject.activeInHierarchy)
+                // check if this root has any active objects
+                bool preActive = false;
+                for (int i = 0; i < root.childCount; i++)
                 {
-                    preActive = true;
-                }
-            }
-
-            // if we did not preactivate parts on this root, activate one
-            if (!preActive)
-            {
-                // enable a random child part
-                int r = Random.Range(0, root.childCount);
-                root.GetChild(r).gameObject.SetActive(true);
-                // then clean the extras
-                foreach (Transform child in root)
-                {
-                    if (!child.gameObject.activeInHierarchy)
+                    if (root.GetChild(i).gameObject.activeInHierarchy)
                     {
-                        Destroy(child.gameObject);
+                        preActive = true;
+                    }
+                }
+
+                // if we did not preactivate parts on this root, activate one
+                if (!preActive)
+                {
+                    // enable a random child part
+                    int r = Random.Range(0, root.childCount);
+                    root.GetChild(r).gameObject.SetActive(true);
+                    // then clean the extras
+                    foreach (Transform child in root)
+                    {
+                        if (!child.gameObject.activeInHierarchy)
+                        {
+                            Destroy(child.gameObject);
+                        }
                     }
                 }
             }

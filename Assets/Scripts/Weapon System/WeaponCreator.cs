@@ -9,37 +9,16 @@ public class WeaponCreator : MonoBehaviour
     /// It creates a weapon item with a weapon inside of it
     /// </summary>
 
-    // which weapon maker do we want to create a weapon from?
-    public enum WeaponMakers
-    {
-        Random,
-        Valkyrie, 
-        Hera,
-        Athena,
-        Deimos,
-        Phobos,
-
-        end
-    }
-
     // the level of this weapon
     public float level;
 
-    // the one we have chosen
-    [SerializeField] WeaponMakers WeaponMaker;
-
     // the list of weapons per maker
     [SerializeField] List<GameObject> ValkyrieWeapons = new List<GameObject>();
-    [SerializeField] List<GameObject> HeraWeapons = new List<GameObject>();
-    [SerializeField] List<GameObject> AthenaWeapons = new List<GameObject>();
-    [SerializeField] List<GameObject> DeimosWeapons = new List<GameObject>();
-    [SerializeField] List<GameObject> PhobosWeapons = new List<GameObject>();
 
     // our weapon objects
     GameObject weaponObject;
     [SerializeField] GameObject weaponItem; // the prefab of our weapon item
     Weapon_Item copyItem;
-    GameObject copyWeapon;
     WeaponClass weaponClass;
 
     private void OnEnable()
@@ -51,38 +30,8 @@ public class WeaponCreator : MonoBehaviour
     void CreateWeapon()
     {
         // get our weapon maker and choose a weapon based off of that maker
-        List<GameObject> weapons = new List<GameObject>();
-
-        if (WeaponMaker == WeaponMakers.Random)
-        {
-            WeaponMaker = (WeaponMakers)Random.Range(1, (int)WeaponMakers.end);
-        }
-
-        switch (WeaponMaker)
-        {
-            case WeaponMakers.Valkyrie:
-                weapons = ValkyrieWeapons;
-                break;
-
-            case WeaponMakers.Hera:
-                weapons = HeraWeapons;
-                break;
-
-            case WeaponMakers.Athena:
-                weapons = AthenaWeapons;
-                break;
-
-            case WeaponMakers.Deimos:
-                weapons = DeimosWeapons;
-                break;
-
-            case WeaponMakers.Phobos:
-                weapons = PhobosWeapons;
-                break;
-        }
-   
         // then instantiate our weapon object
-        weaponObject = weapons[Random.Range(0,weapons.Count-1)];
+        weaponObject = ValkyrieWeapons[Random.Range(0, ValkyrieWeapons.Count-1)];
 
         // then create the weapon item
         CreateWeaponItem();
@@ -94,7 +43,8 @@ public class WeaponCreator : MonoBehaviour
         // instantiate a copy of the weapon we are currently holding
         copyItem = Instantiate(weaponItem, transform.position, Quaternion.identity).GetComponent<Weapon_Item>();
         // create a copy of the weaponObject we are holding so that we can give it to the player
-        copyItem.weapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity); ;
+        copyItem.weapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity); 
+        copyItem.weapon.SetActive(false);
         weaponClass = copyItem.weapon.GetComponent<WeaponClass>();
         UpdateItem();
     }
