@@ -56,6 +56,7 @@ public class BodyPartClass_IceblinkHyperBurn : BodyPartClass
                 activeProjectile.secondHome = true; // we want this bullet to go to the 2nd closest target from its origin, not the closest
                 activeProjectile.doesExplode = true;
                 activeProjectile.startInvBuffer = true; // this bullet needs to exist for one fixedupdate before destroying
+                activeProjectile.damage = weaponManager.currentWeapon.damage * 0.1f;
                 explosion.used = true;
             }
         }

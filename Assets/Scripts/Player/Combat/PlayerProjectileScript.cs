@@ -138,7 +138,7 @@ public class PlayerProjectileScript : MonoBehaviour
             } else if (c > weaponManager.criticalHitChance + localCritMod)
             {
                 // random normal modifier
-                damage *= Random.Range(0.9f, 1.25f);
+                damage *= Random.Range(0.9f, 1.15f);
                 // spawn normal damage number
                 normalHit.Spawn(transform.position, damage);
             }

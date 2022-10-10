@@ -36,10 +36,10 @@ public class PlayerExplosionScript : MonoBehaviour
         if (other.transform.tag == "Enemy")
         {
             enemiesHit++;
+            // random normal modifier
+            damage *= Random.Range(0.1f, 0.15f);
             // deal damage
             other.GetComponent<EnemyClass>().GetHurt(damage);
-            // random normal modifier
-            damage *= Random.Range(1.1f, 1.8f);
             // spawn normal damage number
             explosionHit.Spawn(transform.position, damage);
             // disable the collider in the next frame
