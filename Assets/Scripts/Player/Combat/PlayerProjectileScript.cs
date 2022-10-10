@@ -17,6 +17,7 @@ public class PlayerProjectileScript : MonoBehaviour
 
     [SerializeField] bool usesPhysics;
     [SerializeField] float physicsLaunchForce;
+    Rigidbody body;
 
     [SerializeField] bool usesTrigger, doesBounce; // our physics related aspects of this script
 
@@ -108,8 +109,11 @@ public class PlayerProjectileScript : MonoBehaviour
     void ProcessHitscan()
     {
         // raycast forward
-        if (!usesTrigger)
+        if (!usesTrigger && !usesPhysics)
         Physics.Raycast(transform.position, transform.forward, out hit, speed * Time.deltaTime * 2, Physics.AllLayers, QueryTriggerInteraction.Ignore);   
+
+        if (usesPhysics)
+        Physics.Raycast(transform.position, transform.forward, out hit, 1, Physics.AllLayers, QueryTriggerInteraction.Ignore);
 
         // check if we've hit something
         if (hit.transform != null)
@@ -261,7 +265,7 @@ public class PlayerProjectileScript : MonoBehaviour
                 // if we have hit something, destroy ourselves
                 if (!doesBounce)
                 {
-                    Destruction(hit.point);
+                    Destruction(transform.position);
                 }
 
                 // if we do bounce, then get the normal and bounce off of it
