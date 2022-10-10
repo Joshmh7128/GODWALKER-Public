@@ -408,7 +408,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            SceneManager.LoadScene("Player Controller Testing");
+            SceneManager.LoadScene("DemoPrototype");
         }
     }
 
