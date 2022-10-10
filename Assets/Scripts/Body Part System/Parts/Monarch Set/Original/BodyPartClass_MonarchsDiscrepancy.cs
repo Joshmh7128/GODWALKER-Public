@@ -8,11 +8,11 @@ public class BodyPartClass_MonarchsDiscrepancy : BodyPartClass
     // chance your next shot will be a homing shot as well
     PlayerWeaponManager weaponManager; // instance
 
-    bool active;
+    bool discrepancyActive;
 
-    public override void OnMoveDown() => active = true;
-    public override void OnMoveUp() => active = false;
-    public override void OnLand() => active = false;
+    public override void OnMoveDown() => discrepancyActive = true;
+    public override void OnMoveUp() => discrepancyActive = false;
+    public override void OnLand() => discrepancyActive = false;
 
     // get our weapon manager instance
     public override void PartStart()
@@ -25,7 +25,7 @@ public class BodyPartClass_MonarchsDiscrepancy : BodyPartClass
     {
         // roll for success
         int c = Random.Range(0, 100);
-        if (c <= 90 && active)
+        if (c <= 90 && discrepancyActive)
         {
             weaponManager.currentWeapon.requestHomingShot = true;
         }

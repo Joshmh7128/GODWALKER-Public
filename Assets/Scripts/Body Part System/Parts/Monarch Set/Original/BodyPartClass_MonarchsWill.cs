@@ -5,7 +5,7 @@ using UnityEngine;
 public class BodyPartClass_MonarchsWill : BodyPartClass
 {
     // While Moving Down Shots have an 80% chance to be Homing Shots
-    bool active; // is this active?
+    bool willActive; // is this active?
     PlayerWeaponManager weaponManager; // our weapon manager
 
     public override void PartStart()
@@ -25,25 +25,25 @@ public class BodyPartClass_MonarchsWill : BodyPartClass
 
     void RequestHoming()
     {
-        if (active)
+        if (willActive)
             weaponManager.currentWeapon.requestHomingShot = true;
     }
 
     public override void OnMoveDown()
     {
         // ability is active 
-        active = true;
+        willActive = true;
     }
 
     public override void OnLand()
     {
         // deactivate ability
-        active = false;
+        willActive = false;
     }
 
     public override void OnMoveUp()
     {
         // deactivate ability
-        active = false;
+        willActive = false;
     }
 }

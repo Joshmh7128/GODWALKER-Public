@@ -7,21 +7,21 @@ public class BodyPartClass_MonarchsIntimidation : BodyPartClass
     // while moving down whenever a homing shot deals damage instantly reload
 
     PlayerWeaponManager weaponManager;
-    bool active; 
+    bool intimidationActive; 
 
     public override void PartStart() => weaponManager = PlayerWeaponManager.instance;
 
     // set active
-    public override void OnMoveDown() => active = true;
+    public override void OnMoveDown() => intimidationActive = true;
 
-    public override void OnLand() => active = false;
+    public override void OnLand() => intimidationActive = false;
 
-    public override void OnMoveUp() => active = false;
+    public override void OnMoveUp() => intimidationActive = false;
 
     public override void OnHomingShotDamage()
     {
         // if we are active 
-        if (active)
+        if (intimidationActive)
         {
             int c = Random.Range(0, 100);
             if (c <= 90)
