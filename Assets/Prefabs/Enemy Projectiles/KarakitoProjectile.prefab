@@ -9557,7 +9557,7 @@ GameObject:
   - component: {fileID: 6270367425521392284}
   m_Layer: 8
   m_Name: KarakitoProjectile
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9596,11 +9596,13 @@ MonoBehaviour:
   speed: 30
   deathObject: {fileID: 132352, guid: 3fa89c507a098e44cbbe7bf7646ebfe3, type: 3}
   facePlayer: 1
+  invincible: 0
   deathTime: 30
   openLifetime: 3
   damage: 1
   homingSpeed: 0
   curveSpeed: 0
+  ringExpandSpeed: 0
 --- !u!198 &19886636
 ParticleSystem:
   m_ObjectHideFlags: 0
