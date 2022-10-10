@@ -47,7 +47,7 @@ public class BodyPartClass_TyrantsExtradition : BodyPartClass
         if (dichActive && movingUp)
         {
             // request then fire a double shot
-            weaponManager.currentWeapon.FireDoubleShot();
+            weaponManager.currentWeapon.requestDoubleShot = true;
             // then make us inactive
             dichActive = false;
         }
