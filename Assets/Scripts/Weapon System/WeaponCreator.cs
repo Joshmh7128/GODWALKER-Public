@@ -82,7 +82,7 @@ public class WeaponCreator : MonoBehaviour
         }
    
         // then instantiate our weapon object
-        weaponObject = weapons[Random.Range(0,weapons.Count)];
+        weaponObject = weapons[Random.Range(0,weapons.Count-1)];
 
         // then create the weapon item
         CreateWeaponItem();
@@ -94,10 +94,7 @@ public class WeaponCreator : MonoBehaviour
         // instantiate a copy of the weapon we are currently holding
         copyItem = Instantiate(weaponItem, transform.position, Quaternion.identity).GetComponent<Weapon_Item>();
         // create a copy of the weaponObject we are holding so that we can give it to the player
-        copyWeapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity);
-        copyWeapon.transform.position = Vector3.zero;
-        copyWeapon.SetActive(false);
-        copyItem.weapon = copyWeapon;
+        copyItem.weapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity); ;
         weaponClass = copyItem.weapon.GetComponent<WeaponClass>();
         UpdateItem();
     }
