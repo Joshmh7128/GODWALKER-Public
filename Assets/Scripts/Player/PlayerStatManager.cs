@@ -29,11 +29,7 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField] Volume mainVolume; // our main volume
     [SerializeField] Slider healthSlider, healthLerpSlider; // our health slider and our lerp slider
     [SerializeField] Text hpReadout; // set this to be our current / max hp
-    public float keyAmount
-    {
-        get { return keyAmount;  }
-        set { keyAmount = value; ProcessKeyUI(); }
-    } // how many keys do we have?
+    public float keyAmount; // how many keys do we have?
     [SerializeField] Text keyText; // the amount of keys, displayed in game
 
     bool debugInvincible = false; // use this for testing
@@ -140,6 +136,8 @@ public class PlayerStatManager : MonoBehaviour
     // all our UI processing overtime
     void ProcessUI()
     {
+        ProcessKeyUI();
+
         // reset our hurtflash
         if (hurtUIGroup.alpha > 0)
             hurtUIGroup.alpha -= 0.3f * Time.deltaTime;

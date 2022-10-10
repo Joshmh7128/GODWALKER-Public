@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8240969759909129393}
   - component: {fileID: 8240969759909129392}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: KeyCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 8240969760063242314}
   - component: {fileID: 8240969760063242317}
   - component: {fileID: 8240969760063242315}
+  - component: {fileID: 6256378698058793050}
   m_Layer: 0
   m_Name: Key Item
   m_TagString: Untagged
@@ -175,6 +176,22 @@ MonoBehaviour:
   pickupDistance: 5
   uiHandler: {fileID: 8240969760939491505}
   vfx: {fileID: 194966, guid: 3f46d92e2ba75664f9d278ae6a9688cd, type: 3}
+--- !u!54 &6256378698058793050
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8240969760063242316}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8240969760132358396
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3edfe1f3cad17548aecad88dfd98d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTransform: {fileID: 0}
+  targetTransform: {fileID: 8240969760063242314}
   unparent: 1
 --- !u!136 &8240969760939491500
 CapsuleCollider:
