@@ -6,9 +6,9 @@ public class BodyPartClass_TyrantsBattalion : BodyPartClass
 {
     // while moving up shots have a 60% to double shoot
 
-    bool active; // is this active? when is it active?
-    public override void OnMoveUp() { active = true; }
-    public override void OnMoveDown() { active = false; }
+    bool batActive; // is this active? when is it active?
+    public override void OnMoveUp() { batActive = true; }
+    public override void OnMoveDown() { batActive = false; }
 
     // our insances
     PlayerWeaponManager weaponManager;
@@ -24,7 +24,7 @@ public class BodyPartClass_TyrantsBattalion : BodyPartClass
     public override void OnWeaponFire()
     {
         // if this ability is active
-        if (active)
+        if (batActive)
         {   // roll to see if we perform it
             int c = Random.Range(0, 100);
             if (c <= 60)

@@ -9,7 +9,7 @@ public class BodyPartClass_TyrantsDichotomy : BodyPartClass
     /// 
 
     PlayerWeaponManager weaponManager;
-    bool active, movingUp; // is this active?
+    bool dichActive, movingUp; // is this active?
 
     public override void PartStart()
     {
@@ -26,19 +26,19 @@ public class BodyPartClass_TyrantsDichotomy : BodyPartClass
         int c = Random.Range(0, 100);
         if (c <= 30)
         {
-            active = true;
+            dichActive = true;
         }
     }
 
     // if we are active on weapon fire...
     public override void OnWeaponFire()
     {
-        if (active && movingUp)
+        if (dichActive && movingUp)
         {
             // request then fire a double shot
             weaponManager.currentWeapon.FireDoubleShot();
             // then make us inactive
-            active = false;
+            dichActive = false;
         }
     }
 

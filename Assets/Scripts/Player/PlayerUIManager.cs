@@ -130,22 +130,15 @@ public class PlayerUIManager : MonoBehaviour
     {
         WeaponClass weapon_Class = weaponManager.currentWeapon;
 
-        int accuracy = (int)(90 - ((weapon_Class.spreadXDelta + weapon_Class.spreadYDelta) * 100));
-        int firerate = (int)(((60 - weapon_Class.firerate) / 6) * 10) - 60; // our fire rate is in frames per second, so we want to divide it by 60 to show how many bullets per second we fire
-
-        string weaponInfo;
         // set the info for our player
-        weaponInfo =
+        string weaponInfo =
              weapon_Class.damage + "\n" +
-             accuracy + "\n" +
-             firerate + "\n" +
-             weapon_Class.reloadTime + "\n" +
-             weapon_Class.maxMagazine + "\n" +
-             weapon_Class.weaponElement.ToString();
+             weapon_Class.customInfo;
 
         infoText.text = weaponInfo;
         nameText.text = weapon_Class.weaponName;
         lvlText.text = "Lvl " + weapon_Class.level.ToString();
+
 
     }
 

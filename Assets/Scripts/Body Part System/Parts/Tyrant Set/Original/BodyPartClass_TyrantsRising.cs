@@ -7,7 +7,7 @@ public class BodyPartClass_TyrantsRising : BodyPartClass
     // while moving up game +20% critical chance
 
     PlayerWeaponManager weaponManager;
-    bool activated;
+    bool risingActivated;
 
     public override void PartStart()
     {
@@ -17,17 +17,17 @@ public class BodyPartClass_TyrantsRising : BodyPartClass
     // on move up add 20 to the critical modifiers on the weapon manager
     public override void OnMoveUp()
     {
-        if (!activated)
+        if (!risingActivated)
         weaponManager.criticalHitModifiers.Add(20f);
-        activated = true;
+        risingActivated = true;
     }
 
     // when we move down remove the 20 from the weapon manager's 
     public override void OnMoveDown()
     {
-        if (activated)
+        if (risingActivated)
         weaponManager.criticalHitModifiers.Remove(20f);
-        activated = false;
+        risingActivated = false;
     }
 
 }
