@@ -24,14 +24,15 @@ public class PlayerUIManager : MonoBehaviour
 
     // our instance of the bodypart manager 
     PlayerBodyPartManager partManager;
+    PlayerWeaponManager weaponManager;
 
     // lists concerning bodyparts
     [SerializeField] List<Text> nameDisplays;
     [SerializeField] List<Text> infoDisplays;
     [SerializeField] List<Image> backgroundPanels; // all the background panels for the body
-
+    [SerializeField] Text nameText, infoText, lvlText;
     // ui elements
-    [SerializeField] CanvasGroup bodyPartCanvasGroup; // the body part canvas group we'll be interacting with
+    [SerializeField] CanvasGroup infoCanvasGroup; // the body part canvas group we'll be interacting with
     [SerializeField] HorizontalLayoutGroup abilityLayoutGroup; // our ability layout group
 
 
@@ -40,6 +41,7 @@ public class PlayerUIManager : MonoBehaviour
     {
         // set the instance of this
         partManager = PlayerBodyPartManager.instance;
+        weaponManager = PlayerWeaponManager.instance;
     }
 
     private void FixedUpdate()
@@ -123,6 +125,30 @@ public class PlayerUIManager : MonoBehaviour
         }
     }
 
+    // update our weapon info
+    void UpdateWeaponInfoUI()
+    {
+        WeaponClass weapon_Class = weaponManager.currentWeapon;
+
+        int accuracy = (int)(90 - ((weapon_Class.spreadXDelta + weapon_Class.spreadYDelta) * 100));
+        int firerate = (int)(((60 - weapon_Class.firerate) / 6) * 10) - 60; // our fire rate is in frames per second, so we want to divide it by 60 to show how many bullets per second we fire
+
+        string weaponInfo;
+        // set the info for our player
+        weaponInfo =
+             weapon_Class.damage + "\n" +
+             accuracy + "\n" +
+             firerate + "\n" +
+             weapon_Class.reloadTime + "\n" +
+             weapon_Class.maxMagazine + "\n" +
+             weapon_Class.weaponElement.ToString();
+
+        infoText.text = weaponInfo;
+        nameText.text = weapon_Class.weaponName;
+        lvlText.text = "Lvl " + weapon_Class.level.ToString();
+
+    }
+
     // process our inputs
     private void ProcessInput()
     {
@@ -139,17 +165,18 @@ public class PlayerUIManager : MonoBehaviour
     // show our canvas
     private void ShowCanvas()
     {
-        bodyPartCanvasGroup.alpha = 1;
+        infoCanvasGroup.alpha = 1;
         // update our information whenever we show it
         UpdateBodyPartUI();
+        UpdateWeaponInfoUI();
     }
 
     // fading out our canvas
     private void HideCanvas()
     {
-        if (bodyPartCanvasGroup.alpha > 0)
+        if (infoCanvasGroup.alpha > 0)
         {
-            bodyPartCanvasGroup.alpha -= 0.05f;
+            infoCanvasGroup.alpha -= 0.05f;
         }
     }
 
