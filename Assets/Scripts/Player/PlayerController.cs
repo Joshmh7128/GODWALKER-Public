@@ -415,6 +415,11 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene("Player Controller Testing");
         }
+
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            Teleport(new Vector3(145, 31, 758));
+        }
     }
 
     // teleportation

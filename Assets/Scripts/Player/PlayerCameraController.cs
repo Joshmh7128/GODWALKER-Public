@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCameraController : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] Camera mainCam; // our main cam
     [SerializeField] float aimFOV; // how far in we aim
     bool canControl = true; // can we control this?
+
+    [SerializeField] Text aimSensitivityText; // display our current aim sensitivity
+
     // setup an instance
     public static PlayerCameraController instance;
     PlayerBodyPartManager bodyPartManager;
@@ -32,6 +36,8 @@ public class PlayerCameraController : MonoBehaviour
         mainCam = Camera.main;
         // set default sense
         defaultSensitivity = aimSensitivity;
+
+        aimSensitivityText.text = "Current Sensitivity = " + defaultSensitivity;
     }
 
     private void Update()
@@ -77,6 +83,19 @@ public class PlayerCameraController : MonoBehaviour
     // control our camera via the mouse
     void ProcessCameraControl()
     {
+        // sensitivity adjuster
+        if (Input.GetKeyDown(KeyCode.Comma))
+        {
+            defaultSensitivity--;
+            aimSensitivityText.text = "Current Sensitivity = " + defaultSensitivity;
+        }       
+        
+        if (Input.GetKeyDown(KeyCode.Period))
+        {
+            defaultSensitivity++;
+            aimSensitivityText.text = "Current Sensitivity = " + defaultSensitivity;
+        }
+
         // our camera control
         currentSensitivity = aimSensitivity * 10f;
         // run math to rotate the head of the player as we move the mouse
