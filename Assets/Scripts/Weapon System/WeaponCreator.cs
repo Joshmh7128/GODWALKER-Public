@@ -43,15 +43,13 @@ public class WeaponCreator : MonoBehaviour
         // instantiate a copy of the weapon we are currently holding
         copyItem = Instantiate(weaponItem, transform.position, Quaternion.identity).GetComponent<Weapon_Item>();
         // create a copy of the weaponObject we are holding so that we can give it to the player
-        copyItem.weapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity); 
+        copyItem.weapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity);
+        copyItem.weapon.GetComponent<WeaponClass>().level = level;
+        // undo damage calculation so it can be redone
+        copyItem.weapon.GetComponent<WeaponClass>().UpdateStats();
+        copyItem.weapon.GetComponent<WeaponClass>().updated = true;
+
         copyItem.weapon.SetActive(false);
         weaponClass = copyItem.weapon.GetComponent<WeaponClass>();
-        UpdateItem();
-    }
-
-    public void UpdateItem()
-    {
-        weaponClass.level = level; // set our level
-        weaponClass.UpdateStats(); // manually update the stats when the item is created
     }
 }

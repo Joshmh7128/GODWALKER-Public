@@ -119,8 +119,6 @@ public class PlayerWeaponManager : MonoBehaviour
     // when we update our weapon
     void UpdateCurrentWeapon()
     {
-
-
         if (currentWeapon)
         { currentWeapon.CancelReload(); }
 

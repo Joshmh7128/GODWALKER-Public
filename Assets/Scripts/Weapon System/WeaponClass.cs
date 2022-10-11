@@ -194,18 +194,24 @@ public abstract class WeaponClass : MonoBehaviour
         weaponUIHandler.CancelReload();
     }
 
+    public bool updated = false;
     public void UpdateStats()
     {
-        if (level > 0)
+        if (!updated)
         {
-            // set our damage accordingly
-            // Debug.Log("setting stats " + level);
-            damage *= level;
-        }
+            updated = true;
 
-        if (level <= 0)
-        {
-            // Debug.LogError(gameObject.name + " WeaponClass has a level of 0, check where this is being created! No stats are being set");
-        }
+            if (level > 0)
+            {
+                // set our damage accordingly
+                // Debug.Log("setting stats " + level);
+                damage = damage * level;
+            }
+
+            if (level <= 0)
+            {
+                // Debug.LogError(gameObject.name + " WeaponClass has a level of 0, check where this is being created! No stats are being set");
+            }
+        } 
     }
 }

@@ -186,7 +186,7 @@ public abstract class EnemyClass : MonoBehaviour
             // access the creator we just built and set its level to our level
             WeaponCreator creator = Instantiate(gunCreator, transform.position, Quaternion.identity, null).GetComponent<WeaponCreator>();
             creator.level = level;
-            creator.UpdateItem(); // make sure we update the item since it will not properly show our stats otherwise!
+            // creator.UpdateItem(); // make sure we update the item since it will not properly show our stats otherwise!
         }
 
         // destroy the object
