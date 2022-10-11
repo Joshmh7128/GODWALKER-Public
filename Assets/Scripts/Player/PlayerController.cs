@@ -240,18 +240,13 @@ public class PlayerController : MonoBehaviour
         // set our last grounded point
         if (grounded && !dashing)
         {
-            if (lastGroundedPos == Vector3.zero)
-            {
-                lastGroundedPos = transform.position;
-            }
-
             groundTime += Time.deltaTime;
             if (groundTime >= 1f)
             lastGroundedPos = transform.position;
         }
         
         // reset groundTime
-        if (!grounded || groundTime > 0.6f)
+        if (!grounded || groundTime > 1)
         {
             groundTime = 0;
         }
