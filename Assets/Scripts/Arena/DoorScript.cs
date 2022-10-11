@@ -184,11 +184,17 @@ public class DoorScript : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        foreach (ArenaHandler arena in associatedArenas)
+        if (associatedArenas.Count > 0)
         {
-            Gizmos.DrawLine(transform.position, arena.transform.position);
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(arena.transform.position, 3);
+            foreach (ArenaHandler arena in associatedArenas)
+            {
+                if (arena != null)
+                {
+                    Gizmos.DrawLine(transform.position, arena.transform.position);
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawSphere(arena.transform.position, 3);
+                }
+            }
         }
     }
 }

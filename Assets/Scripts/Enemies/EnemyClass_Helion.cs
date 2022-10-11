@@ -11,6 +11,7 @@ public class EnemyClass_Helion : EnemyClass
     // set our stats
     public override void SetLevelStats()
     {
+        level = ArenaManager.instance.activeArena.arenaLevel;
         // set our health
         maxHealth = (level + level * 0.15f) * baseHealth; // crabs have 100hp per level
         health = maxHealth;
