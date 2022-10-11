@@ -21,6 +21,13 @@ public class WeaponCreator : MonoBehaviour
     Weapon_Item copyItem;
     WeaponClass weaponClass;
 
+    string originalName; // for gizmo manipulation
+
+    private void Start()
+    {
+        originalName = gameObject.name;
+    }
+
     private void OnEnable()
     {
         CreateWeapon();
@@ -51,5 +58,15 @@ public class WeaponCreator : MonoBehaviour
 
         copyItem.weapon.SetActive(false);
         weaponClass = copyItem.weapon.GetComponent<WeaponClass>();
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+
+        if (!name.Contains(" level " + level.ToString()))
+            name = "";
+            name = originalName + " level " + level.ToString();
     }
 }
