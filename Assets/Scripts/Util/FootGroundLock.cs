@@ -17,7 +17,7 @@ public class FootGroundLock : MonoBehaviour
     private void Start()
     {
         // set start foot positions
-        FootPosCheck();
+        FootPosCheck(); SometimesUpdate();
         // start our sometimes update
         StartCoroutine(SometimesUpdateHandler());
     }
