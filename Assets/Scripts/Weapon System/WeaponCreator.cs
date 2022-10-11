@@ -21,13 +21,6 @@ public class WeaponCreator : MonoBehaviour
     Weapon_Item copyItem;
     WeaponClass weaponClass;
 
-    string originalName; // for gizmo manipulation
-
-    private void Start()
-    {
-        originalName = gameObject.name;
-    }
-
     private void OnEnable()
     {
         CreateWeapon();
@@ -67,6 +60,6 @@ public class WeaponCreator : MonoBehaviour
 
         if (!name.Contains(" level " + level.ToString()))
             name = "";
-            name = originalName + " level " + level.ToString();
+            name = "Weapon Creator | Level " + level.ToString();
     }
 }
