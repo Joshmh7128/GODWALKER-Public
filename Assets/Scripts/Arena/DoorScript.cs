@@ -163,12 +163,7 @@ public class DoorScript : MonoBehaviour
         {
             canOpen = true;
             lockParent.SetActive(false);
-        } else if (keyLocked && PlayerStatManager.instance.keyAmount > 0)
-        {
-            PlayerStatManager.instance.keyAmount--;
-            keyLocked = false;
-            canOpen = true;
-        }
+        } 
     }
 
     // when our locking for specifically when the trigger is hit

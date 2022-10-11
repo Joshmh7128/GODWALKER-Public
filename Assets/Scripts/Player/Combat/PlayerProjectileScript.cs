@@ -134,7 +134,7 @@ public class PlayerProjectileScript : MonoBehaviour
     void HitEnemy(Transform enemy)
     {
         // if we hit an enemy
-        if (enemy.transform.tag == "Enemy" && !hit.transform.gameObject.GetComponent<EnemyClass>().invincible)
+        if (enemy.transform.tag == "Enemy" && !enemy.transform.gameObject.GetComponent<EnemyClass>().invincible)
         {
             // make sure we have damage
             if (damage == 0)
