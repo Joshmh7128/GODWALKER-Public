@@ -418,7 +418,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F7))
         {
-            Teleport(new Vector3(145, 31, 758));
+            Teleport(new Vector3(152, 18, 213));
         }
     }
 
