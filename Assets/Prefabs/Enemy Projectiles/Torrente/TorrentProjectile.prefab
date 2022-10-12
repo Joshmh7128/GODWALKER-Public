@@ -52,11 +52,13 @@ MonoBehaviour:
   speed: 30
   deathObject: {fileID: 132352, guid: 3fa89c507a098e44cbbe7bf7646ebfe3, type: 3}
   facePlayer: 0
+  invincible: 0
   deathTime: 30
   openLifetime: 3
   damage: 1
   homingSpeed: 0
   curveSpeed: 0.25
+  ringExpandSpeed: 0
 --- !u!135 &1721817983131584903
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -96,6 +98,10 @@ PrefabInstance:
     - target: {fileID: 3947141674300312798, guid: d14d01d5959b7554fb2a981c75346f2f, type: 3}
       propertyPath: m_Name
       value: EnergyExplosionYellow
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947141674300312798, guid: d14d01d5959b7554fb2a981c75346f2f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3948660600550029912, guid: d14d01d5959b7554fb2a981c75346f2f, type: 3}
       propertyPath: m_RootOrder
