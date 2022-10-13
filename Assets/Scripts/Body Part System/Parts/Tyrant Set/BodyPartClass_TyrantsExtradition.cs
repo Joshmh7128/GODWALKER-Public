@@ -69,6 +69,7 @@ public class BodyPartClass_TyrantsExtradition : BodyPartClass
             weaponManager.currentWeapon.FireDoubleShot();
         }
     }
+
     // on move up add 20 to the critical modifiers on the weapon manager
     public override void OnMoveUp()
     {
@@ -79,6 +80,11 @@ public class BodyPartClass_TyrantsExtradition : BodyPartClass
         if (!risingActivated)
             weaponManager.criticalHitModifiers.Add(20f);
         risingActivated = true; retributionActive = true;
+    }
+
+    public override void OnLand()
+    {
+        player.gravityUpMultiplier = 1f;
     }
 
     // when we move down remove the 20 from the weapon manager's 

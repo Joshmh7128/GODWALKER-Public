@@ -49,6 +49,8 @@ public class BodyPartClass_MonarchsAscendancy : BodyPartClass
 
     public override void OnLand()
     {
+        player.gravityDownMultiplier = 1;
+
         intimidationActive = false;
         movingDown = false;
         // deactivate ability

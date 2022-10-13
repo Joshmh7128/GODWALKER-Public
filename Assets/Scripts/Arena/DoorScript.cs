@@ -100,6 +100,14 @@ public class DoorScript : MonoBehaviour
         }
     }
 
+    // when our locking for specifically when the trigger is hit
+    void TriggerLock()
+    {
+        // this happens when the player enters the room
+        lockParent.SetActive(true);
+        triggerHit = true;
+    }
+
     // runs when combat begins
     public void CombatBegin()
     {
@@ -166,13 +174,6 @@ public class DoorScript : MonoBehaviour
         } 
     }
 
-    // when our locking for specifically when the trigger is hit
-    void TriggerLock()
-    {
-        // this happens when the player enters the room
-        lockParent.SetActive(true);
-        triggerHit = true;
-    }
 
     // locking to be used anywhere publicly
     public void Lock()
@@ -196,5 +197,8 @@ public class DoorScript : MonoBehaviour
                 }
             }
         }
+
+        if (triggerLock)
+            Gizmos.DrawCube(transform.position + transform.forward * 5, new Vector3(10, 10, 10));
     }
 }
