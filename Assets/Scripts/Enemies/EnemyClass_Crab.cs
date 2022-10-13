@@ -26,6 +26,7 @@ public class EnemyClass_Crab : EnemyClass
     public override void SetLevelStats()
     {
         // set our level to the active arena
+        if (ArenaManager.instance.activeArena)
         level = ArenaManager.instance.activeArena.arenaLevel;
 
         // set our health
