@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathTrigger : MonoBehaviour
+public class DeathPit : MonoBehaviour
 {
     /// this script is for whenever the player comes into contact with a death zone
     /// it runs a coroutine that in order requests a fade canvas to black, a player teleport, and a fade to white
