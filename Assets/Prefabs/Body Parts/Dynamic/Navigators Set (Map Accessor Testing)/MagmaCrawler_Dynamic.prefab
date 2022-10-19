@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5520276483368251389}
-  - component: {fileID: 1776748033879698046}
+  - component: {fileID: 753161871777239675}
   m_Layer: 0
   m_Name: MagmaCrawler_Dynamic
   m_TagString: Untagged
@@ -36,7 +36,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1776748033879698046
+--- !u!114 &753161871777239675
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,27 +45,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 5520276483368251391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2625f48a3cd70b849b2f447139442ca2, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d25564d2c42b7c4bbbdb95aa0745a0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 0
   overrideGen: 0
   cosmeticParts: []
   cosmeticParent: {fileID: 0}
-  cosmeticParents:
-  - {fileID: 4617984626282547801}
-  - {fileID: 8324576461858699142}
-  - {fileID: 6726165284705505}
-  - {fileID: 6677843816580155553}
+  cosmeticParents: []
   abilityCosmetic: {fileID: 0}
   activeAbilityCosmetic: {fileID: 0}
   abilityRechargeTime: 0
   abilityRechargeTimeMax: 0
-  descriptiveInfo: "While Moving Down: Shots have 80% chance to be Homing Shots to
-    the nearest target\r. Any Homing Shots have a +10% chance to deal critical damage.
-    Whenever a Homing Shot deals damage, your next shot has a 90% chance to Home
-    as well. Whenever a Homing Shot deals damage, instantly Reload."
-  bodyPartName: Monarch's Ascendancy
+  descriptiveInfo: 
+  bodyPartName: 
   cancelConstruct: 0
 --- !u!1001 &5520276482671924598
 PrefabInstance:
@@ -556,11 +549,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c67dd493f5e646945b03fcd509882476, type: 3}
---- !u!1 &8324576461858699142 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4547826491956667120, guid: c67dd493f5e646945b03fcd509882476, type: 3}
-  m_PrefabInstance: {fileID: 5520276482671924598}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8324576461858699143 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4547826491956667121, guid: c67dd493f5e646945b03fcd509882476, type: 3}
@@ -690,11 +678,6 @@ PrefabInstance:
 --- !u!4 &4617984626282547800 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 904544827766970057, guid: 2cf66f7f59ff27142a7099edae6bf228, type: 3}
-  m_PrefabInstance: {fileID: 5520276482707872913}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4617984626282547801 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 904544827766970056, guid: 2cf66f7f59ff27142a7099edae6bf228, type: 3}
   m_PrefabInstance: {fileID: 5520276482707872913}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5520276483144162410
@@ -889,11 +872,6 @@ PrefabInstance:
 --- !u!4 &6726165284705504 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5515804945917331594, guid: bc0d71233fbd65843942690504cc19b8, type: 3}
-  m_PrefabInstance: {fileID: 5520276483144162410}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6726165284705505 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5515804945917331595, guid: bc0d71233fbd65843942690504cc19b8, type: 3}
   m_PrefabInstance: {fileID: 5520276483144162410}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5520276484238600043
@@ -1133,11 +1111,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 853b364256feaa94da93b002c3d5421a, type: 3}
---- !u!1 &6677843816580155553 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1168545173730717642, guid: 853b364256feaa94da93b002c3d5421a, type: 3}
-  m_PrefabInstance: {fileID: 5520276484238600043}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6677843816580155567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1168545173730717636, guid: 853b364256feaa94da93b002c3d5421a, type: 3}

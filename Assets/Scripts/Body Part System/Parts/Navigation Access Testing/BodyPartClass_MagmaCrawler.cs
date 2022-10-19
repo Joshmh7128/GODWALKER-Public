@@ -2,17 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BodyPartClass_MagmaCrawler : MonoBehaviour
+public class BodyPartClass_MagmaCrawler : BodyPartClass
 {
     // Start is called before the first frame update
-    void Start()
+    public override void PartStart()
     {
-        
+        bool check = false;
+        // check if this part is part of the player
+        foreach (BodyPartClass part in PlayerBodyPartManager.instance.bodyParts)
+        {
+            if (part == this)
+            {
+                // player can now walk on lava        
+                check = true;
+                break;
+            }
+        }
+
+        PlayerStatManager.instance.lavaWalks = check;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+
 }
