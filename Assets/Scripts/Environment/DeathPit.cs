@@ -39,8 +39,8 @@ public class DeathPit : MonoBehaviour
 
             if (count > countMax * 60)
             {
-                // set count to 0
-                count = 0;
+                // set count to half of count max 8 60
+                count = (countMax * 60) / 2;
                 // deal player damage
                 statManager.TakeDamage(statManager.maxHealth * 0.1f);
             }
