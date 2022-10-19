@@ -36,6 +36,11 @@ public class BodyPartClass_WarpQuantunneller : BodyPartClass
     void RequestTeleportShot()
     {
         playerWeaponManager.currentWeapon.requestTeleportShot = true;
+
+    }
+
+    public override void OnWeaponFire()
+    {
         // find the shot
         StartCoroutine(FindShot());
     }
@@ -43,12 +48,15 @@ public class BodyPartClass_WarpQuantunneller : BodyPartClass
     // find our teleport shot and link this to it
     IEnumerator FindShot()
     {
+
+        Debug.Log("finding shot...");
         yield return new WaitForFixedUpdate();
         // loop through the player projectile manager and find a teleporting shot
         foreach (var projectile in playerProjectileManager.activeProjectileScripts)
         {
             if (projectile.isTeleportShot)
             {
+                Debug.Log("shot found");
                 projectile.teleportCallBack = this;
             }
         }
