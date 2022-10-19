@@ -7,6 +7,7 @@ public class EnemyClass_Helion : EnemyClass
     /// the helion is a huge enemy that fires noisy shots out of the tips all over its body
     /// it alternates between noise mode (orange) and homing mode (purple)
     [SerializeField] float baseHealth; // health we set in-editor, this is a beefier enemy so we want it to be higher
+    [SerializeField] bool rotates = true;
 
     // set our stats
     public override void SetLevelStats()
@@ -24,6 +25,7 @@ public class EnemyClass_Helion : EnemyClass
     {
         base.FixedUpdate();
         // rotate our body slowly to make us look more dramatic
+        if (rotates)
         transform.eulerAngles += new Vector3(0.5f, 0.5f, 0);
     }
 
