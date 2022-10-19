@@ -13,8 +13,6 @@ public class PlayerBodyPartManager : MonoBehaviour
     /// 
     /// </summary>
 
-
-
     // setup and set our instance
     public static PlayerBodyPartManager instance;
     public PlayerUIManager uiManager;
@@ -116,6 +114,9 @@ public class PlayerBodyPartManager : MonoBehaviour
                 Instantiate(part.cosmeticParts[i], headPartParents[i]);
             }
 
+            // call the ondrop of the body part we are removing
+            try { bodyParts[0].OnDropThisPart(); } catch { }
+
             // put this into our list
             bodyParts[0] = part;
 
@@ -137,7 +138,8 @@ public class PlayerBodyPartManager : MonoBehaviour
             {   // get the correlating part and instnatiate it
                 Instantiate(part.cosmeticParts[i], torsoPartParents[i]);
             }
-
+            // call the ondrop of the body part we are removing
+            try { bodyParts[1].OnDropThisPart(); } catch { }
             // put this into our list
             bodyParts[1] = part;
 
@@ -169,6 +171,9 @@ public class PlayerBodyPartManager : MonoBehaviour
                     Instantiate(part.cosmeticParts[i], rightArmPartParents[i]);
                 }
 
+                // call the ondrop of the body part we are removing
+                try { bodyParts[2].OnDropThisPart(); } catch { }
+
                 // put this into our list
                 bodyParts[2] = part;
 
@@ -190,6 +195,9 @@ public class PlayerBodyPartManager : MonoBehaviour
                 {   // get the correlating part and instnatiate it
                     Instantiate(part.cosmeticParts[i], leftArmPartParents[i]);
                 }
+
+                // call the ondrop of the body part we are removing
+                try { bodyParts[3].OnDropThisPart(); } catch { }
 
                 // put this into our list
                 bodyParts[3] = part;
@@ -215,6 +223,9 @@ public class PlayerBodyPartManager : MonoBehaviour
                     Instantiate(part.cosmeticParts[i], rightLegPartParents[i]);
                 }
 
+                // call the ondrop of the body part we are removing
+                try { bodyParts[4].OnDropThisPart(); } catch { }
+
                 // put this into our list
                 bodyParts[4] = part;
             }
@@ -234,6 +245,9 @@ public class PlayerBodyPartManager : MonoBehaviour
                 {   // get the correlating part and instnatiate it
                     Instantiate(part.cosmeticParts[i], leftLegPartParents[i]);
                 }
+
+                // call the ondrop of the body part we are removing
+                try { bodyParts[5].OnDropThisPart(); } catch { }
 
                 // put this into our list
                 bodyParts[5] = part;

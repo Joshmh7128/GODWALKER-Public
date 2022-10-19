@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class BodyPartClass_MagmaCrawler : BodyPartClass
 {
-    // Start is called before the first frame update
-    public override void PartStart()
-    {
-        LavawalkCheck();
-    }
-
+    // when this is picked up
     public override void OnBodyPartPickup()
     {
-        StartCoroutine(Buffer());
+        LavawalkCheck();
+        Debug.Log("magma picktup");
     }
 
-    IEnumerator Buffer()
+    public override void OnDropThisPart()
     {
-        yield return new WaitForFixedUpdate();
-        yield return new WaitForFixedUpdate();
+        Debug.Log("magma ondrop");
         LavawalkCheck();
     }
 

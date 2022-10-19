@@ -51,6 +51,7 @@ public abstract class BodyPartClass : MonoBehaviour
     // refresh our abilities that need to be refreshed on part start (or pickup)
     public void AbilityRefresh()
     {
+        Debug.Log("ability refresh");
         PlayerStatManager.instance.lavaWalks = false;
     }
 
@@ -211,5 +212,6 @@ public abstract class BodyPartClass : MonoBehaviour
     public virtual void OnPlayerTakeDamage() { }    // triggered when the player takes damage
     public virtual void OnPlayerGainLife() { }      // triggered when the player gains life
     public virtual void OnBodyPartPickup() { }      // triggered when a body part is picked up
+    public virtual void OnDropThisPart() { }        // triggered when this part is dropped
     public virtual void OnProjectileHit() { }       // triggers when a projectile hits an enemy
 }
