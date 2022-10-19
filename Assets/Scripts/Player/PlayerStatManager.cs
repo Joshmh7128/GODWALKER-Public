@@ -36,6 +36,8 @@ public class PlayerStatManager : MonoBehaviour
 
     bool hasDied; // have we died?
 
+    public bool lavaWalks; // can we walk on lava?
+
     // runs 60 times per second
     private void FixedUpdate()
     {

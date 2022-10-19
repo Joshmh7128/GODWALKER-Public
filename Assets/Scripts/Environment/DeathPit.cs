@@ -8,17 +8,65 @@ public class DeathPit : MonoBehaviour
     /// it runs a coroutine that in order requests a fade canvas to black, a player teleport, and a fade to white
 
     bool running;
+    bool counting;
+    float count, countMax = 5; // how long have we been counting?
 
     PlayerStatManager statManager;
     PlayerController controller;
 
+    // our collider
+    Collider boxCollider; // our collider
+
     private void Start()
     {
+        // check to see what we have
+        boxCollider.isTrigger = !statManager.lavaWalks; // make it the opposite. if we can walk on lava, this should not be a trigger
+
         // get our instances
         statManager = PlayerStatManager.instance;
         controller = PlayerController.instance;
     }
 
+    private void FixedUpdate()
+    {
+        // set up our collider properly
+        boxCollider.isTrigger = !statManager.lavaWalks;
+
+        // if we can count...
+        if (counting)
+        {
+            count++;
+
+            if (count > countMax * 60)
+            {
+                // set count to 0
+                count = 0;
+                // deal player damage
+                statManager.TakeDamage(statManager.maxHealth * 0.1f);
+            }
+
+        }
+    }
+
+    // if player can lava walk
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            counting = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            counting = false;
+            count = 0;
+        }
+    }
+
+    // if player cannot lava walk
     private void OnTriggerEnter(Collider collision)
     {
         // if we collide with the player and our coroutine is not running
