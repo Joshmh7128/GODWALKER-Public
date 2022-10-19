@@ -19,12 +19,12 @@ public class DeathPit : MonoBehaviour
 
     private void Start()
     {
-        // check to see what we have
-        boxCollider.isTrigger = !statManager.lavaWalks; // make it the opposite. if we can walk on lava, this should not be a trigger
-
+        boxCollider = GetComponent<Collider>();
         // get our instances
         statManager = PlayerStatManager.instance;
         controller = PlayerController.instance;
+        // check to see what we have
+        boxCollider.isTrigger = !statManager.lavaWalks; // make it the opposite. if we can walk on lava, this should not be a trigger
     }
 
     private void FixedUpdate()

@@ -48,6 +48,12 @@ public abstract class BodyPartClass : MonoBehaviour
         }
     }
 
+    // refresh our abilities that need to be refreshed on part start (or pickup)
+    public void AbilityRefresh()
+    {
+        PlayerStatManager.instance.lavaWalks = false;
+    }
+
     public void RefreshPart(BodyPartTypes type) {
 
         this.bodyPartType = type;

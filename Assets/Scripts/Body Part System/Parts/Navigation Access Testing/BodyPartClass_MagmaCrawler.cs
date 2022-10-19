@@ -7,6 +7,23 @@ public class BodyPartClass_MagmaCrawler : BodyPartClass
     // Start is called before the first frame update
     public override void PartStart()
     {
+        LavawalkCheck();
+    }
+
+    public override void OnBodyPartPickup()
+    {
+        StartCoroutine(Buffer());
+    }
+
+    IEnumerator Buffer()
+    {
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();
+        LavawalkCheck();
+    }
+
+    void LavawalkCheck()
+    {
         bool check = false;
         // check if this part is part of the player
         foreach (BodyPartClass part in PlayerBodyPartManager.instance.bodyParts)
@@ -21,7 +38,5 @@ public class BodyPartClass_MagmaCrawler : BodyPartClass
 
         PlayerStatManager.instance.lavaWalks = check;
     }
-
-
 
 }
