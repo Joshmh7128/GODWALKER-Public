@@ -45,6 +45,7 @@ public class MaxHealthIncrease_Item : ItemClass
         if (canGrab & Input.GetKeyDown(KeyCode.E))
         {
             playerStatManager.AddMaxHealth(maxHealthIncrease);
+            playerStatManager.AddHealth(maxHealthIncrease);
             // spawn fx on player
             Instantiate(vfx, PlayerController.instance.transform.position + Vector3.up * 0.5f, vfx.transform.rotation);
             // then destroy object
