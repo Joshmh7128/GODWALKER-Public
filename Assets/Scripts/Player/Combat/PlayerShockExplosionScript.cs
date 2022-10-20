@@ -71,6 +71,12 @@ public class PlayerShockExplosionScript : MonoBehaviour
             // disable the collider in the next frame
             StartCoroutine(DisableBuffer()); // then disable the collider
         }
+   
+        // if this is interactable, try and interact with it
+        if (other.transform.tag == "Interactable")
+        {
+            try { other.GetComponent<BatteryHandler>().ChargeBattery(); } catch { }
+        }
     }
 
     private void OverlapCheck()
