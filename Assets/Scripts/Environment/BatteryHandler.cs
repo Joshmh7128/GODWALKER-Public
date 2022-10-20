@@ -8,8 +8,17 @@ public class BatteryHandler : MonoBehaviour
     /// it calculates charge, changes the charge color and scale, and enables and disables the associated elements
     /// 
 
-    float charge, chargeMax; // our current and maximum charge
+    [SerializeField] float charge; // current charge
+    [SerializeField] float chargeMax; // our maximum charge
     [SerializeField] Transform chargeTransform; // the transform we'll be adjusting the scale of depending on our charge amount
+    [SerializeField] Color fullColor, emptyColor; // colors we lerp between
+    [SerializeField] Renderer matRend; // our renderer
+
+    // runs every frame
+    private void FixedUpdate()
+    {
+        ProcessCharge();
+    }
 
     // every frame calculate the charge
     void ProcessCharge()
@@ -22,13 +31,16 @@ public class BatteryHandler : MonoBehaviour
 
         // set the scale of the charge transform on a scale of 0 to 1 equivalent to the current charge out of its max
         float i = charge / chargeMax;
-        chargeTransform.localScale = new Vector3(0, i, 0);
+        chargeTransform.localScale = new Vector3(1, i, 1);
 
+        // lerp our colors
+        matRend.material.color = Color.Lerp(fullColor, emptyColor, i);
     }
 
     // set our charge to its maximum
-    void ChargeBattery()
+    public void ChargeBattery()
     {
+        Debug.Log("charging battery");
         charge = chargeMax; 
     }
 }

@@ -75,6 +75,8 @@ public class PlayerShockExplosionScript : MonoBehaviour
         // if this is interactable, try and interact with it
         if (other.transform.tag == "Interactable")
         {
+            Debug.Log("interactable hit");
+
             try { other.GetComponent<BatteryHandler>().ChargeBattery(); } catch { }
         }
     }
