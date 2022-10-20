@@ -16,6 +16,11 @@ public class TeleporterHandler : MonoBehaviour
         playerController = PlayerController.instance;
     }
 
+    private void FixedUpdate()
+    {
+        if (cooldown >= 0) cooldown -= Time.deltaTime;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Player")
