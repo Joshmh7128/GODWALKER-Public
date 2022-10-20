@@ -35,6 +35,7 @@ public class DeathPit : MonoBehaviour
         // if we can count...
         if (counting)
         {
+            Debug.Log("counting");
             count++;
 
             if (count > countMax * 60)
@@ -42,6 +43,7 @@ public class DeathPit : MonoBehaviour
                 // set count to half of count max 8 60
                 count = (countMax * 60) / 2;
                 // deal player damage
+                Debug.Log("damaging");
                 statManager.TakeDamage(statManager.maxHealth * 0.1f);
             }
 
@@ -51,6 +53,7 @@ public class DeathPit : MonoBehaviour
     // if player can lava walk
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("collision");
         if (collision.transform.tag == "Player")
         {
             counting = true;
@@ -59,6 +62,7 @@ public class DeathPit : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
+        Debug.Log("excollision");
         if (collision.transform.tag == "Player")
         {
             counting = false;
