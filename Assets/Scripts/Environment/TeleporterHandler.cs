@@ -9,7 +9,7 @@ public class TeleporterHandler : MonoBehaviour
     PlayerController playerController;
 
     [SerializeField] TeleporterHandler partner;
-    public float cooldown, cooldownMax = 5; // cooldown in seconds
+    public float cooldown, cooldownMax = 2; // cooldown in seconds
     
     private void Start()
     {

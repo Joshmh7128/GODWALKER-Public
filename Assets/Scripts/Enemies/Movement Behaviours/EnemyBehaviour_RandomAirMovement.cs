@@ -13,6 +13,7 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
     [SerializeField] float bodyRadius; // how big is our body?
     [SerializeField] float moveDistance; // how far do we move per check?
     [SerializeField] bool drawGizmos;
+    [SerializeField] bool playerRelative; // is this relative to the player?
 
     public override IEnumerator MainCoroutine()
     {
@@ -24,7 +25,14 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
     // choose a new position on the x axis
     void ChoosePos()
     {
-        targetPos = enemyClass.transform.position + new Vector3(Random.Range(-moveDistance, moveDistance), 0, Random.Range(-moveDistance, moveDistance));
+        if (!playerRelative)
+            targetPos = enemyClass.transform.position + new Vector3(Random.Range(-moveDistance, moveDistance), 0, Random.Range(-moveDistance, moveDistance));
+
+        Vector3 pos = new Vector3(PlayerController.instance.transform.position.x, enemyClass.transform.position.y, PlayerController.instance.transform.position.z);
+
+        if (playerRelative)
+            targetPos = pos + new Vector3(Random.Range(-moveDistance, moveDistance), 0, Random.Range(-moveDistance, moveDistance));
+
     }
 
     public void FixedUpdate()

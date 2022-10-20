@@ -5550,6 +5550,7 @@ MonoBehaviour:
   bodyRadius: 2
   moveDistance: 20
   drawGizmos: 1
+  playerRelative: 0
 --- !u!1 &4220874670033816437
 GameObject:
   m_ObjectHideFlags: 0
@@ -5655,6 +5656,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4220874669937254092}
+  - {fileID: 6623804416274708761}
   m_Father: {fileID: 4220874671179313680}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6323,7 +6325,7 @@ MonoBehaviour:
   nameDisplay: {fileID: 4220874670941050288}
   lerpSliderSpeed: 3
   activeEffects: 
-  baseHealth: 40
+  baseHealth: 25
   rotates: 0
 --- !u!135 &4220874671179313686
 SphereCollider:
@@ -6354,6 +6356,60 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &5362319881074256930
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6623804416274708761}
+  - component: {fileID: 3570628600328377060}
+  m_Layer: 0
+  m_Name: Midair movement  (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6623804416274708761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5362319881074256930}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4220874670055866515}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3570628600328377060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5362319881074256930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae6631a52540241439b14d1415774af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  complete: 0
+  enemyClass: {fileID: 4220874671179313683}
+  behaviourTime: 8
+  behaviourTimeRand: 0
+  speed: 10
+  bodyRadius: 2
+  moveDistance: 20
+  drawGizmos: 1
+  playerRelative: 1
 --- !u!1001 &1253648685763093396
 PrefabInstance:
   m_ObjectHideFlags: 0
