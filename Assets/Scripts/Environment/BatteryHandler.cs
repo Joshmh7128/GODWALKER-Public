@@ -14,6 +14,8 @@ public class BatteryHandler : MonoBehaviour
     [SerializeField] Color fullColor, emptyColor; // colors we lerp between
     [SerializeField] Renderer matRend; // our renderer
 
+    [SerializeField] List<GameObject> gameObjects = new List<GameObject>();
+
     // runs every frame
     private void FixedUpdate()
     {
@@ -29,12 +31,19 @@ public class BatteryHandler : MonoBehaviour
             charge -= Time.deltaTime;
         }
 
+        if (charge <= 0)
+        {
+            // disable our objects
+            foreach (GameObject obj in gameObjects)
+            { obj.SetActive(false); }
+        }
+
         // set the scale of the charge transform on a scale of 0 to 1 equivalent to the current charge out of its max
         float i = charge / chargeMax;
         chargeTransform.localScale = new Vector3(1, i, 1);
 
         // lerp our colors
-        matRend.material.color = Color.Lerp(fullColor, emptyColor, i);
+        matRend.material.color = Color.Lerp(emptyColor, fullColor, i);
     }
 
     // set our charge to its maximum
@@ -42,5 +51,9 @@ public class BatteryHandler : MonoBehaviour
     {
         Debug.Log("charging battery");
         charge = chargeMax; 
+
+        // enable our objects
+        foreach(GameObject obj in gameObjects)
+        { obj.SetActive(true); }    
     }
 }
