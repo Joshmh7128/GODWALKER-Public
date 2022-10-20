@@ -19,5 +19,7 @@ public class ArenaManager : MonoBehaviour
     public List<GameObject> mainSet, alternateSet, specialSet; // the main, alternate, and special sets
     public int mainIndex, alternateIndex;
 
+    // the weapon prefabs we've spawned already
+    public List<GameObject> usedWeapons; // the weapons we've used
 
 }

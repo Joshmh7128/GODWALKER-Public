@@ -21,7 +21,7 @@ public class WeaponCreator : MonoBehaviour
     Weapon_Item copyItem;
     WeaponClass weaponClass;
 
-    private void OnEnable()
+    private void Start()
     {
         CreateWeapon();
     }
@@ -34,12 +34,16 @@ public class WeaponCreator : MonoBehaviour
         weaponObject = ValkyrieWeapons[Random.Range(0, ValkyrieWeapons.Count-1)];
 
         // then create the weapon item
-        CreateWeaponItem();
+         CreateWeaponItem();
+
     }
 
     // instantiate our weapon item
     void CreateWeaponItem()
     {
+        GameObject obj = null;
+        try { obj = Instantiate(weaponObject); } catch { }
+        ArenaManager.instance.usedWeapons.Add(obj);
         // instantiate a copy of the weapon we are currently holding
         copyItem = Instantiate(weaponItem, transform.position, Quaternion.identity).GetComponent<Weapon_Item>();
         // create a copy of the weaponObject we are holding so that we can give it to the player
