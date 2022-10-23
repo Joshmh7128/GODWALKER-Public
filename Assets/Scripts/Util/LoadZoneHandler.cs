@@ -12,6 +12,36 @@ public class LoadZoneHandler : MonoBehaviour
     // our parameters
     [SerializeField] float zoneWidth, zoneHeight, zoneDepth; // our w, h, and depth of the zone
 
+    [SerializeField] GameObject parentObject;
+
+    PlayerController playerController;
+    private void Start()
+    {
+        playerController = PlayerController.instance;
+    }
+
+    private void FixedUpdate()
+    {
+        parentObject.SetActive(HasPlayer());
+    }
+
+    // check to see if our player is within our bounding box
+    bool HasPlayer()
+    {
+        if (playerController != null)
+        {
+            // check the X & Z -> check Y
+            if (playerController.transform.position.x > transform.position.x - zoneWidth
+                || playerController.transform.position.x < transform.position.x + zoneWidth
+                || playerController.transform.position.z > transform.position.z - zoneDepth
+                || playerController.transform.position.z < transform.position.z + zoneDepth)
+            {
+                if (playerController.transform.position.y > transform.position.y - zoneHeight || playerController.transform.position.y < transform.position.y + zoneHeight)
+                    return true;
+            }
+        }
+        return false;
+    }
 
     // our gizmos
     private void OnDrawGizmos()
@@ -34,8 +64,10 @@ public class LoadZoneHandler : MonoBehaviour
         Gizmos.DrawSphere(transform.position + new Vector3(0, 0, -zoneDepth / 2), radius);
 
         // draw center
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.blue;        
+        if (HasPlayer()) Gizmos.color = Color.green; else Gizmos.color = Color.blue;
         Gizmos.DrawSphere(transform.position, radius);
+
 
     }
 }
