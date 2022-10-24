@@ -28,7 +28,7 @@ public class DoorScript : MonoBehaviour
     [SerializeField] List<ArenaHandler> associatedArenas = new List<ArenaHandler>();
 
     // handle cosmetics
-    [SerializeField] GameObject mainDoorCosmeticParent, specialDoorCosmeticParent;
+    [SerializeField] GameObject mainDoorCosmeticParent, specialDoorCosmeticParent, opaqueCosmetic;
 
     private void Start()
     {
@@ -46,6 +46,7 @@ public class DoorScript : MonoBehaviour
             case DoorStates.ToCombat:
                 oneWay = true;
                 mainDoorCosmeticParent.SetActive(true);
+                opaqueCosmetic.SetActive(true);
                 break;
 
             // does this door need a key?
@@ -59,6 +60,7 @@ public class DoorScript : MonoBehaviour
             case DoorStates.ToCombatNeedsKey:
                 keyMessage.SetActive(true);
                 specialDoorCosmeticParent.SetActive(true);
+                opaqueCosmetic.SetActive(true);
                 oneWay = true; // we want players to go back from this room
                 break;
 
@@ -80,6 +82,7 @@ public class DoorScript : MonoBehaviour
                 oneWay = true;
                 doorState = DoorStates.Unlocked;
                 mainDoorCosmeticParent.SetActive(true);
+                opaqueCosmetic.SetActive(true);
                 break;
         }
     }

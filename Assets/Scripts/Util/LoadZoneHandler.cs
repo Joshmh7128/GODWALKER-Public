@@ -31,12 +31,12 @@ public class LoadZoneHandler : MonoBehaviour
         if (playerController != null)
         {
             // check the X & Z -> check Y
-            if (playerController.transform.position.x > transform.position.x - zoneWidth
-                || playerController.transform.position.x < transform.position.x + zoneWidth
-                || playerController.transform.position.z > transform.position.z - zoneDepth
-                || playerController.transform.position.z < transform.position.z + zoneDepth)
+            if (playerController.transform.position.x > transform.position.x - zoneWidth / 2 
+                && playerController.transform.position.x < transform.position.x + zoneWidth / 2
+                && playerController.transform.position.z > transform.position.z - zoneDepth / 2
+                && playerController.transform.position.z < transform.position.z + zoneDepth / 2)
             {
-                if (playerController.transform.position.y > transform.position.y - zoneHeight || playerController.transform.position.y < transform.position.y + zoneHeight)
+                if (playerController.transform.position.y > transform.position.y - zoneHeight / 2 && playerController.transform.position.y < transform.position.y + zoneHeight / 2)
                     return true;
             }
         }
