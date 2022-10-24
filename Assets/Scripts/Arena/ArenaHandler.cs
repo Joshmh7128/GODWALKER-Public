@@ -72,6 +72,17 @@ public class ArenaHandler : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F9) && arenaManager.activeArena == this)
+        {
+            foreach(Transform enemy in activeParent)
+            {
+                enemy.gameObject.GetComponent<EnemyClass>().GetHurt(999999f);
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
         if (manualCombat)
