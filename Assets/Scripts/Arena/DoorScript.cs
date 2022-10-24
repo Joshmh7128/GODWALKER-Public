@@ -65,6 +65,7 @@ public class DoorScript : MonoBehaviour
             // when we want a door to be part of combat, but we don't want it to close
             case DoorStates.ToNothing:
                 oneWay = false;
+                mainDoorCosmeticParent.SetActive(true);
                 break;
 
             // when a door leads to combat, we want it to be unlocked at the start, and we want it to be one way
