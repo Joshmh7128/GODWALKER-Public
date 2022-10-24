@@ -5,12 +5,23 @@ using UnityEngine.UI;
 
 public class DoorScript : MonoBehaviour
 {
-    public bool open = false, canOpen, triggerLock, triggerHit, triggerOverride, distanceLock, toCombat, keyLocked; // is this open? can we open it?
+    public enum DoorStates
+    {
+        Unlocked, ToCombat, NeedsKey, Timed
+    }
+
+    public DoorStates doorState; // the current state of our door
+
+    public bool open = false; //, canOpen, triggerLock, triggerHit, triggerOverride, distanceLock, toCombat, keyLocked; // is this open? can we open it?
+
+    // qualifying bools
+    bool playerClose; // is the player close by enough for us to open?
+    [SerializeField] bool oneWay; // can the player go back through this door immediately after they pass through it?
+
     [SerializeField] Animator animator;
     [SerializeField] float interactionDistance = 10f;
     [SerializeField] GameObject openMessage, lockParent, timerCanvasObject, keyMessage;
 
-    [SerializeField] bool timed; // is this a timed door?
     [SerializeField] float timeRemaining = 60; // how much time is left?
     [SerializeField] Text timeText; 
     // each door should be associated with 2 rooms at maximum
@@ -21,8 +32,30 @@ public class DoorScript : MonoBehaviour
         // link ourselves to all associated arenas
         LinkArenas();
 
-        // if we're key locked, show it
-        if (keyLocked) { keyMessage.SetActive(true); }
+        // setup door timed state
+        switch (doorState)
+        {
+            // the basic unlocked door state
+            case DoorStates.Unlocked:
+                break;
+
+            // doors which lead to the next main combat room
+            case DoorStates.ToCombat:
+                oneWay = true;
+                break;
+
+            // does this door need a key?
+            case DoorStates.NeedsKey:
+                keyMessage.SetActive(true);
+                oneWay = false; // we want players to go back from this room
+                break;
+
+            // set up and start out timer
+            case DoorStates.Timed:
+                timeText.text = timeRemaining.ToString(); // show how much time is left
+                oneWay = false; // we want players to go back from this room
+                break;
+        }
     }
 
     // link each of our arenas to this door
@@ -52,23 +85,23 @@ public class DoorScript : MonoBehaviour
     {
         Transform player = PlayerController.instance.transform;
         // can we open?
-        if (Vector3.Distance(player.position, transform.position) <= interactionDistance && !open && (canOpen || keyLocked))
+        if (Vector3.Distance(player.position, transform.position) <= interactionDistance && !open)
         {
-            distanceLock = false;
-            if (keyLocked && PlayerStatManager.instance.keyAmount > 0)
+            playerClose = true;
+            if (doorState == DoorStates.NeedsKey && PlayerStatManager.instance.keyAmount > 0)
                 openMessage.SetActive(true);
 
-            if (!keyLocked)
+            if (doorState == DoorStates.Unlocked)
                 openMessage.SetActive(true);
             
         }
         else
         {
-            distanceLock = true;
-            if (keyLocked && PlayerStatManager.instance.keyAmount > 0)
+            playerClose = false;
+            if (doorState == DoorStates.NeedsKey && PlayerStatManager.instance.keyAmount > 0)
                 openMessage.SetActive(false);
 
-            if (!keyLocked)
+            if (doorState == DoorStates.Unlocked)
                 openMessage.SetActive(false);
         }
     }
@@ -77,13 +110,13 @@ public class DoorScript : MonoBehaviour
     void ProcessInput()
     {
         // if we can open
-        if (Input.GetKeyDown(KeyCode.E) && canOpen == true && open == false && distanceLock == false)
+        if (Input.GetKeyDown(KeyCode.E) && doorState == DoorStates.Unlocked && open == false && playerClose == true)
         {
             Open();
         }
 
         // if we're attempting to open with a key
-        if (Input.GetKeyDown(KeyCode.E) && keyLocked == true && open == false && distanceLock == false && PlayerStatManager.instance.keyAmount > 0)
+        if (Input.GetKeyDown(KeyCode.E) && doorState == DoorStates.NeedsKey && open == false && playerClose == true && PlayerStatManager.instance.keyAmount > 0)
         {
             PlayerStatManager.instance.keyAmount--;
             Open();
@@ -94,7 +127,7 @@ public class DoorScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // if we have our trigger lock active, lock the door with the trigger
-        if (triggerLock && other.transform.tag == "Player" && triggerHit == false && triggerOverride == false)
+        if (oneWay && other.transform.tag == "Player")
         {
             TriggerLock();
         }
@@ -105,13 +138,12 @@ public class DoorScript : MonoBehaviour
     {
         // this happens when the player enters the room
         lockParent.SetActive(true);
-        triggerHit = true;
     }
 
     // runs when combat begins
     public void CombatBegin()
     {
-        if (timed)
+        if (doorState == DoorStates.Timed)
         {
             timerCanvasObject.SetActive(true);
             StartCoroutine(Timer());
@@ -141,7 +173,7 @@ public class DoorScript : MonoBehaviour
         openMessage.SetActive(false);
         keyMessage.SetActive(false);
         animator.Play("DoorOpening");
-        if (toCombat)
+        if (doorState == DoorStates.ToCombat)
         {
             SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
             // start combat in the correct arena
@@ -155,32 +187,32 @@ public class DoorScript : MonoBehaviour
         }
     }
 
-    // unlock to be used anywhere publicly
+    // unlock to be used anywhere publicly, this is usually used by an Arena Handler to open all doors after combat
     public void AttemptUnlock()
     {
-        if (timed)
+        // check if this door is timed
+        if (doorState == DoorStates.Timed)
         { 
+            // did we beat it in time?
             if (timeRemaining > 0)
             {
-                canOpen = true;
+                doorState = DoorStates.Unlocked;
                 lockParent.SetActive(false);
                 timerCanvasObject.SetActive(false);
             }
-        }
-        else if (!keyLocked)
+        }   // if this door doesn't need a key, then it is unlocked
+        else if (doorState != DoorStates.NeedsKey)
         {
-            canOpen = true;
+            doorState = DoorStates.Unlocked;
             lockParent.SetActive(false);
         } 
     }
-
 
     // locking to be used anywhere publicly
     public void Lock()
     {
         lockParent.SetActive(true);
     }
-
 
     private void OnDrawGizmos()
     {
@@ -198,7 +230,7 @@ public class DoorScript : MonoBehaviour
             }
         }
 
-        if (triggerLock)
+        if (oneWay)
             Gizmos.DrawCube(transform.position + transform.forward * 5, new Vector3(10, 10, 10));
     }
 }
