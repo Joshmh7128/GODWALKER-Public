@@ -7,7 +7,7 @@ public class DoorScript : MonoBehaviour
 {
     public enum DoorStates
     {
-        Unlocked, ToCombat, NeedsKey, Timed, ToNothing, ToCombatUnlocked
+        Unlocked, ToCombat, NeedsKey, Timed, ToNothing, ToCombatUnlocked, ToCombatNeedsKey
     }
 
     public DoorStates doorState; // the current state of our door
@@ -53,6 +53,13 @@ public class DoorScript : MonoBehaviour
                 keyMessage.SetActive(true);
                 specialDoorCosmeticParent.SetActive(true);
                 oneWay = false; // we want players to go back from this room
+                break;            
+                
+            // does this door need a key and lead to combat?
+            case DoorStates.ToCombatNeedsKey:
+                keyMessage.SetActive(true);
+                specialDoorCosmeticParent.SetActive(true);
+                oneWay = true; // we want players to go back from this room
                 break;
 
             // set up and start out timer
@@ -192,16 +199,13 @@ public class DoorScript : MonoBehaviour
         openMessage.SetActive(false);
         keyMessage.SetActive(false);
         animator.Play("DoorOpening");
-        if (doorState == DoorStates.ToCombat)
+        SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
+        // start combat in the correct arena
+        foreach (ArenaHandler arena in associatedArenas)
         {
-            SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.intro);
-            // start combat in the correct arena
-            foreach (ArenaHandler arena in associatedArenas)
+            if (!arena.combatBegun)
             {
-                if (!arena.combatBegun)
-                {
-                    arena.StartCombat();
-                }
+                arena.StartCombat();
             }
         }
     }
