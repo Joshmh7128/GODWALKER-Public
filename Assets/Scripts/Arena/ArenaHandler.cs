@@ -64,8 +64,6 @@ public class ArenaHandler : MonoBehaviour
         // lock the doors
         foreach (DoorScript door in doors)
         {
-            // door.canOpen = false;
-            door.triggerLock = true;
             // activate the barriers if they are open
             if (door.open)
                 door.Lock();

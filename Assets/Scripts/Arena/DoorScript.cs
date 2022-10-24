@@ -7,7 +7,7 @@ public class DoorScript : MonoBehaviour
 {
     public enum DoorStates
     {
-        Unlocked, ToCombat, NeedsKey, Timed
+        Unlocked, ToCombat, NeedsKey, Timed, ToNothing, ToCombatUnlocked
     }
 
     public DoorStates doorState; // the current state of our door
@@ -27,6 +27,9 @@ public class DoorScript : MonoBehaviour
     // each door should be associated with 2 rooms at maximum
     [SerializeField] List<ArenaHandler> associatedArenas = new List<ArenaHandler>();
 
+    // handle cosmetics
+    [SerializeField] GameObject mainDoorCosmeticParent, specialDoorCosmeticParent;
+
     private void Start()
     {
         // link ourselves to all associated arenas
@@ -42,18 +45,33 @@ public class DoorScript : MonoBehaviour
             // doors which lead to the next main combat room
             case DoorStates.ToCombat:
                 oneWay = true;
+                mainDoorCosmeticParent.SetActive(true);
                 break;
 
             // does this door need a key?
             case DoorStates.NeedsKey:
                 keyMessage.SetActive(true);
+                specialDoorCosmeticParent.SetActive(true);
                 oneWay = false; // we want players to go back from this room
                 break;
 
             // set up and start out timer
             case DoorStates.Timed:
                 timeText.text = timeRemaining.ToString(); // show how much time is left
+                specialDoorCosmeticParent.SetActive(true);
                 oneWay = false; // we want players to go back from this room
+                break;
+
+            // when we want a door to be part of combat, but we don't want it to close
+            case DoorStates.ToNothing:
+                oneWay = false;
+                break;
+
+            // when a door leads to combat, we want it to be unlocked at the start, and we want it to be one way
+            case DoorStates.ToCombatUnlocked:
+                oneWay = true;
+                doorState = DoorStates.Unlocked;
+                mainDoorCosmeticParent.SetActive(true);
                 break;
         }
     }
@@ -216,6 +234,10 @@ public class DoorScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, 1);
+
+
         Gizmos.color = Color.magenta;
         if (associatedArenas.Count > 0)
         {
