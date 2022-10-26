@@ -333,13 +333,22 @@ public class PlayerController : MonoBehaviour
 
     void UseDash()
     {
+        playerJumpVelocity = 0;
+        verticalVelocity = 0;
         // declare our motion
         float pAxisV = Input.GetAxisRaw("Vertical");
         float pAxisH = Input.GetAxisRaw("Horizontal");
         Vector3 lmoveV = animationRigParent.forward * pAxisV;
         Vector3 lmoveH = animationRigParent.right * pAxisH;
         // lock to horizontal movement
-        Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, -playerJumpVelocity / dashSpeed, lmoveH.z + lmoveV.z);
+        Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, -move.y, lmoveH.z + lmoveV.z);
+        // move in the direction we're looking
+        if (Mathf.Abs(lmove.x) < 0.1f && Mathf.Abs(lmove.z) < 0.1f)
+        {
+            lmove.x = animationRigParent.forward.normalized.x * moveSpeed * 0.1f;
+            lmove.z = animationRigParent.forward.normalized.z * moveSpeed * 0.1f;
+        }
+
         // move character
         characterController.Move(lmove * dashSpeed * Time.deltaTime);
     }
