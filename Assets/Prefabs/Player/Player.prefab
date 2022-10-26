@@ -19877,12 +19877,13 @@ MonoBehaviour:
   characterController: {fileID: 7279873545346546098}
   moveSpeed: 16
   gravity: -58.86
-  jumpVelocity: 8
+  jumpVelocity: 14
   normalMoveMultiplier: 1
   sprintMoveMultiplier: 1.25
   sprintMoveMod: 0
   aimMoveMultiplier: 0.5
   moveSpeedAdjust: 0
+  groundPoundSpeed: -50
   remainingJumps: 2
   maxJumps: 2
   gravityValue: 0
@@ -19913,6 +19914,9 @@ MonoBehaviour:
   - {fileID: 277009076100573814}
   - {fileID: 277009075690185047}
   - {fileID: 277009075133279548}
+  groundPounding: 0
+  groundPoundPrefab: {fileID: 152564, guid: 68cf7eef224702345b79f5a7ae7723be, type: 3}
+  groundPoundJumpFX: {fileID: 931352995334258111, guid: 98f7926d3e427bd468a617a094833e76, type: 3}
   jumpVFX: {fileID: 931352995334258111, guid: bf2d18b8ab261364a8bc29998c8a6bad, type: 3}
   landVFX: {fileID: 152564, guid: f2a9ad8734c9bd64da6a76a5fe179c60, type: 3}
   sprintParticleSystem: {fileID: 7632364375787700998}

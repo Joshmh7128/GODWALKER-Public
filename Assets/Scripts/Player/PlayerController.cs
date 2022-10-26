@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public Vector3 moveH, moveV, move;
     [SerializeField] CharacterController characterController; // our character controller
-    public float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
+    public float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod, aimMoveMultiplier, moveSpeedAdjust, groundPoundSpeed; // set in editor for controlling
     [SerializeField] float remainingJumps, maxJumps;
     RaycastHit groundedHit; // checking to see if we have touched the ground
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     public bool grounded;
     public Vector3 lastGroundedPos; // the last position we were at when we were grounded
     float groundTime = 0; // how long we've been grounded
+
+
 
     // dash related
     [Header("Dash Management")]
@@ -46,7 +48,10 @@ public class PlayerController : MonoBehaviour
 
     // body part related
     PlayerBodyPartManager bodyPartManager;
-
+    // ground pound
+    [SerializeField] bool groundPounding;
+    [SerializeField] GameObject groundPoundPrefab;
+    [SerializeField] GameObject groundPoundJumpFX;
     // setup our instance
     public static PlayerController instance;
     public void Awake()
@@ -92,8 +97,6 @@ public class PlayerController : MonoBehaviour
             ProcessWeaponControl();
             // reloading
             ProcessReloadControl();
-            // abilities
-            ProcessAbilityControl();
         }
 
         // resetting the scene
@@ -142,6 +145,19 @@ public class PlayerController : MonoBehaviour
                 bodyPartManager.CallParts("OnMoveDown");
         }
 
+        #region // Ground Pound Processing
+        if (Input.GetKeyDown(KeyCode.Space) && !grounded && remainingJumps <= 0)
+        {
+            Instantiate(groundPoundJumpFX, transform.position, groundPoundJumpFX.transform.rotation, null);
+            // if we're out of jumps and we press space, we ground pound
+            // stop all horizontal movement
+            moveH = Vector3.zero; moveV = Vector3.zero;
+            // set vertical movement to ground pound speed
+            playerJumpVelocity += groundPoundSpeed;
+            groundPounding = true;
+        }
+        #endregion
+
         if (groundedHit.transform != null || remainingJumps > 0)
         {
             // jumping
@@ -164,9 +180,12 @@ public class PlayerController : MonoBehaviour
             {
                 // instantiate a visual effect
                 Instantiate(landVFX, transform.position, landVFX.transform.rotation, null);
+                if (groundPounding)
+                Instantiate(groundPoundPrefab, transform.position, landVFX.transform.rotation, null);
                 remainingJumps = maxJumps;
                 playerJumpVelocity = 0f;
                 grounded = true;
+                groundPounding = false;
                 // trigger an on land effect
                 bodyPartManager.CallParts("OnLand");
             }
@@ -314,6 +333,8 @@ public class PlayerController : MonoBehaviour
         { moveSpeedAdjust = aimMoveMultiplier; sprintParticleSystem.SetActive(false); }
         #endregion
 
+
+
         #region // Movement Application
         float finalMoveSpeed = moveSpeed * moveSpeedAdjust;
         // calculate vertical movement
@@ -415,19 +436,6 @@ public class PlayerController : MonoBehaviour
             PlayerWeaponManager.instance.currentWeapon.UseWeapon(WeaponClass.WeaponUseTypes.OnHold);
         }
     }
-
-    // ability control
-    void ProcessAbilityControl()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            foreach (BodyPartClass part in bodyPartManager.bodyParts)
-            {
-                part.UseAbility(); // use the ability 
-            }
-        }
-    }
-
     // death
     public void OnPlayerDeath()
     {

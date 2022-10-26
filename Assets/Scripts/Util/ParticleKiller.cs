@@ -5,7 +5,7 @@ using UnityEngine;
 public class ParticleKiller : MonoBehaviour
 {
     // the particle system we're killing
-    [SerializeField] ParticleSystem pSys;
+    ParticleSystem pSys;
     private void Start()
     {
         if (pSys == null)
