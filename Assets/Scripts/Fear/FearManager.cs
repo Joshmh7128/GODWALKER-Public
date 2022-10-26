@@ -23,6 +23,7 @@ public class FearManager : MonoBehaviour
     public float finalFear;
     [SerializeField] TextMeshProUGUI finalFearDisplay; // the text display in game of our final fear
     [SerializeField] Slider finalFearSlider; // the text display in game of our final fear
+    [SerializeField] List<Slider> rowSliderDisplay; // the sliders behind our buttons
 
     private void Start()
     {
@@ -77,15 +78,21 @@ public class FearManager : MonoBehaviour
             // then row by row
             for (int r = 0; r < 8; r++)
             {
-                if (selectedAmounts[r, c]) finalFear += (float)fearValues[r, c];
+                if (selectedAmounts[r, c])
+                {
+                    finalFear += (float)fearValues[r, c];
+                    try { rowSliderDisplay[r].value = 0; rowSliderDisplay[r].value = (float)fearValues[r, c]/2 + 0.13f; } catch { }
+                }
             }
         }
 
         // then divide our fear by 2
         finalFear /= 2;
 
+        // then display
         finalFearDisplay.text = finalFear.ToString();
         finalFearSlider.value = finalFear;
+        
     }
 
 }
