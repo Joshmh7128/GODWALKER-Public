@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 moveH, moveV, move;
     [SerializeField] CharacterController characterController; // our character controller
     public float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
+    [SerializeField] float remainingJumps, maxJumps;
     RaycastHit groundedHit; // checking to see if we have touched the ground
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
     public float gravityUpMultiplier = 1, gravityDownMultiplier = 1, gravityMidairMultiplier; // our multipliers for moving up and down with gravity
@@ -141,11 +142,13 @@ public class PlayerController : MonoBehaviour
                 bodyPartManager.CallParts("OnMoveDown");
         }
 
-        if (groundedHit.transform != null)
+        if (groundedHit.transform != null || remainingJumps > 0)
         {
             // jumping
-            if (Input.GetKeyDown(KeyCode.Space) && (groundCheckCooldown <= 0))
+            if (Input.GetKeyDown(KeyCode.Space) && (groundCheckCooldown <= 0 || remainingJumps > 0))
             {
+                playerJumpVelocity = 0;
+                remainingJumps--;
                 playerJumpVelocity = Mathf.Sqrt(-jumpVelocity * gravity);
                 groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
                 // instantiate a visual effect
@@ -153,11 +156,15 @@ public class PlayerController : MonoBehaviour
                 // trigger an on jump effect
                 bodyPartManager.CallParts("OnJump");
             }
-            else if (!grounded)
+        }        
+        
+        if (groundedHit.transform != null)
+        {
+            if (!grounded)
             {
                 // instantiate a visual effect
                 Instantiate(landVFX, transform.position, landVFX.transform.rotation, null);
-
+                remainingJumps = maxJumps;
                 playerJumpVelocity = 0f;
                 grounded = true;
                 // trigger an on land effect
