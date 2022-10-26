@@ -11,7 +11,6 @@ public class LoadZoneHandler : MonoBehaviour
 
     // our parameters
     [SerializeField] float zoneWidth, zoneHeight, zoneDepth; // our w, h, and depth of the zone
-
     [SerializeField] GameObject parentObject;
 
     PlayerController playerController;
