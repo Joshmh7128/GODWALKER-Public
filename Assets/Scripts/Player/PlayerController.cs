@@ -195,32 +195,48 @@ public class PlayerController : MonoBehaviour
             {
                 // vfx stuff
                 PlayerCameraController.instance.FOVKickRequest(95, true);
-                if (dashing)
-                {
-                    foreach (GameObject g in dashVFX)
-                    {
-                        g.SetActive(true);
-                    }
-                }
 
                 UseDash();
                 dashing = true; // we are currently dashing
                 dashTime += Time.deltaTime; // count up the dash
-                dashCooldown = dashCooldownMax;
+            }
+
+            // if we're holding and the dash ends
+            if (dashTime >= dashTimeMax)
+            {
+                if (dashCooldown <= 0)
+                {
+                    dashing = false;
+                    playerJumpVelocity = 0;
+                    dashCooldown = dashCooldownMax;
+                }
             }
         }
 
+        // vfx
+        foreach (GameObject g in dashVFX)
+        {
+            g.SetActive(dashing);
+        }
+
         // dash time calculation
-        if (dashTime > 0 && !dashing)
+        if (dashTime >= 0 && !dashing)
         {
             dashTime -= Time.deltaTime;
         }
+
 
         // dash cancel. if we stop midair, that's it
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             dashing = false;
             dashTime = dashTimeMax;
+            // coming out of the end of a dash
+            if (dashCooldown <= 0)
+            {
+                playerJumpVelocity = 0;
+                dashCooldown = dashCooldownMax;
+            }
         }
 
         // dash reset
@@ -290,7 +306,7 @@ public class PlayerController : MonoBehaviour
         Vector3 lmoveV = animationRigParent.forward * pAxisV;
         Vector3 lmoveH = animationRigParent.right * pAxisH;
         // lock to horizontal movement
-        Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, 0, lmoveH.z + lmoveV.z);
+        Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, -playerJumpVelocity / dashSpeed, lmoveH.z + lmoveV.z);
         // move character
         characterController.Move(lmove * dashSpeed * Time.deltaTime);
     }

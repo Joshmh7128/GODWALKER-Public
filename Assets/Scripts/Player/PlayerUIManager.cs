@@ -25,6 +25,7 @@ public class PlayerUIManager : MonoBehaviour
     // our instance of the bodypart manager 
     PlayerBodyPartManager partManager;
     PlayerWeaponManager weaponManager;
+    PlayerController playerController;
 
     // lists concerning bodyparts
     [SerializeField] List<Text> nameDisplays;
@@ -34,6 +35,7 @@ public class PlayerUIManager : MonoBehaviour
     // ui elements
     [SerializeField] CanvasGroup infoCanvasGroup; // the body part canvas group we'll be interacting with
     [SerializeField] HorizontalLayoutGroup abilityLayoutGroup; // our ability layout group
+    [SerializeField] Slider dashSlider; // displays our dash recharge
 
 
     // start
@@ -42,12 +44,20 @@ public class PlayerUIManager : MonoBehaviour
         // set the instance of this
         partManager = PlayerBodyPartManager.instance;
         weaponManager = PlayerWeaponManager.instance;
+        playerController = PlayerController.instance;
     }
 
     private void FixedUpdate()
     {
         // all things we need to process related to our input
         ProcessInput();
+        // process ui
+        ProcessUI();
+    }
+
+    void ProcessUI()
+    {
+        dashSlider.value = playerController.dashCooldown / playerController.dashCooldownMax;
     }
 
     // update our ability UI
