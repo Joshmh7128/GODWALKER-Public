@@ -105,8 +105,9 @@ public class PlayerController : MonoBehaviour
         // declare our motion
         float pAxisV = Input.GetAxisRaw("Vertical");
         float pAxisH = Input.GetAxisRaw("Horizontal");
-        moveV = cameraRig.forward * pAxisV;
-        moveH = cameraRig.right * pAxisH;
+
+        moveV = animationRigParent.forward * pAxisV;
+        moveH = animationRigParent.right * pAxisH;
 
         if (groundCheckCooldown <= 0)
         {
@@ -284,8 +285,8 @@ public class PlayerController : MonoBehaviour
         // declare our motion
         float pAxisV = Input.GetAxisRaw("Vertical");
         float pAxisH = Input.GetAxisRaw("Horizontal");
-        Vector3 lmoveV = cameraRig.forward * pAxisV;
-        Vector3 lmoveH = cameraRig.right * pAxisH;
+        Vector3 lmoveV = animationRigParent.forward * pAxisV;
+        Vector3 lmoveH = animationRigParent.right * pAxisH;
         // lock to horizontal movement
         Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, 0, lmoveH.z + lmoveV.z);
         // move character
@@ -408,7 +409,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            SceneManager.LoadScene("DemoPrototype");
+            SceneManager.LoadScene("Fear Prototype");
         }
 
         if (Input.GetKeyDown(KeyCode.F6))
