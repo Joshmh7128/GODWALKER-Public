@@ -261,6 +261,12 @@ public class PlayerBodyPartManager : MonoBehaviour
     // tell our player UI manager to update the ability UI
     void UpdateAbilityUI()
     {
+        StartCoroutine(Buffer());
+    }
+
+    IEnumerator Buffer()
+    {
+        yield return new WaitForEndOfFrame();
         // Debug.Log("Updating ability UI");
         uiManager.UpdateAbilityUI();
     }

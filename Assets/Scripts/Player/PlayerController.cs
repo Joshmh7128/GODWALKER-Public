@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public float dashSpeed; // how fast we move when dashing
     public float dashTime, dashTimeMax; // how long we dash for
     public bool dashing = false; // are we currently dashing
+    public float dashCooldown, dashCooldownMax;
 
     [Header("Collision and readout")]
     [SerializeField] public float velocity; // our velocity which we only want to read!
@@ -165,13 +166,14 @@ public class PlayerController : MonoBehaviour
         }
 
         // sprint calculation
+        /*
         if (Input.GetKeyDown(KeyCode.LeftShift) && pAxisV > 0.1f && grounded)
         {
             movementState = MovementStates.sprinting;
             PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.sprinting;
             // call on sprint
             bodyPartManager.CallParts("OnSprint");
-        }
+        }*/
 
         // sprint stopping
         if (movementState == MovementStates.sprinting && (pAxisV <= 0.1f || Input.GetMouseButton(1)))
@@ -186,7 +188,7 @@ public class PlayerController : MonoBehaviour
 
         #region // Dashing
         // dash calculation
-        if (Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) > 0.1f || Mathf.Abs(pAxisH) > 0.1f) && !grounded && dashTime <= dashTimeMax)
+        if (Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) > 0.1f || Mathf.Abs(pAxisH) > 0.1f) && dashTime <= dashTimeMax && dashCooldown <= 0)
         {
             // if we can dash
             if (dashTime <= dashTimeMax)
@@ -204,6 +206,7 @@ public class PlayerController : MonoBehaviour
                 UseDash();
                 dashing = true; // we are currently dashing
                 dashTime += Time.deltaTime; // count up the dash
+                dashCooldown = dashCooldownMax;
             }
         }
 
@@ -214,17 +217,16 @@ public class PlayerController : MonoBehaviour
         }
 
         // dash cancel. if we stop midair, that's it
-        if (Input.GetKeyUp(KeyCode.LeftShift) && !grounded)
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             dashing = false;
             dashTime = dashTimeMax;
         }
 
         // dash reset
-        if (grounded && dashTime > 0)
+        if (dashing == false)
         {
-            dashing = false;
-            dashTime = 0;
+            dashCooldown -= Time.deltaTime;
         }
 
         // vfx off
