@@ -25,6 +25,8 @@ public class FearManager : MonoBehaviour
     [SerializeField] Slider finalFearSlider; // the text display in game of our final fear
     [SerializeField] List<Slider> rowSliderDisplay; // the sliders behind our buttons
 
+    public List<fearAmounts> finalAmounts = new List<fearAmounts>(8);
+
     private void Start()
     {
         // assign correct values
@@ -63,6 +65,26 @@ public class FearManager : MonoBehaviour
         { selectedAmounts[row, i] = false; }
         // set active element in that row
         selectedAmounts[row, column] = true;
+        // then set the readout abilities based on which column we're in
+        switch (column)
+        {
+            case 0:
+                finalAmounts[row] = fearAmounts.none;
+                break;
+
+            case 1:
+                finalAmounts[row] = fearAmounts.half;
+                break;
+
+            case 2:
+                finalAmounts[row] = fearAmounts.one;
+                break;
+
+            case 3:
+                finalAmounts[row] = fearAmounts.two;
+                break;
+        }
+
         // reload fear amount
         CalculateFear();
     }
@@ -92,6 +114,7 @@ public class FearManager : MonoBehaviour
         // then display
         finalFearDisplay.text = finalFear.ToString();
         finalFearSlider.value = finalFear;
+
         
     }
 

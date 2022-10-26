@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
             PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.sprinting;
             // call on sprint
             bodyPartManager.CallParts("OnSprint");
-        }*/
+        }
 
         // sprint stopping
         if (movementState == MovementStates.sprinting && (pAxisV <= 0.1f || Input.GetMouseButton(1)))
@@ -189,13 +189,39 @@ public class PlayerController : MonoBehaviour
             PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.normal;
             // call off sprint
             bodyPartManager.CallParts("OffSprint");
-        }
+        }*/
 
         #endregion
 
         #region // Dashing
         // dash calculation
         if (Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) > 0.1f || Mathf.Abs(pAxisH) > 0.1f) && dashTime <= dashTimeMax && dashCooldown <= 0)
+        {
+            // if we can dash
+            if (dashTime <= dashTimeMax)
+            {
+                // vfx stuff
+                PlayerCameraController.instance.FOVKickRequest(95, true);
+
+                UseDash();
+                dashing = true; // we are currently dashing
+                dashTime += Time.deltaTime; // count up the dash
+            }
+
+            // if we're holding and the dash ends
+            if (dashTime >= dashTimeMax)
+            {
+                if (dashCooldown <= 0)
+                {
+                    dashing = false;
+                    playerJumpVelocity = 0;
+                    dashCooldown = dashCooldownMax;
+                }
+            }
+        }
+
+        // dashing from stationary
+        if (Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) < 0.1f || Mathf.Abs(pAxisH) < 0.1f) && dashTime <= dashTimeMax && dashCooldown <= 0)
         {
             // if we can dash
             if (dashTime <= dashTimeMax)
