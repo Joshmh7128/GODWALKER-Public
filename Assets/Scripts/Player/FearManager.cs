@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class FearManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // this script is used to manage the fear levels and changes how the player works when fear is applied
+    // it houses all the stats and displays them
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // build and assign instance
+    static FearManager instance;
+    private void Awake() => instance = this;
+
+    /// all of our fear stats
+    
+    // movement speed
+    public enum moveSpeeds { full, halved, third, quarter };
+    public moveSpeeds moveSpeed;
+    // jumps
+    public enum jumpAmount {  }
+
 }
