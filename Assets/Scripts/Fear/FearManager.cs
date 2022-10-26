@@ -28,9 +28,9 @@ public class FearManager : MonoBehaviour
     {
         // assign correct values
         // loop by row
-        for (int c = 0; c < 3; c++)
+        for (int c = 0; c < 4; c++)
         {
-            for (int r = 0; r < 7; r++)
+            for (int r = 0; r < 8; r++)
             {
                 switch (c)
                 {
@@ -47,7 +47,7 @@ public class FearManager : MonoBehaviour
                         break;
 
                     case 3:
-                        fearValues[r,c] = fearAmounts.two;
+                        fearValues[r,c] = fearAmounts.two; Debug.Log("setting 2");
                         break;
                 }
             }
@@ -58,7 +58,7 @@ public class FearManager : MonoBehaviour
     public void AssignFear(int row, int column)
     {
         // clear row
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         { selectedAmounts[row, i] = false; }
         // set active element in that row
         selectedAmounts[row, column] = true;
@@ -72,10 +72,10 @@ public class FearManager : MonoBehaviour
         finalFear = 0;
 
         // go column by column
-        for (int c = 0; c < 3; c++)
+        for (int c = 0; c < 4; c++)
         {
             // then row by row
-            for (int r = 0; r < 7; r++)
+            for (int r = 0; r < 8; r++)
             {
                 if (selectedAmounts[r, c]) finalFear += (float)fearValues[r, c];
             }
