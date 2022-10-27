@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 moveH, moveV, move;
     [SerializeField] CharacterController characterController; // our character controller
     public float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod, aimMoveMultiplier, moveSpeedAdjust, groundPoundSpeed; // set in editor for controlling
-    [SerializeField] float remainingJumps, maxJumps;
+    public float remainingJumps, maxJumps;
     RaycastHit groundedHit; // checking to see if we have touched the ground
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
     public float gravityUpMultiplier = 1, gravityDownMultiplier = 1, gravityMidairMultiplier; // our multipliers for moving up and down with gravity
@@ -23,7 +23,10 @@ public class PlayerController : MonoBehaviour
     public float dashSpeed; // how fast we move when dashing
     public float dashTime, dashTimeMax; // how long we dash for
     public bool dashing = false; // are we currently dashing
+    public bool canDash = true; // are we able to dash at all?
     public float dashCooldown, dashCooldownMax;
+    public float dashTimeLong, dashTimeLongMax; // our length of dash for long
+    public float dashTimeShort, dashTimeShortMax; // our length of dash for short
 
     [Header("Collision and readout")]
     [SerializeField] public float velocity; // our velocity which we only want to read!
@@ -47,7 +50,7 @@ public class PlayerController : MonoBehaviour
     bool shieldReady, shieldRecharging;
 
     // our weapon management
-    PlayerWeaponManager weaponManager;
+    public PlayerWeaponManager weaponManager;
 
     // body part related
     PlayerBodyPartManager bodyPartManager;
@@ -216,7 +219,7 @@ public class PlayerController : MonoBehaviour
 
         #region // Dashing
         // dash calculation
-        if (Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) > 0.1f || Mathf.Abs(pAxisH) > 0.1f) && dashTime <= dashTimeMax && dashCooldown <= 0)
+        if ((Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) > 0.1f || Mathf.Abs(pAxisH) > 0.1f) && dashTime <= dashTimeMax && dashCooldown <= 0) && canDash ) 
         {
             // if we can dash
             if (dashTime <= dashTimeMax)
@@ -334,8 +337,6 @@ public class PlayerController : MonoBehaviour
         if (movementState == MovementStates.aiming)
         { moveSpeedAdjust = aimMoveMultiplier; sprintParticleSystem.SetActive(false); }
         #endregion
-
-
 
         #region // Movement Application
         float finalMoveSpeed = moveSpeed * moveSpeedAdjust;

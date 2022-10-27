@@ -13,7 +13,7 @@ public class PlayerWeaponManager : MonoBehaviour
     public List<GameObject> weapons = new List<GameObject>();
     public List<Transform> weaponCosmeticStorageSlots = new List<Transform>(); // the list of spaces to keep our weapons
     public WeaponClass currentWeapon; // the current weapon in the player's hands
-    [SerializeField] int currentWeaponInt; 
+    public int currentWeaponInt; 
     [SerializeField] Transform weaponContainer;
     [SerializeField] AudioSource weaponEquipSource; // our weapon equip audio source
     // weapon item
@@ -51,7 +51,7 @@ public class PlayerWeaponManager : MonoBehaviour
         }
 
         // make sure we spawn our cosmetic weapons
-        SpawnCosmeticWeapons();
+        // SpawnCosmeticWeapons();
         // update
         UpdateCurrentWeapon();
     }
@@ -117,7 +117,7 @@ public class PlayerWeaponManager : MonoBehaviour
     }
 
     // when we update our weapon
-    void UpdateCurrentWeapon()
+    public void UpdateCurrentWeapon()
     {
         if (currentWeapon)
         { currentWeapon.CancelReload(); }
@@ -133,12 +133,13 @@ public class PlayerWeaponManager : MonoBehaviour
 
         currentWeapon = weapons[currentWeaponInt].GetComponent<WeaponClass>();
         UpdateCosmeticSlots();
-        StartCoroutine(SwitchWeapon());
+        // StartCoroutine(SwitchWeapon());
     }
 
     // update our cosmetics
     void UpdateCosmeticSlots()
     {
+        /*
         // for each weapon in our inventory, turn their weapon on
         for (int i = 0; i < weapons.Count; i++)
         {
@@ -147,7 +148,7 @@ public class PlayerWeaponManager : MonoBehaviour
         }
 
         // then turn off the renderer of our active weapon in storage
-        weaponCosmeticStorageSlots[currentWeaponInt].gameObject.SetActive(false);
+        weaponCosmeticStorageSlots[currentWeaponInt].gameObject.SetActive(false);*/
     }
 
     void SpawnCosmeticWeapons()

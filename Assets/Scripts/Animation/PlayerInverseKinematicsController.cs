@@ -123,7 +123,11 @@ public class PlayerInverseKinematicsController : MonoBehaviour
         }
 
         targetParent.position = Vector3.Lerp(targetParent.position, topSpine.position, 10f*Time.deltaTime);
-        targetParent.LookAt(targetLook);   
+        targetParent.LookAt(targetLook);
+
+        // set our hand positions to the gun hand positions
+        targetRightHand.position = weaponManager.currentWeapon.rightHandPos.position;
+        targetLeftHand.position = weaponManager.currentWeapon.leftHandPos.position;
     }
 
     private void OnAnimatorIK(int layerIndex)

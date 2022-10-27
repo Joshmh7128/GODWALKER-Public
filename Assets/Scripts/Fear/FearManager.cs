@@ -25,6 +25,11 @@ public class FearManager : MonoBehaviour
     [SerializeField] Slider finalFearSlider; // the text display in game of our final fear
     [SerializeField] List<Slider> rowSliderDisplay; // the sliders behind our buttons
 
+
+    // the player and their stats
+    PlayerController playerController; 
+    float baseSpeed; // the player's base speed
+
     public List<fearAmounts> finalAmounts = new List<fearAmounts>(8);
 
     private void Start()
@@ -50,11 +55,17 @@ public class FearManager : MonoBehaviour
                         break;
 
                     case 3:
-                        fearValues[r,c] = fearAmounts.two; Debug.Log("setting 2");
+                        fearValues[r,c] = fearAmounts.two;
                         break;
                 }
             }
         }
+
+        // setup instance
+        playerController = PlayerController.instance;
+
+        // setting up our values
+        baseSpeed = playerController.moveSpeed; // the player's base movement speed
     }
 
     // public function to assign values
@@ -118,4 +129,94 @@ public class FearManager : MonoBehaviour
         
     }
 
+
+
+    // where we are applying our fear, called by our button
+    public void ApplyFear()
+    {
+        // movement speed application, check row 0 and see what it needs to be
+        // movement speed
+        switch (finalAmounts[0])
+        {
+            case fearAmounts.none:
+                playerController.moveSpeed = baseSpeed;
+                break;
+
+            case fearAmounts.half:
+                playerController.moveSpeed = baseSpeed / 2;
+                break;
+
+            case fearAmounts.one:
+                playerController.moveSpeed = baseSpeed / 3;
+                break;
+
+            case fearAmounts.two:
+                playerController.moveSpeed = baseSpeed / 4;
+                break;
+        }        
+        
+        // jump amounts
+        switch (finalAmounts[1])
+        {
+            case fearAmounts.none:
+                playerController.maxJumps = 2;
+                break;
+
+            case fearAmounts.half:
+                playerController.maxJumps = 1;
+                break;
+
+            case fearAmounts.one:
+                playerController.maxJumps = 0;
+                break;
+
+            case fearAmounts.two:
+                playerController.maxJumps = 0;
+                break;
+        }
+
+        // dash amounts
+        switch (finalAmounts[2])
+        {
+            case fearAmounts.none:
+                playerController.dashTimeMax = playerController.dashTimeLongMax;
+                break;
+
+            case fearAmounts.half:
+                playerController.dashTimeMax = playerController.dashTimeShortMax;
+                break;
+
+            case fearAmounts.one:
+                playerController.canDash = false;
+                break;
+
+            case fearAmounts.two:
+                playerController.canDash = false;
+                break;
+        }
+
+        // guns amounts
+        switch (finalAmounts[3])
+        {
+            case fearAmounts.none:
+                playerController.weaponManager.currentWeaponInt = 0;
+                playerController.weaponManager.UpdateCurrentWeapon();
+                break;
+
+            case fearAmounts.half:
+                playerController.weaponManager.currentWeaponInt = 1;
+                playerController.weaponManager.UpdateCurrentWeapon();
+                break;
+
+            case fearAmounts.one:
+                playerController.weaponManager.currentWeaponInt = 2;
+                playerController.weaponManager.UpdateCurrentWeapon();
+                break;
+
+            case fearAmounts.two:
+                playerController.weaponManager.currentWeaponInt = 3;
+                playerController.weaponManager.UpdateCurrentWeapon();
+                break;
+        }
+    }
 }
