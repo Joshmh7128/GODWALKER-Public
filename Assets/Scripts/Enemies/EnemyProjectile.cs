@@ -22,7 +22,7 @@ public class EnemyProjectile : MonoBehaviour
     public float damage; // how much damage does this deal?
 
     // our curve speed
-    [SerializeField] float homingSpeed, homingDistanceDelta; // how fast we home towards the player
+    [SerializeField] float homingDistanceDelta; // the distance at which we stop homing towards the player
     [SerializeField] float curveSpeed; // how fast we curve in any direction
     Vector3 curveVector; // our curve vector
     [SerializeField] float ringExpandSpeed; // how fast the rings expand from this enemy
