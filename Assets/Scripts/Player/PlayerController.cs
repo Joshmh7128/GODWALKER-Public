@@ -148,7 +148,6 @@ public class PlayerController : MonoBehaviour
         #region // Ground Pound Processing
         if (Input.GetKeyDown(KeyCode.Space) && !grounded && remainingJumps <= 0)
         {
-            Instantiate(groundPoundJumpFX, transform.position, groundPoundJumpFX.transform.rotation, null);
             // if we're out of jumps and we press space, we ground pound
             // stop all horizontal movement
             moveH = Vector3.zero; moveV = Vector3.zero;
@@ -180,8 +179,6 @@ public class PlayerController : MonoBehaviour
             {
                 // instantiate a visual effect
                 Instantiate(landVFX, transform.position, landVFX.transform.rotation, null);
-                if (groundPounding)
-                Instantiate(groundPoundPrefab, transform.position, landVFX.transform.rotation, null);
                 remainingJumps = maxJumps;
                 playerJumpVelocity = 0f;
                 grounded = true;

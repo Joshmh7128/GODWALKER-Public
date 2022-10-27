@@ -22,7 +22,7 @@ public class EnemyProjectile : MonoBehaviour
     public float damage; // how much damage does this deal?
 
     // our curve speed
-    [SerializeField] float homingSpeed; // how fast we home towards the player
+    [SerializeField] float homingSpeed, homingDistanceDelta; // how fast we home towards the player
     [SerializeField] float curveSpeed; // how fast we curve in any direction
     Vector3 curveVector; // our curve vector
     [SerializeField] float ringExpandSpeed; // how fast the rings expand from this enemy
@@ -153,7 +153,7 @@ public class EnemyProjectile : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(newDirection);
 
         // once we get close enough to the player, stop homing
-        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < 6)
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < homingDistanceDelta)
         {
             projectileType = ProjectileTypes.kinematic;
         }

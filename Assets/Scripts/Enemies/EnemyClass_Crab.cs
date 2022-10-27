@@ -23,18 +23,23 @@ public class EnemyClass_Crab : EnemyClass
         hurtHandler.KickLookPos(30f);
     }
 
+
     public override void SetLevelStats()
     {
-        // set our level to the active arena
-        if (ArenaManager.instance.activeArena)
-        level = ArenaManager.instance.activeArena.arenaLevel;
 
+        // set our level to the active arena
+        try
+        {
+           if (ArenaManager.instance.activeArena)
+            level = ArenaManager.instance.activeArena.arenaLevel;
+        } catch { }
+        /*
         // set our health
         maxHealth = (level + level * 0.15f) * baseHealth; // crabs have 100hp per level
         health = maxHealth;
         // set our damage
         // damage = level * (2 + level * 0.1f); // this is a standard curve
-        damage = 10; // set our basic damage
+        damage = 10; // set our basic damage*/
     }
 
 }
