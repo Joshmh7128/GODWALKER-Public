@@ -111,6 +111,8 @@ public class PlayerCameraController : MonoBehaviour
         // apply it to our head
         cameraRig.eulerAngles = new Vector3(finalyRotate, finalxRotate, 0f);
 
+        #region // old aiming
+        /*
         // aiming if we're not sprinting
         if (FOVMode != FOVModes.sprinting)
         {
@@ -128,7 +130,8 @@ public class PlayerCameraController : MonoBehaviour
                 FOVMode = FOVModes.normal;
                 bodyPartManager.CallParts("OffADS");
             }
-        }
+        }*/
+        #endregion
     }
 
     // our forward rayast to check for interactables

@@ -18,8 +18,6 @@ public class PlayerController : MonoBehaviour
     public Vector3 lastGroundedPos; // the last position we were at when we were grounded
     float groundTime = 0; // how long we've been grounded
 
-
-
     // dash related
     [Header("Dash Management")]
     public float dashSpeed; // how fast we move when dashing
@@ -43,13 +41,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float realignSpeed; // how quickly we align
     [SerializeField] List<GameObject> dashVFX; // our list of dash fx
 
+    [Header("Shield Management")]
+    [SerializeField] GameObject shieldParent; // the parent of our shield
+    public float shieldUptime, shieldUptimeMax, shieldRechargeTime, shieldRechargeMax; // our shield time, and how long our shield can be up for
+    bool shieldReady, shieldRecharging;
+
     // our weapon management
     PlayerWeaponManager weaponManager;
 
     // body part related
     PlayerBodyPartManager bodyPartManager;
     // ground pound
-    [SerializeField] bool groundPounding;
     [SerializeField] GameObject groundPoundPrefab;
     [SerializeField] GameObject groundPoundJumpFX;
     // setup our instance
@@ -97,6 +99,9 @@ public class PlayerController : MonoBehaviour
             ProcessWeaponControl();
             // reloading
             ProcessReloadControl();
+            // shield control
+            ProcessShieldControl();
+
         }
 
         // resetting the scene
@@ -153,7 +158,6 @@ public class PlayerController : MonoBehaviour
             moveH = Vector3.zero; moveV = Vector3.zero;
             // set vertical movement to ground pound speed
             playerJumpVelocity += groundPoundSpeed;
-            groundPounding = true;
         }
         #endregion
 
@@ -182,12 +186,12 @@ public class PlayerController : MonoBehaviour
                 remainingJumps = maxJumps;
                 playerJumpVelocity = 0f;
                 grounded = true;
-                groundPounding = false;
                 // trigger an on land effect
                 bodyPartManager.CallParts("OnLand");
             }
         }
 
+        #region // old sprint
         // sprint calculation
         /*
         if (Input.GetKeyDown(KeyCode.LeftShift) && pAxisV > 0.1f && grounded)
@@ -206,6 +210,7 @@ public class PlayerController : MonoBehaviour
             // call off sprint
             bodyPartManager.CallParts("OffSprint");
         }*/
+        #endregion
 
         #endregion
 
@@ -369,6 +374,44 @@ public class PlayerController : MonoBehaviour
 
         // move character
         characterController.Move(lmove * dashSpeed * Time.deltaTime);
+    }
+
+    void ProcessShieldControl()
+    {
+        // we activate our shield with right click
+        if (Input.GetMouseButtonDown(1) && shieldRechargeTime <= 0 && shieldUptime < 0)
+        {
+            shieldParent.SetActive(true);
+            shieldUptime = shieldUptimeMax; // set our time to max
+            shieldReady = false;
+        }
+
+        // lower shield uptime
+        if (shieldUptime >= 0)
+        {
+            shieldUptime -= Time.deltaTime;
+        }
+
+        // once the shield is done, start the cooldown
+        if (shieldUptime < 0 && !shieldReady && !shieldRecharging)
+        {
+            shieldParent.SetActive(false);
+            shieldRecharging = true;
+            shieldRechargeTime = shieldRechargeMax; // begin cooldown
+        }
+
+        // when the shield is recharged and the uptime is recharged, make our shield ready
+        if (shieldRecharging)
+        {
+            shieldRechargeTime -= Time.deltaTime;
+            if (shieldRechargeTime < 0)
+            {
+                shieldReady = true;
+                shieldRecharging = false;
+            }
+        }
+
+
     }
 
     RaycastHit adjusterHit;
