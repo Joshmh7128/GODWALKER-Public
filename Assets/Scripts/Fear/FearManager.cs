@@ -225,16 +225,19 @@ public class FearManager : MonoBehaviour
             case fearAmounts.none:
                 playerController.canDeflect = true;
                 playerController.shieldRechargeMax = playerController.shieldRechargeMaxFast; // fast recharge
+                playerController.shieldUptimeMax = playerController.shieldRechargeMaxFast; // 'fast' use time (3 seconds)
                 break;
 
             case fearAmounts.half:
                 playerController.canDeflect = true;
-                playerController.shieldRechargeMax = playerController.shieldRechargeMaxSlow; // fast recharge
+                playerController.shieldRechargeMax = playerController.shieldRechargeMaxSlow; // slow recharge
+                playerController.shieldUptimeMax = playerController.shieldRechargeMaxSlow;
                 break;
 
             case fearAmounts.one:
                 playerController.canDeflect = true;
-                playerController.shieldRechargeMax = playerController.shieldRechargeMaxVerySlow; // fast recharge
+                playerController.shieldRechargeMax = playerController.shieldRechargeMaxVerySlow; // very slow recharge
+                playerController.shieldUptimeMax = playerController.shieldRechargeMaxVerySlow;
                 break;
 
             case fearAmounts.two:

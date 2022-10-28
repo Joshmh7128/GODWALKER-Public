@@ -1853,7 +1853,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3610135524854114176}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.000011030585}
+  m_LocalPosition: {x: 0, y: 0, z: 0.000012978329}
   m_LocalScale: {x: 0.5625, y: 0.5625, z: 0.5625}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1864,7 +1864,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -243.17883, y: -350.92416}
+  m_AnchoredPosition: {x: 316.78674, y: -350.92416}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4948818551769910770
@@ -17427,7 +17427,7 @@ MonoBehaviour:
   infoCanvasGroup: {fileID: 7279873545021395042}
   abilityLayoutGroup: {fileID: 7279873546078083271}
   dashSlider: {fileID: 1828773422926791888}
-  shieldSlider: {fileID: 0}
+  shieldSlider: {fileID: 4948818551769910770}
 --- !u!1 &7279873545063388280
 GameObject:
   m_ObjectHideFlags: 0
@@ -21646,10 +21646,13 @@ MonoBehaviour:
   shieldUptimeMax: 3
   shieldRechargeTime: 0
   shieldRechargeMax: 5
-  shieldRechargeMaxFast: 0
-  shieldRechargeMaxSlow: 0
-  shieldRechargeMaxVerySlow: 0
-  canDeflect: 0
+  shieldRechargeMaxFast: 5
+  shieldRechargeMaxSlow: 6
+  shieldRechargeMaxVerySlow: 7
+  shieldUptimeMaxFast: 3
+  shieldUptimeMaxSlow: 2
+  shieldUptimeMaxVerySlow: 1
+  canDeflect: 1
   weaponManager: {fileID: 0}
   groundPoundPrefab: {fileID: 152564, guid: 68cf7eef224702345b79f5a7ae7723be, type: 3}
   groundPoundJumpFX: {fileID: 931352995334258111, guid: 98f7926d3e427bd468a617a094833e76, type: 3}

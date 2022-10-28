@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     public float shieldUptime, shieldUptimeMax, shieldRechargeTime, shieldRechargeMax; // our shield time, and how long our shield can be up for
     bool shieldReady, shieldRecharging;
     public float shieldRechargeMaxFast, shieldRechargeMaxSlow, shieldRechargeMaxVerySlow;
+    public float shieldUptimeMaxFast, shieldUptimeMaxSlow, shieldUptimeMaxVerySlow;
     public bool canDeflect; // can we deflect?
 
     // our weapon management
