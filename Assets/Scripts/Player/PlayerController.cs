@@ -93,6 +93,7 @@ public class PlayerController : MonoBehaviour
     {
         // refresh out movement abilities
         remainingJumps = maxJumps;
+        dashCooldown = 0;
     }
 
     // Update is called once per frame
