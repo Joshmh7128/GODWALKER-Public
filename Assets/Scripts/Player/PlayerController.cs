@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject shieldParent; // the parent of our shield
     public float shieldUptime, shieldUptimeMax, shieldRechargeTime, shieldRechargeMax; // our shield time, and how long our shield can be up for
     bool shieldReady, shieldRecharging;
+    public float shieldRechargeMaxFast, shieldRechargeMaxSlow, shieldRechargeMaxVerySlow;
+    public bool canDeflect; // can we deflect?
 
     // our weapon management
     public PlayerWeaponManager weaponManager;
@@ -110,8 +112,8 @@ public class PlayerController : MonoBehaviour
             // reloading
             ProcessReloadControl();
             // shield control
+            if (canDeflect)
             ProcessShieldControl();
-
         }
 
         // resetting the scene
@@ -384,11 +386,13 @@ public class PlayerController : MonoBehaviour
         characterController.Move(lmove * dashSpeed * Time.deltaTime);
     }
 
+    // shield control
     void ProcessShieldControl()
     {
         // we activate our shield with right click
         if (Input.GetMouseButtonDown(1) && shieldRechargeTime <= 0 && shieldUptime < 0)
         {
+            Debug.Log("shield clicked");
             shieldParent.SetActive(true);
             shieldUptime = shieldUptimeMax; // set our time to max
             shieldReady = false;

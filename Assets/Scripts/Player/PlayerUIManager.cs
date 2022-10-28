@@ -36,6 +36,8 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] CanvasGroup infoCanvasGroup; // the body part canvas group we'll be interacting with
     [SerializeField] HorizontalLayoutGroup abilityLayoutGroup; // our ability layout group
     [SerializeField] Slider dashSlider; // displays our dash recharge
+    [SerializeField] Slider shieldSlider; // displays our shield recharge
+
 
 
     // start
@@ -58,6 +60,7 @@ public class PlayerUIManager : MonoBehaviour
     void ProcessUI()
     {
         dashSlider.value = playerController.dashCooldown / playerController.dashCooldownMax;
+        shieldSlider.value = playerController.shieldRechargeTime / playerController.shieldRechargeMax;
     }
 
     // update our ability UI

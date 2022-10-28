@@ -218,5 +218,52 @@ public class FearManager : MonoBehaviour
                 playerController.weaponManager.UpdateCurrentWeapon();
                 break;
         }
+
+        // shield values
+        switch (finalAmounts[4])
+        {
+            case fearAmounts.none:
+                playerController.canDeflect = true;
+                playerController.shieldRechargeMax = playerController.shieldRechargeMaxFast; // fast recharge
+                break;
+
+            case fearAmounts.half:
+                playerController.canDeflect = true;
+                playerController.shieldRechargeMax = playerController.shieldRechargeMaxSlow; // fast recharge
+                break;
+
+            case fearAmounts.one:
+                playerController.canDeflect = true;
+                playerController.shieldRechargeMax = playerController.shieldRechargeMaxVerySlow; // fast recharge
+                break;
+
+            case fearAmounts.two:
+                playerController.canDeflect = false;
+                break;
+        }
+
+        // health values
+        switch (finalAmounts[4])
+        {
+            case fearAmounts.none:
+                PlayerStatManager.instance.maxHealth = 10;
+                PlayerStatManager.instance.health = 10;
+                break;
+
+            case fearAmounts.half:
+                PlayerStatManager.instance.maxHealth = 10;
+                PlayerStatManager.instance.health = 10;
+                break;
+
+            case fearAmounts.one:
+                PlayerStatManager.instance.maxHealth = 10;
+                PlayerStatManager.instance.health = 10;
+                break;
+
+            case fearAmounts.two:
+                PlayerStatManager.instance.maxHealth = 10;
+                PlayerStatManager.instance.health = 1;
+                break;
+        }
     }
 }
