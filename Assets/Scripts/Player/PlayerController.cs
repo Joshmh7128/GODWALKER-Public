@@ -89,6 +89,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        // refresh out movement abilities
+        remainingJumps = maxJumps;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -164,7 +170,7 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
-        if (groundedHit.transform != null || remainingJumps > 0)
+        if ((groundedHit.transform != null || remainingJumps > 0) && maxJumps > 0)
         {
             // jumping
             if (Input.GetKeyDown(KeyCode.Space) && (groundCheckCooldown <= 0 || remainingJumps > 0))
