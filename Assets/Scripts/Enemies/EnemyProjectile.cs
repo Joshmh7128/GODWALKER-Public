@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
@@ -12,6 +13,8 @@ public class EnemyProjectile : MonoBehaviour
     }
 
     public ProjectileTypes projectileType, originalBehaviour;
+    Vector3 localStartPosition; // our local start position
+    quaternion localStartRotation; // our local start rotation
     [SerializeField] float speed; // how fast this projectile moves kinematically, or how hard it is launched
     Rigidbody localRigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
@@ -21,6 +24,8 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] int deathTime; // how long to death
     [SerializeField] float openLifetime = 6f;
     public float damage; // how much damage does this deal?
+
+    bool startRun = false;
 
     // our curve speed
     [SerializeField] float homingDistanceDelta; // the distance at which we stop homing towards the player
@@ -33,11 +38,13 @@ public class EnemyProjectile : MonoBehaviour
 
 
     // start runs at the start
-    private void Start()
+    void Start()
     {
         // grab our original behaivour
         originalBehaviour = projectileType;
-
+        // get our local start position
+        localStartPosition = transform.position;
+        // then run our start body
         StartBody();
     }
 
@@ -45,6 +52,7 @@ public class EnemyProjectile : MonoBehaviour
     {
         // set our type to our behaviour
         projectileType = originalBehaviour;
+
 
         // setup our rigidbody
         localRigidbody = GetComponent<Rigidbody>();
@@ -73,7 +81,7 @@ public class EnemyProjectile : MonoBehaviour
         if (projectileType == ProjectileTypes.curves)
         {
             // calculate our curve vector
-            curveVector = new Vector3(Random.Range(-curveSpeed, curveSpeed), Random.Range(-curveSpeed, curveSpeed), Random.Range(-curveSpeed, curveSpeed));
+            curveVector = new Vector3(UnityEngine.Random.Range(-curveSpeed, curveSpeed), UnityEngine.Random.Range(-curveSpeed, curveSpeed), UnityEngine.Random.Range(-curveSpeed, curveSpeed));
         }
 
         if (projectileType == ProjectileTypes.homing)
@@ -90,11 +98,21 @@ public class EnemyProjectile : MonoBehaviour
             // expand
             // transform.localScale += new Vector3(ringExpandSpeed, 0, ringExpandSpeed);
         }
+
     }
 
     // rerun the start on enable
     private void OnEnable()
     {
+        if (startRun)
+        {
+            // set our position
+            transform.position = localStartPosition;
+
+            transform.rotation = localStartRotation;
+        }
+        startRun = true;
+
         StartBody();
     }
 
@@ -236,8 +254,6 @@ public class EnemyProjectile : MonoBehaviour
         if (pooled)
         {
             gameObject.SetActive(false);
-            transform.position = Vector3.zero;
-            transform.eulerAngles = Vector3.zero;
         }
     }
 

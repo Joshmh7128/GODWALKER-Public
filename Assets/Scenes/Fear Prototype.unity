@@ -9892,6 +9892,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 489894983}
   m_CullTransparentMesh: 1
+--- !u!1 &508398621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 508398622}
+  - component: {fileID: 508398623}
+  m_Layer: 0
+  m_Name: Spawn Four Rings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &508398622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508398621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1064189849}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &508398623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508398621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a5689a860f62d4389ceee363bcc3a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  complete: 0
+  enemyClass: {fileID: 579847069084289545}
+  behaviourTime: 0.1
+  behaviourTimeRand: 0
+  projectile: {fileID: 8017820850718276753, guid: 7a2a94237b56a604f99195f6fad840b5, type: 3}
+  projectileOrigin: {fileID: 401828006}
+  fireAmount: 4
+  fireRate: 0.5
+  pooledProjectiles: []
 --- !u!43 &517706945
 Mesh:
   m_ObjectHideFlags: 0
@@ -17420,8 +17474,8 @@ MonoBehaviour:
   behaviourTimeRand: 0
   projectile: {fileID: 8768527373532932189, guid: 1a21c69eac8e8504fbf4e9f1dbd03f76, type: 3}
   projectileOrigin: {fileID: 1177062961}
-  fireAmount: 100
-  fireRate: 0.01
+  fireAmount: 10
+  fireRate: 0.1
   pooledProjectiles: []
 --- !u!43 &988687809
 Mesh:
@@ -18538,6 +18592,8 @@ Transform:
   - {fileID: 1570607585}
   - {fileID: 280167534}
   - {fileID: 978965532}
+  - {fileID: 1673775157}
+  - {fileID: 508398622}
   m_Father: {fileID: 579847069084289558}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26524,6 +26580,60 @@ RectTransform:
   m_AnchoredPosition: {x: -5.000183, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1673775156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1673775157}
+  - component: {fileID: 1673775158}
+  m_Layer: 0
+  m_Name: Spawn Two Walls
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1673775157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673775156}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1064189849}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1673775158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673775156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a5689a860f62d4389ceee363bcc3a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  complete: 0
+  enemyClass: {fileID: 579847069084289545}
+  behaviourTime: 1
+  behaviourTimeRand: 0
+  projectile: {fileID: 4914185661430058445, guid: e171b1ae3827c6844b6634a50070d82d, type: 3}
+  projectileOrigin: {fileID: 1177062961}
+  fireAmount: 100
+  fireRate: 0.1
+  pooledProjectiles: []
 --- !u!1 &1676881230
 GameObject:
   m_ObjectHideFlags: 0

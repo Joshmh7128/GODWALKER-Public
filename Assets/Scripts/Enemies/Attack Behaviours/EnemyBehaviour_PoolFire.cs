@@ -70,13 +70,28 @@ public class EnemyBehaviour_PoolFire : EnemyBehaviour
                 temp.transform.position = position;
                 temp.transform.rotation = rotation;
                 temp.SetActive(true);
+                SetChildrenActiveRecursively(temp.transform);
                 return temp;
             }
 
         }
 
         GameObject newSpawn = Instantiate(prefab, position, rotation);
+
         pooledProjectiles.Add(newSpawn); // add our new projetile to the list
         return newSpawn;
+    }
+
+    void SetChildrenActiveRecursively(Transform parent)
+    {
+        // if this parent has children, get the children of their children
+        if (parent.childCount > 0)
+        {
+            foreach (Transform child in parent)
+            {
+                child.gameObject.SetActive(true);
+                SetChildrenActiveRecursively(child);
+            }
+        }
     }
 } 
