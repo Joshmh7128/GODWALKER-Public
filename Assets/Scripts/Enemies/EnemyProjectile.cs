@@ -11,12 +11,13 @@ public class EnemyProjectile : MonoBehaviour
         kinematic, physics, curves, homing, ring
     }
 
-    public ProjectileTypes projectileType;
+    public ProjectileTypes projectileType, originalBehaviour;
     [SerializeField] float speed; // how fast this projectile moves kinematically, or how hard it is launched
     Rigidbody localRigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
     [SerializeField] bool facePlayer; // do we face the player
     [SerializeField] bool invincible; // are we invincible?
+    [SerializeField] bool pooled; // is this pooled?
     [SerializeField] int deathTime; // how long to death
     [SerializeField] float openLifetime = 6f;
     public float damage; // how much damage does this deal?
@@ -34,6 +35,17 @@ public class EnemyProjectile : MonoBehaviour
     // start runs at the start
     private void Start()
     {
+        // grab our original behaivour
+        originalBehaviour = projectileType;
+
+        StartBody();
+    }
+
+    void StartBody()
+    {
+        // set our type to our behaviour
+        projectileType = originalBehaviour;
+
         // setup our rigidbody
         localRigidbody = GetComponent<Rigidbody>();
 
@@ -76,8 +88,14 @@ public class EnemyProjectile : MonoBehaviour
         if (projectileType == ProjectileTypes.ring)
         {
             // expand
-             // transform.localScale += new Vector3(ringExpandSpeed, 0, ringExpandSpeed);
+            // transform.localScale += new Vector3(ringExpandSpeed, 0, ringExpandSpeed);
         }
+    }
+
+    // rerun the start on enable
+    private void OnEnable()
+    {
+        StartBody();
     }
 
     // our physics start
@@ -209,8 +227,18 @@ public class EnemyProjectile : MonoBehaviour
         // spawn a deathobject
         if (deathObject)
         Instantiate(deathObject, transform.position, Quaternion.identity, null);
-        // then destroy
+
+        // then destroy if we're not pooled
+        if (!pooled)
         Destroy(gameObject);
+
+        // if we are pooled then disable and reset position
+        if (pooled)
+        {
+            gameObject.SetActive(false);
+            transform.position = Vector3.zero;
+            transform.eulerAngles = Vector3.zero;
+        }
     }
 
     IEnumerator DeathCountdown()
