@@ -20,11 +20,12 @@ public class PlayerMenuController : MonoBehaviour
 
     public void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             playerActive = !playerActive;
             SetActive();
-        }
+        }*/
     }
 
     void SetActive()

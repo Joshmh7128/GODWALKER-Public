@@ -11,5 +11,27 @@ public class FearCard : MonoBehaviour
     // our fear manager
     FearManager fearManager;
 
+    public enum fearTypes
+    {
+        movementSpeed, 
+        jumping, 
+        dashing,
+        shootingSpeed, 
+        deflecting,
+        health, 
+        projectileSpeed
+    }
+
+    private void Start()
+    {
+        // get our instance
+        fearManager = FearManager.instance;
+    }
+
+    // when this card is picked up, choose and apply its effects
+    void Pickup()
+    {
+
+    }
 
 }

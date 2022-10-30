@@ -25,6 +25,7 @@ public class FearManager : MonoBehaviour
 
         foreach (Effect effect in effects)
         {
+            effect.ResetEffect();
             effect.StartEffect();
         }
     }
@@ -54,6 +55,11 @@ public abstract class Effect : MonoBehaviour
     public string effectType; // our effect type as a string
     [HideInInspector] public string effectInfo; // public info about what our effect does
     public List<string> effectInfos; // the list of the different infos we can swap between
+
+    public void ResetEffect()
+    {
+        effectStage = 0;
+    }
 
     public abstract void StartEffect(); // a manually run start function
 

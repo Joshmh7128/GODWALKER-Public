@@ -34,6 +34,10 @@ public class ArenaHandler : MonoBehaviour
     // our arena level
     public int arenaLevel;
 
+    // our boss
+    public GameObject bossEnemy; // the single boss enemy we want to enable
+
+
     // everything to do with upgrades
     [SerializeField] Transform upgradeSpawnPoint; // where the upgrade spawns
     [SerializeField] GameObject bodyPartItem; // an empty body part item prefab
@@ -44,7 +48,7 @@ public class ArenaHandler : MonoBehaviour
     public enum ArenaModes
     {
         Wave, // wave based combat
-        Single, // one single combat
+        Boss, // one boss combat
         GoalAmount // keep as many enemies in the environment as you can
     }
 
@@ -92,12 +96,22 @@ public class ArenaHandler : MonoBehaviour
         if (combatBegun)
         {
             if (arenaMode == ArenaModes.GoalAmount)
-            ProcessGoalAmount();
+                ProcessGoalAmount();
 
             if (arenaMode == ArenaModes.Wave)
-            {
                 ProcessWave();
-            }
+
+            if (arenaMode == ArenaModes.Boss)
+                ProcessBoss();
+        }
+    }
+
+    // process our boss
+    void ProcessBoss()
+    {
+        if (!bossEnemy.activeInHierarchy)
+        {
+            bossEnemy.SetActive(true);
         }
     }
 
@@ -252,15 +266,20 @@ public class ArenaHandler : MonoBehaviour
         combatBegun = true;
         // set ourselves as the active arena in the arena manager
         arenaManager.activeArena = this;
-        // activate all enemies
-        foreach (Transform transform in activeParent)
+
+        // for waves
+        if (arenaMode == ArenaModes.Wave)
         {
-            transform.GetComponent<EnemyClass>().ManualBehaviourStart();
-        }    
-        // run the combat start on our doors
-        foreach (DoorScript door in doors)
-        {
-            door.CombatBegin();
+            // activate all enemies
+            foreach (Transform transform in activeParent)
+            {
+                transform.GetComponent<EnemyClass>().ManualBehaviourStart();
+            }
+            // run the combat start on our doors
+            foreach (DoorScript door in doors)
+            {
+                door.CombatBegin();
+            }
         }
 
     }
@@ -272,81 +291,24 @@ public class ArenaHandler : MonoBehaviour
         if (!combatComplete)
         {
             combatComplete = true;
+            if (arenaMode == ArenaModes.Wave)
             CheckCombatCompletion();
-            SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro);
+            try { SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro); } catch { }
 
             StartCoroutine(ShowWaveMessage("Combat Complete"));
             // spawn our new body part from the list
             // 50/50 chance to get the next in the same set
-            CreateBodyPartItem(bodyPartObject);
+            // CreateBodyPartItem(bodyPartObject);
 
         }
 
     }
 
-    // create a body part set
-    void CreateBodyPartItem(bool special)
-    {
-        // if we are not special
-        if (!special)
-        {
-            // 50/50 chance to generate main or alternate
-            int c = Random.Range(0, 100); 
-            // spawn a main bodypart at the upgade spawn point
-            if (c < 50)
-            { 
-                // if we havent spawned all items yet
-                if (arenaManager.mainIndex <= arenaManager.mainSet.Count)
-                {
-                    // spawn in a body part item and then add the associated upgrade to that item
-                    BodyPartItem item = Instantiate(bodyPartItem, upgradeSpawnPoint).GetComponent<BodyPartItem>();
-                    // set the bodypart
-                    item.bodyPartObject = Instantiate(arenaManager.mainSet[arenaManager.mainIndex], new Vector3(9999, 9999, 9999), Quaternion.identity);
-                    // then add one to the main index so we get another one next
-                    arenaManager.mainIndex++;
-                }
-
-                // if we have then spawn a special 
-                // SpawnSpecialItem();
-
-            } 
-            
-            // spawn an alternate bodypart at the upgade spawn point
-            if (c >= 50)
-            {
-                // if we havent spawned all items yet
-                if (arenaManager.alternateIndex <= arenaManager.alternateSet.Count)
-                {
-                    BodyPartItem item = Instantiate(bodyPartItem, upgradeSpawnPoint).GetComponent<BodyPartItem>();
-
-                    item.bodyPartObject = Instantiate(arenaManager.alternateSet[arenaManager.alternateIndex], new Vector3(9999, 9999, 9999), Quaternion.identity);
-                    // then add one to the main index so we get another one next
-                    arenaManager.alternateIndex++;
-                }
-
-                // if we have then spawn a special 
-                // SpawnSpecialItem();
-            }
-        }
-
-        // spawn a special
-        if (special) SpawnSpecialItem();
-    }
-
+   
     void CreateBodyPartItem(GameObject bodyPart)
     {
         // spawn in a body part item and then add the associated upgrade to that item
         Instantiate(bodyPart, upgradeSpawnPoint.position, Quaternion.identity);
-    }
-
-    void SpawnSpecialItem()
-    {
-        BodyPartItem item = Instantiate(bodyPartItem, upgradeSpawnPoint).GetComponent<BodyPartItem>();
-        int i = Random.Range(0, arenaManager.specialSet.Count);
-        item.bodyPartObject = Instantiate(arenaManager.specialSet[i], new Vector3(9999, 9999, 9999), Quaternion.identity);
-
-        // then remove the part from the list so we cant spawn it again
-        arenaManager.specialSet.Remove(arenaManager.specialSet[i]);
     }
 
     // check out combat completion

@@ -107,9 +107,9 @@ public class EnemyProjectile : MonoBehaviour
         if (startRun)
         {
             // set our position
-            transform.position = localStartPosition;
+            //transform.position = localStartPosition;
 
-            transform.rotation = localStartRotation;
+            //transform.rotation = localStartRotation;
         }
         startRun = true;
 
@@ -213,6 +213,13 @@ public class EnemyProjectile : MonoBehaviour
             {
                 // trigger a hurt on the stat manager
                 statManager.TakeDamage(damage); // oof ouch yikes
+            }            
+            
+            // what did we hit?
+            if (other.transform.tag == "Shield")
+            {
+                // spawn one of the player's projectiles as a homing bullet
+                Instantiate(PlayerWeaponManager.instance.currentWeapon.bulletPrefab, transform.position, Quaternion.identity).GetComponent<PlayerProjectileScript>().isHoming = true;
             }
 
             // always destroy
