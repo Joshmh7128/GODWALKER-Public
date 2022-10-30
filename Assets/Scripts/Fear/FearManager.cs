@@ -25,6 +25,11 @@ public class FearManager : MonoBehaviour
     [SerializeField] Slider finalFearSlider; // the text display in game of our final fear
     [SerializeField] List<Slider> rowSliderDisplay; // the sliders behind our buttons
 
+    public enum fearTypes
+    {
+        movementSpeed, jump, dash, weapon, deflect, health, projectileSpeed
+    }
+
 
     // the player and their stats
     PlayerController playerController; 
@@ -287,5 +292,16 @@ public class FearManager : MonoBehaviour
                 PlayerWeaponManager.instance.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 3.125f;
                 break;
         }
+    }
+
+    // public functions to advance and retract our different effects
+    public void ModifyAttribute(fearTypes type, bool increase)
+    {
+        // for all types other than health
+        if (type != fearTypes.health)
+        {
+
+        }
+
     }
 }

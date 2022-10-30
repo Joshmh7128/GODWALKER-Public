@@ -41,10 +41,10 @@ public class FearCard : MonoBehaviour
         {
             choices.Add(i);
         }
-        // assign and remove our first choice
+        // assign and remove our first stat to modify
         firstChoice = (fearChoices)choices[Random.Range(0,choices.Count)];
         choices.Remove((int)firstChoice);
-        // assign our second choice
+        // assign our second stat to modify
         secondChoice = (fearChoices)choices[Random.Range(0, choices.Count)];
 
         // now that we have our categories, change our values based off of what our fear manager has
