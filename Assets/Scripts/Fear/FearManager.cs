@@ -66,6 +66,9 @@ public class FearManager : MonoBehaviour
 
         // setting up our values
         baseSpeed = playerController.moveSpeed; // the player's base movement speed
+
+        // run our calculations
+        CalculateFear();
     }
 
     // public function to assign values
@@ -125,11 +128,7 @@ public class FearManager : MonoBehaviour
         // then display
         finalFearDisplay.text = finalFear.ToString();
         finalFearSlider.value = finalFear;
-
-        
     }
-
-
 
     // where we are applying our fear, called by our button
     public void ApplyFear()
@@ -225,19 +224,19 @@ public class FearManager : MonoBehaviour
             case fearAmounts.none:
                 playerController.canDeflect = true;
                 playerController.shieldRechargeMax = playerController.shieldRechargeMaxFast; // fast recharge
-                playerController.shieldUptimeMax = playerController.shieldRechargeMaxFast; // 'fast' use time (3 seconds)
+                playerController.shieldUptimeMax = playerController.shieldUptimeMaxFast; // 'fast' use time (3 seconds)
                 break;
 
             case fearAmounts.half:
                 playerController.canDeflect = true;
                 playerController.shieldRechargeMax = playerController.shieldRechargeMaxSlow; // slow recharge
-                playerController.shieldUptimeMax = playerController.shieldRechargeMaxSlow;
+                playerController.shieldUptimeMax = playerController.shieldUptimeMaxSlow;
                 break;
 
             case fearAmounts.one:
                 playerController.canDeflect = true;
                 playerController.shieldRechargeMax = playerController.shieldRechargeMaxVerySlow; // very slow recharge
-                playerController.shieldUptimeMax = playerController.shieldRechargeMaxVerySlow;
+                playerController.shieldUptimeMax = playerController.shieldUptimeMaxVerySlow;
                 break;
 
             case fearAmounts.two:
@@ -246,7 +245,7 @@ public class FearManager : MonoBehaviour
         }
 
         // health values
-        switch (finalAmounts[4])
+        switch (finalAmounts[5])
         {
             case fearAmounts.none:
                 PlayerStatManager.instance.maxHealth = 10;
@@ -266,6 +265,26 @@ public class FearManager : MonoBehaviour
             case fearAmounts.two:
                 PlayerStatManager.instance.maxHealth = 10;
                 PlayerStatManager.instance.health = 1;
+                break;
+        } 
+        
+        // bullet speed
+        switch (finalAmounts[6])
+        {
+            case fearAmounts.none:
+                PlayerWeaponManager.instance.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 200;
+                break;
+
+            case fearAmounts.half:
+                PlayerWeaponManager.instance.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 50;
+                break;
+
+            case fearAmounts.one:
+                PlayerWeaponManager.instance.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 12.5f;
+                break;
+
+            case fearAmounts.two:
+                PlayerWeaponManager.instance.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 3.125f;
                 break;
         }
     }
