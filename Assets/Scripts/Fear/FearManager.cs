@@ -13,295 +13,66 @@ public class FearManager : MonoBehaviour
     public static FearManager instance;
     private void Awake() => instance = this;
 
-    /// all of our fear stats
-    // our fear amounts
-    public enum fearAmounts { none, half, one, two = 4}; // we will divide these by 2 at the end result to calculate our fear
-    // declare our variables
-    public fearAmounts[,] fearValues = new fearAmounts[8, 4];
-    public bool[,] selectedAmounts = new bool[8, 4];
-    // the amount of fear we have
-    public float finalFear;
-    [SerializeField] TextMeshProUGUI finalFearDisplay; // the text display in game of our final fear
-    [SerializeField] Slider finalFearSlider; // the text display in game of our final fear
-    [SerializeField] List<Slider> rowSliderDisplay; // the sliders behind our buttons
-
-    public enum fearTypes
-    {
-        movementSpeed, jump, dash, weapon, deflect, health, projectileSpeed
-    }
-
-
-    // the player and their stats
-    PlayerController playerController; 
-    float baseSpeed; // the player's base speed
-
-    public List<fearAmounts> finalAmounts = new List<fearAmounts>(8);
+    // useful stats
+    public float basePlayerSpeed; // the base player movement speed
+    public float basePlayerMaxHealth; // the base amount of maximum health the player has
 
     private void Start()
     {
-        // assign correct values
-        // loop by row
-        for (int c = 0; c < 4; c++)
+        // set player movement speed
+        basePlayerSpeed = PlayerController.instance.moveSpeed;
+        basePlayerMaxHealth = PlayerStatManager.instance.maxHealth;
+
+        foreach (Effect effect in effects)
         {
-            for (int r = 0; r < 8; r++)
-            {
-                switch (c)
-                {
-                    case 0:
-                        fearValues[r,c] = fearAmounts.none;
-                        break;
-
-                    case 1:
-                        fearValues[r,c] = fearAmounts.half;
-                        break;
-
-                    case 2:
-                        fearValues[r,c] = fearAmounts.one;
-                        break;
-
-                    case 3:
-                        fearValues[r,c] = fearAmounts.two;
-                        break;
-                }
-            }
-        }
-
-        // setup instance
-        playerController = PlayerController.instance;
-
-        // setting up our values
-        baseSpeed = playerController.moveSpeed; // the player's base movement speed
-
-        // run our calculations
-        CalculateFear();
-    }
-
-    // public function to assign values
-    public void AssignFear(int row, int column)
-    {
-        // clear row
-        for (int i = 0; i < 4; i++)
-        { selectedAmounts[row, i] = false; }
-        // set active element in that row
-        selectedAmounts[row, column] = true;
-        // then set the readout abilities based on which column we're in
-        switch (column)
-        {
-            case 0:
-                finalAmounts[row] = fearAmounts.none;
-                break;
-
-            case 1:
-                finalAmounts[row] = fearAmounts.half;
-                break;
-
-            case 2:
-                finalAmounts[row] = fearAmounts.one;
-                break;
-
-            case 3:
-                finalAmounts[row] = fearAmounts.two;
-                break;
-        }
-
-        // reload fear amount
-        CalculateFear();
-    }
-
-    void CalculateFear()
-    {
-        // start with 0
-        finalFear = 0;
-
-        // go column by column
-        for (int c = 0; c < 4; c++)
-        {
-            // then row by row
-            for (int r = 0; r < 8; r++)
-            {
-                if (selectedAmounts[r, c])
-                {
-                    finalFear += (float)fearValues[r, c];
-                    try { rowSliderDisplay[r].value = 0; rowSliderDisplay[r].value = (float)fearValues[r, c]/2 + 0.13f; } catch { }
-                }
-            }
-        }
-
-        // then divide our fear by 2
-        finalFear /= 2;
-
-        // then display
-        finalFearDisplay.text = finalFear.ToString();
-        finalFearSlider.value = finalFear;
-    }
-
-    // where we are applying our fear, called by our button
-    public void ApplyFear()
-    {
-        // movement speed application, check row 0 and see what it needs to be
-        // movement speed
-        switch (finalAmounts[0])
-        {
-            case fearAmounts.none:
-                playerController.moveSpeed = baseSpeed;
-                break;
-
-            case fearAmounts.half:
-                playerController.moveSpeed = baseSpeed / 2;
-                break;
-
-            case fearAmounts.one:
-                playerController.moveSpeed = baseSpeed / 3;
-                break;
-
-            case fearAmounts.two:
-                playerController.moveSpeed = baseSpeed / 4;
-                break;
-        }        
-        
-        // jump amounts
-        switch (finalAmounts[1])
-        {
-            case fearAmounts.none:
-                playerController.maxJumps = 2;
-                break;
-
-            case fearAmounts.half:
-                playerController.maxJumps = 1;
-                break;
-
-            case fearAmounts.one:
-                playerController.maxJumps = 0;
-                break;
-
-            case fearAmounts.two:
-                playerController.maxJumps = 0;
-                break;
-        }
-
-        // dash amounts
-        switch (finalAmounts[2])
-        {
-            case fearAmounts.none:
-                playerController.dashTimeMax = playerController.dashTimeLongMax;
-                break;
-
-            case fearAmounts.half:
-                playerController.dashTimeMax = playerController.dashTimeShortMax;
-                break;
-
-            case fearAmounts.one:
-                playerController.canDash = false;
-                break;
-
-            case fearAmounts.two:
-                playerController.canDash = false;
-                break;
-        }
-
-        // guns amounts
-        switch (finalAmounts[3])
-        {
-            case fearAmounts.none:
-                playerController.weaponManager.currentWeaponInt = 0;
-                playerController.weaponManager.UpdateCurrentWeapon();
-                break;
-
-            case fearAmounts.half:
-                playerController.weaponManager.currentWeaponInt = 1;
-                playerController.weaponManager.UpdateCurrentWeapon();
-                break;
-
-            case fearAmounts.one:
-                playerController.weaponManager.currentWeaponInt = 2;
-                playerController.weaponManager.UpdateCurrentWeapon();
-                break;
-
-            case fearAmounts.two:
-                playerController.weaponManager.currentWeaponInt = 3;
-                playerController.weaponManager.UpdateCurrentWeapon();
-                break;
-        }
-
-        // shield values
-        switch (finalAmounts[4])
-        {
-            case fearAmounts.none:
-                playerController.canDeflect = true;
-                playerController.shieldRechargeMax = playerController.shieldRechargeMaxFast; // fast recharge
-                playerController.shieldUptimeMax = playerController.shieldUptimeMaxFast; // 'fast' use time (3 seconds)
-                break;
-
-            case fearAmounts.half:
-                playerController.canDeflect = true;
-                playerController.shieldRechargeMax = playerController.shieldRechargeMaxSlow; // slow recharge
-                playerController.shieldUptimeMax = playerController.shieldUptimeMaxSlow;
-                break;
-
-            case fearAmounts.one:
-                playerController.canDeflect = true;
-                playerController.shieldRechargeMax = playerController.shieldRechargeMaxVerySlow; // very slow recharge
-                playerController.shieldUptimeMax = playerController.shieldUptimeMaxVerySlow;
-                break;
-
-            case fearAmounts.two:
-                playerController.canDeflect = false;
-                break;
-        }
-
-        // health values
-        switch (finalAmounts[5])
-        {
-            case fearAmounts.none:
-                PlayerStatManager.instance.maxHealth = 10;
-                PlayerStatManager.instance.health = 10;
-                break;
-
-            case fearAmounts.half:
-                PlayerStatManager.instance.maxHealth = 10;
-                PlayerStatManager.instance.health = 10;
-                break;
-
-            case fearAmounts.one:
-                PlayerStatManager.instance.maxHealth = 10;
-                PlayerStatManager.instance.health = 10;
-                break;
-
-            case fearAmounts.two:
-                PlayerStatManager.instance.maxHealth = 10;
-                PlayerStatManager.instance.health = 1;
-                break;
-        } 
-        
-        // bullet speed
-        switch (finalAmounts[6])
-        {
-            case fearAmounts.none:
-                PlayerWeaponManager.instance.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 200;
-                break;
-
-            case fearAmounts.half:
-                PlayerWeaponManager.instance.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 50;
-                break;
-
-            case fearAmounts.one:
-                PlayerWeaponManager.instance.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 12.5f;
-                break;
-
-            case fearAmounts.two:
-                PlayerWeaponManager.instance.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 3.125f;
-                break;
+            effect.StartEffect();
         }
     }
 
-    // public functions to advance and retract our different effects
-    public void ModifyAttribute(fearTypes type, bool increase)
+    // we'll have a list of our effects. each detriment has different stages. we have effects for everything, 
+    // even if they are currently inactive. each possible detriment in the game has its own effect class
+    public List<Effect> effects = new List<Effect>();
+
+    // runs each effects application function
+    public void ApplyEffects()
     {
-        // for all types other than health
-        if (type != fearTypes.health)
+        foreach (Effect effect in effects)
         {
+            effect.ApplyEffect();
+        }    
+    }
+}
 
+// our base effect class
+public abstract class Effect : MonoBehaviour
+{
+    // our public information
+    // what stage is this effect in?
+    public int effectStage;
+    [HideInInspector] public int maxStage; // what is the highest stage this effect can be in
+
+    public string effectType; // our effect type as a string
+    [HideInInspector] public string effectInfo; // public info about what our effect does
+    public List<string> effectInfos; // the list of the different infos we can swap between
+
+    public abstract void StartEffect(); // a manually run start function
+
+    // run this to apply the effect of this card to the player
+    public abstract void ApplyEffect();
+
+    // increase and decrease effect
+    public virtual void IncreaseEffect()
+    {
+        if (effectStage < maxStage)
+        {
+            effectStage++;
         }
-
+    }
+    public virtual void DecreaseEffect()
+    {
+        if (effectStage > 0)
+        {
+            effectStage--;
+        }
     }
 }

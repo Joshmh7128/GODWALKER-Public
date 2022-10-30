@@ -15,6 +15,6 @@ public class FearButton : MonoBehaviour
 
     void AssignValue()
     {
-        FearManager.instance.AssignFear(row, col);
+       //FearManager.instance.AssignFear(row, col);
     }
 }
