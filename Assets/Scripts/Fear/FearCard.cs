@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UIElements.Experimental;
 
 public class FearCard : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class FearCard : MonoBehaviour
     // our fear manager
     FearManager fearManager;
 
+    [SerializeField] bool random; // is this card random?
+
+    bool canPickup;
+    [SerializeField] GameObject highlightPanel; // the panel that shows when this card is the one we are selecting
+
     public enum fearTypes
     {
         movementSpeed, 
@@ -21,7 +27,9 @@ public class FearCard : MonoBehaviour
         shootingSpeed, 
         deflecting,
         health, 
-        projectileSpeed
+        projectileSpeed,
+
+        Count // our max
     }
 
     // our active type
@@ -44,7 +52,9 @@ public class FearCard : MonoBehaviour
 
     IEnumerator StartBuffer()
     {
-        yield return new WaitForFixedUpdate();       
+        yield return new WaitForFixedUpdate();
+        // randomize
+        RandomizeEffects();
         // grab info
         InfoGrab();
     }
@@ -65,6 +75,29 @@ public class FearCard : MonoBehaviour
             // then update
             infoTextDisplay.text = infoText;
         }
+    }
+
+    // randomize our values
+    void RandomizeEffects()
+    {
+        List<fearTypes> copiedEffects = new List<fearTypes> {
+        fearTypes.movementSpeed,
+        fearTypes.jumping,
+        fearTypes.dashing,
+        fearTypes.shootingSpeed,
+        fearTypes.deflecting,
+        fearTypes.health,
+        fearTypes.projectileSpeed }; // make a list to add our randomized effects to
+
+        // randomize the value of the fear
+        for (int i = 0; i < fears.Count; i++)
+        {
+            fearTypes pulledEffect = copiedEffects[Random.Range(0, copiedEffects.Count)];
+            copiedEffects.Remove(pulledEffect);
+            fears[i] = pulledEffect;
+        }
+
+
     }
 
     // when this card is picked up, choose and apply its effects
@@ -96,12 +129,29 @@ public class FearCard : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void FixedUpdate()
+    {
+        highlightPanel.SetActive(canPickup);
+
+        if (canPickup && Input.GetKey(KeyCode.E))
+        {
+            Pickup();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Player")
         {
-            Debug.Log("pickup");
-            Pickup();
+            canPickup = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.tag == "Player")
+        {
+            canPickup = false;
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.UI;
 
 public class ArenaHandler : MonoBehaviour
@@ -27,6 +28,8 @@ public class ArenaHandler : MonoBehaviour
 
     // our doors
     [HideInInspector] public List<DoorScript> doors;
+    public GameObject bossDoor; // our boss door
+
 
     // arena manager
     ArenaManager arenaManager;
@@ -112,6 +115,11 @@ public class ArenaHandler : MonoBehaviour
         if (!bossEnemy.activeInHierarchy)
         {
             bossEnemy.SetActive(true);
+        }
+
+        if (bossEnemy == null)
+        {
+            EndCombat();
         }
     }
 
@@ -293,7 +301,12 @@ public class ArenaHandler : MonoBehaviour
             combatComplete = true;
             if (arenaMode == ArenaModes.Wave)
             CheckCombatCompletion();
+
+            if (arenaMode == ArenaModes.Boss)
+                bossDoor.SetActive(false);
+
             try { SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro); } catch { }
+
 
             StartCoroutine(ShowWaveMessage("Combat Complete"));
             // spawn our new body part from the list

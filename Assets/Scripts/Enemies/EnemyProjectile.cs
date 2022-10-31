@@ -13,7 +13,7 @@ public class EnemyProjectile : MonoBehaviour
     }
 
     public ProjectileTypes projectileType, originalBehaviour;
-    Vector3 localStartPosition; // our local start position
+    Vector3 localStartPosition, localStartScale; // our local start position
     quaternion localStartRotation; // our local start rotation
     [SerializeField] float speed; // how fast this projectile moves kinematically, or how hard it is launched
     Rigidbody localRigidbody;
@@ -25,7 +25,7 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] float openLifetime = 6f;
     public float damage; // how much damage does this deal?
 
-    bool startRun = false;
+    bool startRun = true;
 
     // our curve speed
     [SerializeField] float homingDistanceDelta; // the distance at which we stop homing towards the player
@@ -45,14 +45,16 @@ public class EnemyProjectile : MonoBehaviour
         // get our local start position
         localStartPosition = transform.position;
         // then run our start body
+        if (startRun)
         StartBody();
     }
 
     void StartBody()
     {
+        startRun = false;
         // set our type to our behaviour
         projectileType = originalBehaviour;
-
+        localStartScale = transform.localScale;
 
         // setup our rigidbody
         localRigidbody = GetComponent<Rigidbody>();
@@ -99,21 +101,6 @@ public class EnemyProjectile : MonoBehaviour
             // transform.localScale += new Vector3(ringExpandSpeed, 0, ringExpandSpeed);
         }
 
-    }
-
-    // rerun the start on enable
-    private void OnEnable()
-    {
-        if (startRun)
-        {
-            // set our position
-            //transform.position = localStartPosition;
-
-            //transform.rotation = localStartRotation;
-        }
-        startRun = true;
-
-        StartBody();
     }
 
     // our physics start
@@ -261,6 +248,8 @@ public class EnemyProjectile : MonoBehaviour
         if (pooled)
         {
             gameObject.SetActive(false);
+            transform.rotation = Quaternion.identity;
+            transform.localScale = localStartScale;
         }
     }
 
