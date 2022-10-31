@@ -24,6 +24,7 @@ public class BossDoorScript : MonoBehaviour
                     Destroy(card2.gameObject);
                 }
 
+                break;
             }
         }
     }

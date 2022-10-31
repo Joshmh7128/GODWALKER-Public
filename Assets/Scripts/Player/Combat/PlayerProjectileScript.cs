@@ -5,7 +5,7 @@ using DamageNumbersPro;
 
 public class PlayerProjectileScript : MonoBehaviour
 {
-    public float speed;
+    public float speed, baseSpeed;
     public float damage, localCritMod; // how much damage we deal, the local crit modifier
     
     // vfx

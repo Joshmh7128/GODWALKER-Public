@@ -13960,6 +13960,7 @@ GameObject:
   m_Component:
   - component: {fileID: 701147703}
   - component: {fileID: 701147704}
+  - component: {fileID: 701147705}
   m_Layer: 0
   m_Name: BossStarter
   m_TagString: Untagged
@@ -13999,6 +14000,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossEnemy: {fileID: 579847069084289553}
   interactMessage: {fileID: 785690149}
+--- !u!65 &701147705
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701147702}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.17, y: 7.14, z: 5.44}
+  m_Center: {x: 0, y: 1.57, z: 0}
 --- !u!1 &708809694
 GameObject:
   m_ObjectHideFlags: 0
@@ -24384,7 +24398,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291389964}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 19.1, y: 17.3, z: 0.9805908}
