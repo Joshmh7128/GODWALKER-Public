@@ -53,7 +53,7 @@ public abstract class Effect : MonoBehaviour
     [HideInInspector] public int maxStage; // what is the highest stage this effect can be in
 
     public string effectType; // our effect type as a string
-    [HideInInspector] public string effectInfo; // public info about what our effect does
+    public string effectInfo; // public info about what our effect does
     public List<string> effectInfos; // the list of the different infos we can swap between
 
     public void ResetEffect()
