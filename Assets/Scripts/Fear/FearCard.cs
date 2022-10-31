@@ -39,6 +39,12 @@ public class FearCard : MonoBehaviour
         // get our instance
         fearManager = FearManager.instance;
 
+        StartCoroutine(StartBuffer());
+    }
+
+    IEnumerator StartBuffer()
+    {
+        yield return new WaitForFixedUpdate();       
         // grab info
         InfoGrab();
     }
@@ -51,7 +57,9 @@ public class FearCard : MonoBehaviour
             foreach (fearTypes fear in fears)
             {
                 // get info of this fear in its next stage
-                infoText += "\n" + "- " + fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage+1];
+                 // previous effect is replaced with new effect
+
+                infoText += "\n" + "- You now have: " + fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage] + ", this card replaces it with: " + fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage+1] + "\n";
             }
 
             // then update
@@ -69,6 +77,7 @@ public class FearCard : MonoBehaviour
             {
                 // advance it in the correct fear category
                 fearManager.effects[(int)fear].IncreaseEffect();
+                fearManager.effects[(int)fear].ApplyEffect();
             }
         }
 
@@ -79,7 +88,20 @@ public class FearCard : MonoBehaviour
             {
                 // advance it in the correct fear category
                 fearManager.effects[(int)fear].DecreaseEffect();
+                fearManager.effects[(int)fear].ApplyEffect();
             }
+        }
+
+        // then destroy this
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "Player")
+        {
+            Debug.Log("pickup");
+            Pickup();
         }
     }
 

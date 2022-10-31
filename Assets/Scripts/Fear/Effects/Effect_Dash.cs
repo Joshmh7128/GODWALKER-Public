@@ -21,18 +21,19 @@ public class Effect_Dash : Effect
         switch (effectStage)
         {
             case 0:
-                // set to double jump
-                playerController.maxJumps = 2;
+                // set player dash to full speed
+                playerController.canDash = true;
+                playerController.dashTimeMax = playerController.dashTimeLongMax;
                 break;
 
             case 1:
-                // single jump
-                playerController.maxJumps = 1;
+                // set player dash to half speed
+                playerController.canDash = true;
+                playerController.dashTimeMax = playerController.dashTimeShortMax;
                 break;
 
             case 2:
-                // no jump
-                playerController.maxJumps = 0;
+                playerController.canDash = false;
                 break;
         }
 
