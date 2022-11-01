@@ -59,6 +59,7 @@ public abstract class Effect : MonoBehaviour
     public void ResetEffect()
     {
         effectStage = 0;
+        effectInfo = effectInfos[0];
     }
 
     public abstract void StartEffect(); // a manually run start function

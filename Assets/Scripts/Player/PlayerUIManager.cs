@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerUIManager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class PlayerUIManager : MonoBehaviour
     PlayerBodyPartManager partManager;
     PlayerWeaponManager weaponManager;
     PlayerController playerController;
+    FearManager fearManager; // the fear manager that holds the effects for the player
 
     // lists concerning bodyparts
     [SerializeField] List<Text> nameDisplays;
@@ -38,7 +40,9 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] Slider dashSlider; // displays our dash recharge
     [SerializeField] Slider shieldSlider; // displays our shield recharge
 
-
+    // fear ui
+    [SerializeField] TextMeshProUGUI effectText; // our information text
+    string effectString;
 
     // start
     private void Start()
@@ -47,6 +51,7 @@ public class PlayerUIManager : MonoBehaviour
         partManager = PlayerBodyPartManager.instance;
         weaponManager = PlayerWeaponManager.instance;
         playerController = PlayerController.instance;
+        fearManager = FearManager.instance;
     }
 
     private void FixedUpdate()
@@ -57,10 +62,26 @@ public class PlayerUIManager : MonoBehaviour
         ProcessUI();
     }
 
+    // process our ui every frame
     void ProcessUI()
     {
         dashSlider.value = playerController.dashCooldown / playerController.dashCooldownMax;
         shieldSlider.value = playerController.shieldRechargeTime / playerController.shieldRechargeMax;
+
+        if (infoCanvasGroup.alpha > 0)
+        {
+            // setup info text
+            effectString = "Your Abilities:\n";
+            // foreach 
+            foreach (Effect effect in fearManager.effects)
+            {
+                // add this effect info to the string
+                effectString += effect.effectInfo + "\n";
+            }
+
+            // set text
+            effectText.text = effectString;
+        }
     }
 
     // update our ability UI

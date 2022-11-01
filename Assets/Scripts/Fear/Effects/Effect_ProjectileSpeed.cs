@@ -21,19 +21,19 @@ public class Effect_ProjectileSpeed : Effect
         switch (effectStage)
         {
             case 0:
-                playerController.weaponManager.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 200;
+                playerController.weaponManager.currentWeapon.bulletSpeed = 200;
                 break;
 
             case 1:
-                playerController.weaponManager.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 50;
+                playerController.weaponManager.currentWeapon.bulletSpeed = 50;
                 break;
 
             case 2:
-                playerController.weaponManager.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 12.5f;
+                playerController.weaponManager.currentWeapon.bulletSpeed = 12.5f;
                 break;
 
             case 3:
-                playerController.weaponManager.currentWeapon.bulletPrefab.GetComponent<PlayerProjectileScript>().speed = 3.25f;
+                playerController.weaponManager.currentWeapon.bulletSpeed = 3.25f;
                 break;
         }
 

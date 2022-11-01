@@ -20,6 +20,7 @@ public abstract class WeaponClass : MonoBehaviour
     public GameObject weaponModel; // our weapon model saved as a prefab
     [Header("Combat Related")]
     public float firerate; public float remainingFirerate, firerateMod; // how quickly can this weapon fire?
+    public float bulletSpeed; // the speed of our bullet
     public Transform muzzleOrigin; // the origin of our muzzle
     // our bullet prefab
     public GameObject bulletPrefab; // we spawn this when we fire
@@ -113,7 +114,6 @@ public abstract class WeaponClass : MonoBehaviour
 
     public virtual void Fire()
     {
-
         // if there are no requests, this is a normal shot
         bodyPartManager.CallParts("OnWeaponFire");
         // if there is a double shot request, this is a double shot, then set request to false
@@ -148,6 +148,7 @@ public abstract class WeaponClass : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(finalShotDir.normalized), null);
         bullet.transform.eulerAngles = new Vector3(bullet.transform.eulerAngles.x, bullet.transform.eulerAngles.y, 0);
         PlayerProjectileScript bulletScript = bullet.GetComponent<PlayerProjectileScript>();
+        bulletScript.speed = bulletSpeed; // set this bullet's speed
 
         /// apply any mods to our bullet
         // homing?
