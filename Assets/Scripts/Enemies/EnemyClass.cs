@@ -19,9 +19,9 @@ public abstract class EnemyClass : MonoBehaviour
     [SerializeField] GameObject gunCreator;
 
     // our behaviours
-    public Transform attackBehaviourParent; // used to make sure our attack behaviours are ordered correctly
+    public List<Transform> phaseParents = new List<Transform>(); // used to make sure our attack behaviours are ordered correctly
 
-    [SerializeField] List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
+    List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
     public bool activated;
     // our agent
@@ -37,7 +37,7 @@ public abstract class EnemyClass : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         // sort our attacks out
-        SortBehaviours();
+        SortBehaviours(phaseParents[0]);
         // setup renderers for getting hurt and vfx
         SetupRenderers();
         // for anything else we want to add in our inherited classes
@@ -50,9 +50,12 @@ public abstract class EnemyClass : MonoBehaviour
     }
 
     // sort our behaviours
-    void SortBehaviours()
+    void SortBehaviours(Transform phaseParent)
     {
-        foreach (Transform child in attackBehaviourParent)
+        // clear the attack behaviours list
+        attackBehaviours.Clear();
+        // then rebuild it with a new parent
+        foreach (Transform child in phaseParent)
         {
             attackBehaviours.Add(child.GetComponent<EnemyBehaviour>());
         }
