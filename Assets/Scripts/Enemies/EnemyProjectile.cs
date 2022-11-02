@@ -24,7 +24,7 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] int deathTime; // how long to death
     [SerializeField] float openLifetime = 6f;
     public float damage; // how much damage does this deal?
-
+    [SerializeField] bool destructable; // can bullets break this shot?
     bool startRun = true;
 
     // our curve speed
@@ -228,8 +228,13 @@ public class EnemyProjectile : MonoBehaviour
                 statManager.TakeDamage(damage); // oof ouch yikes
             }
 
+            if (other.transform.tag == "PlayerProjectile" && destructable)
+            {
+                OnDestroyObject();
+            }
+
             // always destroy
-            if (!invincible)
+            if (other.transform.tag != "PlayerProjectile" || other.transform.tag != "Player")
             OnDestroyObject();
         }
     }

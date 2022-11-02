@@ -20,7 +20,7 @@ public abstract class EnemyClass : MonoBehaviour
 
     // our behaviours
     public List<Transform> phaseParents = new List<Transform>(); // used to make sure our attack behaviours are ordered correctly
-
+    public int currentPhase; // which phase we are on now
     List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
     public bool activated;
@@ -50,7 +50,7 @@ public abstract class EnemyClass : MonoBehaviour
     }
 
     // sort our behaviours
-    void SortBehaviours(Transform phaseParent)
+    public void SortBehaviours(Transform phaseParent)
     {
         // clear the attack behaviours list
         attackBehaviours.Clear();
