@@ -11,8 +11,6 @@ public class Effect_MovementSpeed : Effect
     {
         playerController = PlayerController.instance;
         fearManager = FearManager.instance;
-
-        maxStage = 3; // we have 4 total stages
     }
 
     // apply our effect

@@ -11,8 +11,6 @@ public class Effect_ProjectileSpeed : Effect
     {
         playerController = PlayerController.instance;
         fearManager = FearManager.instance;
-
-        maxStage = 3; // we have 4 total stages
     }
 
     // apply our effect
@@ -24,6 +22,7 @@ public class Effect_ProjectileSpeed : Effect
                 playerController.weaponManager.currentWeapon.bulletSpeed = 200;
                 break;
 
+                /*
             case 1:
                 playerController.weaponManager.currentWeapon.bulletSpeed = 50;
                 break;
@@ -31,8 +30,9 @@ public class Effect_ProjectileSpeed : Effect
             case 2:
                 playerController.weaponManager.currentWeapon.bulletSpeed = 12.5f;
                 break;
+                */
 
-            case 3:
+            case 1:
                 playerController.weaponManager.currentWeapon.bulletSpeed = 3.25f;
                 break;
         }

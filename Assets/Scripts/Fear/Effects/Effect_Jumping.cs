@@ -11,8 +11,6 @@ public class Effect_Jumping : Effect
     {
         playerController = PlayerController.instance;
         fearManager = FearManager.instance;
-
-        maxStage = 2; // we have 3 total stages
     }
 
     // apply our effect
@@ -27,11 +25,6 @@ public class Effect_Jumping : Effect
 
             case 1:
                 // single jump
-                playerController.maxJumps = 1;
-                break;
-
-            case 2:
-                // no jump
                 playerController.maxJumps = 0;
                 break;
         }

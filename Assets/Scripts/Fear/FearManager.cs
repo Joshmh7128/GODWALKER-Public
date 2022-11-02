@@ -56,6 +56,11 @@ public abstract class Effect : MonoBehaviour
     public string effectInfo; // public info about what our effect does
     public List<string> effectInfos; // the list of the different infos we can swap between
 
+    private void Start()
+    {
+        maxStage = effectInfos.Count - 1; // set total stages
+    }
+
     public void ResetEffect()
     {
         effectStage = 0;

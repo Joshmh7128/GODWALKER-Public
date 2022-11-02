@@ -11,8 +11,6 @@ public class Effect_Health : Effect
     {
         playerStatManager = PlayerStatManager.instance;
         fearManager = FearManager.instance;
-
-        maxStage = 2; // we have 3 total stages
     }
 
     // apply our effect

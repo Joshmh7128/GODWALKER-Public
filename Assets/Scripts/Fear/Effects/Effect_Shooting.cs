@@ -11,8 +11,6 @@ public class Effect_Shooting : Effect
     {
         playerController = PlayerController.instance;
         fearManager = FearManager.instance;
-
-        maxStage = 3; // we have 4 total stages
     }
 
     // apply our effect
@@ -25,7 +23,8 @@ public class Effect_Shooting : Effect
                 playerController.weaponManager.currentWeaponInt = 0;
                 playerController.weaponManager.UpdateCurrentWeapon();
                 break;
-
+            
+                /*
             case 1:
                 // set to second gun
                 playerController.weaponManager.currentWeaponInt = 1;
@@ -36,9 +35,9 @@ public class Effect_Shooting : Effect
                 // set to third gun
                 playerController.weaponManager.currentWeaponInt = 2;
                 playerController.weaponManager.UpdateCurrentWeapon();
-                break;
+                break;*/
 
-            case 3:
+            case 1:
                 // set to no gun
                 playerController.weaponManager.currentWeaponInt = 3;
                 playerController.weaponManager.UpdateCurrentWeapon();

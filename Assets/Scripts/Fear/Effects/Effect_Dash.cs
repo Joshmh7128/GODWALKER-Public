@@ -27,12 +27,7 @@ public class Effect_Dash : Effect
                 break;
 
             case 1:
-                // set player dash to half speed
-                playerController.canDash = true;
-                playerController.dashTimeMax = playerController.dashTimeShortMax;
-                break;
-
-            case 2:
+                // set dash to inactive
                 playerController.canDash = false;
                 break;
         }
