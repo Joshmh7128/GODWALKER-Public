@@ -1547,7 +1547,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1642024115919692920
 Transform:
   m_ObjectHideFlags: 0
@@ -1590,6 +1590,7 @@ MonoBehaviour:
   firerate: 0
   remainingFirerate: 0
   firerateMod: 0
+  bulletSpeed: 0
   muzzleOrigin: {fileID: 3473571831291720169}
   bulletPrefab: {fileID: 0}
   currentMagazine: 1
@@ -17218,7 +17219,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7279873545021395040}
   m_Enabled: 1
-  m_Alpha: 0.97
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -23347,7 +23348,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!225 &7279873545479296439
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -36083,6 +36084,10 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 2637
       objectReference: {fileID: 0}
+    - target: {fileID: 7869291202336085284, guid: c88c10a9156b47442887a17d501584cd, type: 3}
+      propertyPath: bulletSpeed
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 8584666316885181566, guid: c88c10a9156b47442887a17d501584cd, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -36216,6 +36221,10 @@ PrefabInstance:
     - target: {fileID: 4939710040727834560, guid: 5417c8a1606bcae42926500e3b2aa4b3, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7869291202336085284, guid: 5417c8a1606bcae42926500e3b2aa4b3, type: 3}
+      propertyPath: bulletSpeed
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8619325993711433204, guid: 5417c8a1606bcae42926500e3b2aa4b3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -36607,6 +36616,10 @@ PrefabInstance:
     - target: {fileID: 2946293616309412724, guid: 76781d9a2271e5b428586d5005359861, type: 3}
       propertyPath: weaponName
       value: Ancient Pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 2946293616309412724, guid: 76781d9a2271e5b428586d5005359861, type: 3}
+      propertyPath: bulletSpeed
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3082957263922609277, guid: 76781d9a2271e5b428586d5005359861, type: 3}
       propertyPath: m_Layer

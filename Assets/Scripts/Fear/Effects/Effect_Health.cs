@@ -12,7 +12,7 @@ public class Effect_Health : Effect
         playerStatManager = PlayerStatManager.instance;
         fearManager = FearManager.instance;
 
-        maxStage = 1; // we have 2 total stages
+        maxStage = 2; // we have 3 total stages
     }
 
     // apply our effect
@@ -26,6 +26,12 @@ public class Effect_Health : Effect
                 break;
 
             case 1:
+                // set to 1 hp
+                playerStatManager.maxHealth = 5;
+                playerStatManager.health = 5;
+                break;        
+            
+            case 2:
                 // set to 1 hp
                 playerStatManager.maxHealth = 1;
                 playerStatManager.health = 1;
