@@ -19,8 +19,9 @@ public abstract class EnemyClass : MonoBehaviour
     [SerializeField] GameObject gunCreator;
 
     // our behaviours
-    [HideInInspector] public List<EnemyBehaviour> allBehaviours;
-    List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
+    public Transform attackBehaviourParent; // used to make sure our attack behaviours are ordered correctly
+
+    [SerializeField] List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
     public bool activated;
     // our agent
@@ -35,7 +36,7 @@ public abstract class EnemyClass : MonoBehaviour
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        // sort our behaviours
+        // sort our attacks out
         SortBehaviours();
         // setup renderers for getting hurt and vfx
         SetupRenderers();
@@ -48,6 +49,14 @@ public abstract class EnemyClass : MonoBehaviour
         { StartBehaviours(); }
     }
 
+    // sort our behaviours
+    void SortBehaviours()
+    {
+        foreach (Transform child in attackBehaviourParent)
+        {
+            attackBehaviours.Add(child.GetComponent<EnemyBehaviour>());
+        }
+    }
     // to run our behaviours
     void StartBehaviours()
     {
@@ -96,19 +105,6 @@ public abstract class EnemyClass : MonoBehaviour
             yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
         }
         StartCoroutine(MovementBehaviourHandler());
-    }
-
-    // to sort the behaviours that our body uses
-    void SortBehaviours()
-    {
-        foreach (EnemyBehaviour behaviour in allBehaviours)
-        {
-            if (behaviour.type == EnemyBehaviour.BehaviourType.attack)
-            { attackBehaviours.Add(behaviour); }
-
-            if (behaviour.type == EnemyBehaviour.BehaviourType.movement)
-            { movementBehaviours.Add(behaviour); }
-        }
     }
 
     // runs 60 times per second
