@@ -16,6 +16,11 @@ public class BossDoorScript : MonoBehaviour
             
             if (card == null)
             {
+                gameObject.SetActive(false);
+                foreach (FearCard card2 in fearCards)
+                {
+                    card2.gameObject.SetActive(false);
+                }
             }
         }
     }

@@ -10,6 +10,7 @@ public class EnemyClass_Crab : EnemyClass
 
     [SerializeField] float phaseHealthGateA;
 
+    [SerializeField] GameObject bossDoor; // the boss door we open on death
     public override void StartExtension()
     {
         // find and set our player as the look target
@@ -55,4 +56,10 @@ public class EnemyClass_Crab : EnemyClass
         damage = 10; // set our basic damage*/
     }
 
+
+    public override void OnDeath()
+    {
+        bossDoor.SetActive(false);
+        base.OnDeath();
+    }
 }
