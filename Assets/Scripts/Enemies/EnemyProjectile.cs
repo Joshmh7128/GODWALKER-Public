@@ -15,7 +15,7 @@ public class EnemyProjectile : MonoBehaviour
     public ProjectileTypes projectileType, originalBehaviour;
     Vector3 localStartPosition, localStartScale; // our local start position
     quaternion localStartRotation; // our local start rotation
-    [SerializeField] float speed; // how fast this projectile moves kinematically, or how hard it is launched
+    public float speed; // how fast this projectile moves kinematically, or how hard it is launched
     Rigidbody localRigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
     [SerializeField] bool facePlayer; // do we face the player

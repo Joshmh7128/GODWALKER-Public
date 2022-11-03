@@ -7,7 +7,7 @@ public class EnemyBehaviour_HelionProjectileFire : EnemyBehaviour
     [SerializeField] GameObject projectile; // which projectile are we firing?
     [SerializeField] Transform projectileOrigin; // the origin of our projectile
     [SerializeField] float fireRate; // how many are we firing and at what fire rate?
-
+    [SerializeField] float overrideSpeed; // our override speed
     [SerializeField] List<Transform> startPositions; // shot start positions (set in editor)
 
     // our main coroutine
@@ -28,6 +28,11 @@ public class EnemyBehaviour_HelionProjectileFire : EnemyBehaviour
                 // set the damage of the shot
                 if (shot.GetComponent<EnemyProjectile>().damage == 0)
                 shot.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
+
+                if (overrideSpeed > 0)
+                {
+                    shot.GetComponent<EnemyProjectile>().speed = overrideSpeed;
+                }
                 // wait the fire rate
                 yield return new WaitForSeconds(fireRate);
                 // advance

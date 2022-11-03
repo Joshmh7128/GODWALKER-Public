@@ -8,6 +8,8 @@ public class EnemyClass_Crab : EnemyClass
     [SerializeField] float baseHealth; // the base health of this enemy
     [SerializeField] bool kicks; // do we apply a kick animation?
 
+    [SerializeField] float phaseHealthGateA;
+
     public override void StartExtension()
     {
         // find and set our player as the look target
@@ -21,6 +23,17 @@ public class EnemyClass_Crab : EnemyClass
         // kick our body
         if (kicks)
         hurtHandler.KickLookPos(30f);
+
+        // check our HP and see if it is time to change phases
+        if (health < phaseHealthGateA && currentPhase != 1)
+        {
+            // stop all coroutines
+            StopAllCoroutines();    
+            currentPhase = 1;
+            SortBehaviours(phaseParents[currentPhase]);
+            // start
+            StartBehaviours();
+        }
     }
 
 

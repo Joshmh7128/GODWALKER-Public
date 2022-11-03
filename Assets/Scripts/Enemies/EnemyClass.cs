@@ -61,7 +61,7 @@ public abstract class EnemyClass : MonoBehaviour
         }
     }
     // to run our behaviours
-    void StartBehaviours()
+    public void StartBehaviours()
     {
         // start our behaviours
         if (attackBehaviours.Count > 0)
@@ -290,10 +290,11 @@ public abstract class EnemyClass : MonoBehaviour
     void ProcessCanvasVisibility()
     {
         // always be decreasing our alpha if it is more than 0, so that when it is not being set it is being lowered
+     /*
         if (displayGroup && displayGroup.alpha > 0)
         {
             displayGroup.alpha -= Time.deltaTime;
-        }
+        }*/
     }
 
     // enum for the different effects we can apply

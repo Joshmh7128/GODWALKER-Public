@@ -7,6 +7,7 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
     [SerializeField] GameObject projectile; // which projectile are we firing?
     [SerializeField] Transform projectileOrigin; // the origin of our projectile
     [SerializeField] float fireAmount, fireRate; // how many are we firing and at what fire rate?
+    [SerializeField] float overrideSpeed; // are we overriding the speed of the shot?
     // our main coroutine
     public override IEnumerator MainCoroutine()
     {
@@ -26,6 +27,10 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
                     if (t.GetComponent<EnemyProjectile>())
                     {
                         t.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
+                        if (overrideSpeed != 0)
+                        {
+                            t.GetComponent<EnemyProjectile>().speed = overrideSpeed;
+                        }
                     }
                 }
             }
