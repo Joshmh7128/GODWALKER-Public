@@ -103,6 +103,10 @@ public class FearCard : MonoBehaviour
     // when this card is picked up, choose and apply its effects
     void Pickup()
     {
+
+        // get our instance
+        fearManager = FearManager.instance;
+
         if (cardMode == cardModes.increase)
         {
             // advance our types

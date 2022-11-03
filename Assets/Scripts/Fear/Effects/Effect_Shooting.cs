@@ -16,6 +16,11 @@ public class Effect_Shooting : Effect
     // apply our effect
     public override void ApplyEffect()
     {
+        playerController = PlayerController.instance;
+        fearManager = FearManager.instance;
+
+        Debug.Log("applying shooting effect");
+
         switch (effectStage)
         {
             case 0:

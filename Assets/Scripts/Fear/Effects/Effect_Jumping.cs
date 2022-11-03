@@ -16,6 +16,9 @@ public class Effect_Jumping : Effect
     // apply our effect
     public override void ApplyEffect()
     {
+        playerController = PlayerController.instance;
+        fearManager = FearManager.instance;
+
         switch (effectStage)
         {
             case 0:

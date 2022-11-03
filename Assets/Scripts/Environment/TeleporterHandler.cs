@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TeleporterHandler : MonoBehaviour
 { 
@@ -8,9 +9,11 @@ public class TeleporterHandler : MonoBehaviour
 
     PlayerController playerController;
 
-    [SerializeField] TeleporterHandler partner;
+    TeleporterHandler partner;
     public float cooldown, cooldownMax = 2; // cooldown in seconds
-    
+
+    [SerializeField] string targetScene; // our target scene
+
     private void Start()
     {
         playerController = PlayerController.instance;
@@ -35,9 +38,14 @@ public class TeleporterHandler : MonoBehaviour
     // when the player collides with this teleporter, teleport the player to our partner, and then set both of our cooldowns
     private void TriggerTeleport()
     {
+        /*
         playerController.Teleport(partner.transform.position + Vector3.up);
         cooldown = cooldownMax;
         partner.cooldown = cooldownMax;
+        */
+
+        playerController.Teleport(Vector3.zero);
+        SceneManager.LoadScene(targetScene);
     }
 
 

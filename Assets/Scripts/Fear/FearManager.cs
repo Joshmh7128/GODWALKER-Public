@@ -17,11 +17,22 @@ public class FearManager : MonoBehaviour
     public float basePlayerSpeed; // the base player movement speed
     public float basePlayerMaxHealth; // the base amount of maximum health the player has
 
+    // we'll have a list of our effects. each detriment has different stages. we have effects for everything, 
+    // even if they are currently inactive. each possible detriment in the game has its own effect class
+    public List<Effect> effects = new List<Effect>();
+
     private void Start()
     {
         // set player movement speed
         basePlayerSpeed = PlayerController.instance.moveSpeed;
         basePlayerMaxHealth = PlayerStatManager.instance.maxHealth;
+
+        // instantiate new effects
+        for (int i = 0; i < effects.Count; i++)
+        {
+            effects[i] = Instantiate(effects[i].gameObject).GetComponent<Effect>();
+        }
+
 
         foreach (Effect effect in effects)
         {
@@ -30,9 +41,7 @@ public class FearManager : MonoBehaviour
         }
     }
 
-    // we'll have a list of our effects. each detriment has different stages. we have effects for everything, 
-    // even if they are currently inactive. each possible detriment in the game has its own effect class
-    public List<Effect> effects = new List<Effect>();
+
 
     // runs each effects application function
     public void ApplyEffects()

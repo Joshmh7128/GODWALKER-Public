@@ -16,7 +16,11 @@ public class Effect_MovementSpeed : Effect
     // apply our effect
     public override void ApplyEffect()
     {
-        switch(effectStage)
+
+        playerController = PlayerController.instance;
+        fearManager = FearManager.instance;
+
+        switch (effectStage)
         {
             case 0:
                 // reset speed
@@ -38,5 +42,8 @@ public class Effect_MovementSpeed : Effect
                 playerController.moveSpeed = fearManager.basePlayerSpeed / 4;
                 break;
         }
+
+        // then set effect info
+        effectInfo = effectInfos[effectStage];
     }
 }

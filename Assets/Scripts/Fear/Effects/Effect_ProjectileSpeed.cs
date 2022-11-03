@@ -16,6 +16,10 @@ public class Effect_ProjectileSpeed : Effect
     // apply our effect
     public override void ApplyEffect()
     {
+        Debug.Log("proj speed effect");
+        playerController = PlayerController.instance;
+        fearManager = FearManager.instance;
+
         switch (effectStage)
         {
             case 0:

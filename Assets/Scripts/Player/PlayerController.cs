@@ -255,7 +255,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // dashing from stationary
-        if (Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) < 0.1f || Mathf.Abs(pAxisH) < 0.1f) && dashTime <= dashTimeMax && dashCooldown <= 0)
+        if (Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) < 0.1f || Mathf.Abs(pAxisH) < 0.1f) && dashTime <= dashTimeMax && dashCooldown <= 0 && canDash)
         {
             // if we can dash
             if (dashTime <= dashTimeMax)
@@ -531,16 +531,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F5))
         {
             SceneManager.LoadScene("Fear Prototype");
-        }
-
-        if (Input.GetKeyDown(KeyCode.F6))
-        {
-            SceneManager.LoadScene("Player Controller Testing");
-        }
-
-        if (Input.GetKeyDown(KeyCode.F7))
-        {
-            Teleport(new Vector3(152, 18, 213));
+            Destroy(gameObject);
         }
     }
 

@@ -16,6 +16,9 @@ public class Effect_Health : Effect
     // apply our effect
     public override void ApplyEffect()
     {
+        playerStatManager = PlayerStatManager.instance;
+        fearManager = FearManager.instance;
+
         switch (effectStage)
         {
             case 0:

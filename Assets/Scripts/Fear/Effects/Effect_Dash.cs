@@ -18,6 +18,9 @@ public class Effect_Dash : Effect
     // apply our effect
     public override void ApplyEffect()
     {
+        playerController = PlayerController.instance;
+        fearManager = FearManager.instance;
+
         switch (effectStage)
         {
             case 0:
@@ -29,6 +32,7 @@ public class Effect_Dash : Effect
             case 1:
                 // set dash to inactive
                 playerController.canDash = false;
+                playerController.dashTimeMax = 0;
                 break;
         }
 
