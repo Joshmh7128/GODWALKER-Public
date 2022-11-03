@@ -24,8 +24,9 @@ public class EnemyBehaviour_HelionProjectileFire : EnemyBehaviour
                 // fire a projectile away from the center of mass
                 Vector3 dir = projectileOrigin.position - enemyClass.transform.position;
                 Quaternion q = Quaternion.LookRotation(dir);
-                GameObject shot = Instantiate(projectile, projectileOrigin.position, q);
+                GameObject shot = Instantiate(projectile, projectileOrigin.position, projectileOrigin.rotation);
                 // set the damage of the shot
+                if (shot.GetComponent<EnemyProjectile>().damage == 0)
                 shot.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
                 // wait the fire rate
                 yield return new WaitForSeconds(fireRate);

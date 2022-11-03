@@ -211,7 +211,14 @@ public class EnemyProjectile : MonoBehaviour
 
             // always destroy
             if (!invincible)
-            OnDestroyObject();
+            {
+                if (other.transform.tag == "PlayerProjectile" && destructable)
+                    OnDestroyObject();
+                
+                // always destroy
+                if (other.transform.tag != "PlayerProjectile" && other.transform.tag != "Player")
+                    OnDestroyObject();
+            }
         }
     }
 
@@ -228,14 +235,7 @@ public class EnemyProjectile : MonoBehaviour
                 statManager.TakeDamage(damage); // oof ouch yikes
             }
 
-            if (other.transform.tag == "PlayerProjectile" && destructable)
-            {
-                OnDestroyObject();
-            }
-
-            // always destroy
-            if (other.transform.tag != "PlayerProjectile" || other.transform.tag != "Player")
-            OnDestroyObject();
+           
         }
     }
 

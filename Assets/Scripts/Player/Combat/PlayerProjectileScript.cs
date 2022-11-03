@@ -125,7 +125,7 @@ public class PlayerProjectileScript : MonoBehaviour
                 Destruction(hit.point);
             }
 
-            if (hit.transform.tag != "Enemy" && !doesBounce)
+            if (hit.transform.tag != "Enemy" && hit.transform.tag != "EnemyProjectile" && !doesBounce)
                 // destroy our bullet if we hit anything else
                 Destruction(hit.point);
         }

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1377763742916413493}
   - component: {fileID: 4338476201565544735}
   - component: {fileID: 5578032946940665514}
-  - component: {fileID: 1846827740686613954}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -2243,7 +2242,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eae32982ea033ed42941c9309165e36b, type: 2}
+  - {fileID: 2100000, guid: 88e90aa7f94c8314e991be44290cc16d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2273,20 +2272,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 971207468882832648}
   m_Mesh: {fileID: 0}
---- !u!64 &1846827740686613954
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971207468882832648}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &8303193845976334199
 GameObject:
   m_ObjectHideFlags: 0
@@ -2302,7 +2287,7 @@ GameObject:
   - component: {fileID: 1234262669712713342}
   m_Layer: 8
   m_Name: BossProjectile_Wide_Breakable
-  m_TagString: Enemy
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2346,8 +2331,9 @@ MonoBehaviour:
   deathTime: 30
   openLifetime: 3
   damage: 1
+  destructable: 1
   homingDistanceDelta: 0
-  curveSpeed: 0.25
+  curveSpeed: 0
   ringExpandSpeed: 0
 --- !u!135 &2121177465226845869
 SphereCollider:
