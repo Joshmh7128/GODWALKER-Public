@@ -45,7 +45,7 @@ public class TeleporterHandler : MonoBehaviour
         */
 
         playerController.Teleport(Vector3.zero);
-        SceneManager.LoadScene(targetScene);
+        SceneManager.LoadScene(targetScene, LoadSceneMode.Single);
     }
 
 

@@ -56,6 +56,14 @@ public class EnemyClass_Crab : EnemyClass
         damage = 10; // set our basic damage*/
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        if (Input.GetKey(KeyCode.F9))
+        {
+            OnDeath();
+        }
+    }
 
     public override void OnDeath()
     {

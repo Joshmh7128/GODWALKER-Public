@@ -12,7 +12,7 @@ public class FearCard : MonoBehaviour
     /// 
 
     // our fear manager
-    FearManager fearManager;
+    [SerializeField] FearManager fearManager;
 
     [SerializeField] bool random; // is this card random?
 
@@ -52,7 +52,7 @@ public class FearCard : MonoBehaviour
 
     IEnumerator StartBuffer()
     {
-        yield return new WaitForFixedUpdate();
+        yield return new WaitForSecondsRealtime(1);
         // randomize
         RandomizeEffects();
         // grab info
@@ -61,6 +61,11 @@ public class FearCard : MonoBehaviour
 
     void InfoGrab()
     {
+
+        // get our instance
+        fearManager = FearManager.instance;
+
+
         // get the info of what this card will do
         if (cardMode == cardModes.increase)
         {
@@ -69,7 +74,16 @@ public class FearCard : MonoBehaviour
                 // get info of this fear in its next stage
                 // previous effect is replaced with new effect
 
-                infoText += fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage+1];
+                try
+                {
+                    infoText += fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage + 1];
+                } catch
+                {
+                    if (fearManager == null)
+                    {
+                        Debug.Log("fear manager null");
+                    }
+                }
             }
 
             // then update
