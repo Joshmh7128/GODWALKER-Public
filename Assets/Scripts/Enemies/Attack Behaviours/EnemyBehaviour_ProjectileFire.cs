@@ -19,7 +19,8 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
             GameObject shot = Instantiate(projectile, projectileOrigin.position, projectileOrigin.rotation);
             // set the damage of the shot if this is a single shot
             if (shot.GetComponent<EnemyProjectile>())
-            { shot.GetComponent<EnemyProjectile>().damage = enemyClass.damage; }
+            {  // shot.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
+             }
             else // if this is a group
             {
                 foreach (Transform t in shot.transform)
