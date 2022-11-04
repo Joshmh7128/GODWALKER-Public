@@ -26,7 +26,7 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
                 {
                     if (t.GetComponent<EnemyProjectile>())
                     {
-                        t.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
+                        // t.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
                         if (overrideSpeed != 0)
                         {
                             t.GetComponent<EnemyProjectile>().speed = overrideSpeed;

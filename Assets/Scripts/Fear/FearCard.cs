@@ -67,9 +67,9 @@ public class FearCard : MonoBehaviour
             foreach (fearTypes fear in fears)
             {
                 // get info of this fear in its next stage
-                 // previous effect is replaced with new effect
+                // previous effect is replaced with new effect
 
-                infoText += "\n" + "- You now have: " + fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage] + ", this card replaces it with: " + fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage+1] + "\n";
+                infoText += fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage+1];
             }
 
             // then update

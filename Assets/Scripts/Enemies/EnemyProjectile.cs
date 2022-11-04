@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
@@ -200,6 +201,8 @@ public class EnemyProjectile : MonoBehaviour
             {
                 // trigger a hurt on the stat manager
                 statManager.TakeDamage(damage); // oof ouch yikes
+                if (!invincible)
+                OnDestroyObject();
             }            
             
             // what did we hit?
