@@ -30,7 +30,7 @@ public class FearManager : MonoBehaviour
         // instantiate new effects
         for (int i = 0; i < effects.Count; i++)
         {
-            effects[i] = Instantiate(effects[i].gameObject).GetComponent<Effect>();
+            effects[i] = Instantiate(effects[i].gameObject, transform).GetComponent<Effect>();
         }
 
 

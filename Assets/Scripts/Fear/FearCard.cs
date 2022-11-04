@@ -15,6 +15,8 @@ public class FearCard : MonoBehaviour
     [SerializeField] FearManager fearManager;
 
     [SerializeField] bool random; // is this card random?
+    [SerializeField] int priority, sisterChecksAllowed; // the priority of this card's decision
+    [SerializeField] List<FearCard> sisterCards = new List<FearCard>();
 
     bool canPickup;
     [SerializeField] GameObject highlightPanel; // the panel that shows when this card is the one we are selecting
@@ -52,11 +54,15 @@ public class FearCard : MonoBehaviour
 
     IEnumerator StartBuffer()
     {
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForFixedUpdate();
         // randomize
         RandomizeEffects();
         // grab info
         InfoGrab();
+        // wait again
+        yield return new WaitForFixedUpdate();
+        // sister check
+        SisterCheck();
     }
 
     void InfoGrab()
@@ -74,20 +80,43 @@ public class FearCard : MonoBehaviour
                 // get info of this fear in its next stage
                 // previous effect is replaced with new effect
 
-                try
+                if (fearManager.effects[(int)fear].effectStage + 1 <= fearManager.effects[(int)fear].maxStage)
                 {
-                    infoText += fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage + 1];
-                } catch
-                {
-                    if (fearManager == null)
-                    {
-                        Debug.Log("fear manager null");
-                    }
-                }
+                    infoText = fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage + 1];
+                } else  { StartCoroutine(StartBuffer()); }
+
             }
 
             // then update
             infoTextDisplay.text = infoText;
+        }
+    }
+
+    void SisterCheck()
+    {
+        sisterChecksAllowed++;
+
+        if (sisterChecksAllowed < 600) foreach (FearCard sister in sisterCards)
+        {
+            // if our sister card has the same fears as us, change it up
+            for (int i = 0; i < fears.Count; i++)
+            {
+                // see if we can access this 
+                try 
+                { 
+                    if (fears[i] == sister.fears[i])
+                        {
+                            if (priority < sister.priority)
+                            {
+                                StartCoroutine(StartBuffer());
+                                break;
+                            }
+                        }
+                    }
+                catch { }
+
+                
+            }
         }
     }
 
