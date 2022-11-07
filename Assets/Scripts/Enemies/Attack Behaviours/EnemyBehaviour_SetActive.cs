@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBehaviour_SetActive : MonoBehaviour
+public class EnemyBehaviour_SetActive : EnemyBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] List<GameObject> gameObjects = new List<GameObject>();
 
-    // Update is called once per frame
-    void Update()
+    public override IEnumerator MainCoroutine()
     {
-        
+        foreach (GameObject go in gameObjects)
+        {
+            go.SetActive(true);
+        }
+
+        yield return null;
+
     }
 }

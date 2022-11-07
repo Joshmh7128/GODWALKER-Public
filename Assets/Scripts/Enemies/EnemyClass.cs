@@ -57,7 +57,7 @@ public abstract class EnemyClass : MonoBehaviour
         // then rebuild it with a new parent
         foreach (Transform child in phaseParent)
         {
-            attackBehaviours.Add(child.GetComponent<EnemyBehaviour>());
+            try { attackBehaviours.Add(child.GetComponent<EnemyBehaviour>()); } catch { }
         }
     }
     // to run our behaviours
