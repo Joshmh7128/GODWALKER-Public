@@ -100,7 +100,7 @@ public class PlayerProjectileScript : MonoBehaviour
         {
             // get direction from target to transform
             Vector3 targetDirection = homingTarget.position - transform.position;
-            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 10 * Time.deltaTime, -0f);
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 100 * Time.deltaTime, -0f);
             transform.rotation = Quaternion.LookRotation(newDirection);
         }
     

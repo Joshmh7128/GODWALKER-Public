@@ -209,7 +209,9 @@ public class EnemyProjectile : MonoBehaviour
             if (other.transform.tag == "Shield")
             {
                 // spawn one of the player's projectiles as a homing bullet
-                Instantiate(PlayerWeaponManager.instance.currentWeapon.bulletPrefab, transform.position, Quaternion.identity).GetComponent<PlayerProjectileScript>().isHoming = true;
+                PlayerProjectileScript ps = Instantiate(PlayerWeaponManager.instance.currentWeapon.bulletPrefab, transform.position, Quaternion.identity).GetComponent<PlayerProjectileScript>();
+                ps.isHoming = true;
+                ps.damage = ps.damage * 4;
             }
 
             // always destroy
