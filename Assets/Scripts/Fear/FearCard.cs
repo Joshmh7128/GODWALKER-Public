@@ -90,6 +90,25 @@ public class FearCard : MonoBehaviour
             // then update
             infoTextDisplay.text = infoText;
         }
+        
+        // get the info of what this card will do
+        if (cardMode == cardModes.decrease)
+        {
+            foreach (fearTypes fear in fears)
+            {
+                // get info of this fear in its next stage
+                // previous effect is replaced with new effect
+
+                if (fearManager.effects[(int)fear].effectStage - 1 <= fearManager.effects[(int)fear].maxStage)
+                {
+                    infoText = fearManager.effects[(int)fear].effectInfos[fearManager.effects[(int)fear].effectStage - 1];
+                } else  { StartCoroutine(StartBuffer()); }
+
+            }
+
+            // then update
+            infoTextDisplay.text = infoText;
+        }
     }
 
     void SisterCheck()
