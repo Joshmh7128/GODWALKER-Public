@@ -48,6 +48,8 @@ public class PlayerStatManager : MonoBehaviour
         ProcessUI();
     }
 
+    bool hasdied = false; 
+
     // check our health every frame
     void ProcessCheckHealth()
     {
@@ -58,7 +60,7 @@ public class PlayerStatManager : MonoBehaviour
         }
 
         // run our damage check
-        if (health <= 0)
+        if (health <= 0 && !hasdied)
         {
             // die
             KillPlayer();
@@ -69,7 +71,8 @@ public class PlayerStatManager : MonoBehaviour
     IEnumerator CountDown()
     {
         yield return new WaitForSecondsRealtime(5f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("Tween");
+        Destroy(gameObject);    
     }
 
     // take damage
