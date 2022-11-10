@@ -81,6 +81,7 @@ public class ArenaHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F9) && arenaManager.activeArena == this)
         {
+            if (activeParent != null)
             foreach(Transform enemy in activeParent)
             {
                 enemy.gameObject.GetComponent<EnemyClass>().GetHurt(999999f);

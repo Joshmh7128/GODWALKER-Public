@@ -19,7 +19,7 @@ public class BossDoorScript : MonoBehaviour
                 gameObject.SetActive(false);
                 foreach (FearCard card2 in fearCards)
                 {
-                    card2.gameObject.SetActive(false);
+                    try { card2.gameObject.SetActive(false); } catch { break; } finally { Debug.Log("Card inactive, loop broken"); }
                 }
             }
         }
