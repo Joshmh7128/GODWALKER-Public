@@ -261,6 +261,7 @@ public class ArenaHandler : MonoBehaviour
 
     }
 
+    // deprecated
     public void StopAllEnemyBehaviours()
     {
         foreach (Transform child in activeParent)

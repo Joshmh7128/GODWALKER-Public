@@ -268,7 +268,7 @@ public class PlayerBodyPartManager : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         // Debug.Log("Updating ability UI");
-        uiManager.UpdateAbilityUI();
+        // uiManager.UpdateAbilityUI();
     }
 
     private void FixedUpdate()
