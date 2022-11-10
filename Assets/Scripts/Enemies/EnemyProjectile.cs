@@ -211,7 +211,7 @@ public class EnemyProjectile : MonoBehaviour
                 // spawn one of the player's projectiles as a homing bullet
                 PlayerProjectileScript ps = Instantiate(PlayerWeaponManager.instance.currentWeapon.bulletPrefab, transform.position, Quaternion.identity).GetComponent<PlayerProjectileScript>();
                 ps.isHoming = true;
-                ps.damage = ps.damage * 4;
+                ps.damage = ps.damage * 2;
             }
 
             // always destroy
