@@ -21,6 +21,7 @@ public abstract class EnemyBehaviour : MonoBehaviour
     // our main behaviour
     public virtual void RunMain()
     {
+        if (gameObject.activeInHierarchy)
         StartCoroutine(MainCoroutine());
     }
     // the coroutine where the behaviour is defined, per class
