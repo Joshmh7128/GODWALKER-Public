@@ -15,8 +15,9 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
         int fired = 0;
         while (fired < fireAmount)
         {
+            GameObject shot = null;
             // fire a projectile at the player
-            GameObject shot = Instantiate(projectile, projectileOrigin.position, projectileOrigin.rotation);
+            try { shot = Instantiate(projectile, projectileOrigin.position, projectileOrigin.rotation); } catch { };
             // set the damage of the shot if this is a single shot
             if (shot.GetComponent<EnemyProjectile>())
             {  // shot.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
