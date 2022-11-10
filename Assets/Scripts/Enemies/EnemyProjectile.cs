@@ -45,6 +45,8 @@ public class EnemyProjectile : MonoBehaviour
         originalBehaviour = projectileType;
         // get our local start position
         localStartPosition = transform.position;
+        // add ourselves to the manager
+        EnemyProjectileManager.instance.projectiles.Add(gameObject);
         // then run our start body
         if (startRun)
         StartBody();

@@ -305,7 +305,10 @@ public class ArenaHandler : MonoBehaviour
             CheckCombatCompletion();
 
             if (arenaMode == ArenaModes.Boss)
+            {
                 bossDoor.SetActive(false);
+                EnemyProjectileManager.instance.KillAllProjectiles();
+            }
 
             try { SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro); } catch { }
 
