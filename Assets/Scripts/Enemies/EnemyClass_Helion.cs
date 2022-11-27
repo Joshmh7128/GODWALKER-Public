@@ -12,7 +12,7 @@ public class EnemyClass_Helion : EnemyClass
     // set our stats
     public override void SetLevelStats()
     {
-        level = ArenaManager.instance.activeArena.arenaLevel;
+        // level = ArenaManager.instance.activeArena.arenaLevel;
         // set our health
         health = maxHealth;
         // set our damage

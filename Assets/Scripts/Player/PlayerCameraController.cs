@@ -10,7 +10,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] float defaultSensitivity, adsSensitivity, sprintSensitivity; // how fast the camera aims
     [SerializeField] float minYAngle, maxYAngle; // the minimum and maximum rotations of the camera
     float currentSensitivity, yRotate, xRotate;
-    [SerializeField] public Transform cameraRig;
+    [SerializeField] public Transform cameraRig, cameraRot;
     [SerializeField] float sphereCastWidth; // the width of our spherecast
     RaycastHit uiCheck, check; // hit is for things we are hitting, check is for environmental low level checks, like UI dynamics etc
     [SerializeField] public Transform AimTarget; // the transform of the object we are using to aim at 
@@ -108,7 +108,8 @@ public class PlayerCameraController : MonoBehaviour
         float finalyRotate = yRotate;
 
         // apply it to our head
-        cameraRig.eulerAngles = new Vector3(finalyRotate, finalxRotate, 0f);
+        cameraRig.localEulerAngles = new Vector3(0, finalxRotate, 0f);
+        cameraRot.localEulerAngles = new Vector3(finalyRotate, 0, 0);
     }
 
     // our forward rayast to check for interactables

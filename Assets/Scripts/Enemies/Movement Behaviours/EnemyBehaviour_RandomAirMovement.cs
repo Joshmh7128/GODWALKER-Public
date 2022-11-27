@@ -14,11 +14,22 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
     [SerializeField] float moveDistance; // how far do we move per check?
     [SerializeField] bool drawGizmos;
     [SerializeField] bool playerRelative; // is this relative to the player?
+    [SerializeField] bool divePlayer; // should we dive at the player
+    [SerializeField] float divePlayerHangTime; // how long before diving at the player?
+    [SerializeField] LookAtPlayer lookAtPlayer;
+    [SerializeField] GameObject cosmeticParent; // our cosmetic parent
 
     public override IEnumerator MainCoroutine()
     {
         // lerp to our target position
         active = true;
+
+        // store the position of the player in targetPos
+        if (divePlayer) 
+        { 
+            cosmeticParent.SetActive(true);
+        }
+
         yield return new WaitForSecondsRealtime(behaviourTime);
     }
 
@@ -38,7 +49,7 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
     public void FixedUpdate()
     {
         // move if active
-        if (active)
+        if (active && !divePlayer)
         {
             // check if we are going to run into anything
             Vector3 dir = targetPos - enemyClass.transform.position; 
@@ -60,6 +71,37 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
             }
 
         }
+
+        // if we dive bomb the player, lock on the position of the player, then dive bomb them
+        if (divePlayer)
+        {
+            // move forward
+            if (active)
+                lookAtPlayer.transform.position += (lookAtPlayer.transform.forward * speed * Time.deltaTime);
+
+            if (divePlayerHangTime >= 0)
+            {
+                divePlayerHangTime -= Time.deltaTime;
+            }
+
+            if (divePlayerHangTime < 0)
+            {
+                lookAtPlayer.enabled = false;
+                targetPos = PlayerController.instance.transform.position;
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "Player")
+        {
+            PlayerStatManager.instance.TakeDamage(10f);
+            Destroy(enemyClass.gameObject);
+        }
+
+        if (other.transform.tag != "Enemy" && other.transform.tag != "Player")
+        Destroy(enemyClass.gameObject);
     }
 
     private void OnDrawGizmos()

@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviour
         move = AdjustVelocityToSlope(move);
 
         // apply final movement
-        characterController.Move(move * Time.deltaTime * finalMoveSpeed);
+        characterController.Move(move * Time.fixedDeltaTime * finalMoveSpeed);
 
         // output our velocity
         velocity = (Mathf.Abs(move.x) + Mathf.Abs(move.y) + Mathf.Abs(move.z)) * finalMoveSpeed;
