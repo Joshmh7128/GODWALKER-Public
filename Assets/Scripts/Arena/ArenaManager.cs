@@ -15,11 +15,4 @@ public class ArenaManager : MonoBehaviour
 
     public ArenaHandler activeArena; // the arena which the player most recently activated
 
-    // our upgrade sets to be used by our arenas when we spawn in upgrades
-    public List<GameObject> mainSet, alternateSet, specialSet; // the main, alternate, and special sets
-    public int mainIndex, alternateIndex;
-
-    // the weapon prefabs we've spawned already
-    public List<GameObject> usedWeapons; // the weapons we've used
-
 }
