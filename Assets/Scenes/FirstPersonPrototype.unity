@@ -18060,7 +18060,7 @@ MonoBehaviour:
   sprintMoveMod: 0
   aimMoveMultiplier: 0.5
   moveSpeedAdjust: 0
-  moveLerpAxisDelta: 100000
+  moveLerpAxisDelta: 12
   gravityValue: 0
   verticalVelocity: 0
   playerJumpVelocity: 0
@@ -25562,7 +25562,7 @@ PrefabInstance:
       objectReference: {fileID: 567556767}
     - target: {fileID: 1253648684386651181, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_VersionIndex
-      value: 652
+      value: 655
       objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
@@ -25570,7 +25570,7 @@ PrefabInstance:
       objectReference: {fileID: 1812867015}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_VersionIndex
-      value: 649
+      value: 652
       objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035270, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
@@ -59551,7 +59551,7 @@ PrefabInstance:
       objectReference: {fileID: 337796818}
     - target: {fileID: 1253648684386651181, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_VersionIndex
-      value: 655
+      value: 658
       objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
@@ -59559,7 +59559,7 @@ PrefabInstance:
       objectReference: {fileID: 1659820793}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_VersionIndex
-      value: 652
+      value: 655
       objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035270, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
@@ -77876,7 +77876,7 @@ PrefabInstance:
       objectReference: {fileID: 1784422490}
     - target: {fileID: 1253648684386651181, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_VersionIndex
-      value: 649
+      value: 652
       objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
@@ -77884,7 +77884,7 @@ PrefabInstance:
       objectReference: {fileID: 2129725178}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_VersionIndex
-      value: 646
+      value: 649
       objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035270, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
@@ -99400,7 +99400,7 @@ GameObject:
   - component: {fileID: 5851776855120929414}
   - component: {fileID: 5851776855120929415}
   m_Layer: 0
-  m_Name: Health Restore Item (MANUAL PICKUP)
+  m_Name: Health Restore Item Autopickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99430,7 +99430,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5851776855120929409}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.100548, y: 5.330143, z: 116.13514}
+  m_LocalPosition: {x: -11.48, y: 13.04, z: 57.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -99457,8 +99457,8 @@ MonoBehaviour:
   healthRestore: 0
   uiHandler: {fileID: 5851776854610974109}
   vfx: {fileID: 185744, guid: 1fc16392b543a1d4893634582609f1f0, type: 3}
-  autoPickup: 0
-  autoPickupDistance: 0
+  autoPickup: 1
+  autoPickupDistance: 5
 --- !u!135 &5851776855120929415
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -99466,7 +99466,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5851776855120929409}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c7493c40eaa96e14ba1ac23fe9686bb3, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

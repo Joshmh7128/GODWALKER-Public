@@ -16,7 +16,7 @@ public abstract class EnemyClass : MonoBehaviour
     public float damage; // how much damage do we deal?
     public bool invincible; // is this invincible?
     [SerializeField] float lootDropChancePercentage;
-    [SerializeField] GameObject gunCreator;
+    [SerializeField] GameObject dropItem;
 
     // our behaviours
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
@@ -184,8 +184,7 @@ public abstract class EnemyClass : MonoBehaviour
         if (i < lootDropChancePercentage)
         {
             // access the creator we just built and set its level to our level
-            WeaponCreator creator = Instantiate(gunCreator, transform.position, Quaternion.identity, null).GetComponent<WeaponCreator>();
-            creator.level = level;
+            Instantiate(dropItem, transform.position, Quaternion.identity, null);
             // creator.UpdateItem(); // make sure we update the item since it will not properly show our stats otherwise!
         }
 

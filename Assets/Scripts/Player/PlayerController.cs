@@ -95,8 +95,8 @@ public class PlayerController : MonoBehaviour
     {
         #region // Core Movement
         // declare our motion
-        float pAxisV = Input.GetAxis("Vertical");
-        float pAxisH = Input.GetAxis("Horizontal");
+        float pAxisV = Input.GetAxisRaw("Vertical");
+        float pAxisH = Input.GetAxisRaw("Horizontal");
         Vector3 tmoveV = cameraRig.forward * pAxisV;
         Vector3 tmoveH = cameraRig.right * pAxisH;
 
