@@ -20,6 +20,7 @@ public abstract class EnemyClass : MonoBehaviour
 
     // our behaviours
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
+    public Transform attackBehaviourParent, movementBehaviourParent;
     [SerializeField] List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     [SerializeField] List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
     public bool activated;
@@ -101,13 +102,16 @@ public abstract class EnemyClass : MonoBehaviour
     // to sort the behaviours that our body uses
     void SortBehaviours()
     {
-        foreach (EnemyBehaviour behaviour in allBehaviours)
+        foreach (Transform behaviour in attackBehaviourParent)
         {
-            if (behaviour.type == EnemyBehaviour.BehaviourType.attack)
-            { attackBehaviours.Add(behaviour); }
+            // add attacks
+            attackBehaviours.Add(behaviour.GetComponent<EnemyBehaviour>());
+        }
 
-            if (behaviour.type == EnemyBehaviour.BehaviourType.movement)
-            { movementBehaviours.Add(behaviour); }
+        foreach (Transform behaviour in movementBehaviourParent)
+        {
+            // add attacks
+            movementBehaviours.Add(behaviour.GetComponent<EnemyBehaviour>());
         }
     }
 
