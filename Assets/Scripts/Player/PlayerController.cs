@@ -10,18 +10,13 @@ public class PlayerController : MonoBehaviour
     public Vector3 moveH, moveV, move;
     [SerializeField] CharacterController characterController; // our character controller
     public float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
+    public float moveLerpAxisDelta;
     RaycastHit groundedHit; // checking to see if we have touched the ground
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
     public float gravityUpMultiplier = 1, gravityDownMultiplier = 1, gravityMidairMultiplier; // our multipliers for moving up and down with gravity
     public bool grounded;
     public Vector3 lastGroundedPos; // the last position we were at when we were grounded
     float groundTime = 0; // how long we've been grounded
-
-    // dash related
-    [Header("Dash Management")]
-    public float dashSpeed; // how fast we move when dashing
-    public float dashTime, dashTimeMax; // how long we dash for
-    public bool dashing = false; // are we currently dashing
 
     [Header("Collision and readout")]
     [SerializeField] public float velocity; // our velocity which we only want to read!
@@ -98,8 +93,11 @@ public class PlayerController : MonoBehaviour
         // declare our motion
         float pAxisV = Input.GetAxisRaw("Vertical");
         float pAxisH = Input.GetAxisRaw("Horizontal");
-        moveV = cameraRig.forward * pAxisV;
-        moveH = cameraRig.right * pAxisH;
+        Vector3 tmoveV = cameraRig.forward * pAxisV;
+        Vector3 tmoveH = cameraRig.right * pAxisH;
+
+        moveV = Vector3.Lerp(moveV, tmoveV, moveLerpAxisDelta);
+        moveH = Vector3.Lerp(moveH, tmoveH, moveLerpAxisDelta);
 
         if (groundCheckCooldown <= 0)
         {
@@ -160,7 +158,7 @@ public class PlayerController : MonoBehaviour
 
         #region // Last Grounded Point
         // set our last grounded point
-        if (grounded && !dashing)
+        if (grounded)
         {
             groundTime += Time.deltaTime;
             if (groundTime >= 1f)
