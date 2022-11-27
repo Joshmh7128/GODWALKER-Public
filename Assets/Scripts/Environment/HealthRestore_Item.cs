@@ -27,10 +27,6 @@ public class HealthRestore_Item : ItemClass
 
     void SetStats()
     {
-        if (healthRestore == 0)
-        {
-            healthRestore = (int)Random.Range(1, 3) * 10;
-        }
 
         infoString = "Restores " + healthRestore + " Health";
         uiHandler.itemInfo.text = infoString;
