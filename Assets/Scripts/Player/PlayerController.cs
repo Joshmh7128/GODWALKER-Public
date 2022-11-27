@@ -183,59 +183,6 @@ public class PlayerController : MonoBehaviour
 
         #endregion
 
-        #region // Dashing
-        // dash calculation
-        if (Input.GetKey(KeyCode.LeftShift) && (Mathf.Abs(pAxisV) > 0.1f || Mathf.Abs(pAxisH) > 0.1f) && !grounded && dashTime <= dashTimeMax)
-        {
-            // if we can dash
-            if (dashTime <= dashTimeMax)
-            {
-                // vfx stuff
-                PlayerCameraController.instance.FOVKickRequest(95, true);
-                if (dashing)
-                {
-                    foreach (GameObject g in dashVFX)
-                    {
-                        g.SetActive(true);
-                    }
-                }
-
-                UseDash();
-                dashing = true; // we are currently dashing
-                dashTime += Time.deltaTime; // count up the dash
-            }
-        }
-
-        // dash time calculation
-        if (dashTime > 0 && !dashing)
-        {
-            dashTime -= Time.deltaTime;
-        }
-
-        // dash cancel. if we stop midair, that's it
-        if (Input.GetKeyUp(KeyCode.LeftShift) && !grounded)
-        {
-            dashing = false;
-            dashTime = dashTimeMax;
-        }
-
-        // dash reset
-        if (grounded && dashTime > 0)
-        {
-            dashing = false;
-            dashTime = 0;
-        }
-
-        // vfx off
-        if (dashTime >= dashTimeMax || !dashing)
-        {
-            foreach (GameObject g in dashVFX)
-            {
-                g.SetActive(false);
-            }
-        }
-        #endregion
-
         #region // Last Grounded Point
         // set our last grounded point
         if (grounded && !dashing)
