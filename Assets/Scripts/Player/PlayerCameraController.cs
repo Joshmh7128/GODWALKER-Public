@@ -18,6 +18,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] Camera mainCam; // our main cam
     [SerializeField] float aimFOV; // how far in we aim
     bool canControl = true; // can we control this?
+    [SerializeField] float forwardCheckOffset; // the offset of how far forward we check our check hitcast
 
     [SerializeField] Text aimSensitivityText; // display our current aim sensitivity
 
@@ -75,7 +76,7 @@ public class PlayerCameraController : MonoBehaviour
     // get our check point
     void CalculateCheckPoint()
     {
-        Physics.Raycast(transform.position, transform.forward, out check, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+        Physics.Raycast(transform.position + transform.forward * forwardCheckOffset, transform.forward, out check, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Ignore);
     }
 
     // control our camera via the mouse
@@ -163,25 +164,18 @@ public class PlayerCameraController : MonoBehaviour
         // if we're in normal fov mode, lerp back to normal
         if (FOVMode == FOVModes.normal)
         {
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 90f, 3f * Time.deltaTime);
-            PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
-            aimSensitivity = defaultSensitivity;
+            
         }
 
         // if we're not in aiming mode
         if (FOVMode == FOVModes.aiming)
         {
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, aimFOV, 5f * Time.deltaTime);
-            PlayerWeaponManager.instance.currentWeapon.spreadReduct *= 2f;
-            aimSensitivity = defaultSensitivity * adsSensitivity;
         }
 
         // if we're sprinting
         if (FOVMode == FOVModes.sprinting)
         {
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 100f, 10f * Time.deltaTime);
-            PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
-            aimSensitivity = defaultSensitivity * sprintSensitivity;
+
         }
 
     }
