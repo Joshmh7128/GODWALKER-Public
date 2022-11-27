@@ -13,11 +13,13 @@ public class HealthRestore_Item : ItemClass
 
     // our instance
     PlayerStatManager playerStatManager;
+    PlayerController playerController;
 
     private void Start()
     {
         // get instance
         playerStatManager = PlayerStatManager.instance;
+        playerController = PlayerController.instance;
 
         // set our stats
         SetStats();
@@ -50,7 +52,7 @@ public class HealthRestore_Item : ItemClass
                 Debug.Log("adding " + healthRestore);
                 playerStatManager.AddHealth(healthRestore);
                 // spawn fx on player
-                Instantiate(vfx, PlayerController.instance.transform.position + Vector3.up * 0.5f, vfx.transform.rotation);
+                Instantiate(vfx, playerController.transform.position, vfx.transform.rotation);
                 // then destroy object
                 Destroy(uiHandler.gameObject);
                 Destroy(gameObject);
@@ -59,12 +61,12 @@ public class HealthRestore_Item : ItemClass
 
         if (autoPickup)
         {
-            if (Vector3.Distance(transform.position, playerStatManager.transform.position) < autoPickupDistance)
+            if (Vector3.Distance(transform.position, playerController.transform.position) < autoPickupDistance)
             {
                 Debug.Log("adding " + healthRestore);
                 playerStatManager.AddHealth(healthRestore);
                 // spawn fx on player
-                Instantiate(vfx, PlayerController.instance.transform.position + Vector3.up * 0.5f, vfx.transform.rotation);
+                Instantiate(vfx, playerController.transform.position, vfx.transform.rotation);
                 // then destroy object
                 Destroy(uiHandler.gameObject);
                 Destroy(gameObject);
