@@ -61,7 +61,7 @@ public class HealthRestore_Item : ItemClass
 
         if (autoPickup)
         {
-            if (Vector3.Distance(transform.position, playerController.transform.position) < autoPickupDistance)
+            if (Vector3.Distance(transform.position, playerController.transform.position) < autoPickupDistance && playerStatManager.health < playerStatManager.maxHealth)
             {
                 Debug.Log("adding " + healthRestore);
                 playerStatManager.AddHealth(healthRestore);
