@@ -14,7 +14,6 @@ public class EnemyClass_Helion : EnemyClass
     {
         level = ArenaManager.instance.activeArena.arenaLevel;
         // set our health
-        maxHealth = (level + level * 0.15f) * baseHealth; // crabs have 100hp per level
         health = maxHealth;
         // set our damage
         // damage = level * (2 + level * 0.1f); // this is a standard curve

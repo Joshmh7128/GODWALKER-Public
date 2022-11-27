@@ -32,6 +32,11 @@ public class PlayerController : MonoBehaviour
     int playerIgnoreMask;
     int ignoreLayerMask;
 
+    [Header("Where Go and Where Was aiming targets")]
+    public Transform whereGoTarget; // where we are going 
+    public Transform whereWasTarget; // where we were
+    [SerializeField] float wasGoGamma; // how much lead to apply
+
     [Header("Animation Management")]
     public Transform cameraRig, animationRigParent;
     [SerializeField] float maxRealignAngle; // how far can the player turn before we need to realign
@@ -82,6 +87,7 @@ public class PlayerController : MonoBehaviour
             ProcessAnimationParentControl();
             // how we control our weapon
             ProcessWeaponControl();
+            ProcessGoWas();
         }
 
         // resetting the scene
@@ -305,5 +311,12 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(adjusterHit.point, 0.1f);
+    }
+
+    // targets for enemies to aim at
+    public void ProcessGoWas()
+    {
+        whereGoTarget.position = transform.position + move * wasGoGamma;
+        whereWasTarget.position = transform.position - move * wasGoGamma;
     }
 }

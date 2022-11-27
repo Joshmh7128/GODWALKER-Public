@@ -15,14 +15,14 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] float speed; // how fast this projectile moves kinematically, or how hard it is launched
     Rigidbody localRigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
-    [SerializeField] bool facePlayer; // do we face the player
+    [SerializeField] bool facePlayer, faceGo, faceWas; // do we face the player
     [SerializeField] bool invincible; // are we invincible?
     [SerializeField] int deathTime; // how long to death
     [SerializeField] float openLifetime = 6f;
     public float damage; // how much damage does this deal?
 
     // our curve speed
-    [SerializeField] float homingSpeed; // how fast we home towards the player
+    [SerializeField] float homingSpeed, homingHangTime; // how fast we home towards the player
     [SerializeField] float curveSpeed; // how fast we curve in any direction
     Vector3 curveVector; // our curve vector
     [SerializeField] float ringExpandSpeed; // how fast the rings expand from this enemy
@@ -48,6 +48,18 @@ public class EnemyProjectile : MonoBehaviour
             transform.LookAt(PlayerController.instance.transform.position);
         }
 
+        // if we face go
+        if (faceGo)
+        {
+            transform.LookAt(PlayerController.instance.whereGoTarget);
+        }
+
+        // if we face was
+        if (faceWas)
+        {
+            transform.LookAt(PlayerController.instance.whereWasTarget);
+        }
+
         if (projectileType == ProjectileTypes.kinematic)
         {
 
@@ -66,11 +78,20 @@ public class EnemyProjectile : MonoBehaviour
 
         if (projectileType == ProjectileTypes.homing)
         {
-            // home in on the player
-            // if we are homing, get direction from target to transform
-            Vector3 targetDirection = PlayerController.instance.transform.position - transform.position;
-            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 10 * Time.deltaTime, -0f);
-            transform.rotation = Quaternion.LookRotation(newDirection);
+
+            if (homingHangTime > 0) 
+            { 
+                homingHangTime -= Time.deltaTime;
+            }
+
+            if (homingHangTime < 0)
+            {
+                // home in on the player
+                // if we are homing, get direction from target to transform
+                Vector3 targetDirection = PlayerController.instance.transform.position - transform.position;
+                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 10 * Time.deltaTime, -0f);
+                transform.rotation = Quaternion.LookRotation(newDirection);
+            }
         }
 
         if (projectileType == ProjectileTypes.ring)
@@ -146,11 +167,20 @@ public class EnemyProjectile : MonoBehaviour
 
     void ProcessHoming()
     {
-        // home in on the player
-        // if we are homing, get direction from target to transform
-        Vector3 targetDirection = PlayerController.instance.transform.position - transform.position;
-        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 10 * Time.deltaTime, -0f);
-        transform.rotation = Quaternion.LookRotation(newDirection);
+
+        if (homingHangTime > 0)
+        {
+            homingHangTime -= Time.deltaTime;
+        }
+
+        if (homingHangTime < 0)
+        {
+            // home in on the player
+            // if we are homing, get direction from target to transform
+            Vector3 targetDirection = PlayerController.instance.transform.position - transform.position;
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, homingSpeed * Time.deltaTime, -0f);
+            transform.rotation = Quaternion.LookRotation(newDirection);
+        }
 
         // once we get close enough to the player, stop homing
         if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < 6)
