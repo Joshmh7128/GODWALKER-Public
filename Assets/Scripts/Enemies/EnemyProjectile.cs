@@ -180,7 +180,7 @@ public class EnemyProjectile : MonoBehaviour
             }
 
             // always destroy
-            if (!invincible)
+            if (!invincible && other.transform.tag != "Enemy")
             OnDestroyObject();
         }
     }
@@ -199,7 +199,7 @@ public class EnemyProjectile : MonoBehaviour
             }
 
             // always destroy
-            if (!invincible)
+            if (!invincible && other.transform.tag != "Enemy")
             OnDestroyObject();
         }
     }
