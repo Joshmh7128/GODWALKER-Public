@@ -20,8 +20,8 @@ public abstract class EnemyClass : MonoBehaviour
 
     // our behaviours
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
-    List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
-    List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
+    [SerializeField] List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
+    [SerializeField] List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
     public bool activated;
     // our agent
     [HideInInspector] public NavMeshAgent navMeshAgent;
