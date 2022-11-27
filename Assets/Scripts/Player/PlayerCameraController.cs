@@ -98,11 +98,11 @@ public class PlayerCameraController : MonoBehaviour
         // our camera control
         currentSensitivity = aimSensitivity * 10f;
         // run math to rotate the head of the player as we move the mouse
-        yRotate += (Input.GetAxis("Mouse Y") * -currentSensitivity * Time.deltaTime);
+        yRotate += (Input.GetAxis("Mouse Y") * -currentSensitivity * 0.75f * Time.fixedDeltaTime); // multiply by factor because we're playing in 16:9
         // clamp the rotation so we don't go around ourselves
         yRotate = Mathf.Clamp(yRotate, minYAngle, maxYAngle);
         // calculate our X rotation
-        xRotate += (Input.GetAxis("Mouse X") * currentSensitivity * 0.33f * Time.deltaTime);
+        xRotate += (Input.GetAxis("Mouse X") * currentSensitivity* Time.fixedDeltaTime);
         // add in our rotate mods if we have any
         float finalxRotate = xRotate;
         float finalyRotate = yRotate;
