@@ -8,6 +8,8 @@ public class HealthRestore_Item : ItemClass
     string infoString; // our info
     [SerializeField] ItemUIHandler uiHandler; // our UI handler
     [SerializeField] GameObject vfx; // our vfx
+    [SerializeField] bool autoPickup; // does the player pick this up by walking over it?
+    [SerializeField] float autoPickupDistance; // how far from the player is this picked up?
 
     // our instance
     PlayerStatManager playerStatManager;
@@ -41,16 +43,34 @@ public class HealthRestore_Item : ItemClass
     void ProcessPickup()
     {
         // if we can grab and can pickup
-        if (canGrab & Input.GetKeyDown(KeyCode.E))
+        if (!autoPickup)
         {
-            Debug.Log("adding " + healthRestore);
-            playerStatManager.AddHealth(healthRestore);
-            // spawn fx on player
-            Instantiate(vfx, PlayerController.instance.transform.position + Vector3.up * 0.5f, vfx.transform.rotation);
-            // then destroy object
-            Destroy(uiHandler.gameObject);
-            Destroy(gameObject);
+            if (canGrab & Input.GetKeyDown(KeyCode.E))
+            {
+                Debug.Log("adding " + healthRestore);
+                playerStatManager.AddHealth(healthRestore);
+                // spawn fx on player
+                Instantiate(vfx, PlayerController.instance.transform.position + Vector3.up * 0.5f, vfx.transform.rotation);
+                // then destroy object
+                Destroy(uiHandler.gameObject);
+                Destroy(gameObject);
+            }
         }
+
+        if (autoPickup)
+        {
+            if (Vector3.Distance(transform.position, playerStatManager.transform.position) < autoPickupDistance)
+            {
+                Debug.Log("adding " + healthRestore);
+                playerStatManager.AddHealth(healthRestore);
+                // spawn fx on player
+                Instantiate(vfx, PlayerController.instance.transform.position + Vector3.up * 0.5f, vfx.transform.rotation);
+                // then destroy object
+                Destroy(uiHandler.gameObject);
+                Destroy(gameObject);
+            }
+        }
+
 
 
     }

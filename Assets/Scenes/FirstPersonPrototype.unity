@@ -914,6 +914,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crab Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7853617228029179127, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
 --- !u!4 &119420036 stripped
@@ -25558,7 +25562,7 @@ PrefabInstance:
       objectReference: {fileID: 567556767}
     - target: {fileID: 1253648684386651181, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_VersionIndex
-      value: 649
+      value: 652
       objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
@@ -25566,7 +25570,7 @@ PrefabInstance:
       objectReference: {fileID: 1812867015}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_VersionIndex
-      value: 646
+      value: 649
       objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035270, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
@@ -26084,6 +26088,10 @@ PrefabInstance:
     - target: {fileID: 7853617228029179127, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
       propertyPath: m_Name
       value: Crab Enemy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7853617228029179127, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
@@ -31086,6 +31094,10 @@ PrefabInstance:
     - target: {fileID: 7853617228029179127, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
       propertyPath: m_Name
       value: Crab Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7853617228029179127, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
@@ -59539,7 +59551,7 @@ PrefabInstance:
       objectReference: {fileID: 337796818}
     - target: {fileID: 1253648684386651181, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_VersionIndex
-      value: 652
+      value: 655
       objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
@@ -59547,7 +59559,7 @@ PrefabInstance:
       objectReference: {fileID: 1659820793}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_VersionIndex
-      value: 649
+      value: 652
       objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035270, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
@@ -70419,6 +70431,8 @@ MonoBehaviour:
   healthRestore: 0
   uiHandler: {fileID: 722601301}
   vfx: {fileID: 185744, guid: 1fc16392b543a1d4893634582609f1f0, type: 3}
+  autoPickup: 0
+  autoPickupDistance: 0
 --- !u!54 &1492400322
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -77860,10 +77874,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1784422490}
+    - target: {fileID: 1253648684386651181, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
+      propertyPath: m_VersionIndex
+      value: 649
+      objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 2129725178}
+    - target: {fileID: 4220874669418035269, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
+      propertyPath: m_VersionIndex
+      value: 646
+      objectReference: {fileID: 0}
     - target: {fileID: 4220874669418035270, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -79123,6 +79145,8 @@ MonoBehaviour:
   healthRestore: 0
   uiHandler: {fileID: 208693507}
   vfx: {fileID: 185744, guid: 1fc16392b543a1d4893634582609f1f0, type: 3}
+  autoPickup: 0
+  autoPickupDistance: 0
 --- !u!54 &1848085002
 Rigidbody:
   m_ObjectHideFlags: 0
