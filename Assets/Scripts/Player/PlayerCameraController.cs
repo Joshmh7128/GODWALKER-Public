@@ -23,7 +23,6 @@ public class PlayerCameraController : MonoBehaviour
 
     // setup an instance
     public static PlayerCameraController instance;
-    PlayerBodyPartManager bodyPartManager;
     private void Awake()
     {
         instance = this;
@@ -31,7 +30,6 @@ public class PlayerCameraController : MonoBehaviour
 
     private void Start()
     {
-        bodyPartManager = PlayerBodyPartManager.instance;
         // setup our main cam to be referenced
         mainCam = Camera.main;
         // set default sense
@@ -103,32 +101,13 @@ public class PlayerCameraController : MonoBehaviour
         // clamp the rotation so we don't go around ourselves
         yRotate = Mathf.Clamp(yRotate, minYAngle, maxYAngle);
         // calculate our X rotation
-        xRotate += (Input.GetAxis("Mouse X") * currentSensitivity * Time.deltaTime);
+        xRotate += (Input.GetAxis("Mouse X") * currentSensitivity * 0.33f * Time.deltaTime);
         // add in our rotate mods if we have any
         float finalxRotate = xRotate;
         float finalyRotate = yRotate;
 
         // apply it to our head
         cameraRig.eulerAngles = new Vector3(finalyRotate, finalxRotate, 0f);
-
-        // aiming if we're not sprinting
-        if (FOVMode != FOVModes.sprinting)
-        {
-            // get our mouse inputs
-            if (Input.GetMouseButton(1) && FOVMode == FOVModes.normal)
-            {
-                PlayerController.instance.movementState = PlayerController.MovementStates.aiming;
-                FOVMode = FOVModes.aiming;
-                bodyPartManager.CallParts("OnADS");
-            }
-
-            if (Input.GetMouseButtonUp(1) && FOVMode == FOVModes.aiming)
-            {
-                PlayerController.instance.movementState = PlayerController.MovementStates.normal;
-                FOVMode = FOVModes.normal;
-                bodyPartManager.CallParts("OffADS");
-            }
-        }
     }
 
     // our forward rayast to check for interactables

@@ -69,9 +69,6 @@ public abstract class WeaponClass : MonoBehaviour
     // our UI handler
     public WeaponUIHandler weaponUIHandler;
 
-    // our body part manager
-    public PlayerBodyPartManager bodyPartManager;
-
     // our weapon use types
     public enum WeaponUseTypes
     {
@@ -91,8 +88,6 @@ public abstract class WeaponClass : MonoBehaviour
     {
         // get our weapon handler
         weaponUIHandler = GetComponent<WeaponUIHandler>();
-        // get our body part manager
-        bodyPartManager = PlayerBodyPartManager.instance;
         // set our original spread reduct
         originalSpreadReduct = spreadReduct;
         // update our stats
@@ -114,13 +109,11 @@ public abstract class WeaponClass : MonoBehaviour
     public virtual void Fire()
     {
 
-        // if there are no requests, this is a normal shot
-        bodyPartManager.CallParts("OnWeaponFire");
         // if there is a double shot request, this is a double shot, then set request to false
-        if (requestDoubleShot) { bodyPartManager.CallParts("OnDoubleShot"); requestDoubleShot = false; }
+        if (requestDoubleShot) {requestDoubleShot = false; }
         // if there is a request for a homing shot, this is a homing shot, then set request to false
         bool isHoming = false; // setup for local use
-        if (requestHomingShot) { bodyPartManager.CallParts("OnHomingShot"); requestHomingShot = false; isHoming = true; }
+        if (requestHomingShot) {requestHomingShot = false; isHoming = true; }
         // does this bullet explode?
         bool doesExplode = false;// setup for local use
         if (requestExplodingShot) { requestExplodingShot = false; doesExplode = true; }
