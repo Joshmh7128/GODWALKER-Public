@@ -19,7 +19,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] float aimFOV; // how far in we aim
     bool canControl = true; // can we control this?
     [SerializeField] float forwardCheckOffset; // the offset of how far forward we check our check hitcast
-
+    [SerializeField] float normalFOV; // our normal FOV
     [SerializeField] Text aimSensitivityText; // display our current aim sensitivity
 
     // setup an instance
@@ -164,7 +164,9 @@ public class PlayerCameraController : MonoBehaviour
         // if we're in normal fov mode, lerp back to normal
         if (FOVMode == FOVModes.normal)
         {
-            
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, normalFOV, 3f * Time.deltaTime);
+            PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
+            aimSensitivity = defaultSensitivity;
         }
 
         // if we're not in aiming mode
