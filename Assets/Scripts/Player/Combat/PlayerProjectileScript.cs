@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DamageNumbersPro;
 
 public class PlayerProjectileScript : MonoBehaviour
 {
@@ -10,7 +9,6 @@ public class PlayerProjectileScript : MonoBehaviour
     
     // vfx
     [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX, homingFX, teleportFX; // the particle we use on death
-    public DamageNumber normalHit, critHit; // normal and critical damage numbers
 
     RaycastHit hit; // our raycast hit
     [SerializeField] int deathTime = 30;
@@ -142,22 +140,7 @@ public class PlayerProjectileScript : MonoBehaviour
                 damage = weaponManager.currentWeapon.damage;
             }
 
-            // run a chance to see if this is a critical or not
-            int c = Random.Range(0, 100);
-            // check the chance
-            if (c <= weaponManager.criticalHitChance + localCritMod)
-            {   
-                // randomly boost damage on critical hits
-                damage *= Random.Range(2, 4);
-                // spawn critical damage number
-                critHit.Spawn(transform.position, damage);
-            } else if (c > weaponManager.criticalHitChance + localCritMod)
-            {
-                // random normal modifier
-                damage *= Random.Range(0.9f, 1.15f);
-                // spawn normal damage number
-                normalHit.Spawn(transform.position, damage);
-            }
+           
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
             // run our on damage calls
             if (isHoming)
@@ -174,7 +157,6 @@ public class PlayerProjectileScript : MonoBehaviour
             // random normal modifier
             damage = 0;
             // spawn normal damage number
-            normalHit.Spawn(transform.position, damage);   
         }
 
     }
