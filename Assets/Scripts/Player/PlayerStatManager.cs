@@ -83,8 +83,6 @@ public class PlayerStatManager : MonoBehaviour
             // set our health
             if (!debugInvincible)
                 health -= damageAmount;
-            // trigger a damage effect
-            PlayerBodyPartManager.instance.CallParts("OnPlayerTakeDamage");
         }
 
         // even if we don't take damage trigger the UI to react as if we are taking damage
@@ -108,7 +106,6 @@ public class PlayerStatManager : MonoBehaviour
             {
                 health = maxHealth;
             }
-            PlayerBodyPartManager.instance.CallParts("OnPlayerGainLife");
             // update our post
             ChoosePostProcessing();
         }

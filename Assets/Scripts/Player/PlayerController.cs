@@ -82,8 +82,6 @@ public class PlayerController : MonoBehaviour
             ProcessAnimationParentControl();
             // how we control our weapon
             ProcessWeaponControl();
-            // reloading
-            ProcessReloadControl();
         }
 
         // resetting the scene
@@ -213,16 +211,6 @@ public class PlayerController : MonoBehaviour
         return velocity;
     }
 
-    void ProcessReloadControl()
-    {
-        // when we press R, reload our current weapon
-        if (Input.GetKeyDown (KeyCode.R) && PlayerWeaponManager.instance.currentWeapon.currentMagazine < PlayerWeaponManager.instance.currentWeapon.maxMagazine)
-        {
-            // check our IK controller to see if we are reloading
-            if (PlayerInverseKinematicsController.instance.reloading == false)
-            PlayerWeaponManager.instance.currentWeapon.Reload(false); // normal, non-instant reload
-        }
-    }
 
     // our animation parent control
     void ProcessAnimationParentControl()
