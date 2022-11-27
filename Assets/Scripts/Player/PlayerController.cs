@@ -42,9 +42,6 @@ public class PlayerController : MonoBehaviour
     // our weapon management
     PlayerWeaponManager weaponManager;
 
-    // body part related
-    PlayerBodyPartManager bodyPartManager;
-
     // setup our instance
     public static PlayerController instance;
     public void Awake()
@@ -72,8 +69,6 @@ public class PlayerController : MonoBehaviour
         weaponManager = PlayerWeaponManager.instance; 
         // lock cursor
         Cursor.lockState = CursorLockMode.Locked;
-        // get our bodypart manager
-        bodyPartManager = PlayerBodyPartManager.instance;
 
     }
 
@@ -90,8 +85,6 @@ public class PlayerController : MonoBehaviour
             ProcessWeaponControl();
             // reloading
             ProcessReloadControl();
-            // abilities
-            ProcessAbilityControl();
         }
 
         // resetting the scene
@@ -127,16 +120,6 @@ public class PlayerController : MonoBehaviour
             playerJumpVelocity += gravityValue * Time.deltaTime;
             grounded = false;
 
-            // check and run our midair movements
-            bodyPartManager.CallParts("OnMoveMidair"); // we're moving while midair
-
-            // if we were moving up in the last frame 
-            if (move.y > 0)
-                bodyPartManager.CallParts("OnMoveUp");
-
-            // if we were moving down in the last frame
-            if (move.y < 0)
-                bodyPartManager.CallParts("OnMoveDown");
         }
 
         if (groundedHit.transform != null)
@@ -148,8 +131,6 @@ public class PlayerController : MonoBehaviour
                 groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
                 // instantiate a visual effect
                 Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation, transform);
-                // trigger an on jump effect
-                bodyPartManager.CallParts("OnJump");
             }
             else if (!grounded)
             {
@@ -158,8 +139,6 @@ public class PlayerController : MonoBehaviour
 
                 playerJumpVelocity = 0f;
                 grounded = true;
-                // trigger an on land effect
-                bodyPartManager.CallParts("OnLand");
             }
         }
 
@@ -168,8 +147,6 @@ public class PlayerController : MonoBehaviour
         {
             movementState = MovementStates.sprinting;
             PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.sprinting;
-            // call on sprint
-            bodyPartManager.CallParts("OnSprint");
         }
 
         // sprint stopping
@@ -177,8 +154,6 @@ public class PlayerController : MonoBehaviour
         {
             movementState = MovementStates.normal;
             PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.normal;
-            // call off sprint
-            bodyPartManager.CallParts("OffSprint");
         }
 
         #endregion
@@ -225,20 +200,7 @@ public class PlayerController : MonoBehaviour
         velocity = (Mathf.Abs(move.x) + Mathf.Abs(move.y) + Mathf.Abs(move.z)) * finalMoveSpeed;
         #endregion
     }
-
-    void UseDash()
-    {
-        // declare our motion
-        float pAxisV = Input.GetAxisRaw("Vertical");
-        float pAxisH = Input.GetAxisRaw("Horizontal");
-        Vector3 lmoveV = cameraRig.forward * pAxisV;
-        Vector3 lmoveH = cameraRig.right * pAxisH;
-        // lock to horizontal movement
-        Vector3 lmove = new Vector3(lmoveH.x + lmoveV.x, 0, lmoveH.z + lmoveV.z);
-        // move character
-        characterController.Move(lmove * dashSpeed * Time.deltaTime);
-    }
-
+    
     RaycastHit adjusterHit;
     private Vector3 AdjustVelocityToSlope(Vector3 velocity)
     {
@@ -302,18 +264,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ability control
-    void ProcessAbilityControl()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            foreach (BodyPartClass part in bodyPartManager.bodyParts)
-            {
-                part.UseAbility(); // use the ability 
-            }
-        }
-    }
-
     // death
     public void OnPlayerDeath()
     {
@@ -324,30 +274,6 @@ public class PlayerController : MonoBehaviour
         // explosino instantiation
         Instantiate(deathFX, transform.position, Quaternion.identity, null);
 
-        // instantiate a bodypart for each of our current bodyparts inside of a capsule collider explode object
-        GameObject headCap = Instantiate(capsulePrefab, transform.position + Vector3.up, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.headPartClass.gameObject, Vector3.zero, Quaternion.identity, headCap.transform);
-        headCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
-
-        GameObject bodyCap = Instantiate(capsulePrefab, transform.position, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.torsoPartClass.gameObject, Vector3.zero, Quaternion.identity, bodyCap.transform);
-        bodyCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
-
-        GameObject rightArmCap = Instantiate(capsulePrefab, transform.position + Vector3.right, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.rightArmPartClass.gameObject, Vector3.zero, Quaternion.identity, rightArmCap.transform);
-        rightArmCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
-
-        GameObject leftArmCap = Instantiate(capsulePrefab, transform.position + -Vector3.right, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.leftArmPartClass.gameObject, Vector3.zero, Quaternion.identity, leftArmCap.transform);
-        leftArmCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
-
-        GameObject rightLegCap = Instantiate(capsulePrefab, transform.position + Vector3.right + Vector3.down, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.rightLegPartClass.gameObject, Vector3.zero, Quaternion.identity, rightLegCap.transform);
-        rightLegCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
-
-        GameObject leftLegCap = Instantiate(capsulePrefab, transform.position + -Vector3.right + Vector3.down, Quaternion.identity, null);
-        Instantiate(PlayerBodyPartManager.instance.leftLegPartClass.gameObject, Vector3.zero, Quaternion.identity, leftLegCap.transform);
-        leftLegCap.transform.GetChild(0).transform.localPosition = Vector3.zero;
     }
 
     // prototype reset
