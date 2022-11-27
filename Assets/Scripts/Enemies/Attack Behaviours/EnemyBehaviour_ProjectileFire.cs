@@ -14,9 +14,12 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
         int fired = 0;
         while (fired < fireAmount)
         {
+            GameObject shot = null;
             // fire a projectile at the player
-            GameObject shot = Instantiate(projectile, projectileOrigin.position, projectileOrigin.rotation);
+            if (projectile != null)
+            shot = Instantiate(projectile, projectileOrigin.position, projectileOrigin.rotation); 
             // set the damage of the shot if this is a single shot
+            if (shot != null)
             if (shot.GetComponent<EnemyProjectile>())
             { shot.GetComponent<EnemyProjectile>().damage = enemyClass.damage; }
             else // if this is a group
@@ -29,7 +32,7 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
                     }
                 }
             }
-
+           
             // wait the fire rate
             yield return new WaitForSeconds(fireRate + Random.Range(0, fireRate));
             // advance

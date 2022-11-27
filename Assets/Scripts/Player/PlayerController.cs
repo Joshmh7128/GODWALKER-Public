@@ -262,18 +262,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            SceneManager.LoadScene("DemoPrototype");
+            SceneManager.LoadScene("FirstPersonPrototype");
         }
 
-        if (Input.GetKeyDown(KeyCode.F6))
-        {
-            SceneManager.LoadScene("Player Controller Testing");
-        }
-
-        if (Input.GetKeyDown(KeyCode.F7))
-        {
-            Teleport(new Vector3(152, 18, 213));
-        }
     }
 
     // teleportation
