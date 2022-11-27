@@ -18,6 +18,10 @@ public class PlayerController : MonoBehaviour
     public Vector3 lastGroundedPos; // the last position we were at when we were grounded
     float groundTime = 0; // how long we've been grounded
 
+    [Header("Jump Stuff")]
+    public float remainingJumps;
+    public float maxJumps;
+
     [Header("Collision and readout")]
     [SerializeField] public float velocity; // our velocity which we only want to read!
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
@@ -91,13 +95,13 @@ public class PlayerController : MonoBehaviour
     {
         #region // Core Movement
         // declare our motion
-        float pAxisV = Input.GetAxisRaw("Vertical");
-        float pAxisH = Input.GetAxisRaw("Horizontal");
+        float pAxisV = Input.GetAxis("Vertical");
+        float pAxisH = Input.GetAxis("Horizontal");
         Vector3 tmoveV = cameraRig.forward * pAxisV;
         Vector3 tmoveH = cameraRig.right * pAxisH;
 
-        moveV = Vector3.Lerp(moveV, tmoveV, moveLerpAxisDelta);
-        moveH = Vector3.Lerp(moveH, tmoveH, moveLerpAxisDelta);
+        moveV = Vector3.Lerp(moveV, tmoveV, moveLerpAxisDelta * Time.fixedDeltaTime);
+        moveH = Vector3.Lerp(moveH, tmoveH, moveLerpAxisDelta * Time.fixedDeltaTime);
 
         if (groundCheckCooldown <= 0)
         {
@@ -106,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
         if (groundCheckCooldown > 0)
         {
-            playerJumpVelocity += gravityValue * Time.deltaTime;
+            playerJumpVelocity += gravityValue * Time.fixedDeltaTime;
             groundCheckCooldown -= Time.deltaTime;
         }
 
@@ -115,43 +119,34 @@ public class PlayerController : MonoBehaviour
 
         if (groundedHit.transform == null)
         {
-            playerJumpVelocity += gravityValue * Time.deltaTime;
+            playerJumpVelocity += gravityValue * Time.fixedDeltaTime;
             grounded = false;
 
         }
 
-        if (groundedHit.transform != null)
+        if (groundedHit.transform != null || remainingJumps > 0 && maxJumps > 0)
         {
             // jumping
-            if (Input.GetKeyDown(KeyCode.Space) && (groundCheckCooldown <= 0))
+            if (Input.GetKeyDown(KeyCode.Space) && (groundCheckCooldown <= 0 || remainingJumps > 0))
             {
                 playerJumpVelocity = Mathf.Sqrt(-jumpVelocity * gravity);
+                remainingJumps--; // reduce jumps
                 groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
                 // instantiate a visual effect
                 Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation, transform);
             }
-            else if (!grounded)
+        }
+
+        if (groundedHit.transform != null)
+        {
+            if (!grounded)
             {
                 // instantiate a visual effect
                 Instantiate(landVFX, transform.position, landVFX.transform.rotation, null);
-
+                remainingJumps = maxJumps;
                 playerJumpVelocity = 0f;
                 grounded = true;
             }
-        }
-
-        // sprint calculation
-        if (Input.GetKeyDown(KeyCode.LeftShift) && pAxisV > 0.1f && grounded)
-        {
-            movementState = MovementStates.sprinting;
-            PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.sprinting;
-        }
-
-        // sprint stopping
-        if (movementState == MovementStates.sprinting && (pAxisV <= 0.1f || Input.GetMouseButton(1)))
-        {
-            movementState = MovementStates.normal;
-            PlayerCameraController.instance.FOVMode = PlayerCameraController.FOVModes.normal;
         }
 
         #endregion
