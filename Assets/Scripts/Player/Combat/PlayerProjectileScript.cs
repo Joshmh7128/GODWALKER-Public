@@ -140,7 +140,9 @@ public class PlayerProjectileScript : MonoBehaviour
                 damage = weaponManager.currentWeapon.damage;
             }
 
-           
+            // spawn hit fx
+            Instantiate(normalHitFX);
+
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
             // run our on damage calls
             if (isHoming)
