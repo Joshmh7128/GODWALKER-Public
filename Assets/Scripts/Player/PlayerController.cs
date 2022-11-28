@@ -76,8 +76,14 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        ProcessUpdateInputs();
+
+    }
+
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // process our movement inputs
         if (canMove)
@@ -94,6 +100,26 @@ public class PlayerController : MonoBehaviour
         PrototypeReset();
     }
 
+    void ProcessUpdateInputs()
+    {
+        // jumping input
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (groundedHit.transform != null || remainingJumps > 0 && maxJumps > 0)
+            {
+                // jumping
+                if (Input.GetKey(KeyCode.Space) && (groundCheckCooldown <= 0 || remainingJumps > 0))
+                {
+                    playerJumpVelocity = Mathf.Sqrt(-jumpVelocity * gravity);
+                    remainingJumps--; // reduce jumps
+                    groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
+                                                                  // instantiate a visual effect
+                    Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation, transform);
+                }
+            }
+        }
+    }
+
     // our movement function
     void ProcessMovement()
     {
@@ -104,8 +130,8 @@ public class PlayerController : MonoBehaviour
         Vector3 tmoveV = cameraRig.forward * pAxisV;
         Vector3 tmoveH = cameraRig.right * pAxisH;
 
-        moveV = Vector3.Lerp(moveV, tmoveV, moveLerpAxisDelta * Time.fixedDeltaTime);
-        moveH = Vector3.Lerp(moveH, tmoveH, moveLerpAxisDelta * Time.fixedDeltaTime);
+        moveV = Vector3.Lerp(moveV, tmoveV, moveLerpAxisDelta * Time.deltaTime);
+        moveH = Vector3.Lerp(moveH, tmoveH, moveLerpAxisDelta * Time.deltaTime);
 
         if (groundCheckCooldown <= 0)
         {
@@ -114,7 +140,7 @@ public class PlayerController : MonoBehaviour
 
         if (groundCheckCooldown > 0)
         {
-            playerJumpVelocity += gravityValue * Time.fixedDeltaTime;
+            playerJumpVelocity += gravityValue * Time.deltaTime;
             groundCheckCooldown -= Time.deltaTime;
         }
 
@@ -123,22 +149,9 @@ public class PlayerController : MonoBehaviour
 
         if (groundedHit.transform == null)
         {
-            playerJumpVelocity += gravityValue * Time.fixedDeltaTime;
+            playerJumpVelocity += gravityValue * Time.deltaTime;
             grounded = false;
 
-        }
-
-        if (groundedHit.transform != null || remainingJumps > 0 && maxJumps > 0)
-        {
-            // jumping
-            if (Input.GetKeyDown(KeyCode.Space) && (groundCheckCooldown <= 0 || remainingJumps > 0))
-            {
-                playerJumpVelocity = Mathf.Sqrt(-jumpVelocity * gravity);
-                remainingJumps--; // reduce jumps
-                groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
-                // instantiate a visual effect
-                Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation, transform);
-            }
         }
 
         if (groundedHit.transform != null)
@@ -191,7 +204,7 @@ public class PlayerController : MonoBehaviour
         move = AdjustVelocityToSlope(move);
 
         // apply final movement
-        characterController.Move(move * Time.fixedDeltaTime * finalMoveSpeed);
+        characterController.Move(move * Time.deltaTime * finalMoveSpeed);
 
         // output our velocity
         velocity = (Mathf.Abs(move.x) + Mathf.Abs(move.y) + Mathf.Abs(move.z)) * finalMoveSpeed;

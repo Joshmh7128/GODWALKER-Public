@@ -22,7 +22,7 @@ public class EnemyProjectile : MonoBehaviour
     public float damage; // how much damage does this deal?
 
     // our curve speed
-    [SerializeField] float homingSpeed, homingHangTime; // how fast we home towards the player
+    [SerializeField] float homingSpeed, homingHangTime, homingTime; // how fast we home towards the player
     [SerializeField] float curveSpeed; // how fast we curve in any direction
     Vector3 curveVector; // our curve vector
     [SerializeField] float ringExpandSpeed; // how fast the rings expand from this enemy
@@ -173,8 +173,9 @@ public class EnemyProjectile : MonoBehaviour
             homingHangTime -= Time.deltaTime;
         }
 
-        if (homingHangTime < 0)
+        if (homingHangTime < 0 && homingTime > 0)
         {
+            homingTime -= Time.deltaTime;
             // home in on the player
             // if we are homing, get direction from target to transform
             Vector3 targetDirection = PlayerController.instance.transform.position - transform.position;
