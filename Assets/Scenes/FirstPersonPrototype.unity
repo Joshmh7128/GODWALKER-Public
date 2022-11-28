@@ -4044,7 +4044,7 @@ PrefabInstance:
       objectReference: {fileID: 553045201}
     - target: {fileID: 385565504051747578, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
       propertyPath: m_VersionIndex
-      value: 2444
+      value: 2462
       objectReference: {fileID: 0}
     - target: {fileID: 1633066757228413018, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
       propertyPath: m_Mesh
@@ -4060,7 +4060,7 @@ PrefabInstance:
       objectReference: {fileID: 1778752838}
     - target: {fileID: 1633066757228416934, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
       propertyPath: m_VersionIndex
-      value: 4019
+      value: 4037
       objectReference: {fileID: 0}
     - target: {fileID: 2133041278837752131, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
       propertyPath: m_Name
@@ -4132,7 +4132,7 @@ PrefabInstance:
       objectReference: {fileID: 258474293}
     - target: {fileID: 7537254456615193026, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
       propertyPath: m_VersionIndex
-      value: 2845
+      value: 2863
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
@@ -11337,8 +11337,9 @@ MonoBehaviour:
   moveH: {x: 0, y: 0, z: 0}
   moveV: {x: 0, y: 0, z: 0}
   move: {x: 0, y: 0, z: 0}
+  finalMove: {x: 0, y: 0, z: 0}
   characterController: {fileID: 771183407}
-  moveSpeed: 18
+  moveSpeed: 27
   gravity: -117.72
   jumpVelocity: 15
   normalMoveMultiplier: 1
@@ -11346,7 +11347,7 @@ MonoBehaviour:
   sprintMoveMod: 0
   aimMoveMultiplier: 0.5
   moveSpeedAdjust: 0
-  moveLerpAxisDelta: 12
+  moveLerpAxisDelta: 0.1
   gravityValue: 0
   verticalVelocity: 0
   playerJumpVelocity: 0

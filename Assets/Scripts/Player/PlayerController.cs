@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     // script handles movement of the player
     [Header("Movement")]
-    public Vector3 moveH, moveV, move;
+    public Vector3 moveH, moveV, move, finalMove;
     [SerializeField] CharacterController characterController; // our character controller
     public float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
     public float moveLerpAxisDelta;
@@ -130,19 +130,9 @@ public class PlayerController : MonoBehaviour
         Vector3 tmoveV = cameraRig.forward * pAxisV;
         Vector3 tmoveH = cameraRig.right * pAxisH;
 
-        // clamp
-        tmoveV.x = Mathf.Clamp(tmoveV.x, -1f, 1f);
-        tmoveV.y = Mathf.Clamp(tmoveV.y, -1f, 1f);
-        tmoveV.z = Mathf.Clamp(tmoveV.z, -1f, 1f);
-        
-        tmoveH.x = Mathf.Clamp(tmoveH.x, -1f, 1f);
-        tmoveH.y = Mathf.Clamp(tmoveH.y, -1f, 1f);
-        tmoveH.z = Mathf.Clamp(tmoveH.z, -1f, 1f);
-
-
-
-        moveV = Vector3.Lerp(moveV, tmoveV, moveLerpAxisDelta * Time.deltaTime);
-        moveH = Vector3.Lerp(moveH, tmoveH, moveLerpAxisDelta * Time.deltaTime);
+        // then lerp
+        moveV = tmoveV;
+        moveH = tmoveH;
 
         if (groundCheckCooldown <= 0)
         {
@@ -210,15 +200,20 @@ public class PlayerController : MonoBehaviour
         // calculate vertical movement
         verticalVelocity = playerJumpVelocity;
 
-        move = new Vector3((moveH.x + moveV.x), verticalVelocity / moveSpeed, (moveH.z + moveV.z));
-
+        float moveX = Mathf.Clamp(moveH.x + moveV.x, -1, 1);
+        float moveZ = Mathf.Clamp(moveH.z + moveV.z, -1, 1);
+        // process all of our final moves
+        move = new Vector3(moveX, verticalVelocity / moveSpeed, moveZ);
         move = AdjustVelocityToSlope(move);
+        finalMove = Vector3.Lerp(finalMove, move, moveLerpAxisDelta * Time.deltaTime);
+        Vector3 clampedFinal = Vector3.ClampMagnitude(new Vector3(finalMove.x, move.y, finalMove.z), 1);
+        Vector3 processed = new Vector3(clampedFinal.x, move.y, clampedFinal.z);
 
         // apply final movement
-        characterController.Move(move * Time.deltaTime * finalMoveSpeed);
+        characterController.Move(processed * Time.deltaTime * finalMoveSpeed);
 
         // output our velocity
-        velocity = (Mathf.Abs(move.x) + Mathf.Abs(move.y) + Mathf.Abs(move.z)) * finalMoveSpeed;
+        velocity = (Mathf.Abs(finalMove.x) + Mathf.Abs(finalMove.y) + Mathf.Abs(finalMove.z)) * finalMoveSpeed;
         #endregion
     }
     
