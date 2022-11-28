@@ -6,6 +6,8 @@ public class AmmoPickup : MonoBehaviour
 {
     [SerializeField] string weaponType;
     [SerializeField] int ammoAmount; // how much we're restoring
+    [SerializeField] GameObject noise; // our noise
+
     bool used; // else if clause
     // on trigger enter with player, check the ammo count of our name. if it is less than its max, pickup the ammo
     private void OnTriggerEnter(Collider other)
@@ -30,6 +32,8 @@ public class AmmoPickup : MonoBehaviour
                             used = true;
                         }
 
+                        // spawn noise
+                        Instantiate(noise, null);
                         // then destroy
                         Destroy(gameObject);
 
