@@ -1059,7 +1059,7 @@ MonoBehaviour:
   zoneWidth: 111.6
   zoneHeight: 85.1
   zoneDepth: 122.7
-  parentObject: {fileID: 2092143664}
+  parentObject: {fileID: 0}
 --- !u!1001 &119420035
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4044,7 +4044,7 @@ PrefabInstance:
       objectReference: {fileID: 553045201}
     - target: {fileID: 385565504051747578, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
       propertyPath: m_VersionIndex
-      value: 2468
+      value: 2471
       objectReference: {fileID: 0}
     - target: {fileID: 1633066757228413018, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
       propertyPath: m_Mesh
@@ -4060,7 +4060,7 @@ PrefabInstance:
       objectReference: {fileID: 1778752838}
     - target: {fileID: 1633066757228416934, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
       propertyPath: m_VersionIndex
-      value: 4043
+      value: 4046
       objectReference: {fileID: 0}
     - target: {fileID: 2133041278837752131, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
       propertyPath: m_Name
@@ -4132,7 +4132,7 @@ PrefabInstance:
       objectReference: {fileID: 258474293}
     - target: {fileID: 7537254456615193026, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
       propertyPath: m_VersionIndex
-      value: 2869
+      value: 2872
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6cf1b712d26161419b9ef1b8f6e25d9, type: 3}
@@ -4407,7 +4407,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-3750240
+  m_Name: pb_Mesh-23762
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -11312,6 +11312,7 @@ MonoBehaviour:
   weapons:
   - {fileID: 1536672588}
   - {fileID: 642652207}
+  - {fileID: 2007504742}
   weaponCosmeticStorageSlots:
   - {fileID: 435018124}
   - {fileID: 2085611684}
@@ -16216,7 +16217,7 @@ PrefabInstance:
       objectReference: {fileID: 1713521953}
     - target: {fileID: 3257795116431933985, guid: 75979e8f66292874ca68a4ddea873fc4, type: 3}
       propertyPath: m_VersionIndex
-      value: 3324
+      value: 3327
       objectReference: {fileID: 0}
     - target: {fileID: 4939710040727834560, guid: 75979e8f66292874ca68a4ddea873fc4, type: 3}
       propertyPath: m_Name
@@ -16232,15 +16233,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8937048739706210954, guid: 75979e8f66292874ca68a4ddea873fc4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.400163
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8937048739706210954, guid: 75979e8f66292874ca68a4ddea873fc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.862
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8937048739706210954, guid: 75979e8f66292874ca68a4ddea873fc4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.6988444
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8937048739706210954, guid: 75979e8f66292874ca68a4ddea873fc4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -20977,11 +20978,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4220874671179313683, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: health
-      value: 900
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 4220874671179313683, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
       propertyPath: maxHealth
-      value: 900
+      value: 250
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55da585425bafd64491ab4648d70ed71, type: 3}
@@ -22373,11 +22374,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7853617228029179119, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
       propertyPath: health
-      value: 600
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7853617228029179119, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
       propertyPath: maxHealth
-      value: 600
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7853617228029179120, guid: 106d6ccc6459ca34a858217c981ad544, type: 3}
       propertyPath: m_RootOrder
@@ -24098,13 +24099,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1993353683}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2007504742 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4939710040727834560, guid: 75979e8f66292874ca68a4ddea873fc4, type: 3}
+  m_PrefabInstance: {fileID: 1284796817}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &2009532862
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-3750242
+  m_Name: pb_Mesh-23774
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

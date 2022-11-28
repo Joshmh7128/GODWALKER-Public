@@ -50,8 +50,6 @@ public class PlayerWeaponManager : MonoBehaviour
             child.gameObject.SetActive(false);
         }
 
-        // make sure we spawn our cosmetic weapons
-        SpawnCosmeticWeapons();
         // update
         UpdateCurrentWeapon();
     }
@@ -135,40 +133,10 @@ public class PlayerWeaponManager : MonoBehaviour
         weapons[currentWeaponInt].SetActive(true);
 
         currentWeapon = weapons[currentWeaponInt].GetComponent<WeaponClass>();
-        UpdateCosmeticSlots();
         StartCoroutine(SwitchWeapon());
     }
 
-    // update our cosmetics
-    void UpdateCosmeticSlots()
-    {
-        // for each weapon in our inventory, turn their weapon on
-        for (int i = 0; i < weapons.Count; i++)
-        {
-            // turn on all the slots
-            weaponCosmeticStorageSlots[i].gameObject.SetActive(true);
-        }
-
-        // then turn off the renderer of our active weapon in storage
-        weaponCosmeticStorageSlots[currentWeaponInt].gameObject.SetActive(false);
-    }
-
-    void SpawnCosmeticWeapons()
-    {
-        // first clean all the weapons
-        for (int i = 0; i < weapons.Count; i++)
-        {
-            if (weaponCosmeticStorageSlots[i].childCount > 0)
-            Destroy(weaponCosmeticStorageSlots[i].GetChild(0).gameObject);
-        }
-
-        // for each weapon in our inventory, spawn their model on the body of the player
-        for (int i = 0; i < weapons.Count; i++)
-        {
-            GameObject g = Instantiate(weapons[i].GetComponent<WeaponClass>().weaponModel, weaponCosmeticStorageSlots[i], false);
-            g.transform.localPosition = Vector3.zero;
-        }
-    }
+  
 
     void ProcessPickupCooldown()
     {
@@ -196,8 +164,6 @@ public class PlayerWeaponManager : MonoBehaviour
         copyItem.gameObject.transform.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
         Destroy(kill);
         weapons[currentWeaponInt] = Instantiate(newWeaponObject, weaponContainer, false);
-        // update cosmetics
-        SpawnCosmeticWeapons();
         // update current weapon
         UpdateCurrentWeapon();
         // play our sound effect
