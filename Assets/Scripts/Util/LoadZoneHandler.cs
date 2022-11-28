@@ -22,6 +22,7 @@ public class LoadZoneHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (parentObject)
         parentObject.SetActive(HasPlayer());
     }
 
