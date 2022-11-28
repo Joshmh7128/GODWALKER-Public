@@ -67,6 +67,9 @@ public class PlayerWeaponManager : MonoBehaviour
 
         // calculate our critical hit chance
         CalculateCriticalHitChance();
+
+        // process scroll input
+        ProcessScrollInput();
     }
 
     // what we run to process the input
