@@ -16,7 +16,7 @@ public class WeaponClass_Rifle : WeaponClass
         if (useType == WeaponUseTypes.OnHold && !reloading)
         {
             // check if we can fire
-            if (remainingFirerate <= 0)
+            if (remainingFirerate <= 0 && currentMagazine > 0)
             {
                 Fire(); // shoot our gun
             }
