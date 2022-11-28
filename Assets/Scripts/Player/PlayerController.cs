@@ -110,6 +110,7 @@ public class PlayerController : MonoBehaviour
                 // jumping
                 if (Input.GetKey(KeyCode.Space) && (groundCheckCooldown <= 0 || remainingJumps > 0))
                 {
+                    playerJumpVelocity = 0;
                     playerJumpVelocity = Mathf.Sqrt(-jumpVelocity * gravity);
                     remainingJumps--; // reduce jumps
                     groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
@@ -150,7 +151,7 @@ public class PlayerController : MonoBehaviour
 
         if (groundedHit.transform == null)
         {
-            playerJumpVelocity += gravityValue * Time.deltaTime;
+            playerJumpVelocity += gravityValue * Time.fixedDeltaTime;
             grounded = false;
 
         }

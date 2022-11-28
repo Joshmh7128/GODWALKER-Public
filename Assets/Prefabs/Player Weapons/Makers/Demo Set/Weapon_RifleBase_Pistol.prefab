@@ -2191,86 +2191,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503395586237915977}
   m_Mesh: {fileID: 0}
---- !u!1 &854711642679122802
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7682433997575901503}
-  - component: {fileID: 1444526100738500909}
-  - component: {fileID: 5672381162535097564}
-  m_Layer: 0
-  m_Name: Ammo Counter (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &7682433997575901503
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 854711642679122802}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1208278, y: 0.1208278, z: 0.1208278}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2984586730338969753}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 171.9, y: -79.3}
-  m_SizeDelta: {x: 492.6438, y: 246.1249}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1444526100738500909
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 854711642679122802}
-  m_CullTransparentMesh: 1
---- !u!114 &5672381162535097564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 854711642679122802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.63529414}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 188
-    m_FontStyle: 0
-    m_BestFit: 1
-    m_MinSize: 0
-    m_MaxSize: 188
-    m_Alignment: 5
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Infinite
 --- !u!1 &1725030877152847054
 GameObject:
   m_ObjectHideFlags: 0
@@ -3044,7 +2964,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7308693966617841391
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3054,8 +2974,8 @@ RectTransform:
   m_GameObject: {fileID: 4617797016206580374}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1208278, y: 0.1208278, z: 0.1208278}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.2416556, y: 0.2416556, z: 0.2416556}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2984586730338969753}
   m_RootOrder: 6
@@ -3171,12 +3091,12 @@ MonoBehaviour:
   firerateMod: 0
   muzzleOrigin: {fileID: 6556107928602681115}
   bulletPrefab: {fileID: 193226, guid: 02b998419ac58e4498606285fca03b68, type: 3}
-  currentMagazine: 1e+15
-  maxMagazine: 1e+18
+  currentMagazine: 300
+  maxMagazine: 300
   reloadTime: 1
   reloading: 0
   level: 0
-  damage: 3
+  damage: 8
   damageLevelMultiplier: 0
   damageMods: []
   weaponName: Carbine
@@ -3549,7 +3469,6 @@ RectTransform:
   - {fileID: 8900100051825836417}
   - {fileID: 310060410168049412}
   - {fileID: 7308693966617841391}
-  - {fileID: 7682433997575901503}
   m_Father: {fileID: 8937048739706210954}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

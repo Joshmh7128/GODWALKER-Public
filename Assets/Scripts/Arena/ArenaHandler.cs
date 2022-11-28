@@ -273,7 +273,7 @@ public class ArenaHandler : MonoBehaviour
         {
             combatComplete = true;
             CheckCombatCompletion();
-            SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro);
+            // SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.outro);
 
             StartCoroutine(ShowWaveMessage("Combat Complete"));
             // spawn our new body part from the list

@@ -49,7 +49,11 @@ public class WeaponUIHandler : MonoBehaviour
         // ammo text
         if (ammoText != null)
         {
-            ammoText.text = weaponClass.currentMagazine + " / " + weaponClass.maxMagazine;
+            if (weaponClass.currentMagazine > 0)
+                ammoText.text = weaponClass.currentMagazine + " / " + weaponClass.maxMagazine;
+
+            if (weaponClass.currentMagazine <= 0)
+                ammoText.text = "!!" + weaponClass.currentMagazine + " / " + weaponClass.maxMagazine + "!!";
         }
     }
 
