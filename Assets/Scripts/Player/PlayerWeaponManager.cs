@@ -70,19 +70,23 @@ public class PlayerWeaponManager : MonoBehaviour
         ProcessScrollInput();
     }
 
+    float scrollcooldown;
+
     // what we run to process the input
     void ProcessScrollInput()
     {
-        // scrolling up
-        if (Input.mouseScrollDelta.y > 0)
+        if (scrollcooldown > 0)
         {
-            // rewrite with new loop
-            
-            if (currentWeaponInt <= weapons.Count)
+            scrollcooldown--;
+        }
+
+        // scrolling up
+        if (Input.mouseScrollDelta.y > 0 && scrollcooldown <= 0)
+        {
+            if (currentWeaponInt <= weapons.Count-1)
             {
-                if (currentWeaponInt + 1 >= weapons.Count)
+                if (currentWeaponInt + 1 > weapons.Count-1)
                 {
-                    
                     currentWeaponInt = 0; Debug.Log("setting int");
                 } else if (currentWeaponInt + 1 < weapons.Count)
                 {
@@ -91,29 +95,23 @@ public class PlayerWeaponManager : MonoBehaviour
                 
             }
             UpdateCurrentWeapon();
-            // call our on swap
-            bodyPartManager.CallParts("OnWeaponSwap");
+
+            scrollcooldown = 10;
         }
 
         // scrolling down 
-        if (Input.mouseScrollDelta.y < 0)
+        if (Input.mouseScrollDelta.y < 0 && scrollcooldown <= 0)
         {
-            if (currentWeaponInt >= 0)
+            if (currentWeaponInt > 0)
             {
-                if (currentWeaponInt - 1 < 0)
-                {
-                    // remember to loop here
-                    currentWeaponInt = weapons.Count;
-                }
-
-                if (currentWeaponInt - 1 >= 0)
-                {
-                    currentWeaponInt--;
-                }
+                currentWeaponInt--;
+            } else if (currentWeaponInt <= 0)
+            {
+                currentWeaponInt = weapons.Count-1;
             }
+
             UpdateCurrentWeapon();
-            // call our on swap
-            bodyPartManager.CallParts("OnWeaponSwap");
+            scrollcooldown = 10;
         }
     }
 

@@ -178,6 +178,7 @@ public abstract class EnemyClass : MonoBehaviour
     }
 
     // dying
+    bool dropped; // have we dropped?
     virtual public void OnDeath()
     {
         // spawn our on death fx
@@ -185,8 +186,9 @@ public abstract class EnemyClass : MonoBehaviour
         // chance to drop a gun?
         int i = Random.Range(0, 100);
         // see if we should drop one
-        if (i < lootDropChancePercentage)
+        if (i < lootDropChancePercentage && !dropped)
         {
+            dropped = true;
             // access the creator we just built and set its level to our level
             Instantiate(dropItem, transform.position, Quaternion.identity, null);
             // creator.UpdateItem(); // make sure we update the item since it will not properly show our stats otherwise!
