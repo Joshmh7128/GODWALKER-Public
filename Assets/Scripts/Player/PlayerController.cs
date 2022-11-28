@@ -130,6 +130,17 @@ public class PlayerController : MonoBehaviour
         Vector3 tmoveV = cameraRig.forward * pAxisV;
         Vector3 tmoveH = cameraRig.right * pAxisH;
 
+        // clamp
+        tmoveV.x = Mathf.Clamp(tmoveV.x, -1f, 1f);
+        tmoveV.y = Mathf.Clamp(tmoveV.y, -1f, 1f);
+        tmoveV.z = Mathf.Clamp(tmoveV.z, -1f, 1f);
+        
+        tmoveH.x = Mathf.Clamp(tmoveH.x, -1f, 1f);
+        tmoveH.y = Mathf.Clamp(tmoveH.y, -1f, 1f);
+        tmoveH.z = Mathf.Clamp(tmoveH.z, -1f, 1f);
+
+
+
         moveV = Vector3.Lerp(moveV, tmoveV, moveLerpAxisDelta * Time.deltaTime);
         moveH = Vector3.Lerp(moveH, tmoveH, moveLerpAxisDelta * Time.deltaTime);
 

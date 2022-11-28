@@ -153,7 +153,7 @@ public abstract class WeaponClass : MonoBehaviour
         if (isShocking) { bulletScript.doesShockExplode = true; }
 
         // damage modifiers?
-        bullet.GetComponent<PlayerProjectileScript>().damage = damage * damageMod;
+        try { bullet.GetComponent<PlayerProjectileScript>().damage = damage * damageMod; } catch { }
         remainingFirerate = firerate + firerateMod;
         currentMagazine--;
     } // firing our weapon. special shots like double or homing shots are handled above in public vars

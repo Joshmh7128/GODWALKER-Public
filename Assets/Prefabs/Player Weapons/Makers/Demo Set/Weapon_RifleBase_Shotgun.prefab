@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 156720138890399901}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.341, y: -0.027, z: 0.214}
+  m_LocalPosition: {x: 0.341, y: 0.037, z: 0.252}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 4574274690769677927}
   - component: {fileID: 5412838768671843965}
   - component: {fileID: 7353796652681602151}
-  - component: {fileID: 5227888946649051182}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -600,20 +599,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462613522396362590}
   m_Mesh: {fileID: 0}
---- !u!64 &5227888946649051182
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 462613522396362590}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &1070128692190258273
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,7 +623,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070128692190258273}
   m_LocalRotation: {x: -0.010441674, y: -0.0000011478546, z: 0.00000005970649, w: 0.99994546}
-  m_LocalPosition: {x: 0.232, y: -0.022, z: 0.469}
+  m_LocalPosition: {x: 0.309, y: -0.019, z: 0.621}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -729,7 +714,6 @@ GameObject:
   - component: {fileID: 1633066757228413017}
   - component: {fileID: 1633066757228413016}
   - component: {fileID: 1633066757228413019}
-  - component: {fileID: 1633066757228413018}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -4774,20 +4758,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633066757228413020}
   m_Mesh: {fileID: 0}
---- !u!64 &1633066757228413018
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633066757228413020}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &1802214226312811541
 GameObject:
   m_ObjectHideFlags: 0
@@ -4920,14 +4890,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0156b16c951080f4bbc297ada0a65a15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponKickPos: {x: 0, y: -0.1, z: -0.1}
-  weaponRecoilRot: {x: -5, y: 0, z: 0}
-  bodyRecoilRot: {x: -10, y: 0, z: 0}
+  weaponKickPos: {x: 0, y: -0.3, z: -0.4}
+  weaponRecoilRot: {x: -10, y: 0, z: 0}
+  bodyRecoilRot: {x: -20, y: 0, z: 0}
   reloadRot: {x: -10, y: 0, z: 5}
   rightHandPos: {fileID: 2785154812413462180}
   leftHandPos: {fileID: 7859169077787460285}
-  weaponModel: {fileID: 0}
-  firerate: 30
+  weaponModel: {fileID: 1633066757098320192}
+  firerate: 60
   remainingFirerate: 0
   firerateMod: 0
   muzzleOrigin: {fileID: 282755689688977816}
@@ -4940,9 +4910,9 @@ MonoBehaviour:
   damage: 10
   damageLevelMultiplier: 0
   damageMods: []
-  weaponName: Carbine
-  customInfo: Fast Firing Accurate Rifle.
-  kickFOV: 2
+  weaponName: Shotgun
+  customInfo: Slow Firing Death Machine
+  kickFOV: 6
   reloadSource: {fileID: 1993851360122916559}
   reloadSourceB: {fileID: 1726066524704556770}
   spreadX: 0
@@ -4979,7 +4949,7 @@ MonoBehaviour:
   reticleLeft: {fileID: 8859909201843377964}
   reticleTop: {fileID: 5013581212479047271}
   reticleBottom: {fileID: 2752416169609043426}
-  reticleSpreadResponseMagnitude: 1000
+  reticleSpreadResponseMagnitude: 10000
   ammoText: {fileID: 7183065299199635001}
 --- !u!82 &1993851360122916559
 AudioSource:
@@ -5406,7 +5376,6 @@ GameObject:
   - component: {fileID: 734467336518363580}
   - component: {fileID: 1249332796672034622}
   - component: {fileID: 3387068173589824731}
-  - component: {fileID: 5874344499827451915}
   m_Layer: 0
   m_Name: Cylinder (1)
   m_TagString: Untagged
@@ -5962,20 +5931,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4661740934728366717}
   m_Mesh: {fileID: 0}
---- !u!64 &5874344499827451915
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4661740934728366717}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &4827328281001933636
 GameObject:
   m_ObjectHideFlags: 0
@@ -6422,17 +6377,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7448205205990553787}
-  m_LocalRotation: {x: -0, y: -0, z: 0.70710677, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalRotation: {x: -0.00000000395812, y: 0.000000052154054, z: 0.0000004916509, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00028639}
+  m_LocalScale: {x: 3.823869, y: 3.823869, z: 3.823869}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8105375903521908250}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -30}
+  m_AnchoredPosition: {x: -0.0045132, y: -91.771}
   m_SizeDelta: {x: 15, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2193533386225869716
@@ -6498,17 +6453,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8370259523361263273}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalRotation: {x: -0.00000018975697, y: -0.000000014901161, z: -0.707108, w: 0.70710564}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0010883}
+  m_LocalScale: {x: 3.823869, y: 3.823869, z: 3.823869}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8105375903521908250}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: 0}
+  m_AnchoredPosition: {x: -91.762, y: 0.006132}
   m_SizeDelta: {x: 15, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &561816568471099017
@@ -6574,17 +6529,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8536915265255111310}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalRotation: {x: -0.00000010966322, y: -0.000000029802319, z: -0.7071072, w: 0.7071064}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00027738}
+  m_LocalScale: {x: 3.823869, y: 3.823869, z: 3.823869}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8105375903521908250}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30, y: 0}
+  m_AnchoredPosition: {x: 91.766, y: -0.00021954}
   m_SizeDelta: {x: 15, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &545409907694547298
@@ -6681,17 +6636,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9204987358568773104}
-  m_LocalRotation: {x: -0, y: -0, z: 0.70710677, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalRotation: {x: 9.313226e-10, y: 0.000000059604645, z: 0.0000003722962, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00050923}
+  m_LocalScale: {x: 3.823869, y: 3.823869, z: 3.823869}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8105375903521908250}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 30}
+  m_AnchoredPosition: {x: -0.0047996, y: 91.771}
   m_SizeDelta: {x: 15, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8115727401696370556
