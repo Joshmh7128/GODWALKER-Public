@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685116019884516876}
   m_LocalRotation: {x: 0.000000022351742, y: 0.70710677, z: -0.7071069, w: -0.000000031529304}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.894, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1685116019884830404}
-  m_RootOrder: 0
+  m_Father: {fileID: 1685116020142693362}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: -180, z: 0}
 --- !u!198 &1685116019903295650
 ParticleSystem:
@@ -115,8 +115,8 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 1.5
+      minMaxState: 0
+      scalar: 1.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -151,7 +151,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -0.25
+      scalar: 0
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -266,8 +266,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     startSize:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 0.1
+      minMaxState: 0
+      scalar: 0.36
       minScalar: 0.05
       maxCurve:
         serializedVersion: 2
@@ -301,7 +301,7 @@ ParticleSystem:
         m_RotationOrder: 0
     startSizeY:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -354,7 +354,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -514,7 +514,7 @@ ParticleSystem:
     startRotation:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 6.283185
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -607,7 +607,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
+    type: 0
     angle: 0
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -694,7 +694,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1.21
+      value: 0.0001
       mode: 0
       spread: 0
       speed:
@@ -813,7 +813,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 25
+      scalar: 1
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -919,7 +919,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -1090,7 +1090,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   RotationModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -1234,7 +1234,7 @@ ParticleSystem:
         m_RotationOrder: 0
     separateAxes: 0
   ColorModule:
-    enabled: 1
+    enabled: 0
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -4710,7 +4710,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e653836c30661fe419b8992e230ca189, type: 2}
+  - {fileID: 2100000, guid: 33aa5516475b72447af93d5a75974cda, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4792,7 +4792,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1685116019884830404}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &1685116019903298760
 ParticleSystem:
@@ -9535,7 +9535,6 @@ Transform:
   m_LocalScale: {x: 0.1, y: 1.6906, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1685116019884855032}
   - {fileID: 1685116019884837174}
   m_Father: {fileID: 1685116020142693362}
   m_RootOrder: 1
@@ -14399,6 +14398,7 @@ Transform:
   - {fileID: 1685116020652092649}
   - {fileID: 1685116019884830404}
   - {fileID: 1685116020752769475}
+  - {fileID: 1685116019884855032}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

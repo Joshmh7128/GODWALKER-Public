@@ -39,7 +39,7 @@ public class ArenaHandler : MonoBehaviour
     [SerializeField] GameObject bodyPartItem; // an empty body part item prefab
     [SerializeField] GameObject bodyPartObject; // a premade body part 
     [SerializeField] bool specialRoom; // is this a special room?
-    [SerializeField] bool manualCombat; // manual editor combat start
+    public bool manualCombat; // manual editor combat start
 
     public enum ArenaModes
     {
