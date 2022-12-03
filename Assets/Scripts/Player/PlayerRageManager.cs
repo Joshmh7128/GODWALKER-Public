@@ -60,6 +60,7 @@ public class PlayerRageManager : MonoBehaviour
         // setup stats and info
         levelName = levelNames[(int)rageLevel];
         levelDelta = levelDeltas[(int)rageLevel];
+        sliderImage.color = rageColors[(int)rageLevel];
 
         // lower rage amount over time
         if (rageAmount > 0)
@@ -74,7 +75,7 @@ public class PlayerRageManager : MonoBehaviour
             // min is 0 
             rageSlider.minValue = 0;
             rageSlider.maxValue = levelGates[0];
-        } else if (rageLevel != RageLevels.wrecker)
+        } else if (rageLevel != RageLevels.benign)
         {
             // for all other values set minimum to current rage level -1 and max to rage level in level gates
             rageSlider.minValue = levelGates[(int)rageLevel-1];
