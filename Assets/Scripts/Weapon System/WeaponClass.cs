@@ -25,6 +25,8 @@ public abstract class WeaponClass : MonoBehaviour
     public GameObject bulletPrefab; // we spawn this when we fire
     // ammunition vars
     public float currentMagazine, maxMagazine;
+    // recharge max is the amount of time in seconds it takes to regenerate one bullet, recharge rate is the speed of the recharge
+    public float rechargeRate, recharge, rechargeMax; 
     public float reloadTime; // the amount of time in seconds the reload takes
     public bool reloading; // are we reloading?
     // our weapon's damage and level

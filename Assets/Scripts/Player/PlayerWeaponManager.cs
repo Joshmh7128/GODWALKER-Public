@@ -68,6 +68,14 @@ public class PlayerWeaponManager : MonoBehaviour
 
         // process scroll input
         ProcessScrollInput();
+
+
+
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     float scrollcooldown;
@@ -134,8 +142,6 @@ public class PlayerWeaponManager : MonoBehaviour
         StartCoroutine(SwitchWeapon());
     }
 
-  
-
     void ProcessPickupCooldown()
     {
         if (pickupCooldown >= 0)
@@ -183,6 +189,33 @@ public class PlayerWeaponManager : MonoBehaviour
         PlayerInverseKinematicsController.instance.targetRightHand.localPosition = currentWeapon.rightHandPos.localPosition;
         PlayerInverseKinematicsController.instance.targetLeftHand.localPosition = currentWeapon.leftHandPos.localPosition;
         yield return null;
+    }
+
+    // calculate and process our weapon recharge rate
+    void ProcessWeaponRecharge()
+    {
+        // loop through all weapons, if weapon is inactive, add to its recharge variable
+        // if recharge variable is more than recharge rate, make recharge 0
+        foreach (GameObject weaponObject in weapons)
+        {
+            // if this is inactive...
+            if (weaponObject.activeSelf == false)
+            {
+                // get weaponclass
+                WeaponClass weaponClass = weaponObject.GetComponent<WeaponClass>();
+                // then start generating
+                if (weaponClass.recharge < weaponClass.rechargeMax)
+                    weaponClass.recharge += weaponClass.rechargeRate * Time.fixedDeltaTime;
+
+                if (weaponClass.recharge > weaponClass.rechargeMax)
+                {
+                    // check to make sure we're refilling the magazine properly
+                    if (weaponClass.currentMagazine < weaponClass.maxMagazine) { weaponClass.currentMagazine += 1; }
+                    // then reset recharge
+                    weaponClass.recharge = 0;
+                }
+            }
+        }
     }
 
     // calculate critical hit chance
