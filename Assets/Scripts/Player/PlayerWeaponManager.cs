@@ -97,7 +97,7 @@ public class PlayerWeaponManager : MonoBehaviour
         }
 
         // scrolling up
-        if (Input.mouseScrollDelta.y > 0 && scrollcooldown <= 0)
+        if (Input.mouseScrollDelta.y < 0 && scrollcooldown <= 0)
         {
             if (currentWeaponInt <= weapons.Count-1)
             {
@@ -116,7 +116,7 @@ public class PlayerWeaponManager : MonoBehaviour
         }
 
         // scrolling down 
-        if (Input.mouseScrollDelta.y < 0 && scrollcooldown <= 0)
+        if (Input.mouseScrollDelta.y > 0 && scrollcooldown <= 0)
         {
             if (currentWeaponInt > 0)
             {
