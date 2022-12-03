@@ -38,6 +38,10 @@ public class PlayerWeaponManager : MonoBehaviour
     public float criticalHitChance; // the chance out of 100 that we will get a critical hit
     public List<float> criticalHitModifiers = new List<float>(); // all the multipliers which go into calculating out critical hit chance
 
+    // weapon ui
+    [SerializeField] Transform weaponChargeUIGroup;
+    [SerializeField] GameObject weaponChargeUI; // our ui object
+     
     private void Start()
     {
         // get our instance
@@ -52,6 +56,9 @@ public class PlayerWeaponManager : MonoBehaviour
 
         // update
         UpdateCurrentWeapon();
+
+        // then create our weapon charge ui
+        CreateWeaponRechargeUI();
     }
 
     // swap between weapons
@@ -225,6 +232,21 @@ public class PlayerWeaponManager : MonoBehaviour
                 // then stop regen
                 weaponClass.recharge = 0;
             }
+        }
+    }
+
+    // create our weapon recharge UI
+    void CreateWeaponRechargeUI()
+    {
+        while (weaponChargeUIGroup.childCount > 0)
+        {
+            Destroy(weaponChargeUIGroup.GetChild(0));
+        }
+
+        foreach (GameObject weapon in weapons)
+        {
+            GameObject wo = Instantiate(weaponChargeUI, weaponChargeUIGroup);
+            wo.GetComponent<WeaponChargeUIHandler>().ourWeapon = weapon.GetComponent<WeaponClass>();
         }
     }
 

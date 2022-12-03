@@ -33,6 +33,7 @@ public class ArenaHandler : MonoBehaviour
 
     // our arena level
     public int arenaLevel;
+    [SerializeField] float waveWaitTime; // the wait time of waves
 
     // everything to do with upgrades
     [SerializeField] Transform upgradeSpawnPoint; // where the upgrade spawns
@@ -154,7 +155,7 @@ public class ArenaHandler : MonoBehaviour
                 StartCoroutine(ShowWaveMessage("Final Wave Incoming"));
             }
 
-            yield return new WaitForSecondsRealtime(5f);
+            yield return new WaitForSecondsRealtime(waveWaitTime);
             // then destroy all the vfx when we continue
             foreach (Transform t in vfx)
             {
