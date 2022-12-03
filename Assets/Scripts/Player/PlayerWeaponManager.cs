@@ -58,7 +58,7 @@ public class PlayerWeaponManager : MonoBehaviour
         UpdateCurrentWeapon();
 
         // then create our weapon charge ui
-        CreateWeaponRechargeUI();
+        UpdateWeaponRechargeUI();
     }
 
     // swap between weapons
@@ -236,9 +236,9 @@ public class PlayerWeaponManager : MonoBehaviour
     }
 
     // create our weapon recharge UI
-    void CreateWeaponRechargeUI()
+    void UpdateWeaponRechargeUI()
     {
-        while (weaponChargeUIGroup.childCount > 0)
+        foreach (GameObject child in weaponChargeUIGroup)
         {
             Destroy(weaponChargeUIGroup.GetChild(0));
         }
