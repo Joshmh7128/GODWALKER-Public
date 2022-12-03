@@ -6,6 +6,7 @@ public class PlayerProjectileScript : MonoBehaviour
 {
     public float speed;
     public float damage, localCritMod; // how much damage we deal, the local crit modifier
+    public float rageAdd; // how much rage does the act of hitting this shot add to our meter?
     
     // vfx
     [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX, homingFX, teleportFX; // the particle we use on death
@@ -143,7 +144,12 @@ public class PlayerProjectileScript : MonoBehaviour
             // spawn hit fx
             Instantiate(normalHitFX);
 
+            // deal damage to enemy
             enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
+
+            // add our rage
+            PlayerRageManager.instance.AddRage(rageAdd);
+
             // run our on damage calls
             if (isHoming)
             bodyPartManager.CallParts("OnHomingShotDamage");

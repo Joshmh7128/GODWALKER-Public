@@ -14,6 +14,7 @@ public abstract class EnemyClass : MonoBehaviour
     public float health;
     public float maxHealth;
     public float damage; // how much damage do we deal?
+    public float rageAmount; // how much rage does killing us give to the player
     public bool invincible; // is this invincible?
     [SerializeField] float lootDropChancePercentage;
     [SerializeField] GameObject dropItem;

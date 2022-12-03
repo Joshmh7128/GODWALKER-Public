@@ -30,13 +30,20 @@ public class PlayerRageManager : MonoBehaviour
     public List<float> levelDeltas; // how quickly each level reduces
     public float levelDelta; // our current level delta
     public Slider rageSlider; // our slider
-    public Image sliderImage; // our slider image
+    public Slider rageLerp; // our lerp slider
+    public float rageLerpSpeed; // how fast our lerper goes
+    public Image sliderImage; // our slider image on our lerper
 
 
     // public function to add rage
     public void AddRage(float amount)
     {
         rageAmount += amount;
+    }
+
+    private void FixedUpdate()
+    {
+        ProcessRage();
     }
 
     public void ProcessRage()
@@ -68,6 +75,11 @@ public class PlayerRageManager : MonoBehaviour
        
         // always update value
         rageSlider.value = rageAmount;
+
+        // setup lerp slider
+        rageLerp.minValue = rageSlider.minValue;
+        rageLerp.maxValue = rageSlider.maxValue;
+        rageLerp.value = Mathf.Lerp(rageLerp.value, rageSlider.value, rageLerpSpeed*Time.fixedDeltaTime);
 
         // setup our values for the slider
         if (rageLevel == RageLevels.benign)
