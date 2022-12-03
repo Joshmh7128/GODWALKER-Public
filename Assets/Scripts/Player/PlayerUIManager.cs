@@ -26,11 +26,6 @@ public class PlayerUIManager : MonoBehaviour
     PlayerBodyPartManager partManager;
     PlayerWeaponManager weaponManager;
 
-    // lists concerning bodyparts
-    [SerializeField] List<Text> nameDisplays;
-    [SerializeField] List<Text> infoDisplays;
-    [SerializeField] List<Image> backgroundPanels; // all the background panels for the body
-    [SerializeField] Text nameText, infoText, lvlText;
     // ui elements
     [SerializeField] CanvasGroup infoCanvasGroup; // the body part canvas group we'll be interacting with
     [SerializeField] HorizontalLayoutGroup abilityLayoutGroup; // our ability layout group

@@ -75,7 +75,8 @@ public class PlayerWeaponManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+        // process the recharge of our weapons
+        ProcessWeaponRecharge();
     }
 
     float scrollcooldown;
@@ -198,7 +199,7 @@ public class PlayerWeaponManager : MonoBehaviour
         // if recharge variable is more than recharge rate, make recharge 0
         foreach (GameObject weaponObject in weapons)
         {
-            // if this is inactive...
+            // if this is inactive then recharge
             if (weaponObject.activeSelf == false)
             {
                 // get weaponclass
@@ -214,6 +215,15 @@ public class PlayerWeaponManager : MonoBehaviour
                     // then reset recharge
                     weaponClass.recharge = 0;
                 }
+            }
+
+            // if this weapon is active set its recharge to 0
+            if (weaponObject.activeSelf == true)
+            {
+                // get weaponclass
+                WeaponClass weaponClass = weaponObject.GetComponent<WeaponClass>();
+                // then stop regen
+                weaponClass.recharge = 0;
             }
         }
     }
