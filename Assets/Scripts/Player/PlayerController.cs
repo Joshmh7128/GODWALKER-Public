@@ -46,6 +46,9 @@ public class PlayerController : MonoBehaviour
     // our weapon management
     PlayerWeaponManager weaponManager;
 
+    // rage manager
+    PlayerRageManager rageManager;
+
     // setup our instance
     public static PlayerController instance;
     public void Awake()
@@ -73,6 +76,8 @@ public class PlayerController : MonoBehaviour
         weaponManager = PlayerWeaponManager.instance; 
         // lock cursor
         Cursor.lockState = CursorLockMode.Locked;
+        // rage manager
+        rageManager = PlayerRageManager.instance;
 
     }
 
@@ -197,7 +202,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region // Movement Application
-        float finalMoveSpeed = moveSpeed * moveSpeedAdjust;
+        float finalMoveSpeed = moveSpeed * moveSpeedAdjust * rageManager.movementMultipliers[(int)rageManager.rageLevel];
         // calculate vertical movement
         verticalVelocity = playerJumpVelocity;
 

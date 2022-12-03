@@ -238,9 +238,9 @@ public class PlayerWeaponManager : MonoBehaviour
     // create our weapon recharge UI
     void UpdateWeaponRechargeUI()
     {
-        foreach (GameObject child in weaponChargeUIGroup)
+        foreach (Transform child in weaponChargeUIGroup)
         {
-            Destroy(weaponChargeUIGroup.GetChild(0));
+            Destroy(child.gameObject);
         }
 
         foreach (GameObject weapon in weapons)

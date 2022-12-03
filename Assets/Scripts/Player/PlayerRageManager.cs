@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerRageManager : MonoBehaviour
 {
@@ -27,18 +28,23 @@ public class PlayerRageManager : MonoBehaviour
     public List<float> levelGates; // where each level of rage ends
     public List<string> levelNames; // the names of each level
     public string levelName; // the name of the current level to display
+    public TextMeshProUGUI rageLevelDisplay;
     public List<float> levelDeltas; // how quickly each level reduces
+    public List<float> levelMods; // how quickly each level reduces
     public float levelDelta; // our current level delta
     public Slider rageSlider; // our slider
     public Slider rageLerp; // our lerp slider
     public float rageLerpSpeed; // how fast our lerper goes
     public Image sliderImage; // our slider image on our lerper
 
+    // effect variables
+    public List<float> movementMultipliers;
+    public List<float> damageMultipliers; 
 
     // public function to add rage
     public void AddRage(float amount)
     {
-        rageAmount += amount;
+        rageAmount += amount * levelMods[(int)rageLevel];
     }
 
     private void FixedUpdate()
@@ -68,6 +74,8 @@ public class PlayerRageManager : MonoBehaviour
         levelName = levelNames[(int)rageLevel];
         levelDelta = levelDeltas[(int)rageLevel];
         sliderImage.color = rageColors[(int)rageLevel];
+        rageLevelDisplay.text = levelName;
+
 
         // lower rage amount over time
         if (rageAmount > 0)

@@ -87,10 +87,10 @@ public class PlayerUIManager : MonoBehaviour
         // whenever we press tab, show the entire body part canvas
         if (Input.GetKey(KeyCode.Tab))
         {
-            ShowCanvas();
+            try { ShowCanvas(); } catch { }
         } else
         {
-            HideCanvas();
+            try { HideCanvas(); } catch { }
         }
     }
 
