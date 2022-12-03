@@ -200,7 +200,7 @@ public class PlayerWeaponManager : MonoBehaviour
         foreach (GameObject weaponObject in weapons)
         {
             // if this is inactive then recharge
-            if (weaponObject.activeSelf == false)
+            if (weaponObject.activeInHierarchy == false)
             {
                 // get weaponclass
                 WeaponClass weaponClass = weaponObject.GetComponent<WeaponClass>();
@@ -218,7 +218,7 @@ public class PlayerWeaponManager : MonoBehaviour
             }
 
             // if this weapon is active set its recharge to 0
-            if (weaponObject.activeSelf == true)
+            if (weaponObject.activeInHierarchy == true)
             {
                 // get weaponclass
                 WeaponClass weaponClass = weaponObject.GetComponent<WeaponClass>();
