@@ -15,6 +15,11 @@ public class ManualArenaStarter : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 musicObject.SetActive(true);
+
+                // try using our simple music manager as well
+                try { SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.combat); } 
+                catch { Debug.LogWarning("No SimpleMusicManager component found on directed music object, you may need to assign it in the inspector."); }
+
                 arenaHandler.manualCombat = true;
                 Destroy(gameObject);    
             }
