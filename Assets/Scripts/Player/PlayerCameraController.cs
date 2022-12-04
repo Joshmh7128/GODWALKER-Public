@@ -61,18 +61,17 @@ public class PlayerCameraController : MonoBehaviour
 
     // set the position of our aim target
     void ProcessAimTarget()
-    {/*
-        // set it to the point of our check point
-        if (check.transform != null)
+    {
+        // set it to the point of our check point if it is not too close to the camera. if it is, set to to further away to accomidate 
+        if (check.transform != null && Vector3.Distance(check.point, transform.position) < 1f)
         {
             AimTarget.position = check.point;
         }
         else
         {
             AimTarget.position = mainCam.transform.position + (mainCam.transform.forward * 50f);
-        }*/
+        }
 
-        AimTarget.position = mainCam.transform.position + (mainCam.transform.forward * 50f);
     }
 
     // get our check point
