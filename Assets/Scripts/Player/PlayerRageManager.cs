@@ -37,7 +37,8 @@ public class PlayerRageManager : MonoBehaviour
     public float rageLerpSpeed; // how fast our lerper goes
     public Image sliderImage; // our slider image on our lerper
     public Image rageVignette; // our rage vignette
-
+    public TextMeshProUGUI reachedGODWALKERDisplay; // has this player reached godwalker?
+    float GodwalkerTime; // how long we've been in godwalker
 
     // effect variables
     public List<float> movementMultipliers;
@@ -46,7 +47,13 @@ public class PlayerRageManager : MonoBehaviour
     // public function to add rage
     public void AddRage(float amount)
     {
+        // make sure we don't go over the maximum
+        if (rageAmount + amount <= levelGates[levelGates.Count-1])
         rageAmount += amount * levelMods[(int)rageLevel];
+
+        // if we go over, set to maximum
+        if (rageAmount + amount > levelGates[levelGates.Count-1])
+        rageAmount = levelGates[levelGates.Count-1];
     }
 
     private void FixedUpdate()
@@ -107,11 +114,18 @@ public class PlayerRageManager : MonoBehaviour
         // manage our vignette
         if ((int)rageLevel > 0)
         {
-            Color ourColor = new Color(rageColors[(int)rageLevel].r, rageColors[(int)rageLevel].g, rageColors[(int)rageLevel].b, 0.05f);
+            Color ourColor = new Color(rageColors[(int)rageLevel].r, rageColors[(int)rageLevel].g, rageColors[(int)rageLevel].b, 0.5f);
             rageVignette.color = ourColor;
         } else
         {
             rageVignette.color = new Color(0, 0, 0, 0);
+        }
+
+        // check for if player has reached godwalker
+        if (rageLevel == RageLevels.godwalker)
+        {
+            GodwalkerTime += Time.fixedDeltaTime;
+            reachedGODWALKERDisplay.text = "GODWALKER ACHIEVED FOR " + GodwalkerTime + " SECONDS";
         }
     }
 
