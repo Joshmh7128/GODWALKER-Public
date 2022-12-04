@@ -35,16 +35,11 @@ public class SimpleMusicManager : MonoBehaviour
 
     public void PlaySong(MusicMoods mood)
     {
-        // make sure we arent about to play another song
-        StopAllCoroutines();
-
         // intro
         if (mood == MusicMoods.intro)
         {
             musicSource.clip = intro;
             musicSource.Play();
-            // then delay our combat music
-            StartCoroutine(DelayPlay(intro.length, combat));
         }
 
         // exploring
@@ -59,16 +54,6 @@ public class SimpleMusicManager : MonoBehaviour
             // play the outro
             musicSource.clip = outro;
             musicSource.Play();
-            // delay play explore
-            StartCoroutine(DelayPlay(outro.length-0.001f, explore));
         }
     }
-
-    IEnumerator DelayPlay(float time, AudioClip clip)
-    {
-        yield return new WaitForSeconds(time);
-        musicSource.clip = clip;
-        musicSource.Play();
-    }
-    
 }
