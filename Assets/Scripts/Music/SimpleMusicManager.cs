@@ -35,8 +35,9 @@ public class SimpleMusicManager : MonoBehaviour
             try { musicSource = GetComponent<AudioSource>(); }
             catch { Debug.LogError("Music manager has no Audio Source, you may need to assign it in the inspector"); }
 
-            PlaySong(MusicMoods.explore);
         }
+
+        PlaySong(MusicMoods.explore);
     }
 
     public void PlaySong(MusicMoods mood)

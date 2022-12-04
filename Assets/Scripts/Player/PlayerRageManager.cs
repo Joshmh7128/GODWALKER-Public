@@ -36,6 +36,8 @@ public class PlayerRageManager : MonoBehaviour
     public Slider rageLerp; // our lerp slider
     public float rageLerpSpeed; // how fast our lerper goes
     public Image sliderImage; // our slider image on our lerper
+    public Image rageVignette; // our rage vignette
+
 
     // effect variables
     public List<float> movementMultipliers;
@@ -100,6 +102,16 @@ public class PlayerRageManager : MonoBehaviour
             // for all other values set minimum to current rage level -1 and max to rage level in level gates
             rageSlider.minValue = levelGates[(int)rageLevel-1];
             rageSlider.maxValue = levelGates[(int)rageLevel];
+        }
+
+        // manage our vignette
+        if ((int)rageLevel > 0)
+        {
+            Color ourColor = new Color(rageColors[(int)rageLevel].r, rageColors[(int)rageLevel].g, rageColors[(int)rageLevel].b, 0.05f);
+            rageVignette.color = ourColor;
+        } else
+        {
+            rageVignette.color = new Color(0, 0, 0, 0);
         }
     }
 
