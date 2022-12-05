@@ -279,7 +279,6 @@ public class ArenaHandler : MonoBehaviour
             StartCoroutine(ShowWaveMessage("Combat Complete"));
             // spawn our new body part from the list
             // 50/50 chance to get the next in the same set
-            CreateBodyPartItem(bodyPartObject);
 
         }
 
