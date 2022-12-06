@@ -91,6 +91,7 @@ public class DeathPit : MonoBehaviour
         controller.Teleport(controller.lastGroundedPos);
         // take 5% damage
         statManager.TakeDamage(statManager.maxHealth*0.05f);
+        statManager.damageCooldown = 300; // make sure the player can't take damage the moment they respawn
         // trigger the fade to white
         statManager.fadeUITargetA = 0;
     }

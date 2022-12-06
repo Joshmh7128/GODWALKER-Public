@@ -20,7 +20,7 @@ public class PlayerStatManager : MonoBehaviour
 
     // our main public variables
     public float health, maxHealth; // the player's health
-    [SerializeField] float damageCooldown, damageCooldownMax; // how long we are unable to take damage for after taking damage
+    public float damageCooldown, damageCooldownMax; // how long we are unable to take damage for after taking damage
 
     // our UI variables
     [SerializeField] CanvasGroup hurtUIGroup, lifeGainUIGroup, fadeUIGroup; // flash this when we take damage
