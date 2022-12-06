@@ -39,6 +39,7 @@ public class PlayerRageManager : MonoBehaviour
     public Image rageVignette; // our rage vignette
     public TextMeshProUGUI reachedGODWALKERDisplay; // has this player reached godwalker?
     float GodwalkerTime; // how long we've been in godwalker
+    public List<float> levelHPRegen; // how much HP we regen every second per level
 
     // effect variables
     public List<float> movementMultipliers;
@@ -127,6 +128,10 @@ public class PlayerRageManager : MonoBehaviour
             GodwalkerTime += Time.fixedDeltaTime;
             reachedGODWALKERDisplay.text = "GODWALKER ACHIEVED FOR " + GodwalkerTime + " SECONDS";
         }
+
+        // process HP regen
+        PlayerStatManager.instance.AddHealth(levelHPRegen[(int)rageLevel] * Time.fixedDeltaTime);
+
     }
 
 
