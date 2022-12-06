@@ -12,7 +12,7 @@ public class ArenaHandler : MonoBehaviour
     /// </summary>
     /// 
 
-    public Transform activeParent, inactiveParent; // our parents for inactive and active enemies
+    public Transform activeParent, inactiveParent, doorParent; // our parents for inactive and active enemies, door parent is deactivated at thened of combat
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
     GameObject previousSummon; // our previous summon
     [SerializeField] int activeGoal; // how many do we want active at once?
@@ -37,8 +37,6 @@ public class ArenaHandler : MonoBehaviour
 
     // everything to do with upgrades
     [SerializeField] Transform upgradeSpawnPoint; // where the upgrade spawns
-    [SerializeField] GameObject bodyPartItem; // an empty body part item prefab
-    [SerializeField] GameObject bodyPartObject; // a premade body part 
     [SerializeField] bool specialRoom; // is this a special room?
     public bool manualCombat; // manual editor combat start
 
@@ -277,6 +275,9 @@ public class ArenaHandler : MonoBehaviour
             SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.explore);
 
             StartCoroutine(ShowWaveMessage("Combat Complete"));
+
+            doorParent.gameObject.SetActive(false);
+
             // spawn our new body part from the list
             // 50/50 chance to get the next in the same set
 
