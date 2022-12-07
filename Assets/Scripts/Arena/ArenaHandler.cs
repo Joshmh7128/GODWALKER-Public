@@ -12,7 +12,7 @@ public class ArenaHandler : MonoBehaviour
     /// </summary>
     /// 
 
-    public Transform activeParent, inactiveParent, doorParent; // our parents for inactive and active enemies, door parent is deactivated at thened of combat
+    public Transform activeParent, inactiveParent, doorParent, safetySpawn; // our parents for inactive and active enemies, door parent is deactivated at thened of combat
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
     GameObject previousSummon; // our previous summon
     [SerializeField] int activeGoal; // how many do we want active at once?
@@ -77,6 +77,11 @@ public class ArenaHandler : MonoBehaviour
             {
                 enemy.gameObject.GetComponent<EnemyClass>().GetHurt(999999f);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F10) && arenaManager.activeArena == this)
+        {
+            PlayerController.instance.Teleport(safetySpawn.position);
         }
     }
 
