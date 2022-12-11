@@ -28,8 +28,12 @@ public class ArenaHandler : MonoBehaviour
     // our doors
     [HideInInspector] public List<DoorScript> doors;
 
-    // arena manager
+    // instances
     ArenaManager arenaManager;
+    PlayerRageManager playerRageManager;
+
+    // our visual fx
+    [SerializeField] List<GameObject> rendererObjects;
 
     // our arena level
     public int arenaLevel;
@@ -55,6 +59,7 @@ public class ArenaHandler : MonoBehaviour
         BuildArena();
         // get our arena manager instance
         arenaManager = ArenaManager.instance;
+        playerRageManager = PlayerRageManager.instance;
     }
 
     // select a random geomety set and spawn it in
@@ -103,6 +108,9 @@ public class ArenaHandler : MonoBehaviour
                 ProcessWave();
             }
         }
+
+        ProcessGlow();
+
     }
 
     bool setupWaveRunning; // is setup wave running
@@ -296,7 +304,6 @@ public class ArenaHandler : MonoBehaviour
         Instantiate(bodyPart, upgradeSpawnPoint.position, Quaternion.identity);
     }
 
-
     // check out combat completion
     void CheckCombatCompletion()
     {
@@ -318,6 +325,26 @@ public class ArenaHandler : MonoBehaviour
         messageGroupTargetA = 1;
         yield return new WaitForSecondsRealtime(4f);
         messageGroupTargetA = 0;
+    }
+
+    // process our glowing
+    void ProcessGlow()
+    {
+        foreach(GameObject renderer in rendererObjects)
+        {
+            // try material
+            try {
+                renderer.GetComponent<Renderer>().material.SetColor("_EmissionColor", playerRageManager.rageColors[(int)playerRageManager.rageLevel]);
+                renderer.GetComponent<Renderer>().material.color = playerRageManager.rageColors[(int)playerRageManager.rageLevel];
+            } catch { }
+
+            // try light
+            try
+            {
+                renderer.GetComponent<Light>().color = playerRageManager.rageColors[(int)playerRageManager.rageLevel];
+            }
+            catch { }
+        }
     }
 
     private void OnDrawGizmos()
