@@ -37,7 +37,7 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
     void ChoosePos()
     {
         if (!playerRelative)
-            targetPos = enemyClass.transform.position + new Vector3(Random.Range(-moveDistance, moveDistance), 0, Random.Range(-moveDistance, moveDistance));
+            targetPos = transform.position + new Vector3(Random.Range(-moveDistance, moveDistance), 0, Random.Range(-moveDistance, moveDistance));
 
         Vector3 pos = new Vector3(PlayerController.instance.transform.position.x, enemyClass.transform.position.y, PlayerController.instance.transform.position.z);
 
@@ -62,7 +62,7 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
             }
 
             // other than that, move towards our target position
-            enemyClass.transform.position = Vector3.MoveTowards(transform.position, targetPos, speed*Time.deltaTime);
+            enemyClass.transform.position = Vector3.MoveTowards(transform.position, targetPos, speed*Time.fixedDeltaTime);
 
             // when we reach our position, choose a new one
             if (Vector3.Distance(enemyClass.transform.position, targetPos) < bodyRadius)
