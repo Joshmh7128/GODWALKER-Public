@@ -700,6 +700,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5117807871821606117}
+  - {fileID: 403893694046821804}
   m_Father: {fileID: 7853617228029179120}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6103,6 +6104,58 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!1 &8809292960298384933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 403893694046821804}
+  - component: {fileID: 4411832369628771774}
+  m_Layer: 0
+  m_Name: Movement Behaviour (Move Around Player)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &403893694046821804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8809292960298384933}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6665921661718476968}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4411832369628771774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8809292960298384933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca556c3f65f5f74a825cf9d0ca9a8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  complete: 0
+  enemyClass: {fileID: 7853617228029179119}
+  behaviourTime: 2
+  behaviourTimeRand: 2
+  randomMoveRadius: 5
+  speed: 36
+  moveAroundPlayer: 1
 --- !u!1 &8925184701779952868
 GameObject:
   m_ObjectHideFlags: 0
@@ -6150,8 +6203,8 @@ MonoBehaviour:
   type: 0
   complete: 0
   enemyClass: {fileID: 7853617228029179119}
-  behaviourTime: 3
-  behaviourTimeRand: 0
+  behaviourTime: 2
+  behaviourTimeRand: 2
   randomMoveRadius: 15
   speed: 36
   moveAroundPlayer: 0
