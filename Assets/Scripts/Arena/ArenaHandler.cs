@@ -23,6 +23,7 @@ public class ArenaHandler : MonoBehaviour
     Transform spawnPoint; // the spawn point we're using right now
 
     // our list of waves
+    [SerializeField] Transform masterWave; // the master wave parent
     [SerializeField] List<Transform> waveParents; // wave parents hold enemies as child objects
 
     // our doors
@@ -65,6 +66,12 @@ public class ArenaHandler : MonoBehaviour
     // select a random geomety set and spawn it in
     void BuildArena()
     { 
+        // get the waves
+        foreach (Transform childwave in masterWave)
+        {
+            waveParents.Add(childwave);
+        }
+
         // lock the doors
         foreach (DoorScript door in doors)
         {
