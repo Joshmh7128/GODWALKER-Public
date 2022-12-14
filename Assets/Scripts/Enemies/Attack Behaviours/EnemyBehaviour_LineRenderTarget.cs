@@ -61,6 +61,7 @@ public class EnemyBehaviour_LineRenderTarget : EnemyBehaviour
         running = true; // we have started running
 
         yield return new WaitForSeconds(behaviourTime);
+        running = false;
         complete = true;
         yield return null; 
     }
