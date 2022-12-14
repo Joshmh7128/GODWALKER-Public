@@ -22,12 +22,16 @@ public class EnemyBehaviour_LineRenderTarget : EnemyBehaviour
             timePassed += Time.fixedDeltaTime;
             // set our line renderer positions
             targetPos = alignmentTransform.forward * 100f;
-            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(0, alignmentTransform.position);
             lineRenderer.SetPosition(1, targetPos);
             // lerp our line renderer colors
             Color lerpColor = Color.Lerp(startColor, endColor, timePassed / behaviourTime);
             lineRenderer.startColor = lerpColor;
             lineRenderer.endColor = lerpColor;
+            // set line size
+            float lerpSize = Mathf.Lerp(startSize, endSize, timePassed / behaviourTime);
+            lineRenderer.startWidth = lerpSize;
+            lineRenderer.endWidth = lerpSize;
 
         }
     }
