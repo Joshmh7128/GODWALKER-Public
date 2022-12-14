@@ -13,7 +13,7 @@ public class WeaponCreator : MonoBehaviour
     public float level;
 
     // the list of weapons per maker
-    [SerializeField] List<GameObject> ValkyrieWeapons = new List<GameObject>();
+    [SerializeField] List<GameObject> WeaponsToSpawn = new List<GameObject>();
 
     // our weapon objects
     GameObject weaponObject;
