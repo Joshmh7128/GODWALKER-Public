@@ -43,6 +43,12 @@ public class LookAtPlayer : MonoBehaviour
                     if (Vector3.Distance(playerController.transform.position, transform.position) > maxDistance)
                     {
                         finalSpeed /= 2;
+
+                    }
+
+                    if (Vector3.Distance(playerController.transform.position, transform.position) < minDistance)
+                    {
+                        finalSpeed *= 2;
                     }
                 }
 
@@ -63,6 +69,11 @@ public class LookAtPlayer : MonoBehaviour
                     if (Vector3.Distance(playerController.transform.position, transform.position) > maxDistance)
                     {
                         finalSpeed /= 2;
+                    }
+
+                    if (Vector3.Distance(playerController.transform.position, transform.position) < minDistance)
+                    {
+                        finalSpeed *= 2;
                     }
                 }
                 // slerp to the look direction
