@@ -68,12 +68,12 @@ public class LookAtPlayer : MonoBehaviour
                     // the further the player is the slower we move
                     if (Vector3.Distance(playerController.transform.position, transform.position) > maxDistance)
                     {
-                        finalSpeed /= 2;
+                        finalSpeed /= 3;
                     }
 
                     if (Vector3.Distance(playerController.transform.position, transform.position) < minDistance)
                     {
-                        finalSpeed *= 2;
+                        finalSpeed *= 3;
                     }
                 }
                 // slerp to the look direction

@@ -191,7 +191,7 @@ public abstract class EnemyClass : MonoBehaviour
         {
             dropped = true;
             // access the creator we just built and set its level to our level
-            Instantiate(dropItem, transform.position, Quaternion.identity, null);
+            try { Instantiate(dropItem, transform.position, Quaternion.identity, null); } catch { } 
             // creator.UpdateItem(); // make sure we update the item since it will not properly show our stats otherwise!
         }
 
