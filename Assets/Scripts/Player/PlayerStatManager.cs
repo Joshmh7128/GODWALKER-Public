@@ -48,6 +48,28 @@ public class PlayerStatManager : MonoBehaviour
         ProcessUI();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F8))
+        {
+            maxHealth = 9999999999999;
+            health = 9999999999999;
+            debugInvincible = true;
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            doorParent.gameObject.SetActive(false);
+            GameObject[] killings = GameObject.FindGameObjectsWithTag("Interactable");
+            foreach (GameObject killing in killings)
+            {
+                killing.SetActive(false);
+            }
+        }
+
+    }
+
     // check our health every frame
     void ProcessCheckHealth()
     {

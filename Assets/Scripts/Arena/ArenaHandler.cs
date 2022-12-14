@@ -95,6 +95,7 @@ public class ArenaHandler : MonoBehaviour
         {
             PlayerController.instance.Teleport(safetySpawn.position);
         }
+
     }
 
     private void FixedUpdate()
