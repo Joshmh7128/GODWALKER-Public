@@ -16,7 +16,7 @@ public class WeaponChargeUIHandler : MonoBehaviour
 
     private void Start()
     {
-        weaponNameDisplay.text = ourWeapon.weaponName;
+        try { weaponNameDisplay.text = ourWeapon.weaponName; } catch { Debug.Log("unable to display weapon charge, disregard if this appears on play"); }
     }
 
     private void FixedUpdate()
