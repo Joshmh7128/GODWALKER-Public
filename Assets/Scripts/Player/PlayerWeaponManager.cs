@@ -178,6 +178,8 @@ public class PlayerWeaponManager : MonoBehaviour
         weapons[currentWeaponInt] = Instantiate(newWeaponObject, weaponContainer, false);
         // update current weapon
         UpdateCurrentWeapon();
+        // update recharge ui
+        UpdateWeaponRechargeUI();
         // play our sound effect
         weaponEquipSource.PlayOneShot(weaponEquipSource.clip);
     }
