@@ -32,7 +32,7 @@ public class LookAtPlayer : MonoBehaviour
             if (!lookAtCamera)
             { 
                 // get the look direction
-                Vector3 lookDir = transform.position - playerController.transform.position;
+                Vector3 lookDir = playerController.transform.position - transform.position;
 
                 // slerp to the look direction
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed * Time.fixedDeltaTime);
@@ -41,7 +41,7 @@ public class LookAtPlayer : MonoBehaviour
             if (lookAtCamera)
             { 
                 // get the look direction
-                Vector3 lookDir = transform.position - playerController.cameraRig.transform.position;
+                Vector3 lookDir = playerController.cameraRig.transform.position - transform.position;
 
                 // slerp to the look direction
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed * Time.fixedDeltaTime);

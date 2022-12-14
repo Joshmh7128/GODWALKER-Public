@@ -5477,7 +5477,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookAtCamera: 0
   slowMove: 1
-  turnSpeed: 0.5
+  turnSpeed: 0.75
 --- !u!1 &4220874669857293924
 GameObject:
   m_ObjectHideFlags: 0
@@ -5554,64 +5554,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &4220874669937254095
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4220874669937254092}
-  - component: {fileID: 4220874669937254093}
-  m_Layer: 0
-  m_Name: 'Midair movement '
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &4220874669937254092
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4220874669937254095}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4220874670055866515}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4220874669937254093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4220874669937254095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6631a52540241439b14d1415774af9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  complete: 0
-  enemyClass: {fileID: 4220874671179313683}
-  behaviourTime: 8
-  behaviourTimeRand: 0
-  speed: 10
-  bodyRadius: 2
-  moveDistance: 20
-  drawGizmos: 1
-  playerRelative: 0
-  divePlayer: 0
-  divePlayerHangTime: 0
-  lookAtPlayer: {fileID: 0}
-  cosmeticParent: {fileID: 0}
 --- !u!1 &4220874670033816437
 GameObject:
   m_ObjectHideFlags: 0
@@ -5715,9 +5657,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4220874669937254092}
-  - {fileID: 6623804416274708761}
+  m_Children: []
   m_Father: {fileID: 4220874671179313680}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5778,7 +5718,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4220874670173436482}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00000058114523}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.00000068582017, y: 0, z: 0.2133175}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5793,7 +5733,7 @@ Transform:
   - {fileID: 1253648685870666480}
   m_Father: {fileID: 4220874669839433156}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4220874670240913432
 GameObject:
   m_ObjectHideFlags: 0
@@ -5854,15 +5794,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4220874670277114979}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00000058114523}
-  m_LocalPosition: {x: 0.00000068582017, y: 0, z: -2.4766777}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00000068582017, y: 0, z: 5.7933693}
   m_LocalScale: {x: 1.4382691, y: 1.4382691, z: 1.4382691}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1253648685763198516}
   m_Father: {fileID: 4220874669839433156}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4220874670463930376
 GameObject:
   m_ObjectHideFlags: 0
@@ -6081,7 +6021,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 8351509525737590741}
   startColor: {r: 0.9732981, g: 1, b: 0, a: 1}
   endColor: {r: 1, g: 0, b: 0.016557693, a: 1}
-  alignmentTransform: {fileID: 4220874670173436483}
+  alignmentTransform: {fileID: 4220874669839433156}
   startSize: 0.1
   endSize: 2
 --- !u!1 &4220874670868702117
@@ -6427,64 +6367,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1 &5362319881074256930
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6623804416274708761}
-  - component: {fileID: 3570628600328377060}
-  m_Layer: 0
-  m_Name: Midair movement  (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &6623804416274708761
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5362319881074256930}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4220874670055866515}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3570628600328377060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5362319881074256930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6631a52540241439b14d1415774af9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  complete: 0
-  enemyClass: {fileID: 4220874671179313683}
-  behaviourTime: 8
-  behaviourTimeRand: 0
-  speed: 10
-  bodyRadius: 2
-  moveDistance: 20
-  drawGizmos: 1
-  playerRelative: 1
-  divePlayer: 0
-  divePlayerHangTime: 0
-  lookAtPlayer: {fileID: 0}
-  cosmeticParent: {fileID: 0}
 --- !u!1 &6756142370228579304
 GameObject:
   m_ObjectHideFlags: 0
@@ -6665,7 +6547,7 @@ MonoBehaviour:
   enemyClass: {fileID: 4220874671179313683}
   behaviourTime: 0
   behaviourTimeRand: 0
-  projectile: {fileID: 5649264111359623997, guid: 704696820d8c4a043850d2ef535952f0, type: 3}
+  projectile: {fileID: 147436, guid: aa967fbad5f0ccd478edb72fab772b64, type: 3}
   projectileOrigin: {fileID: 4220874670277114976}
   fireAmount: 1
   fireRate: 0.1

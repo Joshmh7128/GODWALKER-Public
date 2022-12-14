@@ -21,7 +21,7 @@ public class EnemyBehaviour_LineRenderTarget : EnemyBehaviour
             // continue time passed
             timePassed += Time.fixedDeltaTime;
             // set our line renderer positions
-            targetPos = alignmentTransform.forward * 100f;
+            targetPos = alignmentTransform.position + alignmentTransform.forward * 100f;
             lineRenderer.SetPosition(0, alignmentTransform.position);
             lineRenderer.SetPosition(1, targetPos);
             // lerp our line renderer colors
@@ -34,10 +34,17 @@ public class EnemyBehaviour_LineRenderTarget : EnemyBehaviour
             lineRenderer.endWidth = lerpSize;
 
         }
+
+        if (complete)
+        {
+            lineRenderer.SetPosition(0, new Vector3(9999, 9999,9999));
+            lineRenderer.SetPosition(1, new Vector3(9999, 9999,9999));
+        }
     }
 
     public override IEnumerator MainCoroutine()
     {
+        timePassed = 0;
         // set our second position of the line renderer
         running = true; // we have started running
 
