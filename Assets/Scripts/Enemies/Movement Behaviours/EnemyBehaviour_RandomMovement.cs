@@ -11,18 +11,25 @@ public class EnemyBehaviour_RandomMovement : EnemyBehaviour
     // our main behaviour
     public override IEnumerator MainCoroutine()
     {
+        complete = false;
         Transform playerTransform = PlayerController.instance.transform;
 
         // move to a random spot within a range
-        destPos = transform.position + new Vector3(Random.Range(-randomMoveRadius, randomMoveRadius), transform.position.y, Random.Range(-randomMoveRadius, randomMoveRadius));
+        destPos = transform.position + new Vector3(Random.Range(-randomMoveRadius, randomMoveRadius), 0, Random.Range(-randomMoveRadius, randomMoveRadius));
         // if we move around the player...
         if (moveAroundPlayer)
         {
-            destPos = playerTransform.position + new Vector3(Random.Range(-randomMoveRadius, randomMoveRadius), playerTransform.position.y, Random.Range(-randomMoveRadius, randomMoveRadius));
+            destPos = playerTransform.position + new Vector3(Random.Range(-randomMoveRadius, randomMoveRadius), 0, Random.Range(-randomMoveRadius, randomMoveRadius));
         }
         enemyClass.navMeshAgent.SetDestination(destPos);
         enemyClass.navMeshAgent.speed = speed;
         // return
-        yield return true;
+        yield return null;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(destPos, 1f);
     }
 }
