@@ -14,35 +14,49 @@ public class WeaponCreator : MonoBehaviour
 
     // the list of weapons per maker
     [SerializeField] List<GameObject> WeaponsToSpawn = new List<GameObject>();
+    [SerializeField] List<Transform> spawnPoints = new List<Transform> ();
 
     // our weapon objects
-    GameObject weaponObject;
     [SerializeField] GameObject weaponItem; // the prefab of our weapon item
     Weapon_Item copyItem;
     WeaponClass weaponClass;
 
+
+    private static System.Random rng = new System.Random();
+
     private void Start()
     {
-        CreateWeapon();
+        CreateWeapons();
     }
 
     // instantiate our weapons
-    void CreateWeapon()
+    void CreateWeapons()
     {
-        // get our weapon maker and choose a weapon based off of that maker
-        // then instantiate our weapon object
-        weaponObject = ValkyrieWeapons[Random.Range(0, ValkyrieWeapons.Count-1)];
+        // randomly place our weapons around the map
+        int n = spawnPoints.Count;
 
-        // then create the weapon item
-         CreateWeaponItem();
+        // shuffle spawnpoints
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            Transform value = spawnPoints[k];
+            spawnPoints[k] = spawnPoints[n];
+            spawnPoints[n] = value;
+        }
 
+        // now randomly place the weapons
+        for(int i = 0; i < WeaponsToSpawn.Count; i++)
+        {
+            try { CreateWeaponItem(WeaponsToSpawn[i],spawnPoints[i]); } catch { }
+        }
     }
 
     // instantiate our weapon item
-    void CreateWeaponItem()
+    void CreateWeaponItem(GameObject weaponObject, Transform spawnPoint)
     {
         // instantiate a copy of the weapon we are currently holding
-        copyItem = Instantiate(weaponItem, transform.position, Quaternion.identity).GetComponent<Weapon_Item>();
+        copyItem = Instantiate(weaponItem, spawnPoint.position, Quaternion.identity).GetComponent<Weapon_Item>();
         // create a copy of the weaponObject we are holding so that we can give it to the player
         copyItem.weapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity);
         copyItem.weapon.GetComponent<WeaponClass>().level = level;
@@ -52,15 +66,5 @@ public class WeaponCreator : MonoBehaviour
 
         copyItem.weapon.SetActive(false);
         weaponClass = copyItem.weapon.GetComponent<WeaponClass>();
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-
-        if (!name.Contains(" level " + level.ToString()))
-            name = "";
-            name = "Weapon Creator | Level " + level.ToString();
     }
 }
