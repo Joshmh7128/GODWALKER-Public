@@ -16,7 +16,7 @@ public class CrabInverseKinematicsController : MonoBehaviour
     [SerializeField] float footSpeed = 1f; // how fast our feet move
     [SerializeField] float wantStepAtDistance, epsilonChangePer; // how far away our foot needs to be from our static position in order to step
     [SerializeField] float footSwapTime; // how long does each foot have to stay put
-
+    [SerializeField] bool overridePlayerTrack; // should we override the player tracking?
     // this script supports two humanoid animators, up to four legs and four arms
     [SerializeField] LocalIKHandler frontAnimator, backAnimator;
 
@@ -112,6 +112,7 @@ public class CrabInverseKinematicsController : MonoBehaviour
     // control our top rig parent
     void ProcessTopRigParent()
     {
+        if (!overridePlayerTrack)
         topRigParent.LookAt(PlayerController.instance.transform);
     }
 
