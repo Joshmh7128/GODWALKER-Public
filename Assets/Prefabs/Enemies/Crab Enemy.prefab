@@ -1,57 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &360902893737410041
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6408110691984666874}
-  - component: {fileID: 1282557346959058921}
-  m_Layer: 0
-  m_Name: Movement Behaviour (Move Around Self)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6408110691984666874
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 360902893737410041}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6665921661718476968}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1282557346959058921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 360902893737410041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca556c3f65f5f74a825cf9d0ca9a8a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  complete: 0
-  enemyClass: {fileID: 7853617228029179119}
-  behaviourTime: 1
-  behaviourTimeRand: 0.25
-  randomMoveRadius: 10
-  speed: 18
-  moveAroundPlayer: 0
 --- !u!1 &729285195391211230
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +512,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6665921661718476968}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1043406539121355171
 MonoBehaviour:
@@ -581,10 +529,10 @@ MonoBehaviour:
   type: 0
   complete: 0
   enemyClass: {fileID: 7853617228029179119}
-  behaviourTime: 1
+  behaviourTime: 2
   behaviourTimeRand: 0.25
   randomMoveRadius: 10
-  speed: 18
+  speed: 28
   moveAroundPlayer: 0
 --- !u!1 &3711641079347304693
 GameObject:
@@ -803,11 +751,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7853617228327554791}
   - {fileID: 7089130289499665832}
-  - {fileID: 5923787741713837458}
-  - {fileID: 8729131488161117940}
-  - {fileID: 6408110691984666874}
   m_Father: {fileID: 7853617228029179120}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -950,58 +894,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &7080797184478193121
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5923787741713837458}
-  - component: {fileID: 536093945058917432}
-  m_Layer: 0
-  m_Name: Movement Behaviour (Rush Player)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5923787741713837458
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7080797184478193121}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6665921661718476968}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &536093945058917432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7080797184478193121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca556c3f65f5f74a825cf9d0ca9a8a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  complete: 0
-  enemyClass: {fileID: 7853617228029179119}
-  behaviourTime: 1
-  behaviourTimeRand: 0.25
-  randomMoveRadius: 0
-  speed: 20
-  moveAroundPlayer: 1
 --- !u!1 &7140584698389430568
 GameObject:
   m_ObjectHideFlags: 0
@@ -1055,58 +947,6 @@ MonoBehaviour:
   projectileOrigin: {fileID: 0}
   fireAmount: 0
   fireRate: 0
---- !u!1 &7780661938424004137
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8729131488161117940}
-  - component: {fileID: 6156818186245688948}
-  m_Layer: 0
-  m_Name: Movement Behaviour (Move Around Player)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8729131488161117940
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7780661938424004137}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6665921661718476968}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6156818186245688948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7780661938424004137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca556c3f65f5f74a825cf9d0ca9a8a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  complete: 0
-  enemyClass: {fileID: 7853617228029179119}
-  behaviourTime: 1
-  behaviourTimeRand: 0.25
-  randomMoveRadius: 5
-  speed: 15
-  moveAroundPlayer: 1
 --- !u!1 &7853617227120820238
 GameObject:
   m_ObjectHideFlags: 0
@@ -4526,58 +4366,6 @@ Transform:
   m_Father: {fileID: 7853617228779813718}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7853617228327554790
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7853617228327554791}
-  - component: {fileID: 7853617228327554788}
-  m_Layer: 0
-  m_Name: Movement Behaviour (Move Around Player)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7853617228327554791
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7853617228327554790}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6665921661718476968}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7853617228327554788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7853617228327554790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca556c3f65f5f74a825cf9d0ca9a8a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  complete: 0
-  enemyClass: {fileID: 7853617228029179119}
-  behaviourTime: 1
-  behaviourTimeRand: 0.25
-  randomMoveRadius: 10
-  speed: 15
-  moveAroundPlayer: 1
 --- !u!1 &7853617228333188265
 GameObject:
   m_ObjectHideFlags: 0
