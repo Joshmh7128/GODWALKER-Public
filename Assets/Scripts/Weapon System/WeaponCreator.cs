@@ -67,4 +67,18 @@ public class WeaponCreator : MonoBehaviour
         copyItem.weapon.SetActive(false);
         weaponClass = copyItem.weapon.GetComponent<WeaponClass>();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F11))
+        {
+            DebugSpawn();
+        }
+    }
+
+    // debug spawn a weapon in near the player
+    void DebugSpawn()
+    {
+        CreateWeaponItem(WeaponsToSpawn[Random.Range(0, WeaponsToSpawn.Count)], PlayerController.instance.transform);
+    }
 }
