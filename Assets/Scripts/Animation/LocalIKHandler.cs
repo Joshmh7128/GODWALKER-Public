@@ -7,11 +7,17 @@ public class LocalIKHandler : MonoBehaviour
 
     [SerializeField] Transform rightHandTarget, leftHandTarget, rightFootTarget, leftFootTarget;
     public Transform lookTarget;
+    [SerializeField] bool findPlayer; // find and set our player as the look target
 
     [SerializeField] Vector3 lookPos, kickVector;
     [SerializeField] float kickReturnDelta;
 
     [SerializeField] Animator animator;
+
+    private void Start()
+    {
+        if (findPlayer) lookTarget = PlayerController.instance.transform;
+    }
 
     private void OnAnimatorIK(int layerIndex)
     {
@@ -62,6 +68,13 @@ public class LocalIKHandler : MonoBehaviour
         if (lookTarget != null)
         {
             lookPos = lookTarget.position + kickVector;
+            // lerp kickvector back to zero
+            kickVector = Vector3.Lerp(kickVector, Vector3.zero, kickReturnDelta * Time.deltaTime);
+        }
+
+        if (lookTarget == null)
+        {
+            lookPos = transform.forward + transform.position + kickVector;
             // lerp kickvector back to zero
             kickVector = Vector3.Lerp(kickVector, Vector3.zero, kickReturnDelta * Time.deltaTime);
         }

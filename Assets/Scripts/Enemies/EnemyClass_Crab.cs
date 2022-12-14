@@ -5,13 +5,13 @@ using UnityEngine;
 public class EnemyClass_Crab : EnemyClass
 {
     [SerializeField] LocalIKHandler hurtHandler;
-    [SerializeField] float baseHealth; // the base health of this enemy
+    [SerializeField] float baseHealth, kickAmount = 30; // the base health of this enemy
     [SerializeField] bool kicks; // do we apply a kick animation?
-
+    [SerializeField] bool overrideLook; // do we override the look?
     public override void StartExtension()
     {
         // find and set our player as the look target
-        if (hurtHandler != null)
+        if (hurtHandler != null && !overrideLook)
         hurtHandler.lookTarget = PlayerController.instance.transform;
     }
 
@@ -20,7 +20,7 @@ public class EnemyClass_Crab : EnemyClass
     {
         // kick our body
         if (kicks)
-        hurtHandler.KickLookPos(30f);
+        hurtHandler.KickLookPos(kickAmount);
     }
 
     public override void SetLevelStats()

@@ -50,7 +50,7 @@ MonoBehaviour:
   behaviourTime: 0.5
   behaviourTimeRand: 0
   randomMoveRadius: 0
-  speed: 40
+  speed: 15
   moveAroundPlayer: 1
 --- !u!1 &285865410757677623
 GameObject:
@@ -155,7 +155,7 @@ MonoBehaviour:
   behaviourTime: 0.5
   behaviourTimeRand: 0
   randomMoveRadius: 5
-  speed: 30
+  speed: 15
   moveAroundPlayer: 1
 --- !u!1 &869843038414090540
 GameObject:
@@ -1868,7 +1868,7 @@ MonoBehaviour:
   behaviourTime: 0.5
   behaviourTimeRand: 0
   randomMoveRadius: 10
-  speed: 30
+  speed: 15
   moveAroundPlayer: 1
 --- !u!1 &869843039338541990
 GameObject:
@@ -2752,6 +2752,7 @@ MonoBehaviour:
   hurtHandler: {fileID: 869843039678569688}
   baseHealth: 75
   kicks: 1
+  overrideLook: 0
 --- !u!33 &869843039559804908
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3871,6 +3872,7 @@ MonoBehaviour:
   wantStepAtDistance: 1.75
   epsilonChangePer: 0.25
   footSwapTime: 0
+  overridePlayerTrack: 0
   frontAnimator: {fileID: 0}
   backAnimator: {fileID: 0}
   topRigParent: {fileID: 869843038792572900}
@@ -3887,6 +3889,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAtCamera: 1
+  slowMove: 0
+  turnSpeed: 0
+  minDistance: 0
+  maxDistance: 0
+  distanceCompensation: 0
 --- !u!1 &869843039938719547
 GameObject:
   m_ObjectHideFlags: 0
@@ -7378,7 +7385,7 @@ MonoBehaviour:
   behaviourTime: 0.5
   behaviourTimeRand: 0
   randomMoveRadius: 10
-  speed: 36
+  speed: 15
   moveAroundPlayer: 0
 --- !u!1 &6047722158912638286
 GameObject:
@@ -7506,7 +7513,7 @@ MonoBehaviour:
   behaviourTime: 0.5
   behaviourTimeRand: 0
   randomMoveRadius: 10
-  speed: 36
+  speed: 15
   moveAroundPlayer: 0
 --- !u!1 &7705971109964891585
 GameObject:
@@ -7587,6 +7594,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAtCamera: 1
+  slowMove: 0
+  turnSpeed: 0
+  minDistance: 0
+  maxDistance: 0
+  distanceCompensation: 0
 --- !u!1 &8019664177836926862
 GameObject:
   m_ObjectHideFlags: 0
@@ -7899,6 +7911,7 @@ MonoBehaviour:
   rightFootTarget: {fileID: 869843039467237300}
   leftFootTarget: {fileID: 869843038526216960}
   lookTarget: {fileID: 0}
+  findPlayer: 0
   lookPos: {x: 0, y: 0, z: 0}
   kickVector: {x: 0, y: 0, z: 0}
   kickReturnDelta: 0
@@ -8040,6 +8053,7 @@ MonoBehaviour:
   rightFootTarget: {fileID: 0}
   leftFootTarget: {fileID: 0}
   lookTarget: {fileID: 0}
+  findPlayer: 0
   lookPos: {x: 0, y: 0, z: 0}
   kickVector: {x: 0, y: 0, z: 0}
   kickReturnDelta: 10
@@ -8186,6 +8200,7 @@ MonoBehaviour:
   rightFootTarget: {fileID: 869843039235375964}
   leftFootTarget: {fileID: 869843040350017393}
   lookTarget: {fileID: 0}
+  findPlayer: 0
   lookPos: {x: 0, y: 0, z: 0}
   kickVector: {x: 0, y: 0, z: 0}
   kickReturnDelta: 0

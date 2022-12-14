@@ -133,8 +133,10 @@ public class PlayerProjectileScript : MonoBehaviour
 
     void HitEnemy(Transform enemy)
     {
+        EnemyClass eclass = enemy.transform.gameObject.GetComponent<EnemyClass>();
+
         // if we hit an enemy
-        if (enemy.transform.tag == "Enemy" && !enemy.transform.gameObject.GetComponent<EnemyClass>().invincible)
+        if (enemy.transform.tag == "Enemy" && !eclass.invincible)
         {
             // make sure we have damage
             if (damage == 0)
@@ -146,10 +148,10 @@ public class PlayerProjectileScript : MonoBehaviour
             Instantiate(normalHitFX);
 
             // deal damage to enemy
-            enemy.transform.gameObject.GetComponent<EnemyClass>().GetHurt(damage);
+            eclass.GetHurt(damage);
 
             // add our rage
-            PlayerRageManager.instance.AddRage(rageAdd);
+            PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier);
 
             // run our on damage calls
             if (isHoming)
@@ -161,7 +163,7 @@ public class PlayerProjectileScript : MonoBehaviour
             }
         }
 
-        if (enemy.transform.tag == "Enemy" && hit.transform.gameObject.GetComponent<EnemyClass>().invincible)
+        if (enemy.transform.tag == "Enemy" && eclass.invincible)
         {
             // random normal modifier
             damage = 0;

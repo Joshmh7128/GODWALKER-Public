@@ -23,18 +23,21 @@ public class EnemyBehaviour_LineRenderTarget : EnemyBehaviour
             timePassed += Time.fixedDeltaTime;
             // set our line renderer positions
             targetPos = alignmentTransform.position + alignmentTransform.forward * 100f;
-            // linecast to target pos
-            RaycastHit hit; Physics.Linecast(projectileOrigin.position, targetPos, out hit);
-            lineRenderer.SetPosition(0, alignmentTransform.position);
-            lineRenderer.SetPosition(1, hit.point);
-            // lerp our line renderer colors
-            Color lerpColor = Color.Lerp(startColor, endColor, timePassed / behaviourTime);
-            lineRenderer.startColor = lerpColor;
-            lineRenderer.endColor = lerpColor;
-            // set line size
-            float lerpSize = Mathf.Lerp(startSize, endSize, timePassed / behaviourTime);
-            lineRenderer.startWidth = lerpSize;
-            lineRenderer.endWidth = lerpSize;
+            if (lineRenderer)
+            {
+                // linecast to target pos
+                RaycastHit hit; Physics.Linecast(projectileOrigin.position, targetPos, out hit);
+                lineRenderer.SetPosition(0, alignmentTransform.position);
+                lineRenderer.SetPosition(1, hit.point);
+                // lerp our line renderer colors
+                Color lerpColor = Color.Lerp(startColor, endColor, timePassed / behaviourTime);
+                lineRenderer.startColor = lerpColor;
+                lineRenderer.endColor = lerpColor;
+                // set line size
+                float lerpSize = Mathf.Lerp(startSize, endSize, timePassed / behaviourTime);
+                lineRenderer.startWidth = lerpSize;
+                lineRenderer.endWidth = lerpSize;
+            }
             // set particle size
             if (particleFX)
             {
@@ -48,9 +51,16 @@ public class EnemyBehaviour_LineRenderTarget : EnemyBehaviour
 
         if (complete)
         {
-            lineRenderer.SetPosition(0, new Vector3(9999, 9999,9999));
-            lineRenderer.SetPosition(1, new Vector3(9999, 9999,9999));
-            particleFX.localScale = Vector3.zero;
+            try
+            {
+                lineRenderer.SetPosition(0, new Vector3(9999, 9999, 9999));
+                lineRenderer.SetPosition(1, new Vector3(9999, 9999, 9999));
+            }
+            catch { }
+            try
+            {
+                particleFX.localScale = Vector3.zero;
+            } catch { }
         }
     }
 
@@ -61,7 +71,7 @@ public class EnemyBehaviour_LineRenderTarget : EnemyBehaviour
         running = true; // we have started running
 
         yield return new WaitForSeconds(behaviourTime);
-        running = false;
+        running = false; particleFX.localScale = Vector3.zero;
         complete = true;
         yield return null; 
     }
