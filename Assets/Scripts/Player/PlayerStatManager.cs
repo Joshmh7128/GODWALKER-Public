@@ -60,7 +60,6 @@ public class PlayerStatManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F7))
         {
-            doorParent.gameObject.SetActive(false);
             GameObject[] killings = GameObject.FindGameObjectsWithTag("Interactable");
             foreach (GameObject killing in killings)
             {
