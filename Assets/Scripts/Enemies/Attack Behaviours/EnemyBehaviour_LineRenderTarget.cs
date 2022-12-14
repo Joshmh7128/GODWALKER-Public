@@ -11,9 +11,10 @@ public class EnemyBehaviour_LineRenderTarget : EnemyBehaviour
     Vector3 targetPos; // where is this line renderer going?
     [SerializeField] Color startColor, endColor; // our start and end colors
     bool running = false; // we aren't running yet
-    [SerializeField] Transform alignmentTransform; // the transform we base our forward off of
+    [SerializeField] Transform alignmentTransform, projectileOrigin, particleFX; // the transform we base our forward off of
     float timePassed;
     [SerializeField] float startSize, endSize; // the start and end size of our line
+    [SerializeField] float particleStartSize, particleEndSize; // the start and end size of our line
     private void FixedUpdate()
     {
         if (running)
@@ -22,8 +23,10 @@ public class EnemyBehaviour_LineRenderTarget : EnemyBehaviour
             timePassed += Time.fixedDeltaTime;
             // set our line renderer positions
             targetPos = alignmentTransform.position + alignmentTransform.forward * 100f;
+            // linecast to target pos
+            RaycastHit hit; Physics.Linecast(projectileOrigin.position, targetPos, out hit);
             lineRenderer.SetPosition(0, alignmentTransform.position);
-            lineRenderer.SetPosition(1, targetPos);
+            lineRenderer.SetPosition(1, hit.point);
             // lerp our line renderer colors
             Color lerpColor = Color.Lerp(startColor, endColor, timePassed / behaviourTime);
             lineRenderer.startColor = lerpColor;
@@ -32,13 +35,22 @@ public class EnemyBehaviour_LineRenderTarget : EnemyBehaviour
             float lerpSize = Mathf.Lerp(startSize, endSize, timePassed / behaviourTime);
             lineRenderer.startWidth = lerpSize;
             lineRenderer.endWidth = lerpSize;
-
+            // set particle size
+            if (particleFX)
+            {
+                Vector3 partSize = new Vector3();
+                partSize.x = Mathf.Lerp(particleStartSize, particleEndSize, timePassed / behaviourTime);
+                partSize.y = Mathf.Lerp(particleStartSize, particleEndSize, timePassed / behaviourTime);
+                partSize.z = Mathf.Lerp(particleStartSize, particleEndSize, timePassed / behaviourTime);
+                particleFX.localScale = partSize;
+            }
         }
 
         if (complete)
         {
             lineRenderer.SetPosition(0, new Vector3(9999, 9999,9999));
             lineRenderer.SetPosition(1, new Vector3(9999, 9999,9999));
+            particleFX.localScale = Vector3.zero;
         }
     }
 
