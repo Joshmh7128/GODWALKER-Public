@@ -18,12 +18,13 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
     [SerializeField] float divePlayerHangTime; // how long before diving at the player?
     [SerializeField] LookAtPlayer lookAtPlayer;
     [SerializeField] GameObject cosmeticParent; // our cosmetic parent
+    float timePassed;
 
     public override IEnumerator MainCoroutine()
     {
         // lerp to our target position
         active = true;
-
+        timePassed = 0; // reset our time passed
         // store the position of the player in targetPos
         if (divePlayer) 
         { 
@@ -48,6 +49,16 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
 
     public void FixedUpdate()
     {
+        // count time
+        timePassed += Time.fixedDeltaTime;
+        float finalSpeed = speed;
+
+        // stop moving if we go overtime
+        if (timePassed > behaviourTime)
+        {
+            finalSpeed = 0;
+        }
+
         // move if active
         if (active && !divePlayer)
         {
@@ -62,7 +73,7 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
             }
 
             // other than that, move towards our target position
-            enemyClass.transform.position = Vector3.MoveTowards(transform.position, targetPos, speed*Time.fixedDeltaTime);
+            enemyClass.transform.position = Vector3.MoveTowards(transform.position, targetPos, finalSpeed*Time.fixedDeltaTime);
 
             // when we reach our position, choose a new one
             if (Vector3.Distance(enemyClass.transform.position, targetPos) < bodyRadius)
