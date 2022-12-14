@@ -35,7 +35,7 @@ public class LookAtPlayer : MonoBehaviour
                 Vector3 lookDir = playerController.transform.position - transform.position;
 
                 // slerp to the look direction
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed * Time.fixedDeltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
             }
 
             if (lookAtCamera)
@@ -44,7 +44,7 @@ public class LookAtPlayer : MonoBehaviour
                 Vector3 lookDir = playerController.cameraRig.transform.position - transform.position;
 
                 // slerp to the look direction
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed * Time.fixedDeltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
             }
         }
     }
