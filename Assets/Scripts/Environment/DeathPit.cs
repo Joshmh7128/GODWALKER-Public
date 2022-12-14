@@ -29,9 +29,6 @@ public class DeathPit : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // set up our collider properly
-        boxCollider.isTrigger = !statManager.lavaWalks;
-
         // if we can count...
         if (counting)
         {
@@ -94,6 +91,7 @@ public class DeathPit : MonoBehaviour
         statManager.damageCooldown = 300; // make sure the player can't take damage the moment they respawn
         // trigger the fade to white
         statManager.fadeUITargetA = 0;
+        yield return null;
     }
 
 
