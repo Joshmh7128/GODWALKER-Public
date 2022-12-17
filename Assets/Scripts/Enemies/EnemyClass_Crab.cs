@@ -34,7 +34,7 @@ public class EnemyClass_Crab : EnemyClass
         // health = maxHealth;
         // set our damage
         // damage = level * (2 + level * 0.1f); // this is a standard curve
-        damage = 10; // set our basic damage
+        // damage = 10; // set our basic damage
     }
 
 }
