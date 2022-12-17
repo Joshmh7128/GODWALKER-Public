@@ -12,7 +12,7 @@ public class PlayerProjectileScript : MonoBehaviour
     [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX, homingFX, teleportFX; // the particle we use on death
 
     RaycastHit hit; // our raycast hit
-    [SerializeField] float deathTime = 30;
+    public float deathTime = 30;
 
     [SerializeField] bool usesPhysics;
     [SerializeField] float physicsLaunchForce;

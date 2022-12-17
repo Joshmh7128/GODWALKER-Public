@@ -8,10 +8,25 @@ public abstract class WeaponAttachment : MonoBehaviour
     /// it holds basic info that we can use to interact with weapons through attachments
     /// 
 
+    protected bool equipped; // are we equipped?
     public WeaponClass weaponClass; // the weapon class we're interacting with
+
+    private void Start()
+    {
+        foreach (GameObject weapon in PlayerWeaponManager.instance.weapons)
+        {
+            equipped = false;
+            if (weapon == weaponClass.gameObject)
+            {
+                equipped = true;
+                break;
+            }
+        }
+    }
 
     public void Update()
     {
+        if (equipped)
         InputCollection();
     }
 
