@@ -27,8 +27,8 @@ public abstract class WeaponAttachment : MonoBehaviour
     }
 
     // our mouse inputs
-    public abstract void MouseButtonDown0(); 
-    public abstract void MouseButtonDown1(); 
-    public abstract void MouseButtonUp0(); 
-    public abstract void MouseButtonUp1(); 
+    public virtual void MouseButtonDown0() { }
+    public virtual void MouseButtonDown1() { }
+    public virtual void MouseButtonUp0() { }
+    public virtual void MouseButtonUp1() { }
 }
