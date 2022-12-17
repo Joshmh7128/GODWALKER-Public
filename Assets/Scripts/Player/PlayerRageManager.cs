@@ -31,6 +31,7 @@ public class PlayerRageManager : MonoBehaviour
     public TextMeshProUGUI rageLevelDisplay;
     public List<float> levelDeltas; // how quickly each level reduces
     public List<float> levelMods; // how quickly each level reduces
+    public List<float> ammoRechargeMods; // how quickly ammo refills
     public float levelDelta; // our current level delta
     public Slider rageSlider; // our slider
     public Slider rageLerp; // our lerp slider
