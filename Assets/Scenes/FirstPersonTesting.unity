@@ -28307,6 +28307,8 @@ GameObject:
   - component: {fileID: 4327480552118569573}
   - component: {fileID: 4327480552118569572}
   - component: {fileID: 4327480552118569598}
+  - component: {fileID: 4327480552118569600}
+  - component: {fileID: 4327480552118569601}
   m_Layer: 0
   m_Name: BoomCrab Enemy
   m_TagString: Enemy
@@ -28360,7 +28362,7 @@ MonoBehaviour:
   activated: 0
   navMeshAgent: {fileID: 4327480552118569572}
   hurtMaterial: {fileID: 2100000, guid: d82b881a1864fcf4f801a3c25b287011, type: 2}
-  OnDeathFX: {fileID: 4389282343268243973, guid: cbd722f0e8603b640b4643846cf380a4, type: 3}
+  OnDeathFX: {fileID: 8152871330773292744, guid: bf53e08ddb3452e47b55af7bc9c3027f, type: 3}
   displayGroup: {fileID: 6456328882622057757}
   healthSlider: {fileID: 1252259321511851689}
   lerpHealthSlider: {fileID: 2619122745166829836}
@@ -28373,6 +28375,46 @@ MonoBehaviour:
   kickAmount: 30
   kicks: 1
   overrideLook: 0
+--- !u!114 &4327480552118569600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4327480552118569575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6951e3588f2812745b338db2bd84c072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileType: 0
+  speed: 0
+  deathObject: {fileID: 8152871330773292744, guid: bf53e08ddb3452e47b55af7bc9c3027f, type: 3}
+  facePlayer: 0
+  faceGo: 0
+  faceWas: 0
+  invincible: 0
+  deathTime: 200
+  openLifetime: 0
+  damage: 50
+  homingSpeed: 0
+  homingHangTime: 0
+  homingTime: 0
+  curveSpeed: 0
+  ringExpandSpeed: 0
+--- !u!135 &4327480552118569601
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4327480552118569575}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 9.2
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!33 &4327480552118616260
 MeshFilter:
   m_ObjectHideFlags: 0

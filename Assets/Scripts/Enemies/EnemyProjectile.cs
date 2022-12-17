@@ -16,7 +16,7 @@ public class EnemyProjectile : MonoBehaviour
     Rigidbody localRigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
     [SerializeField] bool facePlayer, faceGo, faceWas; // do we face the player
-    [SerializeField] bool invincible; // are we invincible?
+    [SerializeField] bool invincible, breaksOnPlayer; // are we invincible?
     [SerializeField] int deathTime; // how long to death
     [SerializeField] float openLifetime = 6f;
     public float damage; // how much damage does this deal?
@@ -208,6 +208,7 @@ public class EnemyProjectile : MonoBehaviour
             {
                 // trigger a hurt on the stat manager
                 statManager.TakeDamage(damage); // oof ouch yikes
+                if (breaksOnPlayer) OnDestroyObject();
             }
 
             // always destroy
@@ -227,6 +228,7 @@ public class EnemyProjectile : MonoBehaviour
             {
                 // trigger a hurt on the stat manager
                 statManager.TakeDamage(damage); // oof ouch yikes
+                if (breaksOnPlayer) OnDestroyObject();
             }
 
             // always destroy
