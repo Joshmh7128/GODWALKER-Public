@@ -66,6 +66,15 @@ public class WeaponClass_Rifle : WeaponClass
         reloading = false;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            maxMagazine = 999999999;
+            currentMagazine = 999999999;
+        }
+    }
+
     // runs every physics frame
     private void FixedUpdate()
     {
