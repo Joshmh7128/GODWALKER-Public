@@ -19,6 +19,7 @@ public abstract class EnemyClass : MonoBehaviour
     public bool invincible; // is this invincible?
     [SerializeField] float lootDropChancePercentage;
     [SerializeField] GameObject dropItem;
+    bool dead; // are we dead?
 
     // our behaviours
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
@@ -164,6 +165,7 @@ public abstract class EnemyClass : MonoBehaviour
             if (health <= 0)
             {
                 // die
+                if (!dead)
                 OnDeath();
             }
 
@@ -183,19 +185,23 @@ public abstract class EnemyClass : MonoBehaviour
     bool dropped; // have we dropped?
     virtual public void OnDeath()
     {
-        // spawn our on death fx
-        Instantiate(OnDeathFX, transform.position, Quaternion.identity, null);
-        // chance to drop a gun?
-        int i = Random.Range(0, 100);
-        // see if we should drop one
-        if (i < lootDropChancePercentage && !dropped)
+        if (!dead)
         {
-            dropped = true;
-            // access the creator we just built and set its level to our level
-            try { Instantiate(dropItem, transform.position, Quaternion.identity, null); } catch { } 
-            // creator.UpdateItem(); // make sure we update the item since it will not properly show our stats otherwise!
-        }
+            dead = true;
+            // spawn our on death fx
+            Instantiate(OnDeathFX, transform.position, Quaternion.identity, null);
+            // chance to drop a gun?
+            int i = Random.Range(0, 100);
+            // see if we should drop one
+            if (i < lootDropChancePercentage && !dropped)
+            {
+                dropped = true;
+                // access the creator we just built and set its level to our level
+                try { Instantiate(dropItem, transform.position, Quaternion.identity, null); } catch { }
+                // creator.UpdateItem(); // make sure we update the item since it will not properly show our stats otherwise!
+            }
 
+        }
         // destroy the object
         Destroy(gameObject);
     }

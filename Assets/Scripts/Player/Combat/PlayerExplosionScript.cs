@@ -37,7 +37,7 @@ public class PlayerExplosionScript : MonoBehaviour
         {
             enemiesHit++;
             // random normal modifier
-            damage *= Random.Range(0.1f, 0.15f);
+            // damage *= Random.Range(0.1f, 0.15f);
             // deal damage
             other.GetComponent<EnemyClass>().GetHurt(damage);
             // spawn normal damage number
@@ -49,7 +49,7 @@ public class PlayerExplosionScript : MonoBehaviour
         // if we collide with the player, deal damage to them
         if (other.transform.tag == "Player")
         {
-            PlayerStatManager.instance.TakeDamage(damage);
+            // PlayerStatManager.instance.TakeDamage(damage);
             bodyPartManager.CallParts("OnExplosionDamagePlayer"); // damage the player
         }
     }
