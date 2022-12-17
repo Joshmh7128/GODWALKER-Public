@@ -10,9 +10,9 @@ public class PlayerExplosionScript : MonoBehaviour
 
     PlayerBodyPartManager bodyPartManager;
     PlayerProjectileManager projectileManager;
-    [HideInInspector] public float damage; // set by our bullet when we are instantiated
+    public float damage; // set by our bullet when we are instantiated
     public int enemiesHit; // how many enemies this explosion hit
-    [SerializeField] DamageNumber explosionHit;
+    // [SerializeField] DamageNumber explosionHit;
     public bool used; // has this been used in an effect already?
     // get instance
     private void Awake()
@@ -41,7 +41,7 @@ public class PlayerExplosionScript : MonoBehaviour
             // deal damage
             other.GetComponent<EnemyClass>().GetHurt(damage);
             // spawn normal damage number
-            explosionHit.Spawn(transform.position, damage);
+            // explosionHit.Spawn(transform.position, damage);
             // disable the collider in the next frame
             StartCoroutine(DisableBuffer()); // then disable the collider
         }
@@ -69,9 +69,6 @@ public class PlayerExplosionScript : MonoBehaviour
     {
         // wait for the fixed update
         yield return new WaitForFixedUpdate();
-        // check how many enemies we hit
-        bodyPartManager.CallParts("OnExplosionDamage");
-        if (enemiesHit > 1) bodyPartManager.CallParts("OnMultipleExplosionDamage");
         // wait for the fixed update
         yield return new WaitForFixedUpdate();
         // then remove the explosion from the list
