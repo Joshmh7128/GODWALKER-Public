@@ -23,8 +23,6 @@ public class WeaponAttachment_ChargeShot : WeaponAttachment
     public override void MouseButtonDown1()
     {
         charging = true;
-        // set target rotation to up
-        hingeTargetRotation = Quaternion.Euler(0, 0, 0);
         // play sound
         sfx.pitch = 1.5f;
         sfx.Play();
@@ -32,19 +30,32 @@ public class WeaponAttachment_ChargeShot : WeaponAttachment
 
     // when our mouse button goes up, stop charging, reset charge
     public override void MouseButtonUp1() 
-    { 
-        charging = false;
-        // set target rotation to down
-        hingeTargetRotation = Quaternion.Euler(hingeStart, 0, 0);      
+    {
         // play sound
-        sfx.pitch = 1f;
-        sfx.Play();
+        if (charging)
+        {
+            sfx.pitch = 1f;
+            sfx.Play();
+        }
+        charging = false;
     }
 
     // if we press mouse 0, fire the enemy class's projectile with damage and distance multiplied by our charge
     public override void MouseButtonDown0()
     {
-        weaponClass.FireCustom(charge * 3, weaponClass.damage * charge * 3);
+        if (charging)
+        {
+            if (weaponClass.currentMagazine > 0)
+            {
+                weaponClass.remainingFirerate = 10;
+                weaponClass.FireCustom(charge * 5, weaponClass.damage * charge * 3);
+                charge = 0;
+                charging = false;
+
+                sfx.pitch = 1f;
+                sfx.Play();
+            }
+        }
     }
 
     // run our fixed update to update out charge
@@ -59,11 +70,19 @@ public class WeaponAttachment_ChargeShot : WeaponAttachment
     {
         // add to our charge
         if (charging && charge < chargeMax)
+        {
+            // set target rotation to up
+            hingeTargetRotation = Quaternion.Euler(0, 0, 0);
             charge += Time.fixedDeltaTime;
+        }
 
         // reset our charge
         if (!charging)
+        {
+            // set target rotation to down
+            hingeTargetRotation = Quaternion.Euler(hingeStart, 0, 0);
             charge = 0;
+        }
 
         chargeSlider.value = charge / chargeMax;
         chargeText.text = ((int)((charge / chargeMax) * 100)).ToString();

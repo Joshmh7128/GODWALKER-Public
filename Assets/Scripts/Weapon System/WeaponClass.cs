@@ -163,6 +163,7 @@ public abstract class WeaponClass : MonoBehaviour
     // firing custom shots from our weapon
     public virtual void FireCustom(float deathMulti, float damageMulti)
     {
+        Debug.Log("firecustom");
         // if there is a double shot request, this is a double shot, then set request to false
         if (requestDoubleShot) {requestDoubleShot = false; }
         // if there is a request for a homing shot, this is a homing shot, then set request to false
