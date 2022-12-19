@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using TMPro;
 
 public class FeedbackHandler : MonoBehaviour
 {
-    [SerializeField] InputField feedback1; // our feedback
+    [SerializeField] TMP_InputField feedback1; // our feedback
     [SerializeField] GameObject active, confirmation; // our active parent
 
     // our form response url
@@ -14,16 +15,16 @@ public class FeedbackHandler : MonoBehaviour
 
     public void Update()
     {
+        // show and hide inputs
         if (Input.GetKeyDown(KeyCode.F12))
         active.SetActive(!active.activeInHierarchy);
+        // activate the input field
         feedback1.ActivateInputField();
-
-        if (Input.GetKeyDown(KeyCode.Return) && active.activeInHierarchy)
-        {
-            Send();
-        }
+        // enter to sent input
+        if (Input.GetKeyDown(KeyCode.Return) && active.activeInHierarchy) Send();
     }
 
+    // send feedback
     public void Send()
     {
         // send info
@@ -35,6 +36,7 @@ public class FeedbackHandler : MonoBehaviour
         StartCoroutine(ShowConfirmation());
     }
 
+    // coroutine to post
     IEnumerator Post(string s1)
     {
         // create a new form
@@ -50,6 +52,7 @@ public class FeedbackHandler : MonoBehaviour
         
     }
 
+    // show if we have sent the web request
     IEnumerator ShowConfirmation()
     {
         confirmation.SetActive(true);
