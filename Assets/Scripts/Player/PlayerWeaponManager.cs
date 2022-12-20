@@ -215,7 +215,7 @@ public class PlayerWeaponManager : MonoBehaviour
                 WeaponClass weaponClass = weaponObject.GetComponent<WeaponClass>();
                 // then start generating
                 if (weaponClass.recharge < weaponClass.rechargeMax)
-                    weaponClass.recharge += (weaponClass.rechargeRate * Time.fixedDeltaTime) + PlayerRageManager.instance.ammoRechargeMods[(int)PlayerRageManager.instance.rageLevel];
+                    weaponClass.recharge += (weaponClass.rechargeRate * PlayerRageManager.instance.ammoRechargeMods[(int)PlayerRageManager.instance.rageLevel]) * Time.fixedDeltaTime;
 
                 if (weaponClass.recharge > weaponClass.rechargeMax)
                 {

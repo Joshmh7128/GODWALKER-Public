@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     [Header("Jump Stuff")]
     public float remainingJumps;
     public float maxJumps;
+    public Vector3 knockbackVector; // how much we're getting knocked back
+    public float knockbackRecoveryDelta; // how much we recover from knockback
 
     [Header("Collision and readout")]
     [SerializeField] public float velocity; // our velocity which we only want to read!
@@ -215,6 +217,12 @@ public class PlayerController : MonoBehaviour
         Vector3 clampedFinal = Vector3.ClampMagnitude(new Vector3(finalMove.x, move.y, finalMove.z), 1);
         Vector3 processed = new Vector3(clampedFinal.x, move.y, clampedFinal.z);
 
+        // knockback processing
+        knockbackVector = Vector3.Lerp(knockbackVector, Vector3.zero, knockbackRecoveryDelta * Time.fixedDeltaTime);
+       
+        // add knockback vector
+        processed += knockbackVector;
+
         // apply final movement
         characterController.Move(processed * Time.deltaTime * finalMoveSpeed);
 
@@ -322,6 +330,12 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(adjusterHit.point, 0.1f);
+    }
+
+    public void TriggerKnockback(Vector3 direction, float force)
+    {
+        // knock us around!
+        knockbackVector = direction.normalized * force;
     }
 
     // targets for enemies to aim at

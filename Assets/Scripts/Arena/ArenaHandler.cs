@@ -93,7 +93,7 @@ public class ArenaHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F10) && arenaManager.activeArena == this)
         {
-            PlayerController.instance.Teleport(safetySpawn.position);
+            try { PlayerController.instance.Teleport(safetySpawn.position); } catch { PlayerController.instance.Teleport(transform.position);  }
         }
 
     }

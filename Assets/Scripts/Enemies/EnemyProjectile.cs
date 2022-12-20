@@ -16,7 +16,8 @@ public class EnemyProjectile : MonoBehaviour
     Rigidbody localRigidbody;
     [SerializeField] GameObject deathObject; // the object that spawns on death
     [SerializeField] bool facePlayer, faceGo, faceWas; // do we face the player
-    [SerializeField] bool invincible, breaksOnPlayer; // are we invincible?
+    [SerializeField] bool invincible, breaksOnPlayer, knocksPlayer; // are we invincible?
+    [SerializeField] float knockbackForce; // how much we knock back
     [SerializeField] int deathTime; // how long to death
     [SerializeField] float openLifetime = 6f;
     public float damage; // how much damage does this deal?
@@ -241,7 +242,11 @@ public class EnemyProjectile : MonoBehaviour
     {
         // spawn a deathobject
         if (deathObject)
-        Instantiate(deathObject, transform.position, Quaternion.identity, null);
+            Instantiate(deathObject, transform.position, Quaternion.identity, null);
+
+        if (knocksPlayer)
+            PlayerController.instance.TriggerKnockback(PlayerController.instance.transform.position - transform.position, knockbackForce);
+        
         // then destroy
         Destroy(gameObject);
     }

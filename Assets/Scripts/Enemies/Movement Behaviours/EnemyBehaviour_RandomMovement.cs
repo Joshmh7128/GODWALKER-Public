@@ -20,7 +20,7 @@ public class EnemyBehaviour_RandomMovement : EnemyBehaviour
         if (moveAroundPlayer)
         {
             destPos = playerTransform.position + new Vector3(Random.Range(-randomMoveRadius, randomMoveRadius), 0, Random.Range(-randomMoveRadius, randomMoveRadius));
-            destPos = new Vector3(destPos.x, transform.position.y, destPos.z);
+            destPos = new Vector3(destPos.x, playerTransform.position.y, destPos.z);
         }
         enemyClass.navMeshAgent.SetDestination(destPos);
         enemyClass.navMeshAgent.speed = speed;

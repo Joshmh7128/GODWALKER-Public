@@ -702,6 +702,8 @@ MonoBehaviour:
   lastGroundedPos: {x: 0, y: 0, z: 0}
   remainingJumps: 2
   maxJumps: 2
+  knockbackVector: {x: 0, y: 0, z: 0}
+  knockbackRecoveryDelta: 5
   velocity: 0
   playerHeight: 0.9
   playerWidth: 0.4
@@ -853,9 +855,9 @@ MonoBehaviour:
   ammoRechargeMods:
   - 1
   - 1
-  - 1
-  - 1.5
+  - 1.25
   - 2
+  - 2.5
   levelDelta: 0
   rageSlider: {fileID: 1557240304837474688}
   rageLerp: {fileID: 1557240303970306150}
