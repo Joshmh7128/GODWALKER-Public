@@ -50,6 +50,7 @@ public class PlayerExplosionScript : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             PlayerController.instance.TriggerKnockback(PlayerController.instance.transform.position - transform.position, playerKnockBackForce);
+            PlayerStatManager.instance.TakeDamage(10f);
         }
     }
 
