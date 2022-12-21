@@ -10,7 +10,7 @@ public class PlayerExplosionScript : MonoBehaviour
 
     PlayerBodyPartManager bodyPartManager;
     PlayerProjectileManager projectileManager;
-    public float damage; // set by our bullet when we are instantiated
+    public float damage, playerKnockBackForce; // set by our bullet when we are instantiated
     public int enemiesHit; // how many enemies this explosion hit
     // [SerializeField] DamageNumber explosionHit;
     public bool used; // has this been used in an effect already?
@@ -49,8 +49,7 @@ public class PlayerExplosionScript : MonoBehaviour
         // if we collide with the player, deal damage to them
         if (other.transform.tag == "Player")
         {
-            // PlayerStatManager.instance.TakeDamage(damage);
-            bodyPartManager.CallParts("OnExplosionDamagePlayer"); // damage the player
+            PlayerController.instance.TriggerKnockback(PlayerController.instance.transform.position - transform.position, playerKnockBackForce);
         }
     }
 
