@@ -335,6 +335,7 @@ public class PlayerController : MonoBehaviour
     public void TriggerKnockback(Vector3 direction, float force)
     {
         // knock us around!
+        verticalVelocity = 0;
         knockbackVector = direction.normalized * force;
     }
 
