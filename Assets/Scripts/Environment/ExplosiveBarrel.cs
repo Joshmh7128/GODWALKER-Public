@@ -2,17 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplosiveBarrel : MonoBehaviour
+public class ExplosiveBarrel : EnemyClass
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] GameObject explosion; // the prefab of the explosion that is spawned when this barrel explodes
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

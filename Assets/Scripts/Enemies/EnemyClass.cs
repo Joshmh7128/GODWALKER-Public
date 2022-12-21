@@ -67,7 +67,7 @@ public abstract class EnemyClass : MonoBehaviour
     virtual public void StartExtension() { }
 
     // we must determine our values from our level
-    abstract public void SetLevelStats(); // every enemyclass must set its own stats
+    virtual public void SetLevelStats() { } // every enemyclass must set its own stats
 
     IEnumerator AttackBehaviourHandler()
     {
