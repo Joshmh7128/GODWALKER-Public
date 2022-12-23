@@ -105,12 +105,14 @@ public abstract class EnemyClass : MonoBehaviour
     // to sort the behaviours that our body uses
     void SortBehaviours()
     {
+        if (attackBehaviourParent)
         foreach (Transform behaviour in attackBehaviourParent)
         {
             // add attacks
             attackBehaviours.Add(behaviour.GetComponent<EnemyBehaviour>());
         }
 
+        if (movementBehaviourParent)
         foreach (Transform behaviour in movementBehaviourParent)
         {
             // add attacks
