@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Visual FX")]
     // visual fx
-    [SerializeField] GameObject jumpVFX;
+    [SerializeField] GameObject jumpVFX, lastJumpVFX;
     [SerializeField] GameObject landVFX;
     [SerializeField] GameObject sprintParticleSystem;
     [SerializeField] GameObject capsulePrefab;
@@ -121,8 +121,11 @@ public class PlayerController : MonoBehaviour
                     playerJumpVelocity = Mathf.Sqrt(-jumpVelocity * gravity);
                     remainingJumps--; // reduce jumps
                     groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
-                                                                  // instantiate a visual effect
-                    Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation, transform);
+                    // instantiate a visual effect
+                    if (remainingJumps == 0) 
+                        Instantiate(lastJumpVFX, transform.position, jumpVFX.transform.rotation, transform);
+                    else Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation, transform);
+
                 }
             }
         }
