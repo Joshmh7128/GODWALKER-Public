@@ -20,7 +20,7 @@ public class PrototypeBetaSceneTeleporter : MonoBehaviour
     // the actual teleportation function
     void Teleport()
     {
-        string targetScene = prefix + Random.Range(0, tpDestinations.Count);
+        string targetScene = prefix + tpDestinations[Random.Range(0, tpDestinations.Count)];
         SceneManager.LoadScene(targetScene, LoadSceneMode.Single);
     }
 }
