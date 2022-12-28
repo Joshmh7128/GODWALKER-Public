@@ -31,6 +31,22 @@ public abstract class EnemyClass : MonoBehaviour
     [HideInInspector] public NavMeshAgent navMeshAgent;
 
     PlayerBodyPartManager playerBodyPartManager;
+
+    // our spawn point management
+    public enum SpawnPointRequirements
+    {
+        groundRandom, // anywhere that is on the ground
+        airRandom, // randomly in the air
+        groundFarFromPlayer, // chooses a grounded point that is deliberately far from the player
+        airFarFromPlayer, // anywhere in the air far from the player
+        centralGrounded, // chooses a random point in the central of the map
+        centralAir, // chooses a random point in the central of the map
+    }
+
+    public SpawnPointRequirements spawnPointRequirement; // the spawn point that this enemy wants
+
+    [SerializeField] List<SpawnPointRequirements> possibleSpawnPointRequirements; // a list of possible spawn point requirements for this enemy
+
     private void Awake()
     {
         playerBodyPartManager = PlayerBodyPartManager.instance;
@@ -41,6 +57,8 @@ public abstract class EnemyClass : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         // sort our behaviours
         SortBehaviours();
+        // choose our spawn point
+        ChooseSpawnPointRequirement();
         // setup renderers for getting hurt and vfx
         SetupRenderers();
         // for anything else we want to add in our inherited classes
@@ -50,6 +68,19 @@ public abstract class EnemyClass : MonoBehaviour
         // if we are already active
         if (activated)
         { StartBehaviours(); }
+    }
+
+    // run to generate spawn point requirements
+    void ChooseSpawnPointRequirement()
+    {
+        try
+        {
+            if (possibleSpawnPointRequirements.Count > 0)
+            {
+                spawnPointRequirement = possibleSpawnPointRequirements[Random.Range(0, possibleSpawnPointRequirements.Count)];
+            }
+        }
+        catch { Debug.Log("No spawn point requirements to choose from. Using default selection."); }
     }
 
     // to run our behaviours

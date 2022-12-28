@@ -20,7 +20,6 @@ public class ArenaHandler : MonoBehaviour
 
     // our list of spawn points
     public List<Transform> spawnPoints = new List<Transform>(); // all the spawnpoints in the room
-    Transform spawnPoint; // the spawn point we're using right now
 
     // our list of waves
     [SerializeField] Transform masterWave; // the master wave parent
@@ -66,14 +65,6 @@ public class ArenaHandler : MonoBehaviour
     // select a random geomety set and spawn it in
     void BuildArena()
     {
-        /*
-        // build a set parent
-        try
-        {
-            int i = Random.Range(0, setParent.childCount);
-            setParent.GetChild(i).gameObject.SetActive(true);
-        } catch { }*/
-
         // get the waves
         foreach (Transform childwave in masterWave)
         {
@@ -192,8 +183,6 @@ public class ArenaHandler : MonoBehaviour
         // if we have a new wave to do
         if (waveParents[0] != null)
         {
-            
-            // Debug.Log("setting up " + waveParents[0].name);
             // put all desired enemies into a list
             List<Transform> enemyTransforms = new List<Transform>();
             foreach (Transform child in waveParents[0])
@@ -201,9 +190,17 @@ public class ArenaHandler : MonoBehaviour
                 enemyTransforms.Add(child);
             }
 
+            // setup a list of used spawnpoints for this wave only, so that 
+            List<Transform> usedSpawnPoints = new List<Transform>(); // we can't reuse these points
+
             // use the list to move all our enemies over to the correct parent
             foreach (Transform child in enemyTransforms)
             {
+                // get enemy type
+                
+                // move it to a spawn point from the relevant type
+
+
                 // ensure it is enabled
                 child.gameObject.SetActive(true);
                 child.parent = activeParent;
@@ -236,7 +233,7 @@ public class ArenaHandler : MonoBehaviour
             if (inactiveParent.childCount > 0)
             if (inactiveParent.GetChild(0) != null)
             {
-                EnableNewEnemyAtSpawnPoint();
+                //EnableNewEnemyAtSpawnPoint();
             }
         }
 
@@ -247,6 +244,7 @@ public class ArenaHandler : MonoBehaviour
         }
     }
 
+    /*
     void EnableNewEnemyAtSpawnPoint()
     {
         // if our spawnpoint is null, set it to our first one just to get us started
@@ -264,7 +262,7 @@ public class ArenaHandler : MonoBehaviour
         if (inactiveParent.childCount > 1)
         previousSummon = Instantiate(summoningEffect, spawnPoint.position, Quaternion.identity, null); // instantiate a new summing effect at the spawn point we have chosen
 
-    }
+    }*/
 
     public void StopAllEnemyBehaviours()
     {
