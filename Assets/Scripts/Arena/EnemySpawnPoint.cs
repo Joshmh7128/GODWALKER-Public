@@ -70,38 +70,41 @@ public class EnemySpawnPoint : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        switch (spawnPointFulfillment)
+        try
         {
-            case EnemyClass.SpawnPointRequirements.groundRandom:
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(transform.position, 1f);
-                infoItem.name = "GR";
+            switch (spawnPointFulfillment)
+            {
+                case EnemyClass.SpawnPointRequirements.groundRandom:
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawSphere(transform.position, 1f);
+                    infoItem.name = "GR";
                     break;
-            case EnemyClass.SpawnPointRequirements.airRandom:
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawSphere(transform.position, 1f);
-                infoItem.name = "AR";
-                break;
-            case EnemyClass.SpawnPointRequirements.groundFarFromPlayer:
-                Gizmos.color = Color.cyan;
-                Gizmos.DrawSphere(transform.position, 1f);
-                infoItem.name = "GF";
-                break;
-            case EnemyClass.SpawnPointRequirements.airFarFromPlayer:
-                Gizmos.color = Color.cyan;
-                Gizmos.DrawSphere(transform.position, 1f);
-                infoItem.name = "AF";
-                break;
-            case EnemyClass.SpawnPointRequirements.centralGrounded:
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(transform.position, 1f);
-                infoItem.name = "CG";
-                break;
-            case EnemyClass.SpawnPointRequirements.centralAir:
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(transform.position, 1f);
-                infoItem.name = "CA";
-                break;
-        }
+                case EnemyClass.SpawnPointRequirements.airRandom:
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(transform.position, 1f);
+                    infoItem.name = "AR";
+                    break;
+                case EnemyClass.SpawnPointRequirements.groundFarFromPlayer:
+                    Gizmos.color = Color.cyan;
+                    Gizmos.DrawSphere(transform.position, 1f);
+                    infoItem.name = "GF";
+                    break;
+                case EnemyClass.SpawnPointRequirements.airFarFromPlayer:
+                    Gizmos.color = Color.cyan;
+                    Gizmos.DrawSphere(transform.position, 1f);
+                    infoItem.name = "AF";
+                    break;
+                case EnemyClass.SpawnPointRequirements.centralGrounded:
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawSphere(transform.position, 1f);
+                    infoItem.name = "CG";
+                    break;
+                case EnemyClass.SpawnPointRequirements.centralAir:
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawSphere(transform.position, 1f);
+                    infoItem.name = "CA";
+                    break;
+            }
+        } catch { }
     }
 }

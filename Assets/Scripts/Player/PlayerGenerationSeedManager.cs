@@ -26,6 +26,8 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     public int currentPos; // our current position in the seed, representing what will come next
     [SerializeField] string nextPrefix; // the prefix we're using before our letter number designation
 
+    public bool shuffleAreas; // are we shuffling the areas
+
     public string nextRoom; // the public string representing the next room we want to go to
 
     public void Awake()
@@ -85,6 +87,10 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         // output our seed for debug purposes
         for (int i = 0; i < charOutput.Count; i++)
         {
+            // are we shuffling the letters?
+            if (shuffleAreas)
+                charOutput.Shuffle();
+
             // add the letter, then add the number
             generationSeed = generationSeed + charOutput[i].ToString();
             generationSeed = generationSeed + numOutput[i].ToString();
