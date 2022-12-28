@@ -26,6 +26,11 @@ public class PlayerGenerationSeedManager : MonoBehaviour
 
     public string nextRoom; // the public string representing the next room we want to go to
 
+    public void Awake()
+    {
+        instance = this;
+    }
+
     // the construction of our seed
     public void BuildSeed()
     {
