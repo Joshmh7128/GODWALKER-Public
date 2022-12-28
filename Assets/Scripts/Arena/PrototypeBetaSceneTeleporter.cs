@@ -20,7 +20,9 @@ public class PrototypeBetaSceneTeleporter : MonoBehaviour
     // the actual teleportation function
     void Teleport()
     {
-        string targetScene = prefix + tpDestinations[Random.Range(0, tpDestinations.Count)];
+        // get our target scene from the generation manager
+        string targetScene = PlayerGenerationSeedManager.instance.nextRoom;
+        PlayerGenerationSeedManager.instance.currentPos++;
         SceneManager.LoadScene(targetScene, LoadSceneMode.Single);
     }
 }
