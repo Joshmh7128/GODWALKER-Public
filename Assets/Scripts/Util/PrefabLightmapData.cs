@@ -160,7 +160,7 @@ public class PrefabLightmapData : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    [UnityEditor.MenuItem("Assets/Bake Prefab Lightmaps")]
+    [UnityEditor.MenuItem("Bake/Bake Prefab Lightmaps")]
     static void GenerateLightmapInfo()
     {
         if (UnityEditor.Lightmapping.giWorkflowMode != UnityEditor.Lightmapping.GIWorkflowMode.OnDemand)

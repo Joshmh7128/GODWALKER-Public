@@ -12,7 +12,7 @@ public class ArenaHandler : MonoBehaviour
     /// </summary>
     /// 
 
-    public Transform activeParent, inactiveParent, doorParent, safetySpawn; // our parents for inactive and active enemies, door parent is deactivated at thened of combat
+    public Transform activeParent, inactiveParent, doorParent, safetySpawn, setParent; // our parents for inactive and active enemies, door parent is deactivated at thened of combat
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
     GameObject previousSummon; // our previous summon
     [SerializeField] int activeGoal; // how many do we want active at once?
@@ -66,6 +66,10 @@ public class ArenaHandler : MonoBehaviour
     // select a random geomety set and spawn it in
     void BuildArena()
     { 
+        // build a set parent
+        int i = Random.Range(0, setParent.childCount);
+        setParent.GetChild(i).gameObject.SetActive(true);
+
         // get the waves
         foreach (Transform childwave in masterWave)
         {
