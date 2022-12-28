@@ -218,6 +218,17 @@ public class ArenaHandler : MonoBehaviour
                 {
                     // add to i
                     i++;
+                    // edge case exceptions
+                    if (i >= spawnPoints.Count)
+                    {
+                        // if we can't find a far point, set it to a random point
+                        if (requirement == EnemyClass.SpawnPointRequirements.groundFarFromPlayer)
+                            requirement = EnemyClass.SpawnPointRequirements.groundRandom;
+
+                        if (requirement == EnemyClass.SpawnPointRequirements.airFarFromPlayer)
+                            requirement = EnemyClass.SpawnPointRequirements.airRandom;
+                    }
+
                     // randomize S
                     s = Random.Range(0, spawnPoints.Count);
                     // change our target spawn point
