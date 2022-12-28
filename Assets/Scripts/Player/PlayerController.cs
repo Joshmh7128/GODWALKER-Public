@@ -55,6 +55,8 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
     public void Awake()
     {
+        // make the player dynamically loadable
+        DontDestroyOnLoad(gameObject);
         instance = this;
         // setup bit layer masks
         playerIgnoreMask = LayerMask.NameToLayer("PlayerIgnore");
