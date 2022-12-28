@@ -89,6 +89,8 @@ public class PlayerController : MonoBehaviour
     {
         ProcessUpdateInputs();
 
+        // resetting the scene
+        PrototypeReset();
     }
 
     // Update is called once per frame
@@ -105,8 +107,6 @@ public class PlayerController : MonoBehaviour
             ProcessGoWas();
         }
 
-        // resetting the scene
-        PrototypeReset();
     }
 
     void ProcessUpdateInputs()
@@ -306,7 +306,8 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            SceneManager.LoadScene("FirstPersonPrototypeBeta");
+            SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+            SceneManager.LoadScene("FirstPersonPrototypeBeta", LoadSceneMode.Single);
         }
 
     }

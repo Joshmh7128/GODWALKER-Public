@@ -83,14 +83,14 @@ public class PlayerStatManager : MonoBehaviour
         {
             // die
             KillPlayer();
-            StartCoroutine(CountDown());
         }
     }
 
     IEnumerator CountDown()
     {
-        yield return new WaitForSecondsRealtime(5f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        yield return new WaitForSecondsRealtime(2f);
+        SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+        SceneManager.LoadScene("FirstPersonPrototypeBeta", LoadSceneMode.Single);
     }
 
     // take damage
@@ -223,6 +223,7 @@ public class PlayerStatManager : MonoBehaviour
     // kill our player
     void KillPlayer()
     {
+        StartCoroutine(CountDown());
         // if we havent died yet
         if (!hasDied)
         {
@@ -230,6 +231,7 @@ public class PlayerStatManager : MonoBehaviour
             hasDied = true;
             PlayerController.instance.OnPlayerDeath();
             PlayerCameraController.instance.OnPlayerDeath();
+
         }
     }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerGenerationSeedManager : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     /// 
 
     public string generationSeed; // our final generation seed
-
+    [SerializeField] TextMeshProUGUI seedDisplay;
     public static PlayerGenerationSeedManager instance; // the instance of ourself
 
     public List<int> seedSetRanges; /// each index is the maximum number of rooms per area.
@@ -34,6 +36,12 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     // the construction of our seed
     public void BuildSeed()
     {
+        // clear everything before generation
+        generationSeed = "";
+        numOutput.Clear();
+        charOutput.Clear();
+        currentPos = 0;
+
         // go through each seed set range and shuffle the number into a list
         for (int i = 0; i < areaRoomAmount.Count; i++)
         {
@@ -89,6 +97,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     {
         // our next room will be prefix, current position output letter, current position seed number
         nextRoom = nextPrefix + charOutput[currentPos] + numOutput[currentPos];
+        seedDisplay.text = generationSeed;
     }
 
     private void Start()

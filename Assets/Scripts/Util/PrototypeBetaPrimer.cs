@@ -14,6 +14,8 @@ public class PrototypeBetaPrimer : MonoBehaviour
     IEnumerator LateStart()
     {
         yield return new WaitForFixedUpdate();
+        // request a new seed generation
+        PlayerGenerationSeedManager.instance.BuildSeed();
         // load a scene based off of the generation manager's seed
         string targetScene = PlayerGenerationSeedManager.instance.nextRoom;
         PlayerGenerationSeedManager.instance.currentPos++; // make sure to advance the current pos when moving to a new room
