@@ -227,6 +227,9 @@ public class ArenaHandler : MonoBehaviour
 
                         if (requirement == EnemyClass.SpawnPointRequirements.airFarFromPlayer)
                             requirement = EnemyClass.SpawnPointRequirements.airRandom;
+
+                        // set i to 0 then restart the loop
+                        i = 0;
                     }
 
                     // randomize S
