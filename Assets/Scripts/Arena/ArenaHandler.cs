@@ -197,10 +197,25 @@ public class ArenaHandler : MonoBehaviour
             foreach (Transform child in enemyTransforms)
             {
                 // get enemy type
-                
+                EnemyClass.SpawnPointRequirements requirement = child.GetComponent<EnemyClass>().spawnPointRequirement;
                 // move it to a spawn point from the relevant type
+                int s = Random.Range(0, spawnPoints.Count);
+                EnemySpawnPoint eSpawn = spawnPoints[s].gameObject.GetComponent<EnemySpawnPoint>();
 
+                int i = 0; // a counter safety for our while loop
+               
+                // run a while loop until we find a matching spawnpoint, or until we run out of spawn points
+                while (eSpawn.spawnPointFulfillment != requirement || i < spawnPoints.Count)
+                {
+                    // add to i
+                    i++;
+                    // add to s counter
+                    s++;
+                    eSpawn = spawnPoints[s].gameObject.GetComponent<EnemySpawnPoint>();
+                }
 
+                // now that we have a valid spawn point, move the enemy there 
+                child.transform.position = eSpawn.transform.position;
                 // ensure it is enabled
                 child.gameObject.SetActive(true);
                 child.parent = activeParent;
