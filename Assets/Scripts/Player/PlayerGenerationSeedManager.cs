@@ -15,6 +15,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     public List<int> seedSetRanges; /// each index is the maximum number of rooms per area.
                                     /// For example, if area 0 only has 3 rooms, then seed set range index 0 is 3
                                     /// If area 1 has 5 rooms, then index 1 is set to 5
+    public List<int> areaRoomAmount; // this designates how many rooms there are per area
 
     [SerializeField] List<int> numOutput = new List<int>(); // our seed as a list
     [SerializeField] List<char> charDesignations = new List<char>(); // the designations of our character sets for area definitions
@@ -29,22 +30,23 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     public void BuildSeed()
     {
         // go through each seed set range and shuffle the number into a list
-        foreach (int seedRange in seedSetRanges)
+        for (int i = 0; i < areaRoomAmount.Count; i++)
         {
             // create a new list of ints
             List<int> localSeed = new List<int>();
-            for (int i = 0; i < seedRange; i++)
+            // add amounts from the range
+            for (int j = 0; j < seedSetRanges[i]; j++)
             {
-                localSeed.Add(i);
+                localSeed.Add(j);
             }
 
             // then shuffle that list
             localSeed.Shuffle();
 
-            // then add that list to our seed as list
-            foreach(int seed in localSeed)
+            // then add that list to our seed as list, only up to the area room amount 
+            for (int k = 0; k < areaRoomAmount[i]; k++)
             {
-                numOutput.Add(seed);
+                numOutput.Add(localSeed[k]);
             }
         }
 
@@ -57,10 +59,10 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         }
 
         // then build out character designations
-        for (int i = 0; i < seedSetRanges.Count; i++)
+        for (int i = 0; i < areaRoomAmount.Count; i++)
         {
             // run a for loop and add one letter to our char output up to the seed range, so we can properly generate our next room based on position
-            for (int c = 0; c < seedSetRanges[i]; c++)
+            for (int c = 0; c < areaRoomAmount[i]; c++)
             {
                 // add the range amount of the i character
                 charOutput.Add(charDesignations[i]);
@@ -71,8 +73,8 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         for (int i = 0; i < charOutput.Count; i++)
         {
             // add the letter, then add the number
-            generationSeed = generationSeed + charOutput[i];
-            generationSeed = generationSeed + numOutput[i];
+            generationSeed = generationSeed + charOutput[i].ToString();
+            generationSeed = generationSeed + numOutput[i].ToString();
         }
 
     }
