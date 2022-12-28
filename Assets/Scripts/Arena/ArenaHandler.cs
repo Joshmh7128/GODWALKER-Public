@@ -65,10 +65,13 @@ public class ArenaHandler : MonoBehaviour
 
     // select a random geomety set and spawn it in
     void BuildArena()
-    { 
+    {
         // build a set parent
-        int i = Random.Range(0, setParent.childCount);
-        setParent.GetChild(i).gameObject.SetActive(true);
+        try
+        {
+            int i = Random.Range(0, setParent.childCount);
+            setParent.GetChild(i).gameObject.SetActive(true);
+        } catch { }
 
         // get the waves
         foreach (Transform childwave in masterWave)
