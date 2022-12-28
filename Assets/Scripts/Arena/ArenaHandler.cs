@@ -19,6 +19,7 @@ public class ArenaHandler : MonoBehaviour
     public bool combatBegun, combatComplete;
 
     // our list of spawn points
+    public Transform spawnPointParent;
     public List<Transform> spawnPoints = new List<Transform>(); // all the spawnpoints in the room
 
     // our list of waves
@@ -65,6 +66,14 @@ public class ArenaHandler : MonoBehaviour
     // select a random geomety set and spawn it in
     void BuildArena()
     {
+        if (spawnPointParent)
+        {
+            foreach(Transform spawnPoint in spawnPointParent)
+            {
+                spawnPoints.Add(spawnPoint);
+            }
+        }
+
         // get the waves
         foreach (Transform childwave in masterWave)
         {
@@ -209,9 +218,15 @@ public class ArenaHandler : MonoBehaviour
                 {
                     // add to i
                     i++;
-                    // add to s counter
-                    s++;
+                    // randomize S
+                    s = Random.Range(0, spawnPoints.Count);
+                    // change our target spawn point
                     eSpawn = spawnPoints[s].gameObject.GetComponent<EnemySpawnPoint>();
+                    // if it fulfills out requirement, break out of the loop
+                    if (eSpawn.spawnPointFulfillment == requirement)
+                    {
+                        break;
+                    }
                 }
 
                 // now that we have a valid spawn point, move the enemy there 
@@ -378,8 +393,8 @@ public class ArenaHandler : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, 3);
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(transform.position, 1);
     }
 
 }

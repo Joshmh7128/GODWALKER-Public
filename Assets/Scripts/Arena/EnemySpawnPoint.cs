@@ -11,7 +11,7 @@ public class EnemySpawnPoint : MonoBehaviour
     [SerializeField] GameObject infoItem; // the item we're using in the editor to display text info
 
     PlayerController playerController; // our player controller instance
-    float farDistance = 30;
+    float farDistance = 40;
 
     // use the start method to trigger a slow tick time for us to recalculate player distances
     private void Start()
