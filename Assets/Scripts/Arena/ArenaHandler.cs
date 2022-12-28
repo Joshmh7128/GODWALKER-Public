@@ -212,7 +212,7 @@ public class ArenaHandler : MonoBehaviour
                 EnemySpawnPoint eSpawn = spawnPoints[s].gameObject.GetComponent<EnemySpawnPoint>();
 
                 int i = 0; // a counter safety for our while loop
-               
+                int j = 0; // loop safety breaker
                 // run a while loop until we find a matching spawnpoint, or until we run out of spawn points
                 while (eSpawn.spawnPointFulfillment != requirement || i < spawnPoints.Count)
                 {
@@ -222,14 +222,19 @@ public class ArenaHandler : MonoBehaviour
                     if (i >= spawnPoints.Count)
                     {
                         // if we can't find a far point, set it to a random point
-                        if (requirement == EnemyClass.SpawnPointRequirements.groundFarFromPlayer)
+                        if (requirement == EnemyClass.SpawnPointRequirements.groundFarFromPlayer || requirement == EnemyClass.SpawnPointRequirements.centralGrounded)
                             requirement = EnemyClass.SpawnPointRequirements.groundRandom;
 
-                        if (requirement == EnemyClass.SpawnPointRequirements.airFarFromPlayer)
+                        if (requirement == EnemyClass.SpawnPointRequirements.airFarFromPlayer || requirement == EnemyClass.SpawnPointRequirements.centralAir)
                             requirement = EnemyClass.SpawnPointRequirements.airRandom;
 
                         // set i to 0 then restart the loop
                         i = 0;
+                        
+                        // safety breaker
+                        j++;
+                        if (j > 3)
+                        { break; }
                     }
 
                     // randomize S
