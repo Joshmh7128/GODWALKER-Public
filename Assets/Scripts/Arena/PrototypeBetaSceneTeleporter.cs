@@ -8,11 +8,9 @@ public class PrototypeBetaSceneTeleporter : MonoBehaviour
     [SerializeField] string prefix;
     [SerializeField] List<int> tpDestinations; // our teleporter destinations
     bool used = false; // has this been used yet?
-    string targetScene;
+    [SerializeField] string targetScene;
     private void Start()
     {
-        // get our target scene from the generation manager
-        targetScene = PlayerGenerationSeedManager.instance.nextRoom.ToString();
     }
 
     // used to send the player to a new scene
@@ -40,6 +38,8 @@ public class PrototypeBetaSceneTeleporter : MonoBehaviour
         if (used) yield return null;
         used = true;
         Debug.Log("teleporting");
+        // get our target scene from the generation manager
+        targetScene = PlayerGenerationSeedManager.instance.nextRoom.ToString();
         PlayerGenerationSeedManager.instance.currentPos++;
         SceneManager.LoadScene(targetScene, LoadSceneMode.Single);
     }
