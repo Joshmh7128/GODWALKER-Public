@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 5778139541402304818}
   - component: {fileID: 5778139541402304819}
   - component: {fileID: 5778139541402304816}
+  - component: {fileID: 2141126921523930553}
+  - component: {fileID: 8737707062140981283}
   m_Layer: 0
   m_Name: Death Pit
   m_TagString: Untagged
@@ -112,6 +114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265597f39fb1821478f22d8d2cdc5cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  count: 0
+  countMax: 0.5
+  damage: 10
 --- !u!54 &5778139541402304819
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -527,3 +532,32 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &2141126921523930553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5778139541402304825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f5c3c38b535f184bb027b23897028c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollX: 0.025
+  scrollY: 0.025
+  offsetX: 0
+  offsetY: 0
+--- !u!65 &8737707062140981283
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5778139541402304825}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

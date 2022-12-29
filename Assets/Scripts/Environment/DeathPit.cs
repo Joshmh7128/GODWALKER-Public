@@ -7,24 +7,14 @@ public class DeathPit : MonoBehaviour
     /// this script is for whenever the player comes into contact with a death zone
     /// it runs a coroutine that in order requests a fade canvas to black, a player teleport, and a fade to white
 
-    bool running;
     bool counting;
-    float count, countMax = 5; // how long have we been counting?
-
+    [SerializeField] float count, countMax = 5; // how long have we been counting?
+    [SerializeField] float damage; // how much damage do we deal to the player?
     PlayerStatManager statManager;
-    PlayerController controller;
-
-    // our collider
-    Collider boxCollider; // our collider
 
     private void Start()
     {
-        boxCollider = GetComponent<Collider>();
-        // get our instances
         statManager = PlayerStatManager.instance;
-        controller = PlayerController.instance;
-        // check to see what we have
-        boxCollider.isTrigger = !statManager.lavaWalks; // make it the opposite. if we can walk on lava, this should not be a trigger
     }
 
     private void FixedUpdate()
@@ -41,40 +31,36 @@ public class DeathPit : MonoBehaviour
                 count = (countMax * 60) / 2;
                 // deal player damage
                 Debug.Log("damaging");
-                statManager.TakeDamage(statManager.maxHealth * 0.1f);
+                statManager.TakeDamage(damage);
             }
 
         }
     }
 
-    // if player can lava walk
-    private void OnCollisionEnter(Collision collision)
+    // on trigger enter start counting
+    private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collision");
-        if (collision.transform.tag == "Player")
-        {
+        if (other.transform.tag == "Player")
             counting = true;
-        }
     }
 
-    private void OnCollisionExit(Collision collision)
+    // on trigger exit stop counting
+    private void OnTriggerExit(Collider other)
     {
-        Debug.Log("excollision");
-        if (collision.transform.tag == "Player")
-        {
+        if (other.transform.tag == "Player")
             counting = false;
-            count = 0;
-        }
     }
 
-    // if player cannot lava walk
-    private void OnTriggerEnter(Collider collision)
+    private void OnCollisionEnter(Collision other)
     {
-        // if we collide with the player and our coroutine is not running
-        if (collision.transform.tag == "Player" && !running)
-        {
-            StartCoroutine(TeleportPlayer());
-        }
+        if (other.gameObject.tag == "Player")
+            counting = true;
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.tag == "Player")
+            counting = false;
     }
 
     // the coroutine 
@@ -85,7 +71,7 @@ public class DeathPit : MonoBehaviour
         // wait for that to complete
         yield return new WaitForSeconds(1f);
         // teleport player to the last place they were grounded at
-        controller.Teleport(controller.lastGroundedPos);
+        // controller.Teleport(controller.lastGroundedPos);
         // take 5% damage
         statManager.TakeDamage(statManager.maxHealth*0.05f);
         statManager.damageCooldown = 300; // make sure the player can't take damage the moment they respawn

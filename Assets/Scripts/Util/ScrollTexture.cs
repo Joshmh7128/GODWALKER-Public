@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class ScrollTexture : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float scrollX, scrollY, offsetX, offsetY;
+    Renderer objRend;
+
+    private void Start()
     {
-        
+        objRend = GetComponent<Renderer>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        offsetX += Time.fixedDeltaTime * scrollX;
+        offsetY += Time.fixedDeltaTime * scrollY;
+        objRend.material.mainTextureOffset = new Vector2(offsetX, offsetY);
     }
 }
