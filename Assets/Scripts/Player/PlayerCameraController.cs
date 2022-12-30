@@ -34,7 +34,9 @@ public class PlayerCameraController : MonoBehaviour
         // setup our main cam to be referenced
         mainCam = Camera.main;
         // set default sense
-        defaultSensitivity = aimSensitivity;
+        defaultSensitivity = PlayerPrefs.GetFloat("sensitivity", defaultSensitivity);
+
+        if (defaultSensitivity == 0) defaultSensitivity = aimSensitivity;
 
         aimSensitivityText.text = "Current Sensitivity = " + defaultSensitivity;
     }
@@ -88,12 +90,14 @@ public class PlayerCameraController : MonoBehaviour
         {
             defaultSensitivity--;
             aimSensitivityText.text = "Current Sensitivity = " + defaultSensitivity;
+            PlayerPrefs.SetFloat("sensitivity", defaultSensitivity);
         }       
         
         if (Input.GetKeyDown(KeyCode.Period))
         {
             defaultSensitivity++;
             aimSensitivityText.text = "Current Sensitivity = " + defaultSensitivity;
+            PlayerPrefs.SetFloat("sensitivity", defaultSensitivity);
         }
 
         // our camera control

@@ -86,10 +86,11 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    IEnumerator CountDown()
+    public IEnumerator CountDown()
     {
         yield return new WaitForSecondsRealtime(2f);
         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+        yield return new WaitForSecondsRealtime(1f);
         SceneManager.LoadScene("FirstPersonPrototypeBeta", LoadSceneMode.Single);
     }
 

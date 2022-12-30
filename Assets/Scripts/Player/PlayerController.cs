@@ -306,8 +306,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
-            SceneManager.LoadScene("FirstPersonPrototypeBeta", LoadSceneMode.Single);
+            PlayerStatManager.instance.StartCoroutine(PlayerStatManager.instance.CountDown());
         }
 
     }
