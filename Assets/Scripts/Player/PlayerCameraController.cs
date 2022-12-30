@@ -36,7 +36,7 @@ public class PlayerCameraController : MonoBehaviour
         // set default sense
         defaultSensitivity = PlayerPrefs.GetFloat("sensitivity", defaultSensitivity);
 
-        if (defaultSensitivity == 0) defaultSensitivity = aimSensitivity;
+        if (defaultSensitivity == 1) defaultSensitivity = aimSensitivity;
 
         aimSensitivityText.text = "Current Sensitivity = " + defaultSensitivity;
     }

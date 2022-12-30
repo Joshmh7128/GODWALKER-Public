@@ -38,6 +38,8 @@ public class PlayerStatManager : MonoBehaviour
 
     public bool lavaWalks; // can we walk on lava?
 
+    [SerializeField] GameObject resetPrefab; // the prefab we spawn when we want to reset the game
+
     // runs 60 times per second
     private void FixedUpdate()
     {
@@ -88,10 +90,10 @@ public class PlayerStatManager : MonoBehaviour
 
     public IEnumerator CountDown()
     {
-        yield return new WaitForSecondsRealtime(2f);
-        SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+        Instantiate(resetPrefab);
         yield return new WaitForSecondsRealtime(1f);
-        SceneManager.LoadScene("FirstPersonPrototypeBeta", LoadSceneMode.Single);
+        Destroy(gameObject);
+
     }
 
     // take damage
