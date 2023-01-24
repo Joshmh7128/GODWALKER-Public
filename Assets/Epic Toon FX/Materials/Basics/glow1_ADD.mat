@@ -23,6 +23,7 @@ Material:
   m_Name: glow1_ADD
   m_Shader: {fileID: 4800000, guid: b7839dad95683814aa64166edc107ae2, type: 3}
   m_ValidKeywords:
+  - _ALPHATEST_ON
   - _FADING_ON
   - _RECEIVE_SHADOWS_OFF
   - _SOFTPARTICLES_ON
@@ -64,7 +65,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _Blend: 0
     - _BlendOp: 0
     - _BumpScale: 1
@@ -73,7 +74,7 @@ Material:
     - _CameraNearFadeDistance: 1
     - _ColorMode: 0
     - _Cull: 0
-    - _Cutoff: 0.165
+    - _Cutoff: 0.857
     - _DistortionBlend: 0.5
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
