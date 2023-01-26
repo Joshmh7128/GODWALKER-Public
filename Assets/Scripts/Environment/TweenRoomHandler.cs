@@ -10,6 +10,8 @@ public class TweenRoomHandler : MonoBehaviour
 
     public string targetScene; // this is the target scene that this will go to
 
+    bool used; // has this been used?
+
     [SerializeField] GameObject backDoor, frontDoor; // our doors
 
     private void Start()
@@ -22,7 +24,11 @@ public class TweenRoomHandler : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            MoveToNewScene();
+            if (!used)
+            {
+                used = true;
+                MoveToNewScene();
+            }
         }
     }
 
@@ -37,7 +43,7 @@ public class TweenRoomHandler : MonoBehaviour
         // we always start a 0, 0, so go there
         transform.position = Vector3.zero;
         // move to the player to our position minus their position
-        PlayerController.instance.Teleport(Vector3.zero + playerDif);
+        PlayerController.instance.Teleport(Vector3.zero - playerDif);
         // open front door
         frontDoor.SetActive(false);
     }
