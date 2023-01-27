@@ -34,6 +34,17 @@ public class TweenRoomHandler : MonoBehaviour
         }
     }
 
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            if (used)
+            {
+                
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
         frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoorMove, 50 * Time.fixedDeltaTime);
@@ -53,7 +64,7 @@ public class TweenRoomHandler : MonoBehaviour
         PlayerController.instance.Teleport(Vector3.zero - playerDif - Vector3.up); // we subtract up from this to teleport to the EXACT location they are standing
         // open front door
         frontDoorMove = frontDoor.transform.position;
-        frontDoorMove = frontDoorMove - new Vector3(0, -50, 0);
+        frontDoorMove = frontDoorMove - new Vector3(0, 50, 0);
     }
 
 }
