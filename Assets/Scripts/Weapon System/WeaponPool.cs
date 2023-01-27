@@ -34,6 +34,25 @@ public class WeaponPool : MonoBehaviour
         copyItem.weapon.GetComponent<WeaponClass>().updated = true;
 
         copyItem.weapon.SetActive(false);
+    }    
+    
+    // instantiate our weapon item with our selected weapon object at a specific position
+    public GameObject CreateWeaponItem(GameObject weaponObject, Transform spawnPoint, Transform parent)
+    {
+        // instantiate a copy of the weapon we are currently holding
+        copyItem = Instantiate(weaponItem, spawnPoint.position, Quaternion.identity).GetComponent<Weapon_Item>();
+        // create a copy of the weaponObject we are holding so that we can give it to the player
+        copyItem.weapon = Instantiate(weaponObject, Vector3.zero, Quaternion.identity);
+        // undo damage calculation so it can be redone
+        copyItem.weapon.GetComponent<WeaponClass>().UpdateStats();
+        copyItem.weapon.GetComponent<WeaponClass>().updated = true;
+
+        copyItem.weapon.SetActive(false);
+
+        // set the parent of this object
+        copyItem.transform.parent = parent;
+
+        return copyItem.gameObject;
     }
 
 }

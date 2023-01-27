@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class TweenRoomHandler : MonoBehaviour
 {
+    public static TweenRoomHandler instance; // the current instance of this script
+
     // this script helps to control the tween rooms that carry the player from scene to scene
 
     public string targetScene; // this is the target scene that this will go to
@@ -17,9 +19,9 @@ public class TweenRoomHandler : MonoBehaviour
 
     private void Start()
     {
-        frontDoorMove = frontDoor.transform.position;
         // make this do not destroy
         DontDestroyOnLoad(gameObject);
+        frontDoorMove = frontDoor.transform.position;
     }
 
     public void OnTriggerEnter(Collider other)
@@ -40,7 +42,7 @@ public class TweenRoomHandler : MonoBehaviour
         {
             if (used)
             {
-                
+                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
             }
         }
     }
@@ -52,12 +54,13 @@ public class TweenRoomHandler : MonoBehaviour
 
     void MoveToNewScene()
     {
+        DontDestroyOnLoad(gameObject);  
         // close back door
         backDoor.SetActive(true);
         // get the difference between us and the player
         Vector3 playerDif = transform.position - PlayerController.instance.transform.position;
         // load the new scene
-        SceneManager.LoadScene(targetScene);
+        SceneManager.LoadSceneAsync(targetScene);
         // we always start a 0, 0, so go there
         transform.position = Vector3.zero;
         // move to the player to our position minus their position
