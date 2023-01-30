@@ -107,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626547445693599552}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -46.726776, y: 9.9735365, z: -1.5527763}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -136,12 +136,20 @@ MonoBehaviour:
   health: 300
   maxHealth: 300
   damage: 0
+  rageAmount: 0
+  rageModifier: 1
   invincible: 0
   lootDropChancePercentage: 0
-  gunCreator: {fileID: 6940487939540337357, guid: c4a3396740c929344b9d2331ee9bb069, type: 3}
+  dropItem: {fileID: 0}
   allBehaviours: []
+  attackBehaviourParent: {fileID: 0}
+  movementBehaviourParent: {fileID: 0}
+  attackBehaviours: []
+  movementBehaviours: []
   activated: 0
   navMeshAgent: {fileID: 0}
+  spawnPointRequirement: 0
+  possibleSpawnPointRequirements: 
   hurtMaterial: {fileID: 2100000, guid: d82b881a1864fcf4f801a3c25b287011, type: 2}
   OnDeathFX: {fileID: 4389282343268243973, guid: cbd722f0e8603b640b4643846cf380a4, type: 3}
   displayGroup: {fileID: 626547447014455604}
@@ -152,6 +160,7 @@ MonoBehaviour:
   lerpSliderSpeed: 3
   activeEffects: 
   baseHealth: 500
+  rotates: 1
 --- !u!135 &626547445693599556
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1835,6 +1844,11 @@ MonoBehaviour:
   bodyRadius: 5
   moveDistance: 20
   drawGizmos: 1
+  playerRelative: 0
+  divePlayer: 0
+  divePlayerHangTime: 0
+  lookAtPlayer: {fileID: 0}
+  cosmeticParent: {fileID: 0}
 --- !u!1 &626547446943097932
 GameObject:
   m_ObjectHideFlags: 0
@@ -2094,6 +2108,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAtCamera: 1
+  slowMove: 0
+  turnSpeed: 0
+  minDistance: 0
+  maxDistance: 0
+  distanceCompensation: 0
 --- !u!1 &626547447064889620
 GameObject:
   m_ObjectHideFlags: 0

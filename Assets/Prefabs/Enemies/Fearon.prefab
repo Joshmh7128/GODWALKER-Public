@@ -115,7 +115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2684773204384288041}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50.17, y: 1.2649999, z: -21}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -143,12 +143,20 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   damage: 0
+  rageAmount: 0
+  rageModifier: 1
   invincible: 1
   lootDropChancePercentage: 0
-  gunCreator: {fileID: 6940487939540337357, guid: c4a3396740c929344b9d2331ee9bb069, type: 3}
+  dropItem: {fileID: 0}
   allBehaviours: []
+  attackBehaviourParent: {fileID: 0}
+  movementBehaviourParent: {fileID: 0}
+  attackBehaviours: []
+  movementBehaviours: []
   activated: 1
   navMeshAgent: {fileID: 2684773204384288042}
+  spawnPointRequirement: 0
+  possibleSpawnPointRequirements: 
   hurtMaterial: {fileID: 2100000, guid: d82b881a1864fcf4f801a3c25b287011, type: 2}
   OnDeathFX: {fileID: 4389282343268243973, guid: cbd722f0e8603b640b4643846cf380a4, type: 3}
   displayGroup: {fileID: 0}
@@ -160,7 +168,9 @@ MonoBehaviour:
   activeEffects: 
   hurtHandler: {fileID: 0}
   baseHealth: 2000
+  kickAmount: 30
   kicks: 0
+  overrideLook: 0
 --- !u!33 &2684773204384288047
 MeshFilter:
   m_ObjectHideFlags: 0

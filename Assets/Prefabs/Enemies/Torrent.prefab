@@ -1156,6 +1156,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAtCamera: 1
+  slowMove: 0
+  turnSpeed: 0
+  minDistance: 0
+  maxDistance: 0
+  distanceCompensation: 0
 --- !u!1 &8958257514497292054
 GameObject:
   m_ObjectHideFlags: 0
@@ -1186,7 +1191,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8958257514497292054}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -62.42, y: 1.2649999, z: -21}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1214,12 +1219,20 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   damage: 0
+  rageAmount: 0
+  rageModifier: 1
   invincible: 0
   lootDropChancePercentage: 0
-  gunCreator: {fileID: 6940487939540337357, guid: c4a3396740c929344b9d2331ee9bb069, type: 3}
+  dropItem: {fileID: 0}
   allBehaviours: []
+  attackBehaviourParent: {fileID: 0}
+  movementBehaviourParent: {fileID: 0}
+  attackBehaviours: []
+  movementBehaviours: []
   activated: 0
   navMeshAgent: {fileID: 8958257514497292053}
+  spawnPointRequirement: 0
+  possibleSpawnPointRequirements: 
   hurtMaterial: {fileID: 2100000, guid: d82b881a1864fcf4f801a3c25b287011, type: 2}
   OnDeathFX: {fileID: 4389282343268243973, guid: cbd722f0e8603b640b4643846cf380a4, type: 3}
   displayGroup: {fileID: 8958257515955342300}
@@ -1231,7 +1244,9 @@ MonoBehaviour:
   activeEffects: 
   hurtHandler: {fileID: 8958257515127105898}
   baseHealth: 250
+  kickAmount: 30
   kicks: 0
+  overrideLook: 0
 --- !u!33 &8958257514497292048
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3169,6 +3184,7 @@ MonoBehaviour:
   rightFootTarget: {fileID: 0}
   leftFootTarget: {fileID: 0}
   lookTarget: {fileID: 0}
+  findPlayer: 0
   lookPos: {x: 0, y: 0, z: 0}
   kickVector: {x: 0, y: 0, z: 0}
   kickReturnDelta: 10
@@ -4045,6 +4061,7 @@ MonoBehaviour:
   wantStepAtDistance: 1.75
   epsilonChangePer: 0.25
   footSwapTime: 0
+  overridePlayerTrack: 0
   frontAnimator: {fileID: 0}
   backAnimator: {fileID: 0}
   topRigParent: {fileID: 8958257514756254134}
@@ -4061,6 +4078,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAtCamera: 1
+  slowMove: 0
+  turnSpeed: 0
+  minDistance: 0
+  maxDistance: 0
+  distanceCompensation: 0
 --- !u!1 &8958257515405635748
 GameObject:
   m_ObjectHideFlags: 0
