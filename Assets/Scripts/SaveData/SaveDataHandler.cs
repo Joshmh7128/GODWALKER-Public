@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class SaveDataHandler : MonoBehaviour
 {
     /// this script saves and loads objects when called
 
     public static SaveDataHandler instance; // our instance
+
+
     private void Awake()
     {
         instance = this;
@@ -16,20 +19,32 @@ public class SaveDataHandler : MonoBehaviour
         // then load our game
         LoadGame();
 
+        Debug.Log(Application.persistentDataPath);
     }
 
     // the live save data from our game. we set our data at the start of play from our file, and write this data to the save file when we save
-    public static SaveData liveData; 
+    public SaveData liveData; 
 
     // write our liveData to our saveData
     public void SaveGame()
     {
+        // check to make sure our directory exists
+        if (!System.IO.Directory.Exists(Application.persistentDataPath))
+        {
+            // create it if we need to
+            Directory.CreateDirectory(Application.persistentDataPath);
+        }
+
         // convert data
         SaveData save = liveData;
         string json = JsonUtility.ToJson(save);
 
         // save data based on application data
-        System.IO.File.WriteAllText(Application.persistentDataPath, "/SaveGames/" + Application.version + "SaveData.json");
+        File.WriteAllText(Path.Combine(Application.persistentDataPath + "SaveData.json"), json);
+
+        Debug.Log(Application.persistentDataPath);
+        // debug
+        Debug.Log("Saving data to " + Application.persistentDataPath + "SaveData.json");
     }
 
     // sets our liveData to our save data if that save data exists
@@ -39,7 +54,7 @@ public class SaveDataHandler : MonoBehaviour
         try
         {
             // get our save data
-            string rawData = System.IO.File.ReadAllText(Application.persistentDataPath + "/SaveGames/" + Application.version + "SaveData.json");
+            string rawData = File.ReadAllText(Application.persistentDataPath + "SaveData.json");
             SaveData json = JsonUtility.FromJson<SaveData>(rawData);
 
             // set our live data to our json

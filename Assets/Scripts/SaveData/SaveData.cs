@@ -15,11 +15,9 @@ public class SaveData
         "DMR",
         "Fleet",
         "Marksman Pistol",
-        "Minigun",
-        "Plasma Rifle",
         "Revolver",
         "Shotgun",
-        "Super Shotgun"
+
     };
 
     public List<string> DiscoveredWeapons = new List<string> // all of the names of weapons that the player has discovered
@@ -30,7 +28,8 @@ public class SaveData
 
     public List<string> UndiscoveredWeapons = new List<string> // all of the names of weapons the player has not discovered
     {
-
-
+        "Plasma Rifle",
+        "Minigun",
+        "Super Shotgun"
     };  
 }

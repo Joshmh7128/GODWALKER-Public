@@ -31,9 +31,13 @@ public class WeaponPool : MonoBehaviour
     }
 
     // setup our weapon list based off of our save data, located on the player's SaveDataHandler instance
-    public void SetupWeaponList()
+    public void SetupWeaponLists()
     {
+        // add all of our default weapons to our discovered list
+        foreach(string name in SaveDataHandler.instance.liveData.DefaultWeapons)
+        {
 
+        }
     }
 
     // instantiate our weapon item with our selected weapon object at a specific position
