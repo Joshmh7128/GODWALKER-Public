@@ -15,10 +15,10 @@ public class WeaponPoolItemRequest : MonoBehaviour
         {
             case PoolChoices.AllGameWeapons:
                 // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
-                weapon = WeaponPool.instance.AllGameWeapons[Random.Range(0, WeaponPool.instance.AllGameWeapons.Count)];
+                weapon = WeaponPool.instance.ActivePlayerWeapons[Random.Range(0, WeaponPool.instance.ActivePlayerWeapons.Count)];
                 WeaponPool.instance.CreateWeaponItem(weapon, transform, transform);
                 // remove the weapon from the weaponstospawn pool
-                WeaponPool.instance.AllGameWeapons.Remove(weapon);
+                WeaponPool.instance.ActivePlayerWeapons.Remove(weapon);
                 break;
 
             case PoolChoices.DiscoveredWeapons:
