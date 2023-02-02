@@ -10,13 +10,21 @@ public class SaveDataHandler : MonoBehaviour
 
     public static SaveDataHandler instance; // our instance
 
+    // sets the file name to the current save data of the application version
+    string filename; // is set in the Awake function
+
     private void Awake()
     {
+        // set our file name before we begin any other operations
+        filename = Application.version.ToString() + "SaveData.json";
+
+        // set up our instance
         instance = this;
 
         // then set our live data
         liveData = new SaveData();
-        // then load our game
+
+        // then load our game into the live data
         LoadGame();
 
         Debug.Log(Application.persistentDataPath);
@@ -31,6 +39,7 @@ public class SaveDataHandler : MonoBehaviour
     // write our liveData to our saveData
     public void SaveGame()
     {
+
         // check to make sure our directory exists
         if (!Directory.Exists(Application.persistentDataPath))
         {
@@ -43,11 +52,11 @@ public class SaveDataHandler : MonoBehaviour
         string json = JsonUtility.ToJson(save);
 
         // save data based on application data
-        File.WriteAllText(Path.Combine(Application.persistentDataPath + "SaveData.json"), json);
+        File.WriteAllText(Path.Combine(Application.persistentDataPath + filename), json);
 
         Debug.Log(Application.persistentDataPath);
         // debug
-        Debug.Log("Saving data to " + Application.persistentDataPath + "SaveData.json");
+        Debug.Log("Saving data to " + Application.persistentDataPath + filename);
         debugOutput.text = "Game Saved.";
         StartCoroutine(ClearDebug());
     }
@@ -59,7 +68,7 @@ public class SaveDataHandler : MonoBehaviour
         try
         {
             // get our save data
-            string rawData = File.ReadAllText(Application.persistentDataPath + "SaveData.json");
+            string rawData = File.ReadAllText(Application.persistentDataPath + filename);
             SaveData json = JsonUtility.FromJson<SaveData>(rawData);
 
             // set our live data to our json

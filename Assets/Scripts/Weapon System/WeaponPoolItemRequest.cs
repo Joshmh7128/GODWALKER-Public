@@ -6,6 +6,12 @@ public class WeaponPoolItemRequest : MonoBehaviour
 {
     enum PoolChoices { DiscoveredWeaponsForSpawning, UndiscoveredWeaponsForSpawning, DEBUG_AllGameWeapons, DEBUG_DiscoveredWeapons, DEBUG_UndiscoveredWeapons }
     [SerializeField] PoolChoices poolChoice; // our pool to pull from
+    [SerializeField] bool spawnOnStart; // should this weapon spawn on start?
+
+    private void Start()
+    {
+        if (spawnOnStart) SpawnWeapon();
+    }
 
     // call this function to spawn in a new weapon
     public void SpawnWeapon()
