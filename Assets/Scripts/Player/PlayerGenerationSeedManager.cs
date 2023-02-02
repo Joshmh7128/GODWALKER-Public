@@ -102,8 +102,12 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     void ProcessCurrentPos()
     {
         // our next room will be prefix, current position output letter, current position seed number
-        nextRoom = nextPrefix + charOutput[currentPos] + numOutput[currentPos];
-        seedDisplay.text = generationSeed;
+        try
+        {
+            nextRoom = nextPrefix + charOutput[currentPos] + numOutput[currentPos];
+            seedDisplay.text = generationSeed;
+        }
+         catch { }
     }
 
     private void Start()

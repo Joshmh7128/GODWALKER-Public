@@ -50,7 +50,7 @@ public class WeaponPool : MonoBehaviour
     void LateStart()
     {
         // setup our weapon lists
-        SetupWeaponLists();
+        BuildWeaponLists();
     }
 
     // builds our active weapon data from our save file
@@ -64,7 +64,7 @@ public class WeaponPool : MonoBehaviour
     }
 
     // setup our weapon list based off of our save data, located on the player's SaveDataHandler instance
-    public void SetupWeaponLists()
+    public void BuildWeaponLists()
     {
         // add all of our default weapons to our discovered list
         foreach (string name in SaveDataHandler.instance.liveData.DefaultWeapons)
@@ -112,9 +112,13 @@ public class WeaponPool : MonoBehaviour
         }
 
         // then set our ForSpawning lists
-        DiscoveredWeaponsForSpawning = DiscoveredWeapons;
-        UndiscoveredWeaponsForSpawning = UndiscoveredWeapons;
+        if (DiscoveredWeaponsForSpawning.Count == 0)
+            foreach (GameObject weapon in DiscoveredWeapons)
+                DiscoveredWeaponsForSpawning.Add(weapon);
 
+        if (UndiscoveredWeaponsForSpawning.Count == 0)
+            foreach (GameObject weapon in UndiscoveredWeapons)
+                UndiscoveredWeaponsForSpawning.Add(weapon);   
     }
 
     // instantiate our weapon item with our selected weapon object at a specific position
