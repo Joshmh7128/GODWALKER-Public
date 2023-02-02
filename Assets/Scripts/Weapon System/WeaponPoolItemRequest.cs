@@ -30,9 +30,13 @@ public class WeaponPoolItemRequest : MonoBehaviour
     public void SpawnWeapon()
     {
         GameObject weapon = null;
+
+
+
         // run a try because the weapon list may be empty
         try
         {
+            WeaponPool pool = WeaponPool.instance;
             switch (poolChoice)
             {
                 // normal uses
@@ -76,6 +80,19 @@ public class WeaponPoolItemRequest : MonoBehaviour
         catch
         {
             Debug.LogWarning("Weapon failed to spawn. This may be due to an empty ForSpawning weapon list or attempting to spawn weapons before Save Data has finished loading. Another spawn attempt will occur now...");
+
+            // attempt to reset the pools
+            if (WeaponPool.instance.DiscoveredWeaponsForSpawning.Count <= 1)
+            {          // then set our ForSpawning lists
+                WeaponPool.instance.DiscoveredWeaponsForSpawning = WeaponPool.instance.DiscoveredWeapons;
+            }
+
+            // attempt to reset the pools
+            if (WeaponPool.instance.UndiscoveredWeaponsForSpawning.Count <= 1)
+            {          // then set our ForSpawning lists
+                WeaponPool.instance.UndiscoveredWeaponsForSpawning = WeaponPool.instance.UndiscoveredWeapons;
+            }
+
             // try another spawn
             StartCoroutine(SlowSpawnCheck());
         }
