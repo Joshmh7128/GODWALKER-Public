@@ -22,6 +22,11 @@ public class TweenRoomHandler : MonoBehaviour
         // make this do not destroy
         DontDestroyOnLoad(gameObject);
         frontDoorMove = frontDoor.transform.position;
+        // check if the current position is divisible by 3
+        if (PlayerGenerationSeedManager.instance.currentPos % 5 == 0 && PlayerGenerationSeedManager.instance.currentPos > 0)
+        {
+            targetScene = "Special Reward";
+        }
     }
 
     public void OnTriggerEnter(Collider other)
@@ -67,6 +72,14 @@ public class TweenRoomHandler : MonoBehaviour
         PlayerController.instance.Teleport(Vector3.zero - playerDif - Vector3.up); // we subtract up from this to teleport to the EXACT location they are standing
         // open front door
         frontDoorMove = frontDoor.transform.position;
+        StartCoroutine(DelayedDoorMove());
+        // advance current pos
+        PlayerGenerationSeedManager.instance.currentPos++;
+    }
+
+    public IEnumerator DelayedDoorMove()
+    {
+        yield return new WaitForSecondsRealtime(1f);
         frontDoorMove = frontDoorMove - new Vector3(0, 50, 0);
     }
 
