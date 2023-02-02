@@ -69,7 +69,6 @@ public class WeaponPool : MonoBehaviour
         // add all of our default weapons to our discovered list
         foreach (string name in SaveDataHandler.instance.liveData.DefaultWeapons)
         {
-            Debug.Log(name);
             // take the name, look through the ActivePlayerWeapons list, and find the weapons we want to add to it
             for (int i = 0; i < ActivePlayerWeapons.Count; i++)
             {
@@ -85,7 +84,6 @@ public class WeaponPool : MonoBehaviour
         // add all of our discovered weapons to our discovered list
         foreach (string name in SaveDataHandler.instance.liveData.DiscoveredWeapons)
         {
-            Debug.Log(name);
             // take the name and look through all of our DiscoveredWeapons, and find the weapons we want to add to it from the discovered weapons
             for (int i = 0; i < ActivePlayerWeapons.Count; i++)
             {
@@ -101,7 +99,6 @@ public class WeaponPool : MonoBehaviour
         // now add all of our undiscovered weapons to our undiscovered weapons list
         foreach (string name in SaveDataHandler.instance.liveData.UndiscoveredWeapons)
         {
-            Debug.Log(name);
             // take the name from each undiscovered weapon and compare it to the ActivePlayerWeapons list, then add any undiscovered weapons to the undiscovered list
             for (int i = 0; i < ActivePlayerWeapons.Count; i++)
             {
