@@ -10,17 +10,17 @@ public class WeaponPoolItemRequest : MonoBehaviour
 
     private void Start()
     {
-        if (spawnOnStart) StartCoroutine(LateStartBuffer());
+        if (spawnOnStart) StartCoroutine(SlowSpawnCheck());
     }
 
-    // run the late start after 1 second in case we want to spawn weapons on the same frame we load the game
-    IEnumerator LateStartBuffer()
+    // run a looping check to make sure we can spawn our weapons using a slow tick time as to not crash the game
+    // if spawn weapon fails it runs this coroutine again
+    IEnumerator SlowSpawnCheck()
     {
         yield return new WaitForSecondsRealtime(1f);
+        // if we succeed in this check, spawn the weapon
         SpawnWeapon();
     }
-
-
 
     // call this function to spawn in a new weapon
     public void SpawnWeapon()
@@ -71,7 +71,9 @@ public class WeaponPoolItemRequest : MonoBehaviour
         }
         catch
         {
-            Debug.LogWarning("Weapon failed to spawn. This may be due to an empty ForSpawning weapon list or attempting to spawn weapons before Save Data has finished loading.");
+            Debug.LogWarning("Weapon failed to spawn. This may be due to an empty ForSpawning weapon list or attempting to spawn weapons before Save Data has finished loading. Another spawn attempt will occur now...");
+            // try another spawn
+            StartCoroutine(SlowSpawnCheck());
         }
     }
 
