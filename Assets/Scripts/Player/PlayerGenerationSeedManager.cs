@@ -23,7 +23,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     [SerializeField] List<char> charDesignations = new List<char>(); // the designations of our character sets for area definitions
     [SerializeField] List<char> charOutput = new List<char>(); // the output of our designations to be used in the seed set
 
-    public int currentPos; // our current position in the seed, representing what will come next
+    public int currentPos, debugPos = 3; // our current position in the seed, representing what will come next
     [SerializeField] string nextPrefix; // the prefix we're using before our letter number designation
 
     public bool shuffleAreas; // are we shuffling the areas

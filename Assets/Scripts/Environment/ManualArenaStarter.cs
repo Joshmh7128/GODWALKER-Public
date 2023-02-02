@@ -24,6 +24,9 @@ public class ManualArenaStarter : MonoBehaviour
                 try { previousDoor.SetActive(true); }
                 catch { }
 
+                // only advance level when we are moving through levels
+                PlayerGenerationSeedManager.instance.debugPos++;
+
                 arenaHandler.manualCombat = true;
                 Destroy(gameObject);    
             }

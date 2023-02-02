@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -30,13 +31,21 @@ public class TweenRoomHandler : MonoBehaviour
     {
 
         // our normal randomizer to choose from the maps we have available
-        targetScene = "Area 1 Concept Map " + Random.Range(3, 7) + " no Player";
+        targetScene = "Area 1 Concept Map " + PlayerGenerationSeedManager.instance.debugPos + " no Player";
 
-        if (PlayerGenerationSeedManager.instance.currentPos % 3 == 0 && PlayerGenerationSeedManager.instance.currentPos > 0)
+        if (PlayerGenerationSeedManager.instance.currentPos % 2 == 0 && PlayerGenerationSeedManager.instance.currentPos > 0)
+        {
             targetScene = "Stash Reward";
-
-        if (PlayerGenerationSeedManager.instance.currentPos % 5 == 0 && PlayerGenerationSeedManager.instance.currentPos > 0)
+            return;
+        }
+        if (PlayerGenerationSeedManager.instance.currentPos == 8 && PlayerGenerationSeedManager.instance.currentPos > 0)
+        {
             targetScene = "Special Reward";
+            return;
+        }
+
+
+
     }
 
     public void OnTriggerEnter(Collider other)
@@ -58,6 +67,7 @@ public class TweenRoomHandler : MonoBehaviour
             if (used)
             {
                 SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+
             }
         }
     }
