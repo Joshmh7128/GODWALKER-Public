@@ -29,23 +29,30 @@ public class TweenRoomHandler : MonoBehaviour
 
     void ChooseDestination()
     {
-
-        // our normal randomizer to choose from the maps we have available
-        targetScene = "Area 1 Concept Map " + PlayerGenerationSeedManager.instance.debugPos + " no Player";
-
-        if (PlayerGenerationSeedManager.instance.currentPos % 2 == 0 && PlayerGenerationSeedManager.instance.currentPos > 0)
+        switch (PlayerGenerationSeedManager.instance.currentPos)
         {
-            targetScene = "Stash Reward";
-            return;
+            case 0:
+                targetScene = "Stash Reward";
+                break;
+            case 1:
+                targetScene = "Area 1 Concept Map 3 no Player";
+                break;
+            case 2:
+                targetScene = "Stash Reward";
+                break;
+            case 3:
+                targetScene = "Area 1 Concept Map 4 no Player";
+                break;
+            case 4:
+                targetScene = "Special Reward";
+                break;
+            case 5:
+                targetScene = "Area 1 Concept Map 5 no Player";
+                break;            
+            case 6:
+                targetScene = "Finish";
+                break;
         }
-        if (PlayerGenerationSeedManager.instance.currentPos == 8 && PlayerGenerationSeedManager.instance.currentPos > 0)
-        {
-            targetScene = "Special Reward";
-            return;
-        }
-
-
-
     }
 
     public void OnTriggerEnter(Collider other)
@@ -55,6 +62,7 @@ public class TweenRoomHandler : MonoBehaviour
             if (!used)
             {
                 used = true;
+                gameObject.GetComponent<BoxCollider>().enabled = false;
                 MoveToNewScene();
             }
         }
@@ -79,6 +87,8 @@ public class TweenRoomHandler : MonoBehaviour
 
     void MoveToNewScene()
     {
+        // advance current pos
+        PlayerGenerationSeedManager.instance.currentPos++;
         DontDestroyOnLoad(gameObject);  
         // close back door
         backDoor.SetActive(true);
@@ -93,8 +103,6 @@ public class TweenRoomHandler : MonoBehaviour
         // open front door
         frontDoorMove = frontDoor.transform.position;
         StartCoroutine(DelayedDoorMove());
-        // advance current pos
-        PlayerGenerationSeedManager.instance.currentPos++;
     }
 
     public IEnumerator DelayedDoorMove()

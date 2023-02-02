@@ -31,6 +31,6 @@ public class AutoResetGame : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
         // reload
-        SceneManager.LoadScene("FirstPersonPrototypeBeta");
+        SceneManager.LoadScene(0);
     }
 }
