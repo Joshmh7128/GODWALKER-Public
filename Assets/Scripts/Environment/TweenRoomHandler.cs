@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,12 +22,15 @@ public class TweenRoomHandler : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         frontDoorMove = frontDoor.transform.position;
         // check if the current position is divisible by 3
-
+        ChooseDestination();
 
     }
 
     void ChooseDestination()
     {
+
+        // our normal randomizer to choose from the maps we have available
+        targetScene = "Area 1 Concept Map " + Random.Range(3, 7) + " no Player";
 
         if (PlayerGenerationSeedManager.instance.currentPos % 3 == 0 && PlayerGenerationSeedManager.instance.currentPos > 0)
             targetScene = "Stash Reward";
