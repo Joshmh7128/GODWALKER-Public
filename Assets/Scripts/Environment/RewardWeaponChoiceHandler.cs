@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class RewardWeaponChoiceHandler : MonoBehaviour
 {
-    int highestChildCount; // what is the highest child count we've had?
+    [SerializeField] int currentChildCount, highestChildCount; // what is the highest child count we've had?
 
     private void FixedUpdate()
-    {
-        highestChildCount = transform.childCount;
-
+    {        
         // if at any point our child count is less than our highest childcount, destroy all the weapons the player didn't choose (they will be children)
-        if (transform.childCount < highestChildCount)
+        if (currentChildCount < highestChildCount)
         {
             foreach (Transform child in transform)
             {
                 child.GetComponent<Weapon_Item>().DestroyItem();
             }
         }
+
+        // then set our highest count after so that we only catch decreases in the amount
+        currentChildCount = transform.childCount;
+
+        if (currentChildCount > highestChildCount)
+            highestChildCount = currentChildCount;
     }
 }

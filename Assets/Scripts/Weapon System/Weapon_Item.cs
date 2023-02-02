@@ -59,7 +59,9 @@ public class Weapon_Item : ItemClass
 
     public void DestroyItem()
     {
-        Instantiate(destroyVFX, null);
+        Instantiate(destroyVFX, transform.position, Quaternion.identity, null);
+        Destroy(ourCanvas.transform.gameObject);
+        Debug.Log("Destroying Item");
         Destroy(gameObject);
     }
 }
