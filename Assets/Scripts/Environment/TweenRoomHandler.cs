@@ -23,10 +23,18 @@ public class TweenRoomHandler : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         frontDoorMove = frontDoor.transform.position;
         // check if the current position is divisible by 3
+
+
+    }
+
+    void ChooseDestination()
+    {
+
+        if (PlayerGenerationSeedManager.instance.currentPos % 3 == 0 && PlayerGenerationSeedManager.instance.currentPos > 0)
+            targetScene = "Stash Reward";
+
         if (PlayerGenerationSeedManager.instance.currentPos % 5 == 0 && PlayerGenerationSeedManager.instance.currentPos > 0)
-        {
             targetScene = "Special Reward";
-        }
     }
 
     public void OnTriggerEnter(Collider other)
