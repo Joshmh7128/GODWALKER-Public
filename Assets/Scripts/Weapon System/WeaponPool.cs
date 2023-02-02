@@ -27,17 +27,70 @@ public class WeaponPool : MonoBehaviour
     // start runs when this object comes alive
     private void Start()
     {
-        
+        StartCoroutine(LateStartBuffer());
+    }
+
+    IEnumerator LateStartBuffer()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        LateStart();
+    }
+
+    // start that happens 0.5 seconds after the start function
+    void LateStart()
+    {
+        // setup our weapon lists
+        SetupWeaponLists();
     }
 
     // setup our weapon list based off of our save data, located on the player's SaveDataHandler instance
     public void SetupWeaponLists()
     {
         // add all of our default weapons to our discovered list
-        foreach(string name in SaveDataHandler.instance.liveData.DefaultWeapons)
+        foreach (string name in SaveDataHandler.instance.liveData.DefaultWeapons)
         {
-
+            // take the name, look through the AllGameWeapons list, and find the weapons we want to add to it
+            for (int i = 0; i < SaveDataHandler.instance.liveData.DefaultWeapons.Count; i++)
+            {
+                if (AllGameWeapons[i].GetComponent<WeaponClass>().weaponName == name)
+                {
+                    // only add this object to the list if it does not already contain it
+                    if (!DiscoveredWeapons.Contains(AllGameWeapons[i]))
+                        DiscoveredWeapons.Add(AllGameWeapons[i]);
+                }
+            }
         }
+
+        // add all of our discovered weapons to our discovered list
+        foreach (string name in SaveDataHandler.instance.liveData.DiscoveredWeapons)
+        {
+            // take the name and look through all of our DiscoveredWeapons, and find the weapons we want to add to it from the discovered weapons
+            for (int i = 0; i < SaveDataHandler.instance.liveData.DiscoveredWeapons.Count; i++)
+            {
+                if (AllGameWeapons[i].GetComponent<WeaponClass>().weaponName == name)
+                {
+                    // only add this weapon if it is not in the list yet
+                    if (!DiscoveredWeapons.Contains(AllGameWeapons[i]))
+                        DiscoveredWeapons.Add(AllGameWeapons[i]);
+                }
+            }
+        }        
+
+        // now add all of our undiscovered weapons to our undiscovered weapons list
+        foreach (string name in SaveDataHandler.instance.liveData.UndiscoveredWeapons)
+        {
+            // take the name from each undiscovered weapon and compare it to the AllGameWeapons list, then add any undiscovered weapons to the undiscovered list
+            for (int i = 0; i < SaveDataHandler.instance.liveData.UndiscoveredWeapons.Count; i++)
+            {
+                if (AllGameWeapons[i].GetComponent<WeaponClass>().weaponName == name)
+                {
+                    // only add this weapon if it is not in the list yet
+                    if (!UndiscoveredWeapons.Contains(AllGameWeapons[i]))
+                        UndiscoveredWeapons.Add(AllGameWeapons[i]);
+                }
+            }
+        }
+
     }
 
     // instantiate our weapon item with our selected weapon object at a specific position

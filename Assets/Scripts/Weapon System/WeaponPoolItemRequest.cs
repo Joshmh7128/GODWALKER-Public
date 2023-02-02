@@ -7,8 +7,8 @@ public class WeaponPoolItemRequest : MonoBehaviour
     enum PoolChoices { AllGameWeapons, DiscoveredWeapons, UndiscoveredWeapons }
     [SerializeField] PoolChoices poolChoice; // our pool to pull from
 
-    // Start is called before the first frame update
-    void Start()
+    // call this function to spawn in a new weapon
+    public void SpawnWeapon()
     {
         GameObject weapon = null;
         switch (poolChoice)
@@ -19,15 +19,15 @@ public class WeaponPoolItemRequest : MonoBehaviour
                 WeaponPool.instance.CreateWeaponItem(weapon, transform, transform);
                 // remove the weapon from the weaponstospawn pool
                 WeaponPool.instance.AllGameWeapons.Remove(weapon);
-                break;           
-            
+                break;
+
             case PoolChoices.DiscoveredWeapons:
                 // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
                 weapon = WeaponPool.instance.DiscoveredWeapons[Random.Range(0, WeaponPool.instance.DiscoveredWeapons.Count)];
                 WeaponPool.instance.CreateWeaponItem(weapon, transform, transform);
                 // remove the weapon from the weaponstospawn pool
                 WeaponPool.instance.DiscoveredWeapons.Remove(weapon);
-                break;  
+                break;
 
             case PoolChoices.UndiscoveredWeapons:
                 // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
@@ -35,9 +35,9 @@ public class WeaponPoolItemRequest : MonoBehaviour
                 WeaponPool.instance.CreateWeaponItem(weapon, transform, transform);
                 // remove the weapon from the weaponstospawn pool
                 WeaponPool.instance.UndiscoveredWeapons.Remove(weapon);
-                break;  
+                break;
 
-    }
+        }
     }
 
 }
