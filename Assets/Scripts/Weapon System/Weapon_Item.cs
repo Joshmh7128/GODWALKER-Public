@@ -9,6 +9,7 @@ public class Weapon_Item : ItemClass
     public GameObject weapon;
     [SerializeField] Transform modelParent;
     [SerializeField] Transform ourCanvas; // so we can make sure it is destroyed
+    [SerializeField] GameObject destroyVFX; // the vfx that we make when we get destroyed
 
     // start
     private void Start()
@@ -54,5 +55,10 @@ public class Weapon_Item : ItemClass
                 }
             }
         }
+    }
+
+    public void DestroyItem()
+    {
+
     }
 }

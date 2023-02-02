@@ -7,9 +7,13 @@ public class WeaponPoolItemRequest : MonoBehaviour
     enum PoolChoices { DiscoveredWeaponsForSpawning, UndiscoveredWeaponsForSpawning, DEBUG_AllGameWeapons, DEBUG_DiscoveredWeapons, DEBUG_UndiscoveredWeapons }
     [SerializeField] PoolChoices poolChoice; // our pool to pull from
     [SerializeField] bool spawnOnStart; // should this weapon spawn on start?
+    [SerializeField] Transform targetParent; 
 
     private void Start()
     {
+        if (targetParent == null)
+            targetParent = transform;
+
         if (spawnOnStart) StartCoroutine(SlowSpawnCheck());
     }
 
@@ -35,7 +39,7 @@ public class WeaponPoolItemRequest : MonoBehaviour
                 case PoolChoices.DiscoveredWeaponsForSpawning:
                     // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
                     weapon = WeaponPool.instance.DiscoveredWeaponsForSpawning[Random.Range(0, WeaponPool.instance.DiscoveredWeaponsForSpawning.Count)];
-                    WeaponPool.instance.CreateWeaponItem(weapon, transform, transform);
+                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent);
                     // then remove this item from that list
                     WeaponPool.instance.DiscoveredWeaponsForSpawning.Remove(weapon);
                     break;
@@ -43,7 +47,7 @@ public class WeaponPoolItemRequest : MonoBehaviour
                 case PoolChoices.UndiscoveredWeaponsForSpawning:
                     // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
                     weapon = WeaponPool.instance.UndiscoveredWeaponsForSpawning[Random.Range(0, WeaponPool.instance.UndiscoveredWeaponsForSpawning.Count)];
-                    WeaponPool.instance.CreateWeaponItem(weapon, transform, transform);
+                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent);
                     // then remove this item from that list
                     WeaponPool.instance.UndiscoveredWeaponsForSpawning.Remove(weapon);
                     break;
@@ -52,19 +56,19 @@ public class WeaponPoolItemRequest : MonoBehaviour
                 case PoolChoices.DEBUG_AllGameWeapons:
                     // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
                     weapon = WeaponPool.instance.ActivePlayerWeapons[Random.Range(0, WeaponPool.instance.ActivePlayerWeapons.Count)];
-                    WeaponPool.instance.CreateWeaponItem(weapon, transform, transform);
+                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent);
                     break;
 
                 case PoolChoices.DEBUG_DiscoveredWeapons:
                     // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
                     weapon = WeaponPool.instance.DiscoveredWeapons[Random.Range(0, WeaponPool.instance.DiscoveredWeapons.Count)];
-                    WeaponPool.instance.CreateWeaponItem(weapon, transform, transform);
+                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent);
                     break;
 
                 case PoolChoices.DEBUG_UndiscoveredWeapons:
                     // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
                     weapon = WeaponPool.instance.UndiscoveredWeapons[Random.Range(0, WeaponPool.instance.UndiscoveredWeapons.Count)];
-                    WeaponPool.instance.CreateWeaponItem(weapon, transform, transform);
+                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent);
                     break;
 
             }
