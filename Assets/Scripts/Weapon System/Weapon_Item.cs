@@ -59,6 +59,7 @@ public class Weapon_Item : ItemClass
 
     public void DestroyItem()
     {
-
+        Instantiate(destroyVFX, null);
+        Destroy(gameObject);
     }
 }

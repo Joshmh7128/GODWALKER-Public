@@ -21,7 +21,7 @@ public class WeaponPoolItemRequest : MonoBehaviour
     // if spawn weapon fails it runs this coroutine again
     IEnumerator SlowSpawnCheck()
     {
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(0.1f);
         // if we succeed in this check, spawn the weapon
         SpawnWeapon();
     }
