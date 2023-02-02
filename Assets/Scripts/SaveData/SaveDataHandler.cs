@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 
 public class SaveDataHandler : MonoBehaviour
@@ -8,7 +9,6 @@ public class SaveDataHandler : MonoBehaviour
     /// this script saves and loads objects when called
 
     public static SaveDataHandler instance; // our instance
-
 
     private void Awake()
     {
@@ -23,13 +23,16 @@ public class SaveDataHandler : MonoBehaviour
     }
 
     // the live save data from our game. we set our data at the start of play from our file, and write this data to the save file when we save
-    public SaveData liveData; 
+    public SaveData liveData;
+
+    // our debug output
+    [SerializeField] Text debugOutput;
 
     // write our liveData to our saveData
     public void SaveGame()
     {
         // check to make sure our directory exists
-        if (!System.IO.Directory.Exists(Application.persistentDataPath))
+        if (!Directory.Exists(Application.persistentDataPath))
         {
             // create it if we need to
             Directory.CreateDirectory(Application.persistentDataPath);
@@ -45,6 +48,8 @@ public class SaveDataHandler : MonoBehaviour
         Debug.Log(Application.persistentDataPath);
         // debug
         Debug.Log("Saving data to " + Application.persistentDataPath + "SaveData.json");
+        debugOutput.text = "Game Saved.";
+        StartCoroutine(ClearDebug());
     }
 
     // sets our liveData to our save data if that save data exists
@@ -62,6 +67,8 @@ public class SaveDataHandler : MonoBehaviour
 
             // debug that we loaded
             Debug.Log("Save Data loaded.");
+            debugOutput.text = "Save Data loaded.";
+            StartCoroutine(ClearDebug());
         }
         catch
         {
@@ -69,8 +76,15 @@ public class SaveDataHandler : MonoBehaviour
             Debug.Log("No Save Data Found! Resetting file to default and autosaving...");
             // set our livedata to a new SaveData
             liveData = new SaveData();
+            debugOutput.text = "No Save Data found. Creating new data...";
             SaveGame();
         }
+    }
+
+    IEnumerator ClearDebug()
+    {
+        yield return new WaitForSecondsRealtime(4f);
+        debugOutput.text = " ";
     }
 
 }

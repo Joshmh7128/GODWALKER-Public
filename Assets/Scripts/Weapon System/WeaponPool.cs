@@ -105,7 +105,6 @@ public class WeaponPool : MonoBehaviour
                 }
             }
         }
-
     }
 
     // instantiate our weapon item with our selected weapon object at a specific position
