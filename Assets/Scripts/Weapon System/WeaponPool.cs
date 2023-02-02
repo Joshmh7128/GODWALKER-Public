@@ -120,6 +120,18 @@ public class WeaponPool : MonoBehaviour
     // instantiate our weapon item with our selected weapon object at a specific position
     public void CreateWeaponItem(GameObject weaponObject, Transform spawnPoint)
     {
+        // check to make sure our lists are not empty
+        if (DiscoveredWeaponsForSpawning.Count <= 3)
+        {
+            DiscoveredWeaponsForSpawning = DiscoveredWeapons;
+        }
+        
+        // check to make sure our lists are not empty
+        if (UndiscoveredWeaponsForSpawning.Count <= 3)
+        {
+            UndiscoveredWeaponsForSpawning = UndiscoveredWeapons;
+        }
+
         // instantiate a copy of the weapon we are currently holding
         copyItem = Instantiate(weaponItem, spawnPoint.position, Quaternion.identity).GetComponent<Weapon_Item>();
         // create a copy of the weaponObject we are holding so that we can give it to the player
@@ -133,7 +145,19 @@ public class WeaponPool : MonoBehaviour
     
     // instantiate our weapon item with our selected weapon object at a specific position
     public GameObject CreateWeaponItem(GameObject weaponObject, Transform spawnPoint, Transform parent)
-    {
+    {        
+        // check to make sure our lists are not empty
+        if (DiscoveredWeaponsForSpawning.Count <= 3)
+        {
+            DiscoveredWeaponsForSpawning = DiscoveredWeapons;
+        }
+
+        // check to make sure our lists are not empty
+        if (UndiscoveredWeaponsForSpawning.Count <= 3)
+        {
+            UndiscoveredWeaponsForSpawning = UndiscoveredWeapons;
+        }
+
         // instantiate a copy of the weapon we are currently holding
         copyItem = Instantiate(weaponItem, spawnPoint.position, Quaternion.identity).GetComponent<Weapon_Item>();
         // create a copy of the weaponObject we are holding so that we can give it to the player
