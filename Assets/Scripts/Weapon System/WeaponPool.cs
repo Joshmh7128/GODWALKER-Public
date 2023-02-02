@@ -8,10 +8,17 @@ public class WeaponPool : MonoBehaviour
     /// it is attached the player so that different weapons creators can pull from its list and spawn new weapons after each encounter
     /// 
 
-    // this is a list of all the weapon objects (NOT ITEMS) to be spawned
+    // this is a list of all the weapon objects (NOT ITEMS) 
+    // these lists are used for data tracking, not for actual spawning of the weapons from the WeaponPoolItemRequest script!
     public List<GameObject> ActivePlayerWeapons = new List<GameObject>(); // it is a list of all weapons in the game
     public List<GameObject> DiscoveredWeapons = new List<GameObject>(); // this is a list of all weapons which the player has discovered
     public List<GameObject> UndiscoveredWeapons = new List<GameObject>(); // this is a list of all weapons which the player has undiscovered
+
+    // these lists are used for spawning our Discovered and Undiscovered weapons
+    // when a weapon is spawned from eithef of these lists, it is removed from the list
+    // these lists are rebuilt each time the player starts a new run
+    public List<GameObject> DiscoveredWeaponsForSpawning = new List<GameObject>();
+    public List<GameObject> UndiscoveredWeaponsForSpawning = new List<GameObject>();
 
     // this is a default weapon item
     [SerializeField] GameObject weaponItem;
@@ -29,6 +36,7 @@ public class WeaponPool : MonoBehaviour
     {
         // build our active weapon data before we fun the late start
         BuildActiveWeaponData();
+        // run the late start buffer when this data is complete
         StartCoroutine(LateStartBuffer());
     }
 
@@ -105,6 +113,11 @@ public class WeaponPool : MonoBehaviour
                 }
             }
         }
+
+        // then set our ForSpawning lists
+        DiscoveredWeaponsForSpawning = DiscoveredWeapons;
+        UndiscoveredWeaponsForSpawning = UndiscoveredWeapons;
+
     }
 
     // instantiate our weapon item with our selected weapon object at a specific position
