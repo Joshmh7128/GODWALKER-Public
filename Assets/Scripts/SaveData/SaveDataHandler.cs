@@ -90,6 +90,19 @@ public class SaveDataHandler : MonoBehaviour
         }
     }
 
+    // what happens when we discover a weapon?
+    public void DiscoverWeapon(GameObject weapon)
+    {
+        // get the weapon name
+        string discoveringName = weapon.GetComponent<WeaponClass>().weaponName;
+        // add that name to the discovered list in liveData
+        liveData.DiscoveredWeapons.Add(discoveringName);
+        // remove this from the undiscovered list in liveData
+        liveData.UndiscoveredWeapons.Remove(discoveringName);
+        // save the game
+        SaveGame();
+    }
+
     IEnumerator ClearDebug()
     {
         yield return new WaitForSecondsRealtime(4f);

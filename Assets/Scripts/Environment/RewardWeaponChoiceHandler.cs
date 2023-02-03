@@ -6,8 +6,17 @@ public class RewardWeaponChoiceHandler : MonoBehaviour
 {
     [SerializeField] int currentChildCount, highestChildCount; // what is the highest child count we've had?
 
+    [SerializeField] bool discoverOnPickup; // do we discover the gun we pickup?
+
     private void FixedUpdate()
     {        
+        // run a check to make sure we tell all our children that they should be discovered upon pickup
+        if (discoverOnPickup)
+        foreach(Transform child in transform)
+        {
+            child.gameObject.GetComponent<Weapon_Item>().discoverOnPickup = true;
+        }
+
         // if at any point our child count is less than our highest childcount, destroy all the weapons the player didn't choose (they will be children)
         if (currentChildCount < highestChildCount)
         {

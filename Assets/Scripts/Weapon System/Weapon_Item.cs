@@ -10,6 +10,7 @@ public class Weapon_Item : ItemClass
     [SerializeField] Transform modelParent;
     [SerializeField] Transform ourCanvas; // so we can make sure it is destroyed
     [SerializeField] GameObject destroyVFX; // the vfx that we make when we get destroyed
+    public bool discoverOnPickup; // should this item be discovered on pickup and modify the save file?
 
     // start
     private void Start()
@@ -53,6 +54,10 @@ public class Weapon_Item : ItemClass
                     Destroy(ourCanvas.gameObject);
                     Destroy(gameObject); // remove the weapon from the world
                 }
+
+                // if we are discovered on pickup, modify the save file
+                SaveDataHandler.instance.DiscoverWeapon(weapon);
+
             }
         }
     }
