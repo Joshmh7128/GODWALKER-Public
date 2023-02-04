@@ -130,6 +130,73 @@ public class PlayerWeaponManager : MonoBehaviour
             scrollcooldown = 10;
         }
     }
+       
+    // we can also use R to swap between weapons
+    void ProcessRInput()
+    {
+        // scrolling up
+        if (Input.GetKeyDown(KeyCode.R) && scrollcooldown <= 0)
+        {
+            if (currentWeaponInt <= weapons.Count - 1)
+            {
+                if (currentWeaponInt + 1 > weapons.Count - 1)
+                {
+                    currentWeaponInt = 0; Debug.Log("setting int");
+                }
+                else if (currentWeaponInt + 1 < weapons.Count)
+                {
+                    currentWeaponInt++; Debug.Log("adding int");
+                }
+
+            }
+            UpdateCurrentWeapon();
+
+            scrollcooldown = 10;
+        }
+    }
+
+    // what we run to simulate the input
+    public void SimulateScrollInput(int direction)
+    {
+        if (scrollcooldown > 0)
+        {
+            scrollcooldown--;
+        }
+
+        // scrolling up
+        if (direction < 0 && scrollcooldown <= 0)
+        {
+            if (currentWeaponInt <= weapons.Count-1)
+            {
+                if (currentWeaponInt + 1 > weapons.Count-1)
+                {
+                    currentWeaponInt = 0; Debug.Log("setting int");
+                } else if (currentWeaponInt + 1 < weapons.Count)
+                {
+                    currentWeaponInt++; Debug.Log("adding int");
+                }
+                
+            }
+            UpdateCurrentWeapon();
+
+            scrollcooldown = 10;
+        }
+
+        // scrolling down 
+        if (direction > 0 && scrollcooldown <= 0)
+        {
+            if (currentWeaponInt > 0)
+            {
+                currentWeaponInt--;
+            } else if (currentWeaponInt <= 0)
+            {
+                currentWeaponInt = weapons.Count-1;
+            }
+
+            UpdateCurrentWeapon();
+            scrollcooldown = 10;
+        }
+    }
 
     // when we update our weapon
     void UpdateCurrentWeapon()
