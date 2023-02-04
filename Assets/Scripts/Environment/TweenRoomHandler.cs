@@ -25,7 +25,7 @@ public class TweenRoomHandler : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         frontDoorMove = frontDoor.transform.position;
         // check if the current position is divisible by 3
-        ChooseDestination();
+        Invoke("ChooseDestination", 3f);
     }
 
     void ChooseDestination()
