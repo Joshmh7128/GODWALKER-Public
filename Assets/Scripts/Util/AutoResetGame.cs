@@ -8,6 +8,8 @@ public class AutoResetGame : MonoBehaviour
     // load our primer scene
     void Start() => StartCoroutine(Buffer());
 
+    public string RestartScene; // which scene do we restart from?
+
     IEnumerator Buffer()
     {
         // find and kill all players
@@ -31,6 +33,6 @@ public class AutoResetGame : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
         // reload
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(RestartScene);
     }
 }
