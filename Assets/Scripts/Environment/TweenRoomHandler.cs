@@ -13,6 +13,7 @@ public class TweenRoomHandler : MonoBehaviour
     public string targetNextScene; // this is the target scene that this will go to
 
     bool used; // has this been used?
+    bool canClose; // can we close this room?
 
     [SerializeField] bool doesAdvance; // does this room advance the current generation position?
 
@@ -82,7 +83,7 @@ public class TweenRoomHandler : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            if (used)
+            if (canClose)
             {
                 // then disable our extraneuous elements
                 internalElements.SetActive(false);
@@ -97,7 +98,7 @@ public class TweenRoomHandler : MonoBehaviour
         frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoorMove, 50 * Time.fixedDeltaTime);
 
         // check if the player has moved 35 units away from the room
-        if (used && Vector3.Distance(transform.position, PlayerController.instance.transform.position) > 35)
+        if (canClose && Vector3.Distance(transform.position, PlayerController.instance.transform.position) > 35)
         {
             // then disable our extraneuous elements
             internalElements.SetActive(false);
@@ -128,10 +129,11 @@ public class TweenRoomHandler : MonoBehaviour
 
     public IEnumerator DelayedLoadMove()
     {
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.1f);
         // load the new scene
         SceneManager.LoadSceneAsync(targetNextScene);
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(0.1f);
+        canClose = true;
         frontDoorMove = frontDoorMove - new Vector3(0, 50, 0);
         // then move this from the scene
         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
