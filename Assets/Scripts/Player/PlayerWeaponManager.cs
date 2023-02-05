@@ -77,7 +77,7 @@ public class PlayerWeaponManager : MonoBehaviour
         ProcessScrollInput();
 
         // process R input
-        ProcessRInput();
+        ProcessKeyInput();
 
     }
 
@@ -133,7 +133,7 @@ public class PlayerWeaponManager : MonoBehaviour
     }
        
     // we can also use R to swap between weapons
-    void ProcessRInput()
+    void ProcessKeyInput()
     {
         // scrolling up
         if (Input.GetKeyDown(KeyCode.R) && scrollcooldown <= 0)
@@ -142,17 +142,33 @@ public class PlayerWeaponManager : MonoBehaviour
             {
                 if (currentWeaponInt + 1 > weapons.Count - 1)
                 {
-                    currentWeaponInt = 0; Debug.Log("setting int");
+                    currentWeaponInt = 0;
                 }
                 else if (currentWeaponInt + 1 < weapons.Count)
                 {
-                    currentWeaponInt++; Debug.Log("adding int");
+                    currentWeaponInt++;
                 }
 
             }
             UpdateCurrentWeapon();
 
             scrollcooldown = 10;
+        }
+
+        // number keys
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            currentWeaponInt = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            currentWeaponInt = 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            currentWeaponInt = 2;
         }
     }
 

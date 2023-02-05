@@ -7,7 +7,9 @@ public class WeaponPoolItemRequest : MonoBehaviour
     enum PoolChoices { DiscoveredWeaponsForSpawning, UndiscoveredWeaponsForSpawning, DEBUG_AllGameWeapons, DEBUG_DiscoveredWeapons, DEBUG_UndiscoveredWeapons }
     [SerializeField] PoolChoices poolChoice; // our pool to pull from
     [SerializeField] bool spawnOnStart; // should this weapon spawn on start?
-    [SerializeField] Transform targetParent; 
+    [SerializeField] Transform targetParent;
+
+    float maxSpawnAttempts = 30; // after 150 spawn attempts, stop trying.
 
     private void Start()
     {
@@ -77,12 +79,13 @@ public class WeaponPoolItemRequest : MonoBehaviour
         }
         catch
         {
-            Debug.LogWarning("Weapon failed to spawn. This may be due to an empty ForSpawning weapon list or attempting to spawn weapons before Save Data has finished loading. Another spawn attempt will occur now...");
-
+            Debug.LogWarning("Weapon failed to spawn. \n This may be due to an empty ForSpawning weapon list or attempting to spawn weapons before Save Data has finished loading. \n Another spawn attempt will occur now...");
+            maxSpawnAttempts--;
             // as our pool to rebuild our lists before we try again
             WeaponPool.instance.BuildWeaponLists();
 
             // try another spawn
+            if (maxSpawnAttempts > 0)
             StartCoroutine(SlowSpawnCheck());
         }
     }
