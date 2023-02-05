@@ -5,19 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerUIManager : MonoBehaviour
 {
-    /// this script is used to manage all of the player's UI outside of the weapons
-    /// it was created to manage the body part display
-    /// 
-    /// for all our lists of bodyparts, here's the order
-    /// <summary>
-    /// 0 - head
-    /// 1 - torso
-    /// 2 - right arm
-    /// 3 - left arm 
-    /// 4 - right leg
-    /// 5 - left leg
-    /// </summary>
-
     // setup our instance
     public static PlayerUIManager instance;
     private void Awake() => instance = this;
@@ -29,7 +16,7 @@ public class PlayerUIManager : MonoBehaviour
     // ui elements
     [SerializeField] CanvasGroup infoCanvasGroup; // the body part canvas group we'll be interacting with
     [SerializeField] HorizontalLayoutGroup abilityLayoutGroup; // our ability layout group
-
+    [SerializeField] GameObject extraCanvasGroup; // our extra canvas group
 
     // start
     private void Start()
@@ -80,6 +67,13 @@ public class PlayerUIManager : MonoBehaviour
         UpdateAbilityUI(true);        
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            extraCanvasGroup.SetActive(!extraCanvasGroup.activeInHierarchy);
+        }
+    }
 
     // process our inputs
     private void ProcessInput()
