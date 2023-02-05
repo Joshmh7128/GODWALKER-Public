@@ -13,7 +13,7 @@ public class TweenRoomHandler : MonoBehaviour
     public string targetNextScene; // this is the target scene that this will go to
 
     bool used; // has this been used?
-    bool canClose; // can we close this room?
+    [SerializeField] bool canClose; // can we close this room?
 
     [SerializeField] bool doesAdvance; // does this room advance the current generation position?
 
@@ -86,9 +86,9 @@ public class TweenRoomHandler : MonoBehaviour
             if (canClose)
             {
                 // then disable our extraneuous elements
-                internalElements.SetActive(false);
+                // internalElements.SetActive(false);
                 // prepare this to be unloaded
-                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+                // SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
             }
         }
     }
@@ -132,8 +132,9 @@ public class TweenRoomHandler : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         // load the new scene
         SceneManager.LoadSceneAsync(targetNextScene);
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == targetNextScene);
         canClose = true;
+        yield return new WaitForSecondsRealtime(0.1f);
         frontDoorMove = frontDoorMove - new Vector3(0, 50, 0);
         // then move this from the scene
         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
