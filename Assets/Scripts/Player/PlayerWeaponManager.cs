@@ -76,7 +76,8 @@ public class PlayerWeaponManager : MonoBehaviour
         // process scroll input
         ProcessScrollInput();
 
-
+        // process R input
+        ProcessRInput();
 
     }
 

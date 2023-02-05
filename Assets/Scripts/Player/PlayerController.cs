@@ -306,7 +306,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            PlayerStatManager.instance.StartCoroutine(PlayerStatManager.instance.CountDown());
+            PlayerStatManager.instance.StartCoroutine(PlayerStatManager.instance.DeathCountDown());
         }
 
     }

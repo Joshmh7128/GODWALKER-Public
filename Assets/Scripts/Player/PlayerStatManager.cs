@@ -88,7 +88,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public IEnumerator CountDown()
+    public IEnumerator DeathCountDown()
     {
         Instantiate(resetPrefab);
         yield return new WaitForSecondsRealtime(1f);
@@ -226,7 +226,7 @@ public class PlayerStatManager : MonoBehaviour
     // kill our player
     void KillPlayer()
     {
-        StartCoroutine(CountDown());
+        StartCoroutine(DeathCountDown());
         // if we havent died yet
         if (!hasDied)
         {
