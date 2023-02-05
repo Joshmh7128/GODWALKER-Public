@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class WeaponClass_Rifle : WeaponClass
 {
     // attributes of this weapon
@@ -20,9 +21,9 @@ public class WeaponClass_Rifle : WeaponClass
             {
                 Fire(); // shoot our gun
             }
-
         }
     }
+
 
     // what happens when we shoot this gun? commented out because it is the same as a pistol
     // public override void Fire() { }
@@ -106,5 +107,4 @@ public class WeaponClass_Rifle : WeaponClass
             remainingFirerate--;
         }
     }
-
 }

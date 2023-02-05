@@ -30,6 +30,17 @@ public class SaveDataHandler : MonoBehaviour
         Debug.Log(Application.persistentDataPath);
     }
 
+    private void Start()
+    {
+        Invoke("LateStart", 1f);
+    }
+
+    private void LateStart()
+    {
+        Debug.Log("Late Start");
+        WeaponsCheck();
+    }
+
     // the live save data from our game. we set our data at the start of play from our file, and write this data to the save file when we save
     public SaveData liveData;
 
@@ -107,6 +118,37 @@ public class SaveDataHandler : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(4f);
         debugOutput.text = " ";
+    }
+
+    // check to ensure every weapon in the AllWeapons list of the WeaponPool are in the save file, and report any that are not
+    void WeaponsCheck()
+    {
+        WeaponPool weaponPool = WeaponPool.instance;
+
+        // loop through this
+        foreach (GameObject weapon in weaponPool.ActivePlayerWeapons)
+        {
+            // store weapon name
+            string wName = weapon.GetComponent<WeaponClass>().weaponName;
+
+            bool found = false;
+
+            // loop through all of the live data lists and see if we can find this name
+            for (int i = 0; i < liveData.DefaultWeapons.Count; i++)
+                if (liveData.DefaultWeapons[i] == wName) found = true;
+            
+            for (int i = 0; i < liveData.DiscoveredWeapons.Count; i++)
+                if (liveData.DiscoveredWeapons[i] == wName) found = true;
+
+            for (int i = 0; i < liveData.UndiscoveredWeapons.Count; i++)
+                if (liveData.UndiscoveredWeapons[i] == wName) found = true;
+
+            for (int i = 0; i < liveData.ExcludedWeapons.Count; i++)
+                if (liveData.ExcludedWeapons[i] == wName) found = true;
+
+            if (!found)
+            Debug.LogWarning(wName + " has not been found in any weapon pools. Does it need to be implemented in the save file?");
+        }
     }
 
 }
