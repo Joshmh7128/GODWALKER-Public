@@ -16,7 +16,7 @@ public class TweenRoomHandler : MonoBehaviour
 
     [SerializeField] bool doesAdvance; // does this room advance the current generation position?
 
-    [SerializeField] GameObject backDoor, frontDoor, internalElements; // our doors
+    [SerializeField] GameObject backDoor, frontDoor, frontDoorBlocker, internalElements; // our doors
     Vector3 frontDoorMove; // where we want our front door to move
 
     private void Start()
@@ -72,7 +72,7 @@ public class TweenRoomHandler : MonoBehaviour
             }
 
             if (used)
-            {
+            {                
                 Debug.LogWarning("Use triggered!");
             }
         }
@@ -84,10 +84,10 @@ public class TweenRoomHandler : MonoBehaviour
         {
             if (used)
             {
-                // prepare this to be unloaded
-                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
                 // then disable our extraneuous elements
                 internalElements.SetActive(false);
+                // prepare this to be unloaded
+                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
             }
         }
     }
@@ -95,6 +95,15 @@ public class TweenRoomHandler : MonoBehaviour
     private void FixedUpdate()
     {
         frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoorMove, 50 * Time.fixedDeltaTime);
+
+        // check if the player has moved 35 units away from the room
+        if (used && Vector3.Distance(transform.position, PlayerController.instance.transform.position) > 35)
+        {
+            // then disable our extraneuous elements
+            internalElements.SetActive(false);
+            // then enable the other door
+            frontDoorBlocker.SetActive(true);
+        }
     }
 
     void MoveToNewScene()
