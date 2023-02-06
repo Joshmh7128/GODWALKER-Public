@@ -1151,6 +1151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50c3d21e20540914bbdda61e6169db59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialLoadComplete: 0
   debugOutput: {fileID: 5592784866689591531}
 --- !u!1 &1557240302889066429
 GameObject:
@@ -10855,6 +10856,7 @@ GameObject:
   - component: {fileID: 2101143459113513524}
   - component: {fileID: 4697015721021157296}
   - component: {fileID: 1969361739302034214}
+  - component: {fileID: 7334370123611715516}
   m_Layer: 3
   m_Name: Weapon Main Panel
   m_TagString: Untagged
@@ -10871,7 +10873,7 @@ RectTransform:
   m_GameObject: {fileID: 8175256318703512412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1311063, y: 1.1311063, z: 1.1311063}
+  m_LocalScale: {x: 1.13, y: 1.13, z: 1.13}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 652385125769526909}
@@ -10908,7 +10910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 0.43137255}
+  m_Color: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 0.78431374}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10957,6 +10959,26 @@ MonoBehaviour:
   group: {fileID: 4697015721021157296}
   highColor: {r: 1, g: 0.34572592, b: 0, a: 1}
   lowColor: {r: 0, g: 0.2859533, b: 0.5377358, a: 1}
+--- !u!95 &7334370123611715516
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8175256318703512412}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec7b18034eb0233489a81df08ea5d771, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8660677565781975691
 GameObject:
   m_ObjectHideFlags: 0

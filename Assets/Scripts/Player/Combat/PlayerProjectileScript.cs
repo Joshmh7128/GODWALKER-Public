@@ -11,6 +11,7 @@ public class PlayerProjectileScript : MonoBehaviour
     
     // vfx
     [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX, homingFX, teleportFX; // the particle we use on death
+    [SerializeField] DamageNumber rageNumber;
 
     RaycastHit hit; // our raycast hit
     public float deathTime = 30;
@@ -206,6 +207,9 @@ public class PlayerProjectileScript : MonoBehaviour
                     teleportCallBack.TryTeleport(deathPos);
                 } catch { }
             }
+
+            // show how much rage we deal
+            rageNumber.Spawn(transform.position, rageAdd);
 
             // remove from list
             projectileManager.activeProjectileScripts.Remove(this);            
