@@ -13,6 +13,8 @@ public class SaveDataHandler : MonoBehaviour
     // sets the file name to the current save data of the application version
     string filename; // is set in the Awake function
 
+    public bool initialLoadComplete; // when our first save file load is complete
+
     private void Awake()
     {
         // set our file name before we begin any other operations
@@ -50,7 +52,6 @@ public class SaveDataHandler : MonoBehaviour
     // write our liveData to our saveData
     public void SaveGame()
     {
-
         // check to make sure our directory exists
         if (!Directory.Exists(Application.persistentDataPath))
         {
@@ -70,6 +71,8 @@ public class SaveDataHandler : MonoBehaviour
         Debug.Log("Saving data to " + Application.persistentDataPath + filename);
         debugOutput.text = "Game Saved.";
         StartCoroutine(ClearDebug());
+        // our load is complete
+        initialLoadComplete = true;
     }
 
     // sets our liveData to our save data if that save data exists
@@ -89,6 +92,7 @@ public class SaveDataHandler : MonoBehaviour
             Debug.Log("Save Data loaded.");
             debugOutput.text = "Save Data loaded.";
             StartCoroutine(ClearDebug());
+            initialLoadComplete = true;
         }
         catch
         {

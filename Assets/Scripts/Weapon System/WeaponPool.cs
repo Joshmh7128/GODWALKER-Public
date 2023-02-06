@@ -25,6 +25,9 @@ public class WeaponPool : MonoBehaviour
     // this is an insance copy item which is reused per weapon spawn
     Weapon_Item copyItem;
 
+    // have we completed our initial load?
+    bool initialLoadComplete; 
+
     public static WeaponPool instance; // our instance
     private void Awake()
     {
@@ -42,7 +45,8 @@ public class WeaponPool : MonoBehaviour
 
     IEnumerator LateStartBuffer()
     {
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitUntil(() => SaveDataHandler.instance.initialLoadComplete);
+        yield return new WaitForSecondsRealtime(1f);
         LateStart();
     }
 
@@ -119,21 +123,27 @@ public class WeaponPool : MonoBehaviour
         if (UndiscoveredWeaponsForSpawning.Count == 0)
             foreach (GameObject weapon in UndiscoveredWeapons)
                 UndiscoveredWeaponsForSpawning.Add(weapon);   
+
+        // initial load complete
+        initialLoadComplete = true;
     }
 
     // instantiate our weapon item with our selected weapon object at a specific position
     public void CreateWeaponItem(GameObject weaponObject, Transform spawnPoint)
     {
-        // check to make sure our lists are not empty
-        if (DiscoveredWeaponsForSpawning.Count <= 3)
+        if (initialLoadComplete == true)
         {
-            DiscoveredWeaponsForSpawning = DiscoveredWeapons;
-        }
-        
-        // check to make sure our lists are not empty
-        if (UndiscoveredWeaponsForSpawning.Count <= 3)
-        {
-            UndiscoveredWeaponsForSpawning = UndiscoveredWeapons;
+            // check to make sure our lists are not empty
+            if (DiscoveredWeaponsForSpawning.Count <= 3)
+            {
+                DiscoveredWeaponsForSpawning = DiscoveredWeapons;
+            }
+
+            // check to make sure our lists are not empty
+            if (UndiscoveredWeaponsForSpawning.Count <= 3)
+            {
+                UndiscoveredWeaponsForSpawning = UndiscoveredWeapons;
+            }
         }
 
         // instantiate a copy of the weapon we are currently holding
