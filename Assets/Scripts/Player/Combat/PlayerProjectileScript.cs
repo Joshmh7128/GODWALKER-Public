@@ -163,6 +163,11 @@ public class PlayerProjectileScript : MonoBehaviour
             {
                 PlayerStatManager.instance.AddHealth(damage);
             }
+
+
+            // show how much rage we deal
+            rageNumber.Spawn(transform.position, rageAdd, PlayerRageManager.instance.rageColors[(int)PlayerRageManager.instance.rageLevel]);
+
         }
 
         if (enemy.transform.tag == "Enemy" && eclass.invincible)
@@ -208,8 +213,6 @@ public class PlayerProjectileScript : MonoBehaviour
                 } catch { }
             }
 
-            // show how much rage we deal
-            rageNumber.Spawn(transform.position, rageAdd);
 
             // remove from list
             projectileManager.activeProjectileScripts.Remove(this);            
