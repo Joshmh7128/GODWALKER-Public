@@ -17,7 +17,7 @@ public class WeaponQuickInfoHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.mouseScrollDelta.y != 0)
+        if (Input.mouseScrollDelta.y != 0 || Input.GetKeyDown(KeyCode.E))
             Invoke("ShowInfo", 0.1f);
 
         // lerp our alpha
