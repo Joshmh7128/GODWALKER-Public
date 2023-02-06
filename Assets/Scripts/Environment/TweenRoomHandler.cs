@@ -14,7 +14,7 @@ public class TweenRoomHandler : MonoBehaviour
 
     bool used; // has this been used?
     [SerializeField] bool canClose; // can we close this room?
-
+    [SerializeField] bool reduceRage; // do we weaken the player?
     [SerializeField] bool doesAdvance; // does this room advance the current generation position?
 
     [SerializeField] GameObject backDoor, frontDoor, frontDoorBlocker, internalElements; // our doors
@@ -124,6 +124,9 @@ public class TweenRoomHandler : MonoBehaviour
         PlayerController.instance.Teleport(Vector3.zero - playerDif - Vector3.up); // we subtract up from this to teleport to the EXACT location they are standing
         // open front door
         frontDoorMove = frontDoor.transform.position;
+        // make the player's weapons worse
+        if (reduceRage)
+            PlayerWeaponManager.instance.ReduceRageMultiplier();
         StartCoroutine(DelayedLoadMove());
     }
 

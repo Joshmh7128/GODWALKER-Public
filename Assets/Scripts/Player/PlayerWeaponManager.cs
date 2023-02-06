@@ -357,4 +357,13 @@ public class PlayerWeaponManager : MonoBehaviour
         // then set it
         criticalHitChance = tempCrit;
     }
+
+    // reduce our weapon rage multiplier. this is to be used whenever we advance into a new room
+    public void ReduceRageMultiplier()
+    {
+        foreach (GameObject weapon in weapons)
+        {
+            weapon.GetComponent<WeaponClass>().rageMultiplier -= 0.1f;
+        }
+    }
 }

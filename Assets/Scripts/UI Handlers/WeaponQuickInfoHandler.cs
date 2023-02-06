@@ -37,7 +37,7 @@ public class WeaponQuickInfoHandler : MonoBehaviour
     {
         weaponName.text = PlayerWeaponManager.instance.currentWeapon.weaponName;
         weaponDescription.text = PlayerWeaponManager.instance.currentWeapon.customInfo;
-        hotnessText.text = "RAGE HOTNESS: " + PlayerWeaponManager.instance.currentWeapon.rageMultiplier + "X";
+        hotnessText.text = "RAGE HOTNESS: " + PlayerWeaponManager.instance.currentWeapon.rageMultiplier.ToString("0.00") + "X";
         hotnessSlider.value = PlayerWeaponManager.instance.currentWeapon.rageMultiplier;
         hotnessImage.color = Color.Lerp(lowColor, highColor, hotnessSlider.value);
         targetAlpha = 1;
