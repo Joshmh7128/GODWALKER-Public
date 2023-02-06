@@ -51,8 +51,8 @@ public abstract class WeaponClass : MonoBehaviour
     // 
     [Header("Weapon Information")]
     public string weaponName;
-
     public string customInfo; // the custom info about the weapon
+    public float rageMultiplier = 1; // what is our hotness?
 
     [Header("Feel Related")]
     public float kickFOV = 90f;
@@ -156,6 +156,9 @@ public abstract class WeaponClass : MonoBehaviour
 
         // damage modifiers?
         try { bullet.GetComponent<PlayerProjectileScript>().damage = damage * damageMod; } catch { }
+        // rage modifiers?
+        try { bullet.GetComponent<PlayerProjectileScript>().rageAdd *= rageMultiplier; } catch { }
+
         remainingFirerate = firerate + firerateMod;
         currentMagazine--;
     } // firing our weapon. special shots like double or homing shots are handled above in public vars
