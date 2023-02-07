@@ -12,8 +12,8 @@ public class WeaponUIHandler : MonoBehaviour
     // the set of UI elements that we can use to represent our weapon
     [SerializeField] Slider ammoSlider, reloadSlider; // our weapon's slider
     [SerializeField] CanvasGroup reloadSliderGroup; // the reload slider group
-    [SerializeField] RectTransform reticleRight, reticleLeft, reticleTop, reticleBottom; // all four of our reticle lines 
-    Vector3 reticleLeftOrigin, reticleRightOrigin, reticleTopOrigin, reticleBottomOrigin; // the four origin points of our reticles
+    [SerializeField] RectTransform reticleRight, reticleLeft, reticleTop, reticleBottom, reticleScaler; // all four of our reticle lines 
+    Vector3 reticleLeftOrigin, reticleRightOrigin, reticleTopOrigin, reticleBottomOrigin, reticleScalerScaleOrigin; // the four origin points of our reticles
     [SerializeField] float reticleSpreadResponseMagnitude = 100f; // how much our reticles represent the spread
     [SerializeField] Text ammoText; // displays the ammo in numerical form for us
 
@@ -27,6 +27,11 @@ public class WeaponUIHandler : MonoBehaviour
         reticleRightOrigin = reticleRight.anchoredPosition;
         reticleTopOrigin = reticleTop.anchoredPosition;
         reticleBottomOrigin = reticleBottom.anchoredPosition;
+        
+        if (reticleScaler)
+        {
+            reticleScalerScaleOrigin = reticleScaler.localScale;
+        }
     }
 
     // run the UI
@@ -45,6 +50,9 @@ public class WeaponUIHandler : MonoBehaviour
         reticleLeft.anchoredPosition = Vector2.Lerp(reticleLeft.anchoredPosition, reticleLeftOrigin, 2f * Time.deltaTime);
         reticleTop.anchoredPosition = Vector2.Lerp(reticleTop.anchoredPosition, reticleTopOrigin, 2f * Time.deltaTime);
         reticleBottom.anchoredPosition = Vector2.Lerp(reticleBottom.anchoredPosition, reticleBottomOrigin, 2f * Time.deltaTime);
+
+        // scaling
+        reticleScaler.localScale = Vector2.Lerp(reticleScaler.localScale, reticleScalerScaleOrigin, 2f * Time.deltaTime);
 
         // ammo text
         if (ammoText != null)
@@ -65,6 +73,11 @@ public class WeaponUIHandler : MonoBehaviour
         reticleLeft.anchoredPosition = new Vector2(reticleLeftOrigin.x + -weaponClass.spreadX * reticleSpreadResponseMagnitude, 0);
         reticleTop.anchoredPosition = new Vector2(0, reticleTopOrigin.y + weaponClass.spreadY * reticleSpreadResponseMagnitude);
         reticleBottom.anchoredPosition = new Vector2(0, reticleBottomOrigin.y + -weaponClass.spreadY * reticleSpreadResponseMagnitude);
+
+        if (reticleScaler)
+        {
+            reticleScaler.localScale = new Vector2(0, reticleScalerScaleOrigin.x + weaponClass.spreadX * reticleSpreadResponseMagnitude);
+        }
     }
 
     public void TriggerReload(float reloadTime)
