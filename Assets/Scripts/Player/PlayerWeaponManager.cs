@@ -159,16 +159,19 @@ public class PlayerWeaponManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             currentWeaponInt = 0;
+            UpdateCurrentWeapon();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             currentWeaponInt = 1;
+            UpdateCurrentWeapon();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             currentWeaponInt = 2;
+            UpdateCurrentWeapon();
         }
     }
 
