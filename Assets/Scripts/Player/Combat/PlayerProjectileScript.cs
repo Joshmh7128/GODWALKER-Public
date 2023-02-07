@@ -164,9 +164,8 @@ public class PlayerProjectileScript : MonoBehaviour
                 PlayerStatManager.instance.AddHealth(damage);
             }
 
-
             // show how much rage we deal
-            rageNumber.Spawn(transform.position, rageAdd, PlayerRageManager.instance.rageColors[(int)PlayerRageManager.instance.rageLevel]);
+            // rageNumber.Spawn(transform.position, rageAdd, PlayerRageManager.instance.rageColors[(int)PlayerRageManager.instance.rageLevel]);
 
         }
 
