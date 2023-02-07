@@ -37,6 +37,6 @@ public class SaveData
     {
         "Popgun",
         "Side Arm",
-        "Single Barrel Shotgun"
+        "Double Barrel Shotgun"
     };
 }
