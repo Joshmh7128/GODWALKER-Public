@@ -235,6 +235,10 @@ public class PlayerWeaponManager : MonoBehaviour
 
         currentWeapon = weapons[currentWeaponInt].GetComponent<WeaponClass>();
         StartCoroutine(SwitchWeapon());
+
+        // then find and initiate the weapon quick info to make it run a reset
+        WeaponQuickInfoHandler.instance.InvokeInfo();
+
     }
 
     void ProcessPickupCooldown()

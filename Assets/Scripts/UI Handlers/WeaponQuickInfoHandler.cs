@@ -15,12 +15,15 @@ public class WeaponQuickInfoHandler : MonoBehaviour
     float targetAlpha; // what is the target alpha of our group
     float waitTime; // how long we wait before fading out
 
+    // setup our instance
+    public static WeaponQuickInfoHandler instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Update()
     {
-        // whenever we can update our weapon info, do so.
-        if (Input.mouseScrollDelta.y != 0 || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.R))
-            Invoke("ShowInfo", 0.1f);
-
         // lerp our alpha
         group.alpha = Mathf.Lerp(group.alpha, targetAlpha, Time.fixedDeltaTime);
 
@@ -33,8 +36,14 @@ public class WeaponQuickInfoHandler : MonoBehaviour
 
     }
 
+    // this is called from the player weapon manager script
+    public void InvokeInfo()
+    {
+        Invoke("ShowInfo", 0.1f);
+    }
+
     // show our weapon info
-    void ShowInfo()
+    public void ShowInfo()
     {
         // show panel
         group.alpha = 1;
