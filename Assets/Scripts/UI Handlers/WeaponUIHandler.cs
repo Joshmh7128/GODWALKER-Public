@@ -52,6 +52,7 @@ public class WeaponUIHandler : MonoBehaviour
         reticleBottom.anchoredPosition = Vector2.Lerp(reticleBottom.anchoredPosition, reticleBottomOrigin, 2f * Time.deltaTime);
 
         // scaling
+        if (reticleScaler)
         reticleScaler.localScale = Vector2.Lerp(reticleScaler.localScale, reticleScalerScaleOrigin, 2f * Time.deltaTime);
 
         // ammo text
@@ -76,7 +77,7 @@ public class WeaponUIHandler : MonoBehaviour
 
         if (reticleScaler)
         {
-            reticleScaler.localScale = new Vector2(0, reticleScalerScaleOrigin.x + weaponClass.spreadX * reticleSpreadResponseMagnitude);
+            reticleScaler.localScale = new Vector2(reticleScalerScaleOrigin.y + weaponClass.spreadY * reticleSpreadResponseMagnitude, reticleScalerScaleOrigin.x + weaponClass.spreadX * reticleSpreadResponseMagnitude);
         }
     }
 
