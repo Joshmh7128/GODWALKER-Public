@@ -45,6 +45,14 @@ public class ArenaHandler : MonoBehaviour
     [SerializeField] bool specialRoom; // is this a special room?
     public bool manualCombat; // manual editor combat start
 
+    [HeaderAttribute("Generative Enemies")]
+    // everything to do with generative combat
+    public bool generateWaves; // are we generating our waves?
+    public float waveCount, waveCountMin, waveCountMax; // how many waves we want, the minimum, and the maximum
+    public float waveBudget; // how much can we spend on each wave?
+    public List<GameObject> enemyPrefabs; // the enemy prefabs we'll be spawning in
+
+
     public enum ArenaModes
     {
         Wave, // wave based combat
@@ -86,6 +94,12 @@ public class ArenaHandler : MonoBehaviour
             // activate the barriers if they are open
             if (door.open)
                 door.Lock();
+        }
+    
+        // for our waves
+        if (generateWaves)
+        {
+
         }
     }
 
