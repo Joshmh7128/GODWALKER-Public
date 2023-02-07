@@ -110,10 +110,12 @@ public class SaveDataHandler : MonoBehaviour
     {
         // get the weapon name
         string discoveringName = weapon.GetComponent<WeaponClass>().weaponName;
-        // add that name to the discovered list in liveData
-        liveData.DiscoveredWeapons.Add(discoveringName);
-        // remove this from the undiscovered list in liveData
-        liveData.UndiscoveredWeapons.Remove(discoveringName);
+        // add that name to the discovered list in liveData if it is not already in there
+        if (!liveData.DiscoveredWeapons.Contains(discoveringName))
+            liveData.DiscoveredWeapons.Add(discoveringName);
+        // remove this from the undiscovered list in liveData if it is in there
+        if (liveData.DiscoveredWeapons.Contains(discoveringName))
+            liveData.UndiscoveredWeapons.Remove(discoveringName);
         // save the game
         SaveGame();
     }

@@ -8,6 +8,7 @@ public class WeaponPoolItemRequest : MonoBehaviour
     [SerializeField] PoolChoices poolChoice; // our pool to pull from
     [SerializeField] bool spawnOnStart; // should this weapon spawn on start?
     [SerializeField] Transform targetParent;
+    public bool discoverOnPickup = false; // should the thing that spawns from here be discovered on pickup?
 
     float maxSpawnAttempts = 30; // after 150 spawn attempts, stop trying.
 
@@ -43,36 +44,46 @@ public class WeaponPoolItemRequest : MonoBehaviour
                 case PoolChoices.DiscoveredWeaponsForSpawning:
                     // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
                     weapon = WeaponPool.instance.DiscoveredWeaponsForSpawning[Random.Range(0, WeaponPool.instance.DiscoveredWeaponsForSpawning.Count)];
-                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent);
+                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>().discoverOnPickup = discoverOnPickup;
                     // then remove this item from that list
                     WeaponPool.instance.DiscoveredWeaponsForSpawning.Remove(weapon);
                     break;
 
                 case PoolChoices.UndiscoveredWeaponsForSpawning:
-                    // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
-                    weapon = WeaponPool.instance.UndiscoveredWeaponsForSpawning[Random.Range(0, WeaponPool.instance.UndiscoveredWeaponsForSpawning.Count)];
-                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent);
-                    // then remove this item from that list
-                    WeaponPool.instance.UndiscoveredWeaponsForSpawning.Remove(weapon);
+                    // check to make sure there are weapons we can discover
+                    if (WeaponPool.instance.UndiscoveredWeaponsForSpawning.Count > 0)
+                    {
+                        // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
+                        weapon = WeaponPool.instance.UndiscoveredWeaponsForSpawning[Random.Range(0, WeaponPool.instance.UndiscoveredWeaponsForSpawning.Count)];
+                        WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>().discoverOnPickup = discoverOnPickup;
+                        // then remove this item from that list
+                        WeaponPool.instance.UndiscoveredWeaponsForSpawning.Remove(weapon);
+                    } else // if we do not have any weapons left for spawning, spawn a discovered weapon instead
+                    {
+                        poolChoice = PoolChoices.DiscoveredWeaponsForSpawning;
+                        SpawnWeapon();
+                    }
+                    
+
                     break;
 
                 // debug uses
                 case PoolChoices.DEBUG_AllGameWeapons:
                     // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
                     weapon = WeaponPool.instance.ActivePlayerWeapons[Random.Range(0, WeaponPool.instance.ActivePlayerWeapons.Count)];
-                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent);
+                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>().discoverOnPickup = discoverOnPickup;
                     break;
 
                 case PoolChoices.DEBUG_DiscoveredWeapons:
                     // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
                     weapon = WeaponPool.instance.DiscoveredWeapons[Random.Range(0, WeaponPool.instance.DiscoveredWeapons.Count)];
-                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent);
+                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>().discoverOnPickup = discoverOnPickup;
                     break;
 
                 case PoolChoices.DEBUG_UndiscoveredWeapons:
                     // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
                     weapon = WeaponPool.instance.UndiscoveredWeapons[Random.Range(0, WeaponPool.instance.UndiscoveredWeapons.Count)];
-                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent);
+                    WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>().discoverOnPickup = discoverOnPickup;
                     break;
 
             }
