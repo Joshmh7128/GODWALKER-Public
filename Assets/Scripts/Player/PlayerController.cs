@@ -209,7 +209,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region // Movement Application
-        float finalMoveSpeed = moveSpeed * moveSpeedAdjust * rageManager.movementMultipliers[(int)rageManager.rageLevel];
+        float finalMoveSpeed = moveSpeed * moveSpeedAdjust * rageManager.movementMultipliers[(int)rageManager.rageLevel] * rageManager.currentSpeedBoost;
         // calculate vertical movement
         verticalVelocity = playerJumpVelocity;
 

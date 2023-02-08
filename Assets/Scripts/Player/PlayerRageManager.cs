@@ -10,6 +10,15 @@ public class PlayerRageManager : MonoBehaviour
     public static PlayerRageManager instance;
     private void Awake() => instance = this;
    
+    public enum Behaviours
+    {
+        original,
+        v2
+    }
+
+    public Behaviours behaviour; // what is our behaviour?
+
+    #region // original variables
     // setup rage levels
     public enum RageLevels
     {
@@ -21,7 +30,7 @@ public class PlayerRageManager : MonoBehaviour
     }
 
     public RageLevels rageLevel; // which rage level we're currently on
-    public float rageAmount; // our total amount of rage
+    public float originalRageAmount; // our total amount of rage
 
     // UI variables
     public List<Color> rageColors;
@@ -33,6 +42,16 @@ public class PlayerRageManager : MonoBehaviour
     public List<float> levelMods; // how quickly each level reduces
     public List<float> ammoRechargeMods; // how quickly ammo refills
     public float levelDelta; // our current level delta
+
+   
+    public List<float> levelHPRegen; // how much HP we regen every second per level
+
+    // effect variables
+    public List<float> movementMultipliers;
+    public List<float> damageMultipliers;
+    #endregion
+
+    // agnostic variables
     public Slider rageSlider; // our slider
     public Slider rageLerp; // our lerp slider
     public float rageLerpSpeed; // how fast our lerper goes
@@ -40,45 +59,75 @@ public class PlayerRageManager : MonoBehaviour
     public Image rageVignette; // our rage vignette
     public TextMeshProUGUI reachedGODWALKERDisplay; // has this player reached godwalker?
     float GodwalkerTime; // how long we've been in godwalker
-    public List<float> levelHPRegen; // how much HP we regen every second per level
 
-    // effect variables
-    public List<float> movementMultipliers;
-    public List<float> damageMultipliers; 
+
+    #region // v2 variables
+
+    [Header("V2 elements")]
+    // we want to generate enough rage and then go into godwalker for 10 seconds
+    public float rageAmount; // our v2 rage amount
+    public float maxRage; // what is the maximum rage we can have?
+    public float reductionDelta; // our rage reduction delta
+    public Color startColor, endColor, godwalkingColor; // our start and end colors
+    public float maxSpeedBoost, currentSpeedBoost; // how much faster do we move BEFORE entering Godwalker?
+    public float godwalkerSpeedBoost; // how fast do we move in Godwalker?
+    public float godwalkerTime; // how long do we remain in godwalker?
+    public bool godwalking; // oh, it's happening, baby. 
+    #endregion
 
     // public function to add rage
     public void AddRage(float amount)
     {
-        // make sure we don't go over the maximum
-        if (rageAmount + amount <= levelGates[levelGates.Count-1])
-        rageAmount += amount * levelMods[(int)rageLevel];
+        if (behaviour == Behaviours.original)
+        {
+            // make sure we don't go over the maximum
+            if (originalRageAmount + amount <= levelGates[levelGates.Count - 1])
+                originalRageAmount += amount * levelMods[(int)rageLevel];
 
-        // if we go over, set to maximum
-        if (rageAmount + amount > levelGates[levelGates.Count-1])
-        rageAmount = levelGates[levelGates.Count-1];
+            // if we go over, set to maximum
+            if (originalRageAmount + amount > levelGates[levelGates.Count - 1])
+                originalRageAmount = levelGates[levelGates.Count - 1];
+        }
+
+        if (behaviour == Behaviours.v2)
+        {
+            if (rageAmount + amount < maxRage)
+            {
+                rageAmount += amount;
+            } else { rageAmount = maxRage; }
+        }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        ProcessRage();
+        switch (behaviour)
+        {
+            case Behaviours.original:
+                ProcessRage();
+                break;
+
+            case Behaviours.v2:
+                ProcessRagev2();
+                break;
+        }
     }
 
     public void ProcessRage()
     {
         // setup current level
-        if (rageAmount < levelGates[0])
+        if (originalRageAmount < levelGates[0])
             rageLevel = RageLevels.benign;
 
-        if (rageAmount > levelGates[0] && rageAmount < levelGates[1])
+        if (originalRageAmount > levelGates[0] && originalRageAmount < levelGates[1])
             rageLevel = RageLevels.wrecker;
 
-        if (rageAmount > levelGates[1] && rageAmount < levelGates[2])
+        if (originalRageAmount > levelGates[1] && originalRageAmount < levelGates[2])
             rageLevel = RageLevels.demonic;
 
-        if (rageAmount > levelGates[2] && rageAmount < levelGates[3])
+        if (originalRageAmount > levelGates[2] && originalRageAmount < levelGates[3])
             rageLevel = RageLevels.eviscerator;
 
-        if (rageAmount > levelGates[3])
+        if (originalRageAmount > levelGates[3])
             rageLevel = RageLevels.godwalker;
 
         // setup stats and info
@@ -89,11 +138,11 @@ public class PlayerRageManager : MonoBehaviour
 
 
         // lower rage amount over time
-        if (rageAmount > 0)
-            rageAmount -= levelDelta * Time.fixedDeltaTime;
+        if (originalRageAmount > 0)
+            originalRageAmount -= levelDelta * Time.fixedDeltaTime;
        
         // always update value
-        rageSlider.value = rageAmount;
+        rageSlider.value = originalRageAmount;
 
         // setup lerp slider
         rageLerp.minValue = rageSlider.minValue;
@@ -135,5 +184,67 @@ public class PlayerRageManager : MonoBehaviour
 
     }
 
+    // process our new rage
+    public void ProcessRagev2()
+    {
+        // reduce our rage if we have not maxed out the meter
+        if (rageAmount != maxRage && rageAmount > 0 && !godwalking)
+        rageAmount -= reductionDelta * Time.fixedDeltaTime;
+
+        // run our UI
+        rageSlider.value = rageAmount / maxRage;
+
+        // setup lerp slider
+        rageLerp.minValue = rageSlider.minValue;
+        rageLerp.maxValue = rageSlider.maxValue;
+        rageLerp.value = Mathf.Lerp(rageLerp.value, rageSlider.value, rageLerpSpeed * Time.fixedDeltaTime);
+
+        // lerp the color of our images
+        if (!godwalking)
+        {
+            sliderImage.color = Color.Lerp(startColor, endColor, rageSlider.value);
+            rageVignette.color = Color.Lerp(startColor, endColor, rageSlider.value);
+
+            // set our speed boost
+            currentSpeedBoost = 1 + maxSpeedBoost * rageAmount / maxRage;
+
+        }
+
+        // if we're at our max rage and we're not godwalking
+        if (rageAmount == maxRage && !godwalking)
+        {
+            rageLevelDisplay.text = "GODWALKER READY PRESS G TO ACTIVATE";
+        }
+
+        // entering godwalker - if our bar is full and we press G
+        if (Input.GetKeyDown(KeyCode.G) && rageAmount == maxRage)
+        {
+            // we are now godwalking
+            godwalking = true;
+
+        }
+
+        if (godwalking)
+        {
+            // go apeshit
+            rageLevelDisplay.text = "GODWALKING"; 
+            // set rage vignette to godwalker color
+            rageVignette.color = godwalkingColor;
+            sliderImage.color = godwalkingColor;
+            // reduce our rage by the amount we are spending
+            rageAmount -= 1f * Time.fixedDeltaTime;
+            // refill HP
+            PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
+            // if we're godwalking raise our speedboost
+            currentSpeedBoost = godwalkerSpeedBoost;
+
+            // when do we end godwalking?
+            if (rageAmount <= 0)
+            {
+                godwalking = false;
+            }
+
+        }
+    }
 
 }
