@@ -47,10 +47,12 @@ public class ArenaHandler : MonoBehaviour
 
     [HeaderAttribute("Generative Enemies")]
     // everything to do with generative combat
-    public bool generateWaves; // are we generating our waves?
-    public float waveCount, waveCountMin, waveCountMax; // how many waves we want, the minimum, and the maximum
-    public float waveBudget; // how much can we spend on each wave?
-    public List<GameObject> enemyPrefabs; // the enemy prefabs we'll be spawning in
+    public bool spawnWavesFromData; // are we creating waves from data?
+    public bool manualData; // are we manually setting the waves?
+    public int currentRoom; // which room are we in? 
+    public int currentEncounter; // which encounter?
+    // we need our scriptable object
+    EnemySetObject encounterSetObject;
 
 
     public enum ArenaModes
@@ -64,6 +66,9 @@ public class ArenaHandler : MonoBehaviour
 
     private void Start()
     {
+        // before we do anything, get our encounter set object
+        encounterSetObject = Resources.Load<EnemySetObject>("EncounterSets");
+
         // build an arena from our geometry prefabs
         BuildArena();
         // get our arena manager instance
@@ -74,6 +79,29 @@ public class ArenaHandler : MonoBehaviour
     // select a random geomety set and spawn it in
     void BuildArena()
     {
+        // before we build our arena, we need to build our waves
+        if (spawnWavesFromData && manualData)
+        {
+            // get the room from our data and get the info from the encounter set
+            // instantiate each wave from our selected encounter
+            // foreach wave in our wave list
+            int w = 0; // our current wave
+            foreach (Wave wave in encounterSetObject.roomList[currentRoom].encounterList[currentEncounter].waveList)
+            {
+                // advance the wave we're on for aesthetic display
+                w++;
+                // spawn the wave under out master wave, then spawn all the enemies of that wave underneath it
+                GameObject newWave = Instantiate(new GameObject(), masterWave); newWave.name = "Wave " + w;
+                // then foreach enemy in the wave's enemy list instantiate it in as with newWave as its parent
+                foreach(GameObject enemy in wave.enemyList)
+                {
+                    // make sure to spawn in the enemy and ENSURUE IT IS INACTIVE
+                    Instantiate(enemy, newWave.transform).SetActive(false);
+                }
+            }
+
+        }
+
         if (spawnPointParent)
         {
             foreach(Transform spawnPoint in spawnPointParent)
@@ -94,12 +122,6 @@ public class ArenaHandler : MonoBehaviour
             // activate the barriers if they are open
             if (door.open)
                 door.Lock();
-        }
-    
-        // for our waves
-        if (generateWaves)
-        {
-
         }
     }
 
@@ -173,6 +195,7 @@ public class ArenaHandler : MonoBehaviour
         }
     }
 
+    // the coroutine we run to setup a new wave of enemies
     IEnumerator SetupWave(bool instant)
     {
         setupWaveRunning = true;
@@ -222,7 +245,9 @@ public class ArenaHandler : MonoBehaviour
                 // get enemy type
                 EnemyClass.SpawnPointRequirements requirement = child.GetComponent<EnemyClass>().spawnPointRequirement;
                 // move it to a spawn point from the relevant type
+                // randomly choose a spawnpoint
                 int s = Random.Range(0, spawnPoints.Count);
+                // store that spawn point
                 EnemySpawnPoint eSpawn = spawnPoints[s].gameObject.GetComponent<EnemySpawnPoint>();
 
                 int i = 0; // a counter safety for our while loop
@@ -263,9 +288,10 @@ public class ArenaHandler : MonoBehaviour
                 }
 
                 // now that we have a valid spawn point, move the enemy there 
-                child.transform.position = eSpawn.transform.position;
+                child.transform.position = eSpawn.gameObject.transform.position;
                 // ensure it is enabled
                 child.gameObject.SetActive(true);
+                // then set parent
                 child.parent = activeParent;
 
                 if (waveParents[0].childCount <= 0)
