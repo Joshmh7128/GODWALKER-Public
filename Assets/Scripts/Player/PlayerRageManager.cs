@@ -67,12 +67,13 @@ public class PlayerRageManager : MonoBehaviour
     // we want to generate enough rage and then go into godwalker for 10 seconds
     public float rageAmount; // our v2 rage amount
     public float maxRage; // what is the maximum rage we can have?
-    public float reductionDelta; // our rage reduction delta
+    public float reductionDelta, godwalkerReductionDelta, godwalkerReductionDeltaAdditional; // our rage reduction delta
     public Color startColor, endColor, godwalkingColor; // our start and end colors
     public float maxSpeedBoost, currentSpeedBoost; // how much faster do we move BEFORE entering Godwalker?
     public float godwalkerSpeedBoost; // how fast do we move in Godwalker?
     public float godwalkerTime; // how long do we remain in godwalker?
     public bool godwalking; // oh, it's happening, baby. 
+    public GameObject godwalkerVolume; // the godwalker VFX volume
     #endregion
 
     // public function to add rage
@@ -228,22 +229,26 @@ public class PlayerRageManager : MonoBehaviour
 
         if (godwalking)
         {
+            godwalkerVolume.SetActive(true);
             // go apeshit
             rageLevelDisplay.text = "GODWALKING"; 
             // set rage vignette to godwalker color
             rageVignette.color = godwalkingColor;
             sliderImage.color = godwalkingColor;
             // reduce our rage by the amount we are spending
-            rageAmount -= 1f * Time.fixedDeltaTime;
+            rageAmount -= (godwalkerReductionDelta + godwalkerReductionDeltaAdditional) * Time.fixedDeltaTime;
             // refill HP
             PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
             // if we're godwalking raise our speedboost
             currentSpeedBoost = godwalkerSpeedBoost;
-
+            godwalkerReductionDeltaAdditional += 0.025f;
             // when do we end godwalking?
             if (rageAmount <= 0)
             {
                 godwalking = false;
+                godwalkerVolume.SetActive(false);
+                godwalkerReductionDeltaAdditional = 0;
+                rageLevelDisplay.text = "";
             }
 
         }

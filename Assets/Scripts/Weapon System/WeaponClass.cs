@@ -160,6 +160,9 @@ public abstract class WeaponClass : MonoBehaviour
         try { bullet.GetComponent<PlayerProjectileScript>().rageAdd *= rageMultiplier; } catch { }
 
         remainingFirerate = firerate + firerateMod;
+
+        // if we're not in godwalker mode, use ammo
+        if (!PlayerRageManager.instance.godwalking)
         currentMagazine--;
     } // firing our weapon. special shots like double or homing shots are handled above in public vars
     

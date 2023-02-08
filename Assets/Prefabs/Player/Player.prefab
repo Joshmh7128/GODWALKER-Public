@@ -900,7 +900,7 @@ MonoBehaviour:
   move: {x: 0, y: 0, z: 0}
   finalMove: {x: 0, y: 0, z: 0}
   characterController: {fileID: 1557240302879457088}
-  moveSpeed: 27
+  moveSpeed: 33
   gravity: -117.72
   jumpVelocity: 15
   normalMoveMultiplier: 1
@@ -1099,8 +1099,10 @@ MonoBehaviour:
   rageVignette: {fileID: 1557240304648910434}
   reachedGODWALKERDisplay: {fileID: 1557240304313529762}
   rageAmount: 0
-  maxRage: 1200
+  maxRage: 600
   reductionDelta: 20
+  godwalkerReductionDelta: 40
+  godwalkerReductionDeltaAdditional: 0
   startColor: {r: 1, g: 0.7177123, b: 0.572327, a: 0}
   endColor: {r: 0.88837093, g: 0.61006284, b: 1, a: 1}
   godwalkingColor: {r: 0.6088443, g: 0, b: 1, a: 1}
@@ -1109,6 +1111,7 @@ MonoBehaviour:
   godwalkerSpeedBoost: 1.5
   godwalkerTime: 10
   godwalking: 0
+  godwalkerVolume: {fileID: 6379543662965818924}
 --- !u!114 &2957278217108556879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3294,6 +3297,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1557240304724388562}
+  - {fileID: 5525665189308752284}
   m_Father: {fileID: 1557240303337185254}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10807,6 +10811,55 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &6379543662965818924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5525665189308752284}
+  - component: {fileID: 4170770599080686005}
+  m_Layer: 0
+  m_Name: Godwalker Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5525665189308752284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6379543662965818924}
+  m_LocalRotation: {x: -0, y: -0.07813244, z: -0, w: 0.996943}
+  m_LocalPosition: {x: 15.149153, y: -3.901, z: -49.838455}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1557240303452150570}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4170770599080686005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6379543662965818924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 8a9f069573c2e3848b132ef6eff615cf, type: 2}
 --- !u!1 &7061976960825144157
 GameObject:
   m_ObjectHideFlags: 0
