@@ -91,10 +91,12 @@ public class PlayerRageManager : MonoBehaviour
 
         if (behaviour == Behaviours.v2)
         {
-            if (rageAmount + amount < maxRage)
+            if (rageAmount + amount <= maxRage)
             {
                 rageAmount += amount;
             } else { rageAmount = maxRage; }
+
+            rageAmount = Mathf.Clamp(rageAmount, 0, maxRage);
         }
     }
 
