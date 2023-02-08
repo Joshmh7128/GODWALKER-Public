@@ -143,7 +143,11 @@ public class PlayerProjectileScript : MonoBehaviour
             // make sure we have damage
             if (damage == 0)
             {
+                if (!PlayerRageManager.instance.godwalking)
                 damage = weaponManager.currentWeapon.damage;
+
+                if (PlayerRageManager.instance.godwalking)
+                damage = weaponManager.currentWeapon.damage * 2;
             }
 
             // spawn hit fx

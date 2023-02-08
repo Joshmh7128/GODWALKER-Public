@@ -242,6 +242,13 @@ public class PlayerRageManager : MonoBehaviour
             // if we're godwalking raise our speedboost
             currentSpeedBoost = godwalkerSpeedBoost;
             godwalkerReductionDeltaAdditional += 0.025f;
+
+            // refill all our weapon ammo 
+            foreach (GameObject weapon in PlayerWeaponManager.instance.weapons)
+            {
+                weapon.GetComponent<WeaponClass>().currentMagazine = weapon.GetComponent<WeaponClass>().maxMagazine;
+            }
+
             // when do we end godwalking?
             if (rageAmount <= 0)
             {
