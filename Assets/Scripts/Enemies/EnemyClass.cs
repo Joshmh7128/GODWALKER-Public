@@ -234,6 +234,9 @@ public abstract class EnemyClass : MonoBehaviour
                 // creator.UpdateItem(); // make sure we update the item since it will not properly show our stats otherwise!
             }
 
+            // add our rage to the manager on death
+            PlayerRageManager.instance.AddRage(rageAmount);
+
         }
         // destroy the object
         Destroy(gameObject);

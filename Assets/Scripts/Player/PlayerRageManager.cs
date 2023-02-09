@@ -249,7 +249,7 @@ public class PlayerRageManager : MonoBehaviour
             PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
             // if we're godwalking raise our speedboost
             currentSpeedBoost = godwalkerSpeedBoost;
-            godwalkerReductionDeltaAdditional += 0.025f;
+            godwalkerReductionDeltaAdditional += 0.03f;
 
             // refill all our weapon ammo 
             foreach (GameObject weapon in PlayerWeaponManager.instance.weapons)
@@ -260,6 +260,7 @@ public class PlayerRageManager : MonoBehaviour
             // when do we end godwalking?
             if (rageAmount <= 0)
             {
+                flameVFX.SetActive(false);
                 godwalking = false;
                 godwalkerVolume.SetActive(false);
                 godwalkerReductionDeltaAdditional = 0;
