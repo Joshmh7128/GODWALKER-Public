@@ -21,6 +21,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] float forwardCheckOffset; // the offset of how far forward we check our check hitcast
     [SerializeField] float normalFOV; // our normal FOV
     [SerializeField] Text aimSensitivityText; // display our current aim sensitivity
+    [SerializeField] GameObject deathUI; // show that you have died
 
     // setup an instance
     public static PlayerCameraController instance;
@@ -202,6 +203,7 @@ public class PlayerCameraController : MonoBehaviour
     public void OnPlayerDeath()
     {
         canControl = false;
+        deathUI.SetActive(true);
     }
 
     private void OnDrawGizmos()
