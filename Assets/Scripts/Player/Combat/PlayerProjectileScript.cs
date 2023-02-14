@@ -159,9 +159,6 @@ public class PlayerProjectileScript : MonoBehaviour
             // add our rage
             PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier);
 
-            // run our on damage calls
-            if (isHoming)
-            bodyPartManager.CallParts("OnHomingShotDamage");
 
             if (isLifesteal)
             {
@@ -241,11 +238,14 @@ public class PlayerProjectileScript : MonoBehaviour
     {
         // if we are a homing bullet
         if (isHoming) { 
-            SetHomingTarget(); Instantiate(homingFX, transform); 
-            body = gameObject.GetComponent<Rigidbody>();
-            body.isKinematic = true;
-            body.useGravity = false;
-            usesPhysics = false;
+            SetHomingTarget(); Instantiate(homingFX, transform);
+            try
+            {
+                body = gameObject.GetComponent<Rigidbody>();
+                body.isKinematic = true;
+                body.useGravity = false;
+                usesPhysics = false;
+            } catch { }
         }
         // if we are a teleporting bullet
         if (isTeleportShot) { Instantiate(teleportFX, transform); }

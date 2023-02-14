@@ -39,7 +39,8 @@ public class PlayerExplosionScript : MonoBehaviour
             // random normal modifier
             // damage *= Random.Range(0.1f, 0.15f);
             // deal damage
-            other.GetComponent<EnemyClass>().GetHurt(damage);
+            try { other.GetComponent<EnemyClass>().GetHurt(damage); }
+            catch { /* no need to catch, this just means an enemy died before the explosion hit them*/ }
             // spawn normal damage number
             // explosionHit.Spawn(transform.position, damage);
             // disable the collider in the next frame
