@@ -127,12 +127,13 @@ public class PlayerProjectileScript : MonoBehaviour
                 HitEnemy(hit.transform);
                 // if we're not an invincible bullet, destroy
                 if (!invincible)
-                Destruction(hit.point);
+                    Destruction(hit.point);
             }
 
             if (hit.transform.tag != "Enemy" && !doesBounce && hit.transform.tag != "Player")
                 // destroy our bullet if we hit anything else
-                Destruction(hit.point);
+                if (!invincible)
+                    Destruction(hit.point);
         }
     }
 
