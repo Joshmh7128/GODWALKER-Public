@@ -348,4 +348,9 @@ public class PlayerProjectileScript : MonoBehaviour
             Destroy(g);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(transform.position, transform.forward * speed * Time.fixedDeltaTime * 2);
+    }
 }
