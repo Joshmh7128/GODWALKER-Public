@@ -30,7 +30,8 @@ public class SaveData
     {
         "Plasma Rifle",
         "Minigun",
-        "Super Shotgun"
+        "Super Shotgun",
+        "Sniper"
     };
 
     public List<string> ExcludedWeapons = new List<string> // any weapons we don't want to include in spawning pools, but are used in some way.
