@@ -111,8 +111,8 @@ public class PlayerProjectileScript : MonoBehaviour
     {
         // raycast where we're going and where we've gone
         if (!usesTrigger && !usesPhysics)
-        Physics.Raycast(transform.position, transform.forward, out hit, speed * Time.deltaTime * 2, Physics.AllLayers, QueryTriggerInteraction.Ignore);   
-        Physics.Raycast(transform.position, -transform.forward, out hit, speed * Time.deltaTime, Physics.AllLayers, QueryTriggerInteraction.Ignore);   
+        Physics.Raycast(transform.position, transform.forward, out hit, speed * Time.deltaTime * 4, Physics.AllLayers, QueryTriggerInteraction.Ignore);   
+        // Physics.Raycast(transform.position, -transform.forward, out hit, speed * Time.deltaTime, Physics.AllLayers, QueryTriggerInteraction.Ignore);   
 
         if (usesPhysics)
         Physics.Raycast(transform.position, transform.forward, out hit, 1, Physics.AllLayers, QueryTriggerInteraction.Ignore);
