@@ -31,14 +31,16 @@ public class PlayerMineScript : MonoBehaviour
         if (i < 0.25) i += Time.deltaTime;
         if (i >= 0.25) try { localCollider.enabled = true; } catch { }
 
-        foreach(Transform enemy in currentArena.activeParent)
-        {
-            if (Vector3.Distance(transform.position, enemy.position) < radius)
+        try { 
+            foreach(Transform enemy in currentArena.activeParent)
             {
-                // blow up that enemy
-                MineExplode(enemy);
+                if (Vector3.Distance(transform.position, enemy.position) < radius)
+                {
+                    // blow up that enemy
+                    MineExplode(enemy);
+                }
             }
-        }
+        } catch { }
     }
 
     void MineExplode(Transform enemy)
@@ -51,5 +53,10 @@ public class PlayerMineScript : MonoBehaviour
         explosionB.damage = weaponManager.currentWeapon.damage * Random.Range(0.9f, 1.25f);
         // destroy this object
         Destroy(gameObject);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }
