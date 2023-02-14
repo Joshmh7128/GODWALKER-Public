@@ -39,6 +39,7 @@ public class PlayerProjectileScript : MonoBehaviour
     public bool doesShockExplode; // does this shock explode?
     public bool isLifesteal; // does this life steal
     public bool isTeleportShot; // is this a shot we can try to teleport to?
+    [SerializeField] bool invincible; // is this shot invincible?
     public BodyPartClass teleportCallBack; // when we destroy and are a teleporting shot, send a signal here
 
     [SerializeField] GameObject playerExplosionPrefab, playerShockExplosionPrefab; // the explosion and shock explosions prefabs
@@ -124,6 +125,8 @@ public class PlayerProjectileScript : MonoBehaviour
             {
                 // check and hit the enemy
                 HitEnemy(hit.transform);
+                // if we're not an invincible bullet, destroy
+                if (!invincible)
                 Destruction(hit.point);
             }
 
