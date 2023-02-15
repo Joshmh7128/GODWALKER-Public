@@ -35,28 +35,28 @@ public class TweenRoomHandler : MonoBehaviour
         switch (PlayerGenerationSeedManager.instance.currentPos)
         {
             case 0:
-                targetNextScene = "Area 1 Concept Map 1 no Player";
+                targetNextScene = "";
                 break;
             case 1:
-                targetNextScene = "Stash Reward no Player";
+                targetNextScene = "";
                 break;
             case 2:
-                targetNextScene = "Area 1 Concept Map 3 no Player";
+                targetNextScene = "";
                 break;
             case 3:
-                targetNextScene = "Stash Reward no Player";
+                targetNextScene = "";
                 break;
             case 4:
-                targetNextScene = "Area 1 Concept Map 4 no Player";
+                targetNextScene = "";
                 break;
             case 5:
-                targetNextScene = "Special Reward no Player";
+                targetNextScene = "";
                 break;
             case 6:
-                targetNextScene = "Area 1 Concept Map 5 no Player";
+                targetNextScene = "";
                 break;            
             case 7:
-                targetNextScene = "Finish";
+                targetNextScene = "";
                 break;
         }
     }

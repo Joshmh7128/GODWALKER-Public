@@ -30,6 +30,10 @@ public class PlayerGenerationSeedManager : MonoBehaviour
 
     public string nextRoom; // the public string representing the next room we want to go to
 
+    // a public list of rooms we can go to for gamma generation
+    public List<string> roomNames = new List<string>(); // set in inspector
+
+
     public void Awake()
     {
         instance = this;
