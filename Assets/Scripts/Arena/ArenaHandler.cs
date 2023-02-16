@@ -76,7 +76,7 @@ public class ArenaHandler : MonoBehaviour
         playerRageManager = PlayerRageManager.instance;
     }
 
-    // select a random geomety set and spawn it in
+    // put enemies in room
     void BuildArena()
     {
         // before we build our arena, we need to build our waves
@@ -237,7 +237,7 @@ public class ArenaHandler : MonoBehaviour
             }
 
             // setup a list of used spawnpoints for this wave only, so that 
-            List<Transform> usedSpawnPoints = new List<Transform>(); // we can't reuse these points
+            List<EnemySpawnPoint> usedSpawnPoints = new List<EnemySpawnPoint>(); // we can't reuse these points
 
             // use the list to move all our enemies over to the correct parent
             foreach (Transform child in enemyTransforms)
@@ -253,7 +253,8 @@ public class ArenaHandler : MonoBehaviour
                 int i = 0; // a counter safety for our while loop
                 int j = 0; // loop safety breaker
                 // run a while loop until we find a matching spawnpoint, or until we run out of spawn points
-                while (eSpawn.spawnPointFulfillment != requirement || i < spawnPoints.Count)
+                // use a spawn point that fulfills out requirement and hasn't been used
+                while ((eSpawn.spawnPointFulfillment != requirement || usedSpawnPoints.Contains(eSpawn) || i < spawnPoints.Count)) 
                 {
                     // add to i
                     i++;
@@ -273,7 +274,7 @@ public class ArenaHandler : MonoBehaviour
                         // safety breaker
                         j++;
                         if (j > 3)
-                        { break; }
+                        { break; } // if we check all the points and STILL can't do anything, break the loop and spawn the enemy at the most recently chosen point. 
                     }
 
                     // randomize S
@@ -293,6 +294,10 @@ public class ArenaHandler : MonoBehaviour
                 child.gameObject.SetActive(true);
                 // then set parent
                 child.parent = activeParent;
+                // add espawn to the list of used spawns for this wave
+                usedSpawnPoints.Add(eSpawn);
+
+
 
                 if (waveParents[0].childCount <= 0)
                 {

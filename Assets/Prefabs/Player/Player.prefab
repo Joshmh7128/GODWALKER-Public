@@ -1182,7 +1182,7 @@ MonoBehaviour:
   maxRage: 1900
   reductionDelta: 35
   godwalkerReductionDelta: 60
-  godwalkerReductionDeltaAdditional: 0
+  godwalkerReductionDeltaAdditional: 2.5
   startColor: {r: 1, g: 0.7177123, b: 0.572327, a: 0}
   endColor: {r: 1, g: 0.035849165, b: 0, a: 1}
   godwalkingColor: {r: 1, g: 0.07738829, b: 0, a: 1}
@@ -1216,7 +1216,13 @@ MonoBehaviour:
   nextPrefix: Beta
   shuffleAreas: 0
   nextRoom: 
-  roomNames: []
+  roomNames:
+  - A1M1
+  - A1M2
+  - A1M3
+  - A1M4
+  - A1M5
+  - A1M6
 --- !u!114 &4511347120810646625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12255,7 +12261,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 478, y: -372.6}
+  m_AnchoredPosition: {x: -484.5, y: 369.6}
   m_SizeDelta: {x: 1192.2, y: 164.3864}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7382487262264774580
@@ -12279,7 +12285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.37254906, g: 0.85951805, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -12293,7 +12299,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 70
-    m_Alignment: 2
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0

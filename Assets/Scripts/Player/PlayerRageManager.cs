@@ -249,7 +249,7 @@ public class PlayerRageManager : MonoBehaviour
             PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
             // if we're godwalking raise our speedboost
             currentSpeedBoost = godwalkerSpeedBoost;
-            godwalkerReductionDeltaAdditional += 0.5f * Time.fixedDeltaTime;
+            godwalkerReductionDelta += godwalkerReductionDeltaAdditional * Time.fixedDeltaTime;
 
             // refill all our weapon ammo 
             foreach (GameObject weapon in PlayerWeaponManager.instance.weapons)

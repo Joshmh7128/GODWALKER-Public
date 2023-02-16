@@ -18,7 +18,7 @@ public class PlayerMineScript : MonoBehaviour
     private void Awake()
     {
         arenaManager = ArenaManager.instance;
-        currentArena = arenaManager.activeArena;
+        try { currentArena = arenaManager.activeArena; } catch { Debug.LogWarning("No activeArena found. Ignore if this is displayed in a non-combat area."); }
         weaponManager = PlayerWeaponManager.instance;
     }
 

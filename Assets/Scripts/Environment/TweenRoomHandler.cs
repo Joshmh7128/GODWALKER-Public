@@ -35,30 +35,38 @@ public class TweenRoomHandler : MonoBehaviour
         switch (PlayerGenerationSeedManager.instance.currentPos)
         {
             case 0:
-                targetNextScene = "";
+                targetNextScene = PullRoom();
                 break;
             case 1:
-                targetNextScene = "";
+                targetNextScene = "Stash Reward no Player";
                 break;
             case 2:
-                targetNextScene = "";
+                targetNextScene = PullRoom();
                 break;
             case 3:
-                targetNextScene = "";
+                targetNextScene = "Stash Reward no Player";
                 break;
             case 4:
-                targetNextScene = "";
+                targetNextScene = PullRoom();
                 break;
             case 5:
-                targetNextScene = "";
+                targetNextScene = "Special Reward no Player";
                 break;
             case 6:
-                targetNextScene = "";
+                targetNextScene = PullRoom();
                 break;            
             case 7:
-                targetNextScene = "";
+                targetNextScene = "Finish";
                 break;
         }
+    }
+
+    // pull a room from the room list
+    string PullRoom()
+    {
+        string r = PlayerGenerationSeedManager.instance.roomNames[Random.Range(0, PlayerGenerationSeedManager.instance.roomNames.Count)];
+        PlayerGenerationSeedManager.instance.roomNames.Remove(r);
+        return r;
     }
 
     public void OnTriggerEnter(Collider other)
