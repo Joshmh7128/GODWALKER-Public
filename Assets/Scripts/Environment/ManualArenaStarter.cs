@@ -26,9 +26,21 @@ public class ManualArenaStarter : MonoBehaviour
 
 
                 arenaHandler.manualCombat = true;
-                Destroy(gameObject);    
+                canStart = false;
+                // set all of our children to inactive
+                foreach (Transform child in transform)
+                {
+                    child.gameObject.SetActive(false);
+                }
             }
         }
+
+        // safety teleport
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            PlayerController.instance.Teleport(transform.position + Vector3.up * 2);
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
