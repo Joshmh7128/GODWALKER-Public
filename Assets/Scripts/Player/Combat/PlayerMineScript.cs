@@ -51,6 +51,9 @@ public class PlayerMineScript : MonoBehaviour
         // spawn an explosion at our position
         PlayerExplosionScript explosionB = Instantiate(explosionPrefab, transform.position, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
         explosionB.damage = weaponManager.currentWeapon.damage * Random.Range(0.9f, 1.25f);
+        // add rage
+        PlayerRageManager.instance.AddRage(gameObject.GetComponent<PlayerProjectileScript>().rageAdd);
+
         // destroy this object
         Destroy(gameObject);
     }

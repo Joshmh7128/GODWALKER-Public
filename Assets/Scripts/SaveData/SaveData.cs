@@ -36,6 +36,7 @@ public class SaveData
         "Missile Launcher",
         "Heavy Shotgun",
         "Ballista",
+        "Grenade Launcher"
     };
 
     public List<string> ExcludedWeapons = new List<string> // any weapons we don't want to include in spawning pools, but are used in some way.
