@@ -27,6 +27,7 @@ public class PlayerCameraController : MonoBehaviour
     public static PlayerCameraController instance;
     private void Awake()
     {
+        Application.targetFrameRate = -1;
         instance = this;
     }
 

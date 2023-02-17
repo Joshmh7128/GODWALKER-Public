@@ -57,7 +57,7 @@ public class PlayerRageManager : MonoBehaviour
     public float rageLerpSpeed; // how fast our lerper goes
     public Image sliderImage; // our slider image on our lerper
     public Image rageVignette; // our rage vignette
-    public GameObject rageVFXUICamera, flameVFX, screenParticles; // visual effects for our rage mode
+    public GameObject flameVFX, screenParticles; // visual effects for our rage mode
     public TextMeshProUGUI reachedGODWALKERDisplay; // has this player reached godwalker?
     float GodwalkerTime; // how long we've been in godwalker
 
@@ -77,10 +77,6 @@ public class PlayerRageManager : MonoBehaviour
     public GameObject godwalkerVolume; // the godwalker VFX volume
     #endregion
 
-    private void Start()
-    {
-        rageVFXUICamera.transform.parent = null;
-    }
 
     // public function to add rage
     public void AddRage(float amount)
