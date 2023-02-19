@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public Vector3 moveH, moveV, move, finalMove;
     [SerializeField] CharacterController characterController; // our character controller
-    public float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod, aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
+    public float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod,
+        aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
     public float moveLerpAxisDelta;
     RaycastHit groundedHit; // checking to see if we have touched the ground
     public float gravityValue, verticalVelocity, playerJumpVelocity; // hidden because is calculated
@@ -44,6 +45,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxRealignAngle; // how far can the player turn before we need to realign
     [SerializeField] float realignSpeed; // how quickly we align
     [SerializeField] List<GameObject> dashVFX; // our list of dash fx
+
+    [Header("Movement Ability Management")]
+    [SerializeField] PlayerMovementAbilityManager playerMovementAbilityManager;
+
+    [Header("Dash Variables")]
+    [SerializeField] float dashLength, dashLengthMax, dashMultiplier, dashMultiplierMax;
 
     // our weapon management
     PlayerWeaponManager weaponManager;
@@ -82,6 +89,8 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         // rage manager
         rageManager = PlayerRageManager.instance;
+        // movement ability manager
+        playerMovementAbilityManager = PlayerMovementAbilityManager.instance;
 
     }
 
@@ -131,6 +140,12 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+
+
+        // dashing input
+        ProcessDash();
+
     }
 
     // our movement function
@@ -221,7 +236,8 @@ public class PlayerController : MonoBehaviour
         finalMove = Vector3.Lerp(finalMove, move, moveLerpAxisDelta * Time.deltaTime);
         Vector3 clampedFinal = Vector3.ClampMagnitude(new Vector3(finalMove.x, move.y, finalMove.z), 1);
         Vector3 processed = new Vector3(clampedFinal.x, move.y, clampedFinal.z);
-
+        // add our dash movement
+        processed *= dashMultiplier;
         // knockback processing
         knockbackVector = Vector3.Lerp(knockbackVector, Vector3.zero, knockbackRecoveryDelta * Time.fixedDeltaTime);
        
@@ -349,5 +365,19 @@ public class PlayerController : MonoBehaviour
     {
         whereGoTarget.position = transform.position + move * wasGoGamma;
         whereWasTarget.position = transform.position - move * wasGoGamma;
+    }
+
+    // process our dash if we have it
+    void ProcessDash()
+    {
+        // if we have dash left over, use it
+        if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.dashActive)
+        {
+            dashMultiplier = dashMultiplierMax;
+        }
+        else
+        {
+            dashMultiplier = 1;
+        }
     }
 }
