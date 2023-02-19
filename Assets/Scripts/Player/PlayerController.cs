@@ -44,7 +44,6 @@ public class PlayerController : MonoBehaviour
     public Transform cameraRig, animationRigParent;
     [SerializeField] float maxRealignAngle; // how far can the player turn before we need to realign
     [SerializeField] float realignSpeed; // how quickly we align
-    [SerializeField] List<GameObject> dashVFX; // our list of dash fx
 
     [Header("Movement Ability Management")]
     [SerializeField] PlayerMovementAbilityManager playerMovementAbilityManager;
@@ -52,6 +51,9 @@ public class PlayerController : MonoBehaviour
     [Header("Dash Variables")]
     [SerializeField] float dashLengthMax;
     [SerializeField] float dashRechargeRateDelta, dashCharge, dashUseDelta, dashMultiplier, dashMultiplierMax;
+    [SerializeField] GameObject dashVFX, dashSFX; // our dash fx
+    bool canDash;
+
     // our weapon management
     PlayerWeaponManager weaponManager;
 
@@ -367,13 +369,27 @@ public class PlayerController : MonoBehaviour
     // process our dash if we have it
     void ProcessDash()
     {
+
+        float pAxisV = Input.GetAxisRaw("Vertical");
+        float pAxisH = Input.GetAxisRaw("Horizontal");
+
         // if we have dash left over, use it
-        if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.dashActive && dashCharge > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.dashActive && dashCharge > 0 && canDash)
         {
             dashMultiplier = dashMultiplierMax;
             dashCharge -= dashUseDelta * Time.fixedDeltaTime; // use our dash charge
             // negate downward or upward movement
-            characterController.Move(new Vector3(0, -processedFinalMove.y, 0) * Time.fixedDeltaTime);
+            characterController.Move(new Vector3(0, -processedFinalMove.y, 0) * Time.deltaTime);
+            // activate our dash fx
+            dashVFX.SetActive(true);
+            if (!dashSFX.GetComponent<AudioSource>().isPlaying)
+            dashSFX.GetComponent<AudioSource>().Play();
+
+            // change fov direction based on movement
+            if (pAxisV > 0)
+                PlayerCameraController.instance.FOVKickRequest(-0.5f);
+            if (pAxisV < 0 || pAxisH != 0)
+                PlayerCameraController.instance.FOVKickRequest(0.6f);
         }
         
         // if we press shift and our charge is less than or equal to 0, set our multiplier to 1
@@ -381,11 +397,15 @@ public class PlayerController : MonoBehaviour
         {
             dashMultiplier = 1;
             dashCharge -= dashUseDelta * Time.fixedDeltaTime; // use our dash charge
+            // deactivate our dash fx
+            dashVFX.SetActive(false);
         }
 
         // when we bring shift up, reset the dash charge
         if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
+        {            
+            // deactivate our dash fx
+            dashVFX.SetActive(false);
             dashCharge = 0;
         }
 
@@ -399,6 +419,12 @@ public class PlayerController : MonoBehaviour
                 dashCharge += dashRechargeRateDelta * Time.fixedDeltaTime;
         }
 
+        // can we dash?
+        if (dashCharge >= dashLengthMax)
+        { canDash = true; }
+
+        if (dashCharge <= 0)
+        { canDash = false; }
 
 
     }
