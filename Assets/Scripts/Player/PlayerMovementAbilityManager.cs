@@ -19,7 +19,8 @@ public class PlayerMovementAbilityManager : MonoBehaviour
     // movement abilities are programmed on the player controller itself
     // these booleans are set to true when the player picks up a movement ability
     [Header("Ability Tracking")]
-    public bool dashActive;
-    public bool tripleJumpActive, hoverActive; 
+    public List<bool> movementAbilites = new List<bool>();
+    /// 0 = dash
+    /// 
 
 }

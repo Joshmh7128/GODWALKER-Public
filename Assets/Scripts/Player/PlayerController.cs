@@ -374,7 +374,7 @@ public class PlayerController : MonoBehaviour
         float pAxisH = Input.GetAxisRaw("Horizontal");
 
         // if we have dash left over, use it
-        if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.dashActive && dashCharge > 0 && canDash)
+        if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.movementAbilites[0] && dashCharge > 0 && canDash)
         {
             dashMultiplier = dashMultiplierMax;
             dashCharge -= dashUseDelta * Time.fixedDeltaTime; // use our dash charge
@@ -393,7 +393,7 @@ public class PlayerController : MonoBehaviour
         }
         
         // if we press shift and our charge is less than or equal to 0, set our multiplier to 1
-        if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.dashActive && dashCharge <= 0)
+        if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.movementAbilites[0] && dashCharge <= 0)
         {
             dashMultiplier = 1;
             dashCharge -= dashUseDelta * Time.fixedDeltaTime; // use our dash charge
@@ -410,7 +410,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // if we are not pressing shift and we can use the dash and our dash charge is less than the dash max
-        if (!Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.dashActive && dashCharge <= dashLengthMax)
+        if (!Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.movementAbilites[0] && dashCharge <= dashLengthMax)
         {
             // when we let go of shift or run our of charge stop dashing and remove our dash
             dashMultiplier = 1;       

@@ -21,7 +21,7 @@ public class ItemUIHandler : MonoBehaviour
     // our enum for item types
     public enum ItemTypes
     {
-        Pickup, Weapon, BodyPart,
+        Pickup, Weapon, BodyPart, Movement
     }
 
     public ItemTypes itemType; // what type of item are we?
@@ -68,13 +68,19 @@ public class ItemUIHandler : MonoBehaviour
                 weapon_Class = weapon_Item.weapon.GetComponent<WeaponClass>();
         }
 
-        // for bodyparts
+        // for bodyparts DEPRECATED
         if (itemType == ItemTypes.BodyPart)
         {
             // get the part class manually
             body_Part = bodyPart_Item.bodyPartObject.GetComponent<BodyPartClass>();
         }
 
+        // for movement items
+        if (itemType == ItemTypes.Movement)
+        {
+            itemName.text = rootItemClass.gameObject.GetComponent<MovementItem>().itemName;
+            itemInfo.text = rootItemClass.gameObject.GetComponent<MovementItem>().itemInfo;
+        }
     }
 
     private void FixedUpdate()
