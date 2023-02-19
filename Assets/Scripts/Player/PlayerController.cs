@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     // script handles movement of the player
     [Header("Movement")]
-    public Vector3 moveH, moveV, move, finalMove;
+    public Vector3 moveH, moveV, move, finalMove, processedFinalMove;
     [SerializeField] CharacterController characterController; // our character controller
     public float moveSpeed, gravity, jumpVelocity, normalMoveMultiplier, sprintMoveMultiplier, sprintMoveMod,
         aimMoveMultiplier, moveSpeedAdjust; // set in editor for controlling
@@ -50,8 +50,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerMovementAbilityManager playerMovementAbilityManager;
 
     [Header("Dash Variables")]
-    [SerializeField] float dashLength, dashLengthMax, dashMultiplier, dashMultiplierMax;
-
+    [SerializeField] float dashLengthMax;
+    [SerializeField] float dashRechargeRateDelta, dashCharge, dashUseDelta, dashMultiplier, dashMultiplierMax;
     // our weapon management
     PlayerWeaponManager weaponManager;
 
@@ -141,11 +141,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
-
         // dashing input
         ProcessDash();
-
     }
 
     // our movement function
@@ -224,7 +221,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region // Movement Application
-        float finalMoveSpeed = moveSpeed * moveSpeedAdjust * rageManager.movementMultipliers[(int)rageManager.rageLevel] * rageManager.currentSpeedBoost;
+        float finalMoveSpeed = moveSpeed * moveSpeedAdjust * rageManager.currentSpeedBoost;
         // calculate vertical movement
         verticalVelocity = playerJumpVelocity;
 
@@ -235,17 +232,17 @@ public class PlayerController : MonoBehaviour
         move = AdjustVelocityToSlope(move);
         finalMove = Vector3.Lerp(finalMove, move, moveLerpAxisDelta * Time.deltaTime);
         Vector3 clampedFinal = Vector3.ClampMagnitude(new Vector3(finalMove.x, move.y, finalMove.z), 1);
-        Vector3 processed = new Vector3(clampedFinal.x, move.y, clampedFinal.z);
+        processedFinalMove = new Vector3(clampedFinal.x, move.y, clampedFinal.z);
         // add our dash movement
-        processed *= dashMultiplier;
+        processedFinalMove *= dashMultiplier;
         // knockback processing
         knockbackVector = Vector3.Lerp(knockbackVector, Vector3.zero, knockbackRecoveryDelta * Time.fixedDeltaTime);
-       
+
         // add knockback vector
-        processed += knockbackVector;
+        processedFinalMove += knockbackVector;
 
         // apply final movement
-        characterController.Move(processed * Time.deltaTime * finalMoveSpeed);
+        characterController.Move(processedFinalMove * Time.deltaTime * finalMoveSpeed);
 
         // output our velocity
         velocity = (Mathf.Abs(finalMove.x) + Mathf.Abs(finalMove.y) + Mathf.Abs(finalMove.z)) * finalMoveSpeed;
@@ -371,13 +368,38 @@ public class PlayerController : MonoBehaviour
     void ProcessDash()
     {
         // if we have dash left over, use it
-        if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.dashActive)
+        if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.dashActive && dashCharge > 0)
         {
             dashMultiplier = dashMultiplierMax;
+            dashCharge -= dashUseDelta * Time.fixedDeltaTime; // use our dash charge
+            // negate downward or upward movement
+            characterController.Move(new Vector3(0, -processedFinalMove.y, 0) * Time.fixedDeltaTime);
         }
-        else
+        
+        // if we press shift and our charge is less than or equal to 0, set our multiplier to 1
+        if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.dashActive && dashCharge <= 0)
         {
             dashMultiplier = 1;
+            dashCharge -= dashUseDelta * Time.fixedDeltaTime; // use our dash charge
         }
+
+        // when we bring shift up, reset the dash charge
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            dashCharge = 0;
+        }
+
+        // if we are not pressing shift and we can use the dash and our dash charge is less than the dash max
+        if (!Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.dashActive && dashCharge <= dashLengthMax)
+        {
+            // when we let go of shift or run our of charge stop dashing and remove our dash
+            dashMultiplier = 1;       
+            // always recharge the dash
+            if (dashCharge <= dashLengthMax)
+                dashCharge += dashRechargeRateDelta * Time.fixedDeltaTime;
+        }
+
+
+
     }
 }

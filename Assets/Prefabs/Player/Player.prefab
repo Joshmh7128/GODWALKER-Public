@@ -977,6 +977,7 @@ MonoBehaviour:
   moveV: {x: 0, y: 0, z: 0}
   move: {x: 0, y: 0, z: 0}
   finalMove: {x: 0, y: 0, z: 0}
+  processedFinalMove: {x: 0, y: 0, z: 0}
   characterController: {fileID: 1557240302879457088}
   moveSpeed: 33
   gravity: -117.72
@@ -986,8 +987,6 @@ MonoBehaviour:
   sprintMoveMod: 0
   aimMoveMultiplier: 0.5
   moveSpeedAdjust: 0
-  dashMultiplier: 0
-  dashMultiplierMax: 2
   moveLerpAxisDelta: 12
   gravityValue: 0
   verticalVelocity: 0
@@ -1019,6 +1018,12 @@ MonoBehaviour:
   - {fileID: 8305484251328944626}
   - {fileID: 8305484252986884011}
   playerMovementAbilityManager: {fileID: 0}
+  dashLengthMax: 0.06
+  dashRechargeRateDelta: 1
+  dashCharge: 1
+  dashUseDelta: 0.1
+  dashMultiplier: 1
+  dashMultiplierMax: 3.75
   jumpVFX: {fileID: 931352995334258111, guid: bf2d18b8ab261364a8bc29998c8a6bad, type: 3}
   lastJumpVFX: {fileID: 931352995334258111, guid: 865b95800e7979846bc22157e26b7ced, type: 3}
   landVFX: {fileID: 152564, guid: f2a9ad8734c9bd64da6a76a5fe179c60, type: 3}
