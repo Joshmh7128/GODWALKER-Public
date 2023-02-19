@@ -85,6 +85,12 @@ public class ItemUIHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // if our root item is every gone, destroy this object
+        if (rootItemClass == null)
+        {
+            Destroy(gameObject);    
+        }
+
         // if we can grab, set the closeWait to 0.5f
         if (rootItemClass.canGrab)
         { closeWait = 0.5f; }

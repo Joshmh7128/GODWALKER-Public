@@ -6,6 +6,7 @@ public class MovementItem : ItemClass
 {
     public string itemName; // our item name
     public string itemInfo; // our item information
+    [SerializeField] GameObject vfx;
 
     public enum Abilities
     {
@@ -13,7 +14,7 @@ public class MovementItem : ItemClass
     }
 
     // which ability do we want to activate
-    Abilities targetAbility;
+    [SerializeField] Abilities targetAbility;
 
     private void Update()
     {
@@ -29,6 +30,8 @@ public class MovementItem : ItemClass
         {
             // unlock our ability
             PlayerMovementAbilityManager.instance.movementAbilites[(int)targetAbility] = true;
+            Instantiate(vfx, transform.position, Quaternion.identity, null);
+            Destroy(gameObject);
         }
     }
 }
