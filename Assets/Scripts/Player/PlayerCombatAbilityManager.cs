@@ -10,7 +10,7 @@ public class PlayerCombatAbilityManager : MonoBehaviour
 
     private void Start()
     {
-        // RefreshAbilities();
+        RefreshAbilities();
     }
 
     // public function to refresh out combat abilities
@@ -25,13 +25,13 @@ public class PlayerCombatAbilityManager : MonoBehaviour
         // check and build out abilities into slots
         if (combatAbilitySlotA != null)
         {
-            PlayerCombatAbility ability = Instantiate(combatAbilitySlotA, transform);
+            PlayerCombatAbility ability = Instantiate(combatAbilitySlotA, abilityParent);
             ability.buttonAssignment = PlayerCombatAbility.ButtonAssignments.buttonPrimary;
         }
 
         if (combatAbilitySlotB != null)
         {
-            PlayerCombatAbility ability = Instantiate(combatAbilitySlotB, transform);
+            PlayerCombatAbility ability = Instantiate(combatAbilitySlotB, abilityParent);
             ability.buttonAssignment = PlayerCombatAbility.ButtonAssignments.buttonSecondary;
         }
     }

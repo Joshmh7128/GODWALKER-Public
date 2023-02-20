@@ -229,7 +229,10 @@ public class PlayerProjectileScript : MonoBehaviour
 
 
             // remove from list
-            projectileManager.activeProjectileScripts.Remove(this);            
+            try
+            {
+                projectileManager.activeProjectileScripts.Remove(this);
+            } catch {} 
 
             Destroy(gameObject); 
         }
@@ -289,6 +292,7 @@ public class PlayerProjectileScript : MonoBehaviour
                 // if we have hit something, destroy ourselves
                 if (!doesBounce)
                 {
+                    if (!invincible)
                     Destruction(transform.position);
                 }
 

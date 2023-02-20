@@ -95,8 +95,6 @@ public class PlayerShockExplosionScript : MonoBehaviour
     {
         // wait for the fixed update
         yield return new WaitForFixedUpdate();
-        // check how many enemies we hit
-        bodyPartManager.CallParts("OnShockDamage");
         // wait for the fixed update
         yield return new WaitForFixedUpdate();
         // then remove the explosion from the list

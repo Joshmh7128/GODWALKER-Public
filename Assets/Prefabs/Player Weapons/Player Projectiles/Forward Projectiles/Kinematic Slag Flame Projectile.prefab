@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 438534}
   - component: {fileID: -6114282251135949931}
+  - component: {fileID: 5239201222612265398}
   m_Layer: 0
   m_Name: Kinematic Slag Flame Projectile
   m_TagString: Untagged
@@ -26,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 193226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6600144938261035721}
   m_Father: {fileID: 0}
@@ -48,7 +49,7 @@ MonoBehaviour:
   speed: 0
   damage: 30
   localCritMod: 0
-  rageAdd: 25
+  rageAdd: 5
   breakParticle: {fileID: 195742, guid: 313abdb519c3e524e81dc2970126e0ae, type: 3}
   muzzleEffect: {fileID: 152484, guid: aee026173f634c142b590935f1dccb6b, type: 3}
   normalHitFX: {fileID: 3962814914363414047, guid: 400900a5e94e4f74fae53a37f6ec238f, type: 3}
@@ -66,13 +67,26 @@ MonoBehaviour:
   secondHome: 0
   doesExplode: 0
   doesShockExplode: 0
-  doesSlag: 0
+  doesSlag: 1
   isLifesteal: 0
   isTeleportShot: 0
   invincible: 1
   teleportCallBack: {fileID: 0}
   playerExplosionPrefab: {fileID: 130848, guid: 4adaafb742f78e942a908f4d10f3d630, type: 3}
   playerShockExplosionPrefab: {fileID: 1133987360716538499, guid: 2606f2c7c6c99cc47a35b8fe4c0dd21d, type: 3}
+--- !u!65 &5239201222612265398
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193226}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.56000006, y: 0.42000002, z: 27.881138}
+  m_Center: {x: 0, y: 0, z: 13.815567}
 --- !u!1001 &6600144938260958485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,6 +101,10 @@ PrefabInstance:
     - target: {fileID: 473052, guid: 1e14e551300320e4f97cc9c992b4af22, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 473052, guid: 1e14e551300320e4f97cc9c992b4af22, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 473052, guid: 1e14e551300320e4f97cc9c992b4af22, type: 3}
       propertyPath: m_LocalPosition.x
@@ -127,6 +145,18 @@ PrefabInstance:
     - target: {fileID: 473052, guid: 1e14e551300320e4f97cc9c992b4af22, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 473052, guid: 1e14e551300320e4f97cc9c992b4af22, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19849618, guid: 1e14e551300320e4f97cc9c992b4af22, type: 3}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19849618, guid: 1e14e551300320e4f97cc9c992b4af22, type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e14e551300320e4f97cc9c992b4af22, type: 3}
