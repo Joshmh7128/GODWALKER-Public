@@ -113,8 +113,8 @@ public class PlayerCombatAbilityManager : MonoBehaviour
                 combatAbilitySlotA = abilityItem.ability;
                 // refresh our ability to save it
                 RefreshAbilities();
-                // then destroy the leftover item
-                SlowDestroy(abilityItem.gameObject);
+                // then kill
+                Destroy(abilityItem.gameObject);
             }
 
             if (!slotA)
@@ -122,7 +122,7 @@ public class PlayerCombatAbilityManager : MonoBehaviour
                 // if we have an ability already, drop it as an item and set it to null
                 if (combatAbilitySlotBinstance != null)
                 {
-                    Instantiate(emptyCombatAbilityItem, transform.position + PlayerCameraController.instance.transform.forward * 2, Quaternion.identity, null).GetComponent<CombatAbility_Item>().ability = combatAbilitySlotBinstance;
+                    Instantiate(emptyCombatAbilityItem, transform.position + PlayerCameraController.instance.transform.forward * 2, Quaternion.identity, null).GetComponent<CombatAbility_Item>().ability = combatAbilitySlotB;
                     combatAbilitySlotBinstance = null;
                 }
 
@@ -132,19 +132,12 @@ public class PlayerCombatAbilityManager : MonoBehaviour
                 // then set our ability to the new ability
                 combatAbilitySlotB = abilityItem.ability;
                 // refresh our ability to save it
-                Invoke("RefreshAbilities", 0.1f);
+                RefreshAbilities();
                 // then destroy the leftover item
-                SlowDestroy(abilityItem.gameObject);
+                Destroy(abilityItem.gameObject);
             }
 
         }
-    }
-
-    IEnumerator SlowDestroy(GameObject ob)
-    {
-        yield return new WaitForSeconds(0.1f);
-        Destroy(ob);
-        
     }
 
     // UI update
