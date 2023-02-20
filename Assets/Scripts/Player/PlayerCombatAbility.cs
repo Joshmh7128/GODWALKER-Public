@@ -8,7 +8,8 @@ public abstract class PlayerCombatAbility : MonoBehaviour
 {
     public string abilityName, abilityInfo; // our name and info
     public float charge, chargeMax, rechargeRateDelta, useRate; // how much charge we have, our charge maximum
-    public Image abilityIcon; // the icon of this ability
+    public Sprite abilityIcon; // the icon of this ability
+    public Color chargingColor, readyColor; // our charging and ready colors
 
     public enum ButtonAssignments { buttonPrimary, buttonSecondary }
     public ButtonAssignments buttonAssignment; // which button are we using?
