@@ -167,6 +167,12 @@ public class PlayerProjectileScript : MonoBehaviour
             // add our rage
             PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier);
 
+            // apply our elemental effects
+            // do we slag them?
+            if (doesSlag)
+            {
+                eclass.ApplyEffect(EnemyClass.Effects.Slag);
+            }
 
             if (isLifesteal)
             {

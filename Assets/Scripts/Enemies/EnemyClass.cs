@@ -350,7 +350,8 @@ public abstract class EnemyClass : MonoBehaviour
     public enum Effects
     {
         None, 
-        Shock
+        Shock, // enemies take damage overtime when shocked
+        Slag, // enemies generate more rage when slagged
     }
 
     public List<Effects> activeEffects = new List<Effects>();
@@ -384,7 +385,28 @@ public abstract class EnemyClass : MonoBehaviour
                 Instantiate(obj, transform);
             }
 
+            // slag
+            if (effect == Effects.Slag)
+            {
+                // raise the amount of rage we generate
+                if (CheckEffect(Effects.Slag) == false)
+                {
+                    rageModifier *= 2;
+                }
+
+                // spawn in the slag zone prefab on us
+                GameObject obj = Resources.Load<GameObject>("EnemyElementalEffects/SlagEffect");
+                Instantiate(obj, transform.position, Quaternion.identity, gameObject.transform);
+
+            }
         }
+    }
+
+    // check for active effects
+    public bool CheckEffect(Effects effect)
+    {
+        if (activeEffects.Contains(effect)) return true;
+        else return false;
     }
 
 }
