@@ -34,11 +34,15 @@ public class PlayerProjectileScript : MonoBehaviour
 
     // ability related variables
     public bool startInvBuffer = false;
-    public bool isHoming, secondHome; // does this home to the nearest enemy?
+    [Header("Elemental Abilities")]
+    public bool isHoming;
+    public bool secondHome; // does this home to the nearest enemy?
     public bool doesExplode; // does this explode?
     public bool doesShockExplode; // does this shock explode?
+    public bool doesSlag; // does this projectile apply slag to enemies?
     public bool isLifesteal; // does this life steal
     public bool isTeleportShot; // is this a shot we can try to teleport to?
+    [Header("Conspecifics")]
     [SerializeField] bool invincible; // is this shot invincible?
     public BodyPartClass teleportCallBack; // when we destroy and are a teleporting shot, send a signal here
 
