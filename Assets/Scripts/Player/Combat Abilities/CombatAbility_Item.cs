@@ -9,11 +9,19 @@ public class CombatAbility_Item : ItemClass
     public PlayerCombatAbility ability;
     public string itemName, itemInfo; // our name and info
     public Sprite abilityIcon;
+    [SerializeField] Image icon; // our icon
 
-    private void Awake()
+    private void Start()
     {
         itemName = ability.abilityName;
         itemInfo = ability.abilityInfo;
+        try // try to set ourselves to the correct icon
+        {
+            abilityIcon = ability.abilityIcon;
+        }
+        catch
+        { }
+        icon.sprite = abilityIcon;
     }
 
 
