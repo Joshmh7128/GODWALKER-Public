@@ -119,6 +119,10 @@ public class ItemUIHandler : MonoBehaviour
                 showPanel = false;
             }
         }
+
+        // follow our root item
+        if (rootItemClass)
+        transform.position = rootItemClass.transform.position;
     }
 
     // set the info panel of our weapon

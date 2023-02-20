@@ -17,6 +17,8 @@ public class PlayerCombatAbilityManager : MonoBehaviour
     // empty combat item
     [SerializeField] GameObject emptyCombatAbilityItem;
 
+    float cooldown = 0, cooldownMax = 15f; // our cooldown and cooldownmax for pickups
+
     // instance
     public static PlayerCombatAbilityManager instance; // our instance
 
@@ -82,50 +84,67 @@ public class PlayerCombatAbilityManager : MonoBehaviour
     {
         // update UI every frame
         UpdateUI();
+
+        // process cooldown
+        if (cooldown > 0)
+        cooldown--; 
     }
 
     // public void for picking up combat abilities
     public void PickupAbility(bool slotA, CombatAbility_Item abilityItem)
     {
-        if (slotA)
+        if (cooldown <= 0)
         {
-            // if we have an ability already, drop it as an item and set it to null
-            if (combatAbilitySlotAinstance != null)
+            cooldown = cooldownMax;
+
+            if (slotA)
             {
-                Instantiate(emptyCombatAbilityItem, transform.position, Quaternion.identity, null).GetComponent<CombatAbility_Item>().ability = combatAbilitySlotA;
-                combatAbilitySlotAinstance = null;
+                // if we have an ability already, drop it as an item and set it to null
+                if (combatAbilitySlotAinstance != null)
+                {
+                    Instantiate(emptyCombatAbilityItem, transform.position + PlayerCameraController.instance.transform.forward * 2, Quaternion.identity, null).GetComponent<CombatAbility_Item>().ability = combatAbilitySlotA;
+                    combatAbilitySlotAinstance = null;
+                }
+
+                // set icon
+                abilityIconSpriteA = abilityItem.abilityIcon;
+                abilityAIcon.sprite = abilityIconSpriteA;
+                // then set our ability to the new ability
+                combatAbilitySlotA = abilityItem.ability;
+                // refresh our ability to save it
+                RefreshAbilities();
+                // then destroy the leftover item
+                SlowDestroy(abilityItem.gameObject);
             }
 
-            // set icon
-            abilityIconSpriteA = abilityItem.abilityIcon;
-            abilityAIcon.sprite = abilityIconSpriteA;
-            // then set our ability to the new ability
-            combatAbilitySlotA = abilityItem.ability;  
-            // refresh our ability to save it
-            RefreshAbilities();
-            // then destroy the leftover item
-            Destroy(abilityItem.gameObject);
-        }
-
-        if (!slotA)
-        {
-            // if we have an ability already, drop it as an item and set it to null
-            if (combatAbilitySlotBinstance != null)
+            if (!slotA)
             {
-                Instantiate(emptyCombatAbilityItem, transform.position, Quaternion.identity, null).GetComponent<CombatAbility_Item>().ability = combatAbilitySlotBinstance;
-                combatAbilitySlotBinstance = null;
+                // if we have an ability already, drop it as an item and set it to null
+                if (combatAbilitySlotBinstance != null)
+                {
+                    Instantiate(emptyCombatAbilityItem, transform.position + PlayerCameraController.instance.transform.forward * 2, Quaternion.identity, null).GetComponent<CombatAbility_Item>().ability = combatAbilitySlotBinstance;
+                    combatAbilitySlotBinstance = null;
+                }
+
+                // set icon
+                abilityIconSpriteB = abilityItem.abilityIcon;
+                abilityBIcon.sprite = abilityIconSpriteB;
+                // then set our ability to the new ability
+                combatAbilitySlotB = abilityItem.ability;
+                // refresh our ability to save it
+                Invoke("RefreshAbilities", 0.1f);
+                // then destroy the leftover item
+                SlowDestroy(abilityItem.gameObject);
             }
 
-            // set icon
-            abilityIconSpriteB = abilityItem.abilityIcon;
-            abilityBIcon.sprite = abilityIconSpriteB;
-            // then set our ability to the new ability
-            combatAbilitySlotB = abilityItem.ability;
-            // refresh our ability to save it
-            RefreshAbilities();
-            // then destroy the leftover item
-            Destroy(abilityItem.gameObject);
         }
+    }
+
+    IEnumerator SlowDestroy(GameObject ob)
+    {
+        yield return new WaitForSeconds(0.1f);
+        Destroy(ob);
+        
     }
 
     // UI update

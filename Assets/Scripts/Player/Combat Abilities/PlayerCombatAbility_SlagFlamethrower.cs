@@ -15,8 +15,6 @@ public class PlayerCombatAbility_SlagFlamethrower : PlayerCombatAbility
     // our use main
     public override void UseMain()
     {
-        Debug.Log("using main");
-
         if (canUse)
         {
             beingUsed = true;
