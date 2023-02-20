@@ -7,6 +7,9 @@ public class PlayerCombatAbility_SlagFlamethrower : PlayerCombatAbility
     // this is our flamethrower that shoots slag 
     [SerializeField] GameObject flamthrowerObject; // our flamethrower projectile object
 
+    public string abilityName = "Slag Breathing Flamethrower";
+    public string abilityInfo = "Breath Slag Flames on your enemies. Slagged enemies give 2x Rage.";
+
     bool canUse = true, canCharge = false, beingUsed = false;
 
     // our use main
