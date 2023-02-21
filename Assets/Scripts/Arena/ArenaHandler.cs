@@ -48,7 +48,6 @@ public class ArenaHandler : MonoBehaviour
     [HeaderAttribute("Generative Enemies")]
     // everything to do with generative combat
     public bool spawnWavesFromData; // are we creating waves from data?
-    public bool manualData; // are we manually setting the waves?
     public int currentRoom; // which room are we in? 
     public int currentEncounter; // which encounter?
     // we need our scriptable object
@@ -80,7 +79,7 @@ public class ArenaHandler : MonoBehaviour
     void BuildArena()
     {
         // before we build our arena, we need to build our waves
-        if (spawnWavesFromData && manualData)
+        if (spawnWavesFromData)
         {
             // get the room from our data and get the info from the encounter set
             // instantiate each wave from our selected encounter
