@@ -15,8 +15,7 @@ public class TweenRoomHandler : MonoBehaviour
     bool used; // has this been used?
     [SerializeField] bool canClose; // can we close this room?
     [SerializeField] bool reduceRage; // do we weaken the player?
-    [SerializeField] bool doesAdvance; // does this room advance the current generation position?
-    [SerializeField] bool gotoCombat; // does this room advance the current generation position?
+    [SerializeField] bool doesAdvanceCombatPos; // does this room advance the current generation position?
 
     [SerializeField] GameObject backDoor, frontDoor, frontDoorBlocker, internalElements; // our doors
     Vector3 frontDoorMove; // where we want our front door to move
@@ -32,14 +31,33 @@ public class TweenRoomHandler : MonoBehaviour
 
     void ChooseDestination()
     {
-        // base this off of goto combat or not
-        if (gotoCombat)
+        // check if we have a target scene
+        switch (PlayerGenerationSeedManager.instance.currentRunPos)
         {
-            targetNextScene = PullRoom();
-        }
-        else
-        {
-            targetNextScene = "Stash Reward no player";
+            case 0:
+                targetNextScene = PullRoom();
+                break;
+            case 1:
+                targetNextScene = "Stash Reward no Player";
+                break;
+            case 2:
+                targetNextScene = PullRoom();
+                break;
+            case 3:
+                targetNextScene = "Stash Reward no Player";
+                break;
+            case 4:
+                targetNextScene = PullRoom();
+                break;
+            case 5:
+                targetNextScene = "Special Reward no Player";
+                break;
+            case 6:
+                targetNextScene = PullRoom();
+                break;            
+            case 7:
+                targetNextScene = "Finish";
+                break;
         }
     }
 
@@ -99,9 +117,12 @@ public class TweenRoomHandler : MonoBehaviour
 
     void MoveToNewScene()
     {
-        // advance current pos
-        if (doesAdvance)
-        PlayerGenerationSeedManager.instance.currentPos++;
+        // only rooms that have combat advance our combat position!
+        if (doesAdvanceCombatPos)
+        PlayerGenerationSeedManager.instance.currentCombatPos++;
+        // then always advance our run pos
+        PlayerGenerationSeedManager.instance.currentRunPos++;
+
 
         DontDestroyOnLoad(gameObject);  
         // close back door

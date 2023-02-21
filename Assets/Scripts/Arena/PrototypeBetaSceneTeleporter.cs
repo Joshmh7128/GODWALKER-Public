@@ -40,7 +40,7 @@ public class PrototypeBetaSceneTeleporter : MonoBehaviour
         Debug.Log("teleporting");
         // get our target scene from the generation manager
         targetScene = PlayerGenerationSeedManager.instance.nextRoom.ToString();
-        PlayerGenerationSeedManager.instance.currentPos++;
+        PlayerGenerationSeedManager.instance.currentCombatPos++;
         SceneManager.LoadScene(targetScene, LoadSceneMode.Single);
     }
 

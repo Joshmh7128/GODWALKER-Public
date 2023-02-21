@@ -20,7 +20,7 @@ public class PrototypeBetaPrimer : MonoBehaviour
         PlayerGenerationSeedManager.instance.BuildSeed();
         // load a scene based off of the generation manager's seed
         targetScene = PlayerGenerationSeedManager.instance.nextRoom.ToString();
-        PlayerGenerationSeedManager.instance.currentPos++; // make sure to advance the current pos when moving to a new room
+        PlayerGenerationSeedManager.instance.currentCombatPos++; // make sure to advance the current pos when moving to a new room
         SceneManager.LoadScene(targetScene, LoadSceneMode.Single);
 
     }

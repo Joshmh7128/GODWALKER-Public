@@ -23,7 +23,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     [SerializeField] List<char> charDesignations = new List<char>(); // the designations of our character sets for area definitions
     [SerializeField] List<char> charOutput = new List<char>(); // the output of our designations to be used in the seed set
 
-    public int currentPos, debugPos = 3; // our current position in the seed, representing what will come next
+    public int currentCombatPos, currentRunPos, debugPos = 3; // our current position in the seed, representing what will come next
     [SerializeField] string nextPrefix; // the prefix we're using before our letter number designation
 
     public bool shuffleAreas; // are we shuffling the areas
@@ -46,7 +46,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         generationSeed = "";
         numOutput.Clear();
         charOutput.Clear();
-        currentPos = 0;
+        currentCombatPos = 0;
 
         // go through each seed set range and shuffle the number into a list
         for (int i = 0; i < areaRoomAmount.Count; i++)
@@ -108,7 +108,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         // our next room will be prefix, current position output letter, current position seed number
         try
         {
-            nextRoom = nextPrefix + charOutput[currentPos] + numOutput[currentPos];
+            nextRoom = nextPrefix + charOutput[currentCombatPos] + numOutput[currentCombatPos];
             seedDisplay.text = generationSeed;
         }
          catch { }
