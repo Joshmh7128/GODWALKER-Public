@@ -78,6 +78,9 @@ public class ArenaHandler : MonoBehaviour
     // put enemies in room
     void BuildArena()
     {
+        // set our current room
+        currentRoom = PlayerGenerationSeedManager.instance.currentPos; // get our player's current position in the run
+
         // before we build our arena, we need to build our waves
         if (spawnWavesFromData)
         {
@@ -85,7 +88,7 @@ public class ArenaHandler : MonoBehaviour
             // instantiate each wave from our selected encounter
             // foreach wave in our wave list
             int w = 0; // our current wave
-            foreach (Wave wave in encounterSetObject.roomList[currentRoom].encounterList[currentEncounter].waveList)
+            foreach (Wave wave in encounterSetObject.roomList[currentRoom].encounterList[currentEncounter].waveList) // right now currentEncounter is set to 0 because we only have one encounter per room
             {
                 // advance the wave we're on for aesthetic display
                 w++;
