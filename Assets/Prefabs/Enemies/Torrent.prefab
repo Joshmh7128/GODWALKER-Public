@@ -194,8 +194,8 @@ MonoBehaviour:
   type: 1
   complete: 0
   enemyClass: {fileID: 8958257514497292049}
-  behaviourTime: 1
-  behaviourTimeRand: 0.1
+  behaviourTime: 0.5
+  behaviourTimeRand: 0
   projectile: {fileID: 4612872611028633348, guid: 89c7c9d7af5a67842b3acacbed7f8e9a, type: 3}
   projectileOrigin: {fileID: 8958257514136419976}
   fireAmount: 1
@@ -1126,7 +1126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8958257514480774153
 Transform:
   m_ObjectHideFlags: 0
@@ -1193,7 +1193,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8958257514612001505}
   - {fileID: 8958257515404134346}
@@ -1216,8 +1216,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Torrent
   level: 1
-  health: 100
-  maxHealth: 100
+  health: 1000
+  maxHealth: 1000
   damage: 0
   rageAmount: 0
   rageModifier: 1
@@ -1225,11 +1225,11 @@ MonoBehaviour:
   lootDropChancePercentage: 0
   dropItem: {fileID: 0}
   allBehaviours: []
-  attackBehaviourParent: {fileID: 0}
+  attackBehaviourParent: {fileID: 8958257515558813843}
   movementBehaviourParent: {fileID: 0}
   attackBehaviours: []
   movementBehaviours: []
-  activated: 0
+  activated: 1
   navMeshAgent: {fileID: 8958257514497292053}
   spawnPointRequirement: 0
   possibleSpawnPointRequirements: 
@@ -2131,7 +2131,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.522, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.0000035092235, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2515,7 +2515,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.324, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.0000035092235, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4596,8 +4596,8 @@ MonoBehaviour:
   type: 1
   complete: 0
   enemyClass: {fileID: 8958257514497292049}
-  behaviourTime: 1
-  behaviourTimeRand: 0.1
+  behaviourTime: 0.5
+  behaviourTimeRand: 0
   projectile: {fileID: 4612872611028633348, guid: ca3d10428c025b5478896604eae66ef8, type: 3}
   projectileOrigin: {fileID: 8958257514136419976}
   fireAmount: 1
@@ -6237,8 +6237,8 @@ MonoBehaviour:
   type: 1
   complete: 0
   enemyClass: {fileID: 8958257514497292049}
-  behaviourTime: 1
-  behaviourTimeRand: 0.1
+  behaviourTime: 0.5
+  behaviourTimeRand: 0
   projectile: {fileID: 4612872611028633348, guid: 5cb4dc7b73358214881874832f8d7fb8, type: 3}
   projectileOrigin: {fileID: 8958257514136419976}
   fireAmount: 1
