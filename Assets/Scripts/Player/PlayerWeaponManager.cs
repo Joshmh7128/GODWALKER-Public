@@ -104,10 +104,10 @@ public class PlayerWeaponManager : MonoBehaviour
             {
                 if (currentWeaponInt + 1 > weapons.Count-1)
                 {
-                    currentWeaponInt = 0; Debug.Log("setting int");
+                    currentWeaponInt = 0;
                 } else if (currentWeaponInt + 1 < weapons.Count)
                 {
-                    currentWeaponInt++; Debug.Log("adding int");
+                    currentWeaponInt++; 
                 }
                 
             }

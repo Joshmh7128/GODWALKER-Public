@@ -98,10 +98,21 @@ public class WeaponPool : MonoBehaviour
                         DiscoveredWeapons.Add(ActivePlayerWeapons[i]);
                 }
             }
-        }        
+        }
 
-        // now add all of our undiscovered weapons to our undiscovered weapons list
-        foreach (string name in SaveDataHandler.instance.liveData.UndiscoveredWeapons)
+        /// the undiscovered weapon list consists of all
+        /// tier 2 weapons shuffled, then
+        /// tier 3 weapons shuffled, then
+        /// tier 4 weapons shuffled
+        /// this way the weapon pool spawner is always pulling the next available weapon from the pool
+        /// you MUST unlock all tier 2 weapons before reaching tier 3
+
+        // ----------------------------------------------------------
+        // add all tier 2 weapons to the undiscovered list
+
+        List<GameObject> tier2Weapons = new List<GameObject>();
+
+        foreach (string name in SaveDataHandler.instance.liveData.Tier2Weapons)
         {
             // take the name from each undiscovered weapon and compare it to the ActivePlayerWeapons list, then add any undiscovered weapons to the undiscovered list
             for (int i = 0; i < ActivePlayerWeapons.Count; i++)
@@ -109,11 +120,70 @@ public class WeaponPool : MonoBehaviour
                 if (ActivePlayerWeapons[i].GetComponent<WeaponClass>().weaponName == name)
                 {
                     // only add this weapon if it is not in the list yet
-                    if (!UndiscoveredWeapons.Contains(ActivePlayerWeapons[i]))
-                        UndiscoveredWeapons.Add(ActivePlayerWeapons[i]);
+                    if (!tier2Weapons.Contains(ActivePlayerWeapons[i]))
+                        tier2Weapons.Add(ActivePlayerWeapons[i]);
                 }
             }
         }
+
+        // then shuffle that list
+        tier2Weapons.Shuffle();
+
+        // then add all the weapons from the tier2Weapons list to the undiscovered list
+        foreach (GameObject weapon in tier2Weapons)
+            UndiscoveredWeapons.Add(weapon);
+
+        // ----------------------------------------------------------
+        // add all tier 3 weapons to the undiscovered list
+
+        List<GameObject> tier3Weapons = new List<GameObject>();
+
+        foreach (string name in SaveDataHandler.instance.liveData.Tier3Weapons)
+        {
+            // take the name from each undiscovered weapon and compare it to the ActivePlayerWeapons list, then add any undiscovered weapons to the undiscovered list
+            for (int i = 0; i < ActivePlayerWeapons.Count; i++)
+            {
+                if (ActivePlayerWeapons[i].GetComponent<WeaponClass>().weaponName == name)
+                {
+                    // only add this weapon if it is not in the list yet
+                    if (!tier3Weapons.Contains(ActivePlayerWeapons[i]))
+                        tier3Weapons.Add(ActivePlayerWeapons[i]);
+                }
+            }
+        }
+
+        // then shuffle that list
+        tier3Weapons.Shuffle();
+
+        // then add all the weapons from the tier2Weapons list to the undiscovered list
+        foreach (GameObject weapon in tier3Weapons)
+            UndiscoveredWeapons.Add(weapon);
+
+        // ----------------------------------------------------------
+        // add all tier 4 weapons to the undiscovered list
+
+        List<GameObject> tier4Weapons = new List<GameObject>();
+
+        foreach (string name in SaveDataHandler.instance.liveData.Tier3Weapons)
+        {
+            // take the name from each undiscovered weapon and compare it to the ActivePlayerWeapons list, then add any undiscovered weapons to the undiscovered list
+            for (int i = 0; i < ActivePlayerWeapons.Count; i++)
+            {
+                if (ActivePlayerWeapons[i].GetComponent<WeaponClass>().weaponName == name)
+                {
+                    // only add this weapon if it is not in the list yet
+                    if (!tier4Weapons.Contains(ActivePlayerWeapons[i]))
+                        tier4Weapons.Add(ActivePlayerWeapons[i]);
+                }
+            }
+        }
+
+        // then shuffle that list
+        tier4Weapons.Shuffle();
+
+        // then add all the weapons from the tier2Weapons list to the undiscovered list
+        foreach (GameObject weapon in tier4Weapons)
+            UndiscoveredWeapons.Add(weapon);
 
         // then set our ForSpawning lists
         if (DiscoveredWeaponsForSpawning.Count == 0)

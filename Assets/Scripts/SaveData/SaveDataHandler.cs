@@ -115,7 +115,7 @@ public class SaveDataHandler : MonoBehaviour
             liveData.DiscoveredWeapons.Add(discoveringName);
         // remove this from the undiscovered list in liveData if it is in there
         if (liveData.DiscoveredWeapons.Contains(discoveringName))
-            liveData.UndiscoveredWeapons.Remove(discoveringName);
+            liveData.Tier2Weapons.Remove(discoveringName);
         // save the game
         SaveGame();
     }
@@ -146,8 +146,14 @@ public class SaveDataHandler : MonoBehaviour
             for (int i = 0; i < liveData.DiscoveredWeapons.Count; i++)
                 if (liveData.DiscoveredWeapons[i] == wName) found = true;
 
-            for (int i = 0; i < liveData.UndiscoveredWeapons.Count; i++)
-                if (liveData.UndiscoveredWeapons[i] == wName) found = true;
+            for (int i = 0; i < liveData.Tier2Weapons.Count; i++)
+                if (liveData.Tier2Weapons[i] == wName) found = true;
+
+            for (int i = 0; i < liveData.Tier3Weapons.Count; i++)
+                if (liveData.Tier3Weapons[i] == wName) found = true;
+
+            for (int i = 0; i < liveData.Tier4Weapons.Count; i++)
+                if (liveData.Tier4Weapons[i] == wName) found = true;
 
             for (int i = 0; i < liveData.ExcludedWeapons.Count; i++)
                 if (liveData.ExcludedWeapons[i] == wName) found = true;

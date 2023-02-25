@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponPoolItemRequest : MonoBehaviour
 {
-    enum PoolChoices { DiscoveredWeaponsForSpawning, UndiscoveredWeaponsForSpawning, DEBUG_AllGameWeapons, DEBUG_DiscoveredWeapons, DEBUG_UndiscoveredWeapons }
+    enum PoolChoices { DiscoveredWeaponsForSpawning, UndiscoveredWeaponsForSpawning, Random_Undiscovered, DEBUG_AllGameWeapons, DEBUG_DiscoveredWeapons, DEBUG_UndiscoveredWeapons }
     [SerializeField] PoolChoices poolChoice; // our pool to pull from
     [SerializeField] bool spawnOnStart; // should this weapon spawn on start?
     [SerializeField] Transform targetParent;
@@ -52,7 +52,6 @@ public class WeaponPoolItemRequest : MonoBehaviour
             return;
         }
 
-
         // run a try because the weapon list may be empty
         try
         {
@@ -69,6 +68,23 @@ public class WeaponPoolItemRequest : MonoBehaviour
                     break;
 
                 case PoolChoices.UndiscoveredWeaponsForSpawning:
+                    // check to make sure there are weapons we can discover
+                    if (pool.UndiscoveredWeaponsForSpawning.Count > 0)
+                    {
+                        // as our weapon pool for a random weapon spawn, then remove that weapon from the pool
+                        weapon = pool.UndiscoveredWeaponsForSpawning[0];
+                        pool.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>().discoverOnPickup = discoverOnPickup;
+                        // then remove this item from that list
+                        pool.UndiscoveredWeaponsForSpawning.Remove(weapon);
+                    }
+                    else // if we do not have any weapons left for spawning, spawn a discovered weapon instead
+                    {
+                        poolChoice = PoolChoices.DiscoveredWeaponsForSpawning;
+                        SpawnWeapon();
+                    }
+                    break;
+
+                case PoolChoices.Random_Undiscovered:
                     // check to make sure there are weapons we can discover
                     if (pool.UndiscoveredWeaponsForSpawning.Count > 0)
                     {
