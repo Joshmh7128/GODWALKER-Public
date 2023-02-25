@@ -257,7 +257,7 @@ public class PlayerRageManager : MonoBehaviour
             if (rageAmount <= 0)
             {
                 // reset the delta
-                godwalkerReductionDelta = 0;
+                godwalkerReductionDeltaAdditional = 0;
                 // deactivate the fx
                 flameVFX.SetActive(false);
                 // we are no longer godwalking
