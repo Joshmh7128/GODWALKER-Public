@@ -377,7 +377,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.movementAbilites[0] && dashCharge > 0 && canDash)
         {
             dashMultiplier = dashMultiplierMax;
-            dashCharge -= dashUseDelta * Time.fixedDeltaTime; // use our dash charge
+            dashCharge -= dashUseDelta * Time.deltaTime; // use our dash charge
             // negate downward or upward movement
             characterController.Move(new Vector3(0, -processedFinalMove.y, 0) * Time.deltaTime);
             // activate our dash fx
@@ -396,7 +396,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && playerMovementAbilityManager.movementAbilites[0] && dashCharge <= 0)
         {
             dashMultiplier = 1;
-            dashCharge -= dashUseDelta * Time.fixedDeltaTime; // use our dash charge
             // deactivate our dash fx
             dashVFX.SetActive(false);
         }
@@ -404,9 +403,13 @@ public class PlayerController : MonoBehaviour
         // when we bring shift up, reset the dash charge
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {            
-            // deactivate our dash fx
-            dashVFX.SetActive(false);
-            dashCharge = 0;
+            if (canDash)
+            {
+                canDash = false;
+                dashCharge = 0;
+                dashVFX.SetActive(false);
+            }
+
         }
 
         // if we are not pressing shift and we can use the dash and our dash charge is less than the dash max
@@ -414,14 +417,20 @@ public class PlayerController : MonoBehaviour
         {
             // when we let go of shift or run our of charge stop dashing and remove our dash
             dashMultiplier = 1;       
-            // always recharge the dash
-            if (dashCharge <= dashLengthMax)
-                dashCharge += dashRechargeRateDelta * Time.fixedDeltaTime;
         }
+
+        // always recharge the dash
+        if (dashCharge <= dashLengthMax)
+            dashCharge += dashRechargeRateDelta * Time.deltaTime;
+        
 
         // can we dash?
         if (dashCharge >= dashLengthMax)
-        { canDash = true; }
+        {
+            // only reset dash if you let go of the key
+            if (!Input.GetKey(KeyCode.LeftShift))
+            canDash = true; 
+        }
 
         if (dashCharge <= 0)
         { canDash = false; }
