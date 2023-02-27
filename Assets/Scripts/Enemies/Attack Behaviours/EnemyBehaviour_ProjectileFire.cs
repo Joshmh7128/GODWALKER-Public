@@ -10,6 +10,9 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
     // our main coroutine
     public override IEnumerator MainCoroutine()
     {
+        // randomly wait
+        yield return new WaitForSeconds(Random.Range(0, behaviourTimeRand));
+
         // loop and fire out our shots
         int fired = 0;
         while (fired < fireAmount)
