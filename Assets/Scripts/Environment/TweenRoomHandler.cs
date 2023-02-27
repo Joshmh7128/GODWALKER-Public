@@ -51,13 +51,13 @@ public class TweenRoomHandler : MonoBehaviour
                 targetNextScene = PullRoom();
                 break;
             case 5:
-                targetNextScene = "Special Reward no Player";
+                targetNextScene = "Stash Reward no Player";
                 break;
             case 6:
                 targetNextScene = PullRoom();
                 break;
             case 7:
-                targetNextScene = "Special Reward no Player";
+                targetNextScene = "Stash Reward no Player";
                 break;
             case 8:
                 targetNextScene = PullRoom();
@@ -158,6 +158,10 @@ public class TweenRoomHandler : MonoBehaviour
 
         // perform a delayed load move of the room
         StartCoroutine(DelayedLoadMove());
+
+        // if we want to reset, request a reset
+        if (requestReset)
+            PlayerGenerationSeedManager.instance.ResetRun();
     }
 
     public IEnumerator DelayedLoadMove()
@@ -171,9 +175,6 @@ public class TweenRoomHandler : MonoBehaviour
         frontDoorMove = frontDoorMove - new Vector3(0, 50, 0);
         // then move this from the scene
         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
-        // if we want to reset, request a reset
-        if (requestReset)
-            PlayerGenerationSeedManager.instance.ResetRun();
     }
 
 }

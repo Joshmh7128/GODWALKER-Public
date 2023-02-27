@@ -45,6 +45,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     // run this whenever want to start over
     public void ResetRun()
     {
+        Debug.Log("Resetting run seed");
         // reset our run positions
         currentCombatPos = 0;
         currentRunPos = 0;
