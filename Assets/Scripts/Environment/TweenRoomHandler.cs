@@ -16,6 +16,7 @@ public class TweenRoomHandler : MonoBehaviour
     [SerializeField] bool canClose; // can we close this room?
     [SerializeField] bool reduceRage; // do we weaken the player?
     [SerializeField] bool doesAdvanceCombatPos; // does this room advance the current generation position?
+    [SerializeField] bool requestReset; // do we request a reset on the player generation manager when we use this door?
 
     [SerializeField] GameObject backDoor, frontDoor, frontDoorBlocker, internalElements; // our doors
     Vector3 frontDoorMove; // where we want our front door to move
@@ -54,11 +55,28 @@ public class TweenRoomHandler : MonoBehaviour
                 break;
             case 6:
                 targetNextScene = PullRoom();
-                break;            
+                break;
             case 7:
+                targetNextScene = "Special Reward no Player";
+                break;
+            case 8:
+                targetNextScene = PullRoom();
+                break;
+            case 9:
+                targetNextScene = "Special Reward no Player";
+                break;
+            case 10:
+                targetNextScene = PullRoom();
+                break;
+            case 11:
                 targetNextScene = "Finish";
                 break;
+            case 12:
+                targetNextScene = "Permanent Reward no Player";
+                break;
+
         }
+    
     }
 
     // pull a room from the room list
@@ -122,8 +140,7 @@ public class TweenRoomHandler : MonoBehaviour
         PlayerGenerationSeedManager.instance.currentCombatPos++;
         // then always advance our run pos
         PlayerGenerationSeedManager.instance.currentRunPos++;
-
-
+        // do not destroy this door!
         DontDestroyOnLoad(gameObject);  
         // close back door
         backDoor.SetActive(true);
@@ -138,6 +155,8 @@ public class TweenRoomHandler : MonoBehaviour
         // make the player's weapons worse
         if (reduceRage)
             PlayerWeaponManager.instance.ReduceRageMultiplier();
+
+        // perform a delayed load move of the room
         StartCoroutine(DelayedLoadMove());
     }
 
@@ -152,6 +171,9 @@ public class TweenRoomHandler : MonoBehaviour
         frontDoorMove = frontDoorMove - new Vector3(0, 50, 0);
         // then move this from the scene
         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+        // if we want to reset, request a reset
+        if (requestReset)
+            PlayerGenerationSeedManager.instance.ResetRun();
     }
 
 }

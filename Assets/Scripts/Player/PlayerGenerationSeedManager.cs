@@ -19,12 +19,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
                                     /// If area 1 has 5 rooms, then index 1 is set to 5
     public List<int> areaRoomAmount; // this designates how many rooms there are per area
 
-    [SerializeField] List<int> numOutput = new List<int>(); // our seed as a list
-    [SerializeField] List<char> charDesignations = new List<char>(); // the designations of our character sets for area definitions
-    [SerializeField] List<char> charOutput = new List<char>(); // the output of our designations to be used in the seed set
-
     public int currentCombatPos, currentRunPos, debugPos = 3; // our current position in the seed, representing what will come next
-    [SerializeField] string nextPrefix; // the prefix we're using before our letter number designation
 
     public bool shuffleAreas; // are we shuffling the areas
 
@@ -32,97 +27,37 @@ public class PlayerGenerationSeedManager : MonoBehaviour
 
     // a public list of rooms we can go to for gamma generation
     public List<string> roomNames = new List<string>(); // set in inspector
-
+    List<string> storedRoomNames = new List<string>(); // store our room names for when we reset the run
 
     public void Awake()
     {
+        // setup instance
         instance = this;
+
+        // deep copy room names
+        foreach (string name in roomNames)
+        {
+            storedRoomNames.Add(name);
+        }
+
     }
 
-    // the construction of our seed
-    public void BuildSeed()
+    // run this whenever want to start over
+    public void ResetRun()
     {
-        // clear everything before generation
-        generationSeed = "";
-        numOutput.Clear();
-        charOutput.Clear();
+        // reset our run positions
         currentCombatPos = 0;
+        currentRunPos = 0;
+        debugPos = 0;
 
-        // go through each seed set range and shuffle the number into a list
-        for (int i = 0; i < areaRoomAmount.Count; i++)
+        // reset our room names
+        foreach (string name in storedRoomNames)
         {
-            // create a new list of ints
-            List<int> localSeed = new List<int>();
-            // add amounts from the range
-            for (int j = 0; j < seedSetRanges[i]; j++)
-            {
-                localSeed.Add(j);
-            }
-
-            // then shuffle that list
-            localSeed.Shuffle();
-
-            // then add that list to our seed as list, only up to the area room amount 
-            for (int k = 0; k < areaRoomAmount[i]; k++)
-            {
-                numOutput.Add(localSeed[k]);
-            }
-        }
-
-
-        // now that we have our seed, we're going to turn it into a string
-        string seedString = "";
-        foreach (int num in numOutput)
-        {
-            seedString = seedString + num.ToString();
-        }
-
-        // then build out character designations
-        for (int i = 0; i < areaRoomAmount.Count; i++)
-        {
-            // run a for loop and add one letter to our char output up to the seed range, so we can properly generate our next room based on position
-            for (int c = 0; c < areaRoomAmount[i]; c++)
-            {
-                // add the range amount of the i character
-                charOutput.Add(charDesignations[i]);
-            }
-        }
-
-        // output our seed for debug purposes
-        for (int i = 0; i < charOutput.Count; i++)
-        {
-            // are we shuffling the letters?
-            if (shuffleAreas)
-                charOutput.Shuffle();
-
-            // add the letter, then add the number
-            generationSeed = generationSeed + charOutput[i].ToString();
-            generationSeed = generationSeed + numOutput[i].ToString();
+            roomNames.Add(name);
         }
 
     }
 
-    // based on which room we are currently in, which room will we go to?
-    void ProcessCurrentPos()
-    {
-        // our next room will be prefix, current position output letter, current position seed number
-        try
-        {
-            nextRoom = nextPrefix + charOutput[currentCombatPos] + numOutput[currentCombatPos];
-            seedDisplay.text = generationSeed;
-        }
-         catch { }
-    }
-
-    private void Start()
-    {
-        BuildSeed();
-    }
-
-    private void FixedUpdate()
-    {
-        ProcessCurrentPos();
-    }
 
 
 }

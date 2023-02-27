@@ -17,7 +17,6 @@ public class PrototypeBetaPrimer : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         // request a new seed generation
-        PlayerGenerationSeedManager.instance.BuildSeed();
         // load a scene based off of the generation manager's seed
         targetScene = PlayerGenerationSeedManager.instance.nextRoom.ToString();
         PlayerGenerationSeedManager.instance.currentCombatPos++; // make sure to advance the current pos when moving to a new room
