@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class WeaponPoolItemRequest : MonoBehaviour
 {
-    enum PoolChoices { DiscoveredWeaponsForSpawning, UndiscoveredWeaponsForSpawning, Random_Undiscovered, DEBUG_AllGameWeapons, DEBUG_DiscoveredWeapons, DEBUG_UndiscoveredWeapons }
+    enum PoolChoices { 
+        DiscoveredWeaponsForSpawning, UndiscoveredWeaponsForSpawning, Random_Undiscovered, 
+        DEBUG_AllGameWeapons, DEBUG_DiscoveredWeapons, DEBUG_UndiscoveredWeapons,
+    }
     [SerializeField] PoolChoices poolChoice; // our pool to pull from
     [SerializeField] bool spawnOnStart; // should this weapon spawn on start?
     [SerializeField] Transform targetParent;
     public bool discoverOnPickup = false; // should the thing that spawns from here be discovered on pickup?
     [SerializeField] string specificWeapon; // is there a specific weapon we should spawn?
+    [SerializeField] bool extraHot; // is this weapon that we're spawning extra hot
 
     float maxSpawnAttempts = 30, maxUnSpawnAttempt; // after 150 spawn attempts, stop trying.
 
@@ -49,7 +53,11 @@ public class WeaponPoolItemRequest : MonoBehaviour
                 }
             }
 
-            WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>().discoverOnPickup = discoverOnPickup;
+            // setup our weapon object
+            Weapon_Item w = WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>();
+            w.discoverOnPickup = discoverOnPickup;
+            w.weapon.GetComponent<WeaponClass>().rageMultiplier *= 2;
+            
             return;
         }
 
