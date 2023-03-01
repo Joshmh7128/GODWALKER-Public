@@ -27,7 +27,9 @@ public class PlayerGenerationSeedManager : MonoBehaviour
 
     // a public list of rooms we can go to for gamma generation
     public List<string> roomNames = new List<string>(); // set in inspector
-    List<string> storedRoomNames = new List<string>(); // store our room names for when we reset the run
+    [SerializeField] List<string> storedRoomNames = new List<string>(); // store our room names for when we reset the run
+
+    public bool roomListLoaded; // are our rooms loaded and ready to be pulled from?
 
     public void Awake()
     {
@@ -42,33 +44,36 @@ public class PlayerGenerationSeedManager : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        // construct our playlist
+        BuildRoomNames();
+    }
+
     // this is to setup our rooms in a progressive order, so that the player encounters maps and elements as they move through the run in a loose order
     public void BuildRoomNames()
     {
-        // get all rooms by area
-        List<string> a1 = new List<string>();
-        List<string> a2 = new List<string>();
-
-        foreach (string name in roomNames)
-        {
-            if (name.Contains("a1"))
-                a1.Add(name);
-
-            if (name.Contains("a2"))
-                a2.Add(name);
-        }
-
-        // shuffle each list
-        a1.Shuffle();
-        a2.Shuffle();
-        
-        // progressively add
         roomNames.Clear();
+
+        // get all rooms by area
+        List<string> A1 = new List<string>();
+        List<string> A2 = new List<string>();
+
+        foreach (string name in storedRoomNames)
+        {
+            if (name.Contains("A1"))
+                A1.Add(name);
+
+            if (name.Contains("A2"))
+                A2.Add(name);
+        }
         
         // build the room name list
-        foreach(string name in a1) roomNames.Add(name); 
-        foreach(string name in a2) roomNames.Add(name); 
+        A1.Shuffle(); A2.Shuffle();
 
+        // add the names progressively
+        foreach (string name in A1) roomNames.Add(name);
+        foreach (string name in A2) roomNames.Add(name);
     }
 
     // run this whenever want to start over

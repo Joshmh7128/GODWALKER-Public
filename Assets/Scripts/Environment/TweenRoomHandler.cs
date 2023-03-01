@@ -82,9 +82,26 @@ public class TweenRoomHandler : MonoBehaviour
     // pull a room from the room list
     string PullRoom()
     {
-        string r = PlayerGenerationSeedManager.instance.roomNames[Random.Range(0, PlayerGenerationSeedManager.instance.roomNames.Count)];
-        PlayerGenerationSeedManager.instance.roomNames.Remove(r);
-        return r;
+        try
+        {
+            // we pull the 0th index as that will be randomized in the roomnames list for us to work with
+            string r = PlayerGenerationSeedManager.instance.roomNames[0];
+            PlayerGenerationSeedManager.instance.roomNames.Remove(r);
+            return r;
+        }
+        catch
+        {
+            // wait and try again
+            StartCoroutine(WaitPullRoom());
+            return null;
+        }
+    }
+
+    IEnumerator WaitPullRoom()
+    {
+        yield return new WaitForSecondsRealtime(0.25f);
+        PullRoom();
+        yield return true;
     }
 
     public void OnTriggerEnter(Collider other)
