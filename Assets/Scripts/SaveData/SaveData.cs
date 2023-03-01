@@ -13,7 +13,7 @@ public class SaveData
         "Carbine",
         "DMR",
         "Marksman Pistol",
-        "Revolver",
+        "Electric Revolver",
     };
 
     public List<string> DiscoveredWeapons = new List<string> // all of the names of weapons that the player has discovered
