@@ -32,7 +32,13 @@ public class PlayerCurrencyManager : MonoBehaviour
     public void SubCurrency(int amount)
     {
         if (playerCurrencyAmount - amount >= 0)
+        {
             playerCurrencyAmount -= amount;
+        }
+        else
+        {
+            playerCurrencyAmount = 0;
+        }
 
         // after subtracting currency update the UI
         UpdateUI();
