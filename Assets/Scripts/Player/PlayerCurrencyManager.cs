@@ -15,6 +15,10 @@ public class PlayerCurrencyManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI currencyDisplayAmount;
 
+    public static PlayerCurrencyManager instance;
+
+    private void Awake() => instance = this;
+
     // adding currency
     public void AddCurrency(int amount)
     {
