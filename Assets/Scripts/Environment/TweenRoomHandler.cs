@@ -51,13 +51,13 @@ public class TweenRoomHandler : MonoBehaviour
                 targetNextScene = PullRoom();
                 break;
             case 5:
-                targetNextScene = "Stash Reward no Player";
+                targetNextScene = "Shop no Player";
                 break;
             case 6:
                 targetNextScene = PullRoom();
                 break;
             case 7:
-                targetNextScene = "Stash Reward no Player";
+                targetNextScene = "Special Reward no Player";
                 break;
             case 8:
                 targetNextScene = PullRoom();
