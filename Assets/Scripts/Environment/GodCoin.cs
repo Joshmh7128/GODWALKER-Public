@@ -9,7 +9,7 @@ public class GodCoin : MonoBehaviour
     [SerializeField] float hangTime;
     [SerializeField] float moveDelta;
     [SerializeField] float pickupDistance;
-    float speed, finalSpeed; // our movement speed
+    [SerializeField] float speed, finalSpeed; // our movement speed
 
     [SerializeField] GameObject pickupSound; // our pickup sound
 
@@ -20,6 +20,8 @@ public class GodCoin : MonoBehaviour
     {
         // get player transform
         target = PlayerController.instance.transform;
+
+        transform.position += new Vector3(transform.position.x + Random.Range(-1,1), transform.position.y + Random.Range(-1, 1), transform.position.z + Random.Range(-1, 1));    
 
         // randomize our values a bit
         int b = (Random.Range(0, 2) * 2) - 1;
@@ -45,9 +47,9 @@ public class GodCoin : MonoBehaviour
     void ProcessMovement()
     {
         // perform the movement update
-        transform.Translate(target.position - transform.position * finalSpeed * Time.fixedDeltaTime);
+        transform.Translate((target.position - transform.position) * finalSpeed * Time.fixedDeltaTime);
         // add to our speed
-        speed += moveDelta;
+        finalSpeed += moveDelta;
     }
 
     void ProcessDistance()
