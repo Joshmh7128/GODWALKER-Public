@@ -26,7 +26,7 @@ public class WeaponPool : MonoBehaviour
     Weapon_Item copyItem;
 
     // have we completed our initial load?
-    bool initialLoadComplete; 
+    internal bool initialLoadComplete; 
 
     public static WeaponPool instance; // our instance
     private void Awake()
@@ -46,7 +46,6 @@ public class WeaponPool : MonoBehaviour
     IEnumerator LateStartBuffer()
     {
         yield return new WaitUntil(() => SaveDataHandler.instance.initialLoadComplete);
-        yield return new WaitForSecondsRealtime(1f);
         LateStart();
     }
 
@@ -129,10 +128,6 @@ public class WeaponPool : MonoBehaviour
         // then shuffle that list
         tier2Weapons.Shuffle();
 
-        // then add all the weapons from the tier2Weapons list to the undiscovered list
-        foreach (GameObject weapon in tier2Weapons)
-            UndiscoveredWeapons.Add(weapon);
-
         // ----------------------------------------------------------
         // add all tier 3 weapons to the undiscovered list
 
@@ -155,16 +150,12 @@ public class WeaponPool : MonoBehaviour
         // then shuffle that list
         tier3Weapons.Shuffle();
 
-        // then add all the weapons from the tier2Weapons list to the undiscovered list
-        foreach (GameObject weapon in tier3Weapons)
-            UndiscoveredWeapons.Add(weapon);
-
         // ----------------------------------------------------------
         // add all tier 4 weapons to the undiscovered list
 
         List<GameObject> tier4Weapons = new List<GameObject>();
 
-        foreach (string name in SaveDataHandler.instance.liveData.Tier3Weapons)
+        foreach (string name in SaveDataHandler.instance.liveData.Tier4Weapons)
         {
             // take the name from each undiscovered weapon and compare it to the ActivePlayerWeapons list, then add any undiscovered weapons to the undiscovered list
             for (int i = 0; i < ActivePlayerWeapons.Count; i++)
@@ -181,7 +172,14 @@ public class WeaponPool : MonoBehaviour
         // then shuffle that list
         tier4Weapons.Shuffle();
 
-        // then add all the weapons from the tier2Weapons list to the undiscovered list
+        // then add all the weapons from the list to the undiscovered list
+
+        foreach (GameObject weapon in tier2Weapons)
+            UndiscoveredWeapons.Add(weapon);
+
+        foreach (GameObject weapon in tier3Weapons)
+            UndiscoveredWeapons.Add(weapon);
+
         foreach (GameObject weapon in tier4Weapons)
             UndiscoveredWeapons.Add(weapon);
 
@@ -204,13 +202,13 @@ public class WeaponPool : MonoBehaviour
         if (initialLoadComplete == true)
         {
             // check to make sure our lists are not empty
-            if (DiscoveredWeaponsForSpawning.Count <= 3)
+            if (DiscoveredWeaponsForSpawning.Count <= 1)
             {
                 DiscoveredWeaponsForSpawning = DiscoveredWeapons;
             }
 
             // check to make sure our lists are not empty
-            if (UndiscoveredWeaponsForSpawning.Count <= 3)
+            if (UndiscoveredWeaponsForSpawning.Count <= 1)
             {
                 UndiscoveredWeaponsForSpawning = UndiscoveredWeapons;
             }
@@ -231,13 +229,13 @@ public class WeaponPool : MonoBehaviour
     public GameObject CreateWeaponItem(GameObject weaponObject, Transform spawnPoint, Transform parent)
     {        
         // check to make sure our lists are not empty
-        if (DiscoveredWeaponsForSpawning.Count <= 3)
+        if (DiscoveredWeaponsForSpawning.Count <= 1)
         {
             DiscoveredWeaponsForSpawning = DiscoveredWeapons;
         }
 
         // check to make sure our lists are not empty
-        if (UndiscoveredWeaponsForSpawning.Count <= 3)
+        if (UndiscoveredWeaponsForSpawning.Count <= 1)
         {
             UndiscoveredWeaponsForSpawning = UndiscoveredWeapons;
         }

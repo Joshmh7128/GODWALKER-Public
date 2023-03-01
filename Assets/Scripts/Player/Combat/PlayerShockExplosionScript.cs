@@ -110,7 +110,10 @@ public class PlayerShockExplosionScript : MonoBehaviour
         if (!doesLoop)
             Destroy(gameObject);
         if (doesLoop)
-            OverlapCheck();
+            try
+            {
+                OverlapCheck();
+            } catch { }
     }
 
     // our function for linking tethers

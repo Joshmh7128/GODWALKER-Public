@@ -11,7 +11,7 @@ public class WeaponPoolItemRequest : MonoBehaviour
     public bool discoverOnPickup = false; // should the thing that spawns from here be discovered on pickup?
     [SerializeField] string specificWeapon; // is there a specific weapon we should spawn?
 
-    float maxSpawnAttempts = 30; // after 150 spawn attempts, stop trying.
+    float maxSpawnAttempts = 30, maxUnSpawnAttempt; // after 150 spawn attempts, stop trying.
 
     private void Start()
     {
@@ -25,7 +25,8 @@ public class WeaponPoolItemRequest : MonoBehaviour
     // if spawn weapon fails it runs this coroutine again
     IEnumerator SlowSpawnCheck()
     {
-        yield return new WaitForSecondsRealtime(0.1f);
+        // predicate until true
+        yield return new WaitUntil(() => WeaponPool.instance.initialLoadComplete = true);
         // if we succeed in this check, spawn the weapon
         SpawnWeapon();
     }
@@ -79,7 +80,16 @@ public class WeaponPoolItemRequest : MonoBehaviour
                     }
                     else // if we do not have any weapons left for spawning, spawn a discovered weapon instead
                     {
-                        poolChoice = PoolChoices.DiscoveredWeaponsForSpawning;
+                        if (maxUnSpawnAttempt < maxSpawnAttempts)
+                        {
+                            poolChoice = PoolChoices.UndiscoveredWeaponsForSpawning;
+                            maxUnSpawnAttempt++;
+                        }
+
+                        if (maxUnSpawnAttempt >= maxSpawnAttempts)
+                            poolChoice = PoolChoices.DiscoveredWeaponsForSpawning;
+
+
                         SpawnWeapon();
                     }
                     break;

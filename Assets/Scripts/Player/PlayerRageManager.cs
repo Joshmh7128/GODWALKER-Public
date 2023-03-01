@@ -68,7 +68,7 @@ public class PlayerRageManager : MonoBehaviour
     // we want to generate enough rage and then go into godwalker for 10 seconds
     public float rageAmount; // our v2 rage amount
     public float maxRage; // what is the maximum rage we can have?
-    public float reductionDelta, godwalkerReductionDelta, godwalkerReductionDeltaAdditional; // our rage reduction delta
+    public float reductionDelta, originalReductionDelta, godwalkerReductionDelta, godwalkerReductionDeltaAdditional; // our rage reduction delta
     public Color startColor, endColor, godwalkingColor; // our start and end colors
     public float maxSpeedBoost, currentSpeedBoost; // how much faster do we move BEFORE entering Godwalker?
     public float godwalkerSpeedBoost; // how fast do we move in Godwalker?
@@ -77,6 +77,10 @@ public class PlayerRageManager : MonoBehaviour
     public GameObject godwalkerVolume; // the godwalker VFX volume
     #endregion
 
+    private void Start()
+    {
+        originalReductionDelta = godwalkerReductionDelta; // set the original delta
+    }
 
     // public function to add rage
     public void AddRage(float amount)
@@ -256,7 +260,8 @@ public class PlayerRageManager : MonoBehaviour
             // when do we end godwalking?
             if (rageAmount <= 0)
             {
-                // reset the delta
+                // reset the delta & additional
+                godwalkerReductionDelta = originalReductionDelta + (originalReductionDelta * 0.1f); // gets harder by 10%
                 godwalkerReductionDeltaAdditional = 0;
                 // deactivate the fx
                 flameVFX.SetActive(false);

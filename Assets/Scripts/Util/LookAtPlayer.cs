@@ -18,6 +18,13 @@ public class LookAtPlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        try { PerformLook(); } catch { }
+    }
+
+
+    void PerformLook()
+    {
+
         if (!slowMove)
         {
             if (!lookAtCamera)
@@ -31,10 +38,10 @@ public class LookAtPlayer : MonoBehaviour
         if (slowMove)
         {
             if (!lookAtCamera)
-            { 
+            {
                 // get the look direction
                 Vector3 lookDir = playerController.transform.position - transform.position;
-                float finalSpeed = turnSpeed; 
+                float finalSpeed = turnSpeed;
 
                 // calculate our distance compensation
                 if (distanceCompensation)
@@ -57,7 +64,7 @@ public class LookAtPlayer : MonoBehaviour
             }
 
             if (lookAtCamera)
-            { 
+            {
                 // get the look direction
                 Vector3 lookDir = playerController.cameraRig.transform.position - transform.position;
                 float finalSpeed = turnSpeed;
@@ -82,3 +89,4 @@ public class LookAtPlayer : MonoBehaviour
         }
     }
 }
+
