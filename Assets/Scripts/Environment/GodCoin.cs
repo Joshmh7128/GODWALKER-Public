@@ -21,14 +21,14 @@ public class GodCoin : MonoBehaviour
         // get player transform
         target = PlayerController.instance.transform;
 
-        transform.position += new Vector3(transform.position.x + Random.Range(-1,1), transform.position.y + Random.Range(-1, 1), transform.position.z + Random.Range(-1, 1));    
+        //transform.position += new Vector3(transform.position.x + Random.Range(-1,1), transform.position.y + Random.Range(-1, 1), transform.position.z + Random.Range(-1, 1));    
 
         // randomize our values a bit
         int b = (Random.Range(0, 2) * 2) - 1;
-        hangTime = hangTime * 0.25f * b;
+        hangTime += hangTime * 0.25f * b;
 
         int c = (Random.Range(0, 2) * 2) - 1;
-        moveDelta = moveDelta * 0.25f * c;
+        moveDelta += moveDelta * 0.25f * c;
 
         // hangtime
         StartCoroutine(HangTime());
@@ -47,9 +47,9 @@ public class GodCoin : MonoBehaviour
     void ProcessMovement()
     {
         // perform the movement update
-        transform.Translate((target.position - transform.position) * finalSpeed * Time.fixedDeltaTime);
+        transform.Translate((target.position - transform.position).normalized * finalSpeed * Time.fixedDeltaTime);
         // add to our speed
-        finalSpeed += moveDelta;
+        finalSpeed += moveDelta*Time.fixedDeltaTime;
     }
 
     void ProcessDistance()
