@@ -57,10 +57,10 @@ public class WeaponPoolItemRequest : MonoBehaviour
             Weapon_Item w = WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>();
 
             if (discoverOnPickup)
-            {
                 w.discoverOnPickup = true;
-            }
-            w.weapon.GetComponent<WeaponClass>().rageMultiplier *= 2;
+            
+            if (extraHot)
+                w.weapon.GetComponent<WeaponClass>().rageMultiplier *= 2;
             
             return;
         }
