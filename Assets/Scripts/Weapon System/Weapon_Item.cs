@@ -56,6 +56,7 @@ public class Weapon_Item : ItemClass
                 }
 
                 // if we are discovered on pickup, modify the save file
+                if (discoverOnPickup)
                 SaveDataHandler.instance.DiscoverWeapon(weapon);
 
             }

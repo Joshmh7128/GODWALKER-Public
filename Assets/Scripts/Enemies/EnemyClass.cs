@@ -223,19 +223,10 @@ public abstract class EnemyClass : MonoBehaviour
             dead = true;
             // spawn our on death fx
             Instantiate(OnDeathFX, transform.position, Quaternion.identity, null);
-            // chance to drop a gun?
-            int i = Random.Range(0, 100);
-            // see if we should drop one
-            if (i < lootDropChancePercentage && !dropped)
-            {
-                dropped = true;
-                // drop our currency 
-                try { if (PlayerRageManager.instance.godwalking) Instantiate(dropItem, transform.position, Quaternion.identity, null); } catch { }
-            }
-
+            // drop our currency 
+            try { if (PlayerRageManager.instance.godwalking) Instantiate(dropItem, transform.position, Quaternion.identity, null); } catch { }
             // add our rage to the manager on death
             PlayerRageManager.instance.AddRage(rageAmount);
-
         }
         // destroy the object
         Destroy(gameObject);

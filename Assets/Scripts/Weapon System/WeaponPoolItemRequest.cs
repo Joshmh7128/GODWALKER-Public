@@ -55,7 +55,11 @@ public class WeaponPoolItemRequest : MonoBehaviour
 
             // setup our weapon object
             Weapon_Item w = WeaponPool.instance.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>();
-            w.discoverOnPickup = discoverOnPickup;
+
+            if (discoverOnPickup)
+            {
+                w.discoverOnPickup = true;
+            }
             w.weapon.GetComponent<WeaponClass>().rageMultiplier *= 2;
             
             return;
