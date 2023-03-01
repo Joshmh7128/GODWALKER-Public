@@ -42,6 +42,35 @@ public class PlayerGenerationSeedManager : MonoBehaviour
 
     }
 
+    // this is to setup our rooms in a progressive order, so that the player encounters maps and elements as they move through the run in a loose order
+    public void BuildRoomNames()
+    {
+        // get all rooms by area
+        List<string> a1 = new List<string>();
+        List<string> a2 = new List<string>();
+
+        foreach (string name in roomNames)
+        {
+            if (name.Contains("a1"))
+                a1.Add(name);
+
+            if (name.Contains("a2"))
+                a2.Add(name);
+        }
+
+        // shuffle each list
+        a1.Shuffle();
+        a2.Shuffle();
+        
+        // progressively add
+        roomNames.Clear();
+        
+        // build the room name list
+        foreach(string name in a1) roomNames.Add(name); 
+        foreach(string name in a2) roomNames.Add(name); 
+
+    }
+
     // run this whenever want to start over
     public void ResetRun()
     {
@@ -51,14 +80,13 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         currentRunPos = 0;
         debugPos = 0;
 
+        // clear room names
+        roomNames.Clear();
+
         // reset our room names
         foreach (string name in storedRoomNames)
         {
             roomNames.Add(name);
         }
-
     }
-
-
-
 }
