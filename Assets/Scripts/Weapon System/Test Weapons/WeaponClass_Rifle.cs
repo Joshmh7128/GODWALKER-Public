@@ -21,11 +21,6 @@ public class WeaponClass_Rifle : WeaponClass
             {
                 Fire(); // shoot our gun
             } 
-
-            if (remainingFirerate > 0 && currentMagazine <= 0)
-            {
-                    clickSource.Play();
-            }
         }
     }
 

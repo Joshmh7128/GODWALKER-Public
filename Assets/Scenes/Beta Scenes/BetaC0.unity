@@ -3703,6 +3703,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52837baf0fae6154b929d4eb2b91c064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolChoice: 0
+  spawnOnStart: 0
+  targetParent: {fileID: 0}
+  discoverOnPickup: 0
+  specificWeapon: 
+  extraHot: 0
 --- !u!4 &278600211
 Transform:
   m_ObjectHideFlags: 0
@@ -19185,7 +19191,7 @@ Light:
   serializedVersion: 10
   m_Type: 3
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.45268416, b: 1, a: 1}
   m_Intensity: 0.25
   m_Range: 100
   m_SpotAngle: 30
@@ -21663,6 +21669,9 @@ MonoBehaviour:
   upgradeSpawnPoint: {fileID: 0}
   specialRoom: 0
   manualCombat: 0
+  spawnWavesFromData: 0
+  currentRoom: 0
+  currentEncounter: 0
   arenaMode: 0
   messageGroup: {fileID: 595018943}
   messageText: {fileID: 660423275}
@@ -31251,7 +31260,7 @@ Light:
   serializedVersion: 10
   m_Type: 3
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.45268416, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 100
   m_SpotAngle: 30
