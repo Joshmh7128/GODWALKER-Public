@@ -62,7 +62,7 @@ public class WeaponUIHandler : MonoBehaviour
                 ammoText.text = weaponClass.currentMagazine + " / " + weaponClass.maxMagazine;
 
             if (weaponClass.currentMagazine <= 0)
-                ammoText.text = "!!" + weaponClass.currentMagazine + " / " + weaponClass.maxMagazine + "!!";
+                ammoText.text = "NO AMMO! SWAP!";
         }
     }
 

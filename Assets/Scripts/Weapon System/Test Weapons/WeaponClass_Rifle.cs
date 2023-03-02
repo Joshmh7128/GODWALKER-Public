@@ -20,6 +20,10 @@ public class WeaponClass_Rifle : WeaponClass
             if (remainingFirerate <= 0 && currentMagazine > 0)
             {
                 Fire(); // shoot our gun
+            } else
+            {
+                if (!clickSource.isPlaying)
+                    clickSource.Play();
             }
         }
     }

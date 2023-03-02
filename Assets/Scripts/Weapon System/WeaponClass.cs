@@ -71,6 +71,9 @@ public abstract class WeaponClass : MonoBehaviour
     // our UI handler
     public WeaponUIHandler weaponUIHandler;
 
+    // our audio clip for trigger clicks
+    public AudioSource clickSource;
+
     // our weapon use types
     public enum WeaponUseTypes
     {
