@@ -158,7 +158,7 @@ public class TweenRoomHandler : MonoBehaviour
         // then always advance our run pos
         PlayerGenerationSeedManager.instance.currentRunPos++;
         // do not destroy this door!
-        DontDestroyOnLoad(gameObject);  
+        DontDestroyOnLoad(gameObject);
         // close back door
         backDoor.SetActive(true);
         // get the difference between us and the player

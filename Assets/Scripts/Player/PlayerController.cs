@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float velocity; // our velocity which we only want to read!
     [SerializeField] float playerHeight, playerWidth; // how tall is the player?
     [SerializeField] float groundCheckCooldown, groundCheckCooldownMax;
-    bool canMove = true; // can we move?
+    public bool canMove = true; // can we move?
     public enum MovementStates { normal, sprinting, aiming}
     public MovementStates movementState;
     int playerIgnoreMask;

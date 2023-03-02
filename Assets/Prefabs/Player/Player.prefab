@@ -1234,6 +1234,7 @@ MonoBehaviour:
   playerWidth: 0.4
   groundCheckCooldown: 0
   groundCheckCooldownMax: 0.1
+  canMove: 1
   movementState: 0
   whereGoTarget: {fileID: 1557240303502611633}
   whereWasTarget: {fileID: 1557240304111537879}
@@ -1457,6 +1458,8 @@ MonoBehaviour:
   - A1M4
   - A2M1
   - A2M2
+  storedRoomNames: []
+  roomListLoaded: 0
 --- !u!114 &4511347120810646625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3967,7 +3970,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -361.27246, y: 364.58823}
+  m_AnchoredPosition: {x: -361.27246, y: 253}
   m_SizeDelta: {x: 1835.8557, y: 164.3864}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1557240303517010770
@@ -5170,7 +5173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8243,7 +8246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 465.46878, y: 358}
+  m_AnchoredPosition: {x: 465.46878, y: 282}
   m_SizeDelta: {x: 1288.9509, y: 144.6623}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1557240304540982923
@@ -8432,7 +8435,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 570.5874, y: 360.98907}
+  m_AnchoredPosition: {x: 570.5874, y: 278}
   m_SizeDelta: {x: 737.2043, y: 84.849}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1557240304595197356
@@ -9749,7 +9752,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press Enter to Submit
+  m_Text: Press Enter to Submit, F12 to close
 --- !u!1 &1876220128318304730
 GameObject:
   m_ObjectHideFlags: 0
@@ -10586,11 +10589,11 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 9
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
-  m_LineType: 0
+  m_LineType: 1
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
   m_CharacterValidation: 0
@@ -10634,7 +10637,7 @@ MonoBehaviour:
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
   m_isRichTextEditingAllowed: 0
-  m_LineLimit: 0
+  m_LineLimit: 500
   m_InputValidator: {fileID: 0}
 --- !u!1 &3664687487672735308
 GameObject:
@@ -10702,8 +10705,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 422.94058, y: -270}
-  m_SizeDelta: {x: 1512.1729, y: 186.2073}
+  m_AnchoredPosition: {x: 375.30106, y: -186.27263}
+  m_SizeDelta: {x: 1762.2231, y: 299.4376}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7459752253590308820
 CanvasRenderer:
@@ -10747,8 +10750,9 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "How to play:\nAmmo only regenerates when weapons are unequipped.\nMeter
-    on the bottom is your Rage. \nDeal damage to fill it. Filling it is the only
-    way to heal"
+    on the bottom is your God Juice. \nDeal damage to fill it. Once filled, you can
+    enter Godwalker\nGodwalking is the only way to heal. Enemies killed while Godwalking
+    give you God Coins."
 --- !u!1 &4066620562384916326
 GameObject:
   m_ObjectHideFlags: 0
@@ -12026,7 +12030,7 @@ MonoBehaviour:
   m_fontSizeBase: 118.33
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 72
+  m_fontSizeMin: 0
   m_fontSizeMax: 130
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -12038,9 +12042,9 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
