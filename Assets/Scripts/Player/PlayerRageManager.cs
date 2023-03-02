@@ -232,7 +232,8 @@ public class PlayerRageManager : MonoBehaviour
         {
             // we are now godwalking
             godwalking = true;
-
+            // check to see if we increase our reduction delta
+            StartCoroutine(ReductionDeltaIncreaseCheck());
         }
 
         if (godwalking)
@@ -263,7 +264,7 @@ public class PlayerRageManager : MonoBehaviour
             if (rageAmount <= 0)
             {
                 // reset the delta & additional
-                godwalkerReductionDelta = originalReductionDelta + (originalReductionDelta * 0.1f); // gets harder by 10%
+                godwalkerReductionDelta = originalReductionDelta; // reset
                 godwalkerReductionDeltaAdditional = originalAdditional;
                 // deactivate the fx
                 flameVFX.SetActive(false);
@@ -274,6 +275,16 @@ public class PlayerRageManager : MonoBehaviour
             }
 
         }
+    }
+
+    // add to the delta
+    IEnumerator ReductionDeltaIncreaseCheck()
+    {
+        // if the player maintains godwalker for 20 seconds
+        yield return new WaitForSecondsRealtime(20f);
+        // increase the rage by 10%
+        if (godwalking)
+            originalAdditional += 2.5f * 0.1f;
     }
 
 }
