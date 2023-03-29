@@ -80,7 +80,7 @@ public abstract class WeaponClass : MonoBehaviour
     // weapon elements
     public enum WeaponElements
     {
-        Normal, Fire, Electric, Acid
+        Normal, Energy, Explosive
     }
 
     [SerializeField] public WeaponElements weaponElement; // our weapon's element

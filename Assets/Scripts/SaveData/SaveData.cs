@@ -42,7 +42,7 @@ public class SaveData
 
     public List<string> Tier4Weapons = new List<string>
     {
-        "Heavy Shotgun",
+        
         "Ballista",
     };
 
@@ -50,6 +50,7 @@ public class SaveData
     {
         "Popgun",
         "Side Arm",
-        "Double Barrel Shotgun"
+        "Double Barrel Shotgun",
+        "Heavy Shotgun",
     };
 }
