@@ -15,6 +15,7 @@ public class PlayerProjectileScript : MonoBehaviour
 
     RaycastHit hit; // our raycast hit
     public float deathTime = 30;
+    [SerializeField] float homingHangTime; // how long do we wait in seconds before homing?
 
     [SerializeField] bool usesPhysics;
     [SerializeField] float physicsLaunchForce;
@@ -254,8 +255,8 @@ public class PlayerProjectileScript : MonoBehaviour
     void StartAbilityCheck()
     {
         // if we are a homing bullet
-        if (isHoming) { 
-            SetHomingTarget(); Instantiate(homingFX, transform);
+        if (isHoming) {
+            StartCoroutine(HomingBuffer()); Instantiate(homingFX, transform);
             try
             {
                 body = gameObject.GetComponent<Rigidbody>();
@@ -307,6 +308,12 @@ public class PlayerProjectileScript : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator HomingBuffer()
+    {
+        yield return new WaitForSecondsRealtime(homingHangTime);
+        SetHomingTarget();
     }
 
     // if we are a homing bullet return the closest enemy in that moment and target

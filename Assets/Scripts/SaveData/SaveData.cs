@@ -35,9 +35,9 @@ public class SaveData
     {
         "Super Shotgun",
         "Sniper",
-        "Rocket Launcher",
         "Missile Launcher",
         "Grenade Launcher",
+        "Rocket Launcher",
     };
 
     public List<string> Tier4Weapons = new List<string>
