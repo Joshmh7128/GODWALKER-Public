@@ -86,6 +86,9 @@ public class PlayerUIManager : MonoBehaviour
         {
             // reset the game
             Instantiate(mainMenuResetPrefab);
+            // set mouse behaviour
+            Cursor.lockState = CursorLockMode.None;
+
             StartCoroutine(BufferKill());
         }
     }
