@@ -15,16 +15,18 @@ public abstract class ItemClass : MonoBehaviour
 
     public virtual void ProcessCanGrabState()
     {
-        // grab check
-        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < pickupDistance)
-        { 
-            canGrab = true;
-        }
-
-        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) > pickupDistance)
+        try
         {
-            canGrab = false;
-        }
+            // grab check
+            if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < pickupDistance)
+            {
+                canGrab = true;
+            }
 
+            if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) > pickupDistance)
+            {
+                canGrab = false;
+            }
+        } catch { }
     }
 }

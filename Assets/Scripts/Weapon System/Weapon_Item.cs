@@ -28,18 +28,21 @@ public class Weapon_Item : ItemClass
 
     void ProcessCanGrab()
     {
-        // grab check
-        if (canGrab)
+        try
         {
-            if (!PlayerWeaponManager.instance.nearbyWeapons.Contains(gameObject))
-                PlayerWeaponManager.instance.nearbyWeapons.Add(gameObject);
-        }
+            // grab check
+            if (canGrab)
+            {
+                if (!PlayerWeaponManager.instance.nearbyWeapons.Contains(gameObject))
+                    PlayerWeaponManager.instance.nearbyWeapons.Add(gameObject);
+            }
 
-        if (!canGrab)
-        {
-            if (PlayerWeaponManager.instance.nearbyWeapons.Contains(gameObject))
-                PlayerWeaponManager.instance.nearbyWeapons.Remove(gameObject);
-        }
+            if (!canGrab)
+            {
+                if (PlayerWeaponManager.instance.nearbyWeapons.Contains(gameObject))
+                    PlayerWeaponManager.instance.nearbyWeapons.Remove(gameObject);
+            }
+        } catch { }
 
         // actual grabbing
         if (canGrab)
