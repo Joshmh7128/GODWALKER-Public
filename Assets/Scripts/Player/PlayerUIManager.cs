@@ -18,6 +18,7 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] HorizontalLayoutGroup abilityLayoutGroup; // our ability layout group
     [SerializeField] GameObject extraCanvasGroup; // our extra canvas group
     [SerializeField] Slider escFillSlider; // shows how long it takes to reset the game to the main menu
+    [SerializeField] GameObject mainMenuResetPrefab; // prefab we use to reset to the main menu
 
     // start
     private void Start()
@@ -84,8 +85,15 @@ public class PlayerUIManager : MonoBehaviour
         if (escFillSlider.value >= 4.9f)
         {
             // reset the game
-            PlayerStatManager.instance.StartCoroutine(PlayerStatManager.instance.DeathCountDown());
+            Instantiate(mainMenuResetPrefab);
+            StartCoroutine(BufferKill());
         }
+    }
+
+    IEnumerator BufferKill()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        Destroy(PlayerController.instance.gameObject);
     }
 
     // process our inputs
