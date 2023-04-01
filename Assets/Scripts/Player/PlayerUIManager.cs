@@ -17,6 +17,7 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] CanvasGroup infoCanvasGroup; // the body part canvas group we'll be interacting with
     [SerializeField] HorizontalLayoutGroup abilityLayoutGroup; // our ability layout group
     [SerializeField] GameObject extraCanvasGroup; // our extra canvas group
+    [SerializeField] Slider escFillSlider; // shows how long it takes to reset the game to the main menu
 
     // start
     private void Start()
@@ -69,9 +70,21 @@ public class PlayerUIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.Escape))
         {
-            extraCanvasGroup.SetActive(!extraCanvasGroup.activeInHierarchy);
+            escFillSlider.value += Time.deltaTime;
+        }
+        else
+        {
+            if (escFillSlider.value > 0)
+                escFillSlider.value -= Time.fixedDeltaTime;
+        }
+
+        // if we ever hit value...
+        if (escFillSlider.value >= 4.9f)
+        {
+            // reset the game
+            PlayerStatManager.instance.StartCoroutine(PlayerStatManager.instance.DeathCountDown());
         }
     }
 
