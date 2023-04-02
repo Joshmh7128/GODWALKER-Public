@@ -238,7 +238,7 @@ public abstract class EnemyClass : MonoBehaviour
         if (!invincible)
         {
             // before dealing damage, check to ensure we have no armors
-            if (explosiveArmorHP == 0 && energyShieldHP == 0)
+            if (explosiveArmorHP <= 0 && energyShieldHP <= 0)
             {
                 health -= (int)damage;
             } 
@@ -267,7 +267,6 @@ public abstract class EnemyClass : MonoBehaviour
                             // unparent and throw the plate
                             plate.GetComponent<Rigidbody>().useGravity = true;
                             plate.transform.Unparent();
-                            renderers.Remove(plate.GetComponent<Renderer>());
                             plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 30f);
                         }
                     }
@@ -287,7 +286,6 @@ public abstract class EnemyClass : MonoBehaviour
                         plate.GetComponent<Collider>().enabled = true;
                         // unparent and throw the plate
                         plate.transform.Unparent();
-                        renderers.Remove(plate.GetComponent<Renderer>());
                         plate.GetComponent<Rigidbody>().useGravity = true;
                         plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 10f);
                     }
@@ -323,7 +321,7 @@ public abstract class EnemyClass : MonoBehaviour
 
             if (element == ElementalProtection.explosiveShield)
             {
-                explosiveArmorHP -= (int)damage * 2;
+                explosiveArmorHP -= (int)damage * 4;
                 // drop some shield parts to represent how much HP we've lots in the explosion
                 if (explosiveArmorHP > 0)
                 {
@@ -344,7 +342,6 @@ public abstract class EnemyClass : MonoBehaviour
                             plate.GetComponent<Collider>().enabled = true;
                             // unparent and throw the plate
                             plate.transform.Unparent();
-                            renderers.Remove(plate.GetComponent<Renderer>());
                             plate.GetComponent<Rigidbody>().useGravity = true;
                             plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
                         }
@@ -358,7 +355,6 @@ public abstract class EnemyClass : MonoBehaviour
                             plate.GetComponent<Collider>().enabled = true;
                             // unparent and throw the plate
                             plate.transform.Unparent();
-                            renderers.Remove(plate.GetComponent<Renderer>());
                             plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
                         }
                     }
@@ -374,7 +370,6 @@ public abstract class EnemyClass : MonoBehaviour
                         plate.GetComponent<Collider>().enabled = true;
                         // unparent and throw the plate
                         plate.transform.Unparent();
-                        renderers.Remove(plate.GetComponent<Renderer>());
                         plate.GetComponent<Rigidbody>().useGravity = true;
                         plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 10f);
                     }
@@ -383,7 +378,7 @@ public abstract class EnemyClass : MonoBehaviour
 
             if (element == ElementalProtection.energyShield)
             {
-                energyShieldHP -= (int)damage * 2;
+                energyShieldHP -= (int)damage * 4;
             }
 
             // flash
@@ -445,6 +440,10 @@ public abstract class EnemyClass : MonoBehaviour
     // function to get all of our renderers
     void GetAllRenderers()
     {
+        // clear renderers
+        renderers.Clear();
+        defaultRendererMaterials.Clear();
+        // get renderers
         for (int i = 0; i < allChildren.Count; i++)
         {
             // add everything to our list of renderers
@@ -480,6 +479,7 @@ public abstract class EnemyClass : MonoBehaviour
         // set all of our renderers to the hurtflash
         foreach (Renderer renderer in renderers)
         {
+            if (renderer.gameObject.transform.root == transform)
             renderer.material = hurtMaterial;
         }
         // wait about 0.25 of a second
@@ -565,8 +565,8 @@ public abstract class EnemyClass : MonoBehaviour
             if (effect == Effects.Shock)
             {
                 // spawn in the shock zone prefab on us
-                GameObject obj = Resources.Load<GameObject>("EnemyElementalEffects/ShockZone");
-                Instantiate(obj, transform);
+                // GameObject obj = Resources.Load<GameObject>("EnemyElementalEffects/ShockZone");
+                // Instantiate(obj, transform);
             }
 
             // slag
