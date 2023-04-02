@@ -34,9 +34,11 @@ public abstract class EnemyClass : MonoBehaviour
 
     // armor list
     [SerializeField] List<GameObject> armorPlates;
+    [SerializeField] List<GameObject> energyShields;
 
+    // armor values
+    [SerializeField] float explosiveArmorHP, energyShieldHP;
 
-    
     // our behaviours
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
     [Header("-- Behaviours --")]
@@ -180,6 +182,13 @@ public abstract class EnemyClass : MonoBehaviour
             foreach (GameObject plate in armorPlates)
                 plate.SetActive(true);
         }
+
+        if (activeElementalProtection == ElementalProtection.energyShield)
+        {
+            // set armor plating to active
+            foreach (GameObject plate in energyShields)
+                plate.SetActive(true);
+        }
     }
 
     // runs 60 times per second
@@ -222,7 +231,15 @@ public abstract class EnemyClass : MonoBehaviour
     {
         if (!invincible)
         {
-            health -= (int)damage;
+            // before dealing damage, check to ensure we have no armors
+            if (explosiveArmorHP == 0 && energyShieldHP == 0)
+            {
+                health -= (int)damage;
+            } else if (explosiveArmorHP > 0 && energyShieldHP > 0) // if we have any armor, damage it
+            {
+                explosiveArmorHP -= damage;
+                energyShieldHP -= damage;
+            }
             // flash
             StartCoroutine(HurtFlash());
             // if we are at 0 health, trigger death
@@ -231,6 +248,42 @@ public abstract class EnemyClass : MonoBehaviour
                 // die
                 if (!dead)
                 OnDeath();
+            }
+
+            // run our get hurt extender
+            GetHurtExtension();
+        }
+    }
+
+    // for when an elemental attack hits us
+    virtual public void GetHurt(float damage, ElementalProtection element)
+    {
+        if (!invincible)
+        {
+            // before dealing damage, check to ensure we have no armors
+            if (explosiveArmorHP == 0 && energyShieldHP == 0)
+            {
+                health -= (int)damage;
+            }
+
+            if (element == ElementalProtection.explosiveShield)
+            {
+                explosiveArmorHP -= (int)damage;
+            }
+
+            if (element == ElementalProtection.energyShield)
+            {
+                energyShieldHP -= (int)damage;
+            }
+
+            // flash
+            StartCoroutine(HurtFlash());
+            // if we are at 0 health, trigger death
+            if (health <= 0)
+            {
+                // die
+                if (!dead)
+                    OnDeath();
             }
 
             // run our get hurt extender
