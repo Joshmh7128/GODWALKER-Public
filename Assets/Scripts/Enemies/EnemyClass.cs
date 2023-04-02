@@ -237,8 +237,46 @@ public abstract class EnemyClass : MonoBehaviour
                 health -= (int)damage;
             } else if (explosiveArmorHP > 0 && energyShieldHP > 0) // if we have any armor, damage it
             {
-                explosiveArmorHP -= damage;
-                energyShieldHP -= damage;
+                explosiveArmorHP -= damage/2;
+                // drop some shield parts to represent how much HP we've lots in the explosion
+                if (explosiveArmorHP > 0)
+                {
+                    // the shields we're throwing off of the enemy
+                    List<GameObject> blownPlates = new List<GameObject>();
+                    // get 3 shields to pop off the enemy
+                    for (int i = 0; i <= 3; i++)
+                    {
+                        blownPlates.Add(armorPlates[Random.Range(0, armorPlates.Count)]);
+                    }
+
+                    // then
+                    try
+                    {
+                        foreach (GameObject plate in blownPlates)
+                        {
+                            // turn on collider
+                            plate.GetComponent<Collider>().enabled = true;
+                            // unparent and throw the plate
+                            plate.transform.Unparent();
+                            plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
+                        }
+                    }
+                    catch
+                    {
+                        // we're out of shields, pop them all off! 
+                        foreach (GameObject plate in armorPlates)
+                        {
+                            // turn on collider
+                            plate.GetComponent<Collider>().enabled = true;
+                            // unparent and throw the plate
+                            plate.transform.Unparent();
+                            plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
+                        }
+                    }
+
+                }
+
+                energyShieldHP -= damage/2;
             }
             // flash
             StartCoroutine(HurtFlash());
@@ -268,12 +306,49 @@ public abstract class EnemyClass : MonoBehaviour
 
             if (element == ElementalProtection.explosiveShield)
             {
-                explosiveArmorHP -= (int)damage;
+                explosiveArmorHP -= (int)damage * 2;
+                // drop some shield parts to represent how much HP we've lots in the explosion
+                if (explosiveArmorHP > 0)
+                {
+                    // the shields we're throwing off of the enemy
+                    List<GameObject> blownPlates = new List<GameObject>(); 
+                    // get 3 shields to pop off the enemy
+                    for (int i = 0; i <= 3; i++)
+                    {
+                        blownPlates.Add(armorPlates[Random.Range(0, armorPlates.Count)]);
+                    }
+
+                    // then
+                    try
+                    {
+                        foreach (GameObject plate in blownPlates)
+                        {
+                            // turn on collider
+                            plate.GetComponent<Collider>().enabled = true;
+                            // unparent and throw the plate
+                            plate.transform.Unparent();
+                            plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
+                        }
+                    }
+                    catch 
+                    {
+                        // we're out of shields, pop them all off! 
+                        foreach (GameObject plate in armorPlates)
+                        {
+                            // turn on collider
+                            plate.GetComponent<Collider>().enabled = true;
+                            // unparent and throw the plate
+                            plate.transform.Unparent();
+                            plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
+                        }
+                    }
+
+                }
             }
 
             if (element == ElementalProtection.energyShield)
             {
-                energyShieldHP -= (int)damage;
+                energyShieldHP -= (int)damage * 2;
             }
 
             // flash

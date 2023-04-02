@@ -21,7 +21,10 @@ public abstract class EnemyBehaviour : MonoBehaviour
     // our main behaviour
     public virtual void RunMain()
     {
-        StartCoroutine(MainCoroutine());
+        try
+        {
+            StartCoroutine(MainCoroutine());
+        } catch { }
     }
     // the coroutine where the behaviour is defined, per class
     public abstract IEnumerator MainCoroutine();
