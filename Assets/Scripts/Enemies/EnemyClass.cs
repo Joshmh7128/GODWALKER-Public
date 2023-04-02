@@ -21,7 +21,8 @@ public abstract class EnemyClass : MonoBehaviour
     [SerializeField] GameObject dropItem;
     bool dead; // are we dead?
 
-    
+    [SerializeField] Light fxLight; // our vfx light
+
     // elemental shields
     public enum ElementalProtection
     {
@@ -243,6 +244,12 @@ public abstract class EnemyClass : MonoBehaviour
                 health -= (int)damage;
             }
 
+            if (explosiveArmorHP > 0 || energyShieldHP > 0)
+            {
+                explosiveArmorHP -= damage;
+                energyShieldHP -= damage;
+            }
+
             if (element == ElementalProtection.explosiveShield)
             {
                 explosiveArmorHP -= (int)damage * 4;
@@ -303,6 +310,15 @@ public abstract class EnemyClass : MonoBehaviour
                 }
             }
 
+            // energy fx
+
+            if (energyShieldHP <= 0)
+            {
+                foreach (GameObject plate in energyShields)
+                {
+                    plate.SetActive(false);
+                }
+            }
 
             if (element == ElementalProtection.energyShield)
             {
@@ -310,10 +326,15 @@ public abstract class EnemyClass : MonoBehaviour
             }
 
             // set the intensity of our energy shields to the inverse % of our remaining HP
-            foreach (GameObject plate in energyShields)
+            try
             {
-                plate.GetComponent<Renderer>().material.SetColor("_EmissionColor", plate.GetComponent<Renderer>().material.GetColor("_EmissionColor") * (1.1f));
-            }    
+                if (energyShields.Count > 0)
+                foreach (GameObject plate in energyShields)
+                {
+                    plate.GetComponent<Renderer>().material.SetColor("_EmissionColor", plate.GetComponent<Renderer>().material.GetColor("_EmissionColor") * (1.025f));
+                }
+            } catch { }
+
 
             // flash
             StartCoroutine(HurtFlash());
