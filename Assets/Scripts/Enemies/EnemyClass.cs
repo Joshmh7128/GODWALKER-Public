@@ -37,6 +37,7 @@ public abstract class EnemyClass : MonoBehaviour
     [SerializeField] List<GameObject> energyShields;
 
     // armor values
+    [SerializeField] float setExplosiveArmorHP, setEnergyShieldHP;
     [SerializeField] float explosiveArmorHP, energyShieldHP;
 
     // our behaviours
@@ -178,6 +179,9 @@ public abstract class EnemyClass : MonoBehaviour
     {
         if (activeElementalProtection == ElementalProtection.explosiveShield)
         {
+            // make sure to set our armor amount
+            explosiveArmorHP = setExplosiveArmorHP;
+
             // set armor plating to active
             foreach (GameObject plate in armorPlates)
                 plate.SetActive(true);
@@ -185,6 +189,8 @@ public abstract class EnemyClass : MonoBehaviour
 
         if (activeElementalProtection == ElementalProtection.energyShield)
         {
+            // make sure to set our armor amount
+            energyShieldHP = setEnergyShieldHP;
             // set armor plating to active
             foreach (GameObject plate in energyShields)
                 plate.SetActive(true);
@@ -235,9 +241,11 @@ public abstract class EnemyClass : MonoBehaviour
             if (explosiveArmorHP == 0 && energyShieldHP == 0)
             {
                 health -= (int)damage;
-            } else if (explosiveArmorHP > 0 && energyShieldHP > 0) // if we have any armor, damage it
+            } 
+            
+            if (explosiveArmorHP > 0 || energyShieldHP > 0) // if we have any armor, damage it
             {
-                explosiveArmorHP -= damage/2;
+                explosiveArmorHP -= damage;
                 // drop some shield parts to represent how much HP we've lots in the explosion
                 if (explosiveArmorHP > 0)
                 {
@@ -257,26 +265,35 @@ public abstract class EnemyClass : MonoBehaviour
                             // turn on collider
                             plate.GetComponent<Collider>().enabled = true;
                             // unparent and throw the plate
+                            plate.GetComponent<Rigidbody>().useGravity = true;
                             plate.transform.Unparent();
-                            plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
+                            renderers.Remove(plate.GetComponent<Renderer>());
+                            plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 30f);
                         }
                     }
                     catch
                     {
-                        // we're out of shields, pop them all off! 
-                        foreach (GameObject plate in armorPlates)
-                        {
-                            // turn on collider
-                            plate.GetComponent<Collider>().enabled = true;
-                            // unparent and throw the plate
-                            plate.transform.Unparent();
-                            plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
-                        }
+
                     }
 
                 }
 
-                energyShieldHP -= damage/2;
+                if (explosiveArmorHP <= 0)
+                {
+                    // we're out of shields, pop them all off! 
+                    foreach (GameObject plate in armorPlates)
+                    {
+                        // turn on collider
+                        plate.GetComponent<Collider>().enabled = true;
+                        // unparent and throw the plate
+                        plate.transform.Unparent();
+                        renderers.Remove(plate.GetComponent<Renderer>());
+                        plate.GetComponent<Rigidbody>().useGravity = true;
+                        plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 10f);
+                    }
+                }
+
+                energyShieldHP -= damage;
             }
             // flash
             StartCoroutine(HurtFlash());
@@ -299,7 +316,7 @@ public abstract class EnemyClass : MonoBehaviour
         if (!invincible)
         {
             // before dealing damage, check to ensure we have no armors
-            if (explosiveArmorHP == 0 && energyShieldHP == 0)
+            if (explosiveArmorHP <= 0 && energyShieldHP <= 0)
             {
                 health -= (int)damage;
             }
@@ -327,6 +344,8 @@ public abstract class EnemyClass : MonoBehaviour
                             plate.GetComponent<Collider>().enabled = true;
                             // unparent and throw the plate
                             plate.transform.Unparent();
+                            renderers.Remove(plate.GetComponent<Renderer>());
+                            plate.GetComponent<Rigidbody>().useGravity = true;
                             plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
                         }
                     }
@@ -339,10 +358,26 @@ public abstract class EnemyClass : MonoBehaviour
                             plate.GetComponent<Collider>().enabled = true;
                             // unparent and throw the plate
                             plate.transform.Unparent();
+                            renderers.Remove(plate.GetComponent<Renderer>());
                             plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
                         }
                     }
 
+                }
+
+                if (explosiveArmorHP <= 0)
+                {
+                    // we're out of shields, pop them all off! 
+                    foreach (GameObject plate in armorPlates)
+                    {
+                        // turn on collider
+                        plate.GetComponent<Collider>().enabled = true;
+                        // unparent and throw the plate
+                        plate.transform.Unparent();
+                        renderers.Remove(plate.GetComponent<Renderer>());
+                        plate.GetComponent<Rigidbody>().useGravity = true;
+                        plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 10f);
+                    }
                 }
             }
 

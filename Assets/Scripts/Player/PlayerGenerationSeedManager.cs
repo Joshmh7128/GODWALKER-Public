@@ -94,7 +94,6 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         {
             // check i's percentage position
             float x = ((float)i/roomNames.Count)*100;
-            Debug.Log(x);
 
             /// for 0% to 15% of the run use no elements
             if (x < 30)

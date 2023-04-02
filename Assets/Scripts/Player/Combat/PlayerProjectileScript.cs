@@ -163,6 +163,7 @@ public class PlayerProjectileScript : MonoBehaviour
             Instantiate(normalHitFX);
 
             // deal damage to enemy
+            Debug.Log("hurting enemy for " + damage);
             eclass.GetHurt(damage);
 
             // add our rage
@@ -187,9 +188,7 @@ public class PlayerProjectileScript : MonoBehaviour
 
         if (enemy.transform.tag == "Enemy" && eclass.invincible)
         {
-            // random normal modifier
             damage = 0;
-            // spawn normal damage number
         }
 
     }
