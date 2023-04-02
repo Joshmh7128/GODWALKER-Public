@@ -318,6 +318,8 @@ public abstract class EnemyClass : MonoBehaviour
                 {
                     plate.SetActive(false);
                 }
+
+                Instantiate(Resources.Load("EnemyElementalEffects/ShockExplosionNoDamage") as GameObject, transform);
             }
 
             if (element == ElementalProtection.energyShield)
@@ -326,15 +328,16 @@ public abstract class EnemyClass : MonoBehaviour
             }
 
             // set the intensity of our energy shields to the inverse % of our remaining HP
-            try
+            foreach (GameObject plate in energyShields)
             {
-                if (energyShields.Count > 0)
-                foreach (GameObject plate in energyShields)
+                plate.GetComponent<Renderer>().material.SetColor("_EmissionColor", plate.GetComponent<Renderer>().material.GetColor("_EmissionColor") * (2f));
+                // 10% chance to spawn a shield vfx
+                int c = Random.Range(0, 10);
+                if (c > 8)
                 {
-                    plate.GetComponent<Renderer>().material.SetColor("_EmissionColor", plate.GetComponent<Renderer>().material.GetColor("_EmissionColor") * (1.025f));
+                    Instantiate(Resources.Load("EnemyElementalEffects/ShieldBreakingVFX") as GameObject, plate.transform);
                 }
-            } catch { }
-
+            }
 
             // flash
             StartCoroutine(HurtFlash());
