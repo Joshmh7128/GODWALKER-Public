@@ -232,82 +232,6 @@ public abstract class EnemyClass : MonoBehaviour
         StartBehaviours();
     }
 
-    // getting hurt and dying
-    virtual public void GetHurt(float damage)
-    {
-        if (!invincible)
-        {
-            // before dealing damage, check to ensure we have no armors
-            if (explosiveArmorHP <= 0 && energyShieldHP <= 0)
-            {
-                health -= (int)damage;
-            } 
-            
-            if (explosiveArmorHP > 0 || energyShieldHP > 0) // if we have any armor, damage it
-            {
-                explosiveArmorHP -= damage;
-                // drop some shield parts to represent how much HP we've lots in the explosion
-                if (explosiveArmorHP > 0)
-                {
-                    // the shields we're throwing off of the enemy
-                    List<GameObject> blownPlates = new List<GameObject>();
-                    // get 3 shields to pop off the enemy
-                    for (int i = 0; i <= 3; i++)
-                    {
-                        blownPlates.Add(armorPlates[Random.Range(0, armorPlates.Count)]);
-                    }
-
-                    // then
-                    try
-                    {
-                        foreach (GameObject plate in blownPlates)
-                        {
-                            // turn on collider
-                            plate.GetComponent<Collider>().enabled = true;
-                            // unparent and throw the plate
-                            plate.GetComponent<Rigidbody>().useGravity = true;
-                            plate.transform.Unparent();
-                            plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 30f);
-                        }
-                    }
-                    catch
-                    {
-
-                    }
-
-                }
-
-                if (explosiveArmorHP <= 0)
-                {
-                    // we're out of shields, pop them all off! 
-                    foreach (GameObject plate in armorPlates)
-                    {
-                        // turn on collider
-                        plate.GetComponent<Collider>().enabled = true;
-                        // unparent and throw the plate
-                        plate.transform.Unparent();
-                        plate.GetComponent<Rigidbody>().useGravity = true;
-                        plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 10f);
-                    }
-                }
-
-                energyShieldHP -= damage;
-            }
-            // flash
-            StartCoroutine(HurtFlash());
-            // if we are at 0 health, trigger death
-            if (health <= 0)
-            {
-                // die
-                if (!dead)
-                OnDeath();
-            }
-
-            // run our get hurt extender
-            GetHurtExtension();
-        }
-    }
-
     // for when an elemental attack hits us
     virtual public void GetHurt(float damage, ElementalProtection element)
     {
@@ -323,45 +247,34 @@ public abstract class EnemyClass : MonoBehaviour
             {
                 explosiveArmorHP -= (int)damage * 4;
                 // drop some shield parts to represent how much HP we've lots in the explosion
-                if (explosiveArmorHP > 0)
+            }
+
+            // explosion FX
+
+            if (explosiveArmorHP > 0)
+            {
+                // the shields we're throwing off of the enemy
+                List<GameObject> blownPlates = new List<GameObject>();
+                // get 3 shields to pop off the enemy
+                for (int i = 0; i <= 3; i++)
                 {
-                    // the shields we're throwing off of the enemy
-                    List<GameObject> blownPlates = new List<GameObject>(); 
-                    // get 3 shields to pop off the enemy
-                    for (int i = 0; i <= 3; i++)
-                    {
-                        blownPlates.Add(armorPlates[Random.Range(0, armorPlates.Count)]);
-                    }
-
-                    // then
-                    try
-                    {
-                        foreach (GameObject plate in blownPlates)
-                        {
-                            // turn on collider
-                            plate.GetComponent<Collider>().enabled = true;
-                            // unparent and throw the plate
-                            plate.transform.Unparent();
-                            plate.GetComponent<Rigidbody>().useGravity = true;
-                            plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
-                        }
-                    }
-                    catch 
-                    {
-                        // we're out of shields, pop them all off! 
-                        foreach (GameObject plate in armorPlates)
-                        {
-                            // turn on collider
-                            plate.GetComponent<Collider>().enabled = true;
-                            // unparent and throw the plate
-                            plate.transform.Unparent();
-                            plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
-                        }
-                    }
-
+                    blownPlates.Add(armorPlates[Random.Range(0, armorPlates.Count)]);
                 }
 
-                if (explosiveArmorHP <= 0)
+                // then
+                try
+                {
+                    foreach (GameObject plate in blownPlates)
+                    {
+                        // turn on collider
+                        plate.GetComponent<Collider>().enabled = true;
+                        // unparent and throw the plate
+                        plate.transform.Unparent();
+                        plate.GetComponent<Rigidbody>().useGravity = true;
+                        plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
+                    }
+                }
+                catch
                 {
                     // we're out of shields, pop them all off! 
                     foreach (GameObject plate in armorPlates)
@@ -370,16 +283,37 @@ public abstract class EnemyClass : MonoBehaviour
                         plate.GetComponent<Collider>().enabled = true;
                         // unparent and throw the plate
                         plate.transform.Unparent();
-                        plate.GetComponent<Rigidbody>().useGravity = true;
-                        plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 10f);
+                        plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
                     }
                 }
+
             }
+
+            if (explosiveArmorHP <= 0)
+            {
+                // we're out of shields, pop them all off! 
+                foreach (GameObject plate in armorPlates)
+                {
+                    // turn on collider
+                    plate.GetComponent<Collider>().enabled = true;
+                    // unparent and throw the plate
+                    plate.transform.Unparent();
+                    plate.GetComponent<Rigidbody>().useGravity = true;
+                    plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 10f);
+                }
+            }
+
 
             if (element == ElementalProtection.energyShield)
             {
                 energyShieldHP -= (int)damage * 4;
             }
+
+            // set the intensity of our energy shields to the inverse % of our remaining HP
+            foreach (GameObject plate in energyShields)
+            {
+                plate.GetComponent<Renderer>().material.SetColor("_EmissionColor", plate.GetComponent<Renderer>().material.GetColor("_EmissionColor") * (1.1f));
+            }    
 
             // flash
             StartCoroutine(HurtFlash());

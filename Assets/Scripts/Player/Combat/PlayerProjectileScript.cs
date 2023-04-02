@@ -164,7 +164,7 @@ public class PlayerProjectileScript : MonoBehaviour
 
             // deal damage to enemy
             Debug.Log("hurting enemy for " + damage);
-            eclass.GetHurt(damage);
+            eclass.GetHurt(damage, EnemyClass.ElementalProtection.none);
 
             // add our rage
             PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier);

@@ -62,7 +62,7 @@ public class PlayerShockExplosionScript : MonoBehaviour
             // random normal modifier
             damage = weaponManager.currentWeapon.damage * Random.Range(0.1f, 0.15f);
             // deal damage         
-            other.GetComponent<EnemyClass>().GetHurt(damage);
+            other.GetComponent<EnemyClass>().GetHurt(damage, EnemyClass.ElementalProtection.none);
             // apply effect
             other.GetComponent<EnemyClass>().ApplyEffect(EnemyClass.Effects.Shock);
 

@@ -133,7 +133,7 @@ public class ArenaHandler : MonoBehaviour
         {
             foreach(Transform enemy in activeParent)
             {
-                enemy.gameObject.GetComponent<EnemyClass>().GetHurt(999999f);
+                enemy.gameObject.GetComponent<EnemyClass>().GetHurt(999999f, EnemyClass.ElementalProtection.none);
             }
         }
 
