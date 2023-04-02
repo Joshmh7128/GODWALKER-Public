@@ -21,9 +21,27 @@ public abstract class EnemyClass : MonoBehaviour
     [SerializeField] GameObject dropItem;
     bool dead; // are we dead?
 
+    
+    // elemental shields
+    public enum ElementalProtection
+    {
+        none, explosiveShield, energyShield
+    }
+
+    [Header("-- Elemental Stats --")]
+    // do we spawn with any shield types?
+    public ElementalProtection activeElementalProtection;
+
+    // armor list
+    [SerializeField] List<GameObject> armorPlates;
+
+
+    
     // our behaviours
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
-    public Transform attackBehaviourParent, movementBehaviourParent;
+    [Header("-- Behaviours --")]
+    public Transform attackBehaviourParent;
+    public Transform movementBehaviourParent;
     [SerializeField] List<EnemyBehaviour> attackBehaviours = new List<EnemyBehaviour>();
     [SerializeField] List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
     public bool activated;
@@ -65,6 +83,8 @@ public abstract class EnemyClass : MonoBehaviour
         StartExtension();
         // set our stats
         SetLevelStats();
+        // check our elemental protections
+        ElementalProtectionCheck();
         // if we are already active
         if (activated)
         { StartBehaviours(); }
@@ -148,6 +168,17 @@ public abstract class EnemyClass : MonoBehaviour
         {
             // add attacks
             movementBehaviours.Add(behaviour.GetComponent<EnemyBehaviour>());
+        }
+    }
+
+    // do we have any elemental protections?
+    void ElementalProtectionCheck()
+    {
+        if (activeElementalProtection == ElementalProtection.explosiveShield)
+        {
+            // set armor plating to active
+            foreach (GameObject plate in armorPlates)
+                plate.SetActive(true);
         }
     }
 
