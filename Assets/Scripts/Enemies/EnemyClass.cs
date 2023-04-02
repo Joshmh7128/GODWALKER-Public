@@ -246,13 +246,27 @@ public abstract class EnemyClass : MonoBehaviour
 
             if (explosiveArmorHP > 0 || energyShieldHP > 0)
             {
-                explosiveArmorHP -= damage;
-                energyShieldHP -= damage;
+                if (element == ElementalProtection.none)
+                {
+                    explosiveArmorHP -= damage / 3;
+                    energyShieldHP -= damage / 3;
+                } 
+                
+                // damage to non-types
+                if (element == ElementalProtection.energyShield)
+                {
+                    explosiveArmorHP -= damage / 3;
+                }
+
+                if (element == ElementalProtection.explosiveShield)
+                {
+                    energyShieldHP -= damage / 3;
+                }
             }
 
             if (element == ElementalProtection.explosiveShield)
             {
-                explosiveArmorHP -= (int)damage * 4;
+                explosiveArmorHP -= (int)damage * 8;
                 // drop some shield parts to represent how much HP we've lots in the explosion
             }
 
@@ -263,7 +277,7 @@ public abstract class EnemyClass : MonoBehaviour
                 // the shields we're throwing off of the enemy
                 List<GameObject> blownPlates = new List<GameObject>();
                 // get 3 shields to pop off the enemy
-                for (int i = 0; i <= 3; i++)
+                for (int i = 0; i <= 1; i++)
                 {
                     blownPlates.Add(armorPlates[Random.Range(0, armorPlates.Count)]);
                 }
@@ -314,17 +328,20 @@ public abstract class EnemyClass : MonoBehaviour
 
             if (energyShieldHP <= 0)
             {
+
+                if (energyShields[0].activeInHierarchy == true)
+                    Instantiate(Resources.Load("EnemyElementalEffects/ShockExplosionNoDamage") as GameObject, transform);
+
                 foreach (GameObject plate in energyShields)
                 {
                     plate.SetActive(false);
                 }
 
-                Instantiate(Resources.Load("EnemyElementalEffects/ShockExplosionNoDamage") as GameObject, transform);
             }
 
             if (element == ElementalProtection.energyShield)
             {
-                energyShieldHP -= (int)damage * 4;
+                energyShieldHP -= (int)damage * 8;
             }
 
             // set the intensity of our energy shields to the inverse % of our remaining HP

@@ -60,14 +60,14 @@ public class PlayerShockExplosionScript : MonoBehaviour
         {
             enemiesHit++;
             // random normal modifier
-            damage = weaponManager.currentWeapon.damage * Random.Range(0.1f, 0.15f);
+            damage = weaponManager.currentWeapon.damage;
             // deal damage         
-            other.GetComponent<EnemyClass>().GetHurt(damage, EnemyClass.ElementalProtection.none);
+            other.GetComponent<EnemyClass>().GetHurt(damage, EnemyClass.ElementalProtection.energyShield);
             // apply effect
             other.GetComponent<EnemyClass>().ApplyEffect(EnemyClass.Effects.Shock);
 
             // spawn normal damage number
-            shockHit.Spawn(transform.position, damage);
+            // shockHit.Spawn(transform.position, damage);
             // disable the collider in the next frame
             StartCoroutine(DisableBuffer()); // then disable the collider
         }
