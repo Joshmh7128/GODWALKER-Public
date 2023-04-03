@@ -21,8 +21,10 @@ public class PlayerGenerationSeedManager : MonoBehaviour
 
     // a public list of rooms we can go to for gamma generation
     public List<string> roomNames = new List<string>(); // set in inspector
+    [SerializeField] List<string> rewardNames = new List<string>(); // the names of our shops
     [SerializeField] List<string> storedRoomNames = new List<string>(); // store our room names for when we reset the run
-
+    [SerializeField] int shopFrequency; // how often do we see shops throughout the run?
+    int shopAmount;
     // our element selections
     public enum ElementBiases
     {
@@ -31,7 +33,8 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         partialExplosive,   // 50% of enemies have explosive shields
         partialMixed,       // 25% energy, 25% explosive
         allEnergy,          // all enemies have energy shields
-        allExplosive        // all enemies have explosive shields
+        allExplosive,        // all enemies have explosive shields
+        freeGun, specialGun, shop
     }
 
     // our list of element preferences for each room in the run
@@ -82,8 +85,17 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         foreach (string name in A1) roomNames.Add(name);
         foreach (string name in A2) roomNames.Add(name);
 
+        // then add in our rewards every shopFrequency within the list, then add a shop at the end
+        for (int i = 0; i < roomNames.Count; i += shopFrequency)
+            roomNames.Insert(i, rewardNames[0]);
+        roomNames.Insert(roomNames.Count / 2, rewardNames[1]);
+
+        // at the end of the run add the finish
+        roomNames.Add("Finish");
+
         // after the maps are selected, choose our elements
         AssignElementalBiases();
+
     }
 
     // function which decides our elemental biases
@@ -118,8 +130,19 @@ public class PlayerGenerationSeedManager : MonoBehaviour
                 if (c == 1) elementBiases.Add(ElementBiases.allExplosive);
             }
         }
-    }
 
+        // now go through and compare our elements to our room list, and override them based on specials
+        for (int i = 0; i < roomNames.Count; i++)
+        {
+            // reassign rewards
+            if (roomNames[i] == rewardNames[0])
+                elementBiases[i] = ElementBiases.freeGun;
+
+            // reassign shops
+            if (roomNames[i] == rewardNames[1])
+                elementBiases[i] = ElementBiases.shop;
+        }
+    }
 
     // run this whenever want to start over
     public void ResetRun()

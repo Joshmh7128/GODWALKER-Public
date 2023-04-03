@@ -11,7 +11,7 @@ public class RunForecastBoardHandler : MonoBehaviour
     PlayerGenerationSeedManager seedManager;
 
     // our sprites
-    [SerializeField] Sprite normalCombat, explosiveCombat, energyCombat, bothCombat, freeWeapon;
+    [SerializeField] Sprite normalCombat, explosiveCombat, energyCombat, bothCombat, freeWeapon, shop;
     [SerializeField] List<Image> imageSlots = new List<Image>(); // a place to hold all of our images
 
     private void Start()
@@ -38,36 +38,46 @@ public class RunForecastBoardHandler : MonoBehaviour
         // read our next runs and display the next 3 rooms
         for (int i = 0; i < imageSlots.Count; i++)
         {
-            switch ((int)ReadRoom(i))
+            switch ((int)ReadRoom(i+1))
             {
                 // none
-                case 0:
+                case (int)PlayerGenerationSeedManager.ElementBiases.none:
                     imageSlots[i].sprite = normalCombat;
                     break;
 
                 // energy
-                case 1:
+                case (int)PlayerGenerationSeedManager.ElementBiases.partialEnergy:
                     imageSlots[i].sprite = energyCombat;
                     break;
 
                 // explosive
-                case 2:
+                case (int)PlayerGenerationSeedManager.ElementBiases.partialExplosive:
                     imageSlots[i].sprite = explosiveCombat;
                     break;
 
                 // both
-                case 3:
+                case (int)PlayerGenerationSeedManager.ElementBiases.partialMixed:
                     imageSlots[i].sprite = bothCombat;
                     break;
 
                 // energy
-                case 4:
+                case (int)PlayerGenerationSeedManager.ElementBiases.allEnergy:
                     imageSlots[i].sprite = energyCombat;
                     break;
 
                 // explosive
-                case 5:
+                case (int)PlayerGenerationSeedManager.ElementBiases.allExplosive:
                     imageSlots[i].sprite = explosiveCombat;
+                    break;
+
+                // shop
+                case (int)PlayerGenerationSeedManager.ElementBiases.shop:
+                    imageSlots[i].sprite = shop;
+                    break;
+
+                // free gun
+                case (int)PlayerGenerationSeedManager.ElementBiases.freeGun:
+                    imageSlots[i].sprite = freeWeapon;
                     break;
             }
         }

@@ -32,6 +32,11 @@ public class TweenRoomHandler : MonoBehaviour
 
     void ChooseDestination()
     {
+        // just get the next room name from the list
+        targetNextScene = PlayerGenerationSeedManager.instance.roomNames[PlayerGenerationSeedManager.instance.currentRunPos];
+
+        #region // old switch
+        /*
         // check if we have a target scene
         switch (PlayerGenerationSeedManager.instance.currentRunPos)
         {
@@ -76,7 +81,8 @@ public class TweenRoomHandler : MonoBehaviour
                 break;
 
         }
-    
+    */
+        #endregion
     }
 
     // pull a room from the room list
