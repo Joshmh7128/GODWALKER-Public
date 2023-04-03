@@ -117,7 +117,6 @@ public class PlayerController : MonoBehaviour
             ProcessWeaponControl();
             ProcessGoWas();
         }
-
     }
 
     void ProcessUpdateInputs()

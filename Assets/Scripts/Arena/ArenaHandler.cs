@@ -69,12 +69,13 @@ public class ArenaHandler : MonoBehaviour
         // before we do anything, get our encounter set object
         encounterSetObject = Resources.Load<EnemySetObject>("EncounterSets");
 
-        // build an arena from our geometry prefabs
-        BuildArena();
         // get our arena manager instance
         arenaManager = ArenaManager.instance;
         playerRageManager = PlayerRageManager.instance;
         seedManager = PlayerGenerationSeedManager.instance;
+
+        // build an arena from our geometry prefabs
+        BuildArena();
     }
 
     // put enemies in room
