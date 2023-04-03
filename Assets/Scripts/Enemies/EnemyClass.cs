@@ -248,25 +248,25 @@ public abstract class EnemyClass : MonoBehaviour
             {
                 if (element == ElementalProtection.none)
                 {
-                    explosiveArmorHP -= damage/2;
-                    energyShieldHP -= damage/2;
+                    explosiveArmorHP -= damage/3;
+                    energyShieldHP -= damage/3;
                 } 
                 
                 // damage to non-types
                 if (element == ElementalProtection.energyShield)
                 {
-                    explosiveArmorHP -= damage/2;
+                    explosiveArmorHP -= damage/8;
                 }
 
                 if (element == ElementalProtection.explosiveShield)
                 {
-                    energyShieldHP -= damage/2;
+                    energyShieldHP -= damage/8;
                 }
             }
 
             if (element == ElementalProtection.explosiveShield)
             {
-                explosiveArmorHP -= (int)damage * 8;
+                explosiveArmorHP -= (int)damage * 4;
                 // drop some shield parts to represent how much HP we've lots in the explosion
             }
 
@@ -292,7 +292,9 @@ public abstract class EnemyClass : MonoBehaviour
                         // unparent and throw the plate
                         plate.transform.Unparent();
                         plate.GetComponent<Rigidbody>().useGravity = true;
-                        plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
+                       if (plate.transform.parent == null && Mathf.Abs(plate.GetComponent<Rigidbody>().velocity.x) < 0.001f) 
+                            plate.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1, 2), Random.Range(-1, 2), Random.Range(-1, 2)) * 20f, ForceMode.Impulse);
+
                     }
                 }
                 catch
@@ -304,7 +306,9 @@ public abstract class EnemyClass : MonoBehaviour
                         plate.GetComponent<Collider>().enabled = true;
                         // unparent and throw the plate
                         plate.transform.Unparent();
-                        plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 1000f);
+                        if (plate.transform.parent == null && Mathf.Abs(plate.GetComponent<Rigidbody>().velocity.x) < 0.001f) 
+                            plate.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1, 2), Random.Range(-1, 2), Random.Range(-1, 2)) * 20f, ForceMode.Impulse);
+
                     }
                 }
 
@@ -320,7 +324,8 @@ public abstract class EnemyClass : MonoBehaviour
                     // unparent and throw the plate
                     plate.transform.Unparent();
                     plate.GetComponent<Rigidbody>().useGravity = true;
-                    plate.GetComponent<Rigidbody>().AddForce(plate.transform.position - transform.position * 10f);
+                    if (plate.transform.parent == null && Mathf.Abs(plate.GetComponent<Rigidbody>().velocity.x) < 0.001f)
+                        plate.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1, 2), Random.Range(-1, 2), Random.Range(-1, 2)) * 20f, ForceMode.Impulse);
                 }
             }
 
@@ -341,7 +346,7 @@ public abstract class EnemyClass : MonoBehaviour
 
             if (element == ElementalProtection.energyShield)
             {
-                energyShieldHP -= (int)damage * 8;
+                energyShieldHP -= (int)damage * 4;
             }
 
             // set the intensity of our energy shields to the inverse % of our remaining HP
