@@ -166,8 +166,12 @@ public class PlayerProjectileScript : MonoBehaviour
             Debug.Log("hurting enemy for " + damage);
             eclass.GetHurt(damage, EnemyClass.ElementalProtection.none);
 
-            // add our rage
-            PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier);
+            // check the status of the enemy's shields
+            if (eclass.energyShieldHP <= 0 && eclass.explosiveArmorHP <= 0)
+            {
+                // add our rage
+                PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier);
+            }
 
             // apply our elemental effects
             // do we slag them?

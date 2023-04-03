@@ -39,7 +39,7 @@ public abstract class EnemyClass : MonoBehaviour
 
     // armor values
     [SerializeField] float setExplosiveArmorHP, setEnergyShieldHP;
-    [SerializeField] float explosiveArmorHP, energyShieldHP;
+    [SerializeField] public float explosiveArmorHP, energyShieldHP;
 
     // our behaviours
     [HideInInspector] public List<EnemyBehaviour> allBehaviours;
@@ -248,19 +248,19 @@ public abstract class EnemyClass : MonoBehaviour
             {
                 if (element == ElementalProtection.none)
                 {
-                    explosiveArmorHP -= damage / 3;
-                    energyShieldHP -= damage / 3;
+                    explosiveArmorHP -= damage/2;
+                    energyShieldHP -= damage/2;
                 } 
                 
                 // damage to non-types
                 if (element == ElementalProtection.energyShield)
                 {
-                    explosiveArmorHP -= damage / 3;
+                    explosiveArmorHP -= damage/2;
                 }
 
                 if (element == ElementalProtection.explosiveShield)
                 {
-                    energyShieldHP -= damage / 3;
+                    energyShieldHP -= damage/2;
                 }
             }
 
