@@ -9,17 +9,6 @@ public class EnemyClass_Helion : EnemyClass
     [SerializeField] float baseHealth; // health we set in-editor, this is a beefier enemy so we want it to be higher
     [SerializeField] bool rotates = true;
 
-    // set our stats
-    public override void SetLevelStats()
-    {
-        // level = ArenaManager.instance.activeArena.arenaLevel;
-        // set our health
-        health = maxHealth;
-        // set our damage
-        // damage = level * (2 + level * 0.1f); // this is a standard curve
-        damage = 10; // set our basic damage
-    }
-
     public override void FixedUpdate()
     {
         base.FixedUpdate();
