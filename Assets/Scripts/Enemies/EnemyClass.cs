@@ -94,6 +94,11 @@ public abstract class EnemyClass : MonoBehaviour
         { StartBehaviours(); }
     }
 
+    private void OnEnable()
+    {
+        ElementalProtectionCheck();
+    }
+
     // run to generate spawn point requirements
     void ChooseSpawnPointRequirement()
     {

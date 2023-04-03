@@ -53,6 +53,7 @@ public class ArenaHandler : MonoBehaviour
     // we need our scriptable object
     EnemySetObject encounterSetObject;
 
+    PlayerGenerationSeedManager seedManager;
 
     public enum ArenaModes
     {
@@ -73,13 +74,14 @@ public class ArenaHandler : MonoBehaviour
         // get our arena manager instance
         arenaManager = ArenaManager.instance;
         playerRageManager = PlayerRageManager.instance;
+        seedManager = PlayerGenerationSeedManager.instance;
     }
 
     // put enemies in room
     void BuildArena()
     {
         // set our current room
-        currentRoom = PlayerGenerationSeedManager.instance.currentCombatPos; // get our player's current position in the run
+        currentRoom = seedManager.currentCombatPos; // get our player's current position in the run
 
         // before we build our arena, we need to build our waves
         if (spawnWavesFromData)
@@ -94,12 +96,108 @@ public class ArenaHandler : MonoBehaviour
                 w++;
                 // spawn the wave under out master wave, then spawn all the enemies of that wave underneath it
                 GameObject newWave = Instantiate(new GameObject(), masterWave); newWave.name = "Wave " + w;
+
                 // then foreach enemy in the wave's enemy list instantiate it in as with newWave as its parent
                 foreach(GameObject enemy in wave.enemyList)
                 {
                     // make sure to spawn in the enemy and ENSURUE IT IS INACTIVE
                     Instantiate(enemy, newWave.transform).SetActive(false);
+ 
                 }
+
+                // check and set its elemental protection. the enemyClass automatically will turn on its shields on activation
+
+                // half energy shielded
+                if (seedManager.elementBiases[seedManager.currentRunPos] == PlayerGenerationSeedManager.ElementBiases.partialEnergy)
+                {
+                    // put all the children in a list and shuffle
+                    List<GameObject> children = new List<GameObject>();
+                    foreach (Transform child in newWave.transform)
+                        children.Add(child.gameObject);
+
+                    children.Shuffle();
+
+                    // we want half to be shielded
+                    for (int z = 0; z < children.Count / 2; z++)
+                    {
+                        children[z].GetComponent<EnemyClass>().activeElementalProtection = EnemyClass.ElementalProtection.energyShield;
+                    }
+                }
+
+                // half explosive shielded
+                if (seedManager.elementBiases[seedManager.currentRunPos] == PlayerGenerationSeedManager.ElementBiases.partialExplosive)
+                {
+                    // put all the children in a list and shuffle
+                    List<GameObject> children = new List<GameObject>();
+                    foreach (Transform child in newWave.transform)
+                        children.Add(child.gameObject);
+
+                    children.Shuffle();
+
+                    // we want half to be shielded
+                    for (int z = 0; z < children.Count / 2; z++)
+                    {
+                        children[z].GetComponent<EnemyClass>().activeElementalProtection = EnemyClass.ElementalProtection.explosiveShield;
+                    }
+                }
+
+                // check for 50/50 mixed assignments
+                if (seedManager.elementBiases[seedManager.currentRunPos] == PlayerGenerationSeedManager.ElementBiases.partialMixed)
+                {
+                    // put all the children in a list and shuffle
+                    List<GameObject> children = new List<GameObject>();
+                    foreach (Transform child in newWave.transform)
+                        children.Add(child.gameObject);
+
+                    children.Shuffle();
+                    int z;
+                    // we want half to be shielded
+                    for (z = 0; z < children.Count / 2; z++)
+                    {
+                        children[z].GetComponent<EnemyClass>().activeElementalProtection = EnemyClass.ElementalProtection.energyShield;
+                    }
+
+                    // we want half to be shielded
+                    for (z = z; z < children.Count; z++)
+                    {
+                        children[z].GetComponent<EnemyClass>().activeElementalProtection = EnemyClass.ElementalProtection.explosiveShield;
+                    }
+                }
+
+                // all energy shielded
+                if (seedManager.elementBiases[seedManager.currentRunPos] == PlayerGenerationSeedManager.ElementBiases.allEnergy)
+                {
+                    // put all the children in a list and shuffle
+                    List<GameObject> children = new List<GameObject>();
+                    foreach (Transform child in newWave.transform)
+                        children.Add(child.gameObject);
+
+                    children.Shuffle();
+
+                    // we want half to be shielded
+                    for (int z = 0; z < children.Count; z++)
+                    {
+                        children[z].GetComponent<EnemyClass>().activeElementalProtection = EnemyClass.ElementalProtection.energyShield;
+                    }
+                }
+
+                // all explosive shielded
+                if (seedManager.elementBiases[seedManager.currentRunPos] == PlayerGenerationSeedManager.ElementBiases.allExplosive)
+                {
+                    // put all the children in a list and shuffle
+                    List<GameObject> children = new List<GameObject>();
+                    foreach (Transform child in newWave.transform)
+                        children.Add(child.gameObject);
+
+                    children.Shuffle();
+
+                    // we want half to be shielded
+                    for (int z = 0; z < children.Count; z++)
+                    {
+                        children[z].GetComponent<EnemyClass>().activeElementalProtection = EnemyClass.ElementalProtection.explosiveShield;
+                    }
+                }
+
             }
 
         }

@@ -86,7 +86,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         foreach (string name in A2) roomNames.Add(name);
 
         // then add in our rewards every shopFrequency within the list, then add a shop at the end
-        for (int i = 0; i < roomNames.Count; i += shopFrequency)
+        for (int i = shopFrequency; i < roomNames.Count; i += shopFrequency)
             roomNames.Insert(i, rewardNames[0]);
         roomNames.Insert(roomNames.Count / 2, rewardNames[1]);
 
