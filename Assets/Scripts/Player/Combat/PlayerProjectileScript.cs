@@ -163,7 +163,6 @@ public class PlayerProjectileScript : MonoBehaviour
             Instantiate(normalHitFX);
 
             // deal damage to enemy
-            Debug.Log("hurting enemy for " + damage);
             eclass.GetHurt(damage, EnemyClass.ElementalProtection.none);
 
             // check the status of the enemy's shields
