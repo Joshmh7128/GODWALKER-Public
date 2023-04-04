@@ -82,7 +82,7 @@ public class ArenaHandler : MonoBehaviour
     void BuildArena()
     {
         // set our current room
-        currentRoom = seedManager.currentCombatPos; // get our player's current position in the run
+        currentRoom = seedManager.currentRunPos; // get our player's current position in the run
 
         // before we build our arena, we need to build our waves
         if (spawnWavesFromData)

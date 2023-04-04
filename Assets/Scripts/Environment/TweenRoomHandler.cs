@@ -191,7 +191,7 @@ public class TweenRoomHandler : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.1f);
         // load the new scene
-        SceneManager.LoadSceneAsync(targetNextScene);
+        SceneManager.LoadSceneAsync(targetNextScene, LoadSceneMode.Single);
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == targetNextScene);
         canClose = true;
         yield return new WaitForSecondsRealtime(0.1f);
