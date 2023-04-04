@@ -107,9 +107,11 @@ public class ArenaHandler : MonoBehaviour
                 }
 
                 // check and set its elemental protection. the enemyClass automatically will turn on its shields on activation
+                // because we are one ahead by the time the player starts combat, we need to check the run pos from when we entered the room
+                int location = seedManager.currentRunPos - 1;
 
                 // half energy shielded
-                if (seedManager.elementBiases[seedManager.currentRunPos] == PlayerGenerationSeedManager.ElementBiases.partialEnergy)
+                if (seedManager.elementBiases[location] == PlayerGenerationSeedManager.ElementBiases.partialEnergy)
                 {
                     // put all the children in a list and shuffle
                     List<GameObject> children = new List<GameObject>();
@@ -126,7 +128,7 @@ public class ArenaHandler : MonoBehaviour
                 }
 
                 // half explosive shielded
-                if (seedManager.elementBiases[seedManager.currentRunPos] == PlayerGenerationSeedManager.ElementBiases.partialExplosive)
+                if (seedManager.elementBiases[location] == PlayerGenerationSeedManager.ElementBiases.partialExplosive)
                 {
                     // put all the children in a list and shuffle
                     List<GameObject> children = new List<GameObject>();
@@ -143,7 +145,7 @@ public class ArenaHandler : MonoBehaviour
                 }
 
                 // check for 50/50 mixed assignments
-                if (seedManager.elementBiases[seedManager.currentRunPos] == PlayerGenerationSeedManager.ElementBiases.partialMixed)
+                if (seedManager.elementBiases[location] == PlayerGenerationSeedManager.ElementBiases.partialMixed)
                 {
                     // put all the children in a list and shuffle
                     List<GameObject> children = new List<GameObject>();
@@ -166,7 +168,7 @@ public class ArenaHandler : MonoBehaviour
                 }
 
                 // all energy shielded
-                if (seedManager.elementBiases[seedManager.currentRunPos] == PlayerGenerationSeedManager.ElementBiases.allEnergy)
+                if (seedManager.elementBiases[location] == PlayerGenerationSeedManager.ElementBiases.allEnergy)
                 {
                     // put all the children in a list and shuffle
                     List<GameObject> children = new List<GameObject>();
@@ -183,7 +185,7 @@ public class ArenaHandler : MonoBehaviour
                 }
 
                 // all explosive shielded
-                if (seedManager.elementBiases[seedManager.currentRunPos] == PlayerGenerationSeedManager.ElementBiases.allExplosive)
+                if (seedManager.elementBiases[location] == PlayerGenerationSeedManager.ElementBiases.allExplosive)
                 {
                     // put all the children in a list and shuffle
                     List<GameObject> children = new List<GameObject>();
