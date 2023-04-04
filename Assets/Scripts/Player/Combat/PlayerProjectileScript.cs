@@ -156,7 +156,7 @@ public class PlayerProjectileScript : MonoBehaviour
                 damage = weaponManager.currentWeapon.damage;
 
                 if (PlayerRageManager.instance.godwalking)
-                damage = weaponManager.currentWeapon.damage * 2;
+                damage = weaponManager.currentWeapon.damage * 3;
             }
 
             // spawn hit fx
@@ -165,11 +165,22 @@ public class PlayerProjectileScript : MonoBehaviour
             // deal damage to enemy
             eclass.GetHurt(damage, EnemyClass.ElementalProtection.none);
 
-            // check the status of the enemy's shields
             if (eclass.energyShieldHP <= 0 && eclass.explosiveArmorHP <= 0)
             {
-                // add our rage
                 PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier);
+            }
+
+            // check the status of the enemy's shields
+            if (eclass.energyShieldHP > 0 && doesShockExplode)
+            {
+                // if we shock and deal shocking damage, give rage
+                PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 1.25f);
+            }
+
+            if (eclass.explosiveArmorHP > 0 && doesExplode)
+            {
+                // if we explode and deal exploding damage, give rage
+                PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 1.25f);
             }
 
             // apply our elemental effects
