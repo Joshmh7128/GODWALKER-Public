@@ -180,11 +180,16 @@ public class TweenRoomHandler : MonoBehaviour
             PlayerWeaponManager.instance.ReduceRageMultiplier();
 
         // perform a delayed load move of the room
+        if (!requestReset)
         StartCoroutine(DelayedLoadMove());
 
         // if we want to reset, request a reset
         if (requestReset)
+        {
             PlayerGenerationSeedManager.instance.ResetRun();
+            targetNextScene = "Permanent Reward no Player";
+            StartCoroutine(DelayedLoadMove());
+        }
     }
 
     public IEnumerator DelayedLoadMove()
