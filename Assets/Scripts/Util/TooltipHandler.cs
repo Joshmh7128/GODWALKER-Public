@@ -14,11 +14,22 @@ public class TooltipHandler : MonoBehaviour
     Vector3 healthPos = new Vector3(-386, -159, 0), godwalkerBar = new Vector3(-240, -193, 0), godCoinPos = new Vector3(226, -173, 0);
     [SerializeField] RectTransform rectTransform;
     [SerializeField] Image background;
+    [SerializeField] AudioSource closePip; // our audio closing pip
+
+    bool shownElementalPop; // have we shown an elemental popup to the player?
+
+    public static TooltipHandler instance; // our nonstatic instance
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // the tooltips we can do
     public enum Tooltips
     {
-        none, tooltip, movement, jumping, shooting, health, godbar, godbar2, godbar3, currency, goodLuck
+        none, tooltip, movement, jumping, shooting, health, godbar, godbar2, godbar3, currency, goodLuck, 
+
+        elementalPop
     }
 
     Tooltips tabAction;
@@ -107,8 +118,18 @@ public class TooltipHandler : MonoBehaviour
                 rectTransform.anchoredPosition = originalPos;
                 tabAction = Tooltips.none;
                 break;
-
-
+                
+            case (int)Tooltips.elementalPop:
+                if (!shownElementalPop)
+                {
+                    tooltipPanel.SetActive(true); // make sure we set this to active because this is triggered externally
+                    background.enabled = true;
+                    shownElementalPop = true; // make sure we log that we have shown this
+                    tooltipText.text = "You'll be facing enemies with elemental weaknesses soon. Choose your weapon wisely!";
+                    rectTransform.anchoredPosition = originalPos;
+                    tabAction = Tooltips.none;
+                }
+                break;
         }
     }
 
@@ -116,6 +137,7 @@ public class TooltipHandler : MonoBehaviour
     {
         tooltipPanel.SetActive(false);
         SetTooltip(tabAction);
+        closePip.Play();
     }
 
     private void Update()
@@ -132,7 +154,7 @@ public class TooltipHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            gameObject.SetActive(false);
+            SetTooltip(Tooltips.none);
         }
     }
 
