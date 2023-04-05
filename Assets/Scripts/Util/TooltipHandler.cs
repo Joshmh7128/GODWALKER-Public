@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
 
 public class TooltipHandler : MonoBehaviour
 {
@@ -99,7 +100,7 @@ public class TooltipHandler : MonoBehaviour
                 break;
 
             case (int)Tooltips.goodLuck:
-                tooltipText.text = "That's all you need to know for now. Good luck.";
+                tooltipText.text = "That's all you need to know for now. Now escape. Good luck.";
                 coinArrow.SetActive(false);
                 rectTransform.anchoredPosition = originalPos;
                 tabAction = Tooltips.none;
