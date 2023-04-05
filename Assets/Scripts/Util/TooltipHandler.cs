@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEditor;
 
@@ -12,9 +13,7 @@ public class TooltipHandler : MonoBehaviour
     Vector3 originalPos;
     Vector3 healthPos = new Vector3(-386, -159, 0), godwalkerBar = new Vector3(-240, -193, 0), godCoinPos = new Vector3(226, -173, 0);
     [SerializeField] RectTransform rectTransform;
-
-    // list of things the player has done
-    public bool canMove, canJump, canShoot;
+    [SerializeField] Image background;
 
     // the tooltips we can do
     public enum Tooltips
@@ -26,8 +25,8 @@ public class TooltipHandler : MonoBehaviour
 
     private void Start()
     {
-        SetTooltip(Tooltips.tooltip);
         originalPos = rectTransform.anchoredPosition;
+        SetTooltip(Tooltips.tooltip);
     }
 
     // use this function to set a tooltip
@@ -43,12 +42,15 @@ public class TooltipHandler : MonoBehaviour
                 healthBarArrows.SetActive(false);
                 godwalkerBarArrows.SetActive(false);
                 coinArrow.SetActive(false);
+                background.enabled = false;
                 break;
                 
-
             case (int)Tooltips.tooltip:
                 tooltipText.text = "This is a Tooltip. It'll teach you how to play and appear when you learn something new.";
+                tooltipPanel.SetActive(true);
+                rectTransform.anchoredPosition = originalPos;
                 tabAction = Tooltips.movement;
+                background.enabled = true;
                 break;
 
             case (int)Tooltips.movement:
@@ -118,6 +120,13 @@ public class TooltipHandler : MonoBehaviour
 
     private void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            Debug.Log("f1");
+            SetTooltip(Tooltips.tooltip);
+        }
+
         if (Input.GetKeyDown(KeyCode.Tab))
             TabAction();
 
