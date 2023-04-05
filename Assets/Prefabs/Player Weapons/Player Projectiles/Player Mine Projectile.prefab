@@ -12859,7 +12859,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4406109652847524889}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.13052624, y: 0, z: 0, w: 0.9914449}
   m_LocalPosition: {x: -4.758647, y: 2.9548488, z: -35.411625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12871,7 +12871,7 @@ Transform:
   - {fileID: 2863662898373485041}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -15, y: 0, z: 0}
 --- !u!114 &4406109652847524892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12924,7 +12924,9 @@ MonoBehaviour:
   teleportFX: {fileID: 163948, guid: 190b37a8d9ed3e74c82a5c43d070d712, type: 3}
   rageNumber: {fileID: 1457756166330312630, guid: 6547a60b38ec9054eba254d3b2877d09, type: 3}
   deathTime: 5
+  homingHangTime: 0
   usesPhysics: 1
+  adjustFire: {x: -15, y: 0, z: 0}
   physicsLaunchForce: 5000
   usesTrigger: 0
   doesBounce: 0
@@ -12933,6 +12935,7 @@ MonoBehaviour:
   secondHome: 0
   doesExplode: 0
   doesShockExplode: 0
+  doesSlag: 0
   isLifesteal: 0
   isTeleportShot: 0
   invincible: 1

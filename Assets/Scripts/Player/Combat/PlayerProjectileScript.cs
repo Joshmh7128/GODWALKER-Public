@@ -18,6 +18,7 @@ public class PlayerProjectileScript : MonoBehaviour
     [SerializeField] float homingHangTime; // how long do we wait in seconds before homing?
 
     [SerializeField] bool usesPhysics;
+    [SerializeField] Vector3 adjustFire;
     [SerializeField] float physicsLaunchForce;
     Rigidbody body;
 
@@ -84,9 +85,13 @@ public class PlayerProjectileScript : MonoBehaviour
 
     void TypeCheck()
     {
+        // adjust our direction on the firing of our object
+        if (adjustFire != Vector3.zero)
+            transform.eulerAngles += adjustFire;
         // if we use physics, launch the projectile
         if (usesPhysics)
             gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * physicsLaunchForce);
+
     }
 
     // Update is called once per frame
