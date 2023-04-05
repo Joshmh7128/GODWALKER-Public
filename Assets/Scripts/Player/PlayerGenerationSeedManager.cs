@@ -155,14 +155,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         // reset our run positions
         currentCombatPos = 0;
         currentRunPos = 0;
-
-        // clear room names
-        roomNames.Clear();
-
-        // reset our room names
-        foreach (string name in storedRoomNames)
-        {
-            roomNames.Add(name);
-        }
+        // build the rooms
+        BuildRoomNames();
     }
 }
