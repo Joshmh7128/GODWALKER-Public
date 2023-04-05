@@ -34,7 +34,7 @@ public class PlayerGenerationSeedManager : MonoBehaviour
         partialMixed,       // 25% energy, 25% explosive
         allEnergy,          // all enemies have energy shields
         allExplosive,        // all enemies have explosive shields
-        freeGun, specialGun, shop
+        freeGun, specialGun, shop, finish 
     }
 
     // our list of element preferences for each room in the run
@@ -116,18 +116,19 @@ public class PlayerGenerationSeedManager : MonoBehaviour
             /// for 31% to 70% use partial elements
             if (x > 30 && x < 60)
             {
-                int c = Random.Range(0, 3); // make a 33/33/33 rand
+                int c = Random.Range(0, 2); // make a 33/33/33 rand
                 if (c == 0) elementBiases.Add(ElementBiases.partialEnergy);
                 if (c == 1) elementBiases.Add(ElementBiases.partialExplosive);
-                if (c == 2) elementBiases.Add(ElementBiases.partialMixed);
+                //if (c == 2) elementBiases.Add(ElementBiases.partialMixed);
             }
 
             /// for 71% to 100% use 'all' elements
             if (x > 60)
             {
-                int c = Random.Range(0, 2); // make a 50/50 rand
+                int c = Random.Range(0, 3); // make a 50/50 rand
                 if (c == 0) elementBiases.Add(ElementBiases.allEnergy);
                 if (c == 1) elementBiases.Add(ElementBiases.allExplosive);
+                if (c == 2) elementBiases.Add(ElementBiases.partialMixed);
             }
         }
 
@@ -141,6 +142,9 @@ public class PlayerGenerationSeedManager : MonoBehaviour
             // reassign shops
             if (roomNames[i] == rewardNames[1])
                 elementBiases[i] = ElementBiases.shop;
+
+            if (roomNames[i] == "Finish")
+                elementBiases[i] = ElementBiases.finish;
         }
     }
 

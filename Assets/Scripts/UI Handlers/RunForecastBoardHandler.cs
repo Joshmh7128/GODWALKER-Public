@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class RunForecastBoardHandler : MonoBehaviour
 {
@@ -11,8 +12,9 @@ public class RunForecastBoardHandler : MonoBehaviour
     PlayerGenerationSeedManager seedManager;
 
     // our sprites
-    [SerializeField] Sprite normalCombat, explosiveCombat, energyCombat, bothCombat, freeWeapon, shop;
+    [SerializeField] Sprite normalCombat, explosiveCombat, energyCombat, bothCombat, freeWeapon, shop, finish;
     [SerializeField] List<Image> imageSlots = new List<Image>(); // a place to hold all of our images
+    [SerializeField] List<TextMeshProUGUI> infoText = new List<TextMeshProUGUI>();
 
     private void Start()
     {
@@ -43,41 +45,55 @@ public class RunForecastBoardHandler : MonoBehaviour
                 // none
                 case (int)PlayerGenerationSeedManager.ElementBiases.none:
                     imageSlots[i].sprite = normalCombat;
+                    infoText[i].text = "Normal Enemies";
                     break;
 
                 // energy
                 case (int)PlayerGenerationSeedManager.ElementBiases.partialEnergy:
                     imageSlots[i].sprite = energyCombat;
+                    infoText[i].text = "Energy Shield Enemies";
                     break;
 
                 // explosive
                 case (int)PlayerGenerationSeedManager.ElementBiases.partialExplosive:
                     imageSlots[i].sprite = explosiveCombat;
+                    infoText[i].text = "Explosive Shield Enemies";
                     break;
 
                 // both
                 case (int)PlayerGenerationSeedManager.ElementBiases.partialMixed:
                     imageSlots[i].sprite = bothCombat;
+                    infoText[i].text = "Energy & Explosive Shield Enemies";
                     break;
 
                 // energy
                 case (int)PlayerGenerationSeedManager.ElementBiases.allEnergy:
                     imageSlots[i].sprite = energyCombat;
+                    infoText[i].text = "Energy Shield Enemies";
                     break;
 
                 // explosive
                 case (int)PlayerGenerationSeedManager.ElementBiases.allExplosive:
                     imageSlots[i].sprite = explosiveCombat;
+                    infoText[i].text = "Explosive Shield Enemies";
                     break;
 
                 // shop
                 case (int)PlayerGenerationSeedManager.ElementBiases.shop:
                     imageSlots[i].sprite = shop;
+                    infoText[i].text = "Weapon Shop";
                     break;
 
                 // free gun
                 case (int)PlayerGenerationSeedManager.ElementBiases.freeGun:
                     imageSlots[i].sprite = freeWeapon;
+                    infoText[i].text = "Free Weapons";
+                    break;
+
+                // finish
+                case (int)PlayerGenerationSeedManager.ElementBiases.finish:
+                    imageSlots[i].sprite = finish;
+                    infoText[i].text = "Finish";
                     break;
             }
         }
