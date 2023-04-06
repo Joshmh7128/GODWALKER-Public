@@ -402,7 +402,8 @@ public abstract class EnemyClass : MonoBehaviour
             // add our rage to the manager on death
             PlayerRageManager.instance.AddRage(rageAmount);
             // kick our rage 
-            PlayerGodfeelManager.instance.KickFeel();
+            if (PlayerRageManager.instance.godwalking == true)
+                PlayerGodfeelManager.instance.KickFeel();
         }
         // destroy the object
         Destroy(gameObject);

@@ -230,10 +230,12 @@ public class PlayerRageManager : MonoBehaviour
         // entering godwalker - if our bar is full and we press G
         if (Input.GetKeyDown(KeyCode.G) && rageAmount == maxRage)
         {
+            if (!godwalking)
+                // kick feel
+                PlayerGodfeelManager.instance.KickFeel();
+
             // we are now godwalking
             godwalking = true;
-            // kick feel
-            PlayerGodfeelManager.instance.KickFeel();
 
             // check to see if we increase our reduction delta
             StartCoroutine(ReductionDeltaIncreaseCheck());
