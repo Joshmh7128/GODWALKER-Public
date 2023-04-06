@@ -667,7 +667,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3760631474546890898
 Transform:
   m_ObjectHideFlags: 0
@@ -698,7 +698,7 @@ MonoBehaviour:
   m_IsGlobal: 1
   priority: 0
   blendDistance: 0
-  weight: 1
+  weight: 0
   sharedProfile: {fileID: 11400000, guid: 8a9f069573c2e3848b132ef6eff615cf, type: 2}
 --- !u!1 &1318432220017498557
 GameObject:
@@ -1405,6 +1405,7 @@ GameObject:
   - component: {fileID: 1360464596526522463}
   - component: {fileID: 7985070946103444731}
   - component: {fileID: 57841650064416799}
+  - component: {fileID: 3425902048547110565}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -1827,6 +1828,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeArena: {fileID: 0}
+--- !u!114 &3425902048547110565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557240302879457094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e86d7c3b6e7f4cb4e877b30db540df4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rageManager: {fileID: 0}
+  killVolume: {fileID: 6220732152457778975}
+  weightReductDelta: 1
 --- !u!1 &1557240302889066429
 GameObject:
   m_ObjectHideFlags: 0

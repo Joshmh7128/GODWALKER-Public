@@ -232,6 +232,9 @@ public class PlayerRageManager : MonoBehaviour
         {
             // we are now godwalking
             godwalking = true;
+            // kick feel
+            PlayerGodfeelManager.instance.KickFeel();
+
             // check to see if we increase our reduction delta
             StartCoroutine(ReductionDeltaIncreaseCheck());
         }

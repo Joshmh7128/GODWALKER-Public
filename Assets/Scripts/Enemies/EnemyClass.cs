@@ -401,6 +401,8 @@ public abstract class EnemyClass : MonoBehaviour
             try { if (PlayerRageManager.instance.godwalking) Instantiate(dropItem, transform.position, Quaternion.identity, null); } catch { }
             // add our rage to the manager on death
             PlayerRageManager.instance.AddRage(rageAmount);
+            // kick our rage 
+            PlayerGodfeelManager.instance.KickFeel();
         }
         // destroy the object
         Destroy(gameObject);
