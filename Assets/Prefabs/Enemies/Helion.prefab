@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 626547445453605095}
   - component: {fileID: 626547445453605096}
   - component: {fileID: 626547445453605097}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HP Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 626547445693599553}
   - component: {fileID: 626547445693599556}
   - component: {fileID: 626547445693599555}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Helion
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -141,6 +141,14 @@ MonoBehaviour:
   invincible: 0
   lootDropChancePercentage: 0
   dropItem: {fileID: 0}
+  fxLight: {fileID: 0}
+  activeElementalProtection: 0
+  armorPlates: []
+  energyShields: []
+  setExplosiveArmorHP: 0
+  setEnergyShieldHP: 0
+  explosiveArmorHP: 0
+  energyShieldHP: 0
   allBehaviours: []
   attackBehaviourParent: {fileID: 0}
   movementBehaviourParent: {fileID: 0}
@@ -199,7 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547445711140073}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (2)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -232,7 +240,7 @@ GameObject:
   - component: {fileID: 626547445718474488}
   - component: {fileID: 626547445718474490}
   - component: {fileID: 626547445718474489}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +315,7 @@ GameObject:
   m_Component:
   - component: {fileID: 626547445767432341}
   - component: {fileID: 626547445767432342}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Main Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +387,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547445810890141}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (6)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -412,7 +420,7 @@ GameObject:
   - component: {fileID: 626547445860734303}
   - component: {fileID: 626547445860734274}
   - component: {fileID: 626547445860734273}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,7 +503,7 @@ GameObject:
   - component: {fileID: 626547445912463588}
   - component: {fileID: 626547445912463587}
   - component: {fileID: 626547445912463586}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Name Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,7 +581,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547445937279546}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (18)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -604,7 +612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446046383482}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (12)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -637,7 +645,7 @@ GameObject:
   - component: {fileID: 626547446058339130}
   - component: {fileID: 626547446058339132}
   - component: {fileID: 626547446058339131}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -713,7 +721,7 @@ GameObject:
   - component: {fileID: 626547446107996554}
   - component: {fileID: 626547446107996557}
   - component: {fileID: 626547446107996556}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -794,7 +802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446125309791}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (1)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -825,7 +833,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446226764015}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (5)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -856,7 +864,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446325395762}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -887,7 +895,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446361597259}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -925,7 +933,7 @@ GameObject:
   m_Component:
   - component: {fileID: 626547446374903131}
   - component: {fileID: 626547446374903132}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Lerp Health Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1016,7 +1024,7 @@ GameObject:
   - component: {fileID: 626547446464500430}
   - component: {fileID: 626547446464500401}
   - component: {fileID: 626547446464500400}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1097,7 +1105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446515187137}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Movement Behaviours
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1129,7 +1137,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446523656822}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (17)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -1162,7 +1170,7 @@ GameObject:
   - component: {fileID: 626547446551918120}
   - component: {fileID: 626547446551918122}
   - component: {fileID: 626547446551918121}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1236,7 +1244,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446596972048}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (10)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -1269,7 +1277,7 @@ GameObject:
   - component: {fileID: 626547446602580475}
   - component: {fileID: 626547446602580478}
   - component: {fileID: 626547446602580477}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1350,7 +1358,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446620905905}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (3)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -1381,7 +1389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446673179986}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (15)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -1412,7 +1420,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446696724241}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cosmetic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1456,7 +1464,7 @@ GameObject:
   - component: {fileID: 626547446708487734}
   - component: {fileID: 626547446708487737}
   - component: {fileID: 626547446708487736}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1537,7 +1545,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446755542086}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (7)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -1568,7 +1576,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446762294545}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Attack Behaviours
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1605,7 +1613,7 @@ GameObject:
   - component: {fileID: 626547446789051473}
   - component: {fileID: 626547446789051476}
   - component: {fileID: 626547446789051475}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1686,7 +1694,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446916883553}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (9)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -1719,7 +1727,7 @@ GameObject:
   - component: {fileID: 626547446931424620}
   - component: {fileID: 626547446931424623}
   - component: {fileID: 626547446931424622}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1801,7 +1809,7 @@ GameObject:
   m_Component:
   - component: {fileID: 626547446933431198}
   - component: {fileID: 626547446933431199}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: 'Midair movement '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1858,7 +1866,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446943097933}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (11)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -1889,7 +1897,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547446963268344}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (14)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -1922,7 +1930,7 @@ GameObject:
   - component: {fileID: 626547446979312439}
   - component: {fileID: 626547446979312441}
   - component: {fileID: 626547446979312440}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1998,7 +2006,7 @@ GameObject:
   - component: {fileID: 626547447014455602}
   - component: {fileID: 626547447014455603}
   - component: {fileID: 626547447014455604}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2072,7 +2080,7 @@ GameObject:
   m_Component:
   - component: {fileID: 626547447032823958}
   - component: {fileID: 626547447032823959}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Alignment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2123,7 +2131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 626547447064889621}
   - component: {fileID: 626547447064889622}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Health Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2214,7 +2222,7 @@ GameObject:
   - component: {fileID: 626547447073812946}
   - component: {fileID: 626547447073812949}
   - component: {fileID: 626547447073812948}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2295,7 +2303,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547447123685033}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (19)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -2330,7 +2338,7 @@ GameObject:
   - component: {fileID: 626547447152493846}
   - component: {fileID: 626547447152493845}
   - component: {fileID: 626547447152493844}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4598,7 +4606,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547447191214071}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (16)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -4631,7 +4639,7 @@ GameObject:
   - component: {fileID: 626547447370471870}
   - component: {fileID: 626547447370471841}
   - component: {fileID: 626547447370471840}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4714,7 +4722,7 @@ GameObject:
   - component: {fileID: 626547447381712301}
   - component: {fileID: 626547447381712272}
   - component: {fileID: 626547447381712303}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4795,7 +4803,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547447386560446}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4846,7 +4854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547447419694201}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (8)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -4877,7 +4885,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547447486235180}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (4)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -4908,7 +4916,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547447529254989}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point (13)
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -4939,7 +4947,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 626547447551353903}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4977,7 +4985,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4559878818137028583}
   - component: {fileID: 3536081946805566741}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Home Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5050,7 +5058,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3622853151999066562}
   - component: {fileID: 4723114674854257888}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Material Change
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5111,7 +5119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1160875303658266487}
   - component: {fileID: 7095745944043879958}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Material Change (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2684773203998526517}
   - component: {fileID: 2684773203998526516}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Projectile Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2684773204074333367}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Projectile Origin
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 2684773204384288045}
   - component: {fileID: 2684773204384288042}
   - component: {fileID: 2684773204384288043}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Fearon
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -148,6 +148,14 @@ MonoBehaviour:
   invincible: 0
   lootDropChancePercentage: 0
   dropItem: {fileID: 0}
+  fxLight: {fileID: 0}
+  activeElementalProtection: 0
+  armorPlates: []
+  energyShields: []
+  setExplosiveArmorHP: 0
+  setEnergyShieldHP: 0
+  explosiveArmorHP: 0
+  energyShieldHP: 0
   allBehaviours: []
   attackBehaviourParent: {fileID: 0}
   movementBehaviourParent: {fileID: 0}
@@ -282,7 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2684773205471591084}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Attack Beahviours
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -318,7 +326,7 @@ GameObject:
   - component: {fileID: 4371058807858029386}
   - component: {fileID: 4371058807858029387}
   - component: {fileID: 4371058807858029384}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Sphere (1)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2590,7 +2598,7 @@ GameObject:
   - component: {fileID: 4371058808679939909}
   - component: {fileID: 4371058808679939906}
   - component: {fileID: 4371058808679939907}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Sphere
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -4860,7 +4868,7 @@ GameObject:
   - component: {fileID: 7269453565767965558}
   - component: {fileID: 7269453565786271580}
   - component: {fileID: 7269453565787932616}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: MagicChargeOrbs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9630,7 +9638,7 @@ GameObject:
   - component: {fileID: 7269453565767917048}
   - component: {fileID: 7269453565786229102}
   - component: {fileID: 7269453565787905980}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: MagicNova
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14355,7 +14363,7 @@ GameObject:
   - component: {fileID: 7269453565767964576}
   - component: {fileID: 7269453565786314214}
   - component: {fileID: 7269453565787912010}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: MagicSphereRed 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
