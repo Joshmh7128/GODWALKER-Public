@@ -1678,10 +1678,10 @@ MonoBehaviour:
   screenParticles: {fileID: 0}
   reachedGODWALKERDisplay: {fileID: 1557240304313529762}
   rageAmount: 0
-  maxRage: 1800
-  reductionDelta: 50
+  maxRage: 2000
+  reductionDelta: 60
   originalReductionDelta: 0
-  godwalkerReductionDelta: 60
+  godwalkerReductionDelta: 80
   godwalkerReductionDeltaAdditional: 2.5
   originalAdditional: 0
   startColor: {r: 1, g: 0.7177123, b: 0.572327, a: 0}
@@ -1852,10 +1852,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1557240302889066428}
-  - component: {fileID: 3229056665205548360}
+  - component: {fileID: 5277453393252769236}
   - component: {fileID: 1557240302889066425}
   - component: {fileID: 1557240302889066426}
-  - component: {fileID: 6224425042497986454}
+  - component: {fileID: 3103871601290484613}
   m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1886,7 +1886,7 @@ Transform:
   m_Father: {fileID: 1557240304043386870}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &3229056665205548360
+--- !u!20 &5277453393252769236
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1917,7 +1917,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1535
+    m_Bits: 2047
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1960,14 +1960,14 @@ MonoBehaviour:
   sphereCastWidth: 0
   AimTarget: {fileID: 1557240303672803170}
   handler: {fileID: 0}
-  mainCam: {fileID: 3229056665205548360}
+  mainCam: {fileID: 0}
   aimFOV: 50
   forwardCheckOffset: 0.5
   normalFOV: 90
   aimSensitivityText: {fileID: 1557240304595197357}
   deathUI: {fileID: 7026200601417802028}
   FOVMode: 0
---- !u!114 &6224425042497986454
+--- !u!114 &3103871601290484613
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1983,13 +1983,11 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 8280536468757558124}
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1535
+    m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -10804,7 +10802,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1742476408886725804}
   m_HandleRect: {fileID: 0}
@@ -10812,7 +10810,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11333,7 +11331,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1580720475926315461}
   m_HandleRect: {fileID: 0}
@@ -11341,7 +11339,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11973,7 +11971,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -12643,7 +12641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -12683,7 +12681,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4698177623036494017}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1124}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13533,7 +13531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -14646,7 +14644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1789923825410504652
 Transform:
   m_ObjectHideFlags: 0
@@ -15061,7 +15059,7 @@ Transform:
   m_GameObject: {fileID: 7302814765290578978}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.099999994, y: 0.099999994, z: 0.099999994}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3545111028226038461}
@@ -15075,7 +15073,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7302814765290578978}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -15844,7 +15842,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

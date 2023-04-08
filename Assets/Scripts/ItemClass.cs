@@ -6,7 +6,7 @@ public abstract class ItemClass : MonoBehaviour
 {
     public bool canGrab;
     // can we be picked up?
-    public float pickupDistance = 5;
+    public float pickupDistance = 10;
 
     public virtual void FixedUpdate()
     {
