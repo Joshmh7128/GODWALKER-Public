@@ -20,7 +20,7 @@ public class PlayerStatManager : MonoBehaviour
 
     // our main public variables
     public float health, maxHealth; // the player's health
-    public float damageCooldown, damageCooldownMax; // how long we are unable to take damage for after taking damage
+    public float damageCooldown, damageCooldownMax, damageToRageCoefficient = 1; // how long we are unable to take damage for after taking damage
 
     // our UI variables
     [SerializeField] CanvasGroup hurtUIGroup, lifeGainUIGroup, fadeUIGroup; // flash this when we take damage
@@ -106,7 +106,17 @@ public class PlayerStatManager : MonoBehaviour
             damageCooldown = damageCooldownMax;
             // set our health
             if (!debugInvincible)
+            {
+                // if we are not godwalking, take health damage
+                if (!PlayerRageManager.instance.godwalking)
                 health -= damageAmount;
+
+                // if we are godwalking, take meter damage
+                if (PlayerRageManager.instance.godwalking)
+                {
+                    PlayerRageManager.instance.rageAmount -= damageAmount * damageToRageCoefficient;
+                }
+            }
         }
 
         // even if we don't take damage trigger the UI to react as if we are taking damage
