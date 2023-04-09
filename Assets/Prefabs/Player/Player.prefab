@@ -1682,7 +1682,7 @@ MonoBehaviour:
   maxRage: 2000
   reductionDelta: 60
   originalReductionDelta: 0
-  godwalkerReductionDelta: 90
+  godwalkerReductionDelta: 100
   godwalkerReductionDeltaAdditional: 2.5
   originalAdditional: 0
   startColor: {r: 1, g: 0.7177123, b: 0.572327, a: 0}
@@ -11340,7 +11340,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.63
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -12668,6 +12668,7 @@ GameObject:
   - component: {fileID: 4495672813790158233}
   - component: {fileID: 5678504535713884236}
   - component: {fileID: 7980500740548969939}
+  - component: {fileID: 3342569190519737404}
   m_Layer: 0
   m_Name: VFX OUTPUT
   m_TagString: Untagged
@@ -12788,6 +12789,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetObject: {fileID: 7302814765290578978}
+--- !u!114 &3342569190519737404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4698177623036494017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc730059aab9b07429be8e77ecc556b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mimic: {fileID: 5277453393252769236}
+  ourCam: {fileID: 6732595237462194518}
 --- !u!1 &4755946211656943696
 GameObject:
   m_ObjectHideFlags: 0
