@@ -42,7 +42,7 @@ public class RunForecastBoardHandler : MonoBehaviour
         // read our next runs and display the next 3 rooms
         for (int i = 0; i < imageSlots.Count; i++)
         {
-            switch ((int)ReadRoom(i+1))
+            switch ((int)ReadRoom(i))
             {
                 // none
                 case (int)PlayerGenerationSeedManager.ElementBiases.none:
