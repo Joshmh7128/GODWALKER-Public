@@ -87,7 +87,7 @@ public class TooltipHandler : MonoBehaviour
                 break;
 
             case (int)Tooltips.godbar:
-                tooltipText.text = "This is your God Meter. This meter fills when you deal damage or kill enemies.";
+                tooltipText.text = "This is your God Juice Meter. This meter fills when you deal damage or kill enemies.";
                 rectTransform.anchoredPosition = godwalkerBar;
                 healthBarArrows.SetActive(false);
                 godwalkerBarArrows.SetActive(true);
