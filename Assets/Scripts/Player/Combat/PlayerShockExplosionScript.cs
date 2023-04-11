@@ -84,6 +84,7 @@ public class PlayerShockExplosionScript : MonoBehaviour
     private void OverlapCheck()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, transform.localScale.x);
+        if (colliders.Length > 0)
         foreach (var collider in colliders)
         {
             CheckAction(collider.gameObject);
