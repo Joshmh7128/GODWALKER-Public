@@ -183,6 +183,22 @@ public class TweenRoomHandler : MonoBehaviour
         if (!requestReset)
         StartCoroutine(DelayedLoadMove());
 
+        // show our low rage tooltip if any weapon is below 1 rage
+        foreach(GameObject weapon in PlayerWeaponManager.instance.weapons)
+        {
+            // if the weapon is weak
+            if (weapon.GetComponent<WeaponClass>().rageMultiplier < 0.7)
+            {
+                // if we havent shown the tooltip yet
+                if (!WeaponQuickInfoHandler.instance.shownHotnessTooltip)
+                {
+                    WeaponQuickInfoHandler.instance.shownHotnessTooltip = true;
+                    // run the tooltip
+                    TooltipHandler.instance.SetTooltip(TooltipHandler.Tooltips.juicePop);
+                }
+            }
+        }
+
         // if we want to reset, request a reset
         if (requestReset)
         {

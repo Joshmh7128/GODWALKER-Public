@@ -29,7 +29,7 @@ public class TooltipHandler : MonoBehaviour
     {
         none, tooltip, movement, jumping, shooting, health, godbar, godbar2, godbar3, currency, goodLuck, 
 
-        elementalPop
+        elementalPop, juicePop
     }
 
     Tooltips tabAction;
@@ -129,6 +129,13 @@ public class TooltipHandler : MonoBehaviour
                     rectTransform.anchoredPosition = originalPos;
                     tabAction = Tooltips.none;
                 }
+                break;  
+
+            case (int)Tooltips.juicePop:
+                tooltipText.text = "The longer you hold on to weapons the less God Juice they generate. Check this in the right-hand panel by switching weapons.";
+                coinArrow.SetActive(false);
+                rectTransform.anchoredPosition = originalPos;
+                tabAction = Tooltips.none;
                 break;
         }
     }

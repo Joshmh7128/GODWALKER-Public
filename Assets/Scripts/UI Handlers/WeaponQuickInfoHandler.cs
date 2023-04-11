@@ -15,6 +15,8 @@ public class WeaponQuickInfoHandler : MonoBehaviour
     float targetAlpha; // what is the target alpha of our group
     float waitTime; // how long we wait before fading out
 
+    public bool shownHotnessTooltip; // have we shown the hotness tooltip?
+
     // setup our instance
     public static WeaponQuickInfoHandler instance;
     private void Awake()
