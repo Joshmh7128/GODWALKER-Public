@@ -216,6 +216,7 @@ public class TweenRoomHandler : MonoBehaviour
         canClose = true;
         yield return new WaitForSecondsRealtime(0.1f);
         frontDoorMove = frontDoorMove - new Vector3(0, 50, 0);
+        WeaponQuickInfoHandler.instance.EffectivenessLowered();
         // then move this from the scene
         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
     }

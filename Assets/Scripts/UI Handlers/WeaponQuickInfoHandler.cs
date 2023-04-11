@@ -10,10 +10,12 @@ public class WeaponQuickInfoHandler : MonoBehaviour
     [SerializeField] TextMeshProUGUI weaponName, weaponDescription, hotnessText;
     [SerializeField] Slider hotnessSlider;
     [SerializeField] Image hotnessImage; // the image on the slider
-    [SerializeField] CanvasGroup group;
+    [SerializeField] CanvasGroup group, efGroup;
     [SerializeField] Color highColor, lowColor; // the high and lows of hotness
-    float targetAlpha; // what is the target alpha of our group
-    float waitTime; // how long we wait before fading out
+    float targetAlpha, efTargetAlpha; // what is the target alpha of our group
+    float waitTime, efWaitTime; // how long we wait before fading out
+
+    [SerializeField] GameObject warningObject;
 
     public bool shownHotnessTooltip; // have we shown the hotness tooltip?
 
@@ -35,6 +37,15 @@ public class WeaponQuickInfoHandler : MonoBehaviour
 
         if (waitTime <= 0)
             targetAlpha = 0;
+
+        efGroup.alpha = Mathf.Lerp(efGroup.alpha, efTargetAlpha, Time.fixedDeltaTime);
+
+        // lower wait time
+        if (efWaitTime >= 0)
+            efWaitTime -= Time.fixedDeltaTime;
+
+        if (efWaitTime <= 0)
+            efTargetAlpha = 0;
 
     }
 
@@ -61,5 +72,12 @@ public class WeaponQuickInfoHandler : MonoBehaviour
         // set target alpha
         targetAlpha = 1;
         waitTime = 6;
+    }
+
+    public void EffectivenessLowered()
+    {
+        warningObject.SetActive(true);
+        efGroup.alpha = 1; efTargetAlpha = 1; efWaitTime = 12;
+        warningObject.GetComponent<Animator>().Play("WeaponQuickInfoBlip");
     }
 }
