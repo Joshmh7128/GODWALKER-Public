@@ -53,28 +53,28 @@ public class RunForecastBoardHandler : MonoBehaviour
                 // energy
                 case (int)PlayerGenerationSeedManager.ElementBiases.partialEnergy:
                     imageSlots[i].sprite = energyCombat;
-                    infoText[i].text = "Energy Shield Enemies";
+                    infoText[i].text = "Energy Weak Enemies";
                     elementalUpNext = true;
                     break;
 
                 // explosive
                 case (int)PlayerGenerationSeedManager.ElementBiases.partialExplosive:
                     imageSlots[i].sprite = explosiveCombat;
-                    infoText[i].text = "Explosive Shield Enemies";
+                    infoText[i].text = "Explosive Weak Enemies";
                     elementalUpNext = true;
                     break;
 
                 // both
                 case (int)PlayerGenerationSeedManager.ElementBiases.partialMixed:
                     imageSlots[i].sprite = bothCombat;
-                    infoText[i].text = "Energy & Explosive Shield Enemies";
+                    infoText[i].text = "Energy & Explosive Weak Enemies";
                     elementalUpNext = true;
                     break;
 
                 // energy
                 case (int)PlayerGenerationSeedManager.ElementBiases.allEnergy:
                     imageSlots[i].sprite = energyCombat;
-                    infoText[i].text = "Energy Shield Enemies";
+                    infoText[i].text = "Energy Weak Enemies";
                     elementalUpNext = true;
                     break;
 
@@ -82,7 +82,7 @@ public class RunForecastBoardHandler : MonoBehaviour
                 case (int)PlayerGenerationSeedManager.ElementBiases.allExplosive:
                     elementalUpNext = true;
                     imageSlots[i].sprite = explosiveCombat;
-                    infoText[i].text = "Explosive Shield Enemies";
+                    infoText[i].text = "Explosive Weak Enemies";
                     break;
 
                 // shop
