@@ -186,7 +186,6 @@ public class TweenRoomHandler : MonoBehaviour
         // if we want to reset, request a reset
         if (requestReset)
         {
-            PlayerGenerationSeedManager.instance.ResetRun();
             targetNextScene = "Permanent Reward no Player";
             StartCoroutine(DelayedLoadMove());
         }

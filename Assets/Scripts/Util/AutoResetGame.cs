@@ -12,6 +12,8 @@ public class AutoResetGame : MonoBehaviour
 
     IEnumerator Buffer()
     {
+        PlayerGenerationSeedManager.instance.ResetRun();
+
         // find and kill all players
         try
         {
