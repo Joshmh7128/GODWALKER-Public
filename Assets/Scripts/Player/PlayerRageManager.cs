@@ -43,7 +43,9 @@ public class PlayerRageManager : MonoBehaviour
     public Slider backSlider; // our slider representing how far away we are from the next level
     public List<Color> rageColors;
     public List<float> ammoRechargeMods; // how quickly ammo refills
-    
+    [SerializeField] RectTransform showPoint, normPoint; // for moving text around on the screen
+    bool canReturn; // can the rage text return yet?
+
     // setup rage levels
     public enum RageLevels
     {
@@ -113,7 +115,11 @@ public class PlayerRageManager : MonoBehaviour
             rageAmount = maxRage;
             if ((int)rageLevel < 4)
             {
+                // raise the rage level
                 rageLevel++;
+
+                // show pop 
+                LevelPop();
 
                 // set the volume
                 PlayerGodfeelManager.instance.ChooseVolume((int)rageLevel);
@@ -173,6 +179,8 @@ public class PlayerRageManager : MonoBehaviour
                 godwalking = false;
                 godwalkerVolume.SetActive(false);
                 rageLevelDisplay.text = "";
+                // reset the color
+                rageLevelDisplay.color = Color.white;
                 // reset the rage level
                 rageLevel = 0;
             }
@@ -234,9 +242,36 @@ public class PlayerRageManager : MonoBehaviour
         // if we're at our max rage and we're not godwalking
         if (rageAmount == maxRage && !godwalking)
         {
-            rageLevelDisplay.text = "GODWALKER READY PRESS G TO ACTIVATE";
+            rageLevelDisplay.text = "PRESS G TO ACTIVATE";
+        }
+
+        // move the text display back
+        if (canReturn)
+        {
+            rageLevelDisplay.rectTransform.position = Vector3.Lerp(rageLevelDisplay.rectTransform.position, normPoint.position, 3 * Time.fixedDeltaTime);
+            rageLevelDisplay.rectTransform.localScale = Vector3.Lerp(rageLevelDisplay.rectTransform.localScale, Vector3.one, 3 * Time.fixedDeltaTime);
         }
     }
+
+    void LevelPop()
+    {
+        canReturn = false;
+
+        // set text color
+        rageLevelDisplay.color = rageColors[(int)rageLevel];
+
+        // set text dimensions
+        rageLevelDisplay.rectTransform.position = showPoint.position;
+        rageLevelDisplay.rectTransform.localScale = Vector3.one * 2;
+        StartCoroutine(ReturnBuffer());
+    }
+
+    IEnumerator ReturnBuffer()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        canReturn = true;
+    }
+
 
     // add to the delta
     IEnumerator ReductionDeltaIncreaseCheck()
