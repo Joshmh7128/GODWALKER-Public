@@ -111,90 +111,9 @@ public class PlayerRageManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        switch (behaviour)
-        {
-            case Behaviours.original:
-                ProcessRage();
-                break;
-
-            case Behaviours.v2:
-                ProcessRagev2();
-                break;
-        }
-    }
-
-    public void ProcessRage()
-    {
-        // setup current level
-        if (originalRageAmount < levelGates[0])
-            rageLevel = RageLevels.benign;
-
-        if (originalRageAmount > levelGates[0] && originalRageAmount < levelGates[1])
-            rageLevel = RageLevels.wrecker;
-
-        if (originalRageAmount > levelGates[1] && originalRageAmount < levelGates[2])
-            rageLevel = RageLevels.demonic;
-
-        if (originalRageAmount > levelGates[2] && originalRageAmount < levelGates[3])
-            rageLevel = RageLevels.eviscerator;
-
-        if (originalRageAmount > levelGates[3])
-            rageLevel = RageLevels.godwalker;
-
-        // setup stats and info
-        levelName = levelNames[(int)rageLevel];
-        levelDelta = levelDeltas[(int)rageLevel];
-        sliderImage.color = rageColors[(int)rageLevel];
-        rageLevelDisplay.text = levelName;
-
-
-        // lower rage amount over time
-        if (originalRageAmount > 0)
-            originalRageAmount -= levelDelta * Time.fixedDeltaTime;
-       
-        // always update value
-        rageSlider.value = originalRageAmount;
-
-        // setup lerp slider
-        rageLerp.minValue = rageSlider.minValue;
-        rageLerp.maxValue = rageSlider.maxValue;
-        rageLerp.value = Mathf.Lerp(rageLerp.value, rageSlider.value, rageLerpSpeed*Time.fixedDeltaTime);
-
-        // setup our values for the slider
-        if (rageLevel == RageLevels.benign)
-        {
-            // min is 0 
-            rageSlider.minValue = 0;
-            rageSlider.maxValue = levelGates[0];
-        } else if (rageLevel != RageLevels.benign)
-        {
-            // for all other values set minimum to current rage level -1 and max to rage level in level gates
-            rageSlider.minValue = levelGates[(int)rageLevel-1];
-            rageSlider.maxValue = levelGates[(int)rageLevel];
-        }
-
-        // manage our vignette
-        if ((int)rageLevel > 0)
-        {
-            Color ourColor = new Color(rageColors[(int)rageLevel].r, rageColors[(int)rageLevel].g, rageColors[(int)rageLevel].b, 0.5f);
-            rageVignette.color = ourColor;
-        } else
-        {
-            rageVignette.color = new Color(0, 0, 0, 0);
-        }
-
-        // check for if player has reached godwalker
-        if (rageLevel == RageLevels.godwalker)
-        {
-            GodwalkerTime += Time.fixedDeltaTime;
-            reachedGODWALKERDisplay.text = "GODWALKER ACHIEVED FOR " + GodwalkerTime + " SECONDS";
-        }
-
-        // process HP regen
-        PlayerStatManager.instance.AddHealth(levelHPRegen[(int)rageLevel] * Time.fixedDeltaTime);
-
+        ProcessRagev2();
     }
 
     // process our new rage
