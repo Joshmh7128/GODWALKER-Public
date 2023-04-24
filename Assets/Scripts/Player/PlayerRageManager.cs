@@ -71,6 +71,8 @@ public class PlayerRageManager : MonoBehaviour
         if (rageAmount + amount <= maxRage)
         {
             rageAmount += amount;
+
+            if (godwalking)
             overRage += amount;
             
         } else { rageAmount = maxRage; }
@@ -90,6 +92,10 @@ public class PlayerRageManager : MonoBehaviour
         if (rageAmount != maxRage && rageAmount > 0 && !godwalking)
         {
             rageAmount -= reductionDelta * Time.fixedDeltaTime;
+        }
+
+        if (overRage > 0 && !godwalking)
+        {
             overRage -= reductionDelta * Time.fixedDeltaTime;
         }
 
@@ -193,7 +199,7 @@ public class PlayerRageManager : MonoBehaviour
         // run our back UI
         backSlider.minValue = 0;
         backSlider.maxValue = overRageGates[(int)rageLevel];
-        backSlider.value = overRage / overRageGates[(int)rageLevel];
+        backSlider.value = overRage;
 
         // colors while godwalking
         sliderImage.color = Color.Lerp(startColor, endColor, rageSlider.value);
