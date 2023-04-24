@@ -204,6 +204,8 @@ public class PlayerRageManager : MonoBehaviour
                 // kick feel
                 PlayerGodfeelManager.instance.KickFeel();
 
+            LevelPop();
+
             // we are now godwalking
             godwalking = true;
 
