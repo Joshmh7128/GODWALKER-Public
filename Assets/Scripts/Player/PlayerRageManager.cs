@@ -73,11 +73,10 @@ public class PlayerRageManager : MonoBehaviour
         if (rageAmount + amount <= maxRage)
         {
             rageAmount += amount;
-
-            if (godwalking)
-            overRage += amount;
-            
         } else { rageAmount = maxRage; }
+
+        if (godwalking)
+            overRage += amount;
 
         rageAmount = Mathf.Clamp(rageAmount, 0, maxRage);
     }
