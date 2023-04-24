@@ -264,7 +264,6 @@ public class ArenaHandler : MonoBehaviour
             }
         }
 
-        ProcessGlow();
 
     }
 
@@ -536,26 +535,6 @@ public class ArenaHandler : MonoBehaviour
         messageGroupTargetA = 1;
         yield return new WaitForSecondsRealtime(4f);
         messageGroupTargetA = 0;
-    }
-
-    // process our glowing
-    void ProcessGlow()
-    {
-        foreach(GameObject renderer in rendererObjects)
-        {
-            // try material
-            try {
-                renderer.GetComponent<Renderer>().material.SetColor("_EmissionColor", playerRageManager.rageColors[(int)playerRageManager.rageLevel]);
-                renderer.GetComponent<Renderer>().material.color = playerRageManager.rageColors[(int)playerRageManager.rageLevel];
-            } catch { }
-
-            // try light
-            try
-            {
-                renderer.GetComponent<Light>().color = playerRageManager.rageColors[(int)playerRageManager.rageLevel];
-            }
-            catch { }
-        }
     }
 
     private void OnDrawGizmos()

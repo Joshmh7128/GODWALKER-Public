@@ -11,46 +11,29 @@ public class PlayerRageManager : MonoBehaviour
     // create instance
     public static PlayerRageManager instance;
     private void Awake() => instance = this;
-   
-    public enum Behaviours
-    {
-        original,
-        v2
-    }
-
-    public Behaviours behaviour; // what is our behaviour?
 
     #region // original variables
     // setup rage levels
     public enum RageLevels
     {
-        benign, 
-        wrecker,
-        demonic,
-        eviscerator,
-        godwalker
+        walker, 
+        dancer,
+        tricker,
+        smacker,
+        killer
     }
 
     public RageLevels rageLevel; // which rage level we're currently on
     public float originalRageAmount; // our total amount of rage
 
     // UI variables
-    public List<Color> rageColors;
-    public List<float> levelGates; // where each level of rage ends
-    public List<string> levelNames; // the names of each level
-    public string levelName; // the name of the current level to display
-    public TextMeshProUGUI rageLevelDisplay;
-    public List<float> levelDeltas; // how quickly each level reduces
-    public List<float> levelMods; // how quickly each level reduces
-    public List<float> ammoRechargeMods; // how quickly ammo refills
-    public float levelDelta; // our current level delta
-
    
     public List<float> levelHPRegen; // how much HP we regen every second per level
 
     // effect variables
     public List<float> movementMultipliers;
     public List<float> damageMultipliers;
+
     #endregion
 
     // agnostic variables
@@ -77,7 +60,12 @@ public class PlayerRageManager : MonoBehaviour
     public float godwalkerTime; // how long do we remain in godwalker?
     public bool godwalking; // oh, it's happening, baby. 
     public GameObject godwalkerVolume; // the godwalker VFX volume
+
+    public TextMeshProUGUI rageLevelDisplay;
     #endregion
+
+    [Header("V3 elements")]
+    public Slider backSlider; // our slider representing how far away we are from the next level
 
     private void Start()
     {
@@ -89,26 +77,12 @@ public class PlayerRageManager : MonoBehaviour
     // public function to add rage
     public void AddRage(float amount)
     {
-        if (behaviour == Behaviours.original)
+        if (rageAmount + amount <= maxRage)
         {
-            // make sure we don't go over the maximum
-            if (originalRageAmount + amount <= levelGates[levelGates.Count - 1])
-                originalRageAmount += amount * levelMods[(int)rageLevel];
+            rageAmount += amount;
+        } else { rageAmount = maxRage; }
 
-            // if we go over, set to maximum
-            if (originalRageAmount + amount > levelGates[levelGates.Count - 1])
-                originalRageAmount = levelGates[levelGates.Count - 1];
-        }
-
-        if (behaviour == Behaviours.v2)
-        {
-            if (rageAmount + amount <= maxRage)
-            {
-                rageAmount += amount;
-            } else { rageAmount = maxRage; }
-
-            rageAmount = Mathf.Clamp(rageAmount, 0, maxRage);
-        }
+        rageAmount = Mathf.Clamp(rageAmount, 0, maxRage);
     }
 
     private void FixedUpdate()
