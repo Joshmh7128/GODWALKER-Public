@@ -94,7 +94,7 @@ public class PlayerRageManager : MonoBehaviour
             rageAmount -= reductionDelta * Time.fixedDeltaTime;
         }
 
-        if (overRage > 0 && !godwalking)
+        if (overRage > 0)
         {
             overRage -= reductionDelta * Time.fixedDeltaTime;
         }
@@ -156,6 +156,8 @@ public class PlayerRageManager : MonoBehaviour
                 godwalking = false;
                 godwalkerVolume.SetActive(false);
                 rageLevelDisplay.text = "";
+                // reset the rage level
+                rageLevel = 0;
             }
 
         }
