@@ -1760,6 +1760,12 @@ MonoBehaviour:
   reachedGODWALKERDisplay: {fileID: 1557240304313529762}
   rageAmount: 0
   maxRage: 2000
+  rageReductionDeltas:
+  - 100
+  - 120
+  - 150
+  - 170
+  - 200
   reductionDelta: 60
   originalReductionDelta: 0
   godwalkerReductionDelta: 100
@@ -1791,10 +1797,17 @@ MonoBehaviour:
   rageLevel: 0
   overRage: 0
   overRageGates:
-  - 1000
-  - 1200
-  - 1500
-  - 1600
+  - 500
+  - 600
+  - 700
+  - 800
+  - 900
+  overRageDeltas:
+  - 20
+  - 30
+  - 40
+  - 50
+  - 60
 --- !u!114 &2957278217108556879
 MonoBehaviour:
   m_ObjectHideFlags: 0

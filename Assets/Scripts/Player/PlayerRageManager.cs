@@ -27,6 +27,7 @@ public class PlayerRageManager : MonoBehaviour
     // we want to generate enough rage and then go into godwalker for 10 seconds
     public float rageAmount; // our v2 rage amount
     public float maxRage; // what is the maximum rage we can have?
+    [SerializeField] List<float> rageReductionDeltas; // how quickly our rage depletes as we godwalk
     public float reductionDelta, originalReductionDelta, godwalkerReductionDelta, godwalkerReductionDeltaAdditional, originalAdditional; // our rage reduction delta
     public Color startColor, endColor, godwalkingColor; // our start and end colors
     public float maxSpeedBoost, currentSpeedBoost; // how much faster do we move BEFORE entering Godwalker?
@@ -56,7 +57,8 @@ public class PlayerRageManager : MonoBehaviour
     public RageLevels rageLevel; // which rage level we're currently on
 
     [SerializeField] float overRage; // rage that exceeds the godwalker meter
-    [SerializeField] List<float> overRageGates = new List<float>(); // how much overrage we have to build to get to the next level, each starts from 0
+    [SerializeField] List<float> overRageGates; // how much overrage we have to build to get to the next level, each starts from 0
+    [SerializeField] List<float> overRageDeltas; // how much overrage we lost as we go
 
     private void Start()
     {
@@ -80,6 +82,12 @@ public class PlayerRageManager : MonoBehaviour
         rageAmount = Mathf.Clamp(rageAmount, 0, maxRage);
     }
 
+    private void Update()
+    {
+        // process inputs
+        ProcessInput();
+    }
+
     private void FixedUpdate()
     {
         ProcessRage();
@@ -94,7 +102,7 @@ public class PlayerRageManager : MonoBehaviour
             rageAmount -= reductionDelta * Time.fixedDeltaTime;
         }
 
-        if (overRage > 0)
+        if (overRage > 0 && !godwalking)
         {
             overRage -= reductionDelta * Time.fixedDeltaTime;
         }
@@ -102,6 +110,8 @@ public class PlayerRageManager : MonoBehaviour
         // process our overRage
         if (overRage > overRageGates[(int)rageLevel])
         {
+            // set our rage to max when we level up
+            rageAmount = maxRage;
             rageLevel++;
             overRage = 0; // reset it
         }
@@ -109,12 +119,8 @@ public class PlayerRageManager : MonoBehaviour
         // process our UI 
         ProcessUI();
 
-        // process inputs
-        ProcessInput();
-
         // process godwalker
         ProcessGodwalking();
-
     }
 
     void ProcessGodwalking()
@@ -130,8 +136,10 @@ public class PlayerRageManager : MonoBehaviour
             rageVignette.color = godwalkingColor;
             sliderImage.color = godwalkingColor;
             // reduce our rage by the amount we are spending
-            rageAmount -= (godwalkerReductionDelta + godwalkerReductionDeltaAdditional) * Time.fixedDeltaTime;
-            overRage -= (godwalkerReductionDelta + godwalkerReductionDeltaAdditional) * Time.fixedDeltaTime;
+            rageAmount -= godwalkerReductionDelta + rageReductionDeltas[(int)rageLevel] * Time.fixedDeltaTime;
+            // reduce our overrage
+            if (overRage > 0)
+            overRage -= overRageDeltas[(int)rageLevel] * Time.fixedDeltaTime;
             // refill HP
             PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
             // if we're godwalking raise our speedboost
