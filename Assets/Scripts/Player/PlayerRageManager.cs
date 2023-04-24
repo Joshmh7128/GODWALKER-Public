@@ -48,7 +48,7 @@ public class PlayerRageManager : MonoBehaviour
     public enum RageLevels
     {
         WALKER,
-        DANCER,
+        SPRINTER,
         TRICKER,
         SMACKER,
         KILLER
@@ -112,7 +112,18 @@ public class PlayerRageManager : MonoBehaviour
         {
             // set our rage to max when we level up
             rageAmount = maxRage;
-            rageLevel++;
+            if ((int)rageLevel < 4)
+            {
+                rageLevel++;
+
+                // set the volume
+                PlayerGodfeelManager.instance.ChooseVolume((int)rageLevel);
+
+                // kick the feel
+                PlayerGodfeelManager.instance.KickFeel();
+            }
+
+
             overRage = 0; // reset it
         }
 
@@ -136,7 +147,7 @@ public class PlayerRageManager : MonoBehaviour
             rageVignette.color = godwalkingColor;
             sliderImage.color = godwalkingColor;
             // reduce our rage by the amount we are spending
-            rageAmount -= godwalkerReductionDelta + rageReductionDeltas[(int)rageLevel] * Time.fixedDeltaTime;
+            rageAmount -= rageReductionDeltas[(int)rageLevel] * Time.fixedDeltaTime;
             // reduce our overrage
             if (overRage > 0)
             overRage -= overRageDeltas[(int)rageLevel] * Time.fixedDeltaTime;
@@ -144,7 +155,6 @@ public class PlayerRageManager : MonoBehaviour
             PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
             // if we're godwalking raise our speedboost
             currentSpeedBoost = godwalkerSpeedBoost;
-            godwalkerReductionDelta += godwalkerReductionDeltaAdditional * Time.fixedDeltaTime;
 
             // refill all our weapon ammo 
             foreach (GameObject weapon in PlayerWeaponManager.instance.weapons)
