@@ -12,30 +12,6 @@ public class PlayerRageManager : MonoBehaviour
     public static PlayerRageManager instance;
     private void Awake() => instance = this;
 
-    #region // original variables
-    // setup rage levels
-    public enum RageLevels
-    {
-        walker, 
-        dancer,
-        tricker,
-        smacker,
-        killer
-    }
-
-    public RageLevels rageLevel; // which rage level we're currently on
-    public float originalRageAmount; // our total amount of rage
-
-    // UI variables
-   
-    public List<float> levelHPRegen; // how much HP we regen every second per level
-
-    // effect variables
-    public List<float> movementMultipliers;
-    public List<float> damageMultipliers;
-
-    #endregion
-
     // agnostic variables
     public Slider rageSlider; // our slider
     public Slider rageLerp; // our lerp slider
@@ -44,8 +20,6 @@ public class PlayerRageManager : MonoBehaviour
     public Image rageVignette; // our rage vignette
     public GameObject flameVFX, screenParticles; // visual effects for our rage mode
     public TextMeshProUGUI reachedGODWALKERDisplay; // has this player reached godwalker?
-    float GodwalkerTime; // how long we've been in godwalker
-
 
     #region // v2 variables
 
@@ -66,6 +40,23 @@ public class PlayerRageManager : MonoBehaviour
 
     [Header("V3 elements")]
     public Slider backSlider; // our slider representing how far away we are from the next level
+    public List<Color> rageColors;
+    public List<float> ammoRechargeMods; // how quickly ammo refills
+    
+    // setup rage levels
+    public enum RageLevels
+    {
+        WALKER,
+        DANCER,
+        TRICKER,
+        SMACKER,
+        KILLER
+    }
+
+    public RageLevels rageLevel; // which rage level we're currently on
+
+    [SerializeField] float overRage; // rage that exceeds the godwalker meter
+    [SerializeField] List<float> overRageGates = new List<float>(); // how much overrage we have to build to get to the next level, each starts from 0
 
     private void Start()
     {
@@ -80,6 +71,8 @@ public class PlayerRageManager : MonoBehaviour
         if (rageAmount + amount <= maxRage)
         {
             rageAmount += amount;
+            overRage += amount;
+            
         } else { rageAmount = maxRage; }
 
         rageAmount = Mathf.Clamp(rageAmount, 0, maxRage);
@@ -87,67 +80,52 @@ public class PlayerRageManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ProcessRagev2();
+        ProcessRage();
     }
 
     // process our new rage
-    public void ProcessRagev2()
+    public void ProcessRage()
     {
         // reduce our rage if we have not maxed out the meter
         if (rageAmount != maxRage && rageAmount > 0 && !godwalking)
-        rageAmount -= reductionDelta * Time.fixedDeltaTime;
-
-        // run our UI
-        rageSlider.value = rageAmount / maxRage;
-
-        // setup lerp slider
-        rageLerp.minValue = rageSlider.minValue;
-        rageLerp.maxValue = rageSlider.maxValue;
-        rageLerp.value = Mathf.Lerp(rageLerp.value, rageSlider.value, rageLerpSpeed * Time.fixedDeltaTime);
-
-        // lerp the color of our images
-        if (!godwalking)
         {
-            sliderImage.color = Color.Lerp(startColor, endColor, rageSlider.value);
-            rageVignette.color = Color.Lerp(startColor, endColor, rageSlider.value);
-
-            // set our speed boost
-            currentSpeedBoost = 1 + maxSpeedBoost * rageAmount / maxRage;
-
+            rageAmount -= reductionDelta * Time.fixedDeltaTime;
+            overRage -= reductionDelta * Time.fixedDeltaTime;
         }
 
-        // if we're at our max rage and we're not godwalking
-        if (rageAmount == maxRage && !godwalking)
+        // process our overRage
+        if (overRage > overRageGates[(int)rageLevel])
         {
-            rageLevelDisplay.text = "GODWALKER READY PRESS G TO ACTIVATE";
+            rageLevel++;
+            overRage = 0; // reset it
         }
 
-        // entering godwalker - if our bar is full and we press G
-        if (Input.GetKeyDown(KeyCode.G) && rageAmount == maxRage)
-        {
-            if (!godwalking)
-                // kick feel
-                PlayerGodfeelManager.instance.KickFeel();
+        // process our UI 
+        ProcessUI();
 
-            // we are now godwalking
-            godwalking = true;
+        // process inputs
+        ProcessInput();
 
-            // check to see if we increase our reduction delta
-            StartCoroutine(ReductionDeltaIncreaseCheck());
-        }
+        // process godwalker
+        ProcessGodwalking();
 
+    }
+
+    void ProcessGodwalking()
+    {
         if (godwalking)
         {
             // effects
             godwalkerVolume.SetActive(true);
             flameVFX.SetActive(true);
             // go apeshit
-            rageLevelDisplay.text = "GODWALKING"; 
+            rageLevelDisplay.text = "GOD" + rageLevel.ToString();
             // set rage vignette to godwalker color
             rageVignette.color = godwalkingColor;
             sliderImage.color = godwalkingColor;
             // reduce our rage by the amount we are spending
             rageAmount -= (godwalkerReductionDelta + godwalkerReductionDeltaAdditional) * Time.fixedDeltaTime;
+            overRage -= (godwalkerReductionDelta + godwalkerReductionDeltaAdditional) * Time.fixedDeltaTime;
             // refill HP
             PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
             // if we're godwalking raise our speedboost
@@ -174,6 +152,64 @@ public class PlayerRageManager : MonoBehaviour
                 rageLevelDisplay.text = "";
             }
 
+        }
+
+        if (!godwalking)
+        {
+            // set our speed boost
+            currentSpeedBoost = 1 + maxSpeedBoost * rageAmount / maxRage;
+        }
+    }
+
+    void ProcessInput()
+    {
+
+        // entering godwalker - if our bar is full and we press G
+        if (Input.GetKeyDown(KeyCode.G) && rageAmount == maxRage)
+        {
+            if (!godwalking)
+                // kick feel
+                PlayerGodfeelManager.instance.KickFeel();
+
+            // we are now godwalking
+            godwalking = true;
+
+            // check to see if we increase our reduction delta
+            StartCoroutine(ReductionDeltaIncreaseCheck());
+        }
+
+    }
+
+    void ProcessUI()
+    {   
+        // run our UI
+        rageSlider.value = rageAmount / maxRage;
+
+        // setup lerp slider
+        rageLerp.minValue = rageSlider.minValue;
+        rageLerp.maxValue = rageSlider.maxValue;
+        rageLerp.value = Mathf.Lerp(rageLerp.value, rageSlider.value, rageLerpSpeed * Time.fixedDeltaTime);
+
+        // run our back UI
+        backSlider.minValue = 0;
+        backSlider.maxValue = overRageGates[(int)rageLevel];
+        backSlider.value = overRage / overRageGates[(int)rageLevel];
+
+        // colors while godwalking
+        sliderImage.color = Color.Lerp(startColor, endColor, rageSlider.value);
+        rageVignette.color = Color.Lerp(startColor, endColor, rageSlider.value);
+
+        // lerp the color of our images
+        if (!godwalking)
+        {
+            sliderImage.color = Color.Lerp(startColor, endColor, rageSlider.value);
+            rageVignette.color = Color.Lerp(startColor, endColor, rageSlider.value);
+        }
+
+        // if we're at our max rage and we're not godwalking
+        if (rageAmount == maxRage && !godwalking)
+        {
+            rageLevelDisplay.text = "GODWALKER READY PRESS G TO ACTIVATE";
         }
     }
 
