@@ -49,11 +49,11 @@ public class PlayerRageManager : MonoBehaviour
     // setup rage levels
     public enum RageLevels
     {
-        WALKER,
+        CRAWLER,
+        JOGGER,
+        RUNNER,
         SPRINTER,
-        TRICKER,
-        SMACKER,
-        KILLER
+        WALKER
     }
 
     public RageLevels rageLevel; // which rage level we're currently on

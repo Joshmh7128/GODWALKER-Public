@@ -180,6 +180,11 @@ public class PlayerProjectileScript : MonoBehaviour
             {
                 // if we shock and deal shocking damage, give rage
                 PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 1.25f);
+            } 
+            else if (eclass.energyShieldHP > 0 && !doesShockExplode)
+            {
+                // if we shock and deal shocking damage, give rage
+                PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 0.5f);
             }
 
             if (eclass.explosiveArmorHP > 0 && doesExplode)
@@ -187,6 +192,12 @@ public class PlayerProjectileScript : MonoBehaviour
                 // if we explode and deal exploding damage, give rage
                 PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 1.25f);
             }
+            else if (eclass.explosiveArmorHP > 0 && !doesExplode)
+            {
+                // if we shock and deal shocking damage, give rage
+                PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 0.5f);
+            }
+
 
             // apply our elemental effects
             // do we slag them?

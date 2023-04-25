@@ -260,12 +260,12 @@ public abstract class EnemyClass : MonoBehaviour
                 // damage to non-types
                 if (element == ElementalProtection.energyShield)
                 {
-                    explosiveArmorHP -= damage/8;
+                    explosiveArmorHP -= damage/4;
                 }
 
                 if (element == ElementalProtection.explosiveShield)
                 {
-                    energyShieldHP -= damage/8;
+                    energyShieldHP -= damage/4;
                 }
             }
 
