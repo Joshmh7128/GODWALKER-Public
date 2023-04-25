@@ -183,6 +183,9 @@ public class PlayerRageManager : MonoBehaviour
                 rageLevelDisplay.color = Color.white;
                 // reset the rage level
                 rageLevel = 0;
+                // reset display
+                rageLevelDisplay.rectTransform.position = normPoint.position;
+                rageLevelDisplay.rectTransform.localScale = Vector3.one;
             }
 
         }

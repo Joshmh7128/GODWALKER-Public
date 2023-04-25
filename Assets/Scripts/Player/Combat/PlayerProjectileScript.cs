@@ -184,7 +184,7 @@ public class PlayerProjectileScript : MonoBehaviour
             else if (eclass.energyShieldHP > 0 && !doesShockExplode)
             {
                 // if we shock and deal shocking damage, give rage
-                PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 0.5f);
+                PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 0.3f);
             }
 
             if (eclass.explosiveArmorHP > 0 && doesExplode)
@@ -195,7 +195,7 @@ public class PlayerProjectileScript : MonoBehaviour
             else if (eclass.explosiveArmorHP > 0 && !doesExplode)
             {
                 // if we shock and deal shocking damage, give rage
-                PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 0.5f);
+                PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 0.3f);
             }
 
 
