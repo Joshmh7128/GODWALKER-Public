@@ -25,22 +25,21 @@ public class PlayerMineScript : MonoBehaviour
     // check every frame to see if we explode
     private void FixedUpdate() => MineCheck();
 
+
     // check to see if any of the enemies walk into our mines using a distance loop
     void MineCheck()
     {
-        if (i < 0.25) i += Time.deltaTime;
-        if (i >= 0.25) try { localCollider.enabled = true; } catch { }
+        // run an overlap sphere
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, Physics.AllLayers, QueryTriggerInteraction.Ignore);
 
-        try { 
-            foreach(Transform enemy in currentArena.activeParent)
+        // loop through the colliders
+        foreach (Collider collider in colliders)
+        {
+            if (collider.gameObject.tag == "Enemy")
             {
-                if (Vector3.Distance(transform.position, enemy.position) < radius)
-                {
-                    // blow up that enemy
-                    MineExplode(enemy);
-                }
+                MineExplode(collider.transform);
             }
-        } catch { }
+        }
     }
 
     void MineExplode(Transform enemy)
