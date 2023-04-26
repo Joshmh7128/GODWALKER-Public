@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class WeaponPoolItemRequest : MonoBehaviour
 {
@@ -154,7 +155,7 @@ public class WeaponPoolItemRequest : MonoBehaviour
             if (specificElement)
             {
                 // get a list of all our weapons of our desired element
-                List<GameObject> properElements = new List<GameObject>();
+                List<GameObject> properElements = pool.DiscoveredWeaponsForSpawning.Where(w => w.GetComponent<WeaponClass>().weaponElement == desiredElement).ToList();
                 // loop
                 foreach (GameObject poolWeapon in pool.DiscoveredWeaponsForSpawning)
                 {
