@@ -358,7 +358,6 @@ public class ArenaHandler : MonoBehaviour
                 {
                     if ((spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>().spawnPointFulfillment == requirement) && !spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>().used)
                     {
-                        Debug.Log("found spawnpoint " + i);
                         eSpawn = spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>();
                         eSpawn.used = true;
                         break;
@@ -375,7 +374,6 @@ public class ArenaHandler : MonoBehaviour
                             p.spawnPointFulfillment == EnemyClass.SpawnPointRequirements.airFarFromPlayer ||
                             p.spawnPointFulfillment == EnemyClass.SpawnPointRequirements.centralAir) && !spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>().used)
                             {
-                                Debug.Log("found spawnpoint " + i);
                                 eSpawn = spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>();
                                 eSpawn.used = true;
                                 break;
@@ -392,7 +390,6 @@ public class ArenaHandler : MonoBehaviour
                             p.spawnPointFulfillment == EnemyClass.SpawnPointRequirements.groundFarFromPlayer ||
                             p.spawnPointFulfillment == EnemyClass.SpawnPointRequirements.centralGrounded) && !spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>().used)
                             {
-                                Debug.Log("found spawnpoint " + i);
                                 eSpawn = spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>();
                                 eSpawn.used = true;
                                 break;

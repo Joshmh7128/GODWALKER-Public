@@ -151,7 +151,7 @@ public class PlayerProjectileScript : MonoBehaviour
     {
         EnemyClass eclass = enemy.transform.gameObject.GetComponent<EnemyClass>();
 
-        float displayDamage = damage;
+        float displayDamage = 0;
         Color showColor = Color.white;
 
         // if we hit an enemy
@@ -161,8 +161,11 @@ public class PlayerProjectileScript : MonoBehaviour
             if (!PlayerRageManager.instance.godwalking)
             damage = weaponManager.currentWeapon.damage;
 
-            if (PlayerRageManager.instance.godwalking)
+            // if (PlayerRageManager.instance.godwalking)
             damage = weaponManager.currentWeapon.damage * PlayerRageManager.instance.damageMult[(int)PlayerRageManager.instance.rageLevel];
+
+            // set display damage
+            displayDamage = damage;
 
             // spawn hit fx
             Instantiate(normalHitFX);
@@ -221,7 +224,6 @@ public class PlayerProjectileScript : MonoBehaviour
 
             // show how much damage we deal
             rageNumber.Spawn(hitpoint, displayDamage, showColor);
-
         }
 
         if (enemy.transform.tag == "Enemy" && eclass.invincible)
