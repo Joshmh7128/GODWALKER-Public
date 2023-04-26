@@ -360,6 +360,15 @@ public class ArenaHandler : MonoBehaviour
                 {
                     // add to i
                     i++;
+
+                    if (spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>().spawnPointFulfillment == requirement && !usedSpawnPoints.Contains(eSpawn))
+                    {
+                        // grab it
+                        eSpawn = spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>();
+                        // break it
+                        break;
+                    }
+
                     // edge case exceptions
                     if (i >= spawnPoints.Count)
                     {
