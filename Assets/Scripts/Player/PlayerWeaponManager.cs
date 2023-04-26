@@ -286,6 +286,9 @@ public class PlayerWeaponManager : MonoBehaviour
         // interrupt any reloading animations that are playing
         PlayerInverseKinematicsController.instance.reloading = false;
 
+        // wait before setting out hands
+        yield return new WaitForSecondsRealtime(0.1f);
+
         // then set our hand targets on our animator to the hand targets on the gun
         PlayerInverseKinematicsController.instance.targetRightHand.localPosition = currentWeapon.rightHandPos.localPosition;
         PlayerInverseKinematicsController.instance.targetLeftHand.localPosition = currentWeapon.leftHandPos.localPosition;
