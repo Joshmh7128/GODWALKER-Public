@@ -156,19 +156,13 @@ public class WeaponPoolItemRequest : MonoBehaviour
             {
                 // get a list of all our weapons of our desired element
                 List<GameObject> properElements = pool.DiscoveredWeaponsForSpawning.Where(w => w.GetComponent<WeaponClass>().weaponElement == desiredElement).ToList();
-                // loop
-                foreach (GameObject poolWeapon in pool.DiscoveredWeaponsForSpawning)
-                {
-                    // does this weapon use the element we want?
-                    if (poolWeapon.GetComponent<WeaponClass>().weaponElement == desiredElement)
-                        properElements.Add(poolWeapon);
-                }
 
-                // give the player the next weapon of that element in the list, which will always be the 0th element
-                if (properElements != null)
-                {
-                    weapon = properElements[0];
-                }
+                // if there are less than 4 weapons in this list, rebuild and refill
+                if (properElements.Count < 4)
+                    pool.BuildWeaponLists(); // this will refill our weapon data
+
+                // choose a random weapon 
+                weapon = properElements.RandomSelect();
 
                 pool.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>().discoverOnPickup = discoverOnPickup;
                 // then remove this item from that list

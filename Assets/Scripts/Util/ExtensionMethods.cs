@@ -45,4 +45,10 @@ public static class ExtensionMethods
         transform.parent = null;
     }
 
+    // randomly return a random element of a list
+    public static T RandomSelect<T>(this List<T> list)
+    {
+        return list[Random.Range(0, list.Count)];
+    }
+
 }
