@@ -47,12 +47,12 @@ public abstract class WeaponClass : MonoBehaviour
         }
     }
 
-    // our weapon's
-    // 
+    // our weapon's information
     [Header("Weapon Information")]
     public string weaponName;
     public string customInfo; // the custom info about the weapon
     public float rageMultiplier = 1; // what is our hotness?
+    public int weaponTier; // our weapon's tier level
 
     [Header("Feel Related")]
     public float kickFOV = 90f;

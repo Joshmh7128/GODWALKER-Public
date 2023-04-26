@@ -17,6 +17,7 @@ public class WeaponPoolItemRequest : MonoBehaviour
     [SerializeField] bool extraHot; // is this weapon that we're spawning extra hot
     [SerializeField] bool specificElement;
     [SerializeField] WeaponClass.WeaponElements desiredElement;
+    [SerializeField] int maximumTier = 10; // what is our maximum tier? by default all tiers are included
 
     float maxSpawnAttempts = 30, maxUnSpawnAttempt; // after 150 spawn attempts, stop trying.
 
@@ -155,7 +156,7 @@ public class WeaponPoolItemRequest : MonoBehaviour
             if (specificElement)
             {
                 // get a list of all our weapons of our desired element
-                List<GameObject> properElements = pool.DiscoveredWeaponsForSpawning.Where(w => w.GetComponent<WeaponClass>().weaponElement == desiredElement).ToList();
+                List<GameObject> properElements = pool.DiscoveredWeaponsForSpawning.Where(w => w.GetComponent<WeaponClass>().weaponElement == desiredElement && w.GetComponent<WeaponClass>().weaponTier <= maximumTier).ToList();
 
                 // if there are less than 4 weapons in this list, rebuild and refill
                 if (properElements.Count < 4)
