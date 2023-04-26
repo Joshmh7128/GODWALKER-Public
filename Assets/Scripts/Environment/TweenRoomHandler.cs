@@ -147,13 +147,16 @@ public class TweenRoomHandler : MonoBehaviour
         frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoorMove, 50 * Time.fixedDeltaTime);
 
         // check if the player has moved 35 units away from the room
-        if (canClose && Vector3.Distance(transform.position, PlayerController.instance.transform.position) > 35)
+        try
         {
-            // then disable our extraneuous elements
-            internalElements.SetActive(false);
-            // then enable the other door
-            frontDoorBlocker.SetActive(true);
-        }
+            if (canClose && Vector3.Distance(transform.position, PlayerController.instance.transform.position) > 35)
+            {
+                // then disable our extraneuous elements
+                internalElements.SetActive(false);
+                // then enable the other door
+                frontDoorBlocker.SetActive(true);
+            }
+        } catch { Debug.Log("No Player");  }
     }
 
     void MoveToNewScene()
