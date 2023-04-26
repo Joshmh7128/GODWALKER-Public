@@ -134,7 +134,7 @@ public class PlayerProjectileScript : MonoBehaviour
             if (hit.transform.tag == "Enemy")
             {
                 // check and hit the enemy
-                HitEnemy(hit.transform);
+                HitEnemy(hit.transform, hit.point);
                 // if we're not an invincible bullet, destroy
                 if (!invincible)
                     Destruction(hit.point);
@@ -147,22 +147,22 @@ public class PlayerProjectileScript : MonoBehaviour
         }
     }
 
-    void HitEnemy(Transform enemy)
+    void HitEnemy(Transform enemy, Vector3 hitpoint)
     {
         EnemyClass eclass = enemy.transform.gameObject.GetComponent<EnemyClass>();
+
+        float displayDamage = damage;
+        Color showColor = Color.white;
 
         // if we hit an enemy
         if (enemy.transform.tag == "Enemy" && !eclass.invincible)
         {
-            // make sure we have damage
-            if (damage == 0)
-            {
-                if (!PlayerRageManager.instance.godwalking)
-                damage = weaponManager.currentWeapon.damage;
+            // manually set damage
+            if (!PlayerRageManager.instance.godwalking)
+            damage = weaponManager.currentWeapon.damage;
 
-                if (PlayerRageManager.instance.godwalking)
-                damage = weaponManager.currentWeapon.damage * 3;
-            }
+            if (PlayerRageManager.instance.godwalking)
+            damage = weaponManager.currentWeapon.damage * PlayerRageManager.instance.damageMult[(int)PlayerRageManager.instance.rageLevel];
 
             // spawn hit fx
             Instantiate(normalHitFX);
@@ -180,22 +180,30 @@ public class PlayerProjectileScript : MonoBehaviour
             {
                 // if we shock and deal shocking damage, give rage
                 PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 1.25f);
+                showColor = Color.red;
+                displayDamage *= 1.25f;
             } 
             else if (eclass.energyShieldHP > 0 && !doesShockExplode)
             {
                 // if we shock and deal shocking damage, give rage
                 PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 0.3f);
+                showColor = Color.yellow;
+                displayDamage *= 0.3f;
             }
 
             if (eclass.explosiveArmorHP > 0 && doesExplode)
             {
                 // if we explode and deal exploding damage, give rage
                 PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 1.25f);
+                showColor = Color.red;
+                displayDamage *= 1.25f;
             }
             else if (eclass.explosiveArmorHP > 0 && !doesExplode)
             {
                 // if we shock and deal shocking damage, give rage
                 PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier * 0.3f);
+                showColor = Color.yellow;
+                displayDamage *= 0.3f;
             }
 
 
@@ -211,8 +219,8 @@ public class PlayerProjectileScript : MonoBehaviour
                 PlayerStatManager.instance.AddHealth(damage);
             }
 
-            // show how much rage we deal
-            // rageNumber.Spawn(transform.position, rageAdd, PlayerRageManager.instance.rageColors[(int)PlayerRageManager.instance.rageLevel]);
+            // show how much damage we deal
+            rageNumber.Spawn(hitpoint, displayDamage, showColor);
 
         }
 
@@ -314,7 +322,7 @@ public class PlayerProjectileScript : MonoBehaviour
         {
             if (other.transform.tag == "Enemy")
             {
-                HitEnemy(other.transform);
+                HitEnemy(other.transform, transform.position);
             }
 
             if (other.transform.tag != "Player")

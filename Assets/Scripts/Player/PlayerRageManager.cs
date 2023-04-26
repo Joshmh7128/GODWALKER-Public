@@ -61,6 +61,7 @@ public class PlayerRageManager : MonoBehaviour
     [SerializeField] float overRage; // rage that exceeds the godwalker meter
     [SerializeField] List<float> overRageGates; // how much overrage we have to build to get to the next level, each starts from 0
     [SerializeField] List<float> overRageDeltas; // how much overrage we lost as we go
+    public List<float> damageMult; // our damage multipliers
 
     private void Start()
     {
