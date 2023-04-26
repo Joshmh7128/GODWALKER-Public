@@ -9,7 +9,7 @@ public class EnemySpawnPoint : MonoBehaviour
     // what condition does this spawn point satisfy?
     public EnemyClass.SpawnPointRequirements spawnPointFulfillment;
     [SerializeField] GameObject infoItem; // the item we're using in the editor to display text info
-
+    public bool used; // was this used?
     PlayerController playerController; // our player controller instance
     float farDistance = 50;
 

@@ -288,6 +288,12 @@ public class ArenaHandler : MonoBehaviour
 
         if (activeParent.childCount <= 0 && !setupWaveRunning && waveParents.Count > 0)
         {
+            // reset all spawnpoints
+            foreach (Transform point in spawnPoints)
+            {
+                point.GetComponent<EnemySpawnPoint>().used = false;
+            }
+
             StartCoroutine(SetupWave(false));
         }
         
@@ -338,65 +344,59 @@ public class ArenaHandler : MonoBehaviour
                 enemyTransforms.Add(child);
             }
 
-            // setup a list of used spawnpoints for this wave only, so that 
-            List<EnemySpawnPoint> usedSpawnPoints = new List<EnemySpawnPoint>(); // we can't reuse these points
-
             // use the list to move all our enemies over to the correct parent
             foreach (Transform child in enemyTransforms)
             {
                 // get enemy type
                 EnemyClass.SpawnPointRequirements requirement = child.GetComponent<EnemyClass>().spawnPointRequirement;
                 // move it to a spawn point from the relevant type
-                // randomly choose a spawnpoint
-                int s = Random.Range(0, spawnPoints.Count);
                 // store that spawn point
-                EnemySpawnPoint eSpawn = spawnPoints[s].gameObject.GetComponent<EnemySpawnPoint>();
+                EnemySpawnPoint eSpawn = null;
 
-                int i = 0; // a counter safety for our while loop
-                int j = 0; // loop safety breaker
-                // run a while loop until we find a matching spawnpoint, or until we run out of spawn points
                 // use a spawn point that fulfills out requirement and hasn't been used
-                while ((eSpawn.spawnPointFulfillment != requirement || usedSpawnPoints.Contains(eSpawn) || i < spawnPoints.Count)) 
+                for (int i = 0; i < spawnPoints.Count; i++)
                 {
-                    // add to i
-                    i++;
-
-                    if (spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>().spawnPointFulfillment == requirement && !usedSpawnPoints.Contains(eSpawn))
+                    if ((spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>().spawnPointFulfillment == requirement) && !spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>().used)
                     {
-                        // grab it
+                        Debug.Log("found spawnpoint " + i);
                         eSpawn = spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>();
-                        // break it
+                        eSpawn.used = true;
                         break;
                     }
+                }
 
-                    // edge case exceptions
-                    if (i >= spawnPoints.Count)
-                    {
-                        // if we can't find a far point, set it to a random point
-                        if (requirement == EnemyClass.SpawnPointRequirements.groundFarFromPlayer || requirement == EnemyClass.SpawnPointRequirements.centralGrounded)
-                            requirement = EnemyClass.SpawnPointRequirements.groundRandom;
+                // if you didn't find a spawnpoint, change based on your requirement
+                if (eSpawn == null && requirement == EnemyClass.SpawnPointRequirements.airRandom || requirement == EnemyClass.SpawnPointRequirements.airFarFromPlayer || requirement == EnemyClass.SpawnPointRequirements.centralAir)
+                for (int i = 0; i < spawnPoints.Count; i++)
+                {
+                        EnemySpawnPoint p = spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>();
 
-                        if (requirement == EnemyClass.SpawnPointRequirements.airFarFromPlayer || requirement == EnemyClass.SpawnPointRequirements.centralAir)
-                            requirement = EnemyClass.SpawnPointRequirements.airRandom;
+                        if ((p.spawnPointFulfillment == EnemyClass.SpawnPointRequirements.airRandom ||
+                            p.spawnPointFulfillment == EnemyClass.SpawnPointRequirements.airFarFromPlayer ||
+                            p.spawnPointFulfillment == EnemyClass.SpawnPointRequirements.centralAir) && !spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>().used)
+                            {
+                                Debug.Log("found spawnpoint " + i);
+                                eSpawn = spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>();
+                                eSpawn.used = true;
+                                break;
+                            }
+                }         
 
-                        // set i to 0 then restart the loop
-                        i = 0;
-                        
-                        // safety breaker
-                        j++;
-                        if (j > 3)
-                        { break; } // if we check all the points and STILL can't do anything, break the loop and spawn the enemy at the most recently chosen point. 
-                    }
+                // if you didn't find a spawnpoint, change based on your requirement
+                if (eSpawn == null && requirement == EnemyClass.SpawnPointRequirements.groundRandom || requirement == EnemyClass.SpawnPointRequirements.groundFarFromPlayer || requirement == EnemyClass.SpawnPointRequirements.centralGrounded)
+                for (int i = 0; i < spawnPoints.Count; i++)
+                {
+                        EnemySpawnPoint p = spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>();
 
-                    // randomize S
-                    s = Random.Range(0, spawnPoints.Count);
-                    // change our target spawn point
-                    eSpawn = spawnPoints[s].gameObject.GetComponent<EnemySpawnPoint>();
-                    // if it fulfills out requirement, break out of the loop
-                    if (eSpawn.spawnPointFulfillment == requirement)
-                    {
-                        break;
-                    }
+                        if ((p.spawnPointFulfillment == EnemyClass.SpawnPointRequirements.groundRandom ||
+                            p.spawnPointFulfillment == EnemyClass.SpawnPointRequirements.groundFarFromPlayer ||
+                            p.spawnPointFulfillment == EnemyClass.SpawnPointRequirements.centralGrounded) && !spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>().used)
+                            {
+                                Debug.Log("found spawnpoint " + i);
+                                eSpawn = spawnPoints[i].gameObject.GetComponent<EnemySpawnPoint>();
+                                eSpawn.used = true;
+                                break;
+                            }
                 }
 
                 // now that we have a valid spawn point, move the enemy there 
@@ -405,10 +405,6 @@ public class ArenaHandler : MonoBehaviour
                 child.gameObject.SetActive(true);
                 // then set parent
                 child.parent = activeParent;
-                // add espawn to the list of used spawns for this wave
-                usedSpawnPoints.Add(eSpawn);
-
-
 
                 if (waveParents[0].childCount <= 0)
                 {
