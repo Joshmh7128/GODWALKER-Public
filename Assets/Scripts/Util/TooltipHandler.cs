@@ -43,7 +43,7 @@ public class TooltipHandler : MonoBehaviour
         // disable our showcase image
         showcase.enabled = false;
         originalPos = rectTransform.anchoredPosition;
-        SetTooltip(Tooltips.elementalPop);
+        SetTooltip(Tooltips.tooltip);
     }
 
     // use this function to set a tooltip
@@ -152,7 +152,7 @@ public class TooltipHandler : MonoBehaviour
             case (int)Tooltips.strongDMG:
                 tooltipPanel.SetActive(true); // make sure we set this to active because this is triggered externally
                 background.enabled = true;
-                tooltipText.text = "Red damage numbers indicate bonus damage. Using correct elements deals more damage.";
+                tooltipText.text = "Red damage numbers indicate bonus damage. Correct elements deal more damage.";
                 rectTransform.anchoredPosition = originalPos;
                 showcase.sprite = imageList[1];
                 tabAction = Tooltips.weakDMG; // show our normal damage number explanation next
@@ -161,7 +161,7 @@ public class TooltipHandler : MonoBehaviour
             case (int)Tooltips.weakDMG:
                 tooltipPanel.SetActive(true); // make sure we set this to active because this is triggered externally
                 background.enabled = true;
-                tooltipText.text = "Yellow damage numbers indicates weak damage. Incorrect elements deal less damage.";
+                tooltipText.text = "Yellow damage numbers indicate weak damage. Incorrect elements deal less damage.";
                 rectTransform.anchoredPosition = originalPos;
                 showcase.sprite = imageList[2];
                 tabAction = Tooltips.none; // show our normal damage number explanation next
