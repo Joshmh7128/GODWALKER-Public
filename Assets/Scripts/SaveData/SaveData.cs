@@ -21,6 +21,7 @@ public class SaveData
         "Auto Pistol",
         "Shotgun",
         "Plasma Rifle",
+        "Plasma Pistol",
         "Minigun",
         "Fleet",
         "Super Shotgun",
@@ -28,7 +29,10 @@ public class SaveData
         "Missile Launcher",
         "Grenade Launcher",
         "Rocket Launcher",
+        "Rocket Pistol",
         "Ballista",
+        "Blast Rifle",
+        "Super Blast Rifle",
 
     };  
 
