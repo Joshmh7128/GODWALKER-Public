@@ -362,7 +362,8 @@ public abstract class EnemyClass : MonoBehaviour
                 int c = Random.Range(0, 10);
                 if (c > 8)
                 {
-                    Instantiate(Resources.Load("EnemyElementalEffects/ShieldBreakingVFX") as GameObject, plate.transform);
+                    if (plate.transform.childCount == 0)
+                        Instantiate(Resources.Load("EnemyElementalEffects/ShieldBreakingVFX") as GameObject, plate.transform);
                 }
             }
 
