@@ -10,7 +10,6 @@ public class PlayerMineScript : MonoBehaviour
     [SerializeField] float radius; // how large is this bomb?
     [SerializeField] GameObject explosionPrefab; // the player's explosion prefab
     [SerializeField] Collider localCollider; // our mesh collider
-    float i = 0; // counter for activity
 
     // instances
     ArenaManager arenaManager; ArenaHandler currentArena;
