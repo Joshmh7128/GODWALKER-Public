@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4195466172343664909}
   - component: {fileID: 7408213968125797528}
   m_Layer: 0
-  m_Name: AutoResetScene
+  m_Name: AutoResetScene NoHud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34c69f0a1f05a9479a905c57dab7556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RestartScene: TakeTheGodheart
+  RestartScene: Game Start
 --- !u!1001 &5297383685015710718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53,6 +53,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4195466172343664909}
     m_Modifications:
+    - target: {fileID: 8561090934517963556, guid: f79291154b385884fb60426aa94eab85, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8561090935819085582, guid: f79291154b385884fb60426aa94eab85, type: 3}
       propertyPath: m_Name
       value: Death Object

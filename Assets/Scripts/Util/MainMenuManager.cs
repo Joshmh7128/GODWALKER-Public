@@ -64,7 +64,7 @@ public class MainMenuManager : MonoBehaviour
     // load the game
     public void LoadGame()
     {
-        SceneManager.LoadScene("Game Start");
+        SceneManager.LoadScene("TakeTheGodheart");
     }
 
     public void ExitGame()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,7 +35,20 @@ public class AutoResetGame : MonoBehaviour
         }
 
         yield return new WaitForSeconds(2f);
+
+        // kill all tween loading rooms
+        KillAllTweens();
+
         // reload
         SceneManager.LoadScene(RestartScene);
+    }
+
+    void KillAllTweens()
+    {
+        List<TweenRoomHandler> tweens = FindObjectsOfType<TweenRoomHandler>().ToList();
+        foreach(TweenRoomHandler tween in tweens)
+        {
+            Destroy(tween.gameObject);
+        }
     }
 }

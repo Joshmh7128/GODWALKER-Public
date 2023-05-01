@@ -128,20 +128,6 @@ public class TweenRoomHandler : MonoBehaviour
         }
     }
 
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            if (canClose)
-            {
-                // then disable our extraneuous elements
-                // internalElements.SetActive(false);
-                // prepare this to be unloaded
-                // SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
-            }
-        }
-    }
-
     private void FixedUpdate()
     {
         frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoorMove, 50 * Time.fixedDeltaTime);
@@ -155,6 +141,8 @@ public class TweenRoomHandler : MonoBehaviour
                 internalElements.SetActive(false);
                 // then enable the other door
                 frontDoorBlocker.SetActive(true);
+                // remove ourselves from the scene
+                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
             }
         } catch { Debug.Log("No Player");  }
     }
