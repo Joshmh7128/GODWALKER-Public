@@ -14,6 +14,9 @@ public class ManualArenaStarter : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                // disable all tooltips if they are on
+                TooltipHandler.instance.SetTooltip(TooltipHandler.Tooltips.none);
+
                 musicObject.SetActive(true);
 
                 // try using our simple music manager as well
