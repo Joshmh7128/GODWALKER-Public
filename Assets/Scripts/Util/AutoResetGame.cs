@@ -35,7 +35,7 @@ public class AutoResetGame : MonoBehaviour
         }
 
         yield return new WaitForSeconds(2f);
-
+         
         // kill all tween loading rooms
         KillAllTweens();
 
