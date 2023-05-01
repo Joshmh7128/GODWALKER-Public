@@ -33,29 +33,29 @@ public class MainMenuManager : MonoBehaviour
 
     private void Update()
     {
-        SetSensitivity();
+
     }
 
     public void SetSensitivity()
     {
         PlayerPrefs.GetFloat("sensitivity", aimSensitivity);
-        aimSensitivityText.text = "Sensitivity Slider. Current Sensitivity = " + aimSensitivity;
-        aimSensitivity = aimSenseSlider.value;
+        aimSensitivity = Mathf.Round(aimSenseSlider.value * 10) * 0.1f;
 
         PlayerPrefs.SetFloat("sensitivity", aimSensitivity);
 
-        senseInput.text = aimSensitivity.ToString();
+        senseInput.text = (Mathf.Round(aimSenseSlider.value * 10) * 0.1f).ToString();
+        aimSensitivityText.text = "Sensitivity Slider. Current Sensitivity = " + aimSensitivity;
     }   
     
     public void SetSensitivityText()
     {
         PlayerPrefs.GetFloat("sensitivity", aimSensitivity);
-        aimSensitivityText.text = "Sensitivity Slider. Current Sensitivity = " + aimSensitivity;
+        // aimSensitivityText.text = "Sensitivity Slider. Current Sensitivity = " + aimSensitivity;
 
-        aimSensitivity = float.Parse(aimSensitivityText.text);
+        aimSensitivity = Mathf.Round(float.Parse(senseInput.text) * 10) * 0.1f;
 
         aimSenseSlider.value = aimSensitivity;
-
+        senseInput.text = aimSensitivity.ToString("F2");
         PlayerPrefs.SetFloat("sensitivity", aimSensitivity);
 
         senseInput.text = aimSensitivity.ToString();
