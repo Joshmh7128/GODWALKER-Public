@@ -8,7 +8,9 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI aimSensitivityText;
-    [SerializeField] Slider aimSenseSlider; 
+    [SerializeField] Slider aimSenseSlider;
+    [SerializeField] GameObject mainParent, optionsParent;
+    [SerializeField] TMP_InputField senseInput;
 
     float aimSensitivity;
 
@@ -19,11 +21,13 @@ public class MainMenuManager : MonoBehaviour
         if (aimSensitivity != 0)
         {
             aimSenseSlider.value = aimSensitivity;
+            senseInput.text = aimSensitivity.ToString();
         }
         else
         {
             aimSensitivity = 15;
             aimSenseSlider.value = aimSensitivity;
+            senseInput.text = aimSensitivity.ToString();
         }
     }
 
@@ -40,6 +44,21 @@ public class MainMenuManager : MonoBehaviour
 
         PlayerPrefs.SetFloat("sensitivity", aimSensitivity);
 
+        senseInput.text = aimSensitivity.ToString();
+    }   
+    
+    public void SetSensitivityText()
+    {
+        PlayerPrefs.GetFloat("sensitivity", aimSensitivity);
+        aimSensitivityText.text = "Sensitivity Slider. Current Sensitivity = " + aimSensitivity;
+
+        aimSensitivity = float.Parse(aimSensitivityText.text);
+
+        aimSenseSlider.value = aimSensitivity;
+
+        PlayerPrefs.SetFloat("sensitivity", aimSensitivity);
+
+        senseInput.text = aimSensitivity.ToString();
     }
 
     // load the game
@@ -51,5 +70,12 @@ public class MainMenuManager : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+    
+    // toggle the options panel
+    public void ToggleOptions()
+    {
+        mainParent.SetActive(!mainParent.activeInHierarchy);
+        optionsParent.SetActive(!optionsParent.activeInHierarchy);
     }
 }
