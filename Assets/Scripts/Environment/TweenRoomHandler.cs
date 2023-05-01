@@ -205,8 +205,6 @@ public class TweenRoomHandler : MonoBehaviour
             }
         }
 
-
-
         // if we want to reset, request a reset
         if (requestReset)
         {
