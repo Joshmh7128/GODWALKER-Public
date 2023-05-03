@@ -34,6 +34,7 @@ public class SaveData
         "Blast Rifle",
         "Super Blast Rifle",
         "Sniper",
+        "Plasma Sniper",
 
     };  
 
