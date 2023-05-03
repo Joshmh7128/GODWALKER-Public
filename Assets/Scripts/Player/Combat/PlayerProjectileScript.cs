@@ -70,6 +70,14 @@ public class PlayerProjectileScript : MonoBehaviour
         // run our abilities check
         StartCoroutine(ProjectileStartBuffer());
 
+        // manually set damage
+        if (!PlayerRageManager.instance.godwalking)
+            damage = weaponManager.currentWeapon.damage;
+
+        // if (PlayerRageManager.instance.godwalking)
+        damage = weaponManager.currentWeapon.damage * PlayerRageManager.instance.damageMult[(int)PlayerRageManager.instance.rageLevel];
+
+
         // if we have a frame start buffer
         if (startInvBuffer) StartCoroutine(InvBuffer());
         // check our raycast before moving
@@ -157,12 +165,6 @@ public class PlayerProjectileScript : MonoBehaviour
         // if we hit an enemy
         if (enemy.transform.tag == "Enemy" && !eclass.invincible)
         {
-            // manually set damage
-            if (!PlayerRageManager.instance.godwalking)
-            damage = weaponManager.currentWeapon.damage;
-
-            // if (PlayerRageManager.instance.godwalking)
-            damage = weaponManager.currentWeapon.damage * PlayerRageManager.instance.damageMult[(int)PlayerRageManager.instance.rageLevel];
 
             // set display damage
             displayDamage = damage;
