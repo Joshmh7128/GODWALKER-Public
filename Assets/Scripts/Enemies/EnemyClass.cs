@@ -408,6 +408,8 @@ public abstract class EnemyClass : MonoBehaviour
             // kick our rage 
             if (PlayerRageManager.instance.godwalking == true)
                 PlayerGodfeelManager.instance.KickFeel();
+            // add our stat
+            PlayerRunStatTracker.instance.kills++;
         }
         // destroy the object
         Destroy(gameObject);

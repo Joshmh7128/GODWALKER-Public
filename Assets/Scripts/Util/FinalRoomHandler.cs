@@ -22,6 +22,9 @@ public class FinalRoomHandler : MonoBehaviour
         shots.text = "Shots Fired: " + stats.shotsFired;
         damage.text = "Damage Dealth: " + stats.damageDealt;
         runs.text = "Runs Completed: " + stats.runsCompleted;
-        bestGod.text = "Best Godmode Time: " + stats.longestGodwalkerTime;
+        bestGod.text = "Best Godmode Time: " + stats.longestGodwalkerTime + " seconds";
+
+        // cut the player's HP in half
+        PlayerStatManager.instance.maxHealth /= 2;
     }
 }
