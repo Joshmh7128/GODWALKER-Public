@@ -173,7 +173,10 @@ public class PlayerCameraController : MonoBehaviour
         if (FOVMode == FOVModes.normal)
         {
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, normalFOV, 3f * Time.deltaTime);
-            PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
+            try
+            {
+                PlayerWeaponManager.instance.currentWeapon.spreadReduct = PlayerWeaponManager.instance.currentWeapon.originalSpreadReduct;
+            } catch { }
             aimSensitivity = defaultSensitivity;
         }
 

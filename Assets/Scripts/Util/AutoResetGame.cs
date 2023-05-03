@@ -31,7 +31,7 @@ public class AutoResetGame : MonoBehaviour
 
         finally
         {
-            Debug.LogAssertion("Reloading Scene...");
+            // Debug.LogAssertion("Reloading Scene...");
         }
 
         yield return new WaitForSeconds(2f);

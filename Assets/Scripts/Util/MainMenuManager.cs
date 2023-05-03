@@ -11,6 +11,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] Slider aimSenseSlider;
     [SerializeField] GameObject mainParent, optionsParent;
     [SerializeField] TMP_InputField senseInput;
+    [SerializeField] Toggle quickStartToggle; // do we quick start?
 
     float aimSensitivity;
 
@@ -29,10 +30,9 @@ public class MainMenuManager : MonoBehaviour
             aimSenseSlider.value = aimSensitivity;
             senseInput.text = aimSensitivity.ToString();
         }
-    }
 
-    private void Update()
-    {
+        if (PlayerPrefs.GetString("QuickStart", "off") == "on")
+            quickStartToggle.isOn = true;
 
     }
 
@@ -64,7 +64,25 @@ public class MainMenuManager : MonoBehaviour
     // load the game
     public void LoadGame()
     {
-        SceneManager.LoadScene("TakeTheGodheart");
+
+
+        if (!quickStartToggle.isOn)
+        {
+            SceneManager.LoadScene("TakeTheGodheart");
+            PlayerPrefs.SetString("QuickStart", "off");
+        }
+
+        if (quickStartToggle.isOn)
+        {
+            SceneManager.LoadScene("Game Start");
+            PlayerPrefs.SetString("QuickStart", "on");
+        }
+
+        if (PlayerPrefs.GetString("QuickStart", "off") == "off")
+            quickStartToggle.isOn = false;
+
+        if (PlayerPrefs.GetString("QuickStart", "off") == "on")
+            quickStartToggle.isOn = true;
     }
 
     public void ExitGame()
