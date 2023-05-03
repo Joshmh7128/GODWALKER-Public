@@ -114,6 +114,6 @@ public class RunForecastBoardHandler : MonoBehaviour
     PlayerGenerationSeedManager.ElementBiases ReadRoom(int room)
     {
         // read from the generation manager to get our rooms type
-        return seedManager.elementBiases[room + seedManager.currentCombatPos];
+        return seedManager.elementBiases[room + seedManager.currentRunPos];
     }
 }
