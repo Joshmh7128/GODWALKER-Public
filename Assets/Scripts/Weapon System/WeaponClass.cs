@@ -110,6 +110,8 @@ public abstract class WeaponClass : MonoBehaviour
 
     public virtual void Fire()
     {
+        // add to our stat
+        PlayerRunStatTracker.instance.shotsFired++;
 
         // if there is a double shot request, this is a double shot, then set request to false
         if (requestDoubleShot) {requestDoubleShot = false; }

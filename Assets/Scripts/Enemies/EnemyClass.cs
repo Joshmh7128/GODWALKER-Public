@@ -243,6 +243,9 @@ public abstract class EnemyClass : MonoBehaviour
     {
         if (!invincible)
         {
+            // add to our stats
+            PlayerRunStatTracker.instance.damageDealt += (int)damage;
+
             // before dealing damage, check to ensure we have no armors
             if (explosiveArmorHP <= 0 && energyShieldHP <= 0)
             {

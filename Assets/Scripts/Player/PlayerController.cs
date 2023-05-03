@@ -129,6 +129,7 @@ public class PlayerController : MonoBehaviour
                 // jumping
                 if (Input.GetKey(KeyCode.Space) && (groundCheckCooldown <= 0 || remainingJumps > 0))
                 {
+                    PlayerRunStatTracker.instance.jumps++;
                     playerJumpVelocity = 0;
                     playerJumpVelocity = Mathf.Sqrt(-jumpVelocity * gravity);
                     remainingJumps--; // reduce jumps

@@ -129,7 +129,6 @@ public class PlayerRageManager : MonoBehaviour
                 PlayerGodfeelManager.instance.KickFeel();
             }
 
-
             overRage = 0; // reset it
         }
 
@@ -168,6 +167,9 @@ public class PlayerRageManager : MonoBehaviour
                 weapon.GetComponent<WeaponClass>().currentMagazine = weapon.GetComponent<WeaponClass>().maxMagazine;
             }
 
+            // godwalker time
+            godwalkerTime += Time.deltaTime;
+
             // when do we end godwalking?
             if (rageAmount <= 0)
             {
@@ -187,6 +189,13 @@ public class PlayerRageManager : MonoBehaviour
                 // reset display
                 rageLevelDisplay.rectTransform.position = normPoint.position;
                 rageLevelDisplay.rectTransform.localScale = Vector3.one;
+
+                // check if this is the best time
+                if (godwalkerTime > PlayerRunStatTracker.instance.longestGodwalkerTime)
+                    PlayerRunStatTracker.instance.longestGodwalkerTime = (int)godwalkerTime;
+
+                // reset time
+                godwalkerTime = 0;
             }
 
         }
