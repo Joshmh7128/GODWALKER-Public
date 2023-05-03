@@ -39,6 +39,10 @@ public class AutoResetGame : MonoBehaviour
         // kill all tween loading rooms
         KillAllTweens();
 
+        // check player pref
+        if (PlayerPrefs.GetString("QuickStart", "off") == "on" && RestartScene != "PlayerMainMenu")
+            RestartScene = "Game Start";
+
         // reload
         SceneManager.LoadScene(RestartScene);
     }
