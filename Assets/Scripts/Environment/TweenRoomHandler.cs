@@ -34,7 +34,10 @@ public class TweenRoomHandler : MonoBehaviour
     {
         // check for a reset
         if (requestReset)
+        {
             PlayerGenerationSeedManager.instance.currentRunPos = 0;
+            PlayerGenerationSeedManager.instance.currentCombatPos = 0;
+        }
 
         // just get the next room name from the list
         targetNextScene = PlayerGenerationSeedManager.instance.roomNames[PlayerGenerationSeedManager.instance.currentRunPos];
