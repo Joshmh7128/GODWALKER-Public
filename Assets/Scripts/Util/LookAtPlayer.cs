@@ -8,17 +8,19 @@ public class LookAtPlayer : MonoBehaviour
     [SerializeField] float turnSpeed, minDistance, maxDistance; // if we are moving slow then use this
     [SerializeField] bool distanceCompensation; // move at different speeds depending on player distance
 
-    // instance
-    PlayerController playerController;
+    // gameobjects
+    Transform player, camerap;
 
     private void Start()
     {
-        playerController = PlayerController.instance;
+        // set our cameras
+        player = PlayerController.instance.transform;
+        camerap = Camera.main.transform;
     }
 
     private void FixedUpdate()
     {
-        try { PerformLook(); } catch { }
+        PerformLook(); 
     }
 
 
@@ -28,10 +30,10 @@ public class LookAtPlayer : MonoBehaviour
         if (!slowMove)
         {
             if (!lookAtCamera)
-                transform.LookAtPlayer();
+                transform.LookAt(player.position, Vector3.up);
 
             if (lookAtCamera)
-                transform.LookAtCamera();
+                transform.LookAt(camerap.position, Vector3.up);
         }
 
         // if we are slow moving
@@ -40,20 +42,20 @@ public class LookAtPlayer : MonoBehaviour
             if (!lookAtCamera)
             {
                 // get the look direction
-                Vector3 lookDir = playerController.transform.position - transform.position;
+                Vector3 lookDir = player.position - transform.position;
                 float finalSpeed = turnSpeed;
 
                 // calculate our distance compensation
                 if (distanceCompensation)
                 {
                     // the further the player is the slower we move
-                    if (Vector3.Distance(playerController.transform.position, transform.position) > maxDistance)
+                    if (Vector3.Distance(player.position, transform.position) > maxDistance)
                     {
                         finalSpeed /= 2;
 
                     }
 
-                    if (Vector3.Distance(playerController.transform.position, transform.position) < minDistance)
+                    if (Vector3.Distance(player.position, transform.position) < minDistance)
                     {
                         finalSpeed *= 2;
                     }
@@ -66,19 +68,19 @@ public class LookAtPlayer : MonoBehaviour
             if (lookAtCamera)
             {
                 // get the look direction
-                Vector3 lookDir = playerController.cameraRig.transform.position - transform.position;
+                Vector3 lookDir = camerap.transform.position - transform.position;
                 float finalSpeed = turnSpeed;
 
                 // calculate our distance compensation
                 if (distanceCompensation)
                 {
                     // the further the player is the slower we move
-                    if (Vector3.Distance(playerController.transform.position, transform.position) > maxDistance)
+                    if (Vector3.Distance(camerap.transform.position, transform.position) > maxDistance)
                     {
                         finalSpeed /= 3;
                     }
 
-                    if (Vector3.Distance(playerController.transform.position, transform.position) < minDistance)
+                    if (Vector3.Distance(camerap.transform.position, transform.position) < minDistance)
                     {
                         finalSpeed *= 3;
                     }

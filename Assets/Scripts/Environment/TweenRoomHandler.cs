@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,7 @@ public class TweenRoomHandler : MonoBehaviour
     public string targetNextScene; // this is the target scene that this will go to
 
     bool used; // has this been used?
-    [SerializeField] bool canClose; // can we close this room?
+    [SerializeField] bool canClose, closed; // can we close this room?
     [SerializeField] bool reduceRage; // do we weaken the player?
     [SerializeField] bool doesAdvanceCombatPos; // does this room advance the current generation position?
     [SerializeField] bool requestReset; // do we request a reset on the player generation manager when we use this door?
@@ -130,7 +131,7 @@ public class TweenRoomHandler : MonoBehaviour
 
             if (used)
             {                
-                Debug.LogWarning("Use triggered!");
+                // Debug.LogWarning("Use triggered!");
             }
         }
     }
@@ -138,6 +139,12 @@ public class TweenRoomHandler : MonoBehaviour
     private void FixedUpdate()
     {
         frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoorMove, 50 * Time.fixedDeltaTime);
+
+        if (!closed) TryClose();
+    }
+
+    void TryClose()
+    {
 
         // check if the player has moved 35 units away from the room
         try
@@ -150,8 +157,12 @@ public class TweenRoomHandler : MonoBehaviour
                 frontDoorBlocker.SetActive(true);
                 // remove ourselves from the scene
                 SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+                // close
+                closed = true;
             }
-        } catch { Debug.Log("No Player");  }
+        }
+        catch { //Debug.Log("No Player");
+                }
     }
 
     void MoveToNewScene()

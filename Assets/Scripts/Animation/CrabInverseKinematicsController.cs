@@ -27,8 +27,8 @@ public class CrabInverseKinematicsController : MonoBehaviour
     {
         // setting up our feet
         SetupTargetFeet();
-        // start our canmove control
-        //StartCoroutine(CanMoveControl());
+
+        StartCoroutine(StepUpdate());
     }
 
     private void SetupTargetFeet()
@@ -48,6 +48,14 @@ public class CrabInverseKinematicsController : MonoBehaviour
         }
     }
 
+    // runs an optimized step update at 30fps
+    IEnumerator StepUpdate()
+    {
+        ProcessStep();
+        yield return new WaitForSecondsRealtime(0.015f);
+        StartCoroutine(StepUpdate());
+    }
+
     IEnumerator CanMoveControl()
     {
         // then flip each bool
@@ -58,9 +66,10 @@ public class CrabInverseKinematicsController : MonoBehaviour
             canMove[i] = false;
         }
         StartCoroutine(CanMoveControl());
+        yield break; // leave
     }
 
-    private void FixedUpdate()
+    private void ProcessStep()
     {
         // process our target positions
         ProcessLegTargetPositions();
