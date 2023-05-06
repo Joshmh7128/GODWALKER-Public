@@ -20,7 +20,7 @@ public class FinalRoomHandler : MonoBehaviour
         kills.text = "Kills: " + stats.kills;
         jumps.text = "Jumps: " + stats.jumps;
         shots.text = "Shots Fired: " + stats.shotsFired;
-        damage.text = "Damage Dealth: " + stats.damageDealt;
+        damage.text = "Damage Dealt: " + stats.damageDealt;
         runs.text = "Runs Completed: " + stats.runsCompleted;
         bestGod.text = "Best Godmode Time: " + stats.longestGodwalkerTime + " seconds";
 
