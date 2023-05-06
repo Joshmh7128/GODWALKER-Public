@@ -11,7 +11,7 @@ public class PlayerShockExplosionScript : MonoBehaviour
     PlayerBodyPartManager bodyPartManager;
     PlayerProjectileManager projectileManager;
     PlayerWeaponManager weaponManager;
-    [HideInInspector] public float damage; // set by our bullet when we are instantiated
+    [HideInInspector] public float damage, rageAdd; // set by our bullet when we are instantiated
     public int enemiesHit; // how many enemies this explosion hit
     [SerializeField] DamageNumber shockHit;
     public bool used; // has this been used in an effect already?
@@ -65,6 +65,9 @@ public class PlayerShockExplosionScript : MonoBehaviour
             other.GetComponent<EnemyClass>().GetHurt(damage, EnemyClass.ElementalProtection.energyShield);
             // apply effect
             other.GetComponent<EnemyClass>().ApplyEffect(EnemyClass.Effects.Shock);
+            // add rage
+            PlayerRageManager.instance.AddRage(rageAdd);
+
 
             // spawn normal damage number
             // shockHit.Spawn(transform.position, damage);
@@ -125,7 +128,7 @@ public class PlayerShockExplosionScript : MonoBehaviour
             // refresh our shock list
             projectileManager.RefreshShockList();
             // find another active shock explosion and tether to it
-            foreach (var shockEx in projectileManager.loopingShockExplosionScripts)
+            foreach (PlayerShockExplosionScript shockEx in projectileManager.loopingShockExplosionScripts)
             {
                 if (shockEx != this && !shockEx.isTethered && shockEx.doesLoop)
                 {

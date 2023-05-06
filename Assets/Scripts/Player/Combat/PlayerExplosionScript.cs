@@ -10,7 +10,7 @@ public class PlayerExplosionScript : MonoBehaviour
 
     PlayerBodyPartManager bodyPartManager;
     PlayerProjectileManager projectileManager;
-    public float damage, playerKnockBackForce; // set by our bullet when we are instantiated
+    public float damage, playerKnockBackForce, rageAdd; // set by our bullet when we are instantiated
     public int enemiesHit; // how many enemies this explosion hit
     // [SerializeField] DamageNumber explosionHit;
     public bool used; // has this been used in an effect already?
@@ -39,7 +39,14 @@ public class PlayerExplosionScript : MonoBehaviour
             // random normal modifier
             // damage *= Random.Range(0.1f, 0.15f);
             // deal damage
-            try { other.GetComponent<EnemyClass>().GetHurt(damage, EnemyClass.ElementalProtection.explosiveShield); }
+            try 
+            { 
+                // add damage
+                other.GetComponent<EnemyClass>().GetHurt(damage, EnemyClass.ElementalProtection.explosiveShield); 
+                // add rage
+                PlayerRageManager.instance.AddRage(rageAdd);
+                
+            }
             catch { /* no need to catch, this just means an enemy died before the explosion hit them*/ }
             // spawn normal damage number
             // explosionHit.Spawn(transform.position, damage);
