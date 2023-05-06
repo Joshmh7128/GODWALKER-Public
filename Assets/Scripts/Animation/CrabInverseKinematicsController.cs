@@ -51,9 +51,14 @@ public class CrabInverseKinematicsController : MonoBehaviour
     // runs an optimized step update at 30fps
     IEnumerator StepUpdate()
     {
-        ProcessStep();
+        // ProcessStep();
         yield return new WaitForSecondsRealtime(0.015f);
         StartCoroutine(StepUpdate());
+    }
+
+    private void FixedUpdate()
+    {
+        ProcessStep();
     }
 
     IEnumerator CanMoveControl()
