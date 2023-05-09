@@ -9,7 +9,7 @@ public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI aimSensitivityText;
     [SerializeField] Slider aimSenseSlider;
-    [SerializeField] GameObject mainParent, optionsParent;
+    [SerializeField] GameObject mainParent, optionsParent, creditsParent, realThanks, funnyThanks;
     [SerializeField] TMP_InputField senseInput;
     [SerializeField] Toggle quickStartToggle; // do we quick start?
 
@@ -95,5 +95,19 @@ public class MainMenuManager : MonoBehaviour
     {
         mainParent.SetActive(!mainParent.activeInHierarchy);
         optionsParent.SetActive(!optionsParent.activeInHierarchy);
+    }
+
+    // toggle the credits panel
+    public void ToggleCredits()
+    {
+        mainParent.SetActive(!mainParent.activeInHierarchy);
+        creditsParent.SetActive(!creditsParent.activeInHierarchy);
+    }
+
+    // toggle the funny thanks
+    public void ToggleThanks()
+    {
+        realThanks.SetActive(!realThanks.activeInHierarchy);    
+        funnyThanks.SetActive(!funnyThanks.activeInHierarchy);
     }
 }
