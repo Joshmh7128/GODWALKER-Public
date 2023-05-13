@@ -11,15 +11,15 @@ public class AutoResetGame : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            StartCoroutine(Buffer());
+            ResetCall();
         }
     }
 
     public string RestartScene; // which scene do we restart from?
 
-    IEnumerator Buffer()
+    void ResetCall()
     {
         PlayerGenerationSeedManager.instance.ResetRun();
 
@@ -41,8 +41,6 @@ public class AutoResetGame : MonoBehaviour
         {
             // Debug.LogAssertion("Reloading Scene...");
         }
-
-        yield return new WaitForSeconds(0f);
          
         // kill all tween loading rooms
         KillAllTweens();

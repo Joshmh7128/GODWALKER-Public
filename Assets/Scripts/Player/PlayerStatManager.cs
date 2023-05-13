@@ -236,10 +236,10 @@ public class PlayerStatManager : MonoBehaviour
     // kill our player
     void KillPlayer()
     {
-        StartCoroutine(DeathCountDown());
         // if we havent died yet
         if (!hasDied)
         {
+            StartCoroutine(DeathCountDown());
             // we have now died
             hasDied = true;
             PlayerController.instance.OnPlayerDeath();
