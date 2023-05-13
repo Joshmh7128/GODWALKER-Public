@@ -12,6 +12,6 @@ public class PlayerRunStatTracker : MonoBehaviour
         instance = this;
     }
 
-    public int kills, jumps, shotsFired, damageDealt, runsCompleted, longestGodwalkerTime; 
+    public int kills, jumps, shotsFired, damageDealt, runsCompleted, longestGodwalkerTime, damageTaken; 
 
 }

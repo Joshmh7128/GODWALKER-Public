@@ -5,7 +5,7 @@ using TMPro;
 
 public class DeathUIStatDisplay : MonoBehaviour
 {
-    public TextMeshProUGUI kills, jumps, shots, damage, runs, bestGod;
+    public TextMeshProUGUI kills, jumps, shots, damage, damageTaken, runs, bestGod;
 
     // Start is called before the first frame update
     void Start()
@@ -19,13 +19,9 @@ public class DeathUIStatDisplay : MonoBehaviour
         jumps.text = "Jumps: " + stats.jumps;
         shots.text = "Shots Fired: " + stats.shotsFired;
         damage.text = "Damage Dealt: " + stats.damageDealt;
+        damageTaken.text = "Damage Taken: " + stats.damageTaken;
         runs.text = "Runs Completed: " + stats.runsCompleted;
         bestGod.text = "Best Godmode Time: " + stats.longestGodwalkerTime + " seconds";
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

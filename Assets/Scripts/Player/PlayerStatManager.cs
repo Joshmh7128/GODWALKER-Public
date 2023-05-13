@@ -124,7 +124,8 @@ public class PlayerStatManager : MonoBehaviour
         HurtPlayerIK(); // make our player freak out on hit
                         // update our post
         ChoosePostProcessing();
-        
+
+        PlayerRunStatTracker.instance.damageTaken += (int)damageAmount;
     }
 
     // add health
