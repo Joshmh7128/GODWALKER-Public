@@ -7,7 +7,15 @@ using UnityEngine.SceneManagement;
 public class AutoResetGame : MonoBehaviour
 {
     // load our primer scene
-    void Start() => StartCoroutine(Buffer());
+    //void Start() => StartCoroutine(Buffer());
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            StartCoroutine(Buffer());
+        }
+    }
 
     public string RestartScene; // which scene do we restart from?
 
@@ -34,7 +42,7 @@ public class AutoResetGame : MonoBehaviour
             // Debug.LogAssertion("Reloading Scene...");
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0f);
          
         // kill all tween loading rooms
         KillAllTweens();
