@@ -60,11 +60,15 @@ public class PlayerController : MonoBehaviour
     // rage manager
     PlayerRageManager rageManager;
 
+    // taking the godheart?
+    [SerializeField] bool destroyOnLoad;
+
     // setup our instance
     public static PlayerController instance;
     public void Awake()
     {
         // make the player dynamically loadable
+        if (!destroyOnLoad)
         DontDestroyOnLoad(gameObject);
         instance = this;
         // setup bit layer masks

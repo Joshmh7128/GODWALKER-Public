@@ -109,12 +109,17 @@ public class PlayerStatManager : MonoBehaviour
             {
                 // if we are not godwalking, take health damage
                 if (!PlayerRageManager.instance.godwalking)
-                health -= damageAmount;
+                {
+                    health -= damageAmount;
+
+                    PlayerRunStatTracker.instance.damageTaken += (int)damageAmount * (PlayerRunStatTracker.instance.runsCompleted + 1);
+                }
 
                 // if we are godwalking, take meter damage
                 if (PlayerRageManager.instance.godwalking)
                 {
                     PlayerRageManager.instance.rageAmount -= damageAmount * damageToRageCoefficient;
+                    PlayerRunStatTracker.instance.damageTaken += (int)damageAmount * (PlayerRunStatTracker.instance.runsCompleted + 1);
                 }
             }
         }
@@ -125,7 +130,6 @@ public class PlayerStatManager : MonoBehaviour
                         // update our post
         ChoosePostProcessing();
 
-        PlayerRunStatTracker.instance.damageTaken += (int)damageAmount;
     }
 
     // add health
@@ -240,6 +244,7 @@ public class PlayerStatManager : MonoBehaviour
         // if we havent died yet
         if (!hasDied)
         {
+            TelemetryHandler.instance.Send();
             StartCoroutine(DeathCountDown());
             // we have now died
             hasDied = true;

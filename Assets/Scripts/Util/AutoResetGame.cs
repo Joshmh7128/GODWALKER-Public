@@ -8,6 +8,13 @@ public class AutoResetGame : MonoBehaviour
 {
     // load our primer scene
     //void Start() => StartCoroutine(Buffer());
+    [SerializeField] bool requiresReturn;
+
+    private void Start()
+    {
+        if (!requiresReturn)
+            ResetCall();
+    }
 
     private void Update()
     {
