@@ -244,7 +244,7 @@ public class PlayerStatManager : MonoBehaviour
         // if we havent died yet
         if (!hasDied)
         {
-            TelemetryHandler.instance.Send();
+            FindObjectOfType<TelemetryHandler>().Send();
             StartCoroutine(DeathCountDown());
             // we have now died
             hasDied = true;

@@ -144,6 +144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   killTime: 2
+  onlyParentless: 0
+  disable: 0
 --- !u!114 &1054090363458925739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14447,7 +14449,9 @@ MonoBehaviour:
   teleportFX: {fileID: 163948, guid: 190b37a8d9ed3e74c82a5c43d070d712, type: 3}
   rageNumber: {fileID: 1457756166330312630, guid: 6547a60b38ec9054eba254d3b2877d09, type: 3}
   deathTime: 0.1
+  homingHangTime: 0
   usesPhysics: 0
+  adjustFire: {x: 0, y: 0, z: 0}
   physicsLaunchForce: 0
   usesTrigger: 0
   doesBounce: 0
@@ -14511,7 +14515,23 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6621270524427766212, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: isHoming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524427766212, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
       propertyPath: deathTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524427766212, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesExplode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524427766212, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: homingHangTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524427766212, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesShockExplode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6621270524797765793, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
@@ -14519,7 +14539,23 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6621270524797765793, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: isHoming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524797765793, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
       propertyPath: deathTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524797765793, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesExplode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524797765793, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: homingHangTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524797765793, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesShockExplode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6621270524917999907, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
@@ -14527,7 +14563,23 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6621270524917999907, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: isHoming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524917999907, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
       propertyPath: deathTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524917999907, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesExplode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524917999907, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: homingHangTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270524917999907, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesShockExplode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6621270525010028217, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
@@ -14535,7 +14587,23 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6621270525010028217, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: isHoming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525010028217, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
       propertyPath: deathTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525010028217, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesExplode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525010028217, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: homingHangTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525010028217, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesShockExplode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6621270525219422323, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
@@ -14543,7 +14611,23 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6621270525219422323, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: isHoming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525219422323, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
       propertyPath: deathTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525219422323, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesExplode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525219422323, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: homingHangTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525219422323, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesShockExplode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6621270525809779115, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
@@ -14551,7 +14635,23 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6621270525809779115, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: isHoming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525809779115, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
       propertyPath: deathTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525809779115, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesExplode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525809779115, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: homingHangTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270525809779115, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesShockExplode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6621270526006838625, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
@@ -14559,7 +14659,23 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6621270526006838625, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: isHoming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526006838625, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
       propertyPath: deathTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526006838625, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesExplode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526006838625, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: homingHangTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526006838625, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesShockExplode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6621270526286331366, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
@@ -14567,7 +14683,23 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6621270526286331366, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: isHoming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526286331366, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
       propertyPath: deathTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526286331366, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesExplode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526286331366, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: homingHangTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526286331366, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesShockExplode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6621270526535087261, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
@@ -14575,7 +14707,23 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6621270526535087261, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: isHoming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526535087261, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
       propertyPath: deathTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526535087261, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesExplode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526535087261, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: homingHangTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621270526535087261, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}
+      propertyPath: doesShockExplode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126410012079254002, guid: e091b4fe68c496b45ac1a260b36ab415, type: 3}

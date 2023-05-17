@@ -19,22 +19,23 @@ public class SaveData
     public List<string> DiscoveredWeapons = new List<string> // all of the names of weapons that the player has discovered
     {
         "Auto Pistol",
-        "Shotgun",
-        "Plasma Rifle",
-        "Plasma Pistol",
-        "Minigun",
-        "Fleet",
-        "Super Shotgun",
-        "Sniper",
-        "Missile Launcher",
-        "Grenade Launcher",
-        "Rocket Launcher",
-        "Rocket Pistol",
         "Ballista",
         "Blast Rifle",
-        "Super Blast Rifle",
-        "Sniper",
+        "Fleet",
+        "Grenade Launcher",
+        "Minigun",
+        "Missile Launcher",
+        "Shotgun",
+        "Plasma Pistol",
+        "Plasma Rifle",
         "Plasma Sniper",
+        "Super Shotgun",
+        "Sniper",
+        "Rocket Launcher",
+        "Rocket Pistol",
+        "Sniper",
+        "Super Blast Rifle",
+        "Heavy Shotgun"
 
     };  
 

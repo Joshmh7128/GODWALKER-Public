@@ -1591,6 +1591,7 @@ GameObject:
   - component: {fileID: 57841650064416799}
   - component: {fileID: 3425902048547110565}
   - component: {fileID: -1349926815343493982}
+  - component: {fileID: 2466219384002195333}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -1700,6 +1701,7 @@ MonoBehaviour:
   dashMultiplierMax: 3.75
   dashVFX: {fileID: 4180530933938154161}
   dashSFX: {fileID: 4127708340294688142}
+  destroyOnLoad: 0
   jumpVFX: {fileID: 931352995334258111, guid: bf2d18b8ab261364a8bc29998c8a6bad, type: 3}
   lastJumpVFX: {fileID: 931352995334258111, guid: 865b95800e7979846bc22157e26b7ced, type: 3}
   landVFX: {fileID: 152564, guid: f2a9ad8734c9bd64da6a76a5fe179c60, type: 3}
@@ -2043,6 +2045,18 @@ MonoBehaviour:
   damageTaken: 0
   godwalkerDamageTaken: 0
   startTime: 0
+--- !u!114 &2466219384002195333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557240302879457094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3a63ca7001e1146826e6c24e8ceca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1557240302889066429
 GameObject:
   m_ObjectHideFlags: 0

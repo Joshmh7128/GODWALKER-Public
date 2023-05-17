@@ -20,7 +20,7 @@ public class PlayerRunStatTracker : MonoBehaviour
     public float startTime;
 
     // all of the weapons the player has used this run
-    public Dictionary<string, int> weaponUsage;
+    public Dictionary<string, int> weaponUsage = new Dictionary<string, int>();
 
 
 }

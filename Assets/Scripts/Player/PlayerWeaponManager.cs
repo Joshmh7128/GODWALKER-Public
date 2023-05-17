@@ -375,16 +375,15 @@ public class PlayerWeaponManager : MonoBehaviour
         {
             weapon.GetComponent<WeaponClass>().rageMultiplier -= 0.1f;
             // the player has carried this weapon forward. they used it
-            if (!PlayerRunStatTracker.instance.weaponUsage.ContainsKey(weapon.name))
+            if (PlayerRunStatTracker.instance.weaponUsage.ContainsKey(weapon.GetComponent<WeaponClass>().weaponName))
             {
-                PlayerRunStatTracker.instance.weaponUsage.Add(weapon.name, 1);
-                return;
-            } 
-            else if (PlayerRunStatTracker.instance.weaponUsage.ContainsKey(weapon.name))
-            {
-                PlayerRunStatTracker.instance.weaponUsage[weapon.name] = PlayerRunStatTracker.instance.weaponUsage[weapon.name] + 1;
+                PlayerRunStatTracker.instance.weaponUsage[weapon.GetComponent<WeaponClass>().weaponName] = PlayerRunStatTracker.instance.weaponUsage[weapon.GetComponent<WeaponClass>().weaponName] + 1;
             }
 
+            if (!PlayerRunStatTracker.instance.weaponUsage.ContainsKey(weapon.GetComponent<WeaponClass>().weaponName))
+            {
+                PlayerRunStatTracker.instance.weaponUsage.Add(weapon.GetComponent<WeaponClass>().weaponName, 1);
+            } 
         }
     }
 }
