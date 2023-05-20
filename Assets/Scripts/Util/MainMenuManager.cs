@@ -11,7 +11,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] Slider aimSenseSlider;
     [SerializeField] GameObject mainParent, optionsParent, creditsParent, realThanks, funnyThanks;
     [SerializeField] TMP_InputField senseInput;
-    [SerializeField] Toggle quickStartToggle; // do we quick start?
+    [SerializeField] Toggle quickStartToggle, heightScaleToggle; // do we quick start?
 
     float aimSensitivity;
 
@@ -34,6 +34,8 @@ public class MainMenuManager : MonoBehaviour
         if (PlayerPrefs.GetString("QuickStart", "off") == "on")
             quickStartToggle.isOn = true;
 
+        if (PlayerPrefs.GetString("ShouldWidthScale", "false") == "true")
+            heightScaleToggle.isOn = true;
     }
 
     public void SetSensitivity()
@@ -64,8 +66,6 @@ public class MainMenuManager : MonoBehaviour
     // load the game
     public void LoadGame()
     {
-
-
         if (!quickStartToggle.isOn)
         {
             SceneManager.LoadScene("TakeTheGodheart");
@@ -109,5 +109,16 @@ public class MainMenuManager : MonoBehaviour
     {
         realThanks.SetActive(!realThanks.activeInHierarchy);    
         funnyThanks.SetActive(!funnyThanks.activeInHierarchy);
+    }
+
+    // toggle our screensize settings
+    public void ToggleScreenScaling()
+    {
+        if (heightScaleToggle.isOn)
+            PlayerPrefs.SetString("ShouldWidthScale", "true");
+
+        if (!heightScaleToggle.isOn)
+            PlayerPrefs.SetString("ShouldWidthScale", "false");
+
     }
 }

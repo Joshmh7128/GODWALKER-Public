@@ -28,11 +28,12 @@ public class PlayerUIManager : MonoBehaviour
         weaponManager = PlayerWeaponManager.instance;
 
         // if we are in 16:10 mode, scale by width not height
-        if (PlayerPrefs.GetString("shouldWidthScale", "false") == "true")
+        if (PlayerPrefs.GetString("ShouldWidthScale", "false") == "true")
         {
             gameObject.GetComponent<CanvasScaler>().matchWidthOrHeight = 0.7f;
         }
-        else
+        
+        if (PlayerPrefs.GetString("ShouldWidthScale", "false") == "false")
         {
             gameObject.GetComponent<CanvasScaler>().matchWidthOrHeight = 1;
         }
