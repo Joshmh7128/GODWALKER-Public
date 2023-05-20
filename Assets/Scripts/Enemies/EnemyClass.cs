@@ -567,9 +567,9 @@ public abstract class EnemyClass : MonoBehaviour
             if (effect == Effects.Slag)
             {
                 // raise the amount of rage we generate
-                if (CheckEffect(Effects.Slag) == false)
+                if (CheckEffect(Effects.Slag) == true)
                 {
-                    rageModifier *= 2;
+                    rageModifier *= 4;
                 }
 
                 // spawn in the slag zone prefab on us
