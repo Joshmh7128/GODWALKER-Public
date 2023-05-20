@@ -23,6 +23,7 @@ public class SaveData
         "Blast Rifle",
         "Fleet",
         "Grenade Launcher",
+        "Heavy Carbine",
         "Minigun",
         "Missile Launcher",
         "Shotgun",

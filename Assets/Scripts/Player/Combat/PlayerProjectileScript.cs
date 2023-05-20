@@ -52,6 +52,8 @@ public class PlayerProjectileScript : MonoBehaviour
     Transform homingTarget; // our homing target
     [SerializeField] bool unparent;
 
+    [SerializeField] PlayerProjectileScript copyProjectile; // which projectile should we work off of work rage meter?
+
     private void Start()
     {
         if (unparent)
@@ -161,6 +163,9 @@ public class PlayerProjectileScript : MonoBehaviour
 
     void HitEnemy(Transform enemy, Vector3 hitpoint)
     {
+        // if we have a copy parent, copy our rage
+        if (copyProjectile) rageAdd = copyProjectile.rageAdd;
+
         EnemyClass eclass = enemy.transform.gameObject.GetComponent<EnemyClass>();
 
         float displayDamage = 0;
@@ -182,6 +187,7 @@ public class PlayerProjectileScript : MonoBehaviour
             if (eclass.energyShieldHP <= 0 && eclass.explosiveArmorHP <= 0)
             {
                 PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier);
+                Debug.Log(rageAdd * eclass.rageModifier);
             }
 
             // check the status of the enemy's shields

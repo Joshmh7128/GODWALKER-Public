@@ -119,7 +119,7 @@ public class PlayerStatManager : MonoBehaviour
                 if (PlayerRageManager.instance.godwalking)
                 {
                     PlayerRageManager.instance.rageAmount -= damageAmount * damageToRageCoefficient;
-                    PlayerRunStatTracker.instance.damageTaken += (int)damageAmount * (PlayerRunStatTracker.instance.runsCompleted + 1);
+                    PlayerRunStatTracker.instance.godwalkerDamageTaken += (int)damageAmount * (PlayerRunStatTracker.instance.runsCompleted + 1);
                 }
             }
         }
