@@ -50,9 +50,13 @@ public class PlayerProjectileScript : MonoBehaviour
 
     [SerializeField] GameObject playerExplosionPrefab, playerShockExplosionPrefab; // the explosion and shock explosions prefabs
     Transform homingTarget; // our homing target
+    [SerializeField] bool unparent;
 
     private void Start()
     {
+        if (unparent)
+            transform.parent = null;
+
         // start death counter
         StartCoroutine(DeathCounter());
         // muzzle flash
