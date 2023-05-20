@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DamageNumbersPro;
 
 public class PlayerMineScript : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerMineScript : MonoBehaviour
     [SerializeField] float radius; // how large is this bomb?
     [SerializeField] GameObject explosionPrefab; // the player's explosion prefab
     [SerializeField] Collider localCollider; // our mesh collider
+    [SerializeField] DamageNumber damageNumber;
 
     // instances
     ArenaManager arenaManager; ArenaHandler currentArena;
@@ -51,6 +53,8 @@ public class PlayerMineScript : MonoBehaviour
         explosionB.damage = weaponManager.currentWeapon.damage * Random.Range(0.9f, 1.25f);
         // add rage
         PlayerRageManager.instance.AddRage(gameObject.GetComponent<PlayerProjectileScript>().rageAdd);
+        // spawn the damage number
+        damageNumber.Spawn(transform.position, explosionA.damage+explosionB.damage, Color.yellow);
 
         // destroy this object
         Destroy(gameObject);

@@ -12,7 +12,7 @@ public class PlayerExplosionScript : MonoBehaviour
     PlayerProjectileManager projectileManager;
     public float damage, playerKnockBackForce, rageAdd; // set by our bullet when we are instantiated
     public int enemiesHit; // how many enemies this explosion hit
-    // [SerializeField] DamageNumber explosionHit;
+    [SerializeField] DamageNumber explosionHit;
     public bool used; // has this been used in an effect already?
     // get instance
     private void Awake()
@@ -45,7 +45,8 @@ public class PlayerExplosionScript : MonoBehaviour
                 other.GetComponent<EnemyClass>().GetHurt(damage, EnemyClass.ElementalProtection.explosiveShield); 
                 // add rage
                 PlayerRageManager.instance.AddRage(rageAdd);
-                
+                // show the damage number
+                explosionHit.Spawn(transform.position, damage, Color.white);
             }
             catch { /* no need to catch, this just means an enemy died before the explosion hit them*/ }
             // spawn normal damage number
