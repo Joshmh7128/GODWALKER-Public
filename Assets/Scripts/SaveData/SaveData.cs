@@ -35,6 +35,7 @@ public class SaveData
         "Rocket Launcher",
         "Rocket Pistol",
         "Sniper",
+        "Slagbolt",
         "Super Blast Rifle",
         "Heavy Shotgun"
 
