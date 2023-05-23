@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
     [Header("Visual FX")]
     // visual fx
     [SerializeField] GameObject jumpVFX, lastJumpVFX;
-    [SerializeField] GameObject landVFX;
+    [SerializeField] GameObject landVFX; float landVFXcount; 
     [SerializeField] GameObject sprintParticleSystem;
     [SerializeField] GameObject capsulePrefab;
     [SerializeField] GameObject deathFX; // our death fx
@@ -191,12 +191,19 @@ public class PlayerController : MonoBehaviour
             if (!grounded)
             {
                 // instantiate a visual effect
-                Instantiate(landVFX, transform.position, landVFX.transform.rotation, null);
+                if (landVFXcount < 0)
+                {
+                    Instantiate(landVFX, transform.position, landVFX.transform.rotation, null);
+                    landVFXcount = 5f;
+                }
                 remainingJumps = maxJumps;
                 playerJumpVelocity = 0f;
                 grounded = true;
             }
         }
+
+        if (landVFXcount > 0)
+        landVFXcount--;
 
         #endregion
 
