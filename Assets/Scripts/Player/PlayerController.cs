@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviour
             if (!grounded)
             {
                 // instantiate a visual effect
-                if (landVFXcount < 0)
+                if (landVFXcount <= 0)
                 {
                     Instantiate(landVFX, transform.position, landVFX.transform.rotation, null);
                     landVFXcount = 5f;
