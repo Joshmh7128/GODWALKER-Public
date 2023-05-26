@@ -24,7 +24,6 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     [SerializeField] List<string> rewardNames = new List<string>(); // the names of our shops
     [SerializeField] List<string> storedRoomNames = new List<string>(); // store our room names for when we reset the run
     [SerializeField] int shopFrequency; // how often do we see shops throughout the run?
-    int shopAmount;
     // our element selections
     public enum ElementBiases
     {
@@ -101,6 +100,9 @@ public class PlayerGenerationSeedManager : MonoBehaviour
     // function which decides our elemental biases
     public void AssignElementalBiases()
     {
+        // make sure element list is the same length as room length
+        foreach (string name in roomNames) elementBiases.Add(ElementBiases.none);
+
         // loop through our rooms by length and determine our place in the run. assign element accordingly.
         for (int i = 0; i < roomNames.Count; i++)
         {
@@ -110,15 +112,16 @@ public class PlayerGenerationSeedManager : MonoBehaviour
             /// for 0% to 15% of the run use no elements
             if (x < 30)
             {
-                elementBiases.Add(ElementBiases.none);
+                elementBiases[i] = ElementBiases.none;
             }
 
             /// for 31% to 70% use partial elements
             if (x > 30 && x < 60)
             {
                 int c = Random.Range(0, 2); // make a 33/33/33 rand
-                if (c == 0) elementBiases.Add(ElementBiases.partialEnergy);
-                if (c == 1) elementBiases.Add(ElementBiases.partialExplosive);
+                if (c == 0) elementBiases[i] = ElementBiases.partialEnergy;
+                if (c == 1) elementBiases[i] = ElementBiases.partialExplosive;
+                if (c == 2) elementBiases[i] = ElementBiases.partialExplosive;
                 //if (c == 2) elementBiases.Add(ElementBiases.partialMixed);
             }
 
@@ -126,25 +129,33 @@ public class PlayerGenerationSeedManager : MonoBehaviour
             if (x > 60)
             {
                 int c = Random.Range(0, 3); // make a 50/50 rand
-                if (c == 0) elementBiases.Add(ElementBiases.allEnergy);
-                if (c == 1) elementBiases.Add(ElementBiases.allExplosive);
-                if (c == 2) elementBiases.Add(ElementBiases.partialMixed);
+                if (c == 0) elementBiases[i] = ElementBiases.allEnergy;
+                if (c == 1) elementBiases[i] = ElementBiases.allExplosive;
+                if (c == 2) elementBiases[i] = ElementBiases.partialMixed;
+                if (c == 3) elementBiases[i] = ElementBiases.partialMixed;
             }
         }
 
-        // now go through and compare our elements to our room list, and override them based on specials
-        for (int i = 0; i < roomNames.Count; i++)
+        try
         {
-            // reassign rewards
-            if (roomNames[i] == rewardNames[0])
-                elementBiases[i] = ElementBiases.freeGun;
+            // now go through and compare our elements to our room list, and override them based on specials
+            for (int i = 0; i < roomNames.Count; i++)
+            {
+                // reassign rewards
+                if (roomNames[i] == rewardNames[0])
+                    elementBiases[i] = ElementBiases.freeGun;
 
-            // reassign shops
-            if (roomNames[i] == rewardNames[1])
-                elementBiases[i] = ElementBiases.shop;
+                // reassign shops
+                if (roomNames[i] == rewardNames[1])
+                    elementBiases[i] = ElementBiases.shop;
 
-            if (roomNames[i] == "Finish")
-                elementBiases[i] = ElementBiases.finish;
+                if (roomNames[i] == "Finish")
+                    elementBiases[i] = ElementBiases.finish;
+            }
+        } catch
+        {
+            // this means the seed is not done generating, run the elemental assignments again
+            AssignElementalBiases();
         }
     }
 

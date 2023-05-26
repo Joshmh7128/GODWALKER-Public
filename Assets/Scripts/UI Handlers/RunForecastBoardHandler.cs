@@ -113,7 +113,15 @@ public class RunForecastBoardHandler : MonoBehaviour
     // return a room's type
     PlayerGenerationSeedManager.ElementBiases ReadRoom(int room)
     {
-        // read from the generation manager to get our rooms type
-        return seedManager.elementBiases[room + seedManager.currentRunPos];
+        // run a try statement because we should always be below the count
+        try
+        {
+            // when successfully returning below the count, return from the room list
+            return seedManager.elementBiases[room + seedManager.currentRunPos];
+        } catch
+        {
+            // if this try fails, return a finish, because it must be over count
+            return PlayerGenerationSeedManager.ElementBiases.finish;
+        }
     }
 }
