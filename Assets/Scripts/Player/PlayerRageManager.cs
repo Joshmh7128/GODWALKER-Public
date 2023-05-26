@@ -258,6 +258,7 @@ public class PlayerRageManager : MonoBehaviour
         if (rageAmount == maxRage && !godwalking)
         {
             rageLevelDisplay.text = "PRESS G TO ACTIVATE";
+            LevelPop();
         }
 
         // move the text display back
