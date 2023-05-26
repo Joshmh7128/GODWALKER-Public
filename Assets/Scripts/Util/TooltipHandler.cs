@@ -102,7 +102,7 @@ public class TooltipHandler : MonoBehaviour
                 break;
 
             case (int)Tooltips.godbar2:
-                tooltipText.text = "When this meter is full you can enter Godwalker by pressing G. ";
+                tooltipText.text = "When this meter is full you can enter Godmode by pressing G. ";
                 tabAction = Tooltips.godbar3;
                 break;
 
@@ -113,14 +113,14 @@ public class TooltipHandler : MonoBehaviour
                 break;
 
             case (int)Tooltips.currency:
-                tooltipText.text = "These are your God coins, get them by killing enemies while Godwalking.";
+                tooltipText.text = "These are your God coins, get them by killing enemies while in Godmode.";
                 coinArrow.SetActive(true);
                 rectTransform.anchoredPosition = godCoinPos;
                 tabAction = Tooltips.goodLuck;
                 break;
 
             case (int)Tooltips.goodLuck:
-                tooltipText.text = "That's all you need to know for now. Now escape. Good luck.";
+                tooltipText.text = "You can hold 3 weapons, and cycle them by scroll wheel or pressing R. Now escape. Good luck.";
                 coinArrow.SetActive(false);
                 rectTransform.anchoredPosition = originalPos;
                 tabAction = Tooltips.none;
