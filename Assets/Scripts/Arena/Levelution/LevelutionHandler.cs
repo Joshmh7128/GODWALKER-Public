@@ -8,7 +8,7 @@ public class LevelutionHandler : MonoBehaviour
     // it then continues the evolution of the level by activatng element groups
 
     // our groups
-    List<LevelutionElementGroup> elementGroups;
+    [SerializeField] List<LevelutionElementGroup> elementGroups;
     
     // our call action to evolve the level
     public void Evolve()

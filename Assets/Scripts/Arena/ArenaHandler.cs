@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class ArenaHandler : MonoBehaviour
 {
@@ -54,6 +55,10 @@ public class ArenaHandler : MonoBehaviour
     EnemySetObject encounterSetObject;
 
     PlayerGenerationSeedManager seedManager;
+
+    [HeaderAttribute("Dynamic Level")]
+    [SerializeField] LevelutionHandler levelutionHandler;
+    [SerializeField] NavMeshSurface[]
 
     public enum ArenaModes
     {
@@ -109,6 +114,9 @@ public class ArenaHandler : MonoBehaviour
                 // check and set its elemental protection. the enemyClass automatically will turn on its shields on activation
                 // because we are one ahead by the time the player starts combat, we need to check the run pos from when we entered the room
                 int location = seedManager.currentRunPos - 1;
+
+                // make sure we don't have less than 0
+                if (location < 0) location = 0;
 
                 // half energy shielded
                 if (seedManager.elementBiases[location] == PlayerGenerationSeedManager.ElementBiases.partialEnergy)
@@ -242,6 +250,14 @@ public class ArenaHandler : MonoBehaviour
         {
             //  try { PlayerController.instance.Teleport(safetySpawn.position); } catch { PlayerController.instance.Teleport(transform.position);  }
         }
+
+        // update all our navigation meshes
+
+
+    }
+
+    void NavMeshUpdater()
+    {
 
     }
 

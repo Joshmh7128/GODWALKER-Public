@@ -5,7 +5,9 @@ using UnityEngine;
 public class LevelutionElementGroup : MonoBehaviour
 {
     public List<LevelutionElement> elements = new List<LevelutionElement>();
-    
+
+    [SerializeField] bool manualActivation;
+
     List<GameObject> spawnPoints = new List<GameObject>();
 
     private void Awake()
@@ -15,9 +17,20 @@ public class LevelutionElementGroup : MonoBehaviour
         {
             elements.Add(child.GetComponent<LevelutionElement>());
             // sort and add spawn points
-            if (child.GetComponent<EnemySpawnPoint>() != null) spawnPoints.Add(child);
+            if (child.GetComponent<EnemySpawnPoint>() != null)
+            {
+                // turn off the child
+                child.gameObject.SetActive(false);
+                // add it to the list
+                spawnPoints.Add(child.gameObject);
+            }
         }
+    }
 
+    private void Start()
+    {
+        // for testing 
+        if (manualActivation) Evolve();
     }
 
     public void Evolve()
@@ -28,7 +41,7 @@ public class LevelutionElementGroup : MonoBehaviour
                 element.ActivateElement();
 
             foreach (GameObject spawnPoint in spawnPoints)
-                spawnPoint.SetActive(true);
+                spawnPoint.transform.parent = FindObjectOfType<ArenaHandler>().spawnPointParent;
         }
     }
 }
