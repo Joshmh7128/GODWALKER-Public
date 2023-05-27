@@ -7,7 +7,7 @@ public class ManualArenaStarter : MonoBehaviour
     bool canStart;
     [SerializeField] ArenaHandler arenaHandler;
     [SerializeField] GameObject musicObject, previousDoor; // our music, and the door we just came from
-    [SerializeField] bool autoStart; // starts when the player enters the trigger collider
+    [SerializeField] bool autoStart, started; // starts when the player enters the trigger collider
 
 
     private void Update()
@@ -31,26 +31,31 @@ public class ManualArenaStarter : MonoBehaviour
 
     void StartCombat()
     {
-        // disable all tooltips if they are on
-        TooltipHandler.instance.SetTooltip(TooltipHandler.Tooltips.none);
-
-        musicObject.SetActive(true);
-
-        // try using our simple music manager as well
-        try { SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.combat); }
-        catch { Debug.LogWarning("No SimpleMusicManager component found on directed music object, you may need to assign it in the inspector."); }
-
-        // try to close the door
-        try { previousDoor.SetActive(true); }
-        catch { }
-
-
-        arenaHandler.manualCombat = true;
-        canStart = false;
-        // set all of our children to inactive
-        foreach (Transform child in transform)
+        if (!started)
         {
-            child.gameObject.SetActive(false);
+            // disable all tooltips if they are on
+            TooltipHandler.instance.SetTooltip(TooltipHandler.Tooltips.none);
+
+            musicObject.SetActive(true);
+
+            // try using our simple music manager as well
+            try { SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.combat); }
+            catch { Debug.LogWarning("No SimpleMusicManager component found on directed music object, you may need to assign it in the inspector."); }
+
+            // try to close the door
+            try { previousDoor.SetActive(true); }
+            catch { }
+
+
+            arenaHandler.manualCombat = true;
+            canStart = false;
+            // set all of our children to inactive
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+
+            started = true;
         }
     }
 

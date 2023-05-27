@@ -20,6 +20,10 @@ public class EnemySpawnPoint : MonoBehaviour
         playerController = PlayerController.instance;
         // start our custom tick
         StartCoroutine(SlowTick());   
+        
+        // check to make sure the spawn point list has us
+        if (!FindObjectOfType<ArenaHandler>().spawnPoints.Contains(transform))
+            FindObjectOfType<ArenaHandler>().spawnPoints.Add(transform);
     }
 
     // a custom slow tick that runs twice per second to do spawn point calculations

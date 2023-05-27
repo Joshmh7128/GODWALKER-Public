@@ -20,9 +20,12 @@ public class LevelutionHandler : MonoBehaviour
     // our call action to evolve the level
     public void Evolve()
     {
-        // choose a random element group and evolve
-        int i = Random.Range(0, elementGroups.Count);
-        elementGroups[i].Evolve();
-        elementGroups.Remove(elementGroups[i]);
+        if (elementGroups.Count > 0)
+        {
+            // choose a random element group and evolve
+            int i = Random.Range(0, elementGroups.Count);
+            elementGroups[i].Evolve();
+            elementGroups.Remove(elementGroups[i]);
+        }
     }
 }
