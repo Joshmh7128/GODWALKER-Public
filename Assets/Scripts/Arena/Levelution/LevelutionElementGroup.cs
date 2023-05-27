@@ -15,7 +15,8 @@ public class LevelutionElementGroup : MonoBehaviour
         // get all our children and add them to the elements list
         foreach (Transform child in transform)
         {
-            elements.Add(child.GetComponent<LevelutionElement>());
+            if (child.GetComponent<LevelutionElement>() != null)
+                elements.Add(child.GetComponent<LevelutionElement>());
             // sort and add spawn points
             if (child.GetComponent<EnemySpawnPoint>() != null)
             {

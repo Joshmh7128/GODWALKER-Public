@@ -36,7 +36,7 @@ public class LevelutionElementMove : LevelutionElement
                     gameObject.GetComponent<Rigidbody>().MovePosition(transform.position + direction * Time.deltaTime * movementSpeed);
 
                 // when we arrive
-                if (Vector3.Distance(transform.position, targetWorldPos) >= 0.1f)
+                if (Vector3.Distance(transform.position, targetWorldPos) <= 0.1f)
                 {
                     if (canMove) Arrive();
                 }

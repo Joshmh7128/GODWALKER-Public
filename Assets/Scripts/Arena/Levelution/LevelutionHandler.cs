@@ -9,7 +9,14 @@ public class LevelutionHandler : MonoBehaviour
 
     // our groups
     [SerializeField] List<LevelutionElementGroup> elementGroups;
-    
+
+    private void Awake()
+    {
+        foreach (Transform child in transform)
+            if (child.GetComponent<LevelutionElementGroup>() != null)
+                elementGroups.Add(child.GetComponent<LevelutionElementGroup>());
+    }
+
     // our call action to evolve the level
     public void Evolve()
     {

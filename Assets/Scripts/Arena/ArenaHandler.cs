@@ -58,7 +58,7 @@ public class ArenaHandler : MonoBehaviour
 
     [HeaderAttribute("Dynamic Level")]
     [SerializeField] LevelutionHandler levelutionHandler;
-    [SerializeField] NavMeshSurface[]
+    [SerializeField] List<NavMeshSurface> navMeshSurfaces;
 
     public enum ArenaModes
     {
@@ -234,6 +234,20 @@ public class ArenaHandler : MonoBehaviour
             if (door.open)
                 door.Lock();
         }
+
+        // get all of our nav mesh data
+        try
+        {
+            foreach (var nv in FindObjectsOfType<NavMeshSurface>())
+            {
+                navMeshSurfaces.Add(nv);
+            }
+        }
+        catch
+        {
+            Debug.Log("No Nav Mesh Surfaces detected!");
+        }
+
     }
 
     private void Update()
@@ -252,13 +266,15 @@ public class ArenaHandler : MonoBehaviour
         }
 
         // update all our navigation meshes
-
+        NavMeshUpdate();
 
     }
 
-    void NavMeshUpdater()
+    void NavMeshUpdate()
     {
-
+        if (navMeshSurfaces.Count > 0)
+        foreach(NavMeshSurface surface in navMeshSurfaces)
+            surface.BuildNavMesh();
     }
 
     private void FixedUpdate()
@@ -429,6 +445,9 @@ public class ArenaHandler : MonoBehaviour
                 // manually start the behaviours
                 child.GetComponent<EnemyClass>().ManualBehaviourStart();
             }
+
+            // trigger level evolution
+            levelutionHandler.Evolve();
 
             // setup wave has run
             setupWaveRunning = false;
