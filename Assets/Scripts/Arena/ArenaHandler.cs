@@ -385,6 +385,9 @@ public class ArenaHandler : MonoBehaviour
                 // store that spawn point
                 EnemySpawnPoint eSpawn = null;
 
+                // shuffle our spawn points
+                spawnPoints.Shuffle();
+
                 // use a spawn point that fulfills out requirement and hasn't been used
                 for (int i = 0; i < spawnPoints.Count; i++)
                 {
@@ -429,11 +432,15 @@ public class ArenaHandler : MonoBehaviour
                 }
 
                 // now that we have a valid spawn point, move the enemy there 
-                child.transform.position = eSpawn.gameObject.transform.position;
-                // ensure it is enabled
-                child.gameObject.SetActive(true);
-                // then set parent
-                child.parent = activeParent;
+                if (eSpawn != null) // there is an edge case where we can't spawn
+                { 
+                    child.transform.position = eSpawn.gameObject.transform.position;
+                    // ensure it is enabled
+                    child.gameObject.SetActive(true);
+
+                    // then set parent
+                    child.parent = activeParent;
+                }
 
                 if (waveParents[0].childCount <= 0)
                 {
@@ -477,26 +484,6 @@ public class ArenaHandler : MonoBehaviour
         }
     }
 
-    /*
-    void EnableNewEnemyAtSpawnPoint()
-    {
-        // if our spawnpoint is null, set it to our first one just to get us started
-        if (spawnPoint == null) { spawnPoint = spawnPoints[0]; }
-        // enable an enemy and move them to a spawn point
-        Transform child = inactiveParent.GetChild(0);
-        child.parent = activeParent; // set the parent
-        child.transform.position = spawnPoint.position; // set the position
-        child.gameObject.GetComponent<EnemyClass>().level = arenaLevel; // set the level of the enemy to the level of the arena
-        child.gameObject.SetActive(true); // turn on the enemy
-        // set a random spawn point AFTER we spawn this enemy, so that the next one spawns at the same one as the effect
-        spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)]; 
-        // spawn our summoningEffect where the new enemy will start
-        if (previousSummon) { Destroy(previousSummon); }
-        if (inactiveParent.childCount > 1)
-        previousSummon = Instantiate(summoningEffect, spawnPoint.position, Quaternion.identity, null); // instantiate a new summing effect at the spawn point we have chosen
-
-    }*/
-
     public void StopAllEnemyBehaviours()
     {
         foreach (Transform child in activeParent)
@@ -538,8 +525,8 @@ public class ArenaHandler : MonoBehaviour
 
             doorParent.gameObject.SetActive(false);
 
-            // spawn our new body part from the list
-            // 50/50 chance to get the next in the same set
+            // activate all of our elements
+            levelutionHandler.EvolveAll();
 
         }
 

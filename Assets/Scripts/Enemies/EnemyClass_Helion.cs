@@ -15,6 +15,11 @@ public class EnemyClass_Helion : EnemyClass
         // rotate our body slowly to make us look more dramatic
         if (rotates)
         transform.eulerAngles += new Vector3(0.5f, 0.5f, 0);
+
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) > 400)
+        {
+            Destroy(gameObject);
+        }
     }
 
 

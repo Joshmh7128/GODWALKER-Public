@@ -28,4 +28,10 @@ public class LevelutionHandler : MonoBehaviour
             elementGroups.Remove(elementGroups[i]);
         }
     }
+
+    public void EvolveAll()
+    {
+        foreach (LevelutionElementGroup group in elementGroups)
+            group.Evolve();
+    }
 }
