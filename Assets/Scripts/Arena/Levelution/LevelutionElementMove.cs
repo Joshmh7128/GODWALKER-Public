@@ -15,6 +15,11 @@ public class LevelutionElementMove : LevelutionElement
     // this object waits then moves into place
     public override void ActivateElement()
     {
+        // ensure we set our pre-determined positions
+        if (useX) targetWorldPos.x = transform.position.x;
+        if (useY) targetWorldPos.y = transform.position.y;
+        if (useZ) targetWorldPos.z = transform.position.z;
+
         canMove = true;
     }
 
