@@ -107,7 +107,7 @@ public class TooltipHandler : MonoBehaviour
                 break;
 
             case (int)Tooltips.godbar3:
-                tooltipText.text = "While Godwalking you have unlimited ammo and heal. This is the only way to heal.";
+                tooltipText.text = "While Godwalking you deal extra damage and heal. This is the only way to heal.";
                 godwalkerBarArrows.SetActive(false);
                 tabAction = Tooltips.currency;
                 break;

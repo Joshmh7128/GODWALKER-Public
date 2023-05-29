@@ -162,6 +162,7 @@ public class PlayerRageManager : MonoBehaviour
             currentSpeedBoost = godwalkerSpeedBoost;
 
             // refill all our weapon ammo 
+            if (rageLevel == RageLevels.WALKER)
             foreach (GameObject weapon in PlayerWeaponManager.instance.weapons)
             {
                 weapon.GetComponent<WeaponClass>().currentMagazine = weapon.GetComponent<WeaponClass>().maxMagazine;

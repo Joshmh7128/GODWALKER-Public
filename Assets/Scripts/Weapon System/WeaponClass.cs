@@ -163,8 +163,7 @@ public abstract class WeaponClass : MonoBehaviour
 
         remainingFirerate = firerate + firerateMod;
 
-        // if we're not in godwalker mode, use ammo
-        if (!PlayerRageManager.instance.godwalking)
+        // always use ammo. refilling the ammo is handled on the next tick by the rage manager
         currentMagazine--;
     } // firing our weapon. special shots like double or homing shots are handled above in public vars
     
@@ -217,7 +216,9 @@ public abstract class WeaponClass : MonoBehaviour
         try { bullet.GetComponent<PlayerProjectileScript>().damage = damage * damageMod * damageMulti; } catch { }
         try { bullet.GetComponent<PlayerProjectileScript>().deathTime *= deathMulti; } catch { }
         remainingFirerate = firerate + firerateMod;
-        currentMagazine--;
+
+        //if (PlayerRageManager.instance.rageLevel != PlayerRageManager.RageLevels.WALKER)
+            currentMagazine--;
     } // firing our weapon. special shots like double or homing shots are handled above in public vars
 
     public virtual void FireDoubleShot() // call to fire a double shot

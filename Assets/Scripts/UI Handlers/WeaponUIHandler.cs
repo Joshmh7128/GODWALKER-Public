@@ -58,11 +58,17 @@ public class WeaponUIHandler : MonoBehaviour
         // ammo text
         if (ammoText != null)
         {
-            if (weaponClass.currentMagazine > 0)
-                ammoText.text = weaponClass.currentMagazine + " / " + weaponClass.maxMagazine;
+            if (PlayerRageManager.instance.rageLevel != PlayerRageManager.RageLevels.WALKER)
+            {
+                if (weaponClass.currentMagazine > 0)
+                    ammoText.text = weaponClass.currentMagazine + " / " + weaponClass.maxMagazine;
 
-            if (weaponClass.currentMagazine <= 0)
-                ammoText.text = "NO AMMO! SWAP!";
+                if (weaponClass.currentMagazine <= 0)
+                    ammoText.text = "NO AMMO! SWAP!";
+            } else if (PlayerRageManager.instance.rageLevel == PlayerRageManager.RageLevels.WALKER)
+            {
+                ammoText.text = "UNLIMITED";
+            }
         }
     }
 
