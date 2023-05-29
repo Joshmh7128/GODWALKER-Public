@@ -98,10 +98,8 @@ GameObject:
   - component: {fileID: 2684773204384288047}
   - component: {fileID: 2684773204384288044}
   - component: {fileID: 2684773204384288045}
-  - component: {fileID: 2684773204384288042}
-  - component: {fileID: 2684773204384288043}
   m_Layer: 10
-  m_Name: Fearon
+  m_Name: Ring Pion
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +143,7 @@ MonoBehaviour:
   damage: 0
   rageAmount: 0
   rageModifier: 1
-  invincible: 0
+  invincible: 1
   lootDropChancePercentage: 0
   dropItem: {fileID: 0}
   fxLight: {fileID: 0}
@@ -157,12 +155,12 @@ MonoBehaviour:
   explosiveArmorHP: 0
   energyShieldHP: 0
   allBehaviours: []
-  attackBehaviourParent: {fileID: 0}
+  attackBehaviourParent: {fileID: 2684773205471591084}
   movementBehaviourParent: {fileID: 0}
   attackBehaviours: []
   movementBehaviours: []
   activated: 1
-  navMeshAgent: {fileID: 2684773204384288042}
+  navMeshAgent: {fileID: 0}
   spawnPointRequirement: 0
   possibleSpawnPointRequirements: 
   hurtMaterial: {fileID: 2100000, guid: d82b881a1864fcf4f801a3c25b287011, type: 2}
@@ -243,44 +241,6 @@ CapsuleCollider:
   m_Height: 3.13
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!195 &2684773204384288042
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2684773204384288041}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5000001
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 360
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!54 &2684773204384288043
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2684773204384288041}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &2684773205471591085
 GameObject:
   m_ObjectHideFlags: 0

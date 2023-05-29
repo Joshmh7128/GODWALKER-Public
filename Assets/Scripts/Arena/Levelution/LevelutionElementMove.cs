@@ -7,6 +7,8 @@ public class LevelutionElementMove : LevelutionElement
     [SerializeField] float waitTime; // how long do we wait
     [SerializeField] Vector3 targetWorldPos; // where do we move?
     [SerializeField] float movementSpeed; // how fast do we move there?
+    [Header("Use starting values?")]
+    [SerializeField] bool useX, useY, useZ; // 
 
     bool canMove = false;
 
