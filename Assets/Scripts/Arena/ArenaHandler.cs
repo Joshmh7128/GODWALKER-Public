@@ -527,6 +527,7 @@ public class ArenaHandler : MonoBehaviour
             doorParent.gameObject.SetActive(false);
 
             // activate all of our elements
+            if (levelutionHandler)
             levelutionHandler.EvolveAll();
 
         }
