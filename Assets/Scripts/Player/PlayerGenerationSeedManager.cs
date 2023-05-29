@@ -86,7 +86,16 @@ public class PlayerGenerationSeedManager : MonoBehaviour
 
         // then add in our rewards every shopFrequency within the list, then add a shop at the end
         for (int i = shopFrequency; i < roomNames.Count; i += shopFrequency)
+        {
+            // add in a normal free gun
+            if (i <= roomNames.Count / 2)
             roomNames.Insert(i, rewardNames[0]);
+
+            // add in a high level free gun
+            if (i >= roomNames.Count / 2)
+            roomNames.Insert(i, rewardNames[2]);
+        }
+        // shop insert
         roomNames.Insert(roomNames.Count / 2, rewardNames[1]);
 
         // at the end of the run add the finish
