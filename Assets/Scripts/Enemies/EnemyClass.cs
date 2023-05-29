@@ -341,7 +341,7 @@ public abstract class EnemyClass : MonoBehaviour
 
             if (energyShieldHP <= 0)
             {
-
+                if (energyShields.Count > 0)
                 if (energyShields[0].activeInHierarchy == true)
                     Instantiate(Resources.Load("EnemyElementalEffects/ShockExplosionNoDamage") as GameObject, transform);
 
