@@ -454,6 +454,7 @@ public class ArenaHandler : MonoBehaviour
             }
 
             // trigger level evolution
+            if (levelutionHandler)
             levelutionHandler.Evolve();
 
             // setup wave has run
