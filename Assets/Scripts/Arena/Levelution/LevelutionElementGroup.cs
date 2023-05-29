@@ -25,11 +25,6 @@ public class LevelutionElementGroup : MonoBehaviour
                 // add it to the list
                 spawnPoints.Add(child.gameObject);
             }
-
-            // if this thing doesn't have a spawn point or a levelution element, activate it
-            if (child.GetComponent<EnemySpawnPoint>() == null && child.GetComponent<LevelutionElement>() == null)
-                child.gameObject.SetActive(true);
-
         }
     }
 
