@@ -231,10 +231,6 @@ public class EnemyProjectile : MonoBehaviour
                 statManager.TakeDamage(damage); // oof ouch yikes
                 if (breaksOnPlayer) OnDestroyObject();
             }
-
-            // always destroy
-            if (!invincible && other.transform.tag != "Enemy")
-            OnDestroyObject();
         }
     }
 
