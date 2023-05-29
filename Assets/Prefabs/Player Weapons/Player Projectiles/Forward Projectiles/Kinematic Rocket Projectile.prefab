@@ -14373,8 +14373,9 @@ MonoBehaviour:
   teleportFX: {fileID: 163948, guid: 190b37a8d9ed3e74c82a5c43d070d712, type: 3}
   rageNumber: {fileID: 1457756166330312630, guid: 6547a60b38ec9054eba254d3b2877d09, type: 3}
   deathTime: 30
-  homingHangTime: 0.5
+  homingHangTime: 0.1
   usesPhysics: 0
+  adjustFire: {x: 0, y: 0, z: 0}
   physicsLaunchForce: 0
   usesTrigger: 0
   doesBounce: 0
@@ -14390,6 +14391,8 @@ MonoBehaviour:
   teleportCallBack: {fileID: 0}
   playerExplosionPrefab: {fileID: 130848, guid: 4adaafb742f78e942a908f4d10f3d630, type: 3}
   playerShockExplosionPrefab: {fileID: 1133987360716538499, guid: 2606f2c7c6c99cc47a35b8fe4c0dd21d, type: 3}
+  unparent: 0
+  copyProjectile: {fileID: 0}
 --- !u!114 &7872454222739131250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14560,3 +14563,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   killTime: 2
+  onlyParentless: 0
+  disable: 0
