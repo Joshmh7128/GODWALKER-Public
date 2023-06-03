@@ -48,7 +48,7 @@ public class TelemetryHandler : MonoBehaviour
         WWWForm form = new WWWForm();
         // add the proper fields to that form
         
-        form.AddField("entry.934937961", (Time.time - PlayerRunStatTracker.instance.startTime).ToString());
+        form.AddField("entry.934937961", (System.DateTime.Now - PlayerRunStatTracker.instance.startTime).ToString());
         form.AddField("entry.1818930104", MostUsedWeapons());
         form.AddField("entry.1132086311", PlayerRunStatTracker.instance.runsCompleted.ToString());
         form.AddField("entry.1221599062", Application.version.ToString());
