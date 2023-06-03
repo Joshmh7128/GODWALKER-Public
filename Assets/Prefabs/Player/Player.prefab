@@ -1657,7 +1657,7 @@ MonoBehaviour:
   finalMove: {x: 0, y: 0, z: 0}
   processedFinalMove: {x: 0, y: 0, z: 0}
   characterController: {fileID: 1557240302879457088}
-  moveSpeed: 33
+  moveSpeed: 20
   gravity: -117.72
   jumpVelocity: 15
   normalMoveMultiplier: 1
@@ -1811,7 +1811,7 @@ MonoBehaviour:
   screenParticles: {fileID: 0}
   reachedGODWALKERDisplay: {fileID: 1557240304313529762}
   rageAmount: 0
-  maxRage: 2000
+  maxRage: 3000
   rageReductionDeltas:
   - 100
   - 300
@@ -1864,10 +1864,10 @@ MonoBehaviour:
   - 150
   damageMult:
   - 1
+  - 1.15
+  - 1.2
   - 1.25
   - 1.5
-  - 1.75
-  - 2
 --- !u!114 &2957278217108556879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2049,7 +2049,6 @@ MonoBehaviour:
   longestGodwalkerTime: 0
   damageTaken: 0
   godwalkerDamageTaken: 0
-  startTime: 0
 --- !u!114 &2466219384002195333
 MonoBehaviour:
   m_ObjectHideFlags: 0

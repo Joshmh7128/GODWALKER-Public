@@ -159,7 +159,7 @@ public class PlayerRageManager : MonoBehaviour
             // refill HP
             PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
             // if we're godwalking raise our speedboost
-            currentSpeedBoost = godwalkerSpeedBoost;
+            currentSpeedBoost = 1 + godwalkerSpeedBoost * ((float)rageLevel / (float)RageLevels.WALKER);
 
             // refill all our weapon ammo 
             if (rageLevel == RageLevels.WALKER)
@@ -204,7 +204,7 @@ public class PlayerRageManager : MonoBehaviour
         if (!godwalking)
         {
             // set our speed boost
-            currentSpeedBoost = 1 + maxSpeedBoost * rageAmount / maxRage;
+            currentSpeedBoost = 1;
         }
     }
 
