@@ -1,52 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Linq;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI aimSensitivityText;
-    [SerializeField] Slider aimSenseSlider;
+    [SerializeField] TextMeshProUGUI aimSensitivityText, volumeText;
+    [SerializeField] Slider aimSenseSlider, volumeSlider;
     [SerializeField] GameObject mainParent, optionsParent, creditsParent, realThanks, funnyThanks;
     [SerializeField] TMP_InputField senseInput;
-    [SerializeField] Toggle quickStartToggle, heightScaleToggle; // do we quick start?
+    [SerializeField] Toggle quickStartToggle, heightScaleToggle, dataToggle; // do we quick start?
+    [SerializeField] AudioMixer audioMixer; // our audio mixer
 
-    float aimSensitivity;
+    float aimSensitivity, volume;
 
     private void Start()
     {
-        PlayerPrefs.GetFloat("sensitivity", aimSensitivity);
-        // set our sensitivity slider to the last used sense
-        if (aimSensitivity != 0)
-        {
-            aimSenseSlider.value = aimSensitivity;
-            senseInput.text = aimSensitivity.ToString();
-        }
-        else
-        {
-            aimSensitivity = 15;
-            aimSenseSlider.value = aimSensitivity;
-            senseInput.text = aimSensitivity.ToString();
-        }
+        // set sensitivity
+        aimSensitivity = PlayerPrefs.GetFloat("sensitivity", 15); 
+        aimSenseSlider.value = aimSensitivity;
+        senseInput.text = aimSensitivity.ToString();
+
+        // set volume
+        volume = PlayerPrefs.GetFloat("masterVolume", 50);
+        volumeSlider.value = volume;
+        volumeText.text = "Volume Level: " + volume.ToString();
 
         if (PlayerPrefs.GetString("QuickStart", "off") == "on")
             quickStartToggle.isOn = true;
 
         if (PlayerPrefs.GetString("ShouldWidthScale", "false") == "true")
             heightScaleToggle.isOn = true;
+
+        if (PlayerPrefs.GetString("CollectData", "true") == "true")
+            dataToggle.isOn = true;
+
+        if (PlayerPrefs.GetString("CollectData", "true") == "false")
+            dataToggle.isOn = false;
+
+        // setup our unique UID
+        if (PlayerPrefs.GetString("UID", "") == "")
+        {
+            PlayerPrefs.SetString("UID", RandomString(32));
+        }
+    }
+
+    string RandomString(int length)
+    {
+        string uid = "user";
+
+        string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        for (int i = 0; i < length; i++)
+            uid += chars[Random.Range(0, chars.Length)];
+
+        // if we are in the editor, name it josh so that we can filter it out
+        if (Application.isEditor)
+            uid = "JOSH";
+
+        return uid;
     }
 
     public void SetSensitivity()
     {
-        PlayerPrefs.GetFloat("sensitivity", aimSensitivity);
         aimSensitivity = Mathf.Round(aimSenseSlider.value * 10) * 0.1f;
-
-        PlayerPrefs.SetFloat("sensitivity", aimSensitivity);
 
         senseInput.text = (Mathf.Round(aimSenseSlider.value * 10) * 0.1f).ToString();
         aimSensitivityText.text = "Sensitivity Slider. Current Sensitivity = " + aimSensitivity;
+
+        PlayerPrefs.SetFloat("sensitivity", aimSensitivity);
+        Debug.Log(aimSensitivity);
     }   
     
     public void SetSensitivityText()
@@ -111,6 +138,16 @@ public class MainMenuManager : MonoBehaviour
         funnyThanks.SetActive(!funnyThanks.activeInHierarchy);
     }
 
+    // toggle our data collection
+    public void ToggleDataCollection()
+    {
+        if (dataToggle.isOn)
+            PlayerPrefs.SetString("CollectData", "true");
+
+        if (!dataToggle.isOn)
+            PlayerPrefs.SetString("CollectData", "false");
+    }
+
     // toggle our screensize settings
     public void ToggleScreenScaling()
     {
@@ -119,6 +156,15 @@ public class MainMenuManager : MonoBehaviour
 
         if (!heightScaleToggle.isOn)
             PlayerPrefs.SetString("ShouldWidthScale", "false");
+    }
 
+    public void SetAudio()
+    {
+        volume = volumeSlider.value;
+        volumeText.text = "Volume Level: " + volume.ToString();
+        PlayerPrefs.SetFloat("masterVolume", volume);
+        Debug.Log(volume);
+        audioMixer.SetFloat("MasterVol", Mathf.Log10(volume / 100) * 20);
+        
     }
 }
