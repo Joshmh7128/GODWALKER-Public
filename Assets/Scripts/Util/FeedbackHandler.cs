@@ -17,7 +17,14 @@ public class FeedbackHandler : MonoBehaviour
     {
         // show and hide inputs
         if (Input.GetKeyDown(KeyCode.F12))
-        active.SetActive(!active.activeInHierarchy);
+        {
+            active.SetActive(!active.activeInHierarchy);
+        }
+
+
+        // make sure our player cannot move while this is active
+        PlayerController.instance.canMove = !active.activeInHierarchy;
+
         // activate the input field
         feedback1.ActivateInputField();
         // enter to sent input

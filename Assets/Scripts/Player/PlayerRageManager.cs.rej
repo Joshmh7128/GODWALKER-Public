@@ -1,0 +1,9 @@
+diff a/Assets/Scripts/Player/PlayerRageManager.cs b/Assets/Scripts/Player/PlayerRageManager.cs	(rejected hunks)
+@@ -159,6 +159,7 @@
+             // refill HP
+             PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
+             // if we're godwalking raise our speedboost
++            currentSpeedBoost = 1 + godwalkerSpeedBoost * ((float)rageLevel / (float)RageLevels.WALKER);
+ 
+             // refill all our weapon ammo 
+             if (rageLevel == RageLevels.WALKER)
