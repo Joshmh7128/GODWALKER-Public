@@ -789,6 +789,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1633066757098320193}
+  - component: {fileID: 1061927195307923076}
   m_Layer: 0
   m_Name: Shotgun Model
   m_TagString: Untagged
@@ -815,6 +816,30 @@ Transform:
   m_Father: {fileID: 2671113810237408265}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1061927195307923076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633066757098320192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca824fdf69002574db46ad64dea04b09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireRateMod: 0
+  fireRateMax: 0
+  reloadTimeMod: 0
+  reloadTimeMax: 0
+  spreadMaxMod: 0
+  spreadDeltaXMod: 0
+  spreadDeltaYMod: 0
+  magazineMaxMod: 0
+  magazineMaxModMax: 0
+  projectile: {fileID: 0}
+  nameMod: 
+  damageMod: 0
 --- !u!1 &1633066757228413020
 GameObject:
   m_ObjectHideFlags: 0
@@ -5029,6 +5054,8 @@ MonoBehaviour:
   damageMods: []
   weaponName: Shotgun
   customInfo: Slow Firing Death Machine
+  rageMultiplier: 1
+  weaponTier: 0
   kickFOV: 6
   reloadSource: {fileID: 1993851360122916559}
   reloadSourceB: {fileID: 1726066524704556770}
@@ -5038,7 +5065,7 @@ MonoBehaviour:
   spreadXDelta: 0.01
   spreadYDelta: 0.01
   spreadReduct: 4
-  originalSpreadReduct: 0
+  originalSpreadReduct: 4
   requestDoubleShot: 0
   requestHomingShot: 0
   requestExplodingShot: 0
@@ -5046,7 +5073,7 @@ MonoBehaviour:
   requestShockExplodingShot: 0
   weaponUIHandler: {fileID: 804371569592412656}
   weaponElement: 0
-  updated: 0
+  updated: 1
 --- !u!114 &804371569592412656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5066,6 +5093,7 @@ MonoBehaviour:
   reticleLeft: {fileID: 8859909201843377964}
   reticleTop: {fileID: 5013581212479047271}
   reticleBottom: {fileID: 2752416169609043426}
+  reticleScaler: {fileID: 0}
   reticleSpreadResponseMagnitude: 3000
   ammoText: {fileID: 7183065299199635001}
 --- !u!82 &1993851360122916559
