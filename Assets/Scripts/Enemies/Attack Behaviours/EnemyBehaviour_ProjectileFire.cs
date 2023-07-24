@@ -31,7 +31,9 @@ public class EnemyBehaviour_ProjectileFire : EnemyBehaviour
                 {
                     if (t.GetComponent<EnemyProjectile>())
                     {
-                        t.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
+                        // make sure we only use our enemy class damage if it is not 0
+                        if (enemyClass.damage != 0)
+                            t.GetComponent<EnemyProjectile>().damage = enemyClass.damage;
                     }
                 }
             }

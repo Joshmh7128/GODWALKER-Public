@@ -208,6 +208,7 @@ public class EnemyProjectile : MonoBehaviour
             if (other.transform.tag == "Player")
             {
                 // trigger a hurt on the stat manager
+                Debug.LogWarning("Administering " + damage + " damage to player");
                 statManager.TakeDamage(damage); // oof ouch yikes
                 if (breaksOnPlayer) OnDestroyObject();
             }
