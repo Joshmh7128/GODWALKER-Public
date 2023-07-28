@@ -433,7 +433,7 @@ public abstract class EnemyClass : MonoBehaviour
     List<GameObject> allChildren = new List<GameObject> ();
     [HeaderAttribute("-- VFX --")]
     [SerializeField] Material hurtMaterial;
-    [SerializeField] GameObject OnDeathFX; // our death explosion
+    public GameObject OnDeathFX; // our death explosion
 
     // full function
     void SetupRenderers()
