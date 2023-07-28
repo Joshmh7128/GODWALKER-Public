@@ -218,9 +218,10 @@ public abstract class EnemyClass : MonoBehaviour
             kickReset -= 1;
 
         if (kickReset <= 0)
-        {
             canKickMovement = true;
-        }
+
+        // make sure we manage our velocity
+        SlowVelocity();
     }
 
     // run in fixed update to see if we can see the player
@@ -634,7 +635,7 @@ public abstract class EnemyClass : MonoBehaviour
                 // set our high accel so that it is instant
                 navMeshAgent.acceleration = 10f;
                 navMeshAgent.speed = 10f;
-                navMeshAgent.velocity = forceDir * movementPower;
+                navMeshAgent.velocity = forceDir * distancePower;
             }
 
             // if we don't have a nav mesh agent, use physics to move this enemy
@@ -642,6 +643,15 @@ public abstract class EnemyClass : MonoBehaviour
             {
                 GetComponent<Rigidbody>().AddForce(forceDir * movementPower);
             }
+        }
+    }
+
+    // make sure we don't fly across the map like crazy
+    void SlowVelocity()
+    {
+        if (navMeshAgent.velocity.magnitude > 0)
+        {
+            navMeshAgent.velocity -= -Vector3.one * Time.fixedDeltaTime * 3f;
         }
     }
 
