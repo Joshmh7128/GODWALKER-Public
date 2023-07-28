@@ -50,7 +50,7 @@ public abstract class EnemyClass : MonoBehaviour
     [SerializeField] List<EnemyBehaviour> movementBehaviours = new List<EnemyBehaviour>();
     public bool activated;
     // our agent
-    [HideInInspector] public NavMeshAgent navMeshAgent;
+    public NavMeshAgent navMeshAgent;
 
     PlayerBodyPartManager playerBodyPartManager;
 
@@ -585,6 +585,27 @@ public abstract class EnemyClass : MonoBehaviour
     {
         if (activeEffects.Contains(effect)) return true;
         else return false;
+    }
+
+    // what happens when we get hit?   // how much power do we apply the kick?
+    public void ApplyKickMovement(float distancePower, float movementPower, Vector3 forceOrigin)
+    {
+        // apply our kick in the direction from the forceOrigin minus our position by the power
+        Vector3 forceDir = forceOrigin - transform.position;
+        // if we have a movement agent or not
+        // if we have a nav mesh agent, set a new movement direction
+        if (navMeshAgent)
+        {
+            Vector3 relativeDir = new Vector3(forceDir.x, transform.position.y, forceDir.z);
+            navMeshAgent.SetDestination(relativeDir + transform.position * movementPower);
+            navMeshAgent.speed = distancePower;
+        }
+
+        // if we don't have a nav mesh agent, use physics to move this enemy
+        if (!navMeshAgent)
+        {
+            GetComponent<Rigidbody>().AddForce(forceDir * movementPower);
+        }
     }
 
 }
