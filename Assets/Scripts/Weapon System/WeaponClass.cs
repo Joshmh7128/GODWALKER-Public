@@ -47,6 +47,17 @@ public abstract class WeaponClass : MonoBehaviour
         }
     }
 
+    // does this weapon apply kick to enemies?
+    public float enemyKickDistance, enemyKickPower;
+    public enum KickOrigins
+    {
+        // does our kick originate from the player, the bullet's deathpoint, or from where the bullet was fired?
+        none, player, bullet, firepoint
+    }
+
+    // where is our kick applied from?
+    public KickOrigins kickOrigin;
+
     // our weapon's information
     [Header("Weapon Information")]
     public string weaponName;
@@ -155,6 +166,35 @@ public abstract class WeaponClass : MonoBehaviour
         if (isTeleportShot) { bulletScript.isTeleportShot = true; }
         // shocking?
         if (isShocking) { bulletScript.doesShockExplode = true; }
+        // check to see if we have any knockback applied
+        if (kickOrigin != KickOrigins.none)
+        {
+            // set the bullet's kick origin
+            bulletScript.kickOrigin = kickOrigin;
+
+            // set our distance and power
+            bulletScript.kickDistancePower = enemyKickDistance;
+            bulletScript.kickMovementPower = enemyKickPower;
+
+            // effects for each type of kick, which are applied in the player projectile script
+            switch (kickOrigin)
+            {
+                case KickOrigins.bullet:
+                    // this is set in the bullet, but set to bullet transform just in case. this is update when the bullet destroys
+                    bulletScript.kickOriginPoint = bulletScript.transform.position;
+                    break;
+
+                case KickOrigins.player:
+                    // set it to the player's position
+                    bulletScript.kickOriginPoint = PlayerController.instance.transform.position;
+                    break;
+
+                case KickOrigins.firepoint:
+                    // set it to the first frame of the bullet
+                    bulletScript.kickOriginPoint = bulletScript.transform.position;
+                    break;
+            }
+        }
 
         // damage modifiers?
         try { bullet.GetComponent<PlayerProjectileScript>().damage = damage * damageMod; } catch { }

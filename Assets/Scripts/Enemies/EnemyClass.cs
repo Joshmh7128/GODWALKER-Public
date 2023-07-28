@@ -20,7 +20,8 @@ public abstract class EnemyClass : MonoBehaviour
     [SerializeField] float lootDropChancePercentage;
     [SerializeField] GameObject dropItem;
     bool dead; // are we dead?
-
+    bool canKickMovement; // can we kick movement?
+    float kickReset; // count down to kick reset
     [SerializeField] Light fxLight; // our vfx light
 
     // elemental shields
@@ -137,7 +138,8 @@ public abstract class EnemyClass : MonoBehaviour
         {
             behaviour.complete = false;
             // run the behaviour
-            behaviour.RunMain();
+            if (behaviour.gameObject.activeInHierarchy)
+                behaviour.RunMain();
             // wait one fixed update
             yield return new WaitForFixedUpdate();
             // then wait
@@ -154,8 +156,9 @@ public abstract class EnemyClass : MonoBehaviour
         // go through each attack
         foreach (EnemyBehaviour behaviour in movementBehaviours)
         {
-            // run the behaviour
-            behaviour.RunMain();
+            if (behaviour.gameObject.activeInHierarchy)
+                // run the behaviour
+                behaviour.RunMain();
             // then wait
             yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
         }
@@ -210,6 +213,14 @@ public abstract class EnemyClass : MonoBehaviour
         ProcessBehaviourStart();
         // display our stats
         ProcessCanvasDisplay();
+
+        if (kickReset > 0)
+            kickReset -= 1;
+
+        if (kickReset <= 0)
+        {
+            canKickMovement = true;
+        }
     }
 
     // run in fixed update to see if we can see the player
@@ -590,22 +601,57 @@ public abstract class EnemyClass : MonoBehaviour
     // what happens when we get hit?   // how much power do we apply the kick?
     public void ApplyKickMovement(float distancePower, float movementPower, Vector3 forceOrigin)
     {
-        // apply our kick in the direction from the forceOrigin minus our position by the power
-        Vector3 forceDir = forceOrigin - transform.position;
-        // if we have a movement agent or not
-        // if we have a nav mesh agent, set a new movement direction
-        if (navMeshAgent)
+        if (canKickMovement)
         {
-            Vector3 relativeDir = new Vector3(forceDir.x, transform.position.y, forceDir.z);
-            navMeshAgent.SetDestination(relativeDir + transform.position * movementPower);
-            navMeshAgent.speed = distancePower;
-        }
 
-        // if we don't have a nav mesh agent, use physics to move this enemy
-        if (!navMeshAgent)
-        {
-            GetComponent<Rigidbody>().AddForce(forceDir * movementPower);
+            canKickMovement = false;
+            kickReset = 10; // set our reset to 10 frames so that we must kick that frame
+            Debug.Log("applying kick with " + distancePower + " " + movementPower + " at " + forceOrigin);
+
+            // apply our kick in the direction from the forceOrigin minus our position by the power
+            Vector3 forceDir = (transform.position - forceOrigin).normalized;
+            // if we have a movement agent or not
+            // if we have a nav mesh agent, set a new movement direction
+            if (navMeshAgent)
+            {
+                /*
+                // make sure we setup the reset so that we don't have weird movement functionality
+                StartCoroutine(ResetNavMeshStats(navMeshAgent.acceleration, navMeshAgent.speed));
+                // where is this coming from?
+                Vector3 relativePos = new Vector3(forceDir.x, 0, forceDir.z);
+
+                // fire a raycast in the relative direction until we hit something. set our destination to the X and Z of this point.
+                RaycastHit navkickhit; // our hit info
+                Physics.Raycast(transform.position + relativePos*2, transform.position - relativePos, out navkickhit, Mathf.Infinity); 
+
+                // our final relative movement point
+                Vector3 finalRelaMove = new Vector3(navkickhit.point.x, transform.position.y, navkickhit.point.z);
+
+                // move to our final pos
+                navMeshAgent.SetDestination(finalRelaMove + transform.position);
+                */
+
+                // set our high accel so that it is instant
+                navMeshAgent.acceleration = 10f;
+                navMeshAgent.speed = 10f;
+                navMeshAgent.velocity = forceDir * movementPower;
+            }
+
+            // if we don't have a nav mesh agent, use physics to move this enemy
+            if (!navMeshAgent)
+            {
+                GetComponent<Rigidbody>().AddForce(forceDir * movementPower);
+            }
         }
+    }
+
+    // coroutine to reset our navmesh stats
+    IEnumerator ResetNavMeshStats(float acceleration, float speed)
+    {
+        yield return new WaitForSeconds(0.5f);
+        navMeshAgent.speed = speed;
+        navMeshAgent.acceleration = acceleration;   
+
     }
 
 }

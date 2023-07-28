@@ -8,7 +8,10 @@ public class PlayerProjectileScript : MonoBehaviour
     public float speed;
     public float damage, localCritMod; // how much damage we deal, the local crit modifier
     public float rageAdd; // how much rage does the act of hitting this shot add to our meter?
-    
+    public float kickDistancePower, kickMovementPower; // our distance and kick power
+    public Vector3 kickOriginPoint; // our kick origin point
+    public WeaponClass.KickOrigins kickOrigin; // our kick origin selection
+
     // vfx
     [SerializeField] GameObject breakParticle, muzzleEffect, normalHitFX, critHitFX, homingFX, teleportFX; // the particle we use on death
     [SerializeField] DamageNumber rageNumber;
@@ -36,7 +39,7 @@ public class PlayerProjectileScript : MonoBehaviour
 
     // ability related variables
     public bool startInvBuffer = false;
-    [Header("Elemental Abilities")]
+    [Header("Abilities")]
     public bool isHoming;
     public bool secondHome; // does this home to the nearest enemy?
     public bool doesExplode; // does this explode?
@@ -44,6 +47,7 @@ public class PlayerProjectileScript : MonoBehaviour
     public bool doesSlag; // does this projectile apply slag to enemies?
     public bool isLifesteal; // does this life steal
     public bool isTeleportShot; // is this a shot we can try to teleport to?
+    public bool appliesKick; // does this apply kick to our enemies?
     [Header("Conspecifics")]
     [SerializeField] bool invincible; // is this shot invincible?
     public BodyPartClass teleportCallBack; // when we destroy and are a teleporting shot, send a signal here
@@ -236,6 +240,15 @@ public class PlayerProjectileScript : MonoBehaviour
 
             // show how much damage we deal
             rageNumber.Spawn(hitpoint, displayDamage, showColor);
+
+            // do we update our enemy knockback?
+            if (kickOrigin == WeaponClass.KickOrigins.bullet)
+                kickOriginPoint = transform.position;
+
+            // then apply our knockback, only kick if we can
+            if (kickOrigin != WeaponClass.KickOrigins.none)
+                eclass.ApplyKickMovement(kickDistancePower, kickMovementPower, kickOriginPoint);
+
         }
 
         if (enemy.transform.tag == "Enemy" && eclass.invincible)
