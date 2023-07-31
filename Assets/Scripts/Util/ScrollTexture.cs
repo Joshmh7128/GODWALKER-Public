@@ -15,8 +15,10 @@ public class ScrollTexture : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // normal scrolling
         offsetX += Time.fixedDeltaTime * scrollX;
         offsetY += Time.fixedDeltaTime * scrollY;
+        // set
         objRend.material.mainTextureOffset = new Vector2(offsetX, offsetY);
     }
 }

@@ -41,6 +41,7 @@ public class PrototypeBetaSceneTeleporter : MonoBehaviour
         // get our target scene from the generation manager
         targetScene = PlayerGenerationSeedManager.instance.nextRoom.ToString();
         PlayerGenerationSeedManager.instance.currentCombatPos++;
+        PlayerRunStatTracker.instance.roomsCompleted++; // update our stats
         SceneManager.LoadScene(targetScene, LoadSceneMode.Single);
     }
 

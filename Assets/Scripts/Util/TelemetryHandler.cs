@@ -62,7 +62,5 @@ public class TelemetryHandler : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
         // return the send request
         yield return www.SendWebRequest();
-
     }
-
 }

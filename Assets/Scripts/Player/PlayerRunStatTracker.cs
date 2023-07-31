@@ -17,7 +17,7 @@ public class PlayerRunStatTracker : MonoBehaviour
         startTime = DateTime.Now;
     }
 
-    public int kills, jumps, shotsFired, damageDealt, runsCompleted, longestGodwalkerTime, damageTaken, godwalkerDamageTaken; 
+    public int kills, jumps, shotsFired, damageDealt, runsCompleted, longestGodwalkerTime, damageTaken, godwalkerDamageTaken, roomsCompleted; 
 
     // all of the weapons the player has used this run
     public Dictionary<string, int> weaponUsage = new Dictionary<string, int>();

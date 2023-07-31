@@ -13,10 +13,7 @@ public class PlayerStatManager : MonoBehaviour
 
     // setup our instance
     public static PlayerStatManager instance;
-    private void Awake()
-    {
-        instance = this;
-    }
+    private void Awake() => instance = this;
 
     // our main public variables
     public float health, maxHealth; // the player's health

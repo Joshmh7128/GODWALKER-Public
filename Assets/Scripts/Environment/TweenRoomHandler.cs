@@ -31,6 +31,7 @@ public class TweenRoomHandler : MonoBehaviour
         Invoke("ChooseDestination", 1f);
     }
 
+
     void ChooseDestination()
     {
         // check for a reset
@@ -170,6 +171,7 @@ public class TweenRoomHandler : MonoBehaviour
         // only rooms that have combat advance our combat position!
         if (doesAdvanceCombatPos)
         PlayerGenerationSeedManager.instance.currentCombatPos++;
+        PlayerRunStatTracker.instance.roomsCompleted++;
         // then always advance our run pos
         PlayerGenerationSeedManager.instance.currentRunPos++;
         // do not destroy this door!
