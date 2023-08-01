@@ -99,7 +99,7 @@ public class EnemySpawnPoint : MonoBehaviour
                     infoItem.name = "AF";
                     break;
                 case EnemyClass.SpawnPointRequirements.centralGrounded:
-                    Gizmos.color = Color.green;
+                    Gizmos.color = Color.magenta;
                     Gizmos.DrawSphere(transform.position, 1f);
                     infoItem.name = "CG";
                     break;
