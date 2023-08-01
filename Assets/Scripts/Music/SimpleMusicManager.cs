@@ -14,10 +14,11 @@ public class SimpleMusicManager : MonoBehaviour
     // the length of one block (for Dynamic Track Test 01 a block is 4 measures at 156 bpm, or 6.15384 seconds)
     // [SerializeField] float blockLength = 6.15384f;
 
-    public enum MusicMoods { intro, combat, outro, explore }
-    public MusicMoods musicMood;
+    public enum MusicMoods { intro, combat, outro, explore, godwalking }
+    public MusicMoods currentMood;
+    public MusicMoods desiredMood;
 
-    [SerializeField] AudioClip intro, combat, outro, explore;
+    [SerializeField] AudioClip intro, combatA, combatB, outro, explore, godwalking;
 
     [SerializeField] AudioSource musicSource; // plays music
 
@@ -40,8 +41,20 @@ public class SimpleMusicManager : MonoBehaviour
         PlaySong(MusicMoods.explore);
     }
 
+    private void FixedUpdate()
+    {
+        if (currentMood != desiredMood)
+        {
+            PlaySong(desiredMood);
+        }
+    }
+
     public void PlaySong(MusicMoods mood)
     {
+        Debug.Log("playing song " + mood);
+        // set our desired mood in case it is not already set
+        desiredMood = mood;
+
         // intro
         if (mood == MusicMoods.intro)
         {
@@ -51,7 +64,9 @@ public class SimpleMusicManager : MonoBehaviour
         
         if (mood == MusicMoods.combat)
         {
-            musicSource.clip = combat;
+            int i = Random.Range(0, 1);
+            if (i == 1) musicSource.clip = combatA;
+            if (i == 0) musicSource.clip = combatB;
             musicSource.Play();
         }
 
@@ -68,5 +83,15 @@ public class SimpleMusicManager : MonoBehaviour
             musicSource.clip = outro;
             musicSource.Play();
         }
+
+        if (mood == MusicMoods.godwalking)
+        {
+            // play the outro
+            musicSource.clip = godwalking;
+            musicSource.Play();
+        }
+        
+        // then set our current mood
+        currentMood = mood;
     }
 }

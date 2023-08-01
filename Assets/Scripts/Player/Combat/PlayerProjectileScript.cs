@@ -81,7 +81,7 @@ public class PlayerProjectileScript : MonoBehaviour
         StartCoroutine(ProjectileStartBuffer());
 
         // manually set damage
-        if (!PlayerRageManager.instance.godwalking)
+        if (!PlayerRageManager.instance.godmoding)
             damage = weaponManager.currentWeapon.damage;
 
         // if (PlayerRageManager.instance.godwalking)

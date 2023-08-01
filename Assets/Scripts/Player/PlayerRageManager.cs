@@ -33,8 +33,10 @@ public class PlayerRageManager : MonoBehaviour
     public float maxSpeedBoost, currentSpeedBoost; // how much faster do we move BEFORE entering Godwalker?
     public float godwalkerSpeedBoost; // how fast do we move in Godwalker?
     public float godwalkerTime; // how long do we remain in godwalker?
-    public bool godwalking; // oh, it's happening, baby. 
+    public bool godmoding; // oh, it's happening, baby. 
     public GameObject godwalkerVolume; // the godwalker VFX volume
+    bool godwalkMusicRequestMade; // have we made our godwalker music request?
+
 
     public TextMeshProUGUI rageLevelDisplay;
     #endregion
@@ -78,7 +80,7 @@ public class PlayerRageManager : MonoBehaviour
             rageAmount += amount;
         } else { rageAmount = maxRage; }
 
-        if (godwalking)
+        if (godmoding)
         {
             // add to our overRage to increase our godwalking level
             overRage += amount;
@@ -104,12 +106,12 @@ public class PlayerRageManager : MonoBehaviour
     public void ProcessRage()
     {
         // reduce our rage if we have not maxed out the meter
-        if (rageAmount != maxRage && rageAmount > 0 && !godwalking)
+        if (rageAmount != maxRage && rageAmount > 0 && !godmoding)
         {
             rageAmount -= reductionDelta * Time.fixedDeltaTime;
         }
 
-        if (overRage > 0 && !godwalking)
+        if (overRage > 0 && !godmoding)
         {
             overRage -= reductionDelta * Time.fixedDeltaTime;
         }
@@ -141,12 +143,12 @@ public class PlayerRageManager : MonoBehaviour
         ProcessUI();
 
         // process godwalker
-        ProcessGodwalking();
+        ProcessGodmode();
     }
 
-    void ProcessGodwalking()
+    void ProcessGodmode()
     {
-        if (godwalking)
+        if (godmoding)
         {
             // effects
             godwalkerVolume.SetActive(true);
@@ -165,12 +167,17 @@ public class PlayerRageManager : MonoBehaviour
             // PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
             // if we're godwalking raise our speedboost
             currentSpeedBoost = 1 + godwalkerSpeedBoost * ((float)rageLevel / (float)RageLevels.WALKER);
-                
+
             // refill all our weapon ammo 
             if (rageLevel == RageLevels.WALKER)
-            foreach (GameObject weapon in PlayerWeaponManager.instance.weapons)
             {
-                weapon.GetComponent<WeaponClass>().currentMagazine = weapon.GetComponent<WeaponClass>().maxMagazine;
+                foreach (GameObject weapon in PlayerWeaponManager.instance.weapons)
+                {
+                    // refill so we are using maximum ammo on all weapons
+                    weapon.GetComponent<WeaponClass>().currentMagazine = weapon.GetComponent<WeaponClass>().maxMagazine;
+                    // make the music request
+                    SimpleMusicManager.instance.desiredMood = SimpleMusicManager.MusicMoods.godwalking;
+                }
             }
 
             // godwalker time
@@ -185,7 +192,7 @@ public class PlayerRageManager : MonoBehaviour
                 // deactivate the fx
                 flameVFX.SetActive(false);
                 // we are no longer godwalking
-                godwalking = false;
+                godmoding = false;
                 godwalkerVolume.SetActive(false);
                 rageLevelDisplay.text = "";
                 // reset the color
@@ -202,11 +209,15 @@ public class PlayerRageManager : MonoBehaviour
 
                 // reset time
                 godwalkerTime = 0;
+
+                // reset music
+                SimpleMusicManager.instance.desiredMood = SimpleMusicManager.MusicMoods.combat;
+
             }
 
         }
 
-        if (!godwalking)
+        if (!godmoding)
         {
             // set our speed boost
             currentSpeedBoost = 1;
@@ -219,14 +230,14 @@ public class PlayerRageManager : MonoBehaviour
         // entering godwalker - if our bar is full and we press G
         if (Input.GetKeyDown(KeyCode.G) && rageAmount == maxRage)
         {
-            if (!godwalking)
+            if (!godmoding)
                 // kick feel
                 PlayerGodfeelManager.instance.KickFeel();
 
             LevelPop();
 
             // we are now godwalking
-            godwalking = true;
+            godmoding = true;
 
             // check to see if we increase our reduction delta
             StartCoroutine(ReductionDeltaIncreaseCheck());
@@ -254,14 +265,14 @@ public class PlayerRageManager : MonoBehaviour
         rageVignette.color = Color.Lerp(startColor, endColor, rageSlider.value);
 
         // lerp the color of our images
-        if (!godwalking)
+        if (!godmoding)
         {
             sliderImage.color = Color.Lerp(startColor, endColor, rageSlider.value);
             rageVignette.color = Color.Lerp(startColor, endColor, rageSlider.value);
         }
 
         // if we're at our max rage and we're not godwalking
-        if (rageAmount == maxRage && !godwalking)
+        if (rageAmount == maxRage && !godmoding)
         {
             rageLevelDisplay.text = "PRESS G TO ACTIVATE";
             LevelPop();
@@ -301,7 +312,7 @@ public class PlayerRageManager : MonoBehaviour
         // if the player maintains godwalker for 20 seconds
         yield return new WaitForSecondsRealtime(20f);
         // increase the rage by 10%
-        if (godwalking)
+        if (godmoding)
             originalAdditional += 2.5f * 0.1f;
     }
 

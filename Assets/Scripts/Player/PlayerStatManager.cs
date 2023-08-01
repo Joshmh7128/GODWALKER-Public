@@ -106,7 +106,7 @@ public class PlayerStatManager : MonoBehaviour
             if (!debugInvincible)
             {
                 // if we are not godwalking, take health damage
-                if (!PlayerRageManager.instance.godwalking)
+                if (!PlayerRageManager.instance.godmoding)
                 {
                     health -= damageAmount;
 
@@ -114,7 +114,7 @@ public class PlayerStatManager : MonoBehaviour
                 }
 
                 // if we are godwalking, take meter damage
-                if (PlayerRageManager.instance.godwalking)
+                if (PlayerRageManager.instance.godmoding)
                 {
                     PlayerRageManager.instance.rageAmount -= damageAmount * damageToRageCoefficient;
                     PlayerRunStatTracker.instance.godwalkerDamageTaken += (int)damageAmount * (PlayerRunStatTracker.instance.runsCompleted + 1);

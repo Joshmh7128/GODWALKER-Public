@@ -414,11 +414,11 @@ public abstract class EnemyClass : MonoBehaviour
             // spawn our on death fx
             Instantiate(OnDeathFX, transform.position, Quaternion.identity, null);
             // drop our currency 
-            try { if (PlayerRageManager.instance.godwalking) Instantiate(dropItem, transform.position, Quaternion.identity, null); } catch { }
+            try { if (PlayerRageManager.instance.godmoding) Instantiate(dropItem, transform.position, Quaternion.identity, null); } catch { }
             // add our rage to the manager on death
             PlayerRageManager.instance.AddRage(rageAmount);
             // kick our rage 
-            if (PlayerRageManager.instance.godwalking == true)
+            if (PlayerRageManager.instance.godmoding == true)
                 PlayerGodfeelManager.instance.KickFeel();
             // add our stat
             PlayerRunStatTracker.instance.kills++;

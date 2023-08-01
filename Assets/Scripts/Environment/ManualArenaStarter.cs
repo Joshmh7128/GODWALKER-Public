@@ -9,6 +9,10 @@ public class ManualArenaStarter : MonoBehaviour
     [SerializeField] GameObject musicObject, previousDoor; // our music, and the door we just came from
     [SerializeField] bool autoStart, started; // starts when the player enters the trigger collider
 
+    private void Start()
+    {
+        musicObject = SimpleMusicManager.instance.gameObject;
+    }
 
     private void Update()
     {
