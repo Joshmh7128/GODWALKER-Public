@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
                 if (landVFXcount <= 0)
                 {
                     Instantiate(landVFX, transform.position, landVFX.transform.rotation, null);
-                    landVFXcount = 5f;
+                    landVFXcount = 30f;
                 }
                 remainingJumps = maxJumps;
                 playerJumpVelocity = 0f;
@@ -367,6 +367,7 @@ public class PlayerController : MonoBehaviour
     {
         // knock us around!
         verticalVelocity = 0;
+        playerJumpVelocity = 0;
         knockbackVector = direction.normalized * force;
         // always knock us up
         knockbackVector = new Vector3(knockbackVector.x, knockbackVector.y + 2f, knockbackVector.z);
