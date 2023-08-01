@@ -79,7 +79,12 @@ public class PlayerRageManager : MonoBehaviour
         } else { rageAmount = maxRage; }
 
         if (godwalking)
+        {
+            // add to our overRage to increase our godwalking level
             overRage += amount;
+            // then heal our HP at a constant rate
+            PlayerStatManager.instance.AddHealth(15f);
+        }
 
         rageAmount = Mathf.Clamp(rageAmount, 0, maxRage);
     }
@@ -157,7 +162,7 @@ public class PlayerRageManager : MonoBehaviour
             if (overRage > 0)
             overRage -= overRageDeltas[(int)rageLevel] * Time.fixedDeltaTime;
             // refill HP
-            PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
+            // PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
             // if we're godwalking raise our speedboost
             currentSpeedBoost = 1 + godwalkerSpeedBoost * ((float)rageLevel / (float)RageLevels.WALKER);
                 
