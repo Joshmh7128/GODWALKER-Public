@@ -352,11 +352,11 @@ public class ArenaHandler : MonoBehaviour
 
             if (waveParents.Count > 1)
             {
-                StartCoroutine(ShowWaveMessage("Enemies Incoming"));
+                // StartCoroutine(ShowWaveMessage("Enemies Incoming"));
             }
             else if (waveParents.Count == 1)
             {
-                StartCoroutine(ShowWaveMessage("Final Wave Incoming"));
+                // StartCoroutine(ShowWaveMessage("Final Wave Incoming"));
             }
 
             yield return new WaitForSecondsRealtime(waveWaitTime);
@@ -518,8 +518,10 @@ public class ArenaHandler : MonoBehaviour
         // end combat
         if (!combatComplete)
         {
+            // make sure we show that combat is complete
             combatComplete = true;
             CheckCombatCompletion();
+            // play our music
             SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.explore);
 
             StartCoroutine(ShowWaveMessage("Combat Complete"));

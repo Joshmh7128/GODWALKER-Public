@@ -215,8 +215,9 @@ public class PlayerRageManager : MonoBehaviour
                 // reset time
                 godwalkerTime = 0;
 
-                // reset music
-                SimpleMusicManager.instance.desiredMood = SimpleMusicManager.MusicMoods.combat;
+                // reset music only if we are still in combat
+                if (!ArenaManager.instance.activeArena.combatComplete)
+                    SimpleMusicManager.instance.desiredMood = SimpleMusicManager.MusicMoods.combat;
 
             }
 
