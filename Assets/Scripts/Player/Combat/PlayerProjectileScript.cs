@@ -191,7 +191,6 @@ public class PlayerProjectileScript : MonoBehaviour
             if (eclass.energyShieldHP <= 0 && eclass.explosiveArmorHP <= 0)
             {
                 PlayerRageManager.instance.AddRage(rageAdd * eclass.rageModifier);
-                Debug.Log(rageAdd * eclass.rageModifier);
             }
 
             // check the status of the enemy's shields

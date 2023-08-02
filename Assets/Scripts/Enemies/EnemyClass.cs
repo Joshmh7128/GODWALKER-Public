@@ -192,8 +192,9 @@ public abstract class EnemyClass : MonoBehaviour
             explosiveArmorHP = setExplosiveArmorHP;
 
             // set armor plating to active
-            foreach (GameObject plate in armorPlates)
-                plate.SetActive(true);
+            if (armorPlates.Count > 0)
+                foreach (GameObject plate in armorPlates)
+                    plate.SetActive(true);
         }
 
         if (activeElementalProtection == ElementalProtection.energyShield)
@@ -201,8 +202,9 @@ public abstract class EnemyClass : MonoBehaviour
             // make sure to set our armor amount
             energyShieldHP = setEnergyShieldHP;
             // set armor plating to active
-            foreach (GameObject plate in energyShields)
-                plate.SetActive(true);
+            if (armorPlates.Count > 0)
+                foreach (GameObject plate in energyShields)
+                    plate.SetActive(true);
         }
     }
 
@@ -336,16 +338,24 @@ public abstract class EnemyClass : MonoBehaviour
 
             if (explosiveArmorHP <= 0)
             {
+                if (armorPlates.Count > 0)
                 // we're out of shields, pop them all off! 
                 foreach (GameObject plate in armorPlates)
                 {
-                    // turn on collider
-                    plate.GetComponent<Collider>().enabled = true;
-                    // unparent and throw the plate
-                    plate.transform.Unparent();
-                    plate.GetComponent<Rigidbody>().useGravity = true;
-                    if (plate.transform.parent == null && Mathf.Abs(plate.GetComponent<Rigidbody>().velocity.x) < 0.001f)
-                        plate.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1, 2), Random.Range(-1, 2), Random.Range(-1, 2)) * 20f, ForceMode.Impulse);
+                    if (plate != null)
+                    {
+                        try // in case this enemy has no shields
+                        {
+                            // turn on collider
+                            plate.GetComponent<Collider>().enabled = true;
+                            // unparent and throw the plate
+                            plate.transform.Unparent();
+                            plate.GetComponent<Rigidbody>().useGravity = true;
+                            if (plate.transform.parent == null && Mathf.Abs(plate.GetComponent<Rigidbody>().velocity.x) < 0.001f)
+                                plate.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1, 2), Random.Range(-1, 2), Random.Range(-1, 2)) * 20f, ForceMode.Impulse);
+                        }
+                        catch { }
+                    }
                 }
             }
 
@@ -353,15 +363,20 @@ public abstract class EnemyClass : MonoBehaviour
 
             if (energyShieldHP <= 0)
             {
-                if (energyShields.Count > 0)
-                if (energyShields[0].activeInHierarchy == true)
-                    Instantiate(Resources.Load("EnemyElementalEffects/ShockExplosionNoDamage") as GameObject, transform);
-
-                foreach (GameObject plate in energyShields)
+                try // in case this enemy has no shields
                 {
-                    plate.SetActive(false);
-                }
+                    if (energyShields.Count > 0)
+                        if (energyShields[0].activeInHierarchy == true)
+                            Instantiate(Resources.Load("EnemyElementalEffects/ShockExplosionNoDamage") as GameObject, transform);
 
+                    foreach (GameObject plate in energyShields)
+                    {
+                        if (plate != null)
+                        {
+                            plate.SetActive(false);
+                        }
+                    }
+                } catch { }
             }
 
             if (element == ElementalProtection.energyShield)
@@ -370,17 +385,20 @@ public abstract class EnemyClass : MonoBehaviour
             }
 
             // set the intensity of our energy shields to the inverse % of our remaining HP
-            foreach (GameObject plate in energyShields)
+            try
             {
-                plate.GetComponent<Renderer>().material.SetColor("_EmissionColor", plate.GetComponent<Renderer>().material.GetColor("_EmissionColor") * (2f));
-                // 10% chance to spawn a shield vfx
-                int c = Random.Range(0, 10);
-                if (c > 8)
+                foreach (GameObject plate in energyShields)
                 {
-                    if (plate.transform.childCount == 0)
-                        Instantiate(Resources.Load("EnemyElementalEffects/ShieldBreakingVFX") as GameObject, plate.transform);
+                    plate.GetComponent<Renderer>().material.SetColor("_EmissionColor", plate.GetComponent<Renderer>().material.GetColor("_EmissionColor") * (2f));
+                    // 10% chance to spawn a shield vfx
+                    int c = Random.Range(0, 10);
+                    if (c > 8)
+                    {
+                        if (plate.transform.childCount == 0)
+                            Instantiate(Resources.Load("EnemyElementalEffects/ShieldBreakingVFX") as GameObject, plate.transform);
+                    }
                 }
-            }
+            } catch { }
 
             // flash
             StartCoroutine(HurtFlash());
@@ -428,7 +446,7 @@ public abstract class EnemyClass : MonoBehaviour
     }
 
     // everything to do with our hurt flash renderer
-    List<Renderer> renderers = new List<Renderer> ();
+    [SerializeField] List<Renderer> renderers = new List<Renderer> ();
     List<Material> defaultRendererMaterials = new List<Material> ();
     List<GameObject> allChildren = new List<GameObject> ();
     [HeaderAttribute("-- VFX --")]
@@ -480,13 +498,13 @@ public abstract class EnemyClass : MonoBehaviour
     }
 
     // function to be called within all GetHurt() functions to make us flicker
-    virtual public IEnumerator HurtFlash() 
+    public IEnumerator HurtFlash() 
     {
         // set all of our renderers to the hurtflash
         foreach (Renderer renderer in renderers)
         {
             if (renderer.gameObject.transform.root == transform)
-            renderer.material = hurtMaterial;
+            renderer.material = Resources.Load("Hurt Flash.mat", typeof(Material)) as Material;
         }
         // wait about 0.25 of a second
         yield return new WaitForSecondsRealtime(0.06f);
