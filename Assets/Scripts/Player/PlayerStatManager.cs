@@ -96,7 +96,6 @@ public class PlayerStatManager : MonoBehaviour
     // take damage
     public void TakeDamage(float damageAmount)
     {
-        Debug.Log("dealing " + damageAmount);
         // don't take damage if we are un able to
         if (damageCooldown <= 0)
         {

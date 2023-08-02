@@ -64,9 +64,9 @@ public class SimpleMusicManager : MonoBehaviour
         
         if (mood == MusicMoods.combat)
         {
-            int i = Random.Range(0, 1);
-            if (i == 1) musicSource.clip = combatA;
-            if (i == 0) musicSource.clip = combatB;
+            int i = Random.Range(0, 2);
+            if (i == 0) musicSource.clip = combatA;
+            if (i == 1) musicSource.clip = combatB;
             musicSource.Play();
         }
 

@@ -176,7 +176,11 @@ public class PlayerRageManager : MonoBehaviour
                     // refill so we are using maximum ammo on all weapons
                     weapon.GetComponent<WeaponClass>().currentMagazine = weapon.GetComponent<WeaponClass>().maxMagazine;
                     // make the music request
-                    SimpleMusicManager.instance.desiredMood = SimpleMusicManager.MusicMoods.godwalking;
+                    if (!godwalkMusicRequestMade)
+                    {
+                        godwalkMusicRequestMade = true;
+                        SimpleMusicManager.instance.desiredMood = SimpleMusicManager.MusicMoods.godwalking;
+                    }
                 }
             }
 
@@ -186,6 +190,7 @@ public class PlayerRageManager : MonoBehaviour
             // when do we end godwalking?
             if (rageAmount <= 0)
             {
+                godwalkMusicRequestMade = false;
                 // reset the delta & additional
                 godwalkerReductionDelta = originalReductionDelta; // reset
                 godwalkerReductionDeltaAdditional = originalAdditional;
