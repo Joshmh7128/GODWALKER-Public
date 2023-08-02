@@ -73,7 +73,7 @@ public class PlayerRageManager : MonoBehaviour
     }
 
     // public function to add rage
-    public void AddRage(float amount)
+    public void AddRage(float amount, bool isKill = false)
     {
         if (rageAmount + amount <= maxRage)
         {
@@ -84,8 +84,16 @@ public class PlayerRageManager : MonoBehaviour
         {
             // add to our overRage to increase our godwalking level
             overRage += amount;
-            // then heal our HP at a constant rate
-            PlayerStatManager.instance.AddHealth(15f);
+            
+            /// then heal our HP at specific rates while in this mode
+            // if it is not a kill, add 2 HP per shot hit
+            if (!isKill)
+                PlayerStatManager.instance.AddHealth(1f);
+
+            // if it is a kill, add 15 HP
+            if (isKill)
+                PlayerStatManager.instance.AddHealth(10f);
+
         }
 
         rageAmount = Mathf.Clamp(rageAmount, 0, maxRage);

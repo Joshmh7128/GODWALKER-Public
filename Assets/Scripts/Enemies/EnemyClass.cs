@@ -649,7 +649,7 @@ public abstract class EnemyClass : MonoBehaviour
     // make sure we don't fly across the map like crazy
     void SlowVelocity()
     {
-        if (navMeshAgent.velocity.magnitude > 0)
+        if (navMeshAgent && navMeshAgent.velocity.magnitude > 0)
         {
             navMeshAgent.velocity -= -Vector3.one * Time.fixedDeltaTime * 3f;
         }
