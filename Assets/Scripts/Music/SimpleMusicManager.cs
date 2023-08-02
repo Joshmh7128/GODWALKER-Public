@@ -18,9 +18,13 @@ public class SimpleMusicManager : MonoBehaviour
     public MusicMoods currentMood;
     public MusicMoods desiredMood;
 
+    // our music tracks
     [SerializeField] AudioClip intro, combatA, combatB, outro, explore, godwalking;
 
-    [SerializeField] AudioSource musicSource; // plays music
+    // our stings
+    [SerializeField] AudioClip combatCompleteSting; 
+
+    [SerializeField] AudioSource musicSource, stingSource; // plays our sounds
 
     // setup our instance
     public static SimpleMusicManager instance;
@@ -93,5 +97,11 @@ public class SimpleMusicManager : MonoBehaviour
         
         // then set our current mood
         currentMood = mood;
+    }
+
+    public void RequestSting()
+    {
+        stingSource.clip = combatCompleteSting;
+        stingSource.Play();
     }
 }

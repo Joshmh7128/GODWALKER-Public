@@ -523,7 +523,7 @@ public class ArenaHandler : MonoBehaviour
             CheckCombatCompletion();
             // play our music
             SimpleMusicManager.instance.PlaySong(SimpleMusicManager.MusicMoods.explore);
-
+            
             StartCoroutine(ShowWaveMessage("Combat Complete"));
 
             doorParent.gameObject.SetActive(false);
