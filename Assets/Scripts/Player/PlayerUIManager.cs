@@ -20,7 +20,8 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] GameObject extraCanvasGroup; // our extra canvas group
     [SerializeField] Slider escFillSlider; // shows how long it takes to reset the game to the main menu
     [SerializeField] GameObject mainMenuResetPrefab; // prefab we use to reset to the main menu
-    [SerializeField] Text versionNum; 
+    [SerializeField] Text versionNum;
+    public GameObject outOfAmmoDisplay; // show when we're out of ammo
 
     // start
     private void Start()

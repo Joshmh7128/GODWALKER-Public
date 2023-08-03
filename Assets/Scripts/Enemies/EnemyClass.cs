@@ -500,11 +500,12 @@ public abstract class EnemyClass : MonoBehaviour
     // function to be called within all GetHurt() functions to make us flicker
     public IEnumerator HurtFlash() 
     {
+        Debug.Log("hurt flash");
         // set all of our renderers to the hurtflash
         foreach (Renderer renderer in renderers)
         {
-            if (renderer.gameObject.transform.root == transform)
-            renderer.material = Resources.Load("Hurt Flash.mat", typeof(Material)) as Material;
+            // if (renderer.gameObject.transform.root == transform)
+            renderer.material = Resources.Load("Hurt Flash", typeof(Material)) as Material;
         }
         // wait about 0.25 of a second
         yield return new WaitForSecondsRealtime(0.06f);

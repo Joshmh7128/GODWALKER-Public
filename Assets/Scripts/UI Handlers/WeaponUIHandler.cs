@@ -16,6 +16,7 @@ public class WeaponUIHandler : MonoBehaviour
     Vector3 reticleLeftOrigin, reticleRightOrigin, reticleTopOrigin, reticleBottomOrigin, reticleScalerScaleOrigin; // the four origin points of our reticles
     [SerializeField] float reticleSpreadResponseMagnitude = 100f; // how much our reticles represent the spread
     [SerializeField] Text ammoText; // displays the ammo in numerical form for us
+    
 
     // run on start to setup our weapon
     void SetupUI()
@@ -61,10 +62,16 @@ public class WeaponUIHandler : MonoBehaviour
             if (PlayerRageManager.instance.rageLevel != PlayerRageManager.RageLevels.WALKER)
             {
                 if (weaponClass.currentMagazine > 0)
+                {
                     ammoText.text = weaponClass.currentMagazine + " / " + weaponClass.maxMagazine;
-
+                    PlayerUIManager.instance.outOfAmmoDisplay.SetActive(false);
+                }
                 if (weaponClass.currentMagazine <= 0)
-                    ammoText.text = "NO AMMO! SWAP!";
+                {
+                    ammoText.text = "0 / " + weaponClass.maxMagazine;
+                    // show that we're out of ammo on the screen
+                    PlayerUIManager.instance.outOfAmmoDisplay.SetActive(true);
+                }
             } else if (PlayerRageManager.instance.rageLevel == PlayerRageManager.RageLevels.WALKER)
             {
                 ammoText.text = "UNLIMITED";
