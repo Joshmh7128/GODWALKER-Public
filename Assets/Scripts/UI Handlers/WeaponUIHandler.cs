@@ -70,7 +70,8 @@ public class WeaponUIHandler : MonoBehaviour
                 {
                     ammoText.text = "0 / " + weaponClass.maxMagazine;
                     // show that we're out of ammo on the screen
-                    PlayerUIManager.instance.outOfAmmoDisplay.SetActive(true);
+                    if (!PlayerRageManager.instance.godmoding)
+                        PlayerUIManager.instance.outOfAmmoDisplay.SetActive(true);
                 }
             } else if (PlayerRageManager.instance.rageLevel == PlayerRageManager.RageLevels.WALKER)
             {
