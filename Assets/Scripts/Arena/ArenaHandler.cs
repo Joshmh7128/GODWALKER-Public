@@ -356,7 +356,7 @@ public class ArenaHandler : MonoBehaviour
             }
             else if (waveParents.Count == 1)
             {
-                // StartCoroutine(ShowWaveMessage("Final Wave Incoming"));
+                StartCoroutine(ShowWaveMessage("Final Wave Incoming"));
             }
 
             yield return new WaitForSecondsRealtime(waveWaitTime);
