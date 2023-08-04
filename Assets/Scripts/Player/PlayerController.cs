@@ -370,7 +370,7 @@ public class PlayerController : MonoBehaviour
         playerJumpVelocity = 0;
         knockbackVector = direction.normalized * force;
         // always knock us up
-        knockbackVector = new Vector3(knockbackVector.x, knockbackVector.y + 2f, knockbackVector.z);
+        knockbackVector = new Vector3(knockbackVector.x, knockbackVector.y + 1f, knockbackVector.z);
     }
 
     // targets for enemies to aim at
