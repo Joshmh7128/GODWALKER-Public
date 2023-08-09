@@ -38,7 +38,11 @@ public class ManualArenaStarter : MonoBehaviour
         if (!started)
         {
             // disable all tooltips if they are on
-            TooltipHandler.instance.SetTooltip(TooltipHandler.Tooltips.none);
+            try
+            {
+                TooltipHandler.instance.SetTooltip(TooltipHandler.Tooltips.none);
+            }
+            catch { }
 
             musicObject.SetActive(true);
 
