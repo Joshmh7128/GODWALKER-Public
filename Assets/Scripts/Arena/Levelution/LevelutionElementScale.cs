@@ -22,9 +22,15 @@ public class LevelutionElementScale : LevelutionElement
         if (useY) targetLocalScale.y = transform.localScale.y;
         if (useZ) targetLocalScale.z = transform.localScale.z;
 
-        canScale = true;
+        canScale = false;
+        StartCoroutine(WaitTime());
     }
 
+    IEnumerator WaitTime()
+    {
+        yield return new WaitForSecondsRealtime(waitTime);
+        canScale = true;
+    }
     private void Update()
     {
         // if we can scale...

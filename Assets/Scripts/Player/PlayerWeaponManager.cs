@@ -373,7 +373,7 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         foreach (GameObject weapon in weapons)
         {
-            weapon.GetComponent<WeaponClass>().rageMultiplier -= 0.1f;
+            weapon.GetComponent<WeaponClass>().rageMultiplier -= 0.2f;
             // the player has carried this weapon forward. they used it
             if (PlayerRunStatTracker.instance.weaponUsage.ContainsKey(weapon.GetComponent<WeaponClass>().weaponName))
             {

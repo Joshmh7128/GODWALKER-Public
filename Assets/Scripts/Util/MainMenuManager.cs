@@ -9,14 +9,14 @@ using System.Linq;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI aimSensitivityText, volumeText;
-    [SerializeField] Slider aimSenseSlider, volumeSlider;
+    [SerializeField] TextMeshProUGUI aimSensitivityText, volumeText, musicVolumeText;
+    [SerializeField] Slider aimSenseSlider, volumeSlider, musicVolumeSlider;
     [SerializeField] GameObject mainParent, optionsParent, creditsParent, realThanks, funnyThanks;
     [SerializeField] TMP_InputField senseInput;
     [SerializeField] Toggle quickStartToggle, heightScaleToggle, dataToggle; // do we quick start?
     [SerializeField] AudioMixer audioMixer; // our audio mixer
 
-    float aimSensitivity, volume;
+    float aimSensitivity, volume, musicVolume;
 
     private void Start()
     {
@@ -28,6 +28,11 @@ public class MainMenuManager : MonoBehaviour
         // set volume
         volume = PlayerPrefs.GetFloat("masterVolume", 50);
         volumeSlider.value = volume;
+
+        musicVolume = PlayerPrefs.GetFloat("musicVolume", 50);
+        musicVolumeSlider.value = musicVolume;
+
+        musicVolumeText.text = "Music Level: " + musicVolume.ToString();
         volumeText.text = "Volume Level: " + volume.ToString();
 
         if (PlayerPrefs.GetString("QuickStart", "off") == "on")
@@ -163,8 +168,13 @@ public class MainMenuManager : MonoBehaviour
         volume = volumeSlider.value;
         volumeText.text = "Volume Level: " + volume.ToString();
         PlayerPrefs.SetFloat("masterVolume", volume);
-        Debug.Log(volume);
         audioMixer.SetFloat("MasterVol", Mathf.Log10(volume / 100) * 20);
+        
+        // then music volume
+        musicVolume = musicVolumeSlider.value;
+        musicVolumeText.text = "Music Volume Level: " + musicVolume.ToString();
+        PlayerPrefs.SetFloat("musicVolume", musicVolume);
+        audioMixer.SetFloat("MusicVol", Mathf.Log10(musicVolume / 100) * 20);
         
     }
 }
