@@ -167,10 +167,10 @@ public class PlayerRageManager : MonoBehaviour
             rageVignette.color = godwalkingColor;
             sliderImage.color = godwalkingColor;
             // reduce our rage by the amount we are spending
-            rageAmount -= rageReductionDeltas[(int)rageLevel] * Time.fixedDeltaTime;
+            rageAmount -= rageReductionDeltas[(int)rageLevel] * Time.fixedDeltaTime * currentWeaponOverRageCoefficient;
             // reduce our overrage
             if (overRage > 0)
-            overRage -= overRageDeltas[(int)rageLevel] * Time.fixedDeltaTime;
+            overRage -= overRageDeltas[(int)rageLevel] * Time.fixedDeltaTime * currentWeaponOverRageCoefficient;
             // refill HP
             // PlayerStatManager.instance.AddHealth(20 * Time.fixedDeltaTime);
             // if we're godwalking raise our speedboost
