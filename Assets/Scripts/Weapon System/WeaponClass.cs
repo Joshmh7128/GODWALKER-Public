@@ -154,7 +154,7 @@ public abstract class WeaponClass : MonoBehaviour
         // get our direction to our target
         Vector3 shotDirection = PlayerCameraController.instance.AimTarget.position - muzzleOrigin.position;
         // add to our shot direction based on our spread
-        Vector3 modifiedShotDirection = new Vector3(shotDirection.x + Random.Range(-spreadX, spreadX), shotDirection.y + Random.Range(-spreadY, spreadY), shotDirection.z).normalized;
+        Vector3 modifiedShotDirection = new Vector3(shotDirection.x + Random.Range(-spreadX, spreadX), shotDirection.y + Random.Range(-spreadY, spreadY), shotDirection.z + Random.Range(-spreadX, spreadX)).normalized;
         Vector3 finalShotDir = new Vector3(modifiedShotDirection.x, modifiedShotDirection.y, modifiedShotDirection.z);
         // instantiate and shoot our projectile in that direction
         GameObject bullet = Instantiate(bulletPrefab, muzzleOrigin.position, Quaternion.LookRotation(finalShotDir.normalized), null);
