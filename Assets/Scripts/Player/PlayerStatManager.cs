@@ -18,6 +18,7 @@ public class PlayerStatManager : MonoBehaviour
     // our main public variables
     public float health, maxHealth; // the player's health
     public float damageCooldown, damageCooldownMax, damageToRageCoefficient = 1; // how long we are unable to take damage for after taking damage
+    public float damageMultiplier = 1; // how much is our damage being multiplied? this changes both damage and rage reduction, and is modified in the FinalRoomHandler
 
     // our UI variables
     [SerializeField] CanvasGroup hurtUIGroup, lifeGainUIGroup, fadeUIGroup; // flash this when we take damage
@@ -107,16 +108,16 @@ public class PlayerStatManager : MonoBehaviour
                 // if we are not godwalking, take health damage
                 if (!PlayerRageManager.instance.godmoding)
                 {
-                    health -= damageAmount;
+                    health -= damageAmount * damageMultiplier;
 
-                    PlayerRunStatTracker.instance.damageTaken += (int)damageAmount * (PlayerRunStatTracker.instance.runsCompleted + 1);
+                    PlayerRunStatTracker.instance.damageTaken += (int)damageAmount * (int)damageMultiplier;
                 }
 
                 // if we are godwalking, take meter damage
                 if (PlayerRageManager.instance.godmoding)
                 {
-                    PlayerRageManager.instance.rageAmount -= damageAmount * damageToRageCoefficient;
-                    PlayerRunStatTracker.instance.godwalkerDamageTaken += (int)damageAmount * (PlayerRunStatTracker.instance.runsCompleted + 1);
+                    PlayerRageManager.instance.rageAmount -= damageAmount * damageToRageCoefficient * damageMultiplier;
+                    PlayerRunStatTracker.instance.godwalkerDamageTaken += (int)damageAmount * (int)damageMultiplier;
                 }
             }
         }
