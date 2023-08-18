@@ -32,7 +32,7 @@ public class SaveData
         "Plasma Sniper",
         "Super Shotgun",
         "Sniper",
-        "Rocket Launcher",
+        "Seeking Launcher",
         "Rocket Pistol",
         "Sniper",
         "Slagbolt",

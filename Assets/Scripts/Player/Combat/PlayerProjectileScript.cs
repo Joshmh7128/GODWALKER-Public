@@ -387,37 +387,41 @@ public class PlayerProjectileScript : MonoBehaviour
         // slow down our speed
         speed = speed * 0.5f;
 
-        // if we are homing, set homing target to nearest enemy in our active handler's active enemy transform parent 
-        Transform localTarget = arenaManager.activeArena.activeParent.GetChild(0); 
-        // loop through and find the closest active enemy
-        foreach(Transform enemy in arenaManager.activeArena.activeParent)
+        // only start homing if we have an active arena
+        if (arenaManager.activeArena)
         {
-            // if the distance from this bullet to the enemy is lower than our local target, set that. also, make sure they are not invincible
-            if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, localTarget.position) && !enemy.GetComponent<EnemyClass>().invincible)
-                localTarget = enemy;
-        }
-        
-        homingTarget = localTarget;
-
-        // if we are homing to the 2nd closest target, do the same loop but exclude our localTarget
-        Transform secondTarget = arenaManager.activeArena.activeParent.GetChild(0);
-        if (secondHome)
-        {
+            // if we are homing, set homing target to nearest enemy in our active handler's active enemy transform parent 
+            Transform localTarget = arenaManager.activeArena.activeParent.GetChild(0);
             // loop through and find the closest active enemy
             foreach (Transform enemy in arenaManager.activeArena.activeParent)
             {
-                // if the distance from this bullet to the enemy is lower than our local target, set that
-                if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, secondTarget.position) && enemy.gameObject != localTarget.gameObject && !enemy.GetComponent<EnemyClass>().invincible)
-                    secondTarget = enemy;
+                // if the distance from this bullet to the enemy is lower than our local target, set that. also, make sure they are not invincible
+                if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, localTarget.position) && !enemy.GetComponent<EnemyClass>().invincible)
+                    localTarget = enemy;
             }
 
-            // if (localTarget == secondTarget) Debug.LogError("Homing Projectile has origin Homing target");
+            homingTarget = localTarget;
 
-            // since this is a 2nd home, look directly at the second target 
-            Vector3 direction = secondTarget.position - transform.position;
-            transform.rotation = Quaternion.LookRotation(direction);
-            homingTarget = secondTarget;
+            // if we are homing to the 2nd closest target, do the same loop but exclude our localTarget
+            Transform secondTarget = arenaManager.activeArena.activeParent.GetChild(0);
+            if (secondHome)
+            {
+                // loop through and find the closest active enemy
+                foreach (Transform enemy in arenaManager.activeArena.activeParent)
+                {
+                    // if the distance from this bullet to the enemy is lower than our local target, set that
+                    if (Vector3.Distance(transform.position, enemy.position) < Vector3.Distance(transform.position, secondTarget.position) && enemy.gameObject != localTarget.gameObject && !enemy.GetComponent<EnemyClass>().invincible)
+                        secondTarget = enemy;
+                }
 
+                // if (localTarget == secondTarget) Debug.LogError("Homing Projectile has origin Homing target");
+
+                // since this is a 2nd home, look directly at the second target 
+                Vector3 direction = secondTarget.position - transform.position;
+                transform.rotation = Quaternion.LookRotation(direction);
+                homingTarget = secondTarget;
+
+            }
         }
     }
 
