@@ -234,6 +234,7 @@ public class PlayerWeaponManager : MonoBehaviour
         weapons[currentWeaponInt].SetActive(true);
 
         currentWeapon = weapons[currentWeaponInt].GetComponent<WeaponClass>();
+        currentWeapon.OnBecomeCurrentWeapon(); // I am become weapon, destroyer of gods
         StartCoroutine(SwitchWeapon());
 
         // then find and initiate the weapon quick info to make it run a reset
@@ -373,7 +374,7 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         foreach (GameObject weapon in weapons)
         {
-            weapon.GetComponent<WeaponClass>().rageMultiplier -= 0.1f;
+            weapon.GetComponent<WeaponClass>().rageMultiplier -= 0.15f;
             // the player has carried this weapon forward. they used it
             if (PlayerRunStatTracker.instance.weaponUsage.ContainsKey(weapon.GetComponent<WeaponClass>().weaponName))
             {

@@ -273,7 +273,7 @@ public class PlayerProjectileScript : MonoBehaviour
             {
                 explosion = Instantiate(playerExplosionPrefab, deathPos, Quaternion.identity, null).GetComponent<PlayerExplosionScript>();
                 explosion.damage = damage;
-                explosion.rageAdd = rageAdd;
+                explosion.rageAdd = rageAdd/3;
             }
 
             PlayerShockExplosionScript shock = null;
@@ -281,7 +281,7 @@ public class PlayerProjectileScript : MonoBehaviour
             {
                 shock = Instantiate(playerShockExplosionPrefab, deathPos, Quaternion.identity, null).GetComponent<PlayerShockExplosionScript>();
                 shock.damage = damage;
-                shock.rageAdd = rageAdd;
+                shock.rageAdd = rageAdd/3;
             }
             
             // does this bullet involve teleporting?

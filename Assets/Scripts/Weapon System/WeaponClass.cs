@@ -31,6 +31,7 @@ public abstract class WeaponClass : MonoBehaviour
     public bool reloading; // are we reloading?
     // our weapon's damage and level
     public float level; // whenever we set the level, update our stats 
+    public float rageCoefficient = 1; // when we are held, how does this change the constant rage degeneration?
 
     public float damage = 1, damageLevelMultiplier; // our damage and the amount it is modified by upgrades
     public List<float> damageMods; 
@@ -99,6 +100,9 @@ public abstract class WeaponClass : MonoBehaviour
     // the start that is called on every weapon
     public void Start()
     {
+        // make sure the rage coefficient is not 0
+        if (rageCoefficient == 0) rageCoefficient = 1;
+
         // get our weapon handler
         weaponUIHandler = GetComponent<WeaponUIHandler>();
         // set our original spread reduct
@@ -309,5 +313,11 @@ public abstract class WeaponClass : MonoBehaviour
                 // Debug.LogError(gameObject.name + " WeaponClass has a level of 0, check where this is being created! No stats are being set");
             }
         } 
+    }
+
+    // runs when this weapon becomes the current active weapon
+    public void OnBecomeCurrentWeapon()
+    {
+        PlayerRageManager.instance.currentWeaponOverRageCoefficient = rageCoefficient;
     }
 }

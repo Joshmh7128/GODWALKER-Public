@@ -12,6 +12,10 @@ public class ManualArenaStarter : MonoBehaviour
     private void Start()
     {
         musicObject = SimpleMusicManager.instance.gameObject;
+        // make sure we get our arena handler
+        if (!arenaHandler)
+            // get our active arena and use it
+            arenaHandler = FindObjectOfType<ArenaHandler>();
     }
 
     private void Update()

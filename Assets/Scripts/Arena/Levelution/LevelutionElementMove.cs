@@ -20,6 +20,13 @@ public class LevelutionElementMove : LevelutionElement
         if (useY) targetWorldPos.y = transform.position.y;
         if (useZ) targetWorldPos.z = transform.position.z;
 
+        canMove = false;
+        StartCoroutine(WaitTime());
+    }
+
+    IEnumerator WaitTime()
+    {
+        yield return new WaitForSecondsRealtime(waitTime);
         canMove = true;
     }
 
