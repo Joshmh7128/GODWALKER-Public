@@ -139,10 +139,12 @@ public class PlayerController : MonoBehaviour
                     remainingJumps--; // reduce jumps
                     groundCheckCooldown = groundCheckCooldownMax; // make sure we set the cooldown check
                     // instantiate a visual effect
-                    if (remainingJumps == 0) 
-                        Instantiate(lastJumpVFX, transform.position, jumpVFX.transform.rotation, transform);
-                    else Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation, transform);
-
+                    if (jumpVFX)
+                    {
+                        if (remainingJumps == 0)
+                            Instantiate(lastJumpVFX, transform.position, jumpVFX.transform.rotation, transform);
+                        else Instantiate(jumpVFX, transform.position, jumpVFX.transform.rotation, transform);
+                    }
                 }
             }
         }

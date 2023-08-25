@@ -55,6 +55,11 @@ public class DeathPit : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
             counting = true;
+
+        if (other.gameObject.tag == "Enemy")
+        {
+            other.gameObject.GetComponent<EnemyClass>().GetHurt(100000f, EnemyClass.ElementalProtection.none);
+        }
     }
 
     private void OnCollisionExit(Collision other)

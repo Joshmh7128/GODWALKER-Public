@@ -14,14 +14,17 @@ public class EnemyBehaviour_RandomMovement : EnemyBehaviour
         complete = false;
         Transform playerTransform = PlayerController.instance.transform;
 
-        // move to a random spot within a range
-        destPos = transform.position + new Vector3(Random.Range(-randomMoveRadius, randomMoveRadius), 0, Random.Range(-randomMoveRadius, randomMoveRadius));
         // if we move around the player...
         if (moveAroundPlayer)
         {
             destPos = playerTransform.position + new Vector3(Random.Range(-randomMoveRadius, randomMoveRadius), 0, Random.Range(-randomMoveRadius, randomMoveRadius));
             destPos = new Vector3(destPos.x, playerTransform.position.y, destPos.z);
+        } else if (!moveAroundPlayer)
+        {
+            // move to a random spot within a range
+            destPos = transform.position + new Vector3(Random.Range(-randomMoveRadius, randomMoveRadius), 0, Random.Range(-randomMoveRadius, randomMoveRadius));
         }
+
         enemyClass.navMeshAgent.SetDestination(destPos);
         enemyClass.navMeshAgent.speed = speed;
         // return
