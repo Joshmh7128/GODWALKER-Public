@@ -177,13 +177,19 @@ public class PlayerController : MonoBehaviour
         }
 
         // jump calculations
-        if (gravityMidairMultiplier == 0) { gravityValue = gravity * gravityUpMultiplier * gravityDownMultiplier; } else { gravityValue = gravity * gravityMidairMultiplier; }
+        if (gravityMidairMultiplier == 0) 
+        { 
+            gravityValue = gravity * gravityUpMultiplier * gravityDownMultiplier; 
+        }
+        else 
+        { 
+            gravityValue = gravity * gravityMidairMultiplier; 
+        }
 
         if (groundedHit.transform == null)
         {
             playerJumpVelocity += gravityValue * Time.fixedDeltaTime;
             grounded = false;
-
         }
 
         if (groundedHit.transform != null)
@@ -194,7 +200,7 @@ public class PlayerController : MonoBehaviour
                 if (landVFXcount <= 0)
                 {
                     Instantiate(landVFX, transform.position, landVFX.transform.rotation, null);
-                    landVFXcount = 30f;
+                    landVFXcount = 60f;
                 }
                 remainingJumps = maxJumps;
                 playerJumpVelocity = 0f;
@@ -242,6 +248,9 @@ public class PlayerController : MonoBehaviour
         float moveZ = Mathf.Clamp(moveH.z + moveV.z, -1, 1);
         // process all of our final moves
         move = new Vector3(moveX, verticalVelocity / moveSpeed, moveZ);
+        // add our normal downward slide for slopes that are more than 45 degrees in angle
+        move += OverflowNormalSlopeAdjustment();
+        // adjust our velocity so that we are moving along a slope
         move = AdjustVelocityToSlope(move);
         finalMove = Vector3.Lerp(finalMove, move, moveLerpAxisDelta * Time.deltaTime);
         Vector3 clampedFinal = Vector3.ClampMagnitude(new Vector3(finalMove.x, move.y, finalMove.z), 1);
@@ -281,6 +290,31 @@ public class PlayerController : MonoBehaviour
         return velocity;
     }
 
+    // calculate normal downward slide for slopes that are more than 45 degrees in angle
+    RaycastHit slideHit;
+    Vector3 OverflowNormalSlopeAdjustment()
+    {
+        Vector3 velocity = Vector3.zero; // our motion that we are going to calculate and add to the player controller
+        // fire a ray downwards from the character
+        var ray = new Ray(transform.position, Vector3.down);
+
+        // check beneath us 
+        if (Physics.Raycast(ray, out slideHit, 2f, ignoreLayerMask, QueryTriggerInteraction.Ignore))
+        {
+            // if the y normal is more than the slope limit we've set on the character controller...
+            if (slideHit.normal.Absolute().x + slideHit.normal.Absolute().z > characterController.slopeLimit * 0.01 * 2)
+            {
+                // calculate the direction we need to slide by adding the slope normal vector to our current position, and calculating the direction
+                velocity = (transform.position + slideHit.normal) - transform.position;
+                Debug.Log("Sliding because can't walk on unstable surface! " + velocity);
+                velocity.y = 0;
+                return velocity;
+            }
+        }
+
+        // if the normal is within the slope limit, don't move us
+        return velocity;
+    }
 
     // our animation parent control
     void ProcessAnimationParentControl()

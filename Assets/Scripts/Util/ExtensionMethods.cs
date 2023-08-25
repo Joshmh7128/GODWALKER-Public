@@ -51,4 +51,11 @@ public static class ExtensionMethods
         return list[Random.Range(0, list.Count)];
     }
 
+    public static Vector3 Absolute(this Vector3 vector)
+    {
+        vector.x = Mathf.Abs(vector.x);
+        vector.y = Mathf.Abs(vector.y);
+        vector.z = Mathf.Abs(vector.z);
+        return vector;
+    }
 }
