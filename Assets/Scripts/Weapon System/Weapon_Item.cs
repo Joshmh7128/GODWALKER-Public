@@ -12,6 +12,7 @@ public class Weapon_Item : ItemClass
     [SerializeField] GameObject destroyVFX; // the vfx that we make when we get destroyed
     public bool discoverOnPickup; // should this item be discovered on pickup and modify the save file?
     [SerializeField] bool spinning; // is this a spinning weapon pickup?
+    [SerializeField] float spinSpeed; // how fast do we spin?
 
     // start
     private void Start()
@@ -31,7 +32,19 @@ public class Weapon_Item : ItemClass
         // if we are a spinning weapon, dont react to physics
         if (spinning)
         {
+            // make sure we dont react to physics
             gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        // run our base
+        base.FixedUpdate();
+        // then spin
+        if (spinning)
+        {
+            transform.Rotate(new Vector3(0, spinSpeed * Time.fixedDeltaTime, 0));
         }
     }
 
