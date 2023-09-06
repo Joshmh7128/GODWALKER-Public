@@ -11,6 +11,7 @@ public class Weapon_Item : ItemClass
     [SerializeField] Transform ourCanvas; // so we can make sure it is destroyed
     [SerializeField] GameObject destroyVFX; // the vfx that we make when we get destroyed
     public bool discoverOnPickup; // should this item be discovered on pickup and modify the save file?
+    [SerializeField] bool spinning; // is this a spinning weapon pickup?
 
     // start
     private void Start()
@@ -18,6 +19,20 @@ public class Weapon_Item : ItemClass
         // spawn the weapon model in
         GameObject g = Instantiate(weapon.GetComponent<WeaponClass>().weaponModel, modelParent);
         g.transform.localPosition = Vector3.zero;
+
+        // are we a spinner?
+        SpinnerCheck();
+
+    }
+
+    // is this a weapon pickup that is spinning
+    void SpinnerCheck()
+    {
+        // if we are a spinning weapon, dont react to physics
+        if (spinning)
+        {
+            gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        }
     }
 
     // update

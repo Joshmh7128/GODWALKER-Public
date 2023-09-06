@@ -146,12 +146,12 @@ public class TweenRoomHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoorMove, 50 * Time.fixedDeltaTime);
+        frontDoor.transform.position = Vector3.MoveTowards(transform.position + frontDoor.transform.position, frontDoorMove, 50 * Time.fixedDeltaTime);
 
         if (ready)
-            transform.position = Vector3.Lerp(transform.position, startPos, Time.fixedDeltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, startPos, 10 * Time.fixedDeltaTime);
         if (!ready)
-            transform.position = Vector3.Lerp(transform.position, lowerPos, Time.fixedDeltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, lowerPos, 10 * Time.fixedDeltaTime);
 
         if (!closed) TryClose();
     }
