@@ -510,6 +510,13 @@ public class ArenaHandler : MonoBehaviour
             door.CombatBegin();
         }
 
+        // tell our tween rooms to close
+        foreach (TweenRoomHandler room in FindObjectsOfType<TweenRoomHandler>())
+        {
+            room.ready = false;
+        }
+
+
     }
 
     // end combat here
@@ -527,6 +534,12 @@ public class ArenaHandler : MonoBehaviour
             StartCoroutine(ShowWaveMessage("Combat Complete"));
 
             doorParent.gameObject.SetActive(false);
+
+            // tell our tween rooms to open
+            foreach (TweenRoomHandler room in FindObjectsOfType<TweenRoomHandler>())
+            {
+                room.ready = true;
+            }
 
             // activate all of our elements
             if (levelutionHandler)

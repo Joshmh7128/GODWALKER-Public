@@ -15,7 +15,7 @@ public class PlayerUIManager : MonoBehaviour
     PlayerWeaponManager weaponManager;
 
     // ui elements
-    [SerializeField] CanvasGroup infoCanvasGroup; // the body part canvas group we'll be interacting with
+    [SerializeField] CanvasGroup infoCanvasGroup, fadeCanvasGroup; // the body part canvas group we'll be interacting with
     [SerializeField] HorizontalLayoutGroup abilityLayoutGroup; // our ability layout group
     [SerializeField] GameObject extraCanvasGroup; // our extra canvas group
     [SerializeField] Slider escFillSlider; // shows how long it takes to reset the game to the main menu
@@ -49,6 +49,8 @@ public class PlayerUIManager : MonoBehaviour
     {
         // all things we need to process related to our input
         ProcessInput();
+        // hide our fade canvas if it is more than 0
+        HideCanvas();
     }
 
     // update our ability UI
@@ -116,31 +118,13 @@ public class PlayerUIManager : MonoBehaviour
         Destroy(PlayerController.instance.gameObject);
     }
 
-    // process our inputs
-    private void ProcessInput()
-    {
-        // whenever we press tab, show the entire body part canvas
-        if (Input.GetKey(KeyCode.Tab))
-        {
-            try { ShowCanvas(); } catch { }
-        } else
-        {
-            try { HideCanvas(); } catch { }
-        }
-    }
-
-    // show our canvas
-    private void ShowCanvas()
-    {
-        infoCanvasGroup.alpha = 1;
-    }
-
     // fading out our canvas
     private void HideCanvas()
     {
-        if (infoCanvasGroup.alpha > 0)
+
+        if (fadeCanvasGroup.alpha > 0)
         {
-            infoCanvasGroup.alpha -= 0.05f;
+            fadeCanvasGroup.alpha -= 0.05f;
         }
     }
 

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a05f7c97fe68a4843b94f7e58995c5ac, type: 3}
-  m_Name: New Volumetric Light Profile
+  m_Name: Negative Volume
   m_EditorClassIdentifier: 
   blendMode: 1
   raymarchPreset: 0
-  raymarchQuality: 3
+  raymarchQuality: 1
   raymarchMinStep: 0.1
   raymarchMaxSteps: 200
   jittering: 0.5
   dithering: 1
   useBlueNoise: 0
   animatedBlueNoise: 1
-  renderQueue: 3101
+  renderQueue: 3000
   sortingLayerID: 0
   sortingOrder: 0
   flipDepthTexture: 0
@@ -40,9 +40,9 @@ MonoBehaviour:
   noiseStrength: 1
   noiseScale: 5
   noiseFinalMultiplier: 1
-  density: 0.2
+  density: 1
   mediumAlbedo: {r: 0, g: 0, b: 0, a: 1}
-  brightness: 0.7
+  brightness: 1.03
   attenuationMode: 1
   attenCoefConstant: 4.32
   attenCoefLinear: 0

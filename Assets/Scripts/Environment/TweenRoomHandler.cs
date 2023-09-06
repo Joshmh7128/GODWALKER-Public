@@ -18,6 +18,8 @@ public class TweenRoomHandler : MonoBehaviour
     [SerializeField] bool reduceRage; // do we weaken the player?
     [SerializeField] bool doesAdvanceCombatPos; // does this room advance the current generation position?
     [SerializeField] bool requestReset; // do we request a reset on the player generation manager when we use this door?
+    public bool ready; // ready?
+    [SerializeField] Vector3 startPos, lowerPos; // our start and lower positions
 
     [SerializeField] GameObject backDoor, frontDoor, frontDoorBlocker, internalElements; // our doors
     Vector3 frontDoorMove; // where we want our front door to move
@@ -29,6 +31,11 @@ public class TweenRoomHandler : MonoBehaviour
         frontDoorMove = frontDoor.transform.position;
         // check if the current position is divisible by 3
         Invoke("ChooseDestination", 1f);
+
+        // calculate our positions
+        startPos = transform.position;
+        lowerPos = startPos - Vector3.up * 100;
+
     }
 
 
@@ -140,6 +147,11 @@ public class TweenRoomHandler : MonoBehaviour
     private void FixedUpdate()
     {
         frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoorMove, 50 * Time.fixedDeltaTime);
+
+        if (ready)
+            transform.position = Vector3.Lerp(transform.position, startPos, Time.fixedDeltaTime);
+        if (!ready)
+            transform.position = Vector3.Lerp(transform.position, lowerPos, Time.fixedDeltaTime);
 
         if (!closed) TryClose();
     }
