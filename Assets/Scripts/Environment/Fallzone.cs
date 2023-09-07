@@ -15,6 +15,8 @@ public class Fallzone : MonoBehaviour
             // teleport
             PlayerController.instance.Teleport(new Vector3(PlayerController.instance.transform.position.x, dropHeight, PlayerController.instance.transform.position.z));
             PlayerUIManager.instance.fadeCanvasGroup.alpha = 1.0f;
+            foreach (TweenRoomHandler t in FindObjectsOfType<TweenRoomHandler>())
+                t.ready = false;
         }
     }
 

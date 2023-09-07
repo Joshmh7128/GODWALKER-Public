@@ -148,9 +148,9 @@ public class TweenRoomHandler : MonoBehaviour
         frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoor.transform.position + frontDoorMove, 50 * Time.fixedDeltaTime);
 
         if (ready && moves)
-            transform.position = Vector3.MoveTowards(transform.position, startPos, 10 * Time.fixedDeltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, startPos, 100 * Time.fixedDeltaTime);
         if (!ready && moves)
-            transform.position = Vector3.MoveTowards(transform.position, lowerPos, 10 * Time.fixedDeltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, lowerPos, 100 * Time.fixedDeltaTime);
 
         if (!closed) TryClose();
     }
