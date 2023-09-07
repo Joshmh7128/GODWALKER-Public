@@ -18,17 +18,16 @@ public class TweenRoomHandler : MonoBehaviour
     [SerializeField] bool reduceRage; // do we weaken the player?
     [SerializeField] bool doesAdvanceCombatPos; // does this room advance the current generation position?
     [SerializeField] bool requestReset; // do we request a reset on the player generation manager when we use this door?
-    public bool ready; // ready?
+    public bool ready, moves; // ready?
     [SerializeField] Vector3 startPos, lowerPos; // our start and lower positions
 
     [SerializeField] GameObject backDoor, frontDoor, frontDoorBlocker, internalElements; // our doors
-    Vector3 frontDoorMove; // where we want our front door to move
+    [SerializeField] Vector3 frontDoorStart, frontDoorMove; // where we want our front door to move
 
     private void Start()
     {
         // make this do not destroy
         DontDestroyOnLoad(gameObject);
-        frontDoorMove = frontDoor.transform.position;
         // check if the current position is divisible by 3
         Invoke("ChooseDestination", 1f);
 
@@ -146,11 +145,11 @@ public class TweenRoomHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        frontDoor.transform.position = Vector3.MoveTowards(transform.position + frontDoor.transform.position, frontDoorMove, 50 * Time.fixedDeltaTime);
+        frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoor.transform.position + frontDoorMove, 50 * Time.fixedDeltaTime);
 
-        if (ready)
+        if (ready && moves)
             transform.position = Vector3.MoveTowards(transform.position, startPos, 10 * Time.fixedDeltaTime);
-        if (!ready)
+        if (!ready && moves)
             transform.position = Vector3.MoveTowards(transform.position, lowerPos, 10 * Time.fixedDeltaTime);
 
         if (!closed) TryClose();
@@ -196,8 +195,7 @@ public class TweenRoomHandler : MonoBehaviour
         transform.position = Vector3.zero;
         // move to the player to our position minus their position
         PlayerController.instance.Teleport(Vector3.zero - playerDif - Vector3.up); // we subtract up from this to teleport to the EXACT location they are standing
-        // open front door
-        frontDoorMove = frontDoor.transform.position;
+
         // make the player's weapons worse
         if (reduceRage)
             PlayerWeaponManager.instance.ReduceRageMultiplier();
@@ -205,6 +203,8 @@ public class TweenRoomHandler : MonoBehaviour
         // perform a delayed load move of the room
         if (!requestReset)
         StartCoroutine(DelayedLoadMove());
+
+
 
         // turn off all tool tips if they are on
         TooltipHandler.instance.SetTooltip(TooltipHandler.Tooltips.none);
@@ -225,6 +225,7 @@ public class TweenRoomHandler : MonoBehaviour
             }
         }
 
+
         // if we want to reset, request a reset
         if (requestReset)
         {
@@ -240,8 +241,9 @@ public class TweenRoomHandler : MonoBehaviour
         SceneManager.LoadSceneAsync(targetNextScene, LoadSceneMode.Single);
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == targetNextScene);
         canClose = true;
-        yield return new WaitForSecondsRealtime(0.1f);
-        frontDoorMove = frontDoorMove - new Vector3(0, 50, 0);
+        yield return new WaitForSecondsRealtime(0f);        
+        // open front door
+        frontDoorMove = Vector3.down;
         WeaponQuickInfoHandler.instance.EffectivenessLowered();
         // then move this from the scene
         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());

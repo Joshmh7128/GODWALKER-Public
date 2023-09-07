@@ -13,6 +13,8 @@ public class Weapon_Item : ItemClass
     public bool discoverOnPickup; // should this item be discovered on pickup and modify the save file?
     [SerializeField] bool spinning; // is this a spinning weapon pickup?
     [SerializeField] float spinSpeed; // how fast do we spin?
+    [SerializeField] float bobIntensity, bobSpeed; // how big and fast do we bob
+    float currentBob;
 
     // start
     private void Start()
@@ -44,7 +46,8 @@ public class Weapon_Item : ItemClass
         // then spin
         if (spinning)
         {
-            transform.Rotate(new Vector3(0, spinSpeed * Time.fixedDeltaTime, 0));
+            modelParent.Rotate(new Vector3(0, spinSpeed * Time.fixedDeltaTime, 0));
+            modelParent.position += new Vector3(0, Mathf.Sin(currentBob += bobSpeed) * bobIntensity, 0);
         }
     }
 
