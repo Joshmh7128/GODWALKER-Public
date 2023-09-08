@@ -3,42 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TeleporterHandler : MonoBehaviour
-{ 
-    // script is made to handle the player's teleportation from it to it's partner
+{
+    // script exists to teleport player from room to room
+    public string nextRoom; // the room we are going to next
+    [SerializeField] GameObject visuals; // the parent object of all our teleporter visuals
 
-    PlayerController playerController;
-
-    [SerializeField] TeleporterHandler partner;
-    public float cooldown, cooldownMax = 2; // cooldown in seconds
-    
     private void Start()
     {
-        playerController = PlayerController.instance;
+        // make sure we dont destroy this script on load
+        DontDestroyOnLoad(this);
+
+        // make sure our teleporter is off
+        visuals.SetActive(false);
+
     }
 
-    private void FixedUpdate()
+    // call this when we activate the teleporter
+    public void ActivateTeleporter()
     {
-        if (cooldown >= 0) cooldown -= Time.deltaTime;
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-            if (cooldown <= 0)
-            {
-                TriggerTeleport();
-            }
+            // load the next scene
+            UnityEngine.SceneManagement.SceneManager.LoadScene(nextRoom);
+            // start our coroutine
+            StartCoroutine(SceneCheck());
+
         }
     }
 
-    // when the player collides with this teleporter, teleport the player to our partner, and then set both of our cooldowns
-    private void TriggerTeleport()
+    // teleports the player to 0,0,0 and makes sure we don't destroy until we are in the next scene
+    IEnumerator SceneCheck()
     {
-        playerController.Teleport(partner.transform.position + Vector3.up);
-        cooldown = cooldownMax;
-        partner.cooldown = cooldownMax;
+        // wait until the scene loads
+        yield return new WaitUntil(() => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == nextRoom);
+        // teleport the player
+        PlayerController.instance.Teleport(Vector3.zero);
+        // destroy ourselves
+        Destroy(gameObject);
     }
-
 
 }
