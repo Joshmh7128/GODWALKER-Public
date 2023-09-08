@@ -17,6 +17,7 @@ public class ArenaHandler : MonoBehaviour
     [SerializeField] GameObject summoningEffect; // the visual effect for where an enemy will be summoned
     GameObject previousSummon; // our previous summon
     [SerializeField] int activeGoal; // how many do we want active at once?
+    [SerializeField] GameObject arenaBarrier; // the barrier that stops the player from escaping the arena
     public bool combatBegun, combatComplete;
 
     // our list of spawn points
@@ -496,6 +497,10 @@ public class ArenaHandler : MonoBehaviour
     // start combat here - called from the associated doorclass
     public void StartCombat()
     {
+        // show the arena barrier
+        if (arenaBarrier)
+            arenaBarrier.SetActive(true);
+        // start combat
         combatBegun = true;
         // set ourselves as the active arena in the arena manager
         arenaManager.activeArena = this;
@@ -523,6 +528,9 @@ public class ArenaHandler : MonoBehaviour
         // end combat
         if (!combatComplete)
         {
+            // remove the arena barrier
+            if (arenaBarrier)
+                arenaBarrier.SetActive(false);
             // make sure we show that combat is complete
             combatComplete = true;
             CheckCombatCompletion();
