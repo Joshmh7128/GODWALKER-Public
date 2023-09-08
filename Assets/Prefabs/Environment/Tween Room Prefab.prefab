@@ -1957,18 +1957,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetNextScene: 
+  used: 0
   canClose: 0
   closed: 0
   reduceRage: 1
   doesAdvanceCombatPos: 1
   requestReset: 0
   ready: 1
+  moves: 0
   startPos: {x: 0, y: 0, z: 0}
   lowerPos: {x: 0, y: 0, z: 0}
   backDoor: {fileID: 15753996448019424}
   frontDoor: {fileID: 15753996392454766}
   frontDoorBlocker: {fileID: 5238011861075072175}
   internalElements: {fileID: 4455382567058895859}
+  frontDoorStart: {x: 0, y: 0, z: 0}
+  frontDoorMove: {x: 0, y: 0, z: 0}
 --- !u!1 &1552058785066599110
 GameObject:
   m_ObjectHideFlags: 0
@@ -2310,7 +2314,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3213153217036031747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.69, z: -3.9}
+  m_LocalPosition: {x: -0, y: 6.69, z: -1.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2329,7 +2333,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0, g: 1, b: 0.09811425, a: 1}
-  m_Intensity: 10
+  m_Intensity: 50
   m_Range: 33.203014
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

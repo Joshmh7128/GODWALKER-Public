@@ -13,7 +13,7 @@ public class TweenRoomHandler : MonoBehaviour
 
     public string targetNextScene; // this is the target scene that this will go to
 
-    bool used; // has this been used?
+    [SerializeField] bool used; // has this been used?
     [SerializeField] bool canClose, closed; // can we close this room?
     [SerializeField] bool reduceRage; // do we weaken the player?
     [SerializeField] bool doesAdvanceCombatPos; // does this room advance the current generation position?
@@ -147,7 +147,7 @@ public class TweenRoomHandler : MonoBehaviour
     {
         frontDoor.transform.position = Vector3.MoveTowards(frontDoor.transform.position, frontDoor.transform.position + frontDoorMove, 50 * Time.fixedDeltaTime);
 
-        if (ready && moves)
+        if (ready && moves && !used)
             transform.position = Vector3.MoveTowards(transform.position, startPos, 100 * Time.fixedDeltaTime);
         if (!ready && moves)
             transform.position = Vector3.MoveTowards(transform.position, lowerPos, 100 * Time.fixedDeltaTime);
