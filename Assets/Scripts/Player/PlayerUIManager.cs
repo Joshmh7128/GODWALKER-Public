@@ -119,10 +119,9 @@ public class PlayerUIManager : MonoBehaviour
     // fading out our canvas
     private void HideCanvas()
     {
-
         if (fadeCanvasGroup.alpha > 0)
         {
-            fadeCanvasGroup.alpha -= 0.05f;
+            fadeCanvasGroup.alpha -= 0.05f * Time.fixedDeltaTime;
         }
     }
 

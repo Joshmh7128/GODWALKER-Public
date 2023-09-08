@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class PlayerCameraController : MonoBehaviour
 {
@@ -23,6 +25,8 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] float normalFOV; // our normal FOV
     [SerializeField] Text aimSensitivityText; // display our current aim sensitivity
     [SerializeField] GameObject deathUI; // show that you have died
+    public float warpDelta; // how much we want our warp to change every frame
+    [SerializeField] Volume warpVolume; 
 
     // setup an instance
     public static PlayerCameraController instance;
@@ -170,6 +174,9 @@ public class PlayerCameraController : MonoBehaviour
     // for processing any field of view changes
     void ProcessCameraFOV()
     {
+        // do our warp
+        warpVolume.weight += warpDelta;
+
         // if we're in normal fov mode, lerp back to normal
         if (FOVMode == FOVModes.normal)
         {

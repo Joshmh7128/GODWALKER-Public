@@ -40,6 +40,9 @@ public class TeleporterHandler : MonoBehaviour
     {
         // wait until the scene loads
         yield return new WaitUntil(() => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == nextRoom);
+
+        PlayerUIManager.instance.fadeCanvasGroup.alpha = 1;
+
         // teleport the player
         PlayerController.instance.Teleport(Vector3.zero);
         // destroy ourselves
