@@ -15,13 +15,14 @@ public class TeleporterHandler : MonoBehaviour
 
         // make sure our teleporter is off
         visuals.SetActive(false);
-
+        gameObject.GetComponent<Collider>().enabled = false;
     }
 
     // call this when we activate the teleporter
     public void ActivateTeleporter()
     {
-
+        visuals.SetActive(true);
+        gameObject.GetComponent<Collider>().enabled = true;
     }
 
     private void OnTriggerEnter(Collider other)

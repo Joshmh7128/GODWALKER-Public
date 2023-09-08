@@ -515,8 +515,6 @@ public class ArenaHandler : MonoBehaviour
         {
             room.ready = false;
         }
-
-
     }
 
     // end combat here
