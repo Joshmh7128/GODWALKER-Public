@@ -536,6 +536,11 @@ public class ArenaHandler : MonoBehaviour
             if (doorParent)
                 doorParent.gameObject.SetActive(false);
 
+            // find and activate our teleporter
+            if (FindObjectOfType<TeleporterHandler>())
+                FindObjectOfType<TeleporterHandler>().ActivateTeleporter();
+
+
             // tell our tween rooms to open
             foreach (TweenRoomHandler room in FindObjectsOfType<TweenRoomHandler>())
             {
