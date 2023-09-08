@@ -12,13 +12,11 @@ public class TeleporterHandler : MonoBehaviour
     {
         // make sure we dont destroy this script on load
         DontDestroyOnLoad(this);
-
-        // make sure our teleporter is off
-        visuals.SetActive(false);
-        gameObject.GetComponent<Collider>().enabled = false;
+        
     }
 
     // call this when we activate the teleporter
+    // BY DEFAULT the teleporter's collider should be off an the visual should be off if we don't want the player to leave!
     public void ActivateTeleporter()
     {
         visuals.SetActive(true);
