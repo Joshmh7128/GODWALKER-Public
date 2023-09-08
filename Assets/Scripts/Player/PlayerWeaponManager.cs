@@ -255,20 +255,21 @@ public class PlayerWeaponManager : MonoBehaviour
         // set our cooldown
         pickupCooldown = pickupCooldownMax;
         // make sure we tell our current weapon it is being dropped
-        // currentWeapon.OnDrop();
+        currentWeapon.OnDrop();
         currentWeapon.CancelReload();
         // first do the weapon itself
-        // GameObject kill = weapons[currentWeaponInt];
+        GameObject kill = weapons[currentWeaponInt];
         // instantiate a copy of the weapon we are currently holding
-        // Weapon_Item copyItem = Instantiate(weaponItem, PlayerController.instance.animationRigParent.position + PlayerController.instance.animationRigParent.forward, Quaternion.identity, null).GetComponent<Weapon_Item>();
-        //GameObject copyWeapon = Instantiate(kill, copyItem.transform);
-        //copyWeapon.SetActive(false);
-        // copyItem.weapon = copyWeapon;
-        // copyItem.gameObject.GetComponent<Rigidbody>().velocity = PlayerController.instance.animationRigParent.forward * 8;
-        // copyItem.gameObject.transform.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
-        // Destroy(kill);
-        weapons.Add(Instantiate(newWeaponObject, weaponContainer, false));
-        currentWeaponInt = weapons.Count-1;
+        Weapon_Item copyItem = Instantiate(weaponItem, PlayerController.instance.animationRigParent.position + PlayerController.instance.animationRigParent.forward, Quaternion.identity, null).GetComponent<Weapon_Item>();
+        GameObject copyWeapon = Instantiate(kill, copyItem.transform);
+        copyWeapon.SetActive(false);
+        copyItem.weapon = copyWeapon;
+        copyItem.gameObject.GetComponent<Rigidbody>().velocity = PlayerController.instance.animationRigParent.forward * 8;
+        copyItem.gameObject.transform.eulerAngles = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
+        Destroy(kill);
+        weapons[currentWeaponInt] = Instantiate(newWeaponObject, weaponContainer);
+        // weapons.Add(Instantiate(newWeaponObject, weaponContainer, false));
+        // currentWeaponInt = weapons.Count-1;
         // update current weapon
         UpdateCurrentWeapon();
         // update recharge ui
