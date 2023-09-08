@@ -12,6 +12,7 @@ public class PlayerCameraController : MonoBehaviour
     float currentSensitivity, yRotate, xRotate;
     [SerializeField] public Transform cameraRig, cameraRot;
     [SerializeField] float sphereCastWidth; // the width of our spherecast
+    [SerializeField] float uiCheckDistance; // how far do we do UI checks?
     RaycastHit uiCheck, check; // hit is for things we are hitting, check is for environmental low level checks, like UI dynamics etc
     [SerializeField] public Transform AimTarget; // the transform of the object we are using to aim at 
     [SerializeField] ItemUIHandler handler;
@@ -123,7 +124,7 @@ public class PlayerCameraController : MonoBehaviour
     void ProcessUIRaycast()
     {
         // fire a ray forward
-        Physics.Raycast(transform.position + transform.forward * 0.5f, transform.forward, out uiCheck, 5f, Physics.AllLayers, QueryTriggerInteraction.Collide);
+        Physics.Raycast(transform.position + transform.forward * 0.5f, transform.forward, out uiCheck, uiCheckDistance, Physics.AllLayers, QueryTriggerInteraction.Collide);
         // then check for UI triggers
         if (uiCheck.transform != null)
         {
