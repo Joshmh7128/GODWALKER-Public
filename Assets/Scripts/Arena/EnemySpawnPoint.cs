@@ -12,6 +12,7 @@ public class EnemySpawnPoint : MonoBehaviour
     public bool used; // was this used?
     PlayerController playerController; // our player controller instance
     float farDistance = 50;
+    [SerializeField] ArenaHandler arenaHandler;
 
     // use the start method to trigger a slow tick time for us to recalculate player distances
     private void Start()
@@ -19,11 +20,18 @@ public class EnemySpawnPoint : MonoBehaviour
         // set our player instance
         playerController = PlayerController.instance;
         // start our custom tick
-        StartCoroutine(SlowTick());   
-        
-        // check to make sure the spawn point list has us
-        if (!FindObjectOfType<ArenaHandler>().spawnPoints.Contains(transform))
-            FindObjectOfType<ArenaHandler>().spawnPoints.Add(transform);
+        StartCoroutine(SlowTick());
+
+        if (arenaHandler == null)
+        {
+            Debug.LogWarning("Spawnpoint " + name + "has no set ArenaHandler! Was this done on purpose? Setting to nearest Arena... ");
+            // check to make sure the spawn point list has us
+            if (!FindObjectOfType<ArenaHandler>().spawnPoints.Contains(transform))
+                FindObjectOfType<ArenaHandler>().spawnPoints.Add(transform);
+        } else if (arenaHandler != null)
+        {
+            arenaHandler.spawnPoints.Add(transform);
+        }
     }
 
     // a custom slow tick that runs twice per second to do spawn point calculations

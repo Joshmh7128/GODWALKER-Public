@@ -44,7 +44,7 @@ public class TeleporterHandler : MonoBehaviour
         PlayerUIManager.instance.fadeCanvasGroup.alpha = 1;
 
         // teleport the player
-        PlayerController.instance.Teleport(Vector3.zero);
+        PlayerController.instance.Teleport(Vector3.zero, Vector3.zero);
         // destroy ourselves
         Destroy(gameObject);
     }

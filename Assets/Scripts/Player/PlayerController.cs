@@ -384,6 +384,19 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(TeleportBuffer(teleportPosition));
     }
 
+    // teleportation
+    public void Teleport(Vector3 teleportPosition, Vector3 playerRotation)
+    {
+        // reset velocities
+        playerJumpVelocity = 0;
+        verticalVelocity = 0;
+        // turn off character controller
+        characterController.enabled = false;
+        PlayerCameraController.instance.xRotate = playerRotation.y;
+        PlayerCameraController.instance.yRotate = playerRotation.x;
+        StartCoroutine(TeleportBuffer(teleportPosition));
+    }
+
     IEnumerator TeleportBuffer(Vector3 teleportPosition)
     {
         yield return new WaitForFixedUpdate();

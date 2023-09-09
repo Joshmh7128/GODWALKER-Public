@@ -11,7 +11,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] float aimSensitivity;
     [SerializeField] float defaultSensitivity, adsSensitivity, sprintSensitivity; // how fast the camera aims
     [SerializeField] float minYAngle, maxYAngle; // the minimum and maximum rotations of the camera
-    float currentSensitivity, yRotate, xRotate;
+    public float currentSensitivity, yRotate, xRotate;
     [SerializeField] public Transform cameraRig, cameraRot;
     [SerializeField] float sphereCastWidth; // the width of our spherecast
     [SerializeField] float uiCheckDistance; // how far do we do UI checks?

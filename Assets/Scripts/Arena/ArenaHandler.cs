@@ -19,6 +19,7 @@ public class ArenaHandler : MonoBehaviour
     [SerializeField] int activeGoal; // how many do we want active at once?
     [SerializeField] GameObject arenaBarrier; // the barrier that stops the player from escaping the arena
     public bool combatBegun, combatComplete;
+    [SerializeField] GateHandler exitGate; // the exit gate of our arena
 
     // our list of spawn points
     public Transform spawnPointParent;
@@ -41,6 +42,7 @@ public class ArenaHandler : MonoBehaviour
     // our arena level
     public int arenaLevel;
     [SerializeField] float waveWaitTime; // the wait time of waves
+    [SerializeField] float buildDelay; // how long we wait to delay the build of this room
 
     // everything to do with upgrades
     [SerializeField] Transform upgradeSpawnPoint; // where the upgrade spawns
@@ -81,7 +83,7 @@ public class ArenaHandler : MonoBehaviour
         seedManager = PlayerGenerationSeedManager.instance;
 
         // build an arena from our geometry prefabs
-        BuildArena();
+        Invoke("BuildArena", buildDelay);
     }
 
     // put enemies in room
@@ -249,6 +251,10 @@ public class ArenaHandler : MonoBehaviour
             Debug.Log("No Nav Mesh Surfaces detected!");
         }
 
+
+        // when we are done building the combat, advance the combat position in case of multiple arenas per area
+        seedManager.currentCombatPos++;
+
     }
 
     private void Update()
@@ -319,7 +325,7 @@ public class ArenaHandler : MonoBehaviour
         // get all the child objects of the next wave and make them children of the active parent,
         // then delete the wave parent
 
-        if (activeParent.childCount <= 0 && !setupWaveRunning && waveParents.Count > 0)
+        if (activeParent.childCount <= activeGoal && !setupWaveRunning && waveParents.Count > 0)
         {
             // reset all spawnpoints
             foreach (Transform point in spawnPoints)
@@ -497,9 +503,6 @@ public class ArenaHandler : MonoBehaviour
     // start combat here - called from the associated doorclass
     public void StartCombat()
     {
-        // show the arena barrier
-        if (arenaBarrier)
-            arenaBarrier.SetActive(true);
         // start combat
         combatBegun = true;
         // set ourselves as the active arena in the arena manager
@@ -528,9 +531,12 @@ public class ArenaHandler : MonoBehaviour
         // end combat
         if (!combatComplete)
         {
+            if (exitGate)
+                exitGate.OpenGate();
+
             // remove the arena barrier
             if (arenaBarrier)
-                arenaBarrier.SetActive(false);
+                arenaBarrier.SetActive(false);        
             // make sure we show that combat is complete
             combatComplete = true;
             CheckCombatCompletion();
