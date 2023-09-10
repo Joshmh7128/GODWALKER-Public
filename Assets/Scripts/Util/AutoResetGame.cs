@@ -54,7 +54,7 @@ public class AutoResetGame : MonoBehaviour
 
         // check player pref
         if (PlayerPrefs.GetString("QuickStart", "off") == "on" && RestartScene != "PlayerMainMenu")
-            RestartScene = "Game Start";
+            RestartScene = "Map_Start";
 
         // reload
         SceneManager.LoadScene(RestartScene);
