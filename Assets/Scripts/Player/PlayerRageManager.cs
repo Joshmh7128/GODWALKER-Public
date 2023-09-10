@@ -242,7 +242,7 @@ public class PlayerRageManager : MonoBehaviour
     {
 
         // entering godwalker - if our bar is full and we press G
-        if (Input.GetKeyDown(KeyCode.G) && rageAmount == maxRage)
+        if (/*Input.GetKeyDown(KeyCode.G) && */  rageAmount == maxRage)
         {
             if (!godmoding)
                 // kick feel
@@ -288,7 +288,7 @@ public class PlayerRageManager : MonoBehaviour
         // if we're at our max rage and we're not godwalking
         if (rageAmount == maxRage && !godmoding)
         {
-            rageLevelDisplay.text = "PRESS G TO ACTIVATE";
+            //rageLevelDisplay.text = "PRESS G TO ACTIVATE";
             LevelPop();
         }
 
