@@ -91,7 +91,7 @@
         [HideInInspector] _Cull("__cull", Float) = 2.0
 
         // Editmode props
-        [HideInInspector] _QueueOffset("Queue offset", Float) = 0.0
+        /*[HideInInspector]*/ _QueueOffset("Queue offset", Float) = 0.0
 
 		/* start CurvedWorld */
 		//[CurvedWorldBendSettings] _CurvedWorldBendSettings("0|1|1", Vector) = (0, 0, 0, 0)
