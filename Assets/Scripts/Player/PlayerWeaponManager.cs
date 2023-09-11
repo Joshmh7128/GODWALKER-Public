@@ -38,15 +38,16 @@ public class PlayerWeaponManager : MonoBehaviour
     public float criticalHitChance; // the chance out of 100 that we will get a critical hit
     public List<float> criticalHitModifiers = new List<float>(); // all the multipliers which go into calculating out critical hit chance
 
+    // damage boost multipliers
+    public float damageMultiplier; // how much our weapon's damage is multiplied
+    public List<float> damageModifiers = new List<float>(); // all of the active multipliers that additively increase our damage
+
     // weapon ui
     [SerializeField] Transform weaponChargeUIGroup;
     [SerializeField] GameObject weaponChargeUI; // our ui object
      
     private void Start()
     {
-        // get our instance
-        bodyPartManager = PlayerBodyPartManager.instance;
-
         // set our weapons list
         foreach (Transform child in weaponContainer)
         { 
