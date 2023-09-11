@@ -23,7 +23,7 @@ public class WeaponPerkManager : MonoBehaviour
     // it does not trigger things on the weapon objects themselves
     public void TriggerEvent(Events triggeredEvent)
     {
-        // Debug.Log(triggeredEvent);
+//        Debug.Log(triggeredEvent);
         foreach (WeaponPerk weaponPerk in activeWeaponPerks)
             weaponPerk.TriggerEvent(triggeredEvent);
     }

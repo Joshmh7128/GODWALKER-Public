@@ -285,7 +285,7 @@ public class PlayerController : MonoBehaviour
         if (grounded && Vector3.Distance(processedFinalMove, Vector3.zero) > 0.1f)
             perkManager.TriggerEvent(WeaponPerkManager.Events.moveGrounded);
         // tell the event system we are grounded and still
-        if (grounded && Vector3.Distance(processedFinalMove, Vector3.zero) > 0.1f)
+        if (grounded && Vector3.Distance(processedFinalMove, Vector3.zero) < 0.1f)
             perkManager.TriggerEvent(WeaponPerkManager.Events.stillGrounded);
         #endregion
 

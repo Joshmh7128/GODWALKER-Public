@@ -55,6 +55,6 @@ public class WeaponPerk_GroundedMovement : WeaponPerk
         active = false; 
         PlayerWeaponManager.instance.damageModifiers.Remove(damageMultiplier);
         PlayerWeaponManager.instance.rageModifiers.Remove(rageMultiplier);
-        Debug.Log("player not longer moving");
+        Debug.Log("player not moving");
     }
 }

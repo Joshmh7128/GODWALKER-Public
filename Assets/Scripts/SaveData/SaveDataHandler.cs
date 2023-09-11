@@ -39,7 +39,6 @@ public class SaveDataHandler : MonoBehaviour
 
     private void LateStart()
     {
-        Debug.Log("Late Start");
         WeaponsCheck();
     }
 
