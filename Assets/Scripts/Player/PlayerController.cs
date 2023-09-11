@@ -85,6 +85,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject capsulePrefab;
     [SerializeField] GameObject deathFX; // our death fx
 
+    WeaponPerkManager perkManager; // our perk manager
+
     private void Start()
     {
         // get our camera rig
@@ -97,6 +99,8 @@ public class PlayerController : MonoBehaviour
         rageManager = PlayerRageManager.instance;
         // movement ability manager
         playerMovementAbilityManager = PlayerMovementAbilityManager.instance;
+        // perk manager
+        perkManager = WeaponPerkManager.instance;
 
     }
 
@@ -267,6 +271,9 @@ public class PlayerController : MonoBehaviour
 
         // apply final movement
         characterController.Move(processedFinalMove * Time.deltaTime * finalMoveSpeed);
+
+        // tell the event system we are grounded and moving
+        
 
         // output our velocity
         velocity = (Mathf.Abs(finalMove.x) + Mathf.Abs(finalMove.y) + Mathf.Abs(finalMove.z)) * finalMoveSpeed;

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class WeaponPerkManager : MonoBehaviour
 {
+    // our instance
+    public static WeaponPerkManager instance;
+    void Awake() => instance = this;
+
     // the list of our active weapon perks, added from weapons and challenges.
     // includes active weapon effects, temporary, and permanent traits
     public List<WeaponPerk> activeWeaponPerks = new List<WeaponPerk>();
