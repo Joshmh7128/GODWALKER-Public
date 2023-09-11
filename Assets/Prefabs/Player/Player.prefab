@@ -1592,6 +1592,7 @@ GameObject:
   - component: {fileID: 3425902048547110565}
   - component: {fileID: -1349926815343493982}
   - component: {fileID: 2466219384002195333}
+  - component: {fileID: 2315554139997800868}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -1738,6 +1739,10 @@ MonoBehaviour:
   criticalHitChance: 0
   criticalHitModifiers:
   - 0
+  damageMultiplier: 0
+  damageModifiers: []
+  rageMultiplier: 0
+  rageModifiers: []
   weaponChargeUIGroup: {fileID: 1557240303100564114}
   weaponChargeUI: {fileID: 106502564438760673, guid: 4f103ea55dd701e438a11d0dd884d933, type: 3}
 --- !u!114 &1557240302879457092
@@ -2065,6 +2070,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3a63ca7001e1146826e6c24e8ceca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2315554139997800868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557240302879457094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13e7ba4b6c65f50439d0c837c5a24e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeWeaponPerks: []
 --- !u!1 &1557240302889066429
 GameObject:
   m_ObjectHideFlags: 0

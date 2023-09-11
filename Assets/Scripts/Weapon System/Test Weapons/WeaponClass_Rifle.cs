@@ -24,7 +24,6 @@ public class WeaponClass_Rifle : WeaponClass
         }
     }
 
-
     // what happens when we shoot this gun? commented out because it is the same as a pistol
     // public override void Fire() { }
 

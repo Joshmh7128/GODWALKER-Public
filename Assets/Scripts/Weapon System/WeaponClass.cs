@@ -200,11 +200,16 @@ public abstract class WeaponClass : MonoBehaviour
             }
         }
 
-        // damage modifiers?
-        try { bullet.GetComponent<PlayerProjectileScript>().damage = damage * damageMod; } catch { }
+        // local damage modifiers?
+        try { bulletScript.damage = damage * damageMod; } catch { }
+        // wide damage modifiers?
+        bulletScript.damage *= PlayerWeaponManager.instance.CalculateDamageMultiplier();
         // rage modifiers?
-        try { bullet.GetComponent<PlayerProjectileScript>().rageAdd *= rageMultiplier; } catch { }
+        try { bulletScript.rageAdd *= rageMultiplier; } catch { }
+        // wide rage modifiers?
+        bulletScript.damage *= PlayerWeaponManager.instance.CalculateRageMultiplier();
 
+        // calculate firerate
         remainingFirerate = firerate + firerateMod;
 
         // always use ammo. refilling the ammo is handled on the next tick by the rage manager

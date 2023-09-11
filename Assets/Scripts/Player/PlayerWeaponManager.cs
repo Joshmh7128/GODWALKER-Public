@@ -31,9 +31,6 @@ public class PlayerWeaponManager : MonoBehaviour
     private void Awake()
     { instance = this; }
 
-    // body parts instance
-    PlayerBodyPartManager bodyPartManager;
-
     // critical hit chance
     public float criticalHitChance; // the chance out of 100 that we will get a critical hit
     public List<float> criticalHitModifiers = new List<float>(); // all the multipliers which go into calculating out critical hit chance
@@ -41,6 +38,10 @@ public class PlayerWeaponManager : MonoBehaviour
     // damage boost multipliers
     public float damageMultiplier; // how much our weapon's damage is multiplied
     public List<float> damageModifiers = new List<float>(); // all of the active multipliers that additively increase our damage
+
+    // rage boost multipliers
+    public float rageMultiplier; // how much our weapon's rage is multiplied
+    public List<float> rageModifiers = new List<float>(); // active rage modifiers
 
     // weapon ui
     [SerializeField] Transform weaponChargeUIGroup;
@@ -371,6 +372,25 @@ public class PlayerWeaponManager : MonoBehaviour
         // then set it
         criticalHitChance = tempCrit;
     }
+
+    // return our damage multiplier
+    public float CalculateDamageMultiplier()
+    {
+        float d = 1;
+        foreach (float m in damageModifiers)
+            d += m;
+        return d;
+    }
+
+    // calculate our god juice multiplier
+    public float CalculateRageMultiplier()
+    {
+        float r = 1;
+        foreach (float m in rageModifiers)
+            r += m;
+        return r;
+    }
+
 
     // reduce our weapon rage multiplier. this is to be used whenever we advance into a new room
     public void ReduceRageMultiplier()
