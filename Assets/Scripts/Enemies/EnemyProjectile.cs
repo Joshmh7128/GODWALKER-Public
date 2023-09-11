@@ -115,10 +115,10 @@ public class EnemyProjectile : MonoBehaviour
 
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (projectileType == ProjectileTypes.kinematic)
-        { 
+        {
             ProcessKinematic();
         }
 
@@ -144,10 +144,7 @@ public class EnemyProjectile : MonoBehaviour
             // expand
             transform.localScale += new Vector3(ringExpandSpeed * Time.deltaTime, 0, ringExpandSpeed * Time.deltaTime);
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (openLifetime > 0)
             openLifetime--;
     }
