@@ -45,6 +45,10 @@ public class TeleporterHandler : MonoBehaviour
 
         // teleport the player
         PlayerController.instance.Teleport(Vector3.zero, Vector3.zero);
+
+        // lower effectiveness
+        PlayerWeaponManager.instance.ReduceEffectiveness();
+        
         // destroy ourselves
         Destroy(gameObject);
     }

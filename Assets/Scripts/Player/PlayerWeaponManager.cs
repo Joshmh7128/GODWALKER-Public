@@ -393,7 +393,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
 
     // reduce our weapon rage multiplier. this is to be used whenever we advance into a new room
-    public void ReduceRageMultiplier()
+    public void ReduceEffectiveness()
     {
         foreach (GameObject weapon in weapons)
         {

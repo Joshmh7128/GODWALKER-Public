@@ -203,11 +203,11 @@ public abstract class WeaponClass : MonoBehaviour
         // local damage modifiers?
         try { bulletScript.damage = damage * damageMod; } catch { }
         // wide damage modifiers?
-        bulletScript.damage *= PlayerWeaponManager.instance.CalculateDamageMultiplier();
+        try { bulletScript.damage *= PlayerWeaponManager.instance.CalculateDamageMultiplier(); } catch { }
         // rage modifiers?
         try { bulletScript.rageAdd *= rageMultiplier; } catch { }
         // wide rage modifiers?
-        bulletScript.damage *= PlayerWeaponManager.instance.CalculateRageMultiplier();
+        try { bulletScript.damage *= PlayerWeaponManager.instance.CalculateRageMultiplier(); } catch { }
 
         // calculate firerate
         remainingFirerate = firerate + firerateMod;

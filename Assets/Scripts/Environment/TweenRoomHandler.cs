@@ -198,7 +198,7 @@ public class TweenRoomHandler : MonoBehaviour
 
         // make the player's weapons worse
         if (reduceRage)
-            PlayerWeaponManager.instance.ReduceRageMultiplier();
+            PlayerWeaponManager.instance.ReduceEffectiveness();
 
         // perform a delayed load move of the room
         if (!requestReset)
