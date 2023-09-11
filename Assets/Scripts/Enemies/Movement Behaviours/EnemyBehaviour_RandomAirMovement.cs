@@ -7,7 +7,7 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
     /// midair movement
     /// 
 
-    Vector3 targetPos; // our target position we are always moving to
+    [SerializeField] Vector3 targetPos; // our target position we are always moving to
     bool active; // are we active?
     [SerializeField] float speed; // how fast do we move?
     [SerializeField] float bodyRadius; // how big is our body?
@@ -25,6 +25,9 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
         // lerp to our target position
         active = true;
         timePassed = 0; // reset our time passed
+        // choose a position
+        ChoosePos();
+
         // store the position of the player in targetPos
         if (divePlayer) 
         { 
@@ -40,10 +43,11 @@ public class EnemyBehaviour_RandomAirMovement : EnemyBehaviour
         if (!playerRelative)
             targetPos = transform.position + new Vector3(Random.Range(-moveDistance, moveDistance), 0, Random.Range(-moveDistance, moveDistance));
 
-        Vector3 pos = new Vector3(PlayerController.instance.transform.position.x, enemyClass.transform.position.y, PlayerController.instance.transform.position.z);
-
         if (playerRelative)
+        {
+            Vector3 pos = new Vector3(PlayerController.instance.transform.position.x, enemyClass.transform.position.y, PlayerController.instance.transform.position.z);
             targetPos = pos + new Vector3(Random.Range(-moveDistance, moveDistance), 0, Random.Range(-moveDistance, moveDistance));
+        }
 
     }
 
