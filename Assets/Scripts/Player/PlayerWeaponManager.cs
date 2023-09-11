@@ -376,7 +376,7 @@ public class PlayerWeaponManager : MonoBehaviour
     // return our damage multiplier
     public float CalculateDamageMultiplier()
     {
-        float d = 1;
+        float d = 0;
         foreach (float m in damageModifiers)
             d += m;
         return d;
@@ -385,7 +385,7 @@ public class PlayerWeaponManager : MonoBehaviour
     // calculate our god juice multiplier
     public float CalculateRageMultiplier()
     {
-        float r = 1;
+        float r = 0;
         foreach (float m in rageModifiers)
             r += m;
         return r;

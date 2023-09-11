@@ -84,10 +84,10 @@ public class PlayerProjectileScript : MonoBehaviour
         if (!PlayerRageManager.instance.godmoding)
             damage = weaponManager.currentWeapon.damage;
 
-        // if (PlayerRageManager.instance.godwalking)
-        damage = weaponManager.currentWeapon.damage * PlayerRageManager.instance.damageMult[(int)PlayerRageManager.instance.rageLevel];
-
-
+        // godwalking damage
+        damage = weaponManager.currentWeapon.damage * 
+            (PlayerRageManager.instance.damageMult[(int)PlayerRageManager.instance.rageLevel] + 
+            PlayerWeaponManager.instance.CalculateDamageMultiplier());
         // if we have a frame start buffer
         if (startInvBuffer) StartCoroutine(InvBuffer());
         // check our raycast before moving

@@ -46,7 +46,7 @@ public class WeaponPerk_GroundedMovement : WeaponPerk
         active = true;
         PlayerWeaponManager.instance.damageModifiers.Add(damageMultiplier);
         PlayerWeaponManager.instance.rageModifiers.Add(rageMultiplier);
-        Debug.Log("player moving and receiving boost");
+        // Debug.Log("player moving and receiving boost");
     }
 
     // deactivate the damage multiplier
@@ -55,6 +55,6 @@ public class WeaponPerk_GroundedMovement : WeaponPerk
         active = false; 
         PlayerWeaponManager.instance.damageModifiers.Remove(damageMultiplier);
         PlayerWeaponManager.instance.rageModifiers.Remove(rageMultiplier);
-        Debug.Log("player not moving");
+        // Debug.Log("player not moving");
     }
 }
