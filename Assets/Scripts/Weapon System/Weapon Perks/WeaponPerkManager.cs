@@ -15,7 +15,7 @@ public class WeaponPerkManager : MonoBehaviour
     // all of the different events we can call. things like jumping, shooting, taking damage, etc.
     public enum Events
     {
-        none, becomeGrounded, moveGrounded
+        none, becomeGrounded, becomeUngrounded, moveGrounded, stillGrounded
     }
 
     // this is called externally from other scripts when events are triggered
@@ -23,7 +23,9 @@ public class WeaponPerkManager : MonoBehaviour
     // it does not trigger things on the weapon objects themselves
     public void TriggerEvent(Events triggeredEvent)
     {
+        // Debug.Log(triggeredEvent);
         foreach (WeaponPerk weaponPerk in activeWeaponPerks)
             weaponPerk.TriggerEvent(triggeredEvent);
     }
+
 }

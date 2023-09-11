@@ -16,10 +16,13 @@ public class WeaponPerk_GroundedMovement : WeaponPerk
         {
             // make sure our weapon manager doesnt have the 
             if (!active)
+            {
                 ActivateEffect();
+                return;
+            }
         } 
         // if we are not moving and grounded
-        else
+        else if (triggeredEvent == WeaponPerkManager.Events.stillGrounded || triggeredEvent == WeaponPerkManager.Events.becomeUngrounded)
         {
             if (active)
                 DeactivateEffect();
@@ -42,6 +45,8 @@ public class WeaponPerk_GroundedMovement : WeaponPerk
     {
         active = true;
         PlayerWeaponManager.instance.damageModifiers.Add(damageMultiplier);
+        PlayerWeaponManager.instance.rageModifiers.Add(rageMultiplier);
+        Debug.Log("player moving and receiving boost");
     }
 
     // deactivate the damage multiplier
@@ -49,5 +54,7 @@ public class WeaponPerk_GroundedMovement : WeaponPerk
     {
         active = false; 
         PlayerWeaponManager.instance.damageModifiers.Remove(damageMultiplier);
+        PlayerWeaponManager.instance.rageModifiers.Remove(rageMultiplier);
+        Debug.Log("player not longer moving");
     }
 }

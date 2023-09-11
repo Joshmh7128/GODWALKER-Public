@@ -500,7 +500,6 @@ public abstract class EnemyClass : MonoBehaviour
     // function to be called within all GetHurt() functions to make us flicker
     public IEnumerator HurtFlash() 
     {
-        Debug.Log("hurt flash");
         // set all of our renderers to the hurtflash
         foreach (Renderer renderer in renderers)
         {

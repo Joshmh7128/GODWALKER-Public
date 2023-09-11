@@ -196,6 +196,8 @@ public class PlayerController : MonoBehaviour
         {
             playerJumpVelocity += gravityValue * Time.fixedDeltaTime;
             grounded = false;
+            // tell the event system we are no longer grounded
+            perkManager.TriggerEvent(WeaponPerkManager.Events.becomeUngrounded);
         }
 
         if (groundedHit.transform != null)
@@ -211,6 +213,8 @@ public class PlayerController : MonoBehaviour
                 remainingJumps = maxJumps;
                 playerJumpVelocity = 0f;
                 grounded = true;
+                // tell the event system we are grounded
+                perkManager.TriggerEvent(WeaponPerkManager.Events.becomeGrounded);
             }
         }
 
@@ -272,14 +276,22 @@ public class PlayerController : MonoBehaviour
         // apply final movement
         characterController.Move(processedFinalMove * Time.deltaTime * finalMoveSpeed);
 
-        // tell the event system we are grounded and moving
-        
 
         // output our velocity
         velocity = (Mathf.Abs(finalMove.x) + Mathf.Abs(finalMove.y) + Mathf.Abs(finalMove.z)) * finalMoveSpeed;
+
+        #region // movement related events
+        // tell the event system we are grounded and moving
+        if (grounded && Vector3.Distance(processedFinalMove, Vector3.zero) > 0.1f)
+            perkManager.TriggerEvent(WeaponPerkManager.Events.moveGrounded);
+        // tell the event system we are grounded and still
+        if (grounded && Vector3.Distance(processedFinalMove, Vector3.zero) > 0.1f)
+            perkManager.TriggerEvent(WeaponPerkManager.Events.stillGrounded);
+        #endregion
+
         #endregion
     }
-    
+
     RaycastHit adjusterHit;
     private Vector3 AdjustVelocityToSlope(Vector3 velocity)
     {

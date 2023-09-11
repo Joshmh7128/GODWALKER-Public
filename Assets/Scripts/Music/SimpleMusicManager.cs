@@ -56,7 +56,6 @@ public class SimpleMusicManager : MonoBehaviour
 
     public void PlaySong(MusicMoods mood)
     {
-        Debug.Log("playing song " + mood);
         // set our desired mood in case it is not already set
         desiredMood = mood;
 
