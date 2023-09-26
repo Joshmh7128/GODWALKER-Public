@@ -7,13 +7,22 @@ public class AnimatedWeaponElement : MonoBehaviour
     // this is a part of a weapon which animates when we fire
     public enum AnimationType
     {
-        pingpongSoft, pingpongHard, grow, spin
+        pingpongSoft, pingpongHard, grow, growtate, spin
     }
 
     [SerializeField] AnimationType animType;
 
-    public float speed, speedReturnDelta, speedCurrent; // the speed of our animation
-    [SerializeField] Vector3 rest, pingpongPos; // our resting position, and the position of our pingpong to go to
+    [Header("Universal Speed Variables")]
+    [SerializeField] float speed;
+    [SerializeField] float speedReturnDelta;
+    float speedCurrent; // the speed of our animation
+    [Header("Pingpong Position Variables")]
+    [SerializeField] Vector3 rest;
+    [SerializeField] Vector3 pingpongPos; // our resting position, and the position of our pingpong to go to
+    [Header("Rotation Variables")]
+    [SerializeField] Vector3 restRotation;
+    [SerializeField] Vector3 growtateRot;
+    [SerializeField] Vector3 rotationAxes;
     bool wantRest = true; // do we want to be at our resting position right now?
 
     // run this when we want to animate
@@ -35,8 +44,11 @@ public class AnimatedWeaponElement : MonoBehaviour
             case AnimationType.grow:
                 break;
             
+            case AnimationType.growtate:
+                break;
+            
             case AnimationType.spin:
-                speedCurrent = speed;
+                speedCurrent = speed; // set our speed to our current speed to start the spin
                 break;
         }
     }
@@ -46,7 +58,7 @@ public class AnimatedWeaponElement : MonoBehaviour
     {
         // if our speed is not at 0, move it back towards 0 at our delta
         if (Mathf.Abs(speedCurrent) != 0)
-            Mathf.MoveTowards(speedCurrent, speedReturnDelta * Time.deltaTime, 0);
+            speedCurrent = Mathf.MoveTowards(speedCurrent, 0, speedReturnDelta * Time.deltaTime);
     }
 
     void ProcessAnimation()
@@ -90,7 +102,13 @@ public class AnimatedWeaponElement : MonoBehaviour
                 }
             }
         }
-
+   
+        // are we spinning our object?
+        if (animType == AnimationType.spin)
+        {
+            // rotation done by current speed 
+            transform.localRotation *= Quaternion.Euler(rotationAxes * speedCurrent * Time.deltaTime);
+        }
     }
 
     // runs every render tick
