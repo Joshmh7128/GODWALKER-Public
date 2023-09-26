@@ -18,6 +18,9 @@ public abstract class WeaponClass : MonoBehaviour
     public Transform rightHandPos, leftHandPos; // where our right and left hands go on this weapon
     // the cosmetic information of our weapon
     public GameObject weaponModel; // our weapon model saved as a prefab
+    [Header("Animation Elements")]
+    [SerializeField] List<AnimatedWeaponElement> animatedElements = new List<AnimatedWeaponElement>(); // all of the elements we are animating on this weapon
+
     [Header("Combat Related")]
     public float firerate; public float remainingFirerate, firerateMod; // how quickly can this weapon fire?
     public Transform muzzleOrigin; // the origin of our muzzle
@@ -209,6 +212,9 @@ public abstract class WeaponClass : MonoBehaviour
         // wide rage modifiers?
         try { bulletScript.damage *= PlayerWeaponManager.instance.CalculateRageMultiplier(); } catch { }
 
+        // run our animations on the weapon
+        PlayAnimationElements();
+
         // calculate firerate
         remainingFirerate = firerate + firerateMod;
 
@@ -277,6 +283,12 @@ public abstract class WeaponClass : MonoBehaviour
     }
     public virtual void AddSpread() { } // adding spread to our weapon
 
+    // play our animation element objects on this weapon
+    public void PlayAnimationElements()
+    {
+        foreach(AnimatedWeaponElement element in animatedElements)
+            element.RunAnimation();
+    }
 
     public abstract void Reload(bool instant); // function to reload the weapon
 
