@@ -89,7 +89,7 @@ public class PlayerStatManager : MonoBehaviour
     public IEnumerator DeathCountDown()
     {
         Instantiate(resetPrefab);
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForFixedUpdate();
         Destroy(gameObject);
 
     }

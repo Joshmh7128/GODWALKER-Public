@@ -400,27 +400,35 @@ public class PlayerController : MonoBehaviour
         verticalVelocity = 0;
         // turn off character controller
         characterController.enabled = false;
-        StartCoroutine(TeleportBuffer(teleportPosition));
+        StartCoroutine(TeleportBuffer(teleportPosition, Vector3.zero));
     }
 
     // teleportation
     public void Teleport(Vector3 teleportPosition, Vector3 playerRotation)
     {
         // reset velocities
-        playerJumpVelocity = 0;
-        verticalVelocity = 0;
+        ResetVelocity();
         // turn off character controller
         characterController.enabled = false;
-        PlayerCameraController.instance.xRotate = playerRotation.y;
-        PlayerCameraController.instance.yRotate = playerRotation.x;
-        StartCoroutine(TeleportBuffer(teleportPosition));
+        StartCoroutine(TeleportBuffer(teleportPosition, playerRotation));
     }
 
-    IEnumerator TeleportBuffer(Vector3 teleportPosition)
+    // stop the player
+    public void ResetVelocity()
+    {
+        move = Vector3.zero;
+        knockbackVector = Vector3.zero;
+        processedFinalMove = Vector3.zero;
+        playerJumpVelocity = 0;
+        verticalVelocity = 0;
+    }
+
+    IEnumerator TeleportBuffer(Vector3 teleportPosition, Vector3 playerRotation)
     {
         yield return new WaitForFixedUpdate();
-        
         transform.position = teleportPosition + Vector3.up; // move the player up just a little bit so that they don't clip through the ground
+        PlayerCameraController.instance.xRotate = playerRotation.y;
+        PlayerCameraController.instance.yRotate = playerRotation.x;
         // turn on character controller
         characterController.enabled = true;
     }
