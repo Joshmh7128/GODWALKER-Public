@@ -681,9 +681,13 @@ public abstract class EnemyClass : MonoBehaviour
     // make sure we don't fly across the map like crazy
     void SlowVelocity()
     {
-        if (navMeshAgent && navMeshAgent.velocity.magnitude > 0)
+        if (navMeshAgent && Mathf.Abs(navMeshAgent.velocity.magnitude) > 0.05f)
         {
-            navMeshAgent.velocity -= -Vector3.one * Time.fixedDeltaTime * 3f;
+            // move to a target zero
+            Vector3 targetVel = navMeshAgent.velocity;
+            targetVel = Vector3.MoveTowards(targetVel, Vector3.zero, Time.deltaTime * 3f);
+            // set our new velocity
+            navMeshAgent.velocity = targetVel;
         }
     }
 
@@ -694,6 +698,15 @@ public abstract class EnemyClass : MonoBehaviour
         navMeshAgent.speed = speed;
         navMeshAgent.acceleration = acceleration;   
 
+    }
+
+    // draw our gizmos
+    private void OnDrawGizmos()
+    {
+        // set color to cyan
+        Gizmos.color = Color.cyan;
+        // draw our navigation mesh destination
+        Gizmos.DrawSphere(navMeshAgent.destination, 1f);
     }
 
 }
