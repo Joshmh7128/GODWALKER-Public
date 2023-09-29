@@ -143,24 +143,26 @@ public abstract class EnemyClass : MonoBehaviour
             // wait one fixed update
             yield return new WaitForFixedUpdate();
             // then wait
-            yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
+            yield return new WaitForSecondsRealtime(behaviour.behaviourTime);
             // then set the completion to true
             behaviour.complete = true;
         }
         StartCoroutine(AttackBehaviourHandler());
     }
     
+
     IEnumerator MovementBehaviourHandler()
     {
-        // movementBehaviours.Shuffle();
         // go through each attack
         foreach (EnemyBehaviour behaviour in movementBehaviours)
         {
+            Debug.Log("Running Movement Behaviour");
             if (behaviour.gameObject.activeInHierarchy)
                 // run the behaviour
                 behaviour.RunMain();
             // then wait
-            yield return new WaitForSecondsRealtime(behaviour.behaviourTime + Random.Range(-behaviour.behaviourTimeRand, behaviour.behaviourTimeRand));
+            yield return new WaitForSecondsRealtime(behaviour.behaviourTime);
+            
         }
         StartCoroutine(MovementBehaviourHandler());
     }

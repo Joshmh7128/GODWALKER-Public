@@ -58,6 +58,9 @@ public class ManualArenaStarter : MonoBehaviour
             try { previousDoor.SetActive(true); }
             catch { }
 
+            // disable our collider
+            gameObject.GetComponent<Collider>().enabled = false;
+
 
             arenaHandler.manualCombat = true;
             canStart = false;
