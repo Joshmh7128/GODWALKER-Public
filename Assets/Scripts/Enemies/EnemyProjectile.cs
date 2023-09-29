@@ -31,10 +31,15 @@ public class EnemyProjectile : MonoBehaviour
     // get our stat manager
     PlayerStatManager statManager;
 
+    // our player's transform
+    Transform playerTransform; // get in start
 
     // start runs at the start
     private void Start()
     {
+        // our player's transform
+        playerTransform = PlayerController.instance.transform;
+
         // setup our rigidbody
         localRigidbody = GetComponent<Rigidbody>();
 
@@ -89,7 +94,7 @@ public class EnemyProjectile : MonoBehaviour
             {
                 // home in on the player
                 // if we are homing, get direction from target to transform
-                Vector3 targetDirection = PlayerController.instance.transform.position - transform.position;
+                Vector3 targetDirection = playerTransform.position - transform.position;
                 Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 10 * Time.deltaTime, -0f);
                 transform.rotation = Quaternion.LookRotation(newDirection);
             }
@@ -176,7 +181,7 @@ public class EnemyProjectile : MonoBehaviour
             homingTime -= Time.deltaTime;
             // home in on the player
             // if we are homing, get direction from target to transform
-            Vector3 targetDirection = PlayerController.instance.transform.position - transform.position;
+            Vector3 targetDirection = playerTransform.position - transform.position;
             Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, homingSpeed * Time.deltaTime, -0f);
             transform.rotation = Quaternion.LookRotation(newDirection);
         }
