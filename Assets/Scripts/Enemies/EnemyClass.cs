@@ -24,6 +24,10 @@ public abstract class EnemyClass : MonoBehaviour
     float kickReset; // count down to kick reset
     [SerializeField] Light fxLight; // our vfx light
 
+    // our debug linerenderer
+    [Header("Debug Line Renderer")]
+    public LineRenderer lineRenderer;
+
     // elemental shields
     public enum ElementalProtection
     {
@@ -213,6 +217,14 @@ public abstract class EnemyClass : MonoBehaviour
     // runs 60 times per second
     public virtual void FixedUpdate()
     {
+        // debug line render code
+        if (lineRenderer)
+        {
+            NavMeshPath path = navMeshAgent.path;
+            Vector3[] corners = path.corners;
+            // draw lines to show our path
+            lineRenderer.SetPositions(corners);
+        }
         // process whether we can run our behaviours
         ProcessBehaviourStart();
         // display our stats

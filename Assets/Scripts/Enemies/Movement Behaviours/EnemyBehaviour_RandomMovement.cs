@@ -58,5 +58,8 @@ public class EnemyBehaviour_RandomMovement : EnemyBehaviour
             Gizmos.color = Color.red;
 
         Gizmos.DrawSphere(destPos, 1f);
+
+        Gizmos.color = Color.red;
+
     }
 }
