@@ -8,6 +8,8 @@ public class WeaponPoolItemRequest : MonoBehaviour
     enum PoolChoices { 
         DiscoveredWeaponsForSpawning, UndiscoveredWeaponsForSpawning, Random_Undiscovered, 
         DEBUG_AllGameWeapons, DEBUG_DiscoveredWeapons, DEBUG_UndiscoveredWeapons,
+
+        CustomLocalPool, // use this for weapons we want to spawn at this point manually. use this the most frequenstly, as it can be the most controlled
     }
     [SerializeField] PoolChoices poolChoice; // our pool to pull from
     [SerializeField] bool spawnOnStart; // should this weapon spawn on start?
@@ -18,6 +20,8 @@ public class WeaponPoolItemRequest : MonoBehaviour
     [SerializeField] bool specificElement;
     [SerializeField] WeaponClass.WeaponElements desiredElement;
     [SerializeField] int maximumTier = 10; // what is our maximum tier? by default all tiers are included
+
+    [SerializeField] List<GameObject> customPoolWeaponObjects; // which weapons can be spawned here if we are doing a custom pool spawning
 
     float maxSpawnAttempts = 30, maxUnSpawnAttempt; // after 150 spawn attempts, stop trying.
 
@@ -149,6 +153,11 @@ public class WeaponPoolItemRequest : MonoBehaviour
                         pool.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>().discoverOnPickup = discoverOnPickup;
                         break;
 
+                    // custom local pools
+                    case PoolChoices.CustomLocalPool:
+                        weapon = customPoolWeaponObjects[Random.Range(0, customPoolWeaponObjects.Count)];
+                        pool.CreateWeaponItem(weapon, transform, targetParent).GetComponent<Weapon_Item>().discoverOnPickup = discoverOnPickup;
+                        break;
                 }
             }
 
